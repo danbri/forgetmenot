@@ -1,0 +1,33 @@
+{
+  "name": "forgetmenot-cli",
+  "version": "0.1.0",
+  "description": "CLI and JS library for UK Parliament APIs and datasets.",
+  "type": "module",
+  "main": "lib/facilities/index.mjs",
+  "exports": {
+    ".": "./lib/facilities/index.mjs",
+    "./http": "./lib/http.mjs",
+    "./argparse": "./lib/argparse.mjs",
+    "./format": "./lib/format.mjs",
+    "./facilities/*": "./lib/facilities/*.mjs"
+  },
+  "bin": {
+    "parl": "bin/parl.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "Open Parliament Licence",
+  "homepage": "https://github.com/danbri/forgetmenot",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danbri/forgetmenot.git"
+  },
+  "keywords": ["uk-parliament", "parliament", "hansard", "sparql", "skills", "mcp"],
+  "scripts": {
+    "test:smoke": "bash tests/test_endpoints.sh",
+    "test:cli": "bash tests/test_cli.sh",
+    "refetch": "bash scripts/refetch-specs.sh && bash scripts/refetch-discovered.sh",
+    "probe": "bash scripts/probe-endpoints.sh"
+  }
+}
