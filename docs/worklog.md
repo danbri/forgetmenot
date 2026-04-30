@@ -123,3 +123,35 @@ those classes and the concepts exposed by the RESTish APIs (e.g. is
 `https://id.parliament.uk/schema/Person` or its `Member` subclass?).
 SKOS schemes (especially the Parliament Thesaurus) likely sit between
 the two and could provide a join. This is recorded in `docs/todo.md`.
+
+### Wrap-up of session
+
+By session end (2026-04-30):
+
+- 21 skill folders, each with `SKILL.md` + `reference.md` (42 files
+  total under `skills/`).
+- 13 OpenAPI specs cached under `_specs/`, plus rendered endpoint
+  tables under `_specs/endpoint-tables/`.
+- 3 discovery snapshots under `_specs/discovered/`: the
+  explore.data.parliament.uk dataset list (19), the parameterised-query
+  template list (124), and the OData entity-set list (183).
+- 1 probe snapshot under `_specs/probes/2026-04-30-probe.txt`.
+- 4 scripts under `scripts/`: refetch-specs.sh, refetch-discovered.sh,
+  probe-endpoints.sh, list-endpoints.py.
+- Smoke test under `tests/test_endpoints.sh`.
+- Installation guide at `docs/installation.md` covering Claude
+  Desktop / Claude Code / Agent SDK / no-LLM use.
+- Top-level `readme.md` with the 21-facility index.
+- Two commits pushed to `https://github.com/danbri/forgetmenot.git`.
+
+Smoke-test result on the connection-flaky network: 44 passing, 14
+failing — all 14 failures are HTTP 000 (curl SSL/timeout) on a
+network where individual `git push` attempts also failed
+intermittently. Re-running the smoke test on a stable connection
+should clear them; the underlying endpoints all responded
+successfully during the morning's probe captured at
+`_specs/probes/2026-04-30-probe.txt`.
+
+The MNIS endpoint did return a real 404 once, but on the next probe
+cycle returned 200 with an XML body. The endpoint is intermittent
+rather than retired — flagged in the dataset's reference doc.
