@@ -1,0 +1,13 @@
+
+# Erskine May API
+  GET    /api/Chapter/{chapterNumber}                                 Returns a single chapter overview by chapter number.
+  GET    /api/IndexTerm/browse                                        Returns a list of index terms by start letter.
+  GET    /api/IndexTerm/{indexTermId}                                 Returns an index term by id.
+  GET    /api/Part                                                    Returns a list of all parts.
+  GET    /api/Part/{partNumber}                                       Returns a part by part number.
+  GET    /api/Search/IndexTermSearchResults/{searchTerm}              Returns a list of index terms which contain the search term.
+  GET    /api/Search/Paragraph/{reference}                            Returns a section overview by reference.
+  GET    /api/Search/ParagraphSearchResults/{searchTerm}              Returns a list of paragraphs which contain the search term.
+  GET    /api/Search/SectionSearchResults/{searchTerm}                Returns a list of sections which contain the search term.
+  GET    /api/Section/{sectionId}                                     Returns a section by section id.
+  GET    /api/Section/{sectionId},{step}                              Returns a section overview by section id and step.

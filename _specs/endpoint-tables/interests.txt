@@ -1,0 +1,10 @@
+
+# Register of Interests API
+  GET    /api/v1/Categories                                           Return a list of categories interests should be registered under, sorted by category number.
+  GET    /api/v1/Categories/{id}                                      Return details of an interest category by ID.
+  GET    /api/v1/Interests                                            Return a list of interests that have been published on a register.
+  GET    /api/v1/Interests/csv                                        Return interests that have been published on a register as a collection of CSVs packaged in a ZIP file.
+  GET    /api/v1/Interests/{id}                                       Return the latest version of an interest which has been published.
+  GET    /api/v1/Registers                                            Return a list of published versions of registers of interests.
+  GET    /api/v1/Registers/{id}                                       Return a published version of a register of interests by ID.
+  GET    /api/v1/Registers/{id}/document                              Return a published register as a PDF document by ID.

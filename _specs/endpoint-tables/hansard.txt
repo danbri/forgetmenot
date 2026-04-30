@@ -1,0 +1,35 @@
+
+# Hansard API
+  base: http://hansard-api.parliament.uk
+  GET    /debates/debate/{debateSectionExtId}.{format}                Get data for a debate section
+  GET    /debates/division/{divisionExtId}.{format}                   Get all data related to a division
+  GET    /debates/divisions/{debateSectionExtId}.{format}             Get divisions for a given debate section
+  GET    /debates/memberdebatecontributions/{memberId}.{format}       Get debate contribuitions for a Member
+  GET    /debates/speakerslist/{debateSectionExtId}.{format}          Get a list of speaker id’s for a given debate section
+  GET    /debates/topleveldebatebytitle.{format}                      Get top level debate given the house, sitting date and section title
+  GET    /debates/topleveldebateid/{debateSectionExtId}.{format}      Get top level debate id given the id of its child debate section
+  GET    /historicsittingdays                                         Get historic sitting days given house and sitting date range
+  GET    /historicsittingdays/{house}/{sittingDate}                   Get details of historic sitting day given house and sitting date.
+  GET    /overview/calendar.{format}                                  Get all sitting dates given a year, month and house.
+  GET    /overview/currentlyprocessing.{format}                       Get status information on which house and sitting date is currently being processed
+  GET    /overview/firstyear.{format}                                 Gets the year of the earliest sitting date in Hansard
+  GET    /overview/lastsittingdate.{format}                           Get the last sitting date for given house.
+  GET    /overview/linkedsittingdates.{format}                        Get the previous and next sitting days given a house and date.
+  GET    /overview/pdfsforday.{format}                                Get pdf data (titles and sizes) for a given sitting date and house.
+  GET    /overview/sectionsforday.{format}                            Get Hansard name for debate sections given the sitting date and house
+  GET    /overview/sectiontrees.{format}                              Get section hierarchy given Hansard section name, sitting date and house.
+  GET    /overview/speakerslist/{date}/{house}.{format}               Get list of speaker ids for given sitting date, house and Hansard section name
+  GET    /pdfs/pdf.{format}                                           Get pdf (data and meta data) for a given sitting date, house or debate section
+  GET    /search.{format}                                             Get all results that contain the given search term
+  GET    /search/committeedebates.{format}                            Gets all committee debates
+  GET    /search/committees.{format}                                  Gets committees for the given house, sitting date range and title
+  GET    /search/contributions/{contributionType}.{format}            Gets all contributions of required type that contain the specified search term. OutputType can be List or Group.
+  GET    /search/debatebycolumn.{format}                              Get the debate for a given volume number, column number and house
+  GET    /search/debatebyexternalid.{format}                          Get the debate for a given contribution id (external reference id)
+  GET    /search/debates.{format}                                     Get all debates for the given house, date range and title (from search term)
+  GET    /search/divisions.{format}                                   Get all divisions for the given house, sitting date range and title (from search term)
+  GET    /search/membercontributionsummary/{memberId}.{format}        Get contribution summary for a given Member
+  GET    /search/members.{format}                                     Gets all members whose name contains the search term.
+  GET    /search/parlisearchredirect.{format}                         Get a web link for a content item, debate section or division
+  GET    /search/petitions.{format}                                   Gets all petitions that contain the specified search term in their title
+  GET    /timeline-stats.{format}                                     Get counts for given contribution type and sitting date range.

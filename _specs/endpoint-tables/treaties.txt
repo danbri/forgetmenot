@@ -1,0 +1,8 @@
+
+# Treaties API
+  GET    /api/BusinessItem/{id}                                       Returns business item by ID.
+  GET    /api/GovernmentOrganisation                                  Returns all government organisations.
+  GET    /api/SeriesMembership                                        Returns all series memberships.
+  GET    /api/Treaty                                                  Returns a list of treaties.
+  GET    /api/Treaty/{id}                                             Returns a treaty by ID.
+  GET    /api/Treaty/{id}/BusinessItems                               Returns business items belonging to the treaty with ID.

@@ -1,0 +1,7 @@
+
+# House of Commons Oral and Written Questions API
+  base: http://oralquestionsandmotions-api.parliament.uk
+  GET    /EarlyDayMotion/{id}                                         Returns a single Early Day Motion by ID
+  GET    /EarlyDayMotions/list                                        Returns a list of Early Day Motions
+  GET    /oralquestions/list                                          Returns a list of oral questions
+  GET    /oralquestiontimes/list                                      Returns a list of oral question times

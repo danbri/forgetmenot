@@ -1,0 +1,45 @@
+
+# Members API
+  GET    /api/Location/Browse/{locationType}/{locationName}           Returns a list of locations, both parent and child
+  GET    /api/Location/Constituency/Search                            Returns a list of constituencies
+  GET    /api/Location/Constituency/{id}                              Returns a constituency by ID
+  GET    /api/Location/Constituency/{id}/ElectionResult/Latest        Returns latest election result by constituency id
+  GET    /api/Location/Constituency/{id}/ElectionResult/{electionId}  Returns an election result by constituency and election id
+  GET    /api/Location/Constituency/{id}/ElectionResults              Returns a list of election results by constituency ID
+  GET    /api/Location/Constituency/{id}/Geometry                     Returns geometry by constituency ID
+  GET    /api/Location/Constituency/{id}/Representations              Returns a list of representations by constituency ID
+  GET    /api/Location/Constituency/{id}/Synopsis                     Returns a synopsis by constituency ID
+  GET    /api/LordsInterests/Register                                 Returns a list of registered interests
+  GET    /api/LordsInterests/Staff                                    Returns a list of staff
+  GET    /api/Members/History                                         Return members by ID with list of their historical names, parties and memberships
+  GET    /api/Members/Search                                          Returns a list of current members of the Commons or Lords
+  GET    /api/Members/SearchHistorical                                Returns a list of members of the Commons or Lords
+  GET    /api/Members/{id}                                            Return member by ID
+  GET    /api/Members/{id}/Biography                                  Return biography of member by ID
+  GET    /api/Members/{id}/Contact                                    Return list of contact details of member by ID
+  GET    /api/Members/{id}/ContributionSummary                        Return contribution summary of member by ID
+  GET    /api/Members/{id}/Edms                                       Return list of early day motions of member by ID
+  GET    /api/Members/{id}/Experience                                 Return experience of member by ID
+  GET    /api/Members/{id}/Focus                                      Return list of areas of focus of member by ID
+  GET    /api/Members/{id}/LatestElectionResult                       Return latest election result of member by ID
+  GET    /api/Members/{id}/Portrait                                   Return portrait of member by ID
+  GET    /api/Members/{id}/PortraitUrl                                Return portrait url of member by ID
+  GET    /api/Members/{id}/RegisteredInterests                        Return list of registered interests of member by ID
+  GET    /api/Members/{id}/Staff                                      Return list of staff of member by ID
+  GET    /api/Members/{id}/Synopsis                                   Return synopsis of member by ID
+  GET    /api/Members/{id}/Thumbnail                                  Return thumbnail of member by ID
+  GET    /api/Members/{id}/ThumbnailUrl                               Return thumbnail url of member by ID
+  GET    /api/Members/{id}/Voting                                     Return list of votes by member by ID
+  GET    /api/Members/{id}/WrittenQuestions                           Return list of written questions by member by ID
+  GET    /api/Parties/GetActive/{house}                               Returns a list of current parties with at least one active member.
+  GET    /api/Parties/LordsByType/{forDate}                           Returns the composition of the House of Lords by peerage type.
+  GET    /api/Parties/StateOfTheParties/{house}/{forDate}             Returns current state of parties
+  GET    /api/Posts/Departments/{type}                                Returns a list of departments.
+  GET    /api/Posts/GovernmentPosts                                   Returns a list of government posts.
+  GET    /api/Posts/OppositionPosts                                   Returns a list of opposition posts.
+  GET    /api/Posts/SpeakerAndDeputies/{forDate}                      Returns a list containing the speaker and deputy speakers.
+  GET    /api/Posts/Spokespersons                                     Returns a list of spokespersons.
+  GET    /api/Reference/AnsweringBodies                               Returns a list of answering bodies.
+  GET    /api/Reference/Departments                                   Returns a list of departments.
+  GET    /api/Reference/Departments/{id}/Logo                         Returns department logo.
+  GET    /api/Reference/PolicyInterests                               Returns a list of policy interest.

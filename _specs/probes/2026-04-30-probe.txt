@@ -1,0 +1,38 @@
+# UK Parliament endpoint probe — 2026-04-30T09:10:50Z
+# format: <label>  <http>  <bytes>  <url>
+
+members-api/search                200     1479  https://members-api.parliament.uk/api/Members/Search?take=1
+members-api/spec                  200   126393  https://members-api.parliament.uk/swagger/v1/swagger.json
+bills-api/list                    200      629  https://bills-api.parliament.uk/api/v1/Bills?take=1
+bills-api/spec                    200    88239  https://bills-api.parliament.uk/swagger/v1/swagger.json
+committees-api/list               200      844  https://committees-api.parliament.uk/api/Committees?take=1
+committees-api/spec               200   224524  https://committees-api.parliament.uk/swagger/v1/swagger.json
+treaties-api/list                 200     1883  https://treaties-api.parliament.uk/api/Treaty?take=1
+treaties-api/spec                 200    20745  https://treaties-api.parliament.uk/swagger/v1/swagger.json
+erskinemay-api/parts              200     6062  https://erskinemay-api.parliament.uk/api/Part
+erskinemay-api/spec               200    27447  https://erskinemay-api.parliament.uk/swagger/v1/swagger.json
+now-api/sample                    200      386  https://now-api.parliament.uk/api/Message/message/CommonsMain/current
+now-api/spec                      200    11045  https://now-api.parliament.uk/swagger/v1/swagger.json
+interests-api/registers           200    10843  https://interests-api.parliament.uk/api/v1/Registers
+interests-api/spec                200    30230  https://interests-api.parliament.uk/swagger/v1/swagger.json
+lordsvotes-api/search             200    57378  https://lordsvotes-api.parliament.uk/data/Divisions/search?take=1
+lordsvotes-api/spec               200    22681  https://lordsvotes-api.parliament.uk/swagger/v1/swagger.json
+commonsvotes-api/search           200     1380  https://commonsvotes-api.parliament.uk/data/divisions.json/search?queryParameters.take=1
+commonsvotes-api/spec             200    24225  https://commonsvotes-api.parliament.uk/swagger/docs/v1
+hansard-api/search                200    42520  https://hansard-api.parliament.uk/search.json?queryParameters.searchTerm=climate&queryParameters.take=1
+hansard-api/spec                  200   143913  https://hansard-api.parliament.uk/swagger/docs/v1
+oralquestions-api/edms            200     1607  https://oralquestionsandmotions-api.parliament.uk/EarlyDayMotions/list?parameters.take=1
+oralquestions-api/spec            200    48102  https://oralquestionsandmotions-api.parliament.uk/swagger/docs/v1
+questions-statements/spec         200    40693  https://questions-statements-api.parliament.uk/swagger/v1/swagger.json
+questions-statements/wq           200     1183  https://questions-statements-api.parliament.uk/api/writtenquestions/questions?take=1
+si-api/spec                       200    44824  https://statutoryinstruments-api.parliament.uk/swagger/v2/swagger.json
+si-api/list                       200     1293  https://statutoryinstruments-api.parliament.uk/api/v2/StatutoryInstrument?take=1
+sparql/probe                      200      156  https://api.parliament.uk/sparql?query=SELECT%20%2A%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D%20LIMIT%201
+odata/service-doc                 200    13016  https://api.parliament.uk/odata/
+query/root                        200    14700  https://api.parliament.uk/query/
+lda/commonsdivisions              200     1212  https://lda.data.parliament.uk/commonsdivisions.json?_pageSize=1
+lda-azure/commonsdivisions        200     1220  https://eldaddp.azurewebsites.net/commonsdivisions.json?_pageSize=1
+petitions/list                    200     6019  https://petition.parliament.uk/petitions.json?state=open&count=1
+historic-hansard/root             200    16153  https://api.parliament.uk/historic-hansard/
+mnis/parties                      404     2669  https://data.parliament.uk/membersdataplatform/services/mnis/parties/active/Commons/?format=json
+son

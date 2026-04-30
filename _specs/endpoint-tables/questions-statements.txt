@@ -1,0 +1,9 @@
+
+# Written Questions Service API
+  GET    /api/dailyreports/dailyreports                               Returns a list of daily reports
+  GET    /api/writtenquestions/questions                              Returns a list of written questions
+  GET    /api/writtenquestions/questions/{date}/{uin}                 Returns a written question
+  GET    /api/writtenquestions/questions/{id}                         Returns a written question
+  GET    /api/writtenstatements/statements                            Returns a list of written statements
+  GET    /api/writtenstatements/statements/{date}/{uin}               Returns a written statemnet
+  GET    /api/writtenstatements/statements/{id}                       Returns a written statement

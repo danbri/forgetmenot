@@ -1,0 +1,4 @@
+
+# Annunciator content API
+  GET    /api/Message/message/{annunciator}/current                   Return the current message by annunciator type
+  GET    /api/Message/message/{annunciator}/{date}                    Return the most recent message by annunciator after date time specified

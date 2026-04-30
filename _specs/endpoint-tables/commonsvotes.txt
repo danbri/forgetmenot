@@ -1,0 +1,8 @@
+
+# Commons Votes API
+  base: http://commonsvotes-api.parliament.uk
+  GET    /data/division/{divisionId}.{format}                         Return a Division
+  GET    /data/divisions.{format}/groupedbyparty                      Return Divisions results grouped by party
+  GET    /data/divisions.{format}/membervoting                        Return voting records for a Member
+  GET    /data/divisions.{format}/search                              Return a list of Divisions
+  GET    /data/divisions.{format}/searchTotalResults                  Return total results count

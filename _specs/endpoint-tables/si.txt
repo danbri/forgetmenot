@@ -1,0 +1,11 @@
+
+# Statutory Instruments API
+  GET    /api/v2/ActOfParliament                                      Search through Acts of Parliament
+  GET    /api/v2/ActOfParliament/{id}                                 Search individual Act of Parliament by ID
+  GET    /api/v2/LayingBody                                           Returns all laying bodies.
+  GET    /api/v2/Procedure                                            Returns all procedures.
+  GET    /api/v2/Procedure/{id}                                       Returns procedure by ID.
+  GET    /api/v2/StatutoryInstrument                                  Search through statutory instruments and proposed negatives
+  GET    /api/v2/StatutoryInstrument/{instrumentId}                   Get individual statutory instrument or proposed negative by id
+  GET    /api/v2/StatutoryInstrument/{instrumentId}/BusinessItems     Get business items associated with a particular instrument
+  GET    /api/v2/Timeline/{timelineId}/BusinessItems                  Get business items associated with a particular timeline

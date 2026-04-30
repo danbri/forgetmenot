@@ -1,0 +1,40 @@
+
+# Committees API
+  GET    /api/BillPetitions                                           Return a list of Bill petitions
+  GET    /api/BillPetitions/{id}                                      Return a Bill petition
+  GET    /api/BillPetitions/{id}/Document/{fileDataFormat}            Return a document for a Bill petition
+  GET    /api/Broadcast/Meetings                                      Get a list of Committee Meetings between two dates.
+  GET    /api/CommitteeBusiness                                       Return a list of committee businesses
+  GET    /api/CommitteeBusiness/{id}                                  Return a committee business
+  GET    /api/CommitteeBusiness/{id}/Publications/Summary             Return a list of Publication Groups for a Commitee Business
+  GET    /api/CommitteeBusinessType                                   Return a list of Committee Business Types
+  GET    /api/CommitteeType                                           Return a list of Committee Types
+  GET    /api/Committees                                              Return a list of Committees
+  GET    /api/Committees/NextEvent                                    Return a list of next events for committees matching specified criteria
+  GET    /api/Committees/{id}                                         Return a Committee
+  GET    /api/Committees/{id}/ArchivedPublicationLinks                Return all CommitteeArchivedPublicationLinks linked to a Committee
+  GET    /api/Committees/{id}/Events                                  Return events related to the committee id provided
+  GET    /api/Committees/{id}/Members                                 Return a list of Memberships of a Committee
+  GET    /api/Committees/{id}/Members/{personId}                      Return photo for a lay member of the committee
+  GET    /api/Committees/{id}/Publications/Summary                    Return a list of Publication Groups for a Commitee
+  GET    /api/Committees/{id}/Staff                                   Return a list of staff members of a Committee
+  GET    /api/Countries                                               Return a list of Countries
+  GET    /api/Events                                                  Return a list of events
+  GET    /api/Events/Activities                                       Return a list of event activities
+  GET    /api/Events/{id}                                             Return an event
+  GET    /api/Events/{id}/Activities                                  Return a list of activities for an event
+  GET    /api/Events/{id}/Attendance                                  Return a list of attendances for an event
+  GET    /api/Members                                                 Return a list of memberships for one or more members
+  GET    /api/Messaging/Banners/{location}                            Return messaging banners
+  GET    /api/OralEvidence                                            Return a list of Oral Evidence
+  GET    /api/OralEvidence/{id}                                       Return an Oral Evidence
+  GET    /api/OralEvidence/{id}/Document/{fileDataFormat}             Return a document for an Oral Evidence
+  GET    /api/PublicationType                                         Return a list of Publication Types
+  GET    /api/Publications                                            Return a list of publications
+  GET    /api/Publications/{id}                                       Return a publication
+  GET    /api/Publications/{id}/Document/{documentId}/{fileDataFormat} Return a document for a publication
+  GET    /api/SubmissionPeriod/{id}                                   Return a submission period
+  GET    /api/SubmissionPeriodTemplate/{id}/Document/{documentId}     Return a submission period template file
+  GET    /api/WrittenEvidence                                         Return a list of Written Evidence
+  GET    /api/WrittenEvidence/{id}                                    Return a Written Evidence
+  GET    /api/WrittenEvidence/{id}/Document/{fileDataFormat}          Return a document for a Written Evidence

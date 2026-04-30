@@ -1,0 +1,23 @@
+
+# Bills API
+  GET    /api/v1/BillTypes                                            Returns a list of Bill types.
+  GET    /api/v1/Bills                                                Returns a list of Bills.
+  GET    /api/v1/Bills/{billId}                                       Return a Bill.
+  GET    /api/v1/Bills/{billId}/NewsArticles                          Returns a list of news articles for a Bill.
+  GET    /api/v1/Bills/{billId}/Publications                          Return a list of Bill publications.
+  GET    /api/v1/Bills/{billId}/Stages                                Returns all Bill stages.
+  GET    /api/v1/Bills/{billId}/Stages/{billStageId}                  Returns a Bill stage.
+  GET    /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments       Returns a list of amendments.
+  GET    /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId} Returns an amendment.
+  GET    /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems    Returns a list of motions or amendments.
+  GET    /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} Returns amendment or motion detail.
+  GET    /api/v1/Bills/{billId}/Stages/{stageId}/Publications         Return a list of Bill stage publications.
+  GET    /api/v1/PublicationTypes                                     Returns a list of publication types.
+  GET    /api/v1/Publications/{publicationId}/Documents/{documentId}  Return information on a document.
+  GET    /api/v1/Publications/{publicationId}/Documents/{documentId}/Download Return a document.
+  GET    /api/v1/Rss/Bills/{id}.rss                                   Returns an Rss feed of a certain Bill.
+  GET    /api/v1/Rss/allbills.rss                                     Returns an Rss feed of all Bills.
+  GET    /api/v1/Rss/privatebills.rss                                 Returns an Rss feed of private Bills.
+  GET    /api/v1/Rss/publicbills.rss                                  Returns an Rss feed of public Bills.
+  GET    /api/v1/Sittings                                             Returns a list of Sittings.
+  GET    /api/v1/Stages                                               Returns a list of Bill stages.
