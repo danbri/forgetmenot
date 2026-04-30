@@ -74,3 +74,56 @@ curl -s 'https://lda.data.parliament.uk/briefingpapers.json?_pageSize=5&_sort=-c
   between free-text content (Hansard, briefing papers, written
   questions) and the structured data graph — see
   [`docs/todo.md`](../../docs/todo.md) for the planned alignment work.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs ddpd --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl ddpd --help
+```
+
+Catalogue mapping the explore.data.parliament.uk dataset names to LDA slugs and modern-API equivalents.
+
+### Examples
+
+```sh
+parl ddpd list
+```
+The 19 portal dataset names.
+
+```sh
+parl ddpd map "Briefing Papers"
+```
+Map a name to LDA slug + modern API note.
+
+```sh
+parl ddpd map "Thesaurus"
+```
+Map the Parliament Thesaurus.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/data-parliament-uk-datasets.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

@@ -81,3 +81,61 @@ curl -s 'https://lda.data.parliament.uk/commonsdivisions.json?_pageSize=5&_sort=
   `_specs/discovered/`.
 - For new work prefer the modern REST APIs (Bills, Committees, etc.)
   or SPARQL where the LDA dataset has been retired.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs lda --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl lda --help
+```
+
+Wraps the legacy Linked Data API (Elda) datasets.
+
+### Examples
+
+```sh
+parl lda datasets
+```
+Known dataset slugs.
+
+```sh
+parl lda get commonsdivisions --page-size 5 --sort -date
+```
+Recent Commons divisions via LDA.
+
+```sh
+parl lda get briefingpapers --page-size 5 --sort -created
+```
+Recent Commons Library briefings.
+
+```sh
+parl lda get thesaurus --page-size 50
+```
+Walk the Parliament Thesaurus.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/linked-data-api.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

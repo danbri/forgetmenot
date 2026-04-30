@@ -56,3 +56,76 @@ curl -s 'https://bills-api.parliament.uk/api/v1/Bills/3678/Publications' \
   progress unless you also pass `IncludeWithdrawn=true` or `IsAct=true`.
 - See `reference.md` for the full path table and worked join with the
   Hansard API (debate transcripts of Bill stages).
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs bills --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl bills --help
+```
+
+Wraps the Bills API.
+
+### Examples
+
+```sh
+parl bills search --term data --house Commons --take 5
+```
+Search Bills with "data" in the title.
+
+```sh
+parl bills get 3678
+```
+One Bill detail.
+
+```sh
+parl bills stages 3678
+```
+All stages of a Bill.
+
+```sh
+parl bills amendments 3678 5005 --decision "Agreed to" --take 10
+```
+Agreed amendments at a stage.
+
+```sh
+parl bills publications 3678
+```
+Publications.
+
+```sh
+parl bills types
+```
+List Bill types reference.
+
+```sh
+parl bills stage-types
+```
+List stage types reference.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/bills.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

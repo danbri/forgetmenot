@@ -80,3 +80,56 @@ There is no JSON API, but two reasonable approaches exist:
 - We do not claim a programmatic interface here — this skill exists
   so models know where to look and what URL conventions to use, not
   to suggest you should treat the historic site as a structured API.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs hh --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl hh --help
+```
+
+Wraps the historic Hansard site (1803–2005). HTML only — these commands return URLs and HTML, not JSON.
+
+### Examples
+
+```sh
+parl hh sitting-url 1832 jun 4
+```
+Build the URL for the 4 June 1832 sitting page.
+
+```sh
+parl hh person-url mr-james-graham-1
+```
+Build a person URL.
+
+```sh
+parl hh fetch sittings/2005/dec/19
+```
+Fetch HTML for a sitting day.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/historic-hansard.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

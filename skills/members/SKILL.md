@@ -53,3 +53,76 @@ curl -s 'https://members-api.parliament.uk/api/Members/Search?Name=Smith&House=1
 - `Portrait` and `Thumbnail` endpoints return image bytes (PNG/JPEG); the
   `*Url` variants return a CDN URL.
 - For deeper work see `reference.md` (every endpoint with summary).
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs members --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl members --help
+```
+
+Wraps the modern Members API. Member IDs are MNIS integers and join with Hansard, voting and questions APIs.
+
+### Examples
+
+```sh
+parl members search --name Cooper --house Commons --take 5
+```
+Search current MPs called Cooper.
+
+```sh
+parl members get 4514
+```
+Full record for Sir Keir Starmer (MNIS 4514).
+
+```sh
+parl members voting 4514 --house Commons --page 1
+```
+Voting record.
+
+```sh
+parl members interests 4514
+```
+Registered financial interests.
+
+```sh
+parl members constituency-search --search-text "Hackney" --take 5
+```
+Constituencies matching "Hackney".
+
+```sh
+parl members parties-state Commons 2024-07-04
+```
+State of parties on a date.
+
+```sh
+parl members gov-posts
+```
+Current Government posts.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/members.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

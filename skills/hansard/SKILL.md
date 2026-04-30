@@ -74,3 +74,76 @@ curl -s 'https://hansard-api.parliament.uk/debates/debate/<debateSectionExtId>.j
   `TotalWrittenStatements`, `TotalWrittenAnswers`, `TotalCorrections`,
   `TotalPetitions`) plus per-type result arrays.
 - See `reference.md` for the full endpoint listing.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs hansard --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl hansard --help
+```
+
+Wraps the modern Hansard API. Use ext-IDs (GUIDs) returned by search to drill into debates and divisions.
+
+### Examples
+
+```sh
+parl hansard last-sitting --house Commons
+```
+Latest sitting date.
+
+```sh
+parl hansard search --term climate --from 2026-01-01 --to 2026-04-30 --take 5
+```
+Generic search.
+
+```sh
+parl hansard search-debates --term "Online Safety" --take 5
+```
+Debates only.
+
+```sh
+parl hansard sections-for-day --house Commons --date 2026-04-29
+```
+Day breakdown.
+
+```sh
+parl hansard debate <debateSectionExtId>
+```
+Debate text.
+
+```sh
+parl hansard division <divisionExtId>
+```
+Division detail.
+
+```sh
+parl hansard member-contributions 4514
+```
+Per-member contributions.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/hansard.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

@@ -46,3 +46,61 @@ curl -s 'https://treaties-api.parliament.uk/api/Treaty?take=1' \
   shape is identical.
 - For the parliamentary debate of a treaty, search the
   [Hansard](../hansard/SKILL.md) API by treaty title.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs treaties --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl treaties --help
+```
+
+Wraps the Treaties API (CRaG-laid treaties).
+
+### Examples
+
+```sh
+parl treaties search --search-text "fisheries" --take 5
+```
+Search treaties.
+
+```sh
+parl treaties get 12
+```
+One treaty.
+
+```sh
+parl treaties timeline 12
+```
+Business items.
+
+```sh
+parl treaties orgs
+```
+Government organisations.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/treaties.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

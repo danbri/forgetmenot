@@ -43,3 +43,56 @@ curl -s 'https://lordsvotes-api.parliament.uk/data/Divisions/search?take=1' \
 - The Lords API returns rich peerage metadata per voter
   (`PartyColour`, `MemberFrom` for the lord's title, etc.).
 - See `reference.md` for parameter details.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs lords-votes --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl lords-votes --help
+```
+
+Wraps the Lords Votes API. Lords vote "Content" / "Not Content" rather than aye/no.
+
+### Examples
+
+```sh
+parl lords-votes search --take 5
+```
+Recent Lords divisions.
+
+```sh
+parl lords-votes get 3000
+```
+One Lords division detail.
+
+```sh
+parl lords-votes by-party 3000
+```
+Content/not-content by party.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/lords-votes.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

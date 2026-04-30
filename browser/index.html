@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>forgetmenot — UK Parliament library demo</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 2em; max-width: 60em; }
+    h1 { font-size: 1.4em; }
+    .row { margin-bottom: 1em; }
+    button { padding: 0.4em 0.8em; }
+    pre { background: #f4f4f4; padding: 1em; overflow: auto; max-height: 30em; }
+    code { background: #f4f4f4; padding: 0.1em 0.4em; }
+    .caveat { background: #fff7cc; padding: 0.6em; border-left: 4px solid #d4b000; }
+  </style>
+</head>
+<body>
+
+<h1>forgetmenot — UK Parliament library demo</h1>
+
+<p>This page imports the same library used by the <code>parl</code> Node
+CLI and exposes it on <code>window.parl</code>. Open the JavaScript
+console and try things like:</p>
+
+<pre><code>await parl.members.search({ name: 'Cooper', house: 'Commons', take: 5 })
+await parl.hansard.lastSittingDate({ house: 'Commons' })
+await parl.commonsVotes.search({ take: 1 })
+await parl.parameterisedQuery.postcodeLookup('SW1P 3JA')
+await parl.sparql.query('SELECT * WHERE { ?s ?p ?o } LIMIT 1')</code></pre>
+
+<p class="caveat"><strong>Note on CORS:</strong> some Parliament APIs do
+not send <code>Access-Control-Allow-Origin: *</code> and will refuse
+browser requests from origins other than parliament.uk. If a call here
+errors with a CORS message, the API is reachable but won't speak to
+this page directly. The same call from the Node CLI works. See
+<a href="../docs/getting_started.md">getting_started.md</a> for proxy
+options.</p>
+
+<div class="row">
+  <button id="b-members">parl.members.search Smith</button>
+  <button id="b-hansard">parl.hansard.lastSittingDate</button>
+  <button id="b-votes">parl.commonsVotes.search take 1</button>
+  <button id="b-petitions">parl.petitions.search open count 1</button>
+  <button id="b-pq">parl.parameterisedQuery.postcodeLookup</button>
+  <button id="b-classes">parl.sparql.query SELECT 1</button>
+</div>
+
+<pre id="out">// output here</pre>
+
+<script type="module">
+import * as parl from './parl.js';
+window.parl = parl;
+
+const out = document.getElementById('out');
+const show = (label, value) => {
+  out.textContent = `// ${label}\n` + JSON.stringify(value, null, 2);
+};
+const showError = (label, e) => {
+  out.textContent = `// ${label} — ERROR\n` + (e?.message || String(e));
+};
+
+document.getElementById('b-members').onclick = async () => {
+  try { show('members.search', await parl.members.search({ name: 'Smith', house: 'Commons', take: 1 })); }
+  catch (e) { showError('members.search', e); }
+};
+document.getElementById('b-hansard').onclick = async () => {
+  try { show('hansard.lastSittingDate', await parl.hansard.lastSittingDate({ house: 'Commons' })); }
+  catch (e) { showError('hansard.lastSittingDate', e); }
+};
+document.getElementById('b-votes').onclick = async () => {
+  try { show('commonsVotes.search', await parl.commonsVotes.search({ take: 1 })); }
+  catch (e) { showError('commonsVotes.search', e); }
+};
+document.getElementById('b-petitions').onclick = async () => {
+  try { show('petitions.search', await parl.petitions.search({ state: 'open', count: 1 })); }
+  catch (e) { showError('petitions.search', e); }
+};
+document.getElementById('b-pq').onclick = async () => {
+  try { show('parameterisedQuery.postcodeLookup', await parl.parameterisedQuery.postcodeLookup('SW1P 3JA')); }
+  catch (e) { showError('parameterisedQuery.postcodeLookup', e); }
+};
+document.getElementById('b-classes').onclick = async () => {
+  try { show('sparql.query', await parl.sparql.query('SELECT * WHERE { ?s ?p ?o } LIMIT 1')); }
+  catch (e) { showError('sparql.query', e); }
+};
+</script>
+</body>
+</html>

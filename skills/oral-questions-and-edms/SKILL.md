@@ -51,3 +51,61 @@ curl -s 'https://oralquestionsandmotions-api.parliament.uk/oralquestions/list?pa
   `signatureCount`, `signatures[]`.
 - Search results sort newest-first by default.
 - See `reference.md` for parameter details.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs oral-questions --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl oral-questions --help
+```
+
+Wraps the Commons-only Oral Questions and EDMs API.
+
+### Examples
+
+```sh
+parl oral-questions questions --from 2026-04-01 --to 2026-04-30 --take 5
+```
+Tabled oral questions.
+
+```sh
+parl oral-questions slots --from 2026-04-01 --to 2026-04-30
+```
+Question time slots.
+
+```sh
+parl oral-questions edms --term climate --take 5
+```
+Search EDMs.
+
+```sh
+parl oral-questions edm 66088
+```
+One EDM.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/oral-questions.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

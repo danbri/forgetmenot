@@ -78,3 +78,61 @@ curl -s 'https://data.parliament.uk/membersdataplatform/services/mnis/members/qu
 - This service has been "due to be retired" for some time but
   continues to run. Treat it as **legacy but supported**; new work
   should target the modern Members API where possible.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs mnis --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl mnis --help
+```
+
+Wraps the legacy MNIS Members Data Platform.
+
+### Examples
+
+```sh
+parl mnis members --house Commons --eligible --format json
+```
+Current Commons MPs as JSON.
+
+```sh
+parl mnis member 172
+```
+Member 172 (Diane Abbott).
+
+```sh
+parl mnis parties-active Commons
+```
+Active parties (returns XML).
+
+```sh
+parl mnis postcode "SW1P 3JA"
+```
+Postcode → MP.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/members-data-platform.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

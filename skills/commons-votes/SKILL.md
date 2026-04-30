@@ -54,3 +54,61 @@ curl -s "https://commonsvotes-api.parliament.uk/data/division/${LATEST}.json" \
 - For a division that triggered a Lords ping-pong, also see the
   [Bills API](../bills/SKILL.md)'s `PingPongItems`.
 - See `reference.md` for parameter details.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs commons-votes --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl commons-votes --help
+```
+
+Wraps the Commons Votes API. Member IDs match the Members API.
+
+### Examples
+
+```sh
+parl commons-votes search --from 2026-04-01 --to 2026-04-30 --take 5
+```
+Recent divisions.
+
+```sh
+parl commons-votes get 2350
+```
+One division with member-level votes.
+
+```sh
+parl commons-votes by-party 2350
+```
+Aye/no/abstain by party.
+
+```sh
+parl commons-votes member 4514 --take 25
+```
+A Member's voting record.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/commons-votes.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

@@ -51,3 +51,61 @@ curl -s 'https://interests-api.parliament.uk/api/v1/Interests?CategoryId=2&take=
 - The CSV bundle (`/Interests/csv`) is the easiest format for
   spreadsheet work; it embeds donor and payment columns.
 - See `reference.md` for parameter details.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs interests --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl interests --help
+```
+
+Wraps the Register of Members' Financial Interests API.
+
+### Examples
+
+```sh
+parl interests categories
+```
+Interest categories.
+
+```sh
+parl interests search --member-id 4514 --take 10
+```
+Interests for one member.
+
+```sh
+parl interests search --category-id 2 --take 10
+```
+Recent donations entries.
+
+```sh
+parl interests registers
+```
+Published register snapshots.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/interests.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

@@ -59,3 +59,66 @@ curl -s 'https://erskinemay-api.parliament.uk/api/Search/Paragraph/20.5'
   as HTML.
 - Erskine May is © House of Commons / House of Lords; the API is
   available under the Open Parliament Licence for reuse.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs em --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl em --help
+```
+
+Wraps the Erskine May API (parliamentary procedure manual).
+
+### Examples
+
+```sh
+parl em parts
+```
+List Parts.
+
+```sh
+parl em paragraph 20.5
+```
+Pull paragraph 20.5 by reference.
+
+```sh
+parl em search "casting vote"
+```
+Search paragraphs.
+
+```sh
+parl em search-sections "privilege"
+```
+Search sections.
+
+```sh
+parl em index --start-letter A
+```
+Browse the index from A.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/erskine-may.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

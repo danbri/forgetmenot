@@ -47,3 +47,66 @@ OpenAPI 3 spec: `https://statutoryinstruments-api.parliament.uk/swagger/v2/swagg
   (`instrumentId`, `layingBodyId`); check the spec when in doubt.
 - The closely related [Treaties](../treaties/SKILL.md) API uses an
   identical "business item" timeline pattern.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs si --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl si --help
+```
+
+Wraps the Statutory Instruments API.
+
+### Examples
+
+```sh
+parl si search --term "asylum" --take 5
+```
+Search SIs.
+
+```sh
+parl si get 1234
+```
+One SI.
+
+```sh
+parl si timeline 1234
+```
+Procedural timeline.
+
+```sh
+parl si procedures
+```
+List procedures.
+
+```sh
+parl si laying-bodies
+```
+List laying bodies.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/statutory-instruments.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

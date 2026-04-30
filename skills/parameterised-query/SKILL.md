@@ -66,3 +66,61 @@ curl -s 'https://api.parliament.uk/query/constituency_lookup_by_postcode?postcod
   [`sparql`](../sparql/SKILL.md).
 - IDs are the same opaque 8-character `id.parliament.uk` IDs as in the
   SPARQL store.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs pq --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl pq --help
+```
+
+Wraps the parameterised-query browser. 124 named templates returning JSON; covers the most common joins without writing SPARQL.
+
+### Examples
+
+```sh
+parl pq postcode "SW1P 3JA"
+```
+Postcode → constituency → current MP.
+
+```sh
+parl pq mps
+```
+All current MPs.
+
+```sh
+parl pq person-by-mnis 4514
+```
+Person by MNIS ID.
+
+```sh
+parl pq run constituency_lookup --property=onsCode --value=E14000647
+```
+Arbitrary template invocation.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/parameterised-query.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

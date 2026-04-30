@@ -46,3 +46,56 @@ curl -s 'https://now-api.parliament.uk/api/Message/message/CommonsMain/current' 
   feed (that subdomain has been retired); for forward-scheduled
   business consult the [Bills](../bills/SKILL.md) and
   [Committees](../committees/SKILL.md) APIs.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs now --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl now --help
+```
+
+Wraps the annunciator (Now) API for live chamber state.
+
+### Examples
+
+```sh
+parl now current CommonsMain
+```
+What is currently on the Commons annunciator.
+
+```sh
+parl now current LordsMain
+```
+Lords annunciator.
+
+```sh
+parl now since CommonsMain 2026-04-29T14:00:00Z
+```
+Most recent message after a timestamp.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/now.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

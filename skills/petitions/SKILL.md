@@ -62,3 +62,61 @@ curl -s 'https://petition.parliament.uk/petitions.json?state=open&topic=transpor
   current MP for that seat.
 - Pagination: `count` (default 50, max 50) + `page` (1-based). The
   `links` block carries `first`/`last`/`next`/`prev` URIs.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs petitions --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl petitions --help
+```
+
+Wraps the e-Petitions JSON service.
+
+### Examples
+
+```sh
+parl petitions search --state open --count 5
+```
+Open petitions.
+
+```sh
+parl petitions search --term climate --count 5
+```
+Search by term.
+
+```sh
+parl petitions get 700000
+```
+One petition with signature breakdown.
+
+```sh
+parl petitions archive --count 5
+```
+Archived (older) petitions.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/petitions.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

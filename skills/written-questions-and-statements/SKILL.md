@@ -51,3 +51,66 @@ curl -s 'https://questions-statements-api.parliament.uk/api/writtenquestions/que
 - `answered` is `Answered`, `Unanswered`, or `Any`.
 - Pagination is `skip` + `take`, default `take=20`, max 100.
 - See `reference.md` for the full parameter list.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs wq --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl wq --help
+```
+
+Wraps the Written Questions and Statements API. Replaces the legacy writtenquestions-api host.
+
+### Examples
+
+```sh
+parl wq search --term "NHS dentistry" --take 5
+```
+Search written questions.
+
+```sh
+parl wq get 1234567
+```
+Question by ID.
+
+```sh
+parl wq by-uin 2026-04-29 HC123456
+```
+Question by date+UIN.
+
+```sh
+parl wq statements --from 2026-04-01 --to 2026-04-30 --take 5
+```
+Written statements.
+
+```sh
+parl wq reports --take 5
+```
+Daily reports.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/written-questions.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

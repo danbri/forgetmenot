@@ -62,3 +62,76 @@ curl -s 'https://committees-api.parliament.uk/api/Committees/158/Members' \
   parent inquiry.
 - See `reference.md` for the complete endpoint listing and pagination
   caveats.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs committees --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl committees --help
+```
+
+Wraps the Committees API. Inquiries are called "Committee Business" in this surface.
+
+### Examples
+
+```sh
+parl committees search --term Treasury --take 5
+```
+Find a committee.
+
+```sh
+parl committees get 158
+```
+Treasury Committee detail.
+
+```sh
+parl committees members 158 --current
+```
+Current members.
+
+```sh
+parl committees publications 158
+```
+Publication groups.
+
+```sh
+parl committees business-search --committee-id 158 --take 5
+```
+Inquiries.
+
+```sh
+parl committees oral-evidence-search --committee-business-id 12345 --take 5
+```
+Oral evidence sessions.
+
+```sh
+parl committees meetings --from 2026-04-01 --to 2026-04-30
+```
+Meetings in a date range.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/committees.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

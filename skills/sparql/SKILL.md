@@ -89,6 +89,16 @@ For Members, the integer `id` returned by the Members API
 
 ## Notes
 
+- The endpoint at `api.parliament.uk/sparql` fronts the **DDP store**
+  (`data.parliament`, the data-catalogue store; ~7.5M triples,
+  inference **off**). A second public store, **DD** (procedural
+  ontology over statutory instruments, treaties, written questions;
+  ~3.14M triples, inference **on**) is **not on this SPARQL
+  endpoint**. Procedural-business queries that look like they should
+  match but return empty may need the matching REST API (statutory
+  instruments, treaties, written questions) instead — or the DD
+  store if you can mirror it locally. See
+  [`docs/triple-stores.md`](../../docs/triple-stores.md).
 - The endpoint is rate-limited; keep `LIMIT` small while exploring.
 - For schema discovery start with:
   ```sparql
@@ -102,3 +112,66 @@ For Members, the integer `id` returned by the Members API
 - See also the parameterised query browser at
   [`parameterised-query`](../parameterised-query/SKILL.md) for
   pre-canned queries you do not have to write yourself.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs sparql --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl sparql --help
+```
+
+Wraps the public SPARQL endpoint. Note this fronts the DDP store (~7.5M triples, no inference); the DD store is not on this surface — see docs/triple-stores.md.
+
+### Examples
+
+```sh
+parl sparql query 'SELECT * WHERE { ?s ?p ?o } LIMIT 5'
+```
+Sanity-check probe.
+
+```sh
+parl sparql classes --limit 30
+```
+Top instance classes by frequency.
+
+```sh
+parl sparql rdfs-classes
+```
+rdfs:Class / owl:Class with labels.
+
+```sh
+parl sparql skos-schemes
+```
+SKOS concept schemes (e.g. Thesaurus).
+
+```sh
+parl sparql describe https://id.parliament.uk/TyNGhslR --format turtle
+```
+DESCRIBE a resource.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/sparql.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

@@ -66,3 +66,61 @@ curl -s 'https://api.parliament.uk/odata/Person?$top=5&$select=Id,PersonGivenNam
 - Some entity sets are nearly empty (the schema models more than the
   store currently populates); use `$count` to check before
   authoring complex queries.
+
+<!-- parl-cli-start -->
+
+## Using the CLI
+
+This skill ships with a Node CLI alongside the documentation. From the
+repo root:
+
+```sh
+node bin/parl.mjs odata --help
+```
+
+Or after `npm link` (one-time install):
+
+```sh
+parl odata --help
+```
+
+Wraps the OData v4 service. 183 entity sets; same data graph as SPARQL.
+
+### Examples
+
+```sh
+parl odata sets
+```
+List entity sets.
+
+```sh
+parl odata get Person --top 5 --select "Id,PersonGivenName,PersonFamilyName"
+```
+Sample.
+
+```sh
+parl odata count Member
+```
+Count of an entity set.
+
+```sh
+parl odata get Constituency --filter "ConstituencyGroupName eq 'Hackney North and Stoke Newington'" --top 1
+```
+Filter by name.
+
+
+### Library use (Node + browser)
+
+Same surface as a JS module:
+
+```js
+import * as fac from '../../lib/facilities/odata.mjs';
+
+// Each function is async and returns parsed JSON (or bytes for
+// download endpoints). See the .mjs source for the full export list.
+```
+
+The library uses only `fetch` / `URL` / `AbortController`, so the
+same source runs in Node 18+ and in modern browsers.
+
+<!-- parl-cli-end -->

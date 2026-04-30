@@ -115,6 +115,27 @@ bash scripts/probe-endpoints.sh      # writes _specs/probes/<date>-probe.txt
 bash tests/test_endpoints.sh         # smoke test
 ```
 
+## RDF triple stores — local lore
+
+Parliament runs **three** RDF triple stores; **two are public**. We refer
+to them as **DDP** (`data.parliament`, the data catalogue, ~7.5M
+triples) and **DD** (the procedural-ontology store covering statutory
+instruments, treaties, written questions; ~3.14M triples; **inference
+turned on**, so queries return the closure under the ontology). Both
+run on GraphDB and are updated at least daily; neither is heavily
+supported. The naming is local to this repo — Parliament does not
+reliably call them "DDP / DD".
+
+The public SPARQL endpoint at `api.parliament.uk/sparql` fronts mostly
+DDP. Procedural-business questions that look like they should answer
+but return empty may live in DD instead, in which case drop down to
+the matching REST API (statutory instruments, treaties, written
+questions). One of the two stores is bundled into a public GraphDB
+Docker Hub container image; the other can be reconstructed from a
+~2019 Wayback Machine capture — which is which is not clearly
+recorded. See [`docs/triple-stores.md`](docs/triple-stores.md) for
+fuller notes including verification queries.
+
 ## Open work
 
 A non-trivial follow-up is to align the SPARQL ontology
