@@ -23,11 +23,22 @@
     "type": "git",
     "url": "https://github.com/danbri/forgetmenot.git"
   },
-  "keywords": ["uk-parliament", "parliament", "hansard", "sparql", "skills", "mcp"],
+  "keywords": [
+    "uk-parliament",
+    "parliament",
+    "hansard",
+    "sparql",
+    "skills",
+    "mcp"
+  ],
   "scripts": {
     "test:smoke": "bash tests/test_endpoints.sh",
     "test:cli": "bash tests/test_cli.sh",
     "refetch": "bash scripts/refetch-specs.sh && bash scripts/refetch-discovered.sh",
     "probe": "bash scripts/probe-endpoints.sh"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.4.2"
   }
 }
