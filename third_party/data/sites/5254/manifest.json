@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 5254,
+    "name": "Alison Hume",
+    "party": "Labour",
+    "partyAbbr": "Lab",
+    "house": "Commons",
+    "constituency": "Scarborough and Whitby"
+  },
+  "homepageUrl": "https://www.alisonhume.com/",
+  "origin": "https://www.alisonhume.com",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 403,
+    "message": "HTTP 403 https://www.alisonhume.com/"
+  },
+  "startedAt": "2026-05-03T08:44:19.134Z",
+  "finishedAt": "2026-05-03T08:44:20.685Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "unavailable",
+      "http": 403
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 403,
+      "message": "HTTP 403 https://www.alisonhume.com/"
+    }
+  ]
+}

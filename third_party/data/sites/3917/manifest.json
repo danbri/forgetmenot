@@ -1,0 +1,144 @@
+{
+  "member": {
+    "id": 3917,
+    "name": "Lord Walney",
+    "party": "Crossbench",
+    "partyAbbr": "XB",
+    "house": "Lords",
+    "constituency": "Life peer"
+  },
+  "homepageUrl": "https://lordwalney.uk/",
+  "origin": "https://lordwalney.uk",
+  "ok": true,
+  "blocked": false,
+  "homepage_error": null,
+  "startedAt": "2026-05-03T08:30:08.230Z",
+  "finishedAt": "2026-05-03T08:30:15.516Z",
+  "platform": "WordPress",
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [
+      "/wp-admin/admin-ajax.php"
+    ],
+    "disallow": [
+      "/wp-admin/"
+    ]
+  },
+  "feeds": [
+    {
+      "url": "https://lordwalney.uk/feed",
+      "file": "feeds/0.xml",
+      "bytes": 1639
+    }
+  ],
+  "sitemap_file": null,
+  "homepage": {
+    "url": "https://lordwalney.uk/",
+    "type": "homepage",
+    "title": "",
+    "h1": "",
+    "meta_description": "",
+    "headings": [
+      "h2: About John"
+    ],
+    "text_excerpt": "Skip to content John Woodcock, Lord Walney Security | Defence | Political strategy | Counter Extremism| Strategic communications Walney Review Read the Walney Review into political violence and disruption. Parliamentary work Find out more about John's work in the House of Lords Strategic advisory Helping organisations navigate the policy landscape and hone their purpose. AUKUS Embedding support for this landmark agreement in Parliament. Contact About John John is a crossbench peer who is co-chair of the All-Party Parliamentary Group on Defending Democracy and vice-chair of the AUKUS Appg. He served as the UK government’s independent adviser on political violence and disruption between 2020 and 2025. In 2024 he published the major government review, Protecting our Democracy from Coercion, which you can read here . John is the founder and chair of Powerful Street Ltd , which has published his latest review: Undue Influence: the Iranian regime’s Abuse of the UK Charity System and the Limitations of Oversight. John was the political spokesman for Gordon Brown in 10 Downing Street as the then Prime Minister led the international response to the global recession, and an adviser in several government departments. In 2010 he was elected as the Labour-Cooperative MP for Barrow and Furness and served on the defence committee and as the chair of the Parliamentary Labour Party’s committees on foreign affairs. He is a graduate of the Royal College of Defence Studies and obtained a Masters in International Security and Strategy from King’s College London. Contact me",
+    "text_length": 1578,
+    "raw_html_file": "homepage.html"
+  },
+  "pages": [
+    {
+      "url": "https://lordwalney.uk/contact-me",
+      "type": "contact",
+      "title": "Contact me",
+      "h1": "Contact",
+      "meta_description": "",
+      "headings": [
+        "h2: Contact infos",
+        "h3: Send me a message"
+      ],
+      "text_excerpt": "Contact me Skip to content Contact Contact infos Send me a message Full name Phone Subject Subject Option #1 Option #2 Option #3 Option #4 Message Send",
+      "text_length": 151,
+      "candidates": {
+        "postcodes": [],
+        "phones": [],
+        "emails": [],
+        "formAction": null
+      },
+      "link_text": "Contact",
+      "http_status": 200,
+      "bytes": 39285,
+      "matched_token": "contact",
+      "raw_html_file": "pages/contact.html"
+    }
+  ],
+  "decisions": [
+    {
+      "url": "https://lordwalney.uk/",
+      "text": "Skip to content",
+      "action": "unclassified"
+    },
+    {
+      "url": "https://www.gov.uk/government/consultations/independent-review-political-violence-and-disruption",
+      "text": "",
+      "action": "unclassified"
+    },
+    {
+      "url": "https://members.parliament.uk/member/3917/contact",
+      "text": "",
+      "action": "unclassified"
+    },
+    {
+      "url": "https://lordwalney.uk/contact-me",
+      "text": "Contact",
+      "action": "classified",
+      "type": "contact",
+      "matched": "contact"
+    },
+    {
+      "url": "https://assets.publishing.service.gov.uk/media/66473eddf34f9b5a56adc9e3/E03131940_HC_775_Lord_Walney_Review_Accessible.pdf",
+      "text": "here",
+      "action": "unclassified"
+    },
+    {
+      "url": "http://powerfulstreet.com/",
+      "text": "Powerful Street Ltd",
+      "action": "unclassified"
+    },
+    {
+      "url": "https://powerfulstreet.com/Undue_Influence.pdf",
+      "text": "Undue Influence: the Iranian regime’s Abuse of the UK Charity System and the Limitations of Oversight.",
+      "action": "unclassified"
+    }
+  ],
+  "log": [
+    {
+      "step": "robots",
+      "status": "fetched",
+      "disallow": 1
+    },
+    {
+      "step": "homepage",
+      "status": "ok",
+      "bytes": 40761
+    },
+    {
+      "step": "sitemap",
+      "status": "absent",
+      "http": 404
+    },
+    {
+      "step": "feed",
+      "url": "https://lordwalney.uk/feed",
+      "status": "ok",
+      "bytes": 1639
+    },
+    {
+      "step": "page",
+      "url": "https://lordwalney.uk/contact-me",
+      "status": "ok",
+      "type": "contact",
+      "bytes": 39285
+    }
+  ]
+}

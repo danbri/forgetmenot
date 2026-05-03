@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 5130,
+    "name": "Matt Turmaine",
+    "party": "Labour",
+    "partyAbbr": "Lab",
+    "house": "Commons",
+    "constituency": "Watford"
+  },
+  "homepageUrl": "https://mattturmainemp.org/",
+  "origin": "https://mattturmainemp.org",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 503,
+    "message": "HTTP 503 https://mattturmainemp.org/"
+  },
+  "startedAt": "2026-05-03T08:42:37.760Z",
+  "finishedAt": "2026-05-03T08:42:49.954Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "unavailable",
+      "http": 503
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 503,
+      "message": "HTTP 503 https://mattturmainemp.org/"
+    }
+  ]
+}

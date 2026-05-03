@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 5061,
+    "name": "Andrew Lewin",
+    "party": "Labour",
+    "partyAbbr": "Lab",
+    "house": "Commons",
+    "constituency": "Welwyn Hatfield"
+  },
+  "homepageUrl": "https://www.andrewlewin.co.uk/",
+  "origin": "https://www.andrewlewin.co.uk",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 403,
+    "message": "HTTP 403 https://www.andrewlewin.co.uk/"
+  },
+  "startedAt": "2026-05-03T08:41:22.622Z",
+  "finishedAt": "2026-05-03T08:41:24.149Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "unavailable",
+      "http": 403
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 403,
+      "message": "HTTP 403 https://www.andrewlewin.co.uk/"
+    }
+  ]
+}

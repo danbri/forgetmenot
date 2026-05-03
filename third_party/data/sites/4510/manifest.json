@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 4510,
+    "name": "Helen Hayes",
+    "party": "Labour",
+    "partyAbbr": "Lab",
+    "house": "Commons",
+    "constituency": "Dulwich and West Norwood"
+  },
+  "homepageUrl": "http://www.helenhayes.org.uk/",
+  "origin": "http://www.helenhayes.org.uk",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 403,
+    "message": "HTTP 403 http://www.helenhayes.org.uk/"
+  },
+  "startedAt": "2026-05-03T08:35:48.124Z",
+  "finishedAt": "2026-05-03T08:35:49.707Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "fetched",
+      "disallow": 0
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 403,
+      "message": "HTTP 403 http://www.helenhayes.org.uk/"
+    }
+  ]
+}

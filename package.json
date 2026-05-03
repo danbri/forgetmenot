@@ -32,6 +32,9 @@
     "mcp"
   ],
   "scripts": {
+    "test": "node --test 'tests/unit/*.test.mjs' 'tests/integration/*.test.mjs'",
+    "test:unit": "node --test 'tests/unit/*.test.mjs'",
+    "test:integration": "node --test 'tests/integration/*.test.mjs'",
     "test:smoke": "bash tests/test_endpoints.sh",
     "test:cli": "bash tests/test_cli.sh",
     "refetch": "bash scripts/refetch-specs.sh && bash scripts/refetch-discovered.sh",
