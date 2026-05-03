@@ -69,6 +69,14 @@ verbatim API response, `--out path` for binary downloads).
 - **Committee inquiry**: `parl committees search --term "X"` →
   `parl committees business-search --committee-id <id>` →
   `parl committees oral-evidence-search --committee-business-id <id>`.
+- **APPG officers → member IDs**: `parl appg resolve --out
+  third_party/data/appg` crawls the current APPG Register and
+  resolves every officer's free-text name to a Members API id
+  (99% auto-resolution; ambiguous cases land in
+  `judgment_needed.jsonl`).
+- **MP RSS posts**: after `parl members crawl-sites`, run
+  `parl members news --out third_party/data/news` to harvest
+  every MP's blog/news feed into a flat JSONL of posts.
 
 ## Three triple stores
 

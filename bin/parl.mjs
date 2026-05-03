@@ -89,6 +89,7 @@ const COMMANDS = {
     'urls':             { fn: 'urlsFor',                  args: ['id'],      help: 'Member contact URLs (websites, social, emails, phones, offices).' },
     'crawl':            { fn: '__crawlMembers__',         args: [],          help: 'Stash every member to disk keyed by ID. --out dir [--house Commons|Lords|both] [--include-historical] [--delay-ms 100] [--max N]' },
     'crawl-sites':      { fn: '__crawlSites__',           args: [],          help: 'Polite per-MP-website crawl. --in members-dir --out sites-dir [--max N] [--concurrency 4] [--ids 4514,172] [--refetch]' },
+    'news':             { fn: '__membersNews__',          args: [],          help: 'Parse RSS/Atom feeds stored under sites-dir into a per-MP JSONL of posts. --in sites-dir --out news-dir [--ids ...]' },
   },
   'bills': {
     'search':           { fn: 'search',                args: [],            help: 'Search bills. --term --house --session --member-id --is-act' },
@@ -284,6 +285,7 @@ const COMMANDS = {
     'crawl':            { fn: 'crawl',                 args: [],            help: 'Crawl every group page. --edition --limit N --delay-ms 250' },
     'pdf-url':          { fn: 'pdfUrlCmd',             args: [],            help: 'URL of the consolidated PDF for an edition. --edition YYMMDD' },
     'contents-url':     { fn: 'contentsUrlCmd',        args: [],            help: 'URL of contents.htm for an edition. --edition YYMMDD' },
+    'resolve':          { fn: '__appgResolve__',      args: [],            help: 'Crawl + resolve every APPG officer to a Members API id. --edition --out dir [--wikidata]' },
   },
 };
 
@@ -347,7 +349,9 @@ if (positional.length < cmd.args.length) {
 // I/O (stdout/stderr/disk) and return a non-renderable result.
 const SPECIAL_CASE =
   (facilityName === 'members' && commandName === 'crawl') ||
-  (facilityName === 'members' && commandName === 'crawl-sites');
+  (facilityName === 'members' && commandName === 'crawl-sites') ||
+  (facilityName === 'members' && commandName === 'news') ||
+  (facilityName === 'appg' && commandName === 'resolve');
 
 const fn = SPECIAL_CASE ? null : facility[cmd.fn];
 if (!SPECIAL_CASE && typeof fn !== 'function') {
@@ -384,6 +388,8 @@ if (facilityName === 'mnis' && commandName === 'members') {
     if (SPECIAL_CASE) {
       if (commandName === 'crawl') await runMembersCrawl(callOpts, ctx);
       else if (commandName === 'crawl-sites') await runMembersCrawlSites(callOpts, ctx);
+      else if (commandName === 'news') await runMembersNews(callOpts, ctx);
+      else if (commandName === 'resolve') await runAppgResolve(callOpts, ctx);
       return;
     }
     const result = await fn(...argList);
@@ -781,6 +787,183 @@ async function writeSiteResult(siteDir, r) {
       if (raw_html) writeFileSync(`${siteDir}/pages/${safe}.html`, raw_html);
     }
   }
+}
+
+// `parl members news` — RSS-first news harvester. Walks every
+// site directory under <in> (default third_party/data/sites),
+// parses its `feeds/*.xml` bodies, and writes a flat JSONL of
+// posts under <out>:
+//
+//   <out>/posts.jsonl       — one post per line, normalised
+//   <out>/by-member/<id>.json  — per-MP grouping
+//   <out>/summary.json      — aggregate counts + earliest/latest
+//
+// Each post carries the originating member's id + name + party so
+// downstream cross-cuts (topic clustering, "what is each MP saying
+// this week") need only this file. The raw feed bodies remain in
+// the sites tree for re-parsing.
+//
+// This command does NOT make network requests in its default mode —
+// it only parses what `members crawl-sites` has already fetched.
+// That keeps it cheap, deterministic, and offline-friendly.
+async function runMembersNews(callOpts, ctx) {
+  const inDir  = pathResolve(callOpts.in  || 'third_party/data/sites');
+  const outDir = pathResolve(callOpts.out || 'third_party/data/news');
+  mkdirSync(outDir, { recursive: true });
+  mkdirSync(`${outDir}/by-member`, { recursive: true });
+
+  const onlyIds = callOpts.ids
+    ? new Set(String(callOpts.ids).split(',').map((s) => Number(s.trim())))
+    : null;
+
+  const Feeds = await import('../lib/feeds.mjs');
+  const postsPath = `${outDir}/posts.jsonl`;
+  writeFileSync(postsPath, ''); // truncate
+
+  const sites = readdirSync(inDir).filter((f) => /^\d+$/.test(f));
+  let totalPosts = 0;
+  let totalSites = 0;
+  let earliest = null, latest = null;
+  const memberCounts = [];
+
+  for (const sid of sites) {
+    const id = Number(sid);
+    if (onlyIds && !onlyIds.has(id)) continue;
+    let manifest;
+    try { manifest = JSON.parse(readFileSync(`${inDir}/${sid}/manifest.json`, 'utf8')); } catch { continue; }
+    if (!manifest.member) continue;
+
+    let memberPosts = [];
+    let feedDir;
+    try { feedDir = readdirSync(`${inDir}/${sid}/feeds`); } catch { feedDir = []; }
+    for (const f of feedDir) {
+      if (!f.endsWith('.xml')) continue;
+      let body;
+      try { body = readFileSync(`${inDir}/${sid}/feeds/${f}`, 'utf8'); } catch { continue; }
+      const parsed = Feeds.parseFeed(body);
+      for (const it of parsed.items) {
+        const post = {
+          member_id: manifest.member.id,
+          member_name: manifest.member.name,
+          member_party: manifest.member.partyAbbr || manifest.member.party || null,
+          feed_format: parsed.format,
+          feed_title: parsed.channel?.title || null,
+          feed_file: `${sid}/feeds/${f}`,
+          title: it.title || null,
+          link:  it.link || null,
+          guid:  it.guid || null,
+          date:  it.date || null,
+          author: it.author || null,
+          summary: it.summary ? it.summary.slice(0, 1000) : null,
+          categories: it.categories || [],
+        };
+        memberPosts.push(post);
+        appendFileSync(postsPath, JSON.stringify(post) + '\n');
+        totalPosts++;
+        if (post.date) {
+          if (!earliest || post.date < earliest) earliest = post.date;
+          if (!latest   || post.date > latest)   latest   = post.date;
+        }
+      }
+    }
+    if (memberPosts.length > 0) {
+      writeFileSync(`${outDir}/by-member/${id}.json`,
+        JSON.stringify({ member: manifest.member, count: memberPosts.length, posts: memberPosts }, null, 2) + '\n');
+      memberCounts.push({ id, name: manifest.member.name, count: memberPosts.length });
+      totalSites++;
+    }
+  }
+
+  memberCounts.sort((a, b) => b.count - a.count);
+  writeFileSync(`${outDir}/summary.json`, JSON.stringify({
+    fetchedAt: new Date().toISOString(),
+    out: outDir, in: inDir,
+    sites_with_feeds: totalSites,
+    total_posts: totalPosts,
+    earliest_date: earliest, latest_date: latest,
+    top_members: memberCounts.slice(0, 25),
+  }, null, 2) + '\n');
+  console.log(JSON.stringify({ out: outDir, sites: totalSites, posts: totalPosts, earliest, latest }, null, 2));
+}
+
+// `parl appg resolve` — crawl every APPG in the current Register
+// and resolve each officer's free-text name to a Parliament member
+// record (MNIS id, party, house, constituency). For ambiguous or
+// unmatched cases, emits one record per case to a JSONL file the
+// operator can hand-review or feed to a separate Wikidata pass.
+//
+// Output layout under <out>/:
+//   resolved.json           — one record per APPG with resolved officers
+//   judgment_needed.jsonl   — one line per ambiguous / unmatched case
+//   summary.json            — aggregate counts (matched / ambiguous / no_candidates)
+//
+// --wikidata enables a per-case Wikidata fallback for any officer
+// not resolved by the Members API. This requires egress to
+// www.wikidata.org which is sometimes blocked.
+async function runAppgResolve(callOpts, ctx) {
+  if (!callOpts.out) {
+    console.error('--out <dir> is required.');
+    process.exit(64);
+  }
+  const outDir = pathResolve(callOpts.out);
+  mkdirSync(outDir, { recursive: true });
+
+  const Im = await import('../lib/identity-match.mjs');
+  const A  = F.appg;
+
+  process.stderr.write('Listing groups… ');
+  const list = await A.listGroups({ edition: callOpts.edition }, ctx);
+  process.stderr.write(`${list.count} groups\n`);
+
+  const judgmentPath = `${outDir}/judgment_needed.jsonl`;
+  // Truncate any previous JSONL so reruns produce a clean file.
+  writeFileSync(judgmentPath, '');
+
+  const groupsOut = [];
+  const counts = { matched: 0, ambiguous: 0, no_candidates: 0, errors: 0, total_officers: 0 };
+  const limit = callOpts.limit ? Number(callOpts.limit) : Infinity;
+  const delayMs = Number(callOpts.delayMs ?? 200);
+
+  for (let i = 0; i < list.groups.length && i < limit; i++) {
+    const g = list.groups[i];
+    let group;
+    try {
+      group = await A.getGroup(g.slug, { edition: callOpts.edition }, ctx);
+    } catch (e) {
+      counts.errors++;
+      groupsOut.push({ ...g, error: e.message });
+      continue;
+    }
+    const officers = [];
+    for (const off of group.officers || []) {
+      counts.total_officers++;
+      const r = await Im.resolveOfficer(off, ctx);
+      counts[r.status] = (counts[r.status] || 0) + 1;
+      // Optional Wikidata fallback for the misses.
+      let wikidata = null;
+      if (callOpts.wikidata && r.status !== 'matched') {
+        try {
+          wikidata = await Im.lookupWikidata(off.name, ctx);
+        } catch (e) { wikidata = { status: 'error', message: e.message }; }
+      }
+      officers.push({ ...off, resolution: r, wikidata });
+      if (r.status !== 'matched') {
+        appendFileSync(judgmentPath,
+          JSON.stringify({ group: group.title, slug: g.slug, officer: off, resolution: r, wikidata }) + '\n');
+      }
+    }
+    groupsOut.push({ ...group, officers, slug: g.slug });
+    if ((i + 1) % 25 === 0) {
+      process.stderr.write(`  ${i + 1}/${list.groups.length} (matched=${counts.matched} amb=${counts.ambiguous} miss=${counts.no_candidates})\n`);
+    }
+    if (delayMs) await new Promise((r) => setTimeout(r, delayMs));
+  }
+
+  writeFileSync(`${outDir}/resolved.json`,
+    JSON.stringify({ edition: list.edition, count: groupsOut.length, groups: groupsOut }, null, 2) + '\n');
+  writeFileSync(`${outDir}/summary.json`,
+    JSON.stringify({ edition: list.edition, ...counts, fetchedAt: new Date().toISOString() }, null, 2) + '\n');
+  console.log(JSON.stringify({ out: outDir, ...counts }, null, 2));
 }
 
 function printFacilityHelp(name) {
