@@ -110,6 +110,27 @@ parl members gov-posts
 ```
 Current Government posts.
 
+```sh
+parl members urls 4514
+```
+Per-member URL bundle from `/Members/{id}/Contact`: `social[]`,
+`websites[]`, `emails[]`, `phones[]`, `offices[]`. Social entries
+include X (formerly Twitter), Facebook, the member's website, and
+in some cases Prime Minister's office and other role pages.
+
+```sh
+parl members crawl --out data/members --delay-ms 100
+```
+Stash every current member to disk keyed by MNIS ID. For each
+member writes `<out>/<id>.json` containing id, name, party (with
+abbreviation and ID), house, constituency, gender, plus the URL
+bundle above. Also writes `<out>/index.json` with a summary
+manifest. Crawls Commons + Lords by default (~1426 members);
+restrict with `--house Commons` or `--house Lords`. Existing
+files are skipped on rerun unless you pass `--refetch`. Add
+`--include-historical` to include former members. Cap with
+`--max N` for testing.
+
 
 ### Library use (Node + browser)
 

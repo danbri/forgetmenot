@@ -9,8 +9,8 @@
 // JSON to stdout by default. --text for human-readable. --raw to dump
 // the raw response body. --version to print version.
 
-import { readFileSync } from 'node:fs';
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { resolve as pathResolve } from 'node:path';
 import { parseArgs, kebabToCamel, camelizeOpts } from '../lib/argparse.mjs';
 import { renderJson, renderSmart } from '../lib/format.mjs';
 import { VERSION, HttpError, DEFAULTS } from '../lib/http.mjs';
@@ -86,6 +86,8 @@ const COMMANDS = {
     'departments':      { fn: 'referenceDepartments',     args: [],          help: 'Departments reference list.' },
     'answering-bodies': { fn: 'referenceAnsweringBodies', args: [],          help: 'Answering bodies.' },
     'policy-interests': { fn: 'referencePolicyInterests', args: [],          help: 'Policy interests reference taxonomy.' },
+    'urls':             { fn: 'urlsFor',                  args: ['id'],      help: 'Member contact URLs (websites, social, emails, phones, offices).' },
+    'crawl':            { fn: '__crawlMembers__',         args: [],          help: 'Stash every member to disk keyed by ID. --out dir [--house Commons|Lords|both] [--include-historical] [--delay-ms 100] [--max N]' },
   },
   'bills': {
     'search':           { fn: 'search',                args: [],            help: 'Search bills. --term --house --session --member-id --is-act' },
@@ -339,8 +341,13 @@ if (positional.length < cmd.args.length) {
   process.exit(64);
 }
 
-const fn = facility[cmd.fn];
-if (typeof fn !== 'function') {
+// Special-case commands that don't map to a single facility function
+// run before the generic function-lookup path. They handle their own
+// I/O (stdout/stderr/disk) and return a non-renderable result.
+const SPECIAL_CASE = facilityName === 'members' && commandName === 'crawl';
+
+const fn = SPECIAL_CASE ? null : facility[cmd.fn];
+if (!SPECIAL_CASE && typeof fn !== 'function') {
   console.error(`Internal: command ${facilityName} ${commandName} maps to missing function ${cmd.fn}.`);
   process.exit(70);
 }
@@ -371,6 +378,10 @@ if (facilityName === 'mnis' && commandName === 'members') {
 
 (async () => {
   try {
+    if (SPECIAL_CASE) {
+      await runMembersCrawl(callOpts, ctx);
+      return;
+    }
     const result = await fn(...argList);
     if (opts.raw) {
       // Dump exactly what came back.
@@ -459,6 +470,111 @@ Global options:
 
 Skill / docs / specs live alongside this CLI in skills/<facility>/
 and _specs/.`);
+}
+
+// `parl members crawl` — paginate every member, fetch each one's
+// /Contact endpoint, and write per-ID JSON files to <out>/<id>.json
+// plus a single <out>/index.json manifest. Includes id, name, party,
+// constituency, house and url buckets (websites, social, emails,
+// phones, offices). Throttled. Resumable: existing files are skipped
+// unless --refetch is passed.
+async function runMembersCrawl(callOpts, ctx) {
+  const out = callOpts.out;
+  if (!out) {
+    console.error('--out <dir> is required.');
+    process.exit(64);
+  }
+  const outDir = pathResolve(out);
+  mkdirSync(outDir, { recursive: true });
+
+  const houseOpt = (callOpts.house || 'both').toLowerCase();
+  const houses = houseOpt === 'both'
+    ? ['Commons', 'Lords']
+    : [houseOpt[0].toUpperCase() + houseOpt.slice(1)];
+  const includeHistorical = !!callOpts.includeHistorical;
+  const delayMs = Number(callOpts.delayMs ?? 100);
+  const max = callOpts.max ? Number(callOpts.max) : Infinity;
+  const refetch = !!callOpts.refetch;
+
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  const M = F.members;
+
+  const index = [];
+  let written = 0;
+  let skipped = 0;
+  const errors = [];
+
+  for (const house of houses) {
+    const baseQuery = { house, isCurrentMember: includeHistorical ? undefined : true, max };
+    let n = 0;
+    process.stderr.write(`Crawling ${house}…\n`);
+    for await (const hit of M.iterMembers(baseQuery, ctx)) {
+      const summary = M.summariseHit(hit);
+      const filePath = `${outDir}/${summary.id}.json`;
+      let record;
+      if (!refetch) {
+        try {
+          record = JSON.parse(readFileSync(filePath, 'utf8'));
+          skipped++;
+        } catch { /* not present, fetch */ }
+      }
+      if (!record) {
+        try {
+          const urls = await M.urlsFor(summary.id, {}, ctx);
+          record = {
+            ...summary,
+            social: urls.social,
+            websites: urls.websites,
+            emails: urls.emails,
+            phones: urls.phones,
+            offices: urls.offices,
+            fetchedAt: new Date().toISOString(),
+          };
+          writeFileSync(filePath, JSON.stringify(record, null, 2) + '\n');
+          written++;
+          if (delayMs) await sleep(delayMs);
+        } catch (e) {
+          errors.push({ id: summary.id, name: summary.name, message: e.message, status: e.status });
+          process.stderr.write(`  ! ${summary.id} ${summary.name}: ${e.message}\n`);
+          continue;
+        }
+      }
+      index.push({
+        id: record.id,
+        name: record.name,
+        party: record.party,
+        partyAbbr: record.partyAbbr,
+        house: record.house,
+        constituency: record.constituency,
+        urlCount: (record.websites?.length || 0) + (record.social?.length || 0),
+      });
+      n++;
+      if (n % 25 === 0) process.stderr.write(`  ${house}: ${n} members\n`);
+    }
+    process.stderr.write(`  ${house}: ${n} members done\n`);
+  }
+
+  // Sort index by ID for deterministic output.
+  index.sort((a, b) => a.id - b.id);
+  const manifest = {
+    out: outDir,
+    fetchedAt: new Date().toISOString(),
+    houses,
+    includeHistorical,
+    count: index.length,
+    written,
+    skipped,
+    errors,
+    members: index,
+  };
+  writeFileSync(`${outDir}/index.json`, JSON.stringify(manifest, null, 2) + '\n');
+  console.log(JSON.stringify({
+    out: outDir,
+    count: index.length,
+    written,
+    skipped,
+    errors: errors.length,
+  }, null, 2));
 }
 
 function printFacilityHelp(name) {
