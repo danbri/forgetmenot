@@ -3,7 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0d0f12">
+<meta name="theme-color" content="#0d0f12" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <title>FPKG · Forgetmeknot Palace</title>
 <style>
   :root {
@@ -76,6 +77,15 @@
       scroll-behavior: auto !important;
     }
     .chamber.bell-on { animation: none; }
+  }
+
+  /* ---- Forced colours (Windows High Contrast / equivalents) ------------ */
+  /* Colour values are author-defined and may be overridden by the OS. We
+     opt back into system colours for the things WCAG 1.4.1 actually cares
+     about: focus indicator and skip link. */
+  @media (forced-colors: active) {
+    :focus-visible { outline: 3px solid Highlight; outline-offset: 2px; }
+    .skip-link { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
   }
   a { color: var(--gold); text-decoration: none; }
   a:hover { color: #f0d590; }
@@ -337,13 +347,23 @@
   }
 
   /* ---- Login overlay ----------------------------------------------------- */
-  .login-overlay {
+  /* Now a native <dialog>. The browser supplies the focus trap and
+     inert-rest-of-page for free; we override the default dialog styling
+     to fill the viewport like the previous overlay. */
+  dialog.login-overlay {
     position: fixed; inset: 0; z-index: 100;
+    width: 100%; height: 100%; max-width: none; max-height: none;
     background: rgba(13,15,18,.96); backdrop-filter: blur(6px);
-    display: none; align-items: center; justify-content: center;
-    padding: 1rem;
+    border: 0; padding: 1rem;
+    color: var(--ink);
+    /* When open, behave like the previous flexbox layout. */
   }
-  .login-overlay.show { display: flex; }
+  dialog.login-overlay[open] {
+    display: flex; align-items: center; justify-content: center;
+  }
+  dialog.login-overlay::backdrop {
+    background: rgba(13,15,18,.96); backdrop-filter: blur(6px);
+  }
   .login-box {
     width: 100%; max-width: 360px;
     border: 1px solid var(--line); border-radius: 12px; background: var(--panel);
@@ -357,6 +377,8 @@
     border-radius: 8px; outline: none; margin-bottom: .35rem;
   }
   .login-box input:focus { border-color: var(--gold-dim); }
+  /* Reserve the layout slot for the live error region so the empty
+     initial state doesn't reflow when an error appears. */
   .login-box .err { color: var(--alert); font-size: 12px; min-height: 18px; }
 
   /* ---- Screensaver ------------------------------------------------------- */
@@ -468,7 +490,13 @@
 
 <div class="scrim" id="scrim"></div>
 
-<nav class="drawer" id="drawer" aria-label="Main navigation" aria-hidden="true">
+<!-- WCAG 4.1.2: closed drawer uses the `inert` attribute, not
+     aria-hidden, so its focusable links + button are removed from BOTH
+     the AT tree and the keyboard focus order while the drawer is off-
+     screen. The previous `aria-hidden="true"` was the canonical
+     "ghost elements" anti-pattern (focusable elements inside an
+     aria-hidden subtree silently capture focus). -->
+<nav class="drawer" id="drawer" aria-label="Main navigation" inert>
   <div class="brand">
     <!-- a small graph: node + three edges. Deliberately not architectural,
          to avoid any echo of Crowned Portcullis / Parliament imagery (OPL §). -->
@@ -531,8 +559,15 @@
   Third-party prototype, not affiliated with the UK Parliament.
 </footer>
 
-<!-- Login overlay -->
-<div class="login-overlay" id="login" role="dialog" aria-modal="true" aria-labelledby="login-title" aria-describedby="login-desc" hidden>
+<!-- Login overlay.
+     Uses the native <dialog> element so the browser:
+       * traps Tab focus within the modal (WCAG 2.4.3),
+       * makes the rest of the page inert while open,
+       * exposes role="dialog" + aria-modal="true" semantics for free,
+       * gives us .showModal() / .close() with proper restore-focus.
+     The previous <div role="dialog" aria-modal="true"> didn't trap
+     focus and tabbing escaped into the hidden app behind it. -->
+<dialog class="login-overlay" id="login" aria-labelledby="login-title" aria-describedby="login-desc">
   <div class="login-box">
     <h2 id="login-title">Forgetmeknot Palace</h2>
     <p id="login-desc">
@@ -541,11 +576,21 @@
       becoming a free open relay; please get it from whoever shared the link.
     </p>
     <label for="login-pass" class="visually-hidden">Password</label>
+    <!-- WCAG 4.1.2: aria-describedby points only to the live error
+         region. The dialog's own aria-describedby on <dialog> still
+         announces the long help paragraph once on dialog open; we
+         don't want JAWS to repeat the whole paragraph every time the
+         password input is re-focused. -->
     <input type="password" id="login-pass"
            placeholder="password"
-           aria-describedby="login-err login-desc"
+           aria-describedby="login-err"
            autocomplete="current-password" autocapitalize="off" autocorrect="off">
-    <div class="err" id="login-err" role="alert" aria-live="assertive">&nbsp;</div>
+    <!-- WCAG 4.1.3: role="alert" already implies aria-live="assertive"
+         + aria-atomic="true"; redundant aria-live caused double-
+         announcements on JAWS / NVDA. Element is empty in initial
+         HTML so screen readers don't pre-cache the no-op state; CSS
+         min-height reserves the layout slot. -->
+    <div class="err" id="login-err" role="alert"></div>
     <button class="btn primary" id="login-go" style="width:100%">Unlock</button>
     <p style="margin-top:1rem;font-size:12px;color:var(--ink-soft);line-height:1.5">
       No email or account is collected. The password is stored locally in your browser
@@ -607,27 +652,42 @@ async function tryUnlock() {
   return false;
 }
 
-// Login overlay focus management. We remember the element that was focused
-// before the dialog opened so it can be restored on close (WCAG 2.4.3 / dialog
-// pattern). `hidden` attribute is toggled in addition to the .show class so
-// the dialog isn't in the accessibility tree when not displayed.
-let loginReturnFocusEl = null;
-
+// Login overlay uses the native <dialog>.showModal() API. The browser
+// supplies focus trapping, the inert backdrop, and Escape-to-close
+// for free, plus restores focus to the previously-focused element on
+// close. We just have to (a) call showModal/close at the right times
+// and (b) initially focus the password field instead of the
+// "autofocus" default (the Unlock button) for screen-reader clarity.
+//
+// We deliberately suppress browser default Escape-to-close because
+// the page can't function without auth — closing would leave the
+// user staring at a blank shell with no way back. (Sign-out reopens
+// the dialog through boot().)
 function showLogin() {
-  loginReturnFocusEl = document.activeElement && document.activeElement !== document.body
-    ? document.activeElement : null;
-  const el = document.getElementById('login');
-  el.removeAttribute('hidden');
-  el.classList.add('show');
+  const dlg = document.getElementById('login');
+  if (typeof dlg.showModal === 'function') {
+    if (!dlg.open) dlg.showModal();
+  } else {
+    // Fallback for environments without <dialog> support: behave like
+    // the previous overlay (no focus trap, but at least visible).
+    dlg.removeAttribute('hidden');
+    dlg.setAttribute('open', '');
+  }
   setTimeout(() => document.getElementById('login-pass').focus(), 50);
 }
 function hideLogin() {
-  const el = document.getElementById('login');
-  el.classList.remove('show');
-  el.setAttribute('hidden', '');
-  if (loginReturnFocusEl && document.contains(loginReturnFocusEl)) loginReturnFocusEl.focus();
-  loginReturnFocusEl = null;
+  const dlg = document.getElementById('login');
+  if (typeof dlg.close === 'function' && dlg.open) {
+    dlg.close();
+  } else {
+    dlg.removeAttribute('open');
+    dlg.setAttribute('hidden', '');
+  }
 }
+// Cancel native Escape close — see comment on showLogin().
+document.getElementById('login').addEventListener('cancel', (e) => {
+  e.preventDefault();
+});
 
 document.getElementById('login-go').addEventListener('click', tryLogin);
 document.getElementById('login-pass').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
@@ -757,20 +817,32 @@ const drawerEl = document.getElementById('drawer');
 const scrimEl  = document.getElementById('scrim');
 const menuBtn  = document.getElementById('btn-menu');
 
+// Drawer open/close uses the `inert` attribute (HTML, supported in
+// every current evergreen browser) instead of aria-hidden. `inert`
+// removes the subtree from BOTH the accessibility tree and the
+// keyboard focus order, which is what we actually want — the previous
+// aria-hidden="true" left the menu's links and Sign-out button
+// focusable, so Tab landed on invisible off-screen elements (the
+// "ghost elements" anti-pattern).
 function openDrawer()  {
   drawerEl.classList.add('open'); scrimEl.classList.add('open');
-  drawerEl.setAttribute('aria-hidden', 'false');
+  drawerEl.removeAttribute('inert');
   menuBtn.setAttribute('aria-expanded', 'true');
   // Move focus to the first focusable item in the drawer (a11y dialog pattern).
   const first = drawerEl.querySelector('a.item, button');
   if (first) setTimeout(() => first.focus(), 10);
 }
-function closeDrawer() {
+// `restoreFocus` controls whether closing the drawer brings focus
+// back to the menu button. Defaults to true; sign-out passes false
+// because boot() will immediately open the login dialog and focus
+// the password field, and we don't want the menu button to flash
+// focus in between (see Finding 8 in the audit).
+function closeDrawer(restoreFocus = true) {
   if (!drawerEl.classList.contains('open')) return;
   drawerEl.classList.remove('open'); scrimEl.classList.remove('open');
-  drawerEl.setAttribute('aria-hidden', 'true');
+  drawerEl.setAttribute('inert', '');
   menuBtn.setAttribute('aria-expanded', 'false');
-  menuBtn.focus();   // return focus to the trigger
+  if (restoreFocus) menuBtn.focus();
 }
 menuBtn.addEventListener('click', openDrawer);
 scrimEl.addEventListener('click', closeDrawer);
@@ -782,7 +854,10 @@ document.getElementById('drawer-signout').addEventListener('click', () => {
   localStorage.removeItem(AUTH_STORE);
   document.cookie = `${AUTH_COOKIE}=; Path=/; Max-Age=0`;
   AUTH_TOKEN = null;
-  closeDrawer();
+  // Don't bounce focus back to the menu button: boot() is about to open
+  // the login dialog, which will steal focus to the password field.
+  // (Finding 8: avoid the visible focus flash.)
+  closeDrawer(false);
   // Re-run boot so the page picks up the new auth state — either shows the
   // login dialog (if proxy needs auth) or returns to the home view (if dev).
   boot();
@@ -850,11 +925,42 @@ async function dispatch() {
         await r.view(m, parseQuery(path), myGen);
       } catch (e) {
         if (myGen === routeGen) renderError('Could not render view: ' + e.message);
+        return;
       }
+      // SPA accessibility (WCAG 2.4.2 Page Titled, 2.4.3 Focus Order):
+      // every route change must update the document title and move
+      // keyboard focus into the new view, otherwise a screen-reader
+      // user (or anyone with a keyboard) doesn't know they navigated.
+      // We also re-announce the title on a polite live region for AT
+      // users on routes that don't actually render an <h1> (e.g.
+      // generic error views).
+      if (myGen === routeGen) afterRouteRender(r.title);
       return;
     }
   }
   renderError('No route for ' + path);
+  afterRouteRender('Not found');
+}
+
+// Title + focus management hook. Called once a view has rendered
+// successfully (or for the no-route-found case). Sets:
+//   * document.title — picked up by JAWS and NVDA on hashchange
+//   * focus on the first <h1> in <main>, with tabindex=-1 so it's
+//     programmatically focusable without entering the tab order
+//   * a polite re-announcement via #sr-status as a fallback
+function afterRouteRender(routeTitle) {
+  const titleStr = routeTitle ? `${routeTitle} · FPKG` : 'FPKG · Forgetmeknot Palace';
+  if (document.title !== titleStr) document.title = titleStr;
+  // Move focus into the new content. A tabindex of -1 lets us
+  // .focus() the heading without making it Tab-reachable later.
+  const h1 = document.querySelector('main h1');
+  if (h1) {
+    if (!h1.hasAttribute('tabindex')) h1.setAttribute('tabindex', '-1');
+    try { h1.focus({ preventScroll: true }); } catch { h1.focus(); }
+  }
+  // Belt-and-braces: announce on the polite live region. Cheap +
+  // works even when the view doesn't render an <h1>.
+  if (typeof announceSr === 'function') announceSr(`${routeTitle} loaded`);
 }
 
 window.addEventListener('hashchange', dispatch);
@@ -885,6 +991,11 @@ async function viewHome(_m, _q, gen) {
   homePollAborters = [];
 
   const root = rootEl();
+  // WCAG 1.3.1 / 2.4.6: every page needs an <h1>. Visually hidden
+  // because the chamber cards already give the page its visual title;
+  // screen-reader users get a real top-level heading and the SPA-
+  // route focus hook lands here.
+  root.append(el('h1', { class: 'visually-hidden' }, 'What is on now'));
   const chambersWrap = el('div', { class: 'chambers' });
 
   for (const [houseKey, slug, klass] of [
@@ -1502,6 +1613,10 @@ async function viewSearch(_m, q, gen) {
   const initialQ     = q.q     || '';
   const initialHouse = q.house || '1';
 
+  // WCAG 1.3.1 / 2.4.6: top-level page heading. Visually hidden so
+  // the search bar still reads as the page's lead element; AT users
+  // get the heading + the SPA-route focus hook lands here.
+  root.append(el('h1', { class: 'visually-hidden' }, 'Members'));
   const bar = el('div', { class: 'searchbar', role: 'search' });
   const inputId = 'member-search-input';
   const houseId = 'member-search-house';

@@ -7,6 +7,28 @@
 - Date: 2026-05-03
 - Source revision: `main` at the time of write-up
 
+## Status
+
+> **Update — fixes landed in branch `claude/a11y-fixes-Ijkd3`.**
+> All ten findings below have been addressed in source. Each finding
+> in the table carries an updated **Status** line. Static fixes only;
+> a manual JAWS + Chrome and NVDA + Firefox pass on the deployed
+> Fly.io build is still required before claiming WCAG 2.2 Level AA
+> conformance.
+
+| # | Severity | Title | Status |
+|---|---|---|---|
+| 1 | Critical | SPA title + focus on route change | **Fixed** — `dispatch()` now calls `afterRouteRender(routeTitle)` |
+| 2 | Critical | "Ghost elements" in closed drawer | **Fixed** — drawer uses `inert` attribute, not `aria-hidden` |
+| 3 | Critical | Login dialog has no focus trap | **Fixed** — native `<dialog>.showModal()` |
+| 4 | Major | Missing `<h1>` on home / search | **Fixed** — visually-hidden `<h1>` in both views |
+| 5 | Major | `aria-describedby` references two IDs on password input | **Fixed** — references only `login-err` |
+| 6 | Moderate | `role="alert"` + `aria-live="assertive"` doubled | **Fixed** — kept `role="alert"`; dropped `aria-live` |
+| 7 | Moderate | `&nbsp;` in live region | **Fixed** — empty content; CSS `min-height: 18px` reserves layout |
+| 8 | Moderate | Sign-out focus shuttle | **Fixed** — `closeDrawer(false)` skips the menu-button refocus |
+| 9 | Minor | `lang` of parts | **Documented limitation** — API does not return language hints; left as a known caveat |
+| 10 | Minor | `theme-color` + `forced-colors` | **Fixed** — paired theme-color with `prefers-color-scheme`; `forced-colors` rules added |
+
 ## Headline
 
 The demo is **above-baseline accessibility-aware** for a prototype:
@@ -63,6 +85,7 @@ Plus six lower-severity findings detailed below.
 
 ### Finding 1 — Critical · No SPA title or focus management on route change
 
+- **Status**: **Fixed.** New `afterRouteRender(routeTitle)` helper (called from `dispatch()`) sets `document.title = "<route> · FPKG"`, finds the first `<h1>` inside `<main>`, gives it `tabindex="-1"` if needed, and `.focus({preventScroll:true})`s it. Routes that don't render an `<h1>` still get a polite live-region announcement via `announceSr()` as a fallback.
 - **WCAG SC**: 2.4.2 Page Titled (Level A); 2.4.3 Focus Order (Level A)
 - **Page/Component**: every hash-routed view (`/`, `/search`, `/member/:id`, `/debate/:id`, `/division/:id`, etc.)
 - **Element**: `dispatch()` and `window.addEventListener('hashchange', dispatch)` (`index.html` line 860)
@@ -91,6 +114,7 @@ Plus six lower-severity findings detailed below.
 
 ### Finding 2 — Critical · "Ghost elements" in closed drawer
 
+- **Status**: **Fixed.** Drawer markup carries the `inert` attribute on initial load. `openDrawer()` removes it; `closeDrawer()` re-applies it. `aria-hidden` is no longer used on the drawer. With `inert`, the drawer's links + Sign-out button are removed from BOTH the AT tree and the keyboard focus order while the drawer is off-screen.
 - **WCAG SC**: 4.1.2 Name, Role, Value (Level A); 1.3.1 Info and Relationships (Level A)
 - **Page/Component**: `nav.drawer#drawer`
 - **Element**: `<nav class="drawer" aria-hidden="true">` containing `<a class="item">` and `<button id="drawer-signout">` (lines 471, 522)
@@ -120,6 +144,7 @@ Plus six lower-severity findings detailed below.
 
 ### Finding 3 — Critical · Login dialog does not trap focus
 
+- **Status**: **Fixed.** Replaced `<div role="dialog" aria-modal="true">` with native `<dialog>`; `showLogin()` calls `dlg.showModal()` and `hideLogin()` calls `dlg.close()`. The browser supplies the focus trap, the inert backdrop, and the implicit `aria-modal="true"` semantics. Default Escape-to-close is suppressed via a `cancel` event preventDefault, because the page genuinely cannot function without auth (the same intentional behaviour as the previous code). A `<dialog>`-not-supported fallback path is preserved for legacy environments.
 - **WCAG SC**: 2.4.3 Focus Order (Level A); ARIA Authoring Practices for `dialog`
 - **Page/Component**: `#login` overlay
 - **Element**: `<div class="login-overlay" id="login" role="dialog" aria-modal="true">` (line 535)
@@ -154,6 +179,7 @@ Plus six lower-severity findings detailed below.
 
 ### Finding 4 — Major · Home view has no `<h1>`
 
+- **Status**: **Fixed.** `viewHome` and `viewSearch` now each emit a visually-hidden `<h1>` ("What is on now" and "Members" respectively) at the top of `<main>`. The home chamber cards remain visually unchanged; AT users get a real top-level heading and the SPA-route focus hook lands there. `viewConstituency`, `viewParty`, `viewParties`, `viewHouse`, `viewSettings`, `viewAbout` already had `<h1>`s and are unchanged.
 - **WCAG SC**: 1.3.1 Info and Relationships (Level A); 2.4.6 Headings and Labels (Level AA)
 - **Page/Component**: `viewHome` (default route `/`)
 - **Element**: chamber cards use `<header><span class="label">Commons</span></header>`; the page never includes an `<h1>`. Search view (`#/search`) goes from no `<h1>` straight to `<h2>` ("Members"), and constituency view (`#/constituency/:id`) similarly skips.
@@ -170,6 +196,7 @@ Plus six lower-severity findings detailed below.
 
 ### Finding 5 — Major · `aria-describedby` references two IDs on the password input
 
+- **Status**: **Fixed.** Password input's `aria-describedby` now references only `login-err` (the live error region). The dialog's own `aria-describedby="login-desc"` still announces the help paragraph once on dialog open via the native `<dialog>` semantics, so the explanation still reaches AT users — just not on every re-focus of the password field.
 - **WCAG SC**: 4.1.2 Name, Role, Value (Level A); JAWS announcement quality
 - **Element**: `<input id="login-pass" aria-describedby="login-err login-desc">` (line 546)
 - **Screen reader**: JAWS reads both descriptions on focus, even when the error region is empty (whitespace `&nbsp;`). Users hear "Password edit. A small graph navigator over UK Parliament data…" — the long description plays every time the field is focused.
@@ -181,6 +208,7 @@ Plus six lower-severity findings detailed below.
 
 ### Finding 6 — Moderate · `role="alert"` AND `aria-live="assertive"` on the same element
 
+- **Status**: **Fixed.** `aria-live="assertive"` removed from `#login-err`. `role="alert"` already implies assertive + atomic, so behaviour is unchanged for users; the change just stops JAWS / NVDA double-announcing.
 - **WCAG SC**: 4.1.3 Status Messages (Level AA); SKILL "Most frequent critical errors" entry
 - **Element**: `<div class="err" id="login-err" role="alert" aria-live="assertive">&nbsp;</div>` (line 548)
 - **Screen reader**: JAWS and NVDA both have been observed double-announcing under this combination.
@@ -191,12 +219,14 @@ Plus six lower-severity findings detailed below.
 
 ### Finding 7 — Moderate · Live region uses non-empty initial content (`&nbsp;`)
 
+- **Status**: **Fixed.** `&nbsp;` removed; element is empty in initial HTML. The CSS rule `.login-box .err { min-height: 18px }` already reserved the layout slot, so removing the placeholder doesn't reflow the dialog when an error appears.
 - **WCAG SC**: 4.1.3 Status Messages (Level AA)
 - **Element**: same `#login-err` element above. The `&nbsp;` is intentional (preserves layout height) but JAWS may treat the live region as already-populated and ignore the first real update.
 - **Fix**: Use CSS to reserve the height (`min-height: 1.4em`) and leave the element empty (`<div role="alert" id="login-err"></div>`). The empty-on-load rule is the SKILL's explicit guidance.
 
 ### Finding 8 — Moderate · Drawer closes on link click, but Sign-out also calls `boot()` which can re-open the login dialog without focus management
 
+- **Status**: **Fixed.** `closeDrawer(restoreFocus = true)` now takes an optional flag. Sign-out calls `closeDrawer(false)` so focus is not bounced back to the menu button immediately before `boot()` opens the login dialog and focuses the password field. No more brief mis-announcement.
 - **WCAG SC**: 2.4.3 Focus Order (Level A); 4.1.3 Status Messages (Level AA)
 - **Element**: `#drawer-signout` click handler (~785)
 - **Reproduction**: Click Sign out. The drawer closes, focus returns to the menu button (good), then `boot()` opens the login dialog and resets focus to the password field. Result: focus moves twice, JAWS may announce the menu button briefly before the dialog steals focus.
@@ -205,6 +235,7 @@ Plus six lower-severity findings detailed below.
 
 ### Finding 9 — Minor · No `<html lang>` change for non-English content
 
+- **Status**: **Documented limitation.** The Members API does not return per-name language hints, so we cannot reliably wrap names in `<span lang="cy">`/etc. without inferring from the constituency, which is brittle. Tracked as a known gap for the next API enrichment pass; the JAWS English voice will mispronounce some Welsh / Scots Gaelic names.
 - **WCAG SC**: 3.1.2 Language of Parts (Level AA)
 - **Page/Component**: any view that surfaces content with embedded foreign-language member or constituency names (e.g. peers from Welsh / Scottish / Northern Irish constituencies, or names in Welsh).
 - **Reproduction**: View a Welsh member's name with the JAWS English voice; pronunciation is incorrect.
@@ -212,6 +243,7 @@ Plus six lower-severity findings detailed below.
 
 ### Finding 10 — Minor · `meta name="theme-color"` only sets dark scheme
 
+- **Status**: **Fixed.** Two `<meta name="theme-color">` declarations now pair `#0d0f12` with `(prefers-color-scheme: dark)` and `#ffffff` with light. CSS `@media (forced-colors: active)` block reasserts the focus indicator with the OS `Highlight` colour and resets the skip link to `Canvas` / `CanvasText` so the button stays visible against any forced-colours theme.
 - **WCAG SC**: not strictly a WCAG criterion, but related to forced-colours behaviour and `prefers-color-scheme`.
 - **Element**: `<meta name="theme-color" content="#0d0f12">`
 - **Fix**: Provide a light-scheme fallback for users who flip the OS appearance and a `forced-colors` reset:
@@ -249,6 +281,24 @@ These need actual JAWS + Chrome and NVDA + Firefox sessions, ideally on a deploy
 5. **Re-audit** with JAWS 2025 + Chrome and NVDA latest + Firefox; produce a finalised statement of conformance against WCAG 2.2 Level AA.
 
 A statement of conformance should not be claimed before steps 1–3 are merged AND a real screen-reader pass has been completed.
+
+### Remediation status
+
+Steps 1–4 landed together in branch `claude/a11y-fixes-Ijkd3`:
+
+| Step | Findings | Status |
+|---|---|---|
+| 1 | 1, 2, 3 | Fixed |
+| 2 | 4 | Fixed |
+| 3 | 5, 6, 7 | Fixed |
+| 4 | 8, 9, 10 | 8 + 10 fixed; 9 documented limitation |
+| 5 | (re-audit) | **Outstanding** — needs live JAWS + Chrome and NVDA + Firefox passes on the deployed Fly.io build before claiming WCAG 2.2 Level AA conformance |
+
+What changed in source (`demos/parliament-live/web/index.html`):
+
+- Markup: `<dialog>` for login, `inert` instead of `aria-hidden` on the closed drawer, `<h1 class="visually-hidden">` in `viewHome` and `viewSearch`, `aria-describedby="login-err"` only, no `aria-live` on the `role="alert"` element, no `&nbsp;` placeholder.
+- CSS: paired `theme-color` per scheme, `@media (forced-colors: active)` block reasserting focus indicator and skip link, `dialog.login-overlay` rules sized to fill the viewport like the previous overlay.
+- JS: `dispatch()` now calls `afterRouteRender(routeTitle)` to set `document.title` and focus `<main> h1`; `openDrawer`/`closeDrawer` toggle `inert`; `closeDrawer(false)` from sign-out skips the menu-button refocus; `showLogin`/`hideLogin` use `dialog.showModal()` / `dialog.close()`; `cancel` event preventDefault keeps the dialog from being Escape-closed (auth required).
 
 ---
 
