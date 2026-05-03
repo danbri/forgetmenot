@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 4131,
+    "name": "Jim Shannon",
+    "party": "Democratic Unionist Party",
+    "partyAbbr": "DUP",
+    "house": "Commons",
+    "constituency": "Strangford"
+  },
+  "homepageUrl": "https://mydup.com/our-team/jim-shannon",
+  "origin": "https://mydup.com",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 403,
+    "message": "HTTP 403 https://mydup.com/our-team/jim-shannon"
+  },
+  "startedAt": "2026-05-03T08:32:20.747Z",
+  "finishedAt": "2026-05-03T08:32:22.286Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "fetched",
+      "disallow": 0
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 403,
+      "message": "HTTP 403 https://mydup.com/our-team/jim-shannon"
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "member": {
+    "id": 4056,
+    "name": "Sir Nicholas Dakin",
+    "party": "Labour",
+    "partyAbbr": "Lab",
+    "house": "Commons",
+    "constituency": "Scunthorpe"
+  },
+  "homepageUrl": "https://nicdakin.co.uk/",
+  "origin": "https://nicdakin.co.uk",
+  "ok": true,
+  "blocked": false,
+  "homepage_error": null,
+  "startedAt": "2026-05-03T08:31:33.045Z",
+  "finishedAt": "2026-05-03T08:31:37.113Z",
+  "platform": "Wix",
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [
+      "/"
+    ],
+    "disallow": [
+      "*?lightbox="
+    ]
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": {
+    "url": "https://nicdakin.co.uk/",
+    "type": "homepage",
+    "title": "Home | Nic Dakin MP",
+    "h1": "",
+    "meta_description": "",
+    "headings": [
+      "h3: Nic Dakin Member of Parliament for Scunthorpe",
+      "h2: The Scunthorpe Constituency"
+    ],
+    "text_excerpt": "--> Home | Nic Dakin MP top of page Home Contact Office Standards Privacy Policy Community Champion Awards 2026 Nic Dakin Member of Parliament for Scunthorpe The Scunthorpe Constituency Nic Dakin Member of Parliament for Scunthorpe 01724 500684 nic.dakin.mp@parliament.uk House of Commons London SW1A 0AA bottom of page",
+    "text_length": 319,
+    "raw_html_file": "homepage.html"
+  },
+  "pages": [
+    {
+      "url": "https://www.nicdakin.co.uk/contact-8",
+      "type": "contact",
+      "title": "Contact | Nic Dakin MP",
+      "h1": "",
+      "meta_description": "",
+      "headings": [
+        "h2: Get in touch"
+      ],
+      "text_excerpt": "--> Contact | Nic Dakin MP top of page Home Contact Office Standards Privacy Policy Community Champion Awards 2026 Get in touch Strict parliamentary rules dictate that Nic can only take cases forward on behalf of residents of the Scunthorpe constituency, shown on the map below. To check if Nic is your MP please visit members.parliament.uk/FindYourMP ​ ​ ​ The Scunthorpe office is open on Mondays, Tuesdays, Wednesdays and Fridays from 09:00 - 16:00. Voicemail messages are monitored on Thursdays for any urgent issues. First Name Last Name Email Street Address City Post Code Message Send Thank you for your message. Contact Form Nic Dakin Member of Parliament for Scunthorpe 01724 500684 nic.dakin.mp@parliament.uk House of Commons London SW1A 0AA bottom of page",
+      "text_length": 766,
+      "candidates": {
+        "postcodes": [
+          "SW1A 0AA"
+        ],
+        "phones": [
+          "01724 500684"
+        ],
+        "emails": [
+          "nic.dakin.mp@parliament.uk"
+        ],
+        "formAction": null
+      },
+      "link_text": "Contact",
+      "http_status": 200,
+      "bytes": 710823,
+      "matched_token": "contact",
+      "raw_html_file": "pages/contact.html"
+    },
+    {
+      "url": "https://www.nicdakin.co.uk/privacy-policy",
+      "type": "privacy",
+      "presence_only": true,
+      "link_text": "Privacy Policy",
+      "raw_html_file": null
+    }
+  ],
+  "decisions": [
+    {
+      "url": "https://www.nicdakin.co.uk/",
+      "text": "Home",
+      "action": "unclassified"
+    },
+    {
+      "url": "https://www.nicdakin.co.uk/contact-8",
+      "text": "Contact",
+      "action": "classified",
+      "type": "contact",
+      "matched": "contact"
+    },
+    {
+      "url": "https://www.nicdakin.co.uk/office-standards",
+      "text": "Office Standards",
+      "action": "unclassified"
+    },
+    {
+      "url": "https://www.nicdakin.co.uk/privacy-policy",
+      "text": "Privacy Policy",
+      "action": "classified",
+      "type": "privacy",
+      "matched": "privacy"
+    },
+    {
+      "url": "https://www.nicdakin.co.uk/community-champion-awards-2026",
+      "text": "Community Champion Awards 2026",
+      "action": "unclassified"
+    }
+  ],
+  "log": [
+    {
+      "step": "robots",
+      "status": "fetched",
+      "disallow": 1
+    },
+    {
+      "step": "homepage",
+      "status": "ok",
+      "bytes": 679678
+    },
+    {
+      "step": "sitemap",
+      "status": "absent",
+      "http": 404
+    },
+    {
+      "step": "page",
+      "url": "https://www.nicdakin.co.uk/contact-8",
+      "status": "ok",
+      "type": "contact",
+      "bytes": 710823
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 5112,
+    "name": "Luke Akehurst",
+    "party": "Labour",
+    "partyAbbr": "Lab",
+    "house": "Commons",
+    "constituency": "North Durham"
+  },
+  "homepageUrl": "https://www.lukeakehurstmp.co.uk/",
+  "origin": "https://www.lukeakehurstmp.co.uk",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 403,
+    "message": "HTTP 403 https://www.lukeakehurstmp.co.uk/"
+  },
+  "startedAt": "2026-05-03T08:42:30.297Z",
+  "finishedAt": "2026-05-03T08:42:31.825Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "unavailable",
+      "http": 403
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 403,
+      "message": "HTTP 403 https://www.lukeakehurstmp.co.uk/"
+    }
+  ]
+}

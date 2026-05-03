@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 5248,
+    "name": "Luke Murphy",
+    "party": "Labour",
+    "partyAbbr": "Lab",
+    "house": "Commons",
+    "constituency": "Basingstoke"
+  },
+  "homepageUrl": "https://www.lukemurphy.org.uk/",
+  "origin": "https://www.lukemurphy.org.uk",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 403,
+    "message": "HTTP 403 https://www.lukemurphy.org.uk/"
+  },
+  "startedAt": "2026-05-03T08:44:12.723Z",
+  "finishedAt": "2026-05-03T08:44:14.277Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "unavailable",
+      "http": 403
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 403,
+      "message": "HTTP 403 https://www.lukemurphy.org.uk/"
+    }
+  ]
+}

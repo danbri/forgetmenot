@@ -1,0 +1,1230 @@
+<!doctype html>
+<html lang="en-US" >
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="https://gmpg.org/xfn/11">
+
+    <title>Eluned Morgan  &#8211; This website was established while I was a Member of the Senedd. As the Senedd has been dissolved, there are no Members of the Senedd until the results of the elections on 7 May 2026 are known.</title>
+<meta name='robots' content='max-image-preview:large' />
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+			<style>html.sdui-panel-open body:not(.wp-admin){margin-right:400px}html.sdui-panel-open #wpcontent,html.sdui-panel-open #wpfooter{margin-right:400px}html.sdui-panel-open body:not(.wp-admin):not(.block-editor-page) header.wp-block-template-part{right:400px}#sdui-panel-placeholder{display:none;position:fixed;right:0;top:var(--wp-admin--admin-bar--height,32px);width:400px;height:calc(100dvh - var(--wp-admin--admin-bar--height,32px));background:linear-gradient(135deg,#1a1230 0%,#110c1d 100%);z-index:99999}html.sdui-panel-open #sdui-panel-placeholder{display:block}@media(max-width:768px){html.sdui-panel-open body:not(.wp-admin),html.sdui-panel-open #wpcontent,html.sdui-panel-open #wpfooter{margin-right:0}html.sdui-panel-open #sdui-panel-placeholder{display:none}}</style>
+		<script>try{if(!document.documentElement.classList.contains('sdui-panel-open')&&localStorage.getItem('site-designer-ui-panel-open')==='true'){document.documentElement.classList.add('sdui-panel-open');document.cookie='sdui_panel_open=1;path=/;max-age=31536000;SameSite=Lax;Secure';document.addEventListener('DOMContentLoaded',function(){if(!document.getElementById('sdui-panel-placeholder')){var p=document.createElement('div');p.id='sdui-panel-placeholder';document.body.appendChild(p)}})}}catch(e){}</script>
+		<link rel="alternate" type="application/rss+xml" title="Eluned Morgan  &raquo; Feed" href="https://elunedmorgan.wales/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Eluned Morgan  &raquo; Comments Feed" href="https://elunedmorgan.wales/comments/feed/" />
+<script>
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/16.0.1\/svg\/","svgExt":".svg","source":{"wpemoji":"https:\/\/elunedmorgan.wales\/wp-includes\/js\/wp-emoji.js?ver=6.8.5","twemoji":"https:\/\/elunedmorgan.wales\/wp-includes\/js\/twemoji.js?ver=6.8.5"}};
+/**
+ * @output wp-includes/js/wp-emoji-loader.js
+ */
+
+/**
+ * Emoji Settings as exported in PHP via _print_emoji_detection_script().
+ * @typedef WPEmojiSettings
+ * @type {object}
+ * @property {?object} source
+ * @property {?string} source.concatemoji
+ * @property {?string} source.twemoji
+ * @property {?string} source.wpemoji
+ * @property {?boolean} DOMReady
+ * @property {?Function} readyCallback
+ */
+
+/**
+ * Support tests.
+ * @typedef SupportTests
+ * @type {object}
+ * @property {?boolean} flag
+ * @property {?boolean} emoji
+ */
+
+/**
+ * IIFE to detect emoji support and load Twemoji if needed.
+ *
+ * @param {Window} window
+ * @param {Document} document
+ * @param {WPEmojiSettings} settings
+ */
+( function wpEmojiLoader( window, document, settings ) {
+	if ( typeof Promise === 'undefined' ) {
+		return;
+	}
+
+	var sessionStorageKey = 'wpEmojiSettingsSupports';
+	var tests = [ 'flag', 'emoji' ];
+
+	/**
+	 * Checks whether the browser supports offloading to a Worker.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @private
+	 *
+	 * @returns {boolean}
+	 */
+	function supportsWorkerOffloading() {
+		return (
+			typeof Worker !== 'undefined' &&
+			typeof OffscreenCanvas !== 'undefined' &&
+			typeof URL !== 'undefined' &&
+			URL.createObjectURL &&
+			typeof Blob !== 'undefined'
+		);
+	}
+
+	/**
+	 * @typedef SessionSupportTests
+	 * @type {object}
+	 * @property {number} timestamp
+	 * @property {SupportTests} supportTests
+	 */
+
+	/**
+	 * Get support tests from session.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @private
+	 *
+	 * @returns {?SupportTests} Support tests, or null if not set or older than 1 week.
+	 */
+	function getSessionSupportTests() {
+		try {
+			/** @type {SessionSupportTests} */
+			var item = JSON.parse(
+				sessionStorage.getItem( sessionStorageKey )
+			);
+			if (
+				typeof item === 'object' &&
+				typeof item.timestamp === 'number' &&
+				new Date().valueOf() < item.timestamp + 604800 && // Note: Number is a week in seconds.
+				typeof item.supportTests === 'object'
+			) {
+				return item.supportTests;
+			}
+		} catch ( e ) {}
+		return null;
+	}
+
+	/**
+	 * Persist the supports in session storage.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @private
+	 *
+	 * @param {SupportTests} supportTests Support tests.
+	 */
+	function setSessionSupportTests( supportTests ) {
+		try {
+			/** @type {SessionSupportTests} */
+			var item = {
+				supportTests: supportTests,
+				timestamp: new Date().valueOf()
+			};
+
+			sessionStorage.setItem(
+				sessionStorageKey,
+				JSON.stringify( item )
+			);
+		} catch ( e ) {}
+	}
+
+	/**
+	 * Checks if two sets of Emoji characters render the same visually.
+	 *
+	 * This is used to determine if the browser is rendering an emoji with multiple data points
+	 * correctly. set1 is the emoji in the correct form, using a zero-width joiner. set2 is the emoji
+	 * in the incorrect form, using a zero-width space. If the two sets render the same, then the browser
+	 * does not support the emoji correctly.
+	 *
+	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+	 * scope. Everything must be passed by parameters.
+	 *
+	 * @since 4.9.0
+	 *
+	 * @private
+	 *
+	 * @param {CanvasRenderingContext2D} context 2D Context.
+	 * @param {string} set1 Set of Emoji to test.
+	 * @param {string} set2 Set of Emoji to test.
+	 *
+	 * @return {boolean} True if the two sets render the same.
+	 */
+	function emojiSetsRenderIdentically( context, set1, set2 ) {
+		// Cleanup from previous test.
+		context.clearRect( 0, 0, context.canvas.width, context.canvas.height );
+		context.fillText( set1, 0, 0 );
+		var rendered1 = new Uint32Array(
+			context.getImageData(
+				0,
+				0,
+				context.canvas.width,
+				context.canvas.height
+			).data
+		);
+
+		// Cleanup from previous test.
+		context.clearRect( 0, 0, context.canvas.width, context.canvas.height );
+		context.fillText( set2, 0, 0 );
+		var rendered2 = new Uint32Array(
+			context.getImageData(
+				0,
+				0,
+				context.canvas.width,
+				context.canvas.height
+			).data
+		);
+
+		return rendered1.every( function ( rendered2Data, index ) {
+			return rendered2Data === rendered2[ index ];
+		} );
+	}
+
+	/**
+	 * Checks if the center point of a single emoji is empty.
+	 *
+	 * This is used to determine if the browser is rendering an emoji with a single data point
+	 * correctly. The center point of an incorrectly rendered emoji will be empty. A correctly
+	 * rendered emoji will have a non-zero value at the center point.
+	 *
+	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+	 * scope. Everything must be passed by parameters.
+	 *
+	 * @since 6.8.2
+	 *
+	 * @private
+	 *
+	 * @param {CanvasRenderingContext2D} context 2D Context.
+	 * @param {string} emoji Emoji to test.
+	 *
+	 * @return {boolean} True if the center point is empty.
+	 */
+	function emojiRendersEmptyCenterPoint( context, emoji ) {
+		// Cleanup from previous test.
+		context.clearRect( 0, 0, context.canvas.width, context.canvas.height );
+		context.fillText( emoji, 0, 0 );
+
+		// Test if the center point (16, 16) is empty (0,0,0,0).
+		var centerPoint = context.getImageData(16, 16, 1, 1);
+		for ( var i = 0; i < centerPoint.data.length; i++ ) {
+			if ( centerPoint.data[ i ] !== 0 ) {
+				// Stop checking the moment it's known not to be empty.
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Determines if the browser properly renders Emoji that Twemoji can supplement.
+	 *
+	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+	 * scope. Everything must be passed by parameters.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @private
+	 *
+	 * @param {CanvasRenderingContext2D} context 2D Context.
+	 * @param {string} type Whether to test for support of "flag" or "emoji".
+	 * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
+	 * @param {Function} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
+	 *
+	 * @return {boolean} True if the browser can render emoji, false if it cannot.
+	 */
+	function browserSupportsEmoji( context, type, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint ) {
+		var isIdentical;
+
+		switch ( type ) {
+			case 'flag':
+				/*
+				 * Test for Transgender flag compatibility. Added in Unicode 13.
+				 *
+				 * To test for support, we try to render it, and compare the rendering to how it would look if
+				 * the browser doesn't render it correctly (white flag emoji + transgender symbol).
+				 */
+				isIdentical = emojiSetsRenderIdentically(
+					context,
+					'\uD83C\uDFF3\uFE0F\u200D\u26A7\uFE0F', // as a zero-width joiner sequence
+					'\uD83C\uDFF3\uFE0F\u200B\u26A7\uFE0F' // separated by a zero-width space
+				);
+
+				if ( isIdentical ) {
+					return false;
+				}
+
+				/*
+				 * Test for Sark flag compatibility. This is the least supported of the letter locale flags,
+				 * so gives us an easy test for full support.
+				 *
+				 * To test for support, we try to render it, and compare the rendering to how it would look if
+				 * the browser doesn't render it correctly ([C] + [Q]).
+				 */
+				isIdentical = emojiSetsRenderIdentically(
+					context,
+					'\uD83C\uDDE8\uD83C\uDDF6', // as the sequence of two code points
+					'\uD83C\uDDE8\u200B\uD83C\uDDF6' // as the two code points separated by a zero-width space
+				);
+
+				if ( isIdentical ) {
+					return false;
+				}
+
+				/*
+				 * Test for English flag compatibility. England is a country in the United Kingdom, it
+				 * does not have a two letter locale code but rather a five letter sub-division code.
+				 *
+				 * To test for support, we try to render it, and compare the rendering to how it would look if
+				 * the browser doesn't render it correctly (black flag emoji + [G] + [B] + [E] + [N] + [G]).
+				 */
+				isIdentical = emojiSetsRenderIdentically(
+					context,
+					// as the flag sequence
+					'\uD83C\uDFF4\uDB40\uDC67\uDB40\uDC62\uDB40\uDC65\uDB40\uDC6E\uDB40\uDC67\uDB40\uDC7F',
+					// with each code point separated by a zero-width space
+					'\uD83C\uDFF4\u200B\uDB40\uDC67\u200B\uDB40\uDC62\u200B\uDB40\uDC65\u200B\uDB40\uDC6E\u200B\uDB40\uDC67\u200B\uDB40\uDC7F'
+				);
+
+				return ! isIdentical;
+			case 'emoji':
+				/*
+				 * Does Emoji 16.0 cause the browser to go splat?
+				 *
+				 * To test for Emoji 16.0 support, try to render a new emoji: Splatter.
+				 *
+				 * The splatter emoji is a single code point emoji. Testing for browser support
+				 * required testing the center point of the emoji to see if it is empty.
+				 *
+				 * 0xD83E 0xDEDF (\uD83E\uDEDF) == 🫟 Splatter.
+				 *
+				 * When updating this test, please ensure that the emoji is either a single code point
+				 * or switch to using the emojiSetsRenderIdentically function and testing with a zero-width
+				 * joiner vs a zero-width space.
+				 */
+				var notSupported = emojiRendersEmptyCenterPoint( context, '\uD83E\uDEDF' );
+				return ! notSupported;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks emoji support tests.
+	 *
+	 * This function may be serialized to run in a Worker. Therefore, it cannot refer to variables from the containing
+	 * scope. Everything must be passed by parameters.
+	 *
+	 * @since 6.3.0
+	 *
+	 * @private
+	 *
+	 * @param {string[]} tests Tests.
+	 * @param {Function} browserSupportsEmoji Reference to browserSupportsEmoji function, needed due to minification.
+	 * @param {Function} emojiSetsRenderIdentically Reference to emojiSetsRenderIdentically function, needed due to minification.
+	 * @param {Function} emojiRendersEmptyCenterPoint Reference to emojiRendersEmptyCenterPoint function, needed due to minification.
+	 *
+	 * @return {SupportTests} Support tests.
+	 */
+	function testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint ) {
+		var canvas;
+		if (
+			typeof WorkerGlobalScope !== 'undefined' &&
+			self instanceof WorkerGlobalScope
+		) {
+			canvas = new OffscreenCanvas( 300, 150 ); // Dimensions are default for HTMLCanvasElement.
+		} else {
+			canvas = document.createElement( 'canvas' );
+		}
+
+		var context = canvas.getContext( '2d', { willReadFrequently: true } );
+
+		/*
+		 * Chrome on OS X added native emoji rendering in M41. Unfortunately,
+		 * it doesn't work when the font is bolder than 500 weight. So, we
+		 * check for bold rendering support to avoid invisible emoji in Chrome.
+		 */
+		context.textBaseline = 'top';
+		context.font = '600 32px Arial';
+
+		var supports = {};
+		tests.forEach( function ( test ) {
+			supports[ test ] = browserSupportsEmoji( context, test, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint );
+		} );
+		return supports;
+	}
+
+	/**
+	 * Adds a script to the head of the document.
+	 *
+	 * @ignore
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param {string} src The url where the script is located.
+	 *
+	 * @return {void}
+	 */
+	function addScript( src ) {
+		var script = document.createElement( 'script' );
+		script.src = src;
+		script.defer = true;
+		document.head.appendChild( script );
+	}
+
+	settings.supports = {
+		everything: true,
+		everythingExceptFlag: true
+	};
+
+	// Create a promise for DOMContentLoaded since the worker logic may finish after the event has fired.
+	var domReadyPromise = new Promise( function ( resolve ) {
+		document.addEventListener( 'DOMContentLoaded', resolve, {
+			once: true
+		} );
+	} );
+
+	// Obtain the emoji support from the browser, asynchronously when possible.
+	new Promise( function ( resolve ) {
+		var supportTests = getSessionSupportTests();
+		if ( supportTests ) {
+			resolve( supportTests );
+			return;
+		}
+
+		if ( supportsWorkerOffloading() ) {
+			try {
+				// Note that the functions are being passed as arguments due to minification.
+				var workerScript =
+					'postMessage(' +
+					testEmojiSupports.toString() +
+					'(' +
+					[
+						JSON.stringify( tests ),
+						browserSupportsEmoji.toString(),
+						emojiSetsRenderIdentically.toString(),
+						emojiRendersEmptyCenterPoint.toString()
+					].join( ',' ) +
+					'));';
+				var blob = new Blob( [ workerScript ], {
+					type: 'text/javascript'
+				} );
+				var worker = new Worker( URL.createObjectURL( blob ), { name: 'wpTestEmojiSupports' } );
+				worker.onmessage = function ( event ) {
+					supportTests = event.data;
+					setSessionSupportTests( supportTests );
+					worker.terminate();
+					resolve( supportTests );
+				};
+				return;
+			} catch ( e ) {}
+		}
+
+		supportTests = testEmojiSupports( tests, browserSupportsEmoji, emojiSetsRenderIdentically, emojiRendersEmptyCenterPoint );
+		setSessionSupportTests( supportTests );
+		resolve( supportTests );
+	} )
+		// Once the browser emoji support has been obtained from the session, finalize the settings.
+		.then( function ( supportTests ) {
+			/*
+			 * Tests the browser support for flag emojis and other emojis, and adjusts the
+			 * support settings accordingly.
+			 */
+			for ( var test in supportTests ) {
+				settings.supports[ test ] = supportTests[ test ];
+
+				settings.supports.everything =
+					settings.supports.everything && settings.supports[ test ];
+
+				if ( 'flag' !== test ) {
+					settings.supports.everythingExceptFlag =
+						settings.supports.everythingExceptFlag &&
+						settings.supports[ test ];
+				}
+			}
+
+			settings.supports.everythingExceptFlag =
+				settings.supports.everythingExceptFlag &&
+				! settings.supports.flag;
+
+			// Sets DOMReady to false and assigns a ready function to settings.
+			settings.DOMReady = false;
+			settings.readyCallback = function () {
+				settings.DOMReady = true;
+			};
+		} )
+		.then( function () {
+			return domReadyPromise;
+		} )
+		.then( function () {
+			// When the browser can not render everything we need to load a polyfill.
+			if ( ! settings.supports.everything ) {
+				settings.readyCallback();
+
+				var src = settings.source || {};
+
+				if ( src.concatemoji ) {
+					addScript( src.concatemoji );
+				} else if ( src.wpemoji && src.twemoji ) {
+					addScript( src.twemoji );
+					addScript( src.wpemoji );
+				}
+			}
+		} );
+} )( window, document, window._wpemojiSettings );
+</script>
+<style id='wp-emoji-styles-inline-css'>
+
+	img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}
+</style>
+<link rel='stylesheet' id='wp-block-library-css' href='https://elunedmorgan.wales/wp-includes/css/dist/block-library/style.css?ver=6.8.5' media='all' />
+<style id='wp-block-library-theme-inline-css'>
+.wp-block-audio :where(figcaption){
+  color:#555;
+  font-size:13px;
+  text-align:center;
+}
+.is-dark-theme .wp-block-audio :where(figcaption){
+  color:#ffffffa6;
+}
+
+.wp-block-audio{
+  margin:0 0 1em;
+}
+
+.wp-block-code{
+  border:1px solid #ccc;
+  border-radius:4px;
+  font-family:Menlo,Consolas,monaco,monospace;
+  padding:.8em 1em;
+}
+
+.wp-block-embed :where(figcaption){
+  color:#555;
+  font-size:13px;
+  text-align:center;
+}
+.is-dark-theme .wp-block-embed :where(figcaption){
+  color:#ffffffa6;
+}
+
+.wp-block-embed{
+  margin:0 0 1em;
+}
+
+.blocks-gallery-caption{
+  color:#555;
+  font-size:13px;
+  text-align:center;
+}
+.is-dark-theme .blocks-gallery-caption{
+  color:#ffffffa6;
+}
+
+:root :where(.wp-block-image figcaption){
+  color:#555;
+  font-size:13px;
+  text-align:center;
+}
+.is-dark-theme :root :where(.wp-block-image figcaption){
+  color:#ffffffa6;
+}
+
+.wp-block-image{
+  margin:0 0 1em;
+}
+
+.wp-block-pullquote{
+  border-bottom:4px solid;
+  border-top:4px solid;
+  color:currentColor;
+  margin-bottom:1.75em;
+}
+.wp-block-pullquote cite,.wp-block-pullquote footer,.wp-block-pullquote__citation{
+  color:currentColor;
+  font-size:.8125em;
+  font-style:normal;
+  text-transform:uppercase;
+}
+
+.wp-block-quote{
+  border-left:.25em solid;
+  margin:0 0 1.75em;
+  padding-left:1em;
+}
+.wp-block-quote cite,.wp-block-quote footer{
+  color:currentColor;
+  font-size:.8125em;
+  font-style:normal;
+  position:relative;
+}
+.wp-block-quote:where(.has-text-align-right){
+  border-left:none;
+  border-right:.25em solid;
+  padding-left:0;
+  padding-right:1em;
+}
+.wp-block-quote:where(.has-text-align-center){
+  border:none;
+  padding-left:0;
+}
+.wp-block-quote.is-large,.wp-block-quote.is-style-large,.wp-block-quote:where(.is-style-plain){
+  border:none;
+}
+
+.wp-block-search .wp-block-search__label{
+  font-weight:700;
+}
+
+.wp-block-search__button{
+  border:1px solid #ccc;
+  padding:.375em .625em;
+}
+
+:where(.wp-block-group.has-background){
+  padding:1.25em 2.375em;
+}
+
+.wp-block-separator.has-css-opacity{
+  opacity:.4;
+}
+
+.wp-block-separator{
+  border:none;
+  border-bottom:2px solid;
+  margin-left:auto;
+  margin-right:auto;
+}
+.wp-block-separator.has-alpha-channel-opacity{
+  opacity:1;
+}
+.wp-block-separator:not(.is-style-wide):not(.is-style-dots){
+  width:100px;
+}
+.wp-block-separator.has-background:not(.is-style-dots){
+  border-bottom:none;
+  height:1px;
+}
+.wp-block-separator.has-background:not(.is-style-wide):not(.is-style-dots){
+  height:2px;
+}
+
+.wp-block-table{
+  margin:0 0 1em;
+}
+.wp-block-table td,.wp-block-table th{
+  word-break:normal;
+}
+.wp-block-table :where(figcaption){
+  color:#555;
+  font-size:13px;
+  text-align:center;
+}
+.is-dark-theme .wp-block-table :where(figcaption){
+  color:#ffffffa6;
+}
+
+.wp-block-video :where(figcaption){
+  color:#555;
+  font-size:13px;
+  text-align:center;
+}
+.is-dark-theme .wp-block-video :where(figcaption){
+  color:#ffffffa6;
+}
+
+.wp-block-video{
+  margin:0 0 1em;
+}
+
+:root :where(.wp-block-template-part.has-background){
+  margin-bottom:0;
+  margin-top:0;
+  padding:1.25em 2.375em;
+}
+</style>
+<style id='classic-theme-styles-inline-css'>
+/**
+ * These rules are needed for backwards compatibility.
+ * They should match the button element rules in the base theme.json file.
+ */
+.wp-block-button__link {
+	color: #ffffff;
+	background-color: #32373c;
+	border-radius: 9999px; /* 100% causes an oval, but any explicit but really high value retains the pill shape. */
+
+	/* This needs a low specificity so it won't override the rules from the button element if defined in theme.json. */
+	box-shadow: none;
+	text-decoration: none;
+
+	/* The extra 2px are added to size solids the same as the outline versions.*/
+	padding: calc(0.667em + 2px) calc(1.333em + 2px);
+
+	font-size: 1.125em;
+}
+
+.wp-block-file__button {
+	background: #32373c;
+	color: #ffffff;
+	text-decoration: none;
+}
+
+</style>
+<style id='global-styles-inline-css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}
+</style>
+<link rel='stylesheet' id='wp-components-css' href='https://elunedmorgan.wales/wp-includes/css/dist/components/style.css?ver=6.8.5' media='all' />
+<link rel='stylesheet' id='godaddy-styles-css' href='https://elunedmorgan.wales/wp-content/mu-plugins/vendor/wpex/godaddy-launch/includes/Dependencies/GoDaddy/Styles/build/latest.css?ver=2.0.2' media='all' />
+<link rel='stylesheet' id='newsreach-google-fonts-css' href='https://elunedmorgan.wales/wp-content/fonts/203ae6ac90c52934477f6980b046fbb7.css?ver=1.0.0' media='all' />
+<link rel='stylesheet' id='swiper-style-css' href='https://elunedmorgan.wales/wp-content/themes/newsreach/assets/css/swiper-bundle.css?ver=1.0.0' media='all' />
+<link rel='stylesheet' id='newsreach-style-css' href='https://elunedmorgan.wales/wp-content/themes/newsreach/style.css?ver=1.0.0' media='all' />
+<style id='newsreach-style-inline-css'>
+                        @media (min-width: 1000px){
+        .site-description {
+        font-size: 21px;
+        }
+        }
+    
+        
+        
+                                        #newsreach-progress-bar{
+        background-color: #dd3333;
+        }
+    
+        
+        
+                .site-footer {
+        background-color:  #111110;
+        }
+    
+        
+</style>
+<link rel='stylesheet' id='newsreach-night-style-css' href='https://elunedmorgan.wales/wp-content/themes/newsreach/assets/css/dark-mode.css?ver=1.0.0' media='all' />
+<style id='newsreach-night-style-inline-css'>
+                                
+</style>
+<link rel="https://api.w.org/" href="https://elunedmorgan.wales/wp-json/" /><link rel="alternate" title="JSON" type="application/json" href="https://elunedmorgan.wales/wp-json/wp/v2/pages/513" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://elunedmorgan.wales/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.8.5" />
+<link rel="canonical" href="https://elunedmorgan.wales/" />
+<link rel='shortlink' href='https://elunedmorgan.wales/' />
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="https://elunedmorgan.wales/wp-json/oembed/1.0/embed?url=https%3A%2F%2Felunedmorgan.wales%2F" />
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="https://elunedmorgan.wales/wp-json/oembed/1.0/embed?url=https%3A%2F%2Felunedmorgan.wales%2F&#038;format=xml" />
+    <script type="text/javascript">
+        let storageKey = 'theme-preference';
+
+        let getColorPreference = function () {
+            if (localStorage.getItem(storageKey))
+                return localStorage.getItem(storageKey)
+            else
+                return window.matchMedia('(prefers-color-scheme: dark)').matches
+                    ? 'dark'
+                    : 'light'
+        }
+
+        let theme = {
+            value: getColorPreference()
+        };
+
+        let setPreference = function () {
+            localStorage.setItem(storageKey, theme.value);
+            reflectPreference();
+        }
+
+        let reflectPreference = function () {
+            document.firstElementChild.setAttribute("data-theme", theme.value);
+            document.querySelector("#theme-toggle-mode-button")?.setAttribute("aria-label", theme.value);
+        }
+
+        // set early so no page flashes / CSS is made aware
+        reflectPreference();
+
+        window.addEventListener('load', function () {
+            reflectPreference();
+            let toggleBtn = document.querySelector("#theme-toggle-mode-button");
+            if (toggleBtn) {
+                toggleBtn.addEventListener("click", function () {
+                    theme.value = theme.value === 'light' ? 'dark' : 'light';
+                    setPreference();
+                });
+            }
+        });
+
+        // sync with system changes
+        window
+            .matchMedia('(prefers-color-scheme: dark)')
+            .addEventListener('change', ({matches: isDark}) => {
+                theme.value = isDark ? 'dark' : 'light';
+                setPreference();
+            });
+    </script>
+    <link rel="icon" href="https://elunedmorgan.wales/wp-content/uploads/2023/01/cropped-download-12-32x32.jpeg" sizes="32x32" />
+<link rel="icon" href="https://elunedmorgan.wales/wp-content/uploads/2023/01/cropped-download-12-192x192.jpeg" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://elunedmorgan.wales/wp-content/uploads/2023/01/cropped-download-12-180x180.jpeg" />
+<meta name="msapplication-TileImage" content="https://elunedmorgan.wales/wp-content/uploads/2023/01/cropped-download-12-270x270.jpeg" />
+<style id="wp-site-designer-contrast-fallback">.is-style-section-1,.has-background.is-style-section-1,.has-text-color.is-style-section-1{background-color:var(--wp--preset--color--accent-5) !important;color:var(--wp--preset--color--contrast) !important;} body .wp-site-blocks .is-style-section-1 h1,body .wp-site-blocks .is-style-section-1 h2,body .wp-site-blocks .is-style-section-1 h3,body .wp-site-blocks .is-style-section-1 h4,body .wp-site-blocks .is-style-section-1 h5,body .wp-site-blocks .is-style-section-1 h6,body .wp-site-blocks .is-style-section-1 p,body .wp-site-blocks .is-style-section-1 a:where(:not(.wp-element-button)),body .wp-site-blocks .is-style-section-1 .wp-element-caption{color:var(--wp--preset--color--contrast);} .is-style-section-2,.has-background.is-style-section-2,.has-text-color.is-style-section-2{background-color:var(--wp--preset--color--accent-2) !important;color:var(--wp--preset--color--contrast) !important;} body .wp-site-blocks .is-style-section-2 h1,body .wp-site-blocks .is-style-section-2 h2,body .wp-site-blocks .is-style-section-2 h3,body .wp-site-blocks .is-style-section-2 h4,body .wp-site-blocks .is-style-section-2 h5,body .wp-site-blocks .is-style-section-2 h6,body .wp-site-blocks .is-style-section-2 p,body .wp-site-blocks .is-style-section-2 a:where(:not(.wp-element-button)),body .wp-site-blocks .is-style-section-2 .wp-element-caption{color:var(--wp--preset--color--contrast);} .is-style-section-3,.has-background.is-style-section-3,.has-text-color.is-style-section-3{background-color:var(--wp--preset--color--accent-1) !important;color:var(--wp--preset--color--contrast) !important;} body .wp-site-blocks .is-style-section-3 h1,body .wp-site-blocks .is-style-section-3 h2,body .wp-site-blocks .is-style-section-3 h3,body .wp-site-blocks .is-style-section-3 h4,body .wp-site-blocks .is-style-section-3 h5,body .wp-site-blocks .is-style-section-3 h6,body .wp-site-blocks .is-style-section-3 p,body .wp-site-blocks .is-style-section-3 a:where(:not(.wp-element-button)),body .wp-site-blocks .is-style-section-3 .wp-element-caption{color:var(--wp--preset--color--contrast);} .is-style-section-4,.has-background.is-style-section-4,.has-text-color.is-style-section-4{background-color:var(--wp--preset--color--accent-3) !important;color:var(--wp--preset--color--accent-2) !important;} body .wp-site-blocks .is-style-section-4 h1,body .wp-site-blocks .is-style-section-4 h2,body .wp-site-blocks .is-style-section-4 h3,body .wp-site-blocks .is-style-section-4 h4,body .wp-site-blocks .is-style-section-4 h5,body .wp-site-blocks .is-style-section-4 h6,body .wp-site-blocks .is-style-section-4 p,body .wp-site-blocks .is-style-section-4 a:where(:not(.wp-element-button)),body .wp-site-blocks .is-style-section-4 .wp-element-caption{color:var(--wp--preset--color--accent-2);} .is-style-section-5,.has-background.is-style-section-5,.has-text-color.is-style-section-5{background-color:var(--wp--preset--color--contrast) !important;color:var(--wp--preset--color--base) !important;} body .wp-site-blocks .is-style-section-5 h1,body .wp-site-blocks .is-style-section-5 h2,body .wp-site-blocks .is-style-section-5 h3,body .wp-site-blocks .is-style-section-5 h4,body .wp-site-blocks .is-style-section-5 h5,body .wp-site-blocks .is-style-section-5 h6,body .wp-site-blocks .is-style-section-5 p,body .wp-site-blocks .is-style-section-5 a:where(:not(.wp-element-button)),body .wp-site-blocks .is-style-section-5 .wp-element-caption{color:var(--wp--preset--color--base);} body .wp-site-blocks input:not([type="submit"]):not([type="button"]):not([type="reset"]):not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="image"]):not([type="hidden"]),body .wp-site-blocks textarea,body .wp-site-blocks select{background-color:var(--wp--preset--color--base);color:var(--wp--preset--color--contrast);border:1px solid color-mix(in srgb, var(--wp--preset--color--contrast) 30%, transparent);} .wp-site-blocks input[type="submit"]:not(.wp-element-button),.wp-site-blocks button[type="submit"]:not(.wp-element-button){background-color:var(--wp--preset--color--accent-2);color:var(--wp--preset--color--base);border-width:0;padding:12px 30px;font-family:inherit;font-size:var(--wp--preset--font-size--medium, 1rem);line-height:inherit;cursor:pointer;}</style>
+</head>
+
+<body class="home wp-singular page-template-default page page-id-513 wp-embed-responsive wp-theme-newsreach  newsreach-header_style_1 newsreach-dark-mode">
+
+
+
+<div id="page" class="site">
+    <div class="site-content-area">
+        <div id="theme-preloader-initialize" class="theme-preloader">
+
+        <div class="theme-preloader-spinner theme-preloader-spinner-1">
+            <div class="theme-preloader-throbber"></div>
+        </div>
+
+
+    </div>
+    
+    
+    <div id="newsreach-progress-bar" class="theme-progress-bar bottom"></div>
+    <a class="skip-link screen-reader-text" href="#primary">Skip to content</a>
+
+    
+    
+<header id="masthead" class="site-header theme-site-header header-has-overlay header-has-height-small data-bg "  data-background="https://elunedmorgan.wales/wp-content/uploads/2023/08/cropped-16-9.jpeg"  role="banner">
+    <div class="masthead-mid-navigation">
+    <div class="wrapper">
+        <div class="site-header-wrapper">
+            <div class="site-header-left">
+                <div class="masthead-middle-panel">
+                    <div class="site-branding">
+                <div class="site-title">
+            <a href="https://elunedmorgan.wales/" rel="home">Eluned Morgan </a>
+        </div>
+                <div class="site-description">
+            <span>This website was established while I was a Member of the Senedd. As the Senedd has been dissolved, there are no Members of the Senedd until the results of the elections on 7 May 2026 are known.</span>
+        </div>
+    </div><!-- .site-branding -->                </div>
+            </div>
+                            <div class="site-header-right">
+                    <div class="masthead-header-banner">
+                        <a href="https://content.govdelivery.com/accounts/UKWALES/bulletins/1d20255" target="_blank">
+                            <img src="https://elunedmorgan.wales/wp-content/uploads/2023/10/HEALTH-NEWSLETTER-1.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                    </div>
+    </div>
+</div>
+
+<div class="masthead-main-navigation has-sticky-header">
+    <div class="wrapper">
+        <div class="site-header-wrapper">
+            <div class="site-header-left">
+                <div id="site-navigation" class="main-navigation theme-primary-menu">
+                                            <nav class="primary-menu-wrapper"
+                             aria-label="Primary">
+                            <ul class="primary-menu reset-list-style">
+                                <li class="brand-home"><a title="Home" href="https://elunedmorgan.wales"><svg class="svg-icon" aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20 7.093v-5.093h-3v2.093l3 3zm4 5.907l-12-12-12 12h3v10h18v-10h3zm-5 8h-14v-10.26l7-6.912 7 6.99v10.182zm-5-1h-4v-6h4v6z" /></svg></a></li>                            </ul>
+                        </nav><!-- .primary-menu-wrapper -->
+                                        </div><!-- .main-navigation -->
+            </div>
+
+            <div class="site-header-right">
+                
+                
+                <button id="theme-toggle-offcanvas-button" class="hide-on-desktop theme-button theme-button-transparent theme-button-offcanvas" aria-expanded="false" aria-controls="theme-offcanvas-navigation">
+                    <span class="screen-reader-text">Menu</span>
+                    <span class="toggle-icon"><svg class="svg-icon" aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="currentColor" d="M1 3v2h18V3zm0 8h18V9H1zm0 6h18v-2H1z" /></svg></span>
+                </button>
+
+                                    <button id="theme-toggle-mode-button" class="theme-button theme-button-transparent theme-button-colormode" title="Toggle light/dark mode" aria-label="auto" aria-live="polite">
+                        <span class="screen-reader-text">Switch color mode</span>
+                        <span id="colormode-switch-area">
+                            <span class="mode-icon-change"></span>
+                            <span id="mode-icon-switch"></span>
+                        </span>
+                    </button>
+                
+                
+            </div>
+        </div>
+    </div>
+
+</div></header><!-- #masthead -->
+
+
+
+<div class="theme-offcanvas-panel theme-offcanvas-panel-menu">
+    <div class="theme-offcanvas-header">
+        <button id="theme-offcanvas-close" class="theme-button theme-button-transparent" aria-expanded="false">
+            <span class="screen-reader-text">Close</span>
+            <svg class="svg-icon" aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M18.717 6.697l-1.414-1.414-5.303 5.303-5.303-5.303-1.414 1.414 5.303 5.303-5.303 5.303 1.414 1.414 5.303-5.303 5.303 5.303 1.414-1.414-5.303-5.303z" /></svg>        </button><!-- .nav-toggle -->
+    </div>
+
+    <div class="theme-offcanvas-content">
+        <nav aria-label="Mobile" role="navigation">
+            <ul id="theme-offcanvas-navigation" class="theme-offcanvas-menu reset-list-style">
+                
+                    <li class="brand-home"><a title="Home" href="https://elunedmorgan.wales"><svg class="svg-icon" aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M20 7.093v-5.093h-3v2.093l3 3zm4 5.907l-12-12-12 12h3v10h18v-10h3zm-5 8h-14v-10.26l7-6.912 7 6.99v10.182zm-5-1h-4v-6h4v6z" /></svg></a></li>
+                    
+            </ul><!-- .theme-offcanvas-navigation -->
+        </nav>
+    </div>
+</div> <!-- theme-offcanvas-panel-menu -->
+
+<div class="theme-search-panel">
+    <div class="wrapper">
+        <div id="theme-header-search" class="search-panel-wrapper">
+            <form role="search" aria-label="Search for:" method="get" class="search-form" action="https://elunedmorgan.wales/">
+				<label>
+					<span class="screen-reader-text">Search for:</span>
+					<input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Search" />
+			</form>            <button id="newsreach-search-canvas-close" class="theme-button theme-button-transparent search-close">
+                <span class="screen-reader-text">
+                    Close search                </span>
+                <svg class="svg-icon" aria-hidden="true" role="img" focusable="false" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M18.717 6.697l-1.414-1.414-5.303 5.303-5.303-5.303-1.414 1.414 5.303 5.303-5.303 5.303 1.414 1.414 5.303-5.303 5.303 5.303 1.414-1.414-5.303-5.303z" /></svg>            </button><!-- .search-toggle -->
+
+        </div>
+    </div>
+</div> <!-- theme-search-panel -->
+
+
+                <div class="site-section-parent  data-bg" data-background="https://preview.themeinwp.net/newsreach/wp-content/uploads/sites/9/2023/07/section-bg-1.jpg">   
+            
+        <section class="site-section site-banner-section site-banner-layout-1">
+            <div class="wrapper">
+                <div class="column-row column-row-small">
+
+                    <div class="column column-6 column-sm-12">
+                        <div class="main-banner-slider swiper">
+                            <div class="swiper-wrapper">
+                                                            </div>
+                            <div class="theme-swiper-control swiper-control">
+                                <div class="swiper-button-prev banner-button-prev"></div>
+                                <div class="swiper-button-next banner-button-next"></div>
+                                <div class="swiper-pagination theme-swiper-pagination theme-main-pagination"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column column-6 column-sm-12">
+                        <div class="column-row column-row-small">
+                                                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+                </div>
+            <main id="site-content" role="main">
+        <div class="wrapper">
+            <div id="primary" class="content-area theme-sticky-component">
+                
+<article id="post-513" class="post-513 page type-page status-publish hentry">
+			<header class="entry-header">
+			<h1 class="entry-title entry-title-large">Privacy Policy for Constituents</h1>		</header><!-- .entry-header -->
+		
+	<div class="entry-content">
+		
+<p>I, Eluned Morgan<em>, </em>am a Senedd Member for Mid and West Wales<em>.</em></p>
+
+
+
+<p>This document (“privacy notice”) sets out information relating to how I will use personal information relating to constituents. It also sets out information about what rights individuals have in relation to their personal information and various other matters required under data protection law.</p>
+
+
+
+<p>In particular, this privacy notice provides information to constituents about how they can object to my use of their personal information, how they can withdraw any permissions they have given to enable me to process their personal information, and how they can make a complaint.</p>
+
+
+
+<p><strong>This privacy notice applies to constituents.</strong></p>
+
+
+
+<p>One of my key roles as a Senedd Member is to raise issues on behalf of constituents. As such I will often collect and use personal information relating to constituents as part of my role. From time to time I will also contact my constituents to ask them to complete surveys to gather information and opinions on matters relevant to my role as a Senedd Member.</p>
+
+
+
+<p>In the sections below, when referring to constituents I will use the terms “you” or “your”. </p>
+
+
+
+<p><strong>What’s my approach to privacy?</strong></p>
+
+
+
+<p>I take your privacy extremely seriously and want you to feel confident that your personal information is safe in my hands.</p>
+
+
+
+<p>I will only use your personal information in accordance with the data protection law applicable to England and Wales from time to time.</p>
+
+
+
+<p>Under data protection law, when I use your personal information, I will be acting as a data controller. Essentially, this means that I will be making decisions about how to use your personal information and why.</p>
+
+
+
+<p>Below, I summarise the main rules that apply to me as a data controller under data protection law when I use your personal information:</p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td>&nbsp;</td><td>I must be upfront about how I intend to use your personal information and must use your personal information fairly. Providing privacy information to individuals (such as in this privacy notice) is one aspect of using personal information fairly.</td></tr><tr><td>&nbsp;</td><td>I must only use your personal information if I have a legal basis to do so under data protection law. These legal bases include: That you have consented to my use of your personal information;&nbsp; That my use of your personal information is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in me. This is generally because the processing of your personal data by me will be in performance of casework activities which by their nature supports or promotes democratic engagement.</td></tr><tr><td>&nbsp;</td><td>I must only use certain types of sensitive personal information, also referred to as special category personal information (such as information relating to your health, racial or ethnic origin, political opinions, or criminal convictions) if I can also satisfy one of the conditions for processing this type of information set out in data protection law. These conditions include: That you have given me your explicit consent to use the information; and That the processing is necessary for reasons of substantial public interest.</td></tr><tr><td>&nbsp;</td><td>I am only permitted to share your personal information with others in certain circumstances and if I take steps to ensure that your personal information will be secure.</td></tr><tr><td>&nbsp;</td><td>Generally speaking, I must only use your personal information for the specific purposes I have told you about. If I want to use your personal information for other purposes, I need to contact you again to tell you about this. &nbsp;</td></tr><tr><td>&nbsp;</td><td>I must not hold more personal information than I need for the purposes I have told you about and must not retain your personal information for longer than is necessary for those purposes (this is known as the “retention period”). I must also dispose of any information that I no longer need securely.</td></tr><tr><td>&nbsp;</td><td>I must ensure that appropriate security measures are in place to protect your personal information.</td></tr><tr><td>&nbsp;</td><td>I must act in accordance with your rights under data protection law.</td></tr><tr><td>&nbsp;</td><td>I must not transfer your personal information outside the European Economic Area (“EEA”) unless certain safeguards are in place. One such safeguard is that the personal data is only transferred to a country that has been approved by the European Commission as having an acceptable level of data protection law.</td></tr></tbody></table></figure>
+
+
+
+<p></p>
+
+
+
+<p><strong>How I will use your personal information, the legal bases I will rely upon, how long I will keep your personal information and other details are set out below.</strong></p>
+
+
+
+<p><strong>CASEWORK</strong></p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td><strong>What personal information I will use</strong></td><td class="has-text-align-left" data-align="left"> ·                Your name;<br>·                Your address;<br>·                Your contact details (email address, telephone number etc.);<br>·                Information provided when raising an issue or a concern with me. <br><br>This information may include special category personal information such as your:<br><br>·                racial or ethnic origins<br>·                political opinions<br>·                religious or philosophical beliefs<br>·                membership of a trade union<br>·                physical or mental health (including details of any disability)<br>·                sexual orientation<br>·                details of any known disability<br>·                commission or alleged commission of any offence</td></tr><tr><td><strong>How I will obtain the personal information</strong></td><td class="has-text-align-left" data-align="left">Provided by you when you contact me with an enquiry or concern or by a third party where the enquiry or concern is raised on your behalf.</td></tr><tr><td><strong>What purposes I will use the personal information for</strong></td><td class="has-text-align-left" data-align="left">I will use your name, address and other contact details to communicate with you about the issue or concern raised and to provide you with updates and feedback;<br><br>I will use your personal information to progress your issue or concern and to take steps to address the matter.</td></tr><tr><td><strong>The legal bases for processing I rely upon</strong></td><td class="has-text-align-left" data-align="left">My use of your personal information in connection with the purposes set out above is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in me. This is generally because the processing of your personal data by me will be in performance of casework activities which by their nature support or promote democratic engagement.<br><br>Where your issue or concern is one which involves the processing of special category data, my use of your special category personal data will be necessary for reasons of substantial public interest. This is because the processing is carried out by me in my capacity as an elected representative, in connection with the discharge of my functions and is in response to a request by you to take action or a request on your behalf.</td></tr><tr><td>How long I retain the personal information and why</td><td class="has-text-align-left" data-align="left">I will retain your personal information until your case is closed and for a further 2 year period, or until the next Senedd election, whichever is sooner.  This is because I may need to contact you in relation to your case or you may wish to request your case be reopened.</td></tr></tbody></table></figure>
+
+
+
+<p><strong>SURVEYS</strong></p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td>What personal information I will use</td><td>Your name;<br>Your address;<br>Your contact details (email address, telephone number etc);<br>Your opinions or other personal information provided by you in the survey.</td></tr><tr><td>How I will obtain the personal information</td><td>Provided by you when you complete the survey.</td></tr><tr><td>What purposes I will use the personal information for</td><td>To obtain information relevant to inform my role as the Senedd Member for the region;<br>To obtain information relevant to the needs of local communities within my region.</td></tr><tr><td>The legal grounds I rely upon</td><td>My use of your personal information in connection with the purposes set out above is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in me. This is generally because the processing of your personal data by me will be in performance of casework activities which by their nature supports or promotes democratic engagement.</td></tr><tr><td>How long I retain the personal information and why</td><td>I will retain your personal information until the next Senedd election. This is because I may need to contact you in relation to an issue you have raised.</td></tr></tbody></table></figure>
+
+
+
+<p><strong>When will I use your personal informaton for Direct marketing?</strong></p>
+
+
+
+<p>In addition to data protection law, if I use your personal information for direct marketing purposes, I may also be subject to additional rules that regulate direct marketing. The term “direct marketing” essentially means directing marketing material or political campaign communications at a particular individual.</p>
+
+
+
+<p>To ensure compliance with both data protection laws and the specific rules relating to direct marketing, I will only use your personal information to provide you with political campaign information, whether by telephone, email, text or other forms of electronic communication [or by post] if you have given me your specific consent to do so.</p>
+
+
+
+<p>My legal basis for such processing under data protection law will therefore be that you have given your consent to process your personal data for direct marketing purposes.</p>
+
+
+
+<p>I will retain your personal information unless and until you inform me that you no longer wish to receive direct marketing information from me. You can ask me to stop sending direct marketing to you at any time by contacting me using the details set out in the section below titled – “How can you get in touch with me?”</p>
+
+
+
+<p><strong><u>NEWSLETTERS</u></strong></p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td>What personal information I will use</td><td>Your name;<br>Your contact details (postal address, email address, telephone number etc.)</td></tr><tr><td>How I will obtain the personal information</td><td>Provided by you.</td></tr><tr><td>What purposes I will use the personal information for</td><td>To provide you with newsletters about the work I undertake in your area and in the National Senedd for Wales.</td></tr><tr><td>The legal grounds I rely upon</td><td>You have given your consent. My use of your personal information in connection with the purposes set out above is necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in me. This is because the processing of your personal data by me will be to provide you, by post, with communications about my work, an activity which I consider promotes democratic engagement.</td></tr><tr><td>How long I retain the personal information and why</td><td>Until you tell me that you no longer wish to receive newsletters and updates from me. Until you tell the Labour Party that you no longer with to receive newsletters and updates from them.You can ask me to stop sending direct marketing to you at any time by contacting me using the details set out in the section below titled – “How can you get in touch with me?”</td></tr></tbody></table></figure>
+
+
+
+<p>When will I share your personal information with others? </p>
+
+
+
+<p>Sometimes, I will need to share your personal information with others. This section sets out details of who I will share your personal information with and why. It also tells you about my legal basis for doing so under data protection law and steps I will take to protect your personal information.</p>
+
+
+
+<p><strong><u>THE SENEDD COMMISSION</u></strong></p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td><strong>Information about our relationship with the Senedd Commission</strong></td><td>The Senedd Commission is the independent body which, amongst other things, supports Senedd Members in their work. &nbsp;</td></tr><tr><td><strong>Why I need to share your personal information with staff of the Senedd Commission</strong></td><td>To obtain advice and assistance in dealing with your issue or concern.</td></tr><tr><td><strong>The legal basis I rely upon when sharing your personal information</strong></td><td>Sharing of personal data with staff at the Senedd Commission in order to assist with your case will be necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in me. This is generally because the processing of your personal data by me will be in performance of casework activities which by their nature supports or promotes democratic engagement.</td></tr><tr><td><strong>What precautions do I take?</strong></td><td>Staff at the Senedd Commission have undertaken data protection training and are aware of the importance of protecting personal data. The Senedd Commission has in place appropriate policies and security measures to protect your personal information.</td></tr></tbody></table></figure>
+
+
+
+<p><strong><u>OTHER ORGANISATIONS WHO CAN ASSIST WITH YOUR CASE</u></strong></p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td><strong>Who are these Organisations?</strong></td><td>We will share such of your personal information as is necessary with organisations who can assist with your case. Often these will be organisations such as local authorities and health boards which will, from time to time, depending on the nature of your query or concern, be able to assist with your case or will have information relevant to your case.</td></tr><tr><td><strong>Why I need to share your personal information with them</strong></td><td>To assist with your case or to obtain information relevant to your case.</td></tr><tr><td><strong>The legal bases I rely upon when sharing your personal information</strong></td><td>Sharing of personal data with such organisations will be necessary for the performance of a task carried out in the public interest or in the exercise of official authority vested in me. This is generally because the processing of your personal data by me will be in performance of casework activities which by their nature supports or promotes democratic engagement.</td></tr><tr><td><strong>What precautions do I take?</strong></td><td>I will only share personal data as is necessary and will take steps to determine that the organisations are aware of the importance of protecting personal data.</td></tr></tbody></table></figure>
+
+
+
+<p><strong><u>PROVIDERS OF INFORMATION TECHNOLOGY SERVICES</u></strong></p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td><strong>Who will we be sharing your personal information with?</strong></td><td>Suppliers of information technology products and services such as:<em>Elected Technologies who provides me with my casework software system</em>The Senedd Commission’s ICT infrastructure, which includes cloud service provided by Microsoft.Website hosting company, namely 123-reg.Electronic newsletter provider, MailchimpCampaign Creator provided by The Labour Party</td></tr><tr><td><strong>Why I need to share your personal information with such providers</strong></td><td>I use suppliers of information technology products and services in connection with the supply, maintenance and/or improvement of my IT network, to manage casework effectively through appropriate software provision, and the creation, development hosting and maintenance of my website.</td></tr><tr><td><strong>The legal bases I rely upon when sharing your personal information</strong></td><td>I rely upon my legitimate interests in ensuring that my work as a Senedd Member is managed efficiently and my IT system can function properly and efficiently and that my IT network is secure.</td></tr><tr><td><strong>What precautions do we take?</strong></td><td>I enter into contracts with my IT providers which require them to put appropriate security measures in place and which restrict their use of your personal information.</td></tr></tbody></table></figure>
+
+
+
+<p><strong><u>OTHER THIRD PARTIES</u></strong></p>
+
+
+
+<p>I may also need to share your personal information with others in the following circumstances:</p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td><strong>Legal or regulatory requirements</strong></td><td>On occasion, I may be required to disclose your personal information to organisations such as the courts or the police to comply with legal obligations we are subject to and/or to prevent fraud or crime.</td></tr><tr><td><strong>Safeguarding</strong></td><td>On occasion, I may need to disclose your personal information to other organisations such as the local authority or the police for safeguarding purposes in the substantial public interest.</td></tr><tr><td><strong>Professional advice and legal action</strong></td><td>I may need to disclose your personal information to my professional advisers (for example, lawyers and accountants) in connection with the provision by them of professional advice and/or the establishment or defence of legal claims.</td></tr></tbody></table></figure>
+
+
+
+<p><strong>Circumstances in which I will send your personal information outside the Eea</strong></p>
+
+
+
+<p>Other than the cloud service provided by Microsoft, I do not envisage a need to send your personal data outside the EEA. As far as Microsoft is concerned Microsoft has put a written contract in place incorporating EC model clauses relating to the transfer of personal data outside the EEA which provide safeguards to protect your personal data.</p>
+
+
+
+<p>If it becomes necessary in any other circumstance to transfer your personal data outside the EEA I will let you know but rest assured that if I do need to transfer your personal data outside the EEA, I will use one of these safeguards to make sure it is protected:</p>
+
+
+
+<p>I will only transfer it to a non-EEA country which the European Commission has decided has an adequate level of protection for personal data. You can find more about such countries here <a href="https://ec.europa.eu/info/law/law-topic/data-protection_en">https://ec.europa.eu/info/law/law-topic/data-protection_en</a></p>
+
+
+
+<p><strong>WHAT RIGHTS DO YOU HAVE UNDER DATA PROTECTION LAW?</strong></p>
+
+
+
+<p>Under data protection law, you have a number of different rights relating to the use of your personal information. The table below contains a summary of those rights and my obligations. More information about your rights and my obligations can be found on the ICO website <a href="https://ico.org.uk/">https://ico.org.uk/</a>.</p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td>Your rights</td><td>What this involves</td><td>What our obligations are</td></tr><tr><td><strong>A right of access  </strong></td><td>This is a right to obtain access to your personal data and various supplementary information.</td><td>I must provide you with a copy or your personal information and the other supplementary information without undue delay and in any event within 1 month of receipt of your request; I cannot charge you for doing so save in specific circumstances (such as where you request further copies of your personal information).</td></tr><tr><td><strong>A right to have personal data rectified  </strong></td><td>This is a right to have your personal information rectified if it is inaccurate or incomplete. &nbsp;</td><td>I must rectify any inaccurate or incomplete information without undue delay and in any event within 1 month of receipt of your request;If I have disclosed your personal information to others, I must (subject to certain exceptions) contact the recipients to inform them, that your personal information requires rectification.</td></tr><tr><td><strong>A right to erasure </strong> </td><td>This is a right to have your personal information deleted or removed. This right only applies in certain circumstances (such as where I no longer need the personal information for the purposes for which it was collected).I have the right to refuse to delete or remove your personal data in certain circumstances. &nbsp;</td><td>If this right applies, I must delete or remove your personal information without undue delay and in any event within 1 month of receipt of your request;If I have disclosed your personal information to others, we must (subject to certain exceptions) contact then recipients to inform them that your personal information must be erased.</td></tr><tr><td><strong>A right to object  </strong></td><td>This is a right to object to the use of your personal information.The right applies in certain specific circumstances only. You can use this right to challenge my use of your personal information based on my legitimate interests or where the processing is necessary for the performance of a task in the public interest or in the exercise of official authority vested in me;You can also use this right to object to use of your personal information for direct marketing &nbsp;</td><td>If you object to me using your personal information for direct marketing, I must stop using your personal information in this way as soon as I receive your request. If you object to other uses of your personal information, whether I have to stop using your personal information will depend on the particular circumstances. &nbsp;</td></tr><tr><td><strong>A right to restrict processing</strong>  </td><td>This is a right to ‘block’ or suppress processing of your personal information.This right applies in various circumstances, including where you contest the accuracy of your information). &nbsp;</td><td>If I am required to restrict my processing of your personal information I will be able to store it but not otherwise use it. I may only retain enough information about you to ensure that the restriction is respected in future. If I have disclosed your personal information to others, I must (subject to certain exceptions) contact them to tell them about the restriction on use. &nbsp;</td></tr></tbody></table></figure>
+
+
+
+<p>If you wish to exercise any of your rights, you can make a request by contacting me using the details set out in the section below titled – “How can you get in touch with me?”</p>
+
+
+
+<p>If you request the exercise of any of your rights I am entitled to ask you to provide me with any information that may be necessary to confirm your identity.</p>
+
+
+
+<p>If you have given me your consent to use any of your personal information, you can withdraw your consent at any time. To do so, please contact me using the details set out in the section below titled – “How can you get in touch with me?”</p>
+
+
+
+<p><strong>How can you get in touch with me?</strong></p>
+
+
+
+<p>You can get in touch with me in the following ways:</p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td><strong>Postal address</strong></td><td>19, Cartlett, Haverfordwest, SA61 2LH</td></tr><tr><td><strong>Email address</strong></td><td><a href="mailto:Eluned.Morgan@assembly.wales">Eluned.Morgan@Senedd.wales</a></td></tr><tr><td><strong>Phone number</strong></td><td>01437 765588</td></tr></tbody></table></figure>
+
+
+
+<p>I am the person overseeing compliance with data protection law and this privacy notice. If you have any questions about this privacy notice, how your personal information is handled or if you wish to make a complaint, please contact me.</p>
+
+
+
+<p><strong>Right to complain to the information commissioner’s officer</strong></p>
+
+
+
+<p>If I am unable to deal with a complaint to your satisfaction or if you are unhappy with the way I am using your personal data, you also have the right to make a complaint at any time to the UK’s supervisory authority for data protection issues, the Information Commissioner’s Office.</p>
+
+
+
+<p><strong>Changes to this privacy notice</strong></p>
+
+
+
+<p>I may update this privacy notice from time to time. If I make any substantial updates, I will provide you with a new privacy notice. I may also notify you in other ways from time to time about the processing of your personal information.</p>
+	</div><!-- .entry-content -->
+
+	</article><!-- #post-513 -->
+            </div><!-- #primary -->
+        </div>
+    </main>
+
+<section class="site-section site-recommendation-section">
+    <div class="wrapper">
+        <div class="column-row">
+            <div class="column column-12">
+                <header class="section-header site-section-header">
+                    <h2 class="site-section-title">
+                        Other News                    </h2>
+                </header>
+            </div>
+        </div>
+        <div class="recommendation-wrapper">
+            <div class="recommendation-slider swiper">
+                <div class="swiper-wrapper">
+                    
+
+</div> <!-- site-content-area -->
+
+
+<footer id="colophon" class="site-footer" >
+
+        <div class="theme-footer-top">
+        <div class="wrapper">
+            <div class="column-row">
+                                        <div class="column footer-widget-1 column-3 column-md-6 column-sm-12">
+                            <div id="text-2" class="widget newsreach-widget widget_text"><div class="widget-content">			<div class="textwidget"><p>The Senedd Commission is not responsible for embedded content and that links lead to websites that are not funded from Commission resources.</p>
+<p>Nid Comisiwn y Senedd sy&#8217;n gyfrifol am gynnwys sydd wedi&#8217;i fewnosod ac mae cysylltiadau yn arwain at wefannau nad ydynt yn cael eu hariannu o adnoddau&#8217;r Comisiwn.</p>
+</div>
+		</div></div>                        </div><!-- .footer-widget-1 -->
+                                    </div>
+        </div>
+    </div><!-- .theme-footer-top-->
+                <div class="theme-footer-bottom">
+<div class="wrapper">
+        
+            <div class="theme-author-credit">
+
+                                    <div class="theme-copyright-info">
+
+	                    
+
+                        <!--                        --><!--                    </div> -->
+                
+                <!-- .theme-credit-info -->
+
+            </div><!-- .theme-author-credit-->
+            
+        
+        
+        </div>
+    </div><!-- .theme-footer-bottom-->
+
+    
+        </footer><!-- #colophon -->
+
+
+</div><!-- #page -->
+
+
+<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/newsreach\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+<style id='core-block-supports-inline-css'>
+/**
+ * Core styles: block-supports
+ */
+
+</style>
+<script src="https://elunedmorgan.wales/wp-content/themes/newsreach/assets/js/swiper-bundle.js?ver=1.0.0" id="swiper-script-js"></script>
+<script src="https://elunedmorgan.wales/wp-content/themes/newsreach/assets/js/script.js?ver=1.0.0" id="newsreach-script-js"></script>
+
+</body>
+
+</html>

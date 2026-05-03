@@ -148,6 +148,20 @@ test('excludeReason returns null on plainly political URLs', () => {
   assert.equal(excludeReason('https://x.org/contact'),  null);
 });
 
+test('excludeReason uses word boundaries (no false positives on `son`/`children`)', () => {
+  // Regression for an over-eager substring match found by the
+  // first 436-site analysis run. `son` was firing on `/lesson`,
+  // `/season`, `/parson`, `/comparison`, etc. and `child` on any
+  // word containing `child` like `/parents-and-childcare-rights`
+  // (legitimate political content).
+  assert.equal(excludeReason('https://x.org/lessons-from-the-pandemic'), null);
+  assert.equal(excludeReason('https://x.org/season-greetings'),          null);
+  assert.equal(excludeReason('https://x.org/comparison-of-budgets'),     null);
+  // But true family pages are still caught:
+  assert.ok(excludeReason('https://x.org/my-son'));
+  assert.ok(excludeReason('https://x.org/photos-of-children'));
+});
+
 // ---------- anchor + feed + social extraction ----------
 
 test('extractAnchors returns deduplicated absolute URLs with link text', () => {

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+    <!-- Inter font is copyright (c) 2016 The Inter Project Authors (https://github.com/rsms/inter), included under the SIL license: https://openfontlicense.org/documents/OFL.txt. -->
+    <!-- Barlow Condensed font is copyright 2017 The Barlow Project Authors (https://github.com/jpt/barlow), included under the SIL license: https://openfontlicense.org/documents/OFL.txt. -->
+    <!-- Poppins font is copyright 2014-2019 Indian Type Foundry (info@indiantypefoundry.com), included under the SIL license: https://openfontlicense.org/documents/OFL.txt. -->
+    <!-- Montserrat font is copyright 2011 The Montserrat Project Authors (https://github.com/JulietaUla/Montserrat), included under the SIL license: https://openfontlicense.org/documents/OFL.txt. -->
+	
+	<!-- blue -->
+	<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta charSet="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+		<meta name="theme-color" content="#ffffff" />
+		<title>Discovery</title>
+		<link href='/css/app.css' rel='stylesheet' type='text/css' />
+		<link rel="icon" type="image/x-icon" href="/favicon.ico">
+	</head>
+	<body style="--logoHeight:30px;--logoVerticalMargins:15px;--homeBackgroundDesktopOverlayOpacity:0.54;--homeBackgroundDesktopUrl:url(/branding/homeBackgroundDesktop);--homeBackgroundMobileUrl:url(/branding/homeBackgroundMobile);--searchBackgroundUrl:url(/branding/searchBackground);--colourPrimary:#003e74;--colourPrimaryPair1Background:#e6ecf1;--colourPrimaryPair1Foreground:#336590;--colourPrimaryPair2Background:#d4dee7;--colourPrimaryPair2Foreground:#1a5182;--colourSecondary:#003e74;--colourSecondaryPair1Background:#e6ecf1;--colourSecondaryPair1Foreground:#336590;--colourSecondaryPair2Background:#d4dee7;--colourSecondaryPair2Foreground:#1a5182;" class=darkMode id="portalTarget">
+		
+        <!-- Hidden unsupported browser message, shown only by older browsers via nomodule script -->
+        <div id="non-supported-browser" style="display: none; text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+            <h1 style="color: #d32f2f; margin-bottom: 20px;">Browser Not Supported</h1>
+            <p style="font-size: 18px; color: #333; margin-bottom: 20px;">
+                Your browser (Internet Explorer or other legacy browser) is not supported by this application.
+            </p>
+        </div>
+		
+        <noscript>
+            <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+                <h1 style="color: #d32f2f; margin-bottom: 20px;">JavaScript Required</h1>
+                <p style="font-size: 18px; color: #333; margin-bottom: 20px;">
+                    This application requires JavaScript to function properly.
+                </p>
+                <p style="font-size: 16px; color: #666;">
+                    Please enable JavaScript in your browser settings and reload the page.
+                </p>
+            </div>
+        </noscript>
+		<div id="app"></div>
+		
+        <script nomodule>
+            document.addEventListener('DOMContentLoaded', function () {
+                const nonSupportedBrowserElement = document.getElementById('non-supported-browser');
+                if (nonSupportedBrowserElement) {
+                    // Show the hidden message by removing the display:none style
+                    if (nonSupportedBrowserElement.style.removeProperty) {
+                        nonSupportedBrowserElement.style.removeProperty('display');
+                    } else {
+                        // Fallback for very old IE versions
+                        nonSupportedBrowserElement.style.removeAttribute('display');
+                    }
+                    // Hide the main app content
+                    const appElement = document.getElementById('app');
+                    if (appElement) {
+                        appElement.style.display = 'none';
+                    }
+                }
+            });
+        </script>
+		<script src="/javascript/configuration.js"></script>
+		<script src="/javascript/client.js"></script>
+		
+	</body>
+</html>

@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 5298,
+    "name": "Lauren Edwards",
+    "party": "Labour",
+    "partyAbbr": "Lab",
+    "house": "Commons",
+    "constituency": "Rochester and Strood"
+  },
+  "homepageUrl": "https://www.laurenedwards.uk/",
+  "origin": "https://www.laurenedwards.uk",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 403,
+    "message": "HTTP 403 https://www.laurenedwards.uk/"
+  },
+  "startedAt": "2026-05-03T08:45:02.425Z",
+  "finishedAt": "2026-05-03T08:45:05.280Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "fetched",
+      "disallow": 1
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 403,
+      "message": "HTTP 403 https://www.laurenedwards.uk/"
+    }
+  ]
+}

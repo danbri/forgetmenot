@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 5243,
+    "name": "Andrew Pakes",
+    "party": "Labour (Co-op)",
+    "partyAbbr": "Lab",
+    "house": "Commons",
+    "constituency": "Peterborough"
+  },
+  "homepageUrl": "https://www.andrewpakes.org.uk/",
+  "origin": "https://www.andrewpakes.org.uk",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 403,
+    "message": "HTTP 403 https://www.andrewpakes.org.uk/"
+  },
+  "startedAt": "2026-05-03T08:44:10.919Z",
+  "finishedAt": "2026-05-03T08:44:12.500Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "unavailable",
+      "http": 403
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 403,
+      "message": "HTTP 403 https://www.andrewpakes.org.uk/"
+    }
+  ]
+}

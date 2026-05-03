@@ -1,0 +1,45 @@
+{
+  "member": {
+    "id": 150,
+    "name": "Baroness Harman",
+    "party": "Labour",
+    "partyAbbr": "Lab",
+    "house": "Lords",
+    "constituency": "Life peer"
+  },
+  "homepageUrl": "https://www.harrietharman.org/",
+  "origin": "https://www.harrietharman.org",
+  "ok": false,
+  "blocked": false,
+  "homepage_error": {
+    "status": 403,
+    "message": "HTTP 403 https://www.harrietharman.org/"
+  },
+  "startedAt": "2026-05-03T08:25:57.682Z",
+  "finishedAt": "2026-05-03T08:25:59.243Z",
+  "platform": null,
+  "newsletter_provider": null,
+  "social": [],
+  "robots": {
+    "allow": [],
+    "disallow": []
+  },
+  "feeds": [],
+  "sitemap_file": null,
+  "homepage": null,
+  "pages": [],
+  "decisions": [],
+  "log": [
+    {
+      "step": "robots",
+      "status": "fetched",
+      "disallow": 0
+    },
+    {
+      "step": "homepage",
+      "status": "fetch-failed",
+      "http": 403,
+      "message": "HTTP 403 https://www.harrietharman.org/"
+    }
+  ]
+}
