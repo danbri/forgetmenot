@@ -9,7 +9,7 @@
 // JSON to stdout by default. --text for human-readable. --raw to dump
 // the raw response body. --version to print version.
 
-import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
 import { resolve as pathResolve } from 'node:path';
 import { parseArgs, kebabToCamel, camelizeOpts } from '../lib/argparse.mjs';
 import { renderJson, renderSmart } from '../lib/format.mjs';
@@ -88,6 +88,7 @@ const COMMANDS = {
     'policy-interests': { fn: 'referencePolicyInterests', args: [],          help: 'Policy interests reference taxonomy.' },
     'urls':             { fn: 'urlsFor',                  args: ['id'],      help: 'Member contact URLs (websites, social, emails, phones, offices).' },
     'crawl':            { fn: '__crawlMembers__',         args: [],          help: 'Stash every member to disk keyed by ID. --out dir [--house Commons|Lords|both] [--include-historical] [--delay-ms 100] [--max N]' },
+    'crawl-sites':      { fn: '__crawlSites__',           args: [],          help: 'Polite per-MP-website crawl. --in members-dir --out sites-dir [--max N] [--concurrency 4] [--ids 4514,172] [--refetch]' },
   },
   'bills': {
     'search':           { fn: 'search',                args: [],            help: 'Search bills. --term --house --session --member-id --is-act' },
@@ -344,7 +345,9 @@ if (positional.length < cmd.args.length) {
 // Special-case commands that don't map to a single facility function
 // run before the generic function-lookup path. They handle their own
 // I/O (stdout/stderr/disk) and return a non-renderable result.
-const SPECIAL_CASE = facilityName === 'members' && commandName === 'crawl';
+const SPECIAL_CASE =
+  (facilityName === 'members' && commandName === 'crawl') ||
+  (facilityName === 'members' && commandName === 'crawl-sites');
 
 const fn = SPECIAL_CASE ? null : facility[cmd.fn];
 if (!SPECIAL_CASE && typeof fn !== 'function') {
@@ -379,7 +382,8 @@ if (facilityName === 'mnis' && commandName === 'members') {
 (async () => {
   try {
     if (SPECIAL_CASE) {
-      await runMembersCrawl(callOpts, ctx);
+      if (commandName === 'crawl') await runMembersCrawl(callOpts, ctx);
+      else if (commandName === 'crawl-sites') await runMembersCrawlSites(callOpts, ctx);
       return;
     }
     const result = await fn(...argList);
@@ -575,6 +579,188 @@ async function runMembersCrawl(callOpts, ctx) {
     skipped,
     errors: errors.length,
   }, null, 2));
+}
+
+// `parl members crawl-sites` — for every member with a personal
+// website (per the previous `members crawl` snapshot), run the
+// site-respecting crawler in lib/facilities/sites.mjs and write
+// results to disk under <out>/<id>/.
+//
+// Layout per site:
+//   <out>/<id>/manifest.json   — decisions, log, platform, social,
+//                                feeds metadata, page list (no raw)
+//   <out>/<id>/homepage.html   — raw homepage body
+//   <out>/<id>/homepage.json   — extracted homepage record
+//   <out>/<id>/sitemap.xml     — raw if found
+//   <out>/<id>/robots.txt      — raw if found
+//   <out>/<id>/feeds/<n>.xml   — raw feed bodies
+//   <out>/<id>/pages/<type>.html  — raw of each followed page
+//   <out>/<id>/pages/<type>.json  — extracted record
+//
+// Each typed page lives at a stable filename (the type key), so
+// reruns overwrite cleanly. The crawler is resumable: existing
+// manifest.json files are skipped unless --refetch.
+async function runMembersCrawlSites(callOpts, ctx) {
+  const inDir = pathResolve(callOpts.in || 'third_party/data/members');
+  if (!callOpts.out) {
+    console.error('--out <dir> is required.');
+    process.exit(64);
+  }
+  const outDir = pathResolve(callOpts.out);
+  mkdirSync(outDir, { recursive: true });
+
+  // Filters
+  const onlyIds = callOpts.ids
+    ? new Set(String(callOpts.ids).split(',').map((s) => Number(s.trim())))
+    : null;
+  const max = callOpts.max ? Number(callOpts.max) : Infinity;
+  const concurrency = Math.max(1, Number(callOpts.concurrency) || 4);
+  const refetch = !!callOpts.refetch;
+
+  // Load every per-member record that has at least one website.
+  const memberFiles = readdirSync(inDir).filter((f) => /^\d+\.json$/.test(f));
+  const targets = [];
+  for (const f of memberFiles) {
+    const rec = JSON.parse(readFileSync(`${inDir}/${f}`, 'utf8'));
+    if (!rec.websites || rec.websites.length === 0) continue;
+    if (onlyIds && !onlyIds.has(rec.id)) continue;
+    targets.push({ member: slimMember(rec), website: rec.websites[0].url });
+    if (targets.length >= max) break;
+  }
+  process.stderr.write(`Targets: ${targets.length} sites; concurrency ${concurrency}\n`);
+
+  const Sites = F.sites;
+  const pacer = Sites.newOriginPacer();      // shared across workers
+
+  let done = 0, ok = 0, failed = 0, skipped = 0;
+  const results = [];
+
+  // Tiny worker pool. Each worker pulls the next target from a
+  // shared queue and runs crawlSite. Per-origin pacing is enforced
+  // inside the crawler regardless of worker count.
+  const queue = targets.slice();
+  async function worker(workerId) {
+    while (queue.length) {
+      const t = queue.shift();
+      if (!t) break;
+      const siteDir = `${outDir}/${t.member.id}`;
+      if (!refetch) {
+        try {
+          const m = JSON.parse(readFileSync(`${siteDir}/manifest.json`, 'utf8'));
+          if (m && m.startedAt) { skipped++; done++; continue; }
+        } catch { /* not present, crawl */ }
+      }
+      try {
+        const r = await Sites.crawlSite(t.member, t.website, { pacer }, ctx);
+        await writeSiteResult(siteDir, r);
+        if (r.ok) ok++; else failed++;
+        results.push({ id: t.member.id, name: t.member.name, ok: r.ok, pages: r.pages?.length || 0 });
+      } catch (e) {
+        failed++;
+        results.push({ id: t.member.id, name: t.member.name, ok: false, error: e.message });
+      }
+      done++;
+      if (done % 10 === 0) {
+        process.stderr.write(
+          `  progress: ${done}/${targets.length} (ok=${ok} fail=${failed} skip=${skipped})\n`,
+        );
+      }
+    }
+  }
+  await Promise.all(Array.from({ length: concurrency }, (_, i) => worker(i)));
+
+  // Top-level index summarising the run.
+  const indexPath = `${outDir}/index.json`;
+  let prior = { results: [] };
+  try { prior = JSON.parse(readFileSync(indexPath, 'utf8')); } catch { /* none */ }
+  // Merge new results into prior (last-write-wins by id).
+  const merged = new Map();
+  for (const r of prior.results || []) merged.set(r.id, r);
+  for (const r of results) merged.set(r.id, r);
+  const manifest = {
+    fetchedAt: new Date().toISOString(),
+    out: outDir,
+    in: inDir,
+    targets: targets.length,
+    ok, failed, skipped,
+    results: [...merged.values()].sort((a, b) => a.id - b.id),
+  };
+  writeFileSync(indexPath, JSON.stringify(manifest, null, 2) + '\n');
+  console.log(JSON.stringify({ out: outDir, targets: targets.length, ok, failed, skipped }, null, 2));
+}
+
+// Slim down a member record (we don't need all of it inside every
+// site manifest — just enough to identify the MP).
+function slimMember(rec) {
+  return {
+    id: rec.id, name: rec.name, party: rec.party, partyAbbr: rec.partyAbbr,
+    house: rec.house, constituency: rec.constituency,
+  };
+}
+
+// Persist one crawlSite() result to disk. Splits the result into
+// the layout documented above so that:
+//   - raw bodies are reviewable file-by-file
+//   - the manifest stays small and JSON-readable
+async function writeSiteResult(siteDir, r) {
+  mkdirSync(siteDir, { recursive: true });
+  // Strip raw bodies into separate files; JSON keeps just metadata.
+  const slim = (p) => {
+    const { raw_html, ...rest } = p;
+    return { ...rest, raw_html_file: raw_html ? `pages/${p.type}.html` : null };
+  };
+
+  // Manifest (metadata + per-link decisions)
+  const manifest = {
+    member: r.member,
+    homepageUrl: r.homepageUrl,
+    origin: r.origin,
+    ok: r.ok,
+    blocked: r.blocked || false,
+    homepage_error: r.homepage_error || null,
+    startedAt: r.startedAt,
+    finishedAt: r.finishedAt,
+    platform: r.platform || null,
+    newsletter_provider: r.newsletter_provider || null,
+    social: r.social || [],
+    robots: r.robots || { allow: [], disallow: [] },
+    feeds: (r.feeds || []).map((f, i) => ({ url: f.url, file: `feeds/${i}.xml`, bytes: f.bytes })),
+    sitemap_file: r.sitemap ? 'sitemap.xml' : null,
+    homepage: r.homepage ? {
+      ...{ ...r.homepage, raw_html: undefined },
+      raw_html_file: 'homepage.html',
+    } : null,
+    pages: (r.pages || []).map(slim),
+    decisions: r.decisions || [],
+    log: r.log || [],
+  };
+  writeFileSync(`${siteDir}/manifest.json`, JSON.stringify(manifest, null, 2) + '\n');
+
+  // Raw artefacts
+  if (r.homepage?.raw_html) writeFileSync(`${siteDir}/homepage.html`, r.homepage.raw_html);
+  if (r.sitemap)            writeFileSync(`${siteDir}/sitemap.xml`,  r.sitemap);
+  if (r.robots && (r.robots.allow.length || r.robots.disallow.length)) {
+    writeFileSync(
+      `${siteDir}/robots.txt`,
+      [
+        ...(r.robots.allow || []).map((p) => `Allow: ${p}`),
+        ...(r.robots.disallow || []).map((p) => `Disallow: ${p}`),
+      ].join('\n') + '\n',
+    );
+  }
+  if (r.feeds && r.feeds.length) {
+    mkdirSync(`${siteDir}/feeds`, { recursive: true });
+    r.feeds.forEach((f, i) => writeFileSync(`${siteDir}/feeds/${i}.xml`, f.body));
+  }
+  if (r.pages && r.pages.length) {
+    mkdirSync(`${siteDir}/pages`, { recursive: true });
+    for (const p of r.pages) {
+      const safe = String(p.type || 'page').replace(/[^a-z0-9_-]/gi, '_');
+      const { raw_html, ...slimRec } = p;
+      writeFileSync(`${siteDir}/pages/${safe}.json`, JSON.stringify(slimRec, null, 2) + '\n');
+      if (raw_html) writeFileSync(`${siteDir}/pages/${safe}.html`, raw_html);
+    }
+  }
 }
 
 function printFacilityHelp(name) {
