@@ -47,6 +47,7 @@ const FACILITIES = {
   'members-data-platform':         F.membersDataPlatform,
   'ddpd':                          F.dataParliamentUkDatasets,
   'data-parliament-uk-datasets':   F.dataParliamentUkDatasets,
+  'appg':                          F.appg,
 };
 
 // Per-facility command map. Each entry is:
@@ -273,6 +274,14 @@ const COMMANDS = {
     'list':             { fn: 'listDatasets',          args: [],            help: 'Portal dataset names.' },
     'map':              { fn: 'mapDataset',            args: ['name'],      help: 'Name → LDA + modern API.' },
   },
+  'appg': {
+    'editions':         { fn: 'listEditions',          args: [],            help: 'List published Register editions for a year. --year YYYY (default: current).' },
+    'list':             { fn: 'listGroups',            args: [],            help: 'List every APPG in the edition. --edition YYMMDD' },
+    'get':              { fn: 'getGroup',              args: ['slug'],      help: 'One group: title, purpose, officers, contact, AGM, benefits. --edition YYMMDD' },
+    'crawl':            { fn: 'crawl',                 args: [],            help: 'Crawl every group page. --edition --limit N --delay-ms 250' },
+    'pdf-url':          { fn: 'pdfUrlCmd',             args: [],            help: 'URL of the consolidated PDF for an edition. --edition YYMMDD' },
+    'contents-url':     { fn: 'contentsUrlCmd',        args: [],            help: 'URL of contents.htm for an edition. --edition YYMMDD' },
+  },
 };
 
 // ---------- main ----------
@@ -436,6 +445,7 @@ Facilities (canonical names; aliases in parens):
   historic-hansard  (alias: hh)
   members-data-platform  (alias: mnis)
   data-parliament-uk-datasets  (alias: ddpd)
+  appg                         (All-Party Parliamentary Groups, scraped HTML)
 
 Run 'parl <facility>' to list its commands.
 Run 'parl <facility> <command> --help' for command help.
