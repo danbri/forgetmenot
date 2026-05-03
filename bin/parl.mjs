@@ -9,7 +9,7 @@
 // JSON to stdout by default. --text for human-readable. --raw to dump
 // the raw response body. --version to print version.
 
-import { readFileSync, writeFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, readdirSync, appendFileSync } from 'node:fs';
 import { resolve as pathResolve } from 'node:path';
 import { parseArgs, kebabToCamel, camelizeOpts } from '../lib/argparse.mjs';
 import { renderJson, renderSmart } from '../lib/format.mjs';
@@ -651,7 +651,27 @@ async function runMembersCrawlSites(callOpts, ctx) {
         } catch { /* not present, crawl */ }
       }
       try {
-        const r = await Sites.crawlSite(t.member, t.website, { pacer }, ctx);
+        // Archival sink: every HTTP transaction inside this site's
+        // crawl is appended to <site>/archive.jsonl. Each line is a
+        // self-contained record with timestamps, headers, hashes,
+        // and provenance — see lib/archival.mjs for the schema.
+        // We write the JSONL FILE relative to siteDir; the caller
+        // doesn't know about the file appender, only the sink fn.
+        mkdirSync(siteDir, { recursive: true });
+        const archivePath = `${siteDir}/archive.jsonl`;
+        const A = await import('../lib/archival.mjs');
+        const archiveCtx = {
+          ...ctx,
+          archive: {
+            sink: (rec) => {
+              try {
+                appendFileSync(archivePath, A.recordToJsonLine(rec));
+              } catch { /* swallow — archival never blocks the crawl */ }
+            },
+            extra: { member_id: t.member.id, member_name: t.member.name },
+          },
+        };
+        const r = await Sites.crawlSite(t.member, t.website, { pacer }, archiveCtx);
         await writeSiteResult(siteDir, r);
         if (r.ok) ok++; else failed++;
         results.push({ id: t.member.id, name: t.member.name, ok: r.ok, pages: r.pages?.length || 0 });
