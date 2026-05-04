@@ -572,17 +572,24 @@
   }
   .learn-node.center .idx { display: none; }
 
-  /* Slide-in drawer for the round options. Uses native <dialog> + showModal()
-     so the browser handles focus trap, ESC, and inert-background on its own.
-     Click on the dialog itself (outside the inner .drawer-panel) closes it,
-     since the dialog spans the viewport but has a transparent background. */
+  /* Slide-in drawer for the round options. Plain <div> rather than <dialog>
+     because dialog + showModal() + transition-on-transform interacts badly
+     with the top-layer in some browsers (the transform doesn't animate from
+     the offscreen initial state). The div is hidden by default; opening
+     forces a reflow before adding .open so the slide-in transition fires
+     reliably. ESC + backdrop click + focus trap are wired manually. */
   .learn-drawer {
-    position: fixed; inset: 0;
-    width: 100%; height: 100%; max-width: 100%; max-height: 100%;
-    margin: 0; padding: 0; border: 0;
-    background: transparent; color: inherit;
+    position: fixed; inset: 0; z-index: 1000;
+    pointer-events: none;
   }
-  .learn-drawer::backdrop { background: rgba(0,0,0,.55); }
+  .learn-drawer.open { pointer-events: auto; }
+  .learn-drawer .drawer-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,.55);
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .learn-drawer.open .drawer-backdrop { opacity: 1; }
   .learn-drawer .drawer-panel {
     position: absolute; top: 0; bottom: 0; right: 0;
     width: min(380px, 100vw);
@@ -596,6 +603,14 @@
     display: flex; flex-direction: column; gap: 1.4rem;
   }
   .learn-drawer.open .drawer-panel { transform: translateX(0); }
+  .learn-drawer[hidden] { display: none; }
+
+  /* Photo-pick centre face is always grayscale — the player has to
+     identify it from name/party/seat alone, so colour cues like skin
+     tone or a school-tie shouldn't tip the answer. Independent of the
+     monochrome toggle, which affects the surrounding description hexes
+     and any other photos. */
+  .learn-node.center .photo { filter: grayscale(100%); }
   .drawer-head {
     display: flex; align-items: center; justify-content: space-between;
   }
@@ -2725,12 +2740,16 @@ function renderMonoToggle() {
 function ensureLearnDrawer(gen) {
   let d = document.getElementById('learn-drawer');
   if (d) return d;
-  d = el('dialog', {
+  d = el('div', {
     class: 'learn-drawer',
     id: 'learn-drawer',
+    role: 'dialog',
+    'aria-modal': 'true',
     'aria-label': 'options',
+    hidden: '',
   },
-    el('div', { class: 'drawer-panel' },
+    el('div', { class: 'drawer-backdrop', onclick: closeLearnDrawer }),
+    el('div', { class: 'drawer-panel', role: 'document' },
       el('div', { class: 'drawer-head' },
         el('h2', {}, 'options'),
         el('button', {
@@ -2750,27 +2769,56 @@ function ensureLearnDrawer(gen) {
         el('p', { class: 'help' }, 'people per round — only used in match-all mode'),
         renderSizeSelector(gen))));
   document.body.append(d);
-  // Click outside the panel (i.e. directly on the dialog backdrop area)
-  // closes the drawer. Clicks on .drawer-panel don't bubble to <dialog>
-  // since the panel is the inner content wrapper.
-  d.addEventListener('click', e => { if (e.target === d) closeLearnDrawer(); });
-  // ESC native default already calls .close(); also clear our slide class.
-  d.addEventListener('close', () => d.classList.remove('open'));
   return d;
 }
 
+let drawerLastFocus = null;
+
 function openLearnDrawer(gen) {
   const d = ensureLearnDrawer(gen);
-  d.showModal();
-  // Use rAF so the transform transition animates from translateX(100%).
-  requestAnimationFrame(() => d.classList.add('open'));
+  drawerLastFocus = document.activeElement;
+  d.removeAttribute('hidden');
+  // Force a reflow so the panel paints at translateX(100%) before the
+  // .open class flips it to 0 and triggers the slide transition. Without
+  // this the browser may collapse the two style changes and skip the
+  // animation.
+  void d.offsetHeight;
+  requestAnimationFrame(() => {
+    d.classList.add('open');
+    const closeBtn = d.querySelector('.drawer-close');
+    if (closeBtn) closeBtn.focus();
+  });
+  document.addEventListener('keydown', drawerKeyHandler, true);
 }
 
 function closeLearnDrawer() {
   const d = document.getElementById('learn-drawer');
-  if (!d) return;
+  if (!d || d.hidden) return;
   d.classList.remove('open');
-  setTimeout(() => { try { d.close(); } catch {} }, 220);
+  document.removeEventListener('keydown', drawerKeyHandler, true);
+  setTimeout(() => {
+    d.setAttribute('hidden', '');
+    if (drawerLastFocus && typeof drawerLastFocus.focus === 'function') {
+      try { drawerLastFocus.focus(); } catch {}
+    }
+    drawerLastFocus = null;
+  }, 260);
+}
+
+function drawerKeyHandler(e) {
+  const d = document.getElementById('learn-drawer');
+  if (!d || d.hidden) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeLearnDrawer(); return; }
+  if (e.key !== 'Tab') return;
+  const focusables = d.querySelectorAll(
+    'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+  if (!focusables.length) return;
+  const first = focusables[0], last = focusables[focusables.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault(); last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault(); first.focus();
+  }
 }
 
 function renderModeRadios(gen) {
