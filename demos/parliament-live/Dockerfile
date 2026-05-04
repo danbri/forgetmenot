@@ -5,16 +5,14 @@
 FROM node:22-alpine AS runtime
 
 WORKDIR /app
-COPY server.mjs ./
-COPY web/ ./web/
-COPY CLAUDE.md ./
+COPY --chown=node:node server.mjs ./
+COPY --chown=node:node web/ ./web/
+COPY --chown=node:node CLAUDE.md ./
 
 ENV HOST=0.0.0.0
 ENV PORT=8080
 EXPOSE 8080
 
-# Run as the built-in non-root `node` user.
-RUN chown -R node /app
 USER node
 
 CMD ["node", "server.mjs"]
