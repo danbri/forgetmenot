@@ -424,8 +424,8 @@
   .learn-controls .body { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
   .learn-score { font: 600 18px/1 "SF Mono", monospace; }
   .learn-score .delta { margin-left: .4rem; font-size: 13px; }
-  .learn-score .delta.up   { color: #4caf50; }
-  .learn-score .delta.down { color: var(--alert); }
+  .learn-score .delta.up   { color: var(--ink); }
+  .learn-score .delta.down { color: var(--ink-mute); }
   .learn-size { display: inline-flex; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 8px; }
   .learn-size button {
     background: transparent; border: 0; color: var(--ink-soft); font: 500 13px/1 "SF Mono", monospace;
@@ -435,35 +435,70 @@
   .learn-size button:focus-visible { outline: 2px solid var(--gold-dim); outline-offset: 2px; }
 
   .learn-board { position: relative; }
-  .learn-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
-    align-items: stretch;
+  .learn-ring {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
   }
-  .learn-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-  .learn-tile {
-    border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
-    background: var(--panel); cursor: pointer; min-height: 96px;
-    display: flex; align-items: center; gap: 10px;
-    transition: border-color .15s ease, box-shadow .15s ease;
+  .learn-node {
+    position: absolute;
+    display: flex; align-items: center; justify-content: center;
+    border: 3px solid var(--line);
+    border-radius: 50%;
+    background: var(--panel);
+    cursor: pointer;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
   }
-  .learn-tile:focus-visible { outline: 2px solid var(--gold-dim); outline-offset: 2px; }
-  .learn-tile.selected { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(200,169,81,.35); }
-  .learn-tile.linked   { border-color: var(--gold-dim); }
-  .learn-tile.correct  { border-color: #4caf50; box-shadow: 0 0 0 2px rgba(76,175,80,.25); }
-  .learn-tile.wrong    { border-color: var(--alert); box-shadow: 0 0 0 2px rgba(206,76,76,.25); }
-  .learn-tile .info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .learn-tile .nm { font: 700 16px/1.2 "SF Pro Display", system-ui; color: var(--ink); }
-  .learn-tile .sub { font: 500 12px/1.3 "SF Mono", monospace; color: var(--ink-soft); }
-  .learn-tile .stripe { width: 4px; align-self: stretch; border-radius: 2px; background: var(--ink-mute); flex: 0 0 4px; }
-  .learn-tile.right { padding: 6px; flex-direction: column; align-items: stretch; min-height: 140px; }
-  .learn-tile.right .photo {
-    width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 8px; background: #222;
+  .learn-node:focus-visible { outline: 3px solid rgba(255,255,255,.5); outline-offset: 3px; }
+  .learn-node.selected { border-color: var(--gold); transform: scale(1.04); box-shadow: 0 0 0 4px rgba(200,169,81,.35); }
+  .learn-node.linked   { border-color: var(--gold-dim); }
+  .learn-node.correct  { border-color: var(--ink); box-shadow: 0 0 0 4px rgba(255,255,255,.30); }
+  .learn-node.wrong    { border-style: dashed; border-color: rgba(255,255,255,.4); opacity: .85; }
+
+  .learn-node.profile {
+    padding: 10% 12%;
+    text-align: center;
+    flex-direction: column;
+    gap: 4px;
   }
-  .learn-tile.right .reveal { font: 600 13px/1.2 "SF Mono", monospace; color: var(--ink-soft); padding: 4px 2px 0; min-height: 0; }
+  .learn-node.profile .nm  { font-family: "SF Pro Display", system-ui; font-weight: 700; font-size: var(--nm-size, 14px); line-height: 1.15; color: var(--ink); }
+  .learn-node.profile .sub { font-family: "SF Mono", monospace;        font-weight: 500; font-size: var(--sub-size, 11px); line-height: 1.25; color: var(--ink-soft); word-break: break-word; }
+  .learn-node.profile::after {
+    content: "";
+    position: absolute; left: 8%; right: 8%; bottom: 6%;
+    height: 5px; border-radius: 3px;
+    background: var(--party, var(--ink-mute));
+  }
+
+  .learn-node.photo { padding: 0; background: #222; }
+  .learn-node.photo .photo { width: 100%; height: 100%; object-fit: cover; }
+  .learn-node.photo .reveal {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 22% 8% 10%;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,.85) 55%);
+    font-family: "SF Mono", monospace;
+    font-weight: 700;
+    font-size: var(--reveal-size, 12px);
+    line-height: 1.15;
+    color: var(--ink);
+    text-align: center;
+    pointer-events: none;
+  }
+  .learn-node.photo .reveal:empty { display: none; }
+
   .learn-svg { position: absolute; inset: 0; pointer-events: none; }
-  .learn-svg line { stroke: var(--gold-dim); stroke-width: 2; stroke-dasharray: 5 4; }
-  .learn-svg line.correct { stroke: #4caf50; stroke-dasharray: none; }
-  .learn-svg line.wrong   { stroke: var(--alert); stroke-dasharray: none; }
+  .learn-svg line {
+    stroke: rgba(255,255,255,.55);
+    stroke-width: 6;
+    stroke-dasharray: 10 8;
+    stroke-linecap: round;
+  }
+  .learn-svg line.correct { stroke: var(--ink);                stroke-width: 8; stroke-dasharray: none; }
+  .learn-svg line.wrong   { stroke: rgba(255,255,255,.30);     stroke-width: 4; stroke-dasharray: 2 6; }
   .learn-actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1rem; }
   .learn-actions .btn { min-height: 44px; }
   .learn-empty-hint {
@@ -2575,48 +2610,49 @@ async function runLearnRound(gen) {
     locked: false,
   };
 
-  const grid = el('div', { class: 'learn-grid', id: 'learn-grid' });
-  const leftCol = el('div', { class: 'learn-col left' });
-  const rightCol = el('div', { class: 'learn-col right' });
-  for (let i = 0; i < people.length; i++) {
+  const ring = el('div', { class: 'learn-ring', id: 'learn-grid' });
+  // Profile and photo bubbles alternate around the ring, starting profile #0
+  // at the top (12 o'clock). For N people there are 2N bubbles; profile i
+  // sits at angle (2i)/(2N) of a full turn, photo r at angle (2r+1)/(2N).
+  const N = people.length;
+  for (let i = 0; i < N; i++) {
     const v = people[i];
     const p = v.latestParty || {}, h = v.latestHouseMembership || {};
     const cols = partyColours(p);
-    const tile = el('div', {
-      class: 'learn-tile left', id: `lt-L-${i}`, role: 'button', tabindex: '0',
+    const node = el('div', {
+      class: 'learn-node profile', id: `lt-L-${i}`, role: 'button', tabindex: '0',
       'aria-label': `${v.nameDisplayAs}, ${p.name || ''}, ${h.membershipFrom || ''}`,
+      style: `--party:${cols.bg}`,
       onclick: () => onTileClick('L', i),
       onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onTileClick('L', i); } },
     },
-      el('div', { class: 'stripe', style: `background:${cols.bg}` }),
-      el('div', { class: 'info' },
-        el('div', { class: 'nm' }, v.nameDisplayAs || ''),
-        el('div', { class: 'sub' },
-          [p.name, h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
-            .filter(Boolean).join(' · '))));
-    leftCol.append(tile);
+      el('div', { class: 'nm' }, v.nameDisplayAs || ''),
+      el('div', { class: 'sub' },
+        [p.name, h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
+          .filter(Boolean).join(' · ')));
+    ring.append(node);
   }
   for (let r = 0; r < photoOrder.length; r++) {
     const peopleIdx = photoOrder[r];
     const v = people[peopleIdx];
-    const tile = el('div', {
-      class: 'learn-tile right', id: `lt-R-${r}`, role: 'button', tabindex: '0',
+    const node = el('div', {
+      class: 'learn-node photo', id: `lt-R-${r}`, role: 'button', tabindex: '0',
       'aria-label': `photo ${r + 1} of ${photoOrder.length}`,
       onclick: () => onTileClick('R', r),
       onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onTileClick('R', r); } },
     },
-      el('img', { class: 'photo', src: authedImg(`/members/Members/${v.id}/Portrait?cropType=ThreeFour`), alt: '' }),
+      el('img', { class: 'photo', src: authedImg(`/members/Members/${v.id}/Portrait?cropType=OneOne`), alt: '' }),
       el('div', { class: 'reveal', id: `lt-R-${r}-reveal` }, ''));
-    rightCol.append(tile);
+    ring.append(node);
   }
-  grid.append(leftCol, rightCol);
   // SVG container must be in the SVG namespace, otherwise document.createElement('svg')
   // yields an HTMLUnknownElement and the layout/sizing attributes silently no-op.
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('class', 'learn-svg');
   svg.setAttribute('id', 'learn-svg');
   svg.setAttribute('aria-hidden', 'true');
-  body.replaceChildren(grid, svg, el('div', { class: 'learn-empty-hint', id: 'learn-hint' }, 'tap a name on the left, then a photo on the right'));
+  ring.appendChild(svg);
+  body.replaceChildren(ring, el('div', { class: 'learn-empty-hint', id: 'learn-hint' }, 'tap a name, then a photo'));
   if (resetBtn) resetBtn.disabled = false;
   // First paint of the SVG canvas needs the grid to be laid out.
   scheduleLearnRedraw();
@@ -2695,31 +2731,92 @@ function scheduleLearnRedraw() {
   learnRedrawScheduled = true;
   requestAnimationFrame(() => {
     learnRedrawScheduled = false;
+    layoutLearnRing();
     drawLearnLines();
   });
 }
 
+// Position the 2N bubbles around the ring. Bubble diameter is sized so that
+// adjacent bubbles never overlap, with a small visual gap. Profile i sits at
+// angle (2i)/(2N) starting from 12 o'clock (-π/2); photo r at (2r+1)/(2N).
+function layoutLearnRing() {
+  if (!learnState) return;
+  const ring = document.getElementById('learn-grid');
+  if (!ring) return;
+  const W = ring.clientWidth;
+  if (!W) return;
+  const N = learnState.people.length;
+  const total = 2 * N;
+  // Adjacent bubble centres along the ring sit 2R sin(π/total) apart.
+  // We want bubble diameter D ≤ 2R sin(π/total) * 0.85 (15% gap), and the
+  // ring radius R = W/2 - D/2 - margin. Solving for D:
+  const margin = 6;
+  const k = 2 * Math.sin(Math.PI / total) * 0.85;
+  const D = Math.max(56, Math.floor(((W - 2 * margin) * k) / (1 + k)));
+  const R = W / 2 - D / 2 - margin;
+  const cx = W / 2, cy = W / 2; // square ring
+  const place = (idx, isPhoto) => {
+    // Profile at even slots, photo at odd. start at top (12 o'clock).
+    const slot = isPhoto ? (idx * 2 + 1) : (idx * 2);
+    const a = -Math.PI / 2 + (slot / total) * 2 * Math.PI;
+    const x = cx + R * Math.cos(a) - D / 2;
+    const y = cy + R * Math.sin(a) - D / 2;
+    return { x, y };
+  };
+  for (let i = 0; i < N; i++) {
+    const lt = document.getElementById(`lt-L-${i}`);
+    if (!lt) continue;
+    const { x, y } = place(i, false);
+    Object.assign(lt.style, {
+      left: x + 'px', top: y + 'px', width: D + 'px', height: D + 'px',
+      // text scales with bubble size — empirical tuning that stays legible
+      // for N=2 (huge), N=3 (default), and N=5 (tight).
+      '--nm-size':     Math.max(11, Math.min(20, Math.round(D * 0.115))) + 'px',
+      '--sub-size':    Math.max(9,  Math.min(13, Math.round(D * 0.078))) + 'px',
+    });
+  }
+  for (let r = 0; r < learnState.photoOrder.length; r++) {
+    const rt = document.getElementById(`lt-R-${r}`);
+    if (!rt) continue;
+    const { x, y } = place(r, true);
+    Object.assign(rt.style, {
+      left: x + 'px', top: y + 'px', width: D + 'px', height: D + 'px',
+      '--reveal-size': Math.max(10, Math.min(15, Math.round(D * 0.10))) + 'px',
+    });
+  }
+}
+
 function drawLearnLines() {
   const svg = document.getElementById('learn-svg');
-  const grid = document.getElementById('learn-grid');
-  if (!svg || !grid || !learnState) return;
-  const board = grid.parentElement; // .body of the .learn-board card
-  const bRect = board.getBoundingClientRect();
-  svg.setAttribute('width',  bRect.width);
-  svg.setAttribute('height', bRect.height);
-  svg.setAttribute('viewBox', `0 0 ${bRect.width} ${bRect.height}`);
-  // Clear
+  const ring = document.getElementById('learn-grid');
+  if (!svg || !ring || !learnState) return;
+  const W = ring.clientWidth, H = ring.clientHeight;
+  svg.setAttribute('width',  W);
+  svg.setAttribute('height', H);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   while (svg.firstChild) svg.removeChild(svg.firstChild);
+  const ringRect = ring.getBoundingClientRect();
   for (const [leftIdx, rightIdx] of learnState.links.entries()) {
     const lt = document.getElementById(`lt-L-${leftIdx}`);
     const rt = document.getElementById(`lt-R-${rightIdx}`);
     if (!lt || !rt) continue;
     const a = lt.getBoundingClientRect();
     const b = rt.getBoundingClientRect();
-    const x1 = a.right - bRect.left;
-    const y1 = a.top + a.height / 2 - bRect.top;
-    const x2 = b.left  - bRect.left;
-    const y2 = b.top + b.height / 2 - bRect.top;
+    const cx1 = a.left + a.width / 2 - ringRect.left;
+    const cy1 = a.top  + a.height / 2 - ringRect.top;
+    const cx2 = b.left + b.width / 2 - ringRect.left;
+    const cy2 = b.top  + b.height / 2 - ringRect.top;
+    const r1 = a.width / 2, r2 = b.width / 2;
+    const dx = cx2 - cx1, dy = cy2 - cy1;
+    const dist = Math.hypot(dx, dy) || 1;
+    const ux = dx / dist, uy = dy / dist;
+    // Pull endpoints in to each bubble's edge, plus a small gap so the line
+    // doesn't visually fuse with the bubble border.
+    const pad = 4;
+    const x1 = cx1 + ux * (r1 + pad);
+    const y1 = cy1 + uy * (r1 + pad);
+    const x2 = cx2 - ux * (r2 + pad);
+    const y2 = cy2 - uy * (r2 + pad);
     const ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     ln.setAttribute('x1', x1); ln.setAttribute('y1', y1);
     ln.setAttribute('x2', x2); ln.setAttribute('y2', y2);
