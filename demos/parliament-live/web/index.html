@@ -524,6 +524,23 @@
     color: var(--ink-soft); font-size: 13px; text-align: center; padding: .6rem 0 0;
   }
 
+  /* Monochrome mode: hide all party / gold accents and the party-name
+     span in profile sub-lines. Activated by the .learn-mono class on
+     the .learn-board. Only colour changes — geometry is unaffected. */
+  .learn-mono .learn-node.profile { background: var(--line); }
+  .learn-mono .learn-node.selected { background: rgba(255,255,255,.80); }
+  .learn-mono .learn-node.linked   { background: rgba(255,255,255,.40); }
+  .learn-mono .learn-size button.on { background: rgba(255,255,255,.20); color: var(--ink); }
+  .learn-mono .learn-toggle.on { background: rgba(255,255,255,.20); color: var(--ink); }
+  .learn-mono .sub-party { display: none; }
+  .learn-toggle {
+    background: transparent; border: 1px solid var(--line);
+    color: var(--ink-soft); font: 500 13px/1 "SF Mono", monospace;
+    padding: 6px 10px; border-radius: 8px; cursor: pointer;
+  }
+  .learn-toggle.on { background: var(--gold-dim); color: #1a1408; border-color: var(--gold); }
+  .learn-toggle:focus-visible { outline: 2px solid var(--gold-dim); outline-offset: 2px; }
+
   footer.attribution {
     color: var(--ink-mute); font-size: 11.5px; line-height: 1.5;
     padding: 1.5rem 1rem 0; max-width: 720px; margin: 0 auto;
@@ -2488,6 +2505,7 @@ function stopScreensaver() {
 
 const LEARN_KEY_N     = 'fpkg_learn_n';
 const LEARN_KEY_SCORE = 'fpkg_learn_score';
+const LEARN_KEY_MONO  = 'fpkg_learn_mono';
 const LEARN_VALID_N   = [2, 3, 5];
 
 function getLearnN() {
@@ -2497,6 +2515,8 @@ function getLearnN() {
 function setLearnN(n) { localStorage.setItem(LEARN_KEY_N, String(n)); }
 function getLearnScore() { const v = parseInt(localStorage.getItem(LEARN_KEY_SCORE) || '0', 10); return Number.isFinite(v) ? v : 0; }
 function setLearnScore(s) { localStorage.setItem(LEARN_KEY_SCORE, String(s)); }
+function getLearnMono()  { return localStorage.getItem(LEARN_KEY_MONO) === '1'; }
+function setLearnMono(b) { localStorage.setItem(LEARN_KEY_MONO, b ? '1' : '0'); }
 
 async function pickQuiz(n) {
   // Pull a wider pool than we need so we can pick the most "similar"
@@ -2544,14 +2564,17 @@ async function viewLearn(_m, _q, gen) {
   const header = el('div', { class: 'card learn-controls' },
     el('div', { class: 'body' },
       el('div', { class: 'learn-score', id: 'learn-score' }, `score ${getLearnScore()}`),
-      el('div', { style: 'display:flex; gap:.6rem; align-items:center' },
+      el('div', { style: 'display:flex; gap:.6rem; align-items:center; flex-wrap:wrap' },
+        renderMonoToggle(),
         el('span', { style: 'font-size:13px; color:var(--ink-soft)' }, 'people'),
         renderSizeSelector(gen))));
   root.append(header);
 
-  const board = el('div', { class: 'learn-board card' },
+  const board = el('div', { class: 'learn-board card', id: 'learn-board' },
     el('div', { class: 'body', id: 'learn-body' }));
   root.append(board);
+  // Apply persisted monochrome state on first paint.
+  board.classList.toggle('learn-mono', getLearnMono());
 
   const actions = el('div', { class: 'learn-actions' },
     el('button', { class: 'btn primary', id: 'learn-submit', onclick: onSubmitLearn }, 'submit'),
@@ -2563,6 +2586,24 @@ async function viewLearn(_m, _q, gen) {
   // Redraw lines on resize / orientation change so the SVG stays aligned.
   // Idempotent — addEventListener dedupes identical (event, fn) pairs.
   window.addEventListener('resize', scheduleLearnRedraw);
+}
+
+function renderMonoToggle() {
+  const btn = el('button', {
+    class: 'learn-toggle' + (getLearnMono() ? ' on' : ''),
+    type: 'button',
+    'aria-pressed': getLearnMono() ? 'true' : 'false',
+    title: 'Hide party colour and party name',
+    onclick: () => {
+      const next = !getLearnMono();
+      setLearnMono(next);
+      const board = document.getElementById('learn-board');
+      if (board) board.classList.toggle('learn-mono', next);
+      btn.classList.toggle('on', next);
+      btn.setAttribute('aria-pressed', String(next));
+    },
+  }, 'mono');
+  return btn;
 }
 
 function renderSizeSelector(gen) {
@@ -2646,8 +2687,13 @@ async function runLearnRound(gen) {
       onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onTileClick('L', i); } },
     },
       el('div', { class: 'nm' }, v.nameDisplayAs || ''),
+      // Sub-line: party · constituency · house. Party is in its own span so
+      // monochrome mode can hide it without touching the rest. The span
+      // includes its own trailing separator so removing it leaves a clean
+      // "constituency · house" with no orphan dot.
       el('div', { class: 'sub' },
-        [p.name, h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
+        p.name ? el('span', { class: 'sub-party' }, p.name + ' · ') : '',
+        [h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
           .filter(Boolean).join(' · ')));
     ring.append(node);
   }
