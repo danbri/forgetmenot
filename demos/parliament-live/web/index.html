@@ -442,44 +442,57 @@
     margin: 0 auto;
     aspect-ratio: 1 / 1;
   }
+  /* Hex-flower bubbles: each node is a square box, clipped to a pointy-top
+     hexagon. The outer box paints the border colour; ::before paints a
+     slightly inset hexagon in the panel/photo colour so a few px of outer
+     show through as the "border". State classes change the outer colour. */
   .learn-node {
     position: absolute;
     display: flex; align-items: center; justify-content: center;
-    border: 3px solid var(--line);
-    border-radius: 50%;
-    background: var(--panel);
+    background: var(--line);
     cursor: pointer;
-    overflow: hidden;
     box-sizing: border-box;
-    transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transition: background-color .15s ease, transform .15s ease;
   }
+  .learn-node::before {
+    content: "";
+    position: absolute; inset: 3px; z-index: 0;
+    background: var(--panel);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  .learn-node > * { position: relative; z-index: 1; }
   .learn-node:focus-visible { outline: 3px solid rgba(255,255,255,.5); outline-offset: 3px; }
-  .learn-node.selected { border-color: var(--gold); transform: scale(1.04); box-shadow: 0 0 0 4px rgba(200,169,81,.35); }
-  .learn-node.linked   { border-color: var(--gold-dim); }
-  .learn-node.correct  { border-color: var(--ink); box-shadow: 0 0 0 4px rgba(255,255,255,.30); }
-  .learn-node.wrong    { border-style: dashed; border-color: rgba(255,255,255,.4); opacity: .85; }
+  .learn-node.selected { background: var(--gold); transform: scale(1.04); }
+  .learn-node.linked   { background: var(--gold-dim); }
+  .learn-node.correct  { background: var(--ink); }
+  .learn-node.wrong    { background: rgba(255,255,255,.45); opacity: .85; }
 
   .learn-node.profile {
-    padding: 10% 12%;
+    padding: 16% 14%;
     text-align: center;
     flex-direction: column;
     gap: 4px;
   }
   .learn-node.profile .nm  { font-family: "SF Pro Display", system-ui; font-weight: 700; font-size: var(--nm-size, 14px); line-height: 1.15; color: var(--ink); }
   .learn-node.profile .sub { font-family: "SF Mono", monospace;        font-weight: 500; font-size: var(--sub-size, 11px); line-height: 1.25; color: var(--ink-soft); word-break: break-word; }
-  .learn-node.profile::after {
-    content: "";
-    position: absolute; left: 8%; right: 8%; bottom: 6%;
-    height: 5px; border-radius: 3px;
+  .learn-node.profile .partybar {
+    position: absolute; left: 22%; right: 22%; bottom: 16%;
+    height: 4px; border-radius: 3px;
     background: var(--party, var(--ink-mute));
   }
 
-  .learn-node.photo { padding: 0; background: #222; }
-  .learn-node.photo .photo { width: 100%; height: 100%; object-fit: cover; }
+  .learn-node.photo::before { background: #222; }
+  .learn-node.photo .photo {
+    position: absolute; inset: 3px;
+    width: calc(100% - 6px); height: calc(100% - 6px);
+    object-fit: cover;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
   .learn-node.photo .reveal {
-    position: absolute; left: 0; right: 0; bottom: 0;
-    padding: 22% 8% 10%;
-    background: linear-gradient(180deg, transparent, rgba(0,0,0,.85) 55%);
+    position: absolute; left: 3px; right: 3px; bottom: 3px;
+    padding: 28% 12% 10%;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,.88) 55%);
     font-family: "SF Mono", monospace;
     font-weight: 700;
     font-size: var(--reveal-size, 12px);
@@ -487,6 +500,7 @@
     color: var(--ink);
     text-align: center;
     pointer-events: none;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   }
   .learn-node.photo .reveal:empty { display: none; }
 
@@ -2629,7 +2643,8 @@ async function runLearnRound(gen) {
       el('div', { class: 'nm' }, v.nameDisplayAs || ''),
       el('div', { class: 'sub' },
         [p.name, h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
-          .filter(Boolean).join(' · ')));
+          .filter(Boolean).join(' · ')),
+      el('div', { class: 'partybar' }));
     ring.append(node);
   }
   for (let r = 0; r < photoOrder.length; r++) {
@@ -2737,8 +2752,8 @@ function scheduleLearnRedraw() {
 }
 
 // Position the 2N bubbles around the ring. Bubble diameter is sized so that
-// adjacent bubbles never overlap, with a small visual gap. Profile i sits at
-// angle (2i)/(2N) starting from 12 o'clock (-π/2); photo r at (2r+1)/(2N).
+// adjacent bubbles have a small gap between them (no overlap). Profile i
+// sits at slot (2i) starting from 12 o'clock (-π/2); photo r at slot (2r+1).
 function layoutLearnRing() {
   if (!learnState) return;
   const ring = document.getElementById('learn-grid');
@@ -2747,12 +2762,14 @@ function layoutLearnRing() {
   if (!W) return;
   const N = learnState.people.length;
   const total = 2 * N;
-  // Adjacent bubble centres along the ring sit 2R sin(π/total) apart.
-  // We want bubble diameter D ≤ 2R sin(π/total) * 0.85 (15% gap), and the
-  // ring radius R = W/2 - D/2 - margin. Solving for D:
-  const margin = 6;
-  const k = 2 * Math.sin(Math.PI / total) * 0.85;
-  const D = Math.max(56, Math.floor(((W - 2 * margin) * k) / (1 + k)));
+  // Adjacent bubble *centres* on the ring are 2R·sin(π/total) apart. For a
+  // gap of (1-f) of that distance to remain between bubble edges, we need
+  // D ≤ 2R·sin(π/total)·f, with R = W/2 - D/2 - margin. Solve:
+  //   D = (W - 2margin) · s · f / (1 + s · f)   where s = sin(π/total).
+  const margin = 8;
+  const f = 0.92; // 8% gap between adjacent bubbles
+  const sf = Math.sin(Math.PI / total) * f;
+  const D = Math.max(56, Math.floor(((W - 2 * margin) * sf) / (1 + sf)));
   const R = W / 2 - D / 2 - margin;
   const cx = W / 2, cy = W / 2; // square ring
   const place = (idx, isPhoto) => {
