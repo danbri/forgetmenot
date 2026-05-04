@@ -449,12 +449,17 @@
   .learn-node {
     position: absolute;
     display: flex; align-items: center; justify-content: center;
+    /* The outer hex paints the visible "inner border" of the bubble — the
+       3px ring of colour around the panel/photo. Default --line; profile
+       bubbles override to their party colour via inline style. State
+       classes override both. */
     background: var(--line);
     cursor: pointer;
     box-sizing: border-box;
     clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     transition: background-color .15s ease, transform .15s ease;
   }
+  .learn-node.profile { background: var(--party, var(--line)); }
   .learn-node::before {
     content: "";
     position: absolute; inset: 3px; z-index: 0;
@@ -469,18 +474,18 @@
   .learn-node.wrong    { background: rgba(255,255,255,.45); opacity: .85; }
 
   .learn-node.profile {
-    padding: 16% 14%;
+    /* Override .learn-node's `align-items: center` so the .nm / .sub divs
+       stretch across the available width and text wraps on word boundaries
+       inside that width — instead of shrinking to min-content (longest
+       word) and stacking each word on its own line. */
+    align-items: stretch;
+    padding: 14% 8%;
     text-align: center;
     flex-direction: column;
     gap: 4px;
   }
   .learn-node.profile .nm  { font-family: "SF Pro Display", system-ui; font-weight: 700; font-size: var(--nm-size, 14px); line-height: 1.15; color: var(--ink); }
-  .learn-node.profile .sub { font-family: "SF Mono", monospace;        font-weight: 500; font-size: var(--sub-size, 11px); line-height: 1.25; color: var(--ink-soft); word-break: break-word; }
-  .learn-node.profile .partybar {
-    position: absolute; left: 22%; right: 22%; bottom: 16%;
-    height: 4px; border-radius: 3px;
-    background: var(--party, var(--ink-mute));
-  }
+  .learn-node.profile .sub { font-family: "SF Mono", monospace;        font-weight: 500; font-size: var(--sub-size, 11px); line-height: 1.25; color: var(--ink-soft); }
 
   .learn-node.photo::before { background: #222; }
   .learn-node.photo .photo {
@@ -2643,8 +2648,7 @@ async function runLearnRound(gen) {
       el('div', { class: 'nm' }, v.nameDisplayAs || ''),
       el('div', { class: 'sub' },
         [p.name, h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
-          .filter(Boolean).join(' · ')),
-      el('div', { class: 'partybar' }));
+          .filter(Boolean).join(' · ')));
     ring.append(node);
   }
   for (let r = 0; r < photoOrder.length; r++) {
@@ -2780,26 +2784,28 @@ function layoutLearnRing() {
     const y = cy + R * Math.sin(a) - D / 2;
     return { x, y };
   };
+  // Note on CSS custom properties: el.style['--foo'] = 'bar' is a no-op —
+  // CSSStyleDeclaration only honours custom-property writes via setProperty.
+  // (Object.assign on .style routes through the same setter.) So scale-vars
+  // have to be set explicitly with setProperty.
   for (let i = 0; i < N; i++) {
     const lt = document.getElementById(`lt-L-${i}`);
     if (!lt) continue;
     const { x, y } = place(i, false);
-    Object.assign(lt.style, {
-      left: x + 'px', top: y + 'px', width: D + 'px', height: D + 'px',
-      // text scales with bubble size — empirical tuning that stays legible
-      // for N=2 (huge), N=3 (default), and N=5 (tight).
-      '--nm-size':     Math.max(11, Math.min(20, Math.round(D * 0.115))) + 'px',
-      '--sub-size':    Math.max(9,  Math.min(13, Math.round(D * 0.078))) + 'px',
-    });
+    lt.style.left = x + 'px'; lt.style.top = y + 'px';
+    lt.style.width = D + 'px'; lt.style.height = D + 'px';
+    // Text scales with bubble size — empirical tuning that stays legible
+    // for N=2 (huge), N=3 (default), and N=5 (tight).
+    lt.style.setProperty('--nm-size',  Math.max(11, Math.min(20, Math.round(D * 0.115))) + 'px');
+    lt.style.setProperty('--sub-size', Math.max(9,  Math.min(13, Math.round(D * 0.078))) + 'px');
   }
   for (let r = 0; r < learnState.photoOrder.length; r++) {
     const rt = document.getElementById(`lt-R-${r}`);
     if (!rt) continue;
     const { x, y } = place(r, true);
-    Object.assign(rt.style, {
-      left: x + 'px', top: y + 'px', width: D + 'px', height: D + 'px',
-      '--reveal-size': Math.max(10, Math.min(15, Math.round(D * 0.10))) + 'px',
-    });
+    rt.style.left = x + 'px'; rt.style.top = y + 'px';
+    rt.style.width = D + 'px'; rt.style.height = D + 'px';
+    rt.style.setProperty('--reveal-size', Math.max(10, Math.min(15, Math.round(D * 0.10))) + 'px');
   }
 }
 
