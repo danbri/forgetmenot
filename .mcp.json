@@ -6,9 +6,19 @@
       "// what":  "Drives a headless Chrome via the Chrome DevTools Protocol. Exposes screenshot, accessibility tree, network monitor, page navigation, console capture as MCP tools — tighter and faster than DOM scraping.",
       "// docs":  "https://github.com/ChromeDevTools/chrome-devtools-mcp",
       "// when":  "Use when an audit / screenshot / a11y-tree task needs CDP-level access to the demo at fpkg.fly.dev.",
+      "// flags": "Sandbox-friendly defaults: --headless, --isolated (clean profile per session), --acceptInsecureCerts (some sandbox CA stores miss public roots). --executablePath points at the Playwright-installed Chromium so we don't need a separate Chrome install. --chromeArg=--no-sandbox / --disable-dev-shm-usage are required for chrome to launch inside this rootful container.",
       "type":    "stdio",
       "command": "npx",
-      "args":    ["-y", "chrome-devtools-mcp@latest"]
+      "args": [
+        "-y", "chrome-devtools-mcp@latest",
+        "--headless",
+        "--isolated",
+        "--acceptInsecureCerts",
+        "--executablePath", "/opt/pw-browsers/chromium-1217/chrome-linux64/chrome",
+        "--chromeArg=--no-sandbox",
+        "--chromeArg=--disable-dev-shm-usage",
+        "--chromeArg=--disable-gpu"
+      ]
     }
   }
 }
