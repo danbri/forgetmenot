@@ -542,6 +542,79 @@
   .learn-toggle.on { background: var(--gold-dim); color: #1a1408; border-color: var(--gold); }
   .learn-toggle:focus-visible { outline: 2px solid var(--gold-dim); outline-offset: 2px; }
 
+  /* Photo-pick mode: the centre hex (empty in match-all) holds the answer
+     photo; the 6 outer hexagons hold numbered description chips. The user
+     picks 1-6 by keyboard or click. Reuses .learn-node bubble styles; only
+     the centre placement, the 1-6 numeral, and post-answer feedback differ. */
+  .learn-node.center {
+    /* Sized + positioned by layoutLearnRing; no defaults needed. */
+  }
+  .learn-node .idx {
+    position: absolute; top: 8%; left: 50%; transform: translateX(-50%);
+    font: 700 14px/1 "SF Mono", monospace;
+    color: var(--ink-soft);
+    background: rgba(0,0,0,.45);
+    padding: 3px 8px; border-radius: 999px;
+    pointer-events: none;
+  }
+  .learn-node.center .idx { display: none; }
+
+  /* Slide-in drawer for the round options. Uses native <dialog> + showModal()
+     so the browser handles focus trap, ESC, and inert-background on its own.
+     Click on the dialog itself (outside the inner .drawer-panel) closes it,
+     since the dialog spans the viewport but has a transparent background. */
+  .learn-drawer {
+    position: fixed; inset: 0;
+    width: 100%; height: 100%; max-width: 100%; max-height: 100%;
+    margin: 0; padding: 0; border: 0;
+    background: transparent; color: inherit;
+  }
+  .learn-drawer::backdrop { background: rgba(0,0,0,.55); }
+  .learn-drawer .drawer-panel {
+    position: absolute; top: 0; bottom: 0; right: 0;
+    width: min(380px, 100vw);
+    background: var(--panel);
+    border-left: 1px solid var(--line);
+    padding: 1.2rem 1.4rem;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform .25s ease;
+    box-sizing: border-box;
+    display: flex; flex-direction: column; gap: 1.4rem;
+  }
+  .learn-drawer.open .drawer-panel { transform: translateX(0); }
+  .drawer-head {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .drawer-head h2 { margin: 0; font: 700 18px/1.2 "SF Pro Display", system-ui; }
+  .drawer-close {
+    background: transparent; border: 0; color: var(--ink-soft);
+    font: 400 28px/1 system-ui; cursor: pointer; padding: 0 .4rem;
+    border-radius: 6px;
+  }
+  .drawer-close:hover { color: var(--ink); }
+  .drawer-close:focus-visible { outline: 2px solid var(--gold-dim); outline-offset: 2px; }
+  .learn-drawer section { display: flex; flex-direction: column; gap: .5rem; }
+  .learn-drawer section h3 {
+    margin: 0; font: 600 13px/1 "SF Mono", monospace;
+    color: var(--ink-soft); text-transform: uppercase; letter-spacing: .04em;
+  }
+  .learn-drawer section .help { margin: 0; font-size: 12px; color: var(--ink-soft); line-height: 1.4; }
+  .learn-drawer .mode-radios {
+    display: flex; flex-direction: column; gap: .4rem;
+  }
+  .learn-drawer .mode-radios label {
+    display: flex; align-items: center; gap: .6rem;
+    padding: .5rem .6rem; border: 1px solid var(--line); border-radius: 8px;
+    cursor: pointer; min-height: 44px;
+  }
+  .learn-drawer .mode-radios label:has(input:checked) {
+    border-color: var(--gold); background: rgba(200,169,81,.10);
+  }
+  .learn-drawer .mode-radios input { accent-color: var(--gold); }
+  .learn-drawer .mode-radios .mode-name { font-weight: 600; }
+  .learn-drawer .mode-radios .mode-help { font-size: 12px; color: var(--ink-soft); }
+
   footer.attribution {
     color: var(--ink-mute); font-size: 11.5px; line-height: 1.5;
     padding: 1.5rem 1rem 0; max-width: 720px; margin: 0 auto;
@@ -2507,7 +2580,9 @@ function stopScreensaver() {
 const LEARN_KEY_N     = 'fpkg_learn_n';
 const LEARN_KEY_SCORE = 'fpkg_learn_score';
 const LEARN_KEY_MONO  = 'fpkg_learn_mono';
+const LEARN_KEY_MODE  = 'fpkg_learn_mode';
 const LEARN_VALID_N   = [2, 3, 5];
+const LEARN_VALID_MODES = ['photo-pick', 'match-all'];
 
 function getLearnN() {
   const v = parseInt(localStorage.getItem(LEARN_KEY_N) || '3', 10);
@@ -2518,6 +2593,11 @@ function getLearnScore() { const v = parseInt(localStorage.getItem(LEARN_KEY_SCO
 function setLearnScore(s) { localStorage.setItem(LEARN_KEY_SCORE, String(s)); }
 function getLearnMono()  { return localStorage.getItem(LEARN_KEY_MONO) === '1'; }
 function setLearnMono(b) { localStorage.setItem(LEARN_KEY_MONO, b ? '1' : '0'); }
+function getLearnMode() {
+  const v = localStorage.getItem(LEARN_KEY_MODE) || 'photo-pick';
+  return LEARN_VALID_MODES.includes(v) ? v : 'photo-pick';
+}
+function setLearnMode(m) { localStorage.setItem(LEARN_KEY_MODE, m); }
 
 async function pickQuiz(n) {
   // Pull a wider pool than we need so we can pick the most "similar"
@@ -2559,16 +2639,18 @@ async function viewLearn(_m, _q, gen) {
   root.append(el('div', { class: 'hero' },
     el('div', { class: 'crumb' }, 'Game'),
     el('h1', {}, 'Match name to face'),
-    el('p', { style: 'margin:.4rem 0 0; color:var(--ink-soft); font-size:14px' },
-      'Tap a profile, then tap the photo you think is theirs. Tap a linked tile again to break the link. Submit when every profile has a candidate.')));
+    el('p', { id: 'learn-blurb', style: 'margin:.4rem 0 0; color:var(--ink-soft); font-size:14px' },
+      learnBlurbForMode(getLearnMode()))));
 
   const header = el('div', { class: 'card learn-controls' },
     el('div', { class: 'body' },
       el('div', { class: 'learn-score', id: 'learn-score' }, `score ${getLearnScore()}`),
-      el('div', { style: 'display:flex; gap:.6rem; align-items:center; flex-wrap:wrap' },
-        renderMonoToggle(),
-        el('span', { style: 'font-size:13px; color:var(--ink-soft)' }, 'people'),
-        renderSizeSelector(gen))));
+      el('button', {
+        class: 'btn',
+        type: 'button',
+        'aria-haspopup': 'dialog',
+        onclick: () => openLearnDrawer(gen),
+      }, 'options')));
   root.append(header);
 
   const board = el('div', { class: 'learn-board card', id: 'learn-board' },
@@ -2577,7 +2659,8 @@ async function viewLearn(_m, _q, gen) {
   // Apply persisted monochrome state on first paint.
   board.classList.toggle('learn-mono', getLearnMono());
 
-  const actions = el('div', { class: 'learn-actions' },
+  // Match-all action buttons. Hidden in modes that auto-advance per answer.
+  const actions = el('div', { class: 'learn-actions', id: 'learn-actions' },
     el('button', { class: 'btn primary', id: 'learn-submit', onclick: onSubmitLearn }, 'submit'),
     el('button', { class: 'btn',         id: 'learn-reset',  onclick: onResetLearn  }, 'reset'),
     el('button', { class: 'btn',         id: 'learn-next',   onclick: () => runLearnRound(gen), style: 'display:none' }, 'next round'));
@@ -2587,6 +2670,25 @@ async function viewLearn(_m, _q, gen) {
   // Redraw lines on resize / orientation change so the SVG stays aligned.
   // Idempotent — addEventListener dedupes identical (event, fn) pairs.
   window.addEventListener('resize', scheduleLearnRedraw);
+  if (!viewLearn._keyAttached) {
+    window.addEventListener('keydown', onLearnGlobalKey);
+    viewLearn._keyAttached = true;
+  }
+}
+
+function learnBlurbForMode(mode) {
+  if (mode === 'photo-pick') return 'A face appears in the centre. Tap or press 1-6 to choose the matching profile from the six around it.';
+  return 'Tap a profile, then tap the photo you think is theirs. Tap a linked tile again to break the link. Submit when every profile has a candidate.';
+}
+
+function onLearnGlobalKey(e) {
+  if (!learnState || learnState.locked) return;
+  if (learnState.mode !== 'photo-pick') return;
+  if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;
+  const m = /^[1-6]$/.exec(e.key);
+  if (!m) return;
+  e.preventDefault();
+  onPhotoPickAnswer(parseInt(e.key, 10) - 1);
 }
 
 function renderMonoToggle() {
@@ -2594,7 +2696,7 @@ function renderMonoToggle() {
     class: 'learn-toggle' + (getLearnMono() ? ' on' : ''),
     type: 'button',
     'aria-pressed': getLearnMono() ? 'true' : 'false',
-    title: 'Hide party colour and party name',
+    title: 'Hide party colour, party name, and photo colour',
     onclick: () => {
       const next = !getLearnMono();
       setLearnMono(next);
@@ -2603,8 +2705,89 @@ function renderMonoToggle() {
       btn.classList.toggle('on', next);
       btn.setAttribute('aria-pressed', String(next));
     },
-  }, 'mono');
+  }, 'monochrome');
   return btn;
+}
+
+function ensureLearnDrawer(gen) {
+  let d = document.getElementById('learn-drawer');
+  if (d) return d;
+  d = el('dialog', {
+    class: 'learn-drawer',
+    id: 'learn-drawer',
+    'aria-label': 'options',
+  },
+    el('div', { class: 'drawer-panel' },
+      el('div', { class: 'drawer-head' },
+        el('h2', {}, 'options'),
+        el('button', {
+          class: 'drawer-close',
+          type: 'button',
+          'aria-label': 'close options',
+          onclick: closeLearnDrawer,
+        }, '×')),
+      el('section', {},
+        el('h3', {}, 'mode'),
+        renderModeRadios(gen)),
+      el('section', {},
+        el('h3', {}, 'display'),
+        renderMonoToggle()),
+      el('section', { id: 'drawer-size-section' },
+        el('h3', {}, 'round size'),
+        el('p', { class: 'help' }, 'people per round — only used in match-all mode'),
+        renderSizeSelector(gen))));
+  document.body.append(d);
+  // Click outside the panel (i.e. directly on the dialog backdrop area)
+  // closes the drawer. Clicks on .drawer-panel don't bubble to <dialog>
+  // since the panel is the inner content wrapper.
+  d.addEventListener('click', e => { if (e.target === d) closeLearnDrawer(); });
+  // ESC native default already calls .close(); also clear our slide class.
+  d.addEventListener('close', () => d.classList.remove('open'));
+  return d;
+}
+
+function openLearnDrawer(gen) {
+  const d = ensureLearnDrawer(gen);
+  d.showModal();
+  // Use rAF so the transform transition animates from translateX(100%).
+  requestAnimationFrame(() => d.classList.add('open'));
+}
+
+function closeLearnDrawer() {
+  const d = document.getElementById('learn-drawer');
+  if (!d) return;
+  d.classList.remove('open');
+  setTimeout(() => { try { d.close(); } catch {} }, 220);
+}
+
+function renderModeRadios(gen) {
+  const wrap = el('div', { class: 'mode-radios', role: 'radiogroup', 'aria-label': 'game mode' });
+  const cur = getLearnMode();
+  const modes = [
+    { id: 'photo-pick', name: 'identify the face',  help: '1 photo + 6 description options. Tap or 1-6.' },
+    { id: 'match-all',  name: 'match all',          help: 'pair every name to every photo at once.' },
+  ];
+  for (const m of modes) {
+    const lbl = el('label', {},
+      el('input', {
+        type: 'radio', name: 'learn-mode', value: m.id,
+        checked: m.id === cur ? '' : null,
+        onchange: e => {
+          if (!e.target.checked) return;
+          setLearnMode(m.id);
+          // Drawer doesn't need to re-render; just kick a fresh round.
+          runLearnRound(gen);
+          // Round size only matters for match-all.
+          const sizeSec = document.getElementById('drawer-size-section');
+          if (sizeSec) sizeSec.style.opacity = (m.id === 'match-all') ? '1' : '.45';
+        },
+      }),
+      el('div', {},
+        el('div', { class: 'mode-name' }, m.name),
+        el('div', { class: 'mode-help' }, m.help)));
+    wrap.append(lbl);
+  }
+  return wrap;
 }
 
 function renderSizeSelector(gen) {
@@ -2633,12 +2816,129 @@ function renderSizeSelector(gen) {
 }
 
 async function runLearnRound(gen) {
+  const blurb = document.getElementById('learn-blurb');
+  if (blurb) blurb.textContent = learnBlurbForMode(getLearnMode());
+  if (getLearnMode() === 'photo-pick') return runPhotoPickRound(gen);
+  return runMatchAllRound(gen);
+}
+
+async function runPhotoPickRound(gen) {
+  const body = document.getElementById('learn-body');
+  if (!body) return;
+  body.replaceChildren(el('div', { class: 'loading' }, 'shuffling…'));
+  // Hide match-all-only action buttons.
+  const actions = document.getElementById('learn-actions');
+  if (actions) actions.style.display = 'none';
+
+  let people;
+  try { people = await pickQuiz(6); }
+  catch (e) {
+    body.replaceChildren(el('div', { class: 'errblock' }, 'Could not load round: ' + e.message));
+    return;
+  }
+  if (gen !== routeGen) return;
+
+  // pickQuiz puts the seed at index 0 — that's the answer. Shuffle the
+  // 6 outer slot positions independently so the seed lands somewhere
+  // random, then record which slot holds it.
+  const order = [0, 1, 2, 3, 4, 5];
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  const answerSlot = order.indexOf(0);
+
+  learnState = {
+    mode: 'photo-pick',
+    people, order, answerSlot,
+    picked: null, locked: false, gen,
+  };
+
+  const ring = el('div', { class: 'learn-ring', id: 'learn-grid' });
+  const answer = people[0];
+  // Centre hex: the photo to identify.
+  ring.append(el('div', {
+    class: 'learn-node photo center',
+    id: 'lt-center',
+    'aria-label': 'face to identify',
+  },
+    el('img', {
+      class: 'photo',
+      src: authedImg(`/members/Members/${answer.id}/Portrait?cropType=OneOne`),
+      alt: '',
+    })));
+
+  // 6 outer hexes: numbered description chips.
+  for (let i = 0; i < 6; i++) {
+    const v = people[order[i]];
+    const p = v.latestParty || {}, h = v.latestHouseMembership || {};
+    const cols = partyColours(p);
+    ring.append(el('div', {
+      class: 'learn-node profile',
+      id: `lt-out-${i}`,
+      role: 'button',
+      tabindex: '0',
+      'aria-label': `option ${i + 1}: ${v.nameDisplayAs}, ${p.name || ''}, ${h.membershipFrom || ''}`,
+      style: `--party:${cols.bg}`,
+      onclick: () => onPhotoPickAnswer(i),
+      onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPhotoPickAnswer(i); } },
+    },
+      el('div', { class: 'idx' }, String(i + 1)),
+      el('div', { class: 'nm' }, v.nameDisplayAs || ''),
+      el('div', { class: 'sub' },
+        p.name ? el('span', { class: 'sub-party' }, p.name + ' · ') : '',
+        [h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
+          .filter(Boolean).join(' · '))));
+  }
+
+  body.replaceChildren(ring,
+    el('div', { class: 'learn-empty-hint', id: 'learn-hint' },
+      'tap or press 1-6 to identify the face'));
+  scheduleLearnRedraw();
+}
+
+function onPhotoPickAnswer(slot) {
+  if (!learnState || learnState.mode !== 'photo-pick' || learnState.locked) return;
+  if (slot < 0 || slot > 5) return;
+  learnState.locked = true;
+  learnState.picked = slot;
+  const correct = slot === learnState.answerSlot;
+
+  const pickedNode  = document.getElementById(`lt-out-${slot}`);
+  const correctNode = document.getElementById(`lt-out-${learnState.answerSlot}`);
+  if (pickedNode)  pickedNode.classList.add(correct ? 'correct' : 'wrong');
+  if (correctNode) correctNode.classList.add('correct');
+
+  const delta = correct ? 1 : -1;
+  const newScore = getLearnScore() + delta;
+  setLearnScore(newScore);
+  const scoreEl = document.getElementById('learn-score');
+  if (scoreEl) {
+    scoreEl.replaceChildren(
+      document.createTextNode(`score ${newScore}`),
+      el('span', { class: 'delta ' + (delta >= 0 ? 'up' : 'down') },
+        (delta >= 0 ? '+' : '') + delta));
+  }
+  const hint = document.getElementById('learn-hint');
+  if (hint) hint.textContent = correct ? 'right — next…' : 'no — answer highlighted, next…';
+
+  const myGen = learnState.gen;
+  setTimeout(() => {
+    if (routeGen === myGen && learnState && learnState.mode === 'photo-pick') {
+      runPhotoPickRound(myGen);
+    }
+  }, correct ? 1000 : 1700);
+}
+
+async function runMatchAllRound(gen) {
   const body = document.getElementById('learn-body');
   if (!body) return;
   body.replaceChildren(el('div', { class: 'loading' }, 'shuffling…'));
   const submitBtn = document.getElementById('learn-submit');
   const resetBtn  = document.getElementById('learn-reset');
   const nextBtn   = document.getElementById('learn-next');
+  const actions   = document.getElementById('learn-actions');
+  if (actions) actions.style.display = '';
   if (submitBtn) submitBtn.disabled = true;
   if (resetBtn)  resetBtn.disabled  = true;
   if (nextBtn)   nextBtn.style.display = 'none';
@@ -2664,6 +2964,7 @@ async function runLearnRound(gen) {
   if (photoOrder.every((v, i) => v === i)) photoOrder.push(photoOrder.shift());
 
   learnState = {
+    mode: 'match-all',
     people,
     photoOrder,             // photoOrder[rightIdx] = peopleIdx
     links: new Map(),       // leftIdx -> rightIdx
@@ -2802,17 +3103,18 @@ function scheduleLearnRedraw() {
   });
 }
 
-// Position the 2N bubbles around the ring. Bubble diameter is sized so that
-// adjacent bubbles have a small gap between them (no overlap). Profile i
-// sits at slot (2i) starting from 12 o'clock (-π/2); photo r at slot (2r+1).
+// Position the bubbles around the ring. Bubble diameter is sized so that
+// adjacent bubbles have a small gap between them (no overlap). Match-all
+// mode places 2N bubbles around the ring (profile/photo alternating);
+// photo-pick mode places 6 outer bubbles plus a centre bubble.
 function layoutLearnRing() {
   if (!learnState) return;
   const ring = document.getElementById('learn-grid');
   if (!ring) return;
   const W = ring.clientWidth;
   if (!W) return;
-  const N = learnState.people.length;
-  const total = 2 * N;
+  const mode = learnState.mode;
+  const total = mode === 'photo-pick' ? 6 : 2 * learnState.people.length;
   // Adjacent bubble *centres* on the ring are 2R·sin(π/total) apart. For a
   // gap of (1-f) of that distance to remain between bubble edges, we need
   // D ≤ 2R·sin(π/total)·f, with R = W/2 - D/2 - margin. Solve:
@@ -2823,6 +3125,39 @@ function layoutLearnRing() {
   const D = Math.max(56, Math.floor(((W - 2 * margin) * sf) / (1 + sf)));
   const R = W / 2 - D / 2 - margin;
   const cx = W / 2, cy = W / 2; // square ring
+
+  // Photo-pick mode: centre hex + 6 outer hexes.
+  if (mode === 'photo-pick') {
+    const center = document.getElementById('lt-center');
+    if (center) {
+      // Centre bubble is sized to the empty space between the 6 outer
+      // bubbles; for a hex flower with neighbour distance R, that's also
+      // about D. Slightly smaller looks less crowded.
+      const cD = Math.floor(D * 0.95);
+      center.style.left   = (cx - cD / 2) + 'px';
+      center.style.top    = (cy - cD / 2) + 'px';
+      center.style.width  = cD + 'px';
+      center.style.height = cD + 'px';
+      center.style.setProperty('--reveal-size',
+        Math.max(10, Math.min(15, Math.round(cD * 0.10))) + 'px');
+    }
+    for (let i = 0; i < 6; i++) {
+      const o = document.getElementById(`lt-out-${i}`);
+      if (!o) continue;
+      const a = -Math.PI / 2 + (i / 6) * 2 * Math.PI;
+      o.style.left = (cx + R * Math.cos(a) - D / 2) + 'px';
+      o.style.top  = (cy + R * Math.sin(a) - D / 2) + 'px';
+      o.style.width  = D + 'px';
+      o.style.height = D + 'px';
+      o.style.setProperty('--nm-size',
+        Math.max(11, Math.min(20, Math.round(D * 0.115))) + 'px');
+      o.style.setProperty('--sub-size',
+        Math.max(9, Math.min(13, Math.round(D * 0.078))) + 'px');
+    }
+    return;
+  }
+
+  const N = learnState.people.length;
   const place = (idx, isPhoto) => {
     // Profile at even slots, photo at odd. start at top (12 o'clock).
     const slot = isPhoto ? (idx * 2 + 1) : (idx * 2);
@@ -2860,6 +3195,9 @@ function drawLearnLines() {
   const svg = document.getElementById('learn-svg');
   const ring = document.getElementById('learn-grid');
   if (!svg || !ring || !learnState) return;
+  // photo-pick mode has no connector lines — there's only one answer
+  // per round, marked by border-state on the picked / correct bubble.
+  if (learnState.mode === 'photo-pick') return;
   const W = ring.clientWidth, H = ring.clientHeight;
   svg.setAttribute('width',  W);
   svg.setAttribute('height', H);
