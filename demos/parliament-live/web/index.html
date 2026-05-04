@@ -477,12 +477,25 @@
     /* Override .learn-node's `align-items: center` so the .nm / .sub divs
        stretch across the available width and text wraps on word boundaries
        inside that width — instead of shrinking to min-content (longest
-       word) and stacking each word on its own line. */
+       word) and stacking each word on its own line. Padding is set inline
+       in layoutLearnRing in pixels: percentage padding here would be
+       computed against the *parent ring's* width, not this bubble's, so
+       a 196px bubble inside a 640px ring would get 51px horizontal padding
+       and the text would have only ~90px to fit in. */
     align-items: stretch;
-    padding: 14% 8%;
     text-align: center;
     flex-direction: column;
     gap: 4px;
+  }
+  .learn-node .nm, .learn-node .sub {
+    /* The page-wide body rule sets word-break: break-word + overflow-wrap:
+       break-word so long URLs / debate titles don't force horizontal
+       scroll on phones. Inside narrow hex bubbles that breaks names like
+       "Knaresborough" in the middle. Override locally so wrap happens at
+       spaces only; with the hex clip-path any horizontal overflow on a
+       single oversize word is invisible anyway. */
+    word-break: normal;
+    overflow-wrap: normal;
   }
   .learn-node.profile .nm  { font-family: "SF Pro Display", system-ui; font-weight: 700; font-size: var(--nm-size, 14px); line-height: 1.15; color: var(--ink); }
   .learn-node.profile .sub { font-family: "SF Mono", monospace;        font-weight: 500; font-size: var(--sub-size, 11px); line-height: 1.25; color: var(--ink-soft); }
@@ -3141,6 +3154,11 @@ function layoutLearnRing() {
       center.style.setProperty('--reveal-size',
         Math.max(10, Math.min(15, Math.round(cD * 0.10))) + 'px');
     }
+    // Padding scales with the bubble's own width (px). Vertical padding
+    // is wider than horizontal because the hex pinches at top and bottom
+    // (the polygon goes from full width at 25%-75% to zero at 0%/100%).
+    const padX = Math.max(6, Math.round(D * 0.06));
+    const padY = Math.max(10, Math.round(D * 0.16));
     for (let i = 0; i < 6; i++) {
       const o = document.getElementById(`lt-out-${i}`);
       if (!o) continue;
@@ -3149,6 +3167,7 @@ function layoutLearnRing() {
       o.style.top  = (cy + R * Math.sin(a) - D / 2) + 'px';
       o.style.width  = D + 'px';
       o.style.height = D + 'px';
+      o.style.padding = padY + 'px ' + padX + 'px';
       o.style.setProperty('--nm-size',
         Math.max(11, Math.min(20, Math.round(D * 0.115))) + 'px');
       o.style.setProperty('--sub-size',
@@ -3170,12 +3189,15 @@ function layoutLearnRing() {
   // CSSStyleDeclaration only honours custom-property writes via setProperty.
   // (Object.assign on .style routes through the same setter.) So scale-vars
   // have to be set explicitly with setProperty.
+  const padX = Math.max(6, Math.round(D * 0.06));
+  const padY = Math.max(10, Math.round(D * 0.16));
   for (let i = 0; i < N; i++) {
     const lt = document.getElementById(`lt-L-${i}`);
     if (!lt) continue;
     const { x, y } = place(i, false);
     lt.style.left = x + 'px'; lt.style.top = y + 'px';
     lt.style.width = D + 'px'; lt.style.height = D + 'px';
+    lt.style.padding = padY + 'px ' + padX + 'px';
     // Text scales with bubble size — empirical tuning that stays legible
     // for N=2 (huge), N=3 (default), and N=5 (tight).
     lt.style.setProperty('--nm-size',  Math.max(11, Math.min(20, Math.round(D * 0.115))) + 'px');
