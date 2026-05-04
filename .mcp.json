@@ -1,0 +1,14 @@
+{
+  "// purpose": "MCP servers Claude Code should auto-start on session boot.",
+  "// schema":  "Each entry under mcpServers is a server definition; type=stdio uses the package's bin entry; type=http for HTTP transports.",
+  "mcpServers": {
+    "chrome-devtools": {
+      "// what":  "Drives a headless Chrome via the Chrome DevTools Protocol. Exposes screenshot, accessibility tree, network monitor, page navigation, console capture as MCP tools — tighter and faster than DOM scraping.",
+      "// docs":  "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "// when":  "Use when an audit / screenshot / a11y-tree task needs CDP-level access to the demo at fpkg.fly.dev.",
+      "type":    "stdio",
+      "command": "npx",
+      "args":    ["-y", "chrome-devtools-mcp@latest"]
+    }
+  }
+}
