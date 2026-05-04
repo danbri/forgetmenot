@@ -524,12 +524,13 @@
     color: var(--ink-soft); font-size: 13px; text-align: center; padding: .6rem 0 0;
   }
 
-  /* Monochrome mode: hide all party / gold accents and the party-name
-     span in profile sub-lines. Activated by the .learn-mono class on
-     the .learn-board. Only colour changes — geometry is unaffected. */
+  /* Monochrome mode: hide all party / gold accents, the party-name span
+     in profile sub-lines, and desaturate photos. Activated by the
+     .learn-mono class on the .learn-board. Geometry is unaffected. */
   .learn-mono .learn-node.profile { background: var(--line); }
   .learn-mono .learn-node.selected { background: rgba(255,255,255,.80); }
   .learn-mono .learn-node.linked   { background: rgba(255,255,255,.40); }
+  .learn-mono .learn-node.photo .photo { filter: grayscale(100%); }
   .learn-mono .learn-size button.on { background: rgba(255,255,255,.20); color: var(--ink); }
   .learn-mono .learn-toggle.on { background: rgba(255,255,255,.20); color: var(--ink); }
   .learn-mono .sub-party { display: none; }
