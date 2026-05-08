@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Instruments laid before Parliament, by enabling Act</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="When statutory instruments were laid before the UK Parliament, by enabling Act of Parliament — explore spikes (e.g. COVID, EU exit) and long tails. Self-contained snapshot from the UK Parliament Statutory Instruments API.">
+<meta name="color-scheme" content="light dark">
+<style>
+  :root {
+    --bg:        #fbfaf6;
+    --surface:   #ffffff;
+    --ink:       #1d1d1b;
+    --ink-soft:  #4a4a47;
+    --ink-mute:  #7d7d77;
+    --line:      #d8d6cc;
+    --accent:    #7d2127;
+    --focus:     #1a4ed8;
+    --warning-bg:#fff5d6;
+    --warning-ink:#5a4500;
+    --c0: #0072b2;
+    --c1: #d55e00;
+    --c2: #009e73;
+    --c3: #cc79a7;
+    --c4: #56b4e9;
+    --c5: #b8651e;
+    --c6: #6f4596;
+    --c7: #444444;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:       #161614;
+      --surface:  #1f1f1c;
+      --ink:      #f3f1ea;
+      --ink-soft: #c8c5ba;
+      --ink-mute: #918e83;
+      --line:     #2d2d28;
+      --accent:   #d77a82;
+      --focus:    #82a4ff;
+      --warning-bg:#3a3120;
+      --warning-ink:#ffe28a;
+    }
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { background: var(--bg); color: var(--ink); }
+  body {
+    margin: 0;
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { max-width: 960px; margin: 0 auto; padding: 1rem 1rem 4rem; }
+  h1   { font-size: 1.5rem; margin: .5rem 0 .25rem; line-height: 1.2; }
+  h2   { font-size: 1.05rem; margin: 1.25rem 0 .5rem; }
+  p.lede { color: var(--ink-soft); margin: 0 0 1rem; max-width: 60ch; }
+  .skip-link {
+    position: absolute; left: -999px; top: auto;
+    padding: .5rem 1rem; background: var(--accent); color: #fff;
+    border-radius: 4px; z-index: 100;
+  }
+  .skip-link:focus { left: 1rem; top: 1rem; }
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px !important; height: 1px !important;
+    padding: 0 !important; margin: -1px !important;
+    overflow: hidden !important; clip: rect(0,0,0,0) !important;
+    white-space: nowrap !important; border: 0 !important;
+  }
+
+  .toolbar {
+    display: flex; flex-wrap: wrap; gap: .5rem;
+    margin: .5rem 0 1rem;
+    padding: .75rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  .toolbar fieldset { border: 0; padding: 0; margin: 0; display: flex; gap: .25rem; align-items: center; }
+  .toolbar legend   { padding: 0; font-size: .875rem; color: var(--ink-soft); margin-right: .5rem; }
+  .toolbar label    { font-size: .875rem; color: var(--ink-soft); }
+  .toolbar select   {
+    flex: 1 1 12ch; min-width: 0;
+    font: inherit; font-size: 1rem;
+    padding: .5rem .625rem;
+    background: var(--bg); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px;
+  }
+  button:focus, select:focus, [role="tab"]:focus {
+    outline: 3px solid var(--focus); outline-offset: 2px;
+  }
+  button {
+    font: inherit; font-size: .9375rem;
+    padding: .5rem .75rem;
+    background: var(--surface); color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    min-height: 40px;
+  }
+  button:hover { border-color: var(--ink-soft); }
+  button.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+  .chart-wrap {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: .75rem;
+  }
+  .chart-wrap svg { width: 100%; height: auto; display: block; touch-action: pan-y; }
+  .chart-wrap .axis text { fill: var(--ink-soft); font-size: 11px; }
+  .chart-wrap .axis line, .chart-wrap .axis path { stroke: var(--line); fill: none; }
+  .chart-wrap .grid line { stroke: var(--line); stroke-dasharray: 2 3; }
+  .chart-wrap .series { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+  .chart-wrap .series-dot { stroke-width: 0; }
+  .chart-wrap .focus-line { stroke: var(--ink-mute); stroke-dasharray: 2 3; }
+
+  .s0 .series, .s0 .series-dot { stroke: var(--c0); fill: var(--c0); }
+  .s1 .series, .s1 .series-dot { stroke: var(--c1); fill: var(--c1); }
+  .s2 .series, .s2 .series-dot { stroke: var(--c2); fill: var(--c2); }
+  .s3 .series, .s3 .series-dot { stroke: var(--c3); fill: var(--c3); }
+  .s4 .series, .s4 .series-dot { stroke: var(--c4); fill: var(--c4); }
+  .s5 .series, .s5 .series-dot { stroke: var(--c5); fill: var(--c5); }
+  .s6 .series, .s6 .series-dot { stroke: var(--c6); fill: var(--c6); }
+  .s7 .series, .s7 .series-dot { stroke: var(--c7); fill: var(--c7); }
+  .s0 .series { stroke-dasharray: none; }
+  .s1 .series { stroke-dasharray: 6 3; }
+  .s2 .series { stroke-dasharray: 2 2; }
+  .s3 .series { stroke-dasharray: 8 3 2 3; }
+  .s4 .series { stroke-dasharray: 1 3; }
+  .s5 .series { stroke-dasharray: 12 3; }
+  .s6 .series { stroke-dasharray: 4 2 1 2; }
+  .s7 .series { stroke-dasharray: 3 5; }
+
+  .legend { list-style: none; padding: 0; margin: .75rem 0 0; display: flex; flex-wrap: wrap; gap: .25rem; }
+  .legend li {
+    display: inline-flex; align-items: center; gap: .375rem;
+    background: var(--bg); border: 1px solid var(--line);
+    border-radius: 999px; padding: .25rem .25rem .25rem .625rem;
+    font-size: .875rem; color: var(--ink); max-width: 100%;
+  }
+  .legend .swatch { width: .75rem; height: .75rem; border-radius: 999px; flex: 0 0 auto; }
+  .legend button {
+    padding: .125rem .5rem; min-height: 28px; font-size: .8125rem;
+    border-color: transparent; background: transparent; color: var(--ink-soft);
+  }
+  .legend button:hover { color: var(--ink); }
+  .legend .label-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: min(60vw, 32ch); }
+  .legend .count-pill {
+    background: var(--bg); color: var(--ink-soft);
+    border: 1px solid var(--line); border-radius: 999px;
+    padding: 0 .375rem; font-size: .75rem;
+  }
+
+  .tip {
+    position: absolute; pointer-events: none;
+    background: var(--surface); color: var(--ink);
+    border: 1px solid var(--line); border-radius: 6px;
+    padding: .375rem .5rem; font-size: .8125rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    transform: translate(-50%, -110%);
+    transition: opacity .12s;
+    max-width: 22rem;
+  }
+  .tip.hidden { opacity: 0; }
+  .tip dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 0 .5rem; }
+  .tip dt { color: var(--ink-soft); }
+
+  .status[role="status"] {
+    display: block; padding: .5rem .75rem; margin: .5rem 0;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    color: var(--ink-soft); font-size: .875rem;
+  }
+  .status.empty { background: var(--warning-bg); color: var(--warning-ink); border-color: var(--warning-bg); }
+
+  details.data-fallback summary { cursor: pointer; padding: .5rem 0; color: var(--ink-soft); }
+  details.data-fallback table { width: 100%; border-collapse: collapse; font-size: .8125rem; }
+  details.data-fallback th, details.data-fallback td { padding: .25rem .5rem; border-bottom: 1px solid var(--line); text-align: left; }
+
+  .blurb {
+    margin: .25rem 0 .75rem; padding: .5rem .75rem;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 6px;
+    color: var(--ink-soft); font-size: .875rem;
+  }
+  .blurb strong { color: var(--ink); font-weight: 600; }
+
+  footer {
+    margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--line);
+    font-size: .8125rem; color: var(--ink-soft);
+  }
+  footer a { color: var(--ink-soft); }
+
+  [role="tablist"] { display: inline-flex; gap: 0; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 2px; }
+  [role="tab"] { background: transparent; border: 0; border-radius: 4px; padding: .375rem .625rem; font-size: .875rem; color: var(--ink-soft); min-height: 36px; }
+  [role="tab"][aria-selected="true"] { background: var(--surface); color: var(--ink); }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 1.25rem; }
+    main { padding: .75rem .5rem 4rem; }
+  }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#chart">Skip to chart</a>
+
+<main>
+  <h1>Statutory instruments laid before Parliament, by enabling Act</h1>
+  <p class="lede">
+    Each line is one Act of Parliament. The y-axis counts how many statutory instruments made under that Act
+    were laid before Parliament in each time bucket. Try removing or adding Acts to compare spikes
+    (e.g.&nbsp;COVID under the Public Health Act 1984) and long tails (e.g.&nbsp;EU exit under the
+    European Union (Withdrawal) Act 2018). This is a <strong>self-contained snapshot</strong> — the data
+    is baked into the page, no network needed after first load.
+  </p>
+
+  <div class="toolbar" role="toolbar" aria-label="Chart controls">
+    <fieldset>
+      <legend>Bucket by:</legend>
+      <div role="tablist" aria-label="Time bucket">
+        <button role="tab" id="tab-week"  aria-selected="true"  data-bucket="week">Week</button>
+        <button role="tab" id="tab-month" aria-selected="false" data-bucket="month">Month</button>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Y-axis:</legend>
+      <div role="tablist" aria-label="Y-axis scale">
+        <button role="tab" id="tab-lin" aria-selected="true"  data-scale="linear">Linear</button>
+        <button role="tab" id="tab-log" aria-selected="false" data-scale="log">Log</button>
+      </div>
+    </fieldset>
+    <button id="reset-btn" type="button">Reset to featured</button>
+  </div>
+
+  <h2 id="acts-heading">Add an Act</h2>
+  <div class="toolbar" role="search" aria-labelledby="acts-heading">
+    <label for="picker" class="visually-hidden">Pick an Act of Parliament to add</label>
+    <select id="picker">
+      <option value="">— pick another Act to add —</option>
+    </select>
+    <button id="add-btn" class="primary" type="button">Add</button>
+  </div>
+
+  <p id="status" class="status" role="status" hidden></p>
+
+  <h2 id="chart-heading">Chart</h2>
+  <p id="blurb" class="blurb" hidden></p>
+  <div class="chart-wrap" id="chart" role="img" aria-labelledby="chart-heading" aria-describedby="chart-desc">
+    <p id="chart-desc" class="visually-hidden">Multi-line chart. Each line shows the number of statutory instruments laid per time bucket for one enabling Act of Parliament.</p>
+    <svg id="svg" viewBox="0 0 800 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+    <div id="tip" class="tip hidden" role="tooltip" aria-hidden="true"></div>
+  </div>
+  <ul id="legend" class="legend" aria-label="Selected Acts"></ul>
+
+  <details class="data-fallback">
+    <summary>Show data as a table (accessible alternative)</summary>
+    <div id="table-wrap"></div>
+  </details>
+
+  <footer>
+    <p>
+      Contains Parliamentary information licensed under the
+      <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/" rel="license noopener">Open Parliament Licence v3.0</a>.
+      Source: <a href="https://statutoryinstruments-api.parliament.uk/" rel="noopener">UK Parliament Statutory Instruments API</a>.
+      Snapshot fetched <span id="fetch-date"></span>. Laying date is the earlier of the Commons / Lords laying dates;
+      falls back to the SI's made date when neither House date is recorded. Note: the SI API only goes back to
+      mid-2017, so older Acts may show fewer SIs than they have actually made.
+    </p>
+  </footer>
+</main>
+
+<script id="data" type="application/json">{"acts":[{"id":"wJgZW8CQ","name":"Public Health (Control of Disease) Act 1984","year":1984,"featured":true,"blurb":"The 'COVID lockdown vehicle' \u2014 most COVID-era restrictions were SIs under this 1984 Act.","week":{"count":200,"dateMin":"2020-02-10","dateMax":"2025-03-07","buckets":[{"date":"2020-W07","count":1},{"date":"2020-W10","count":1},{"date":"2020-W13","count":2},{"date":"2020-W17","count":1},{"date":"2020-W20","count":1},{"date":"2020-W23","count":3},{"date":"2020-W24","count":1},{"date":"2020-W25","count":1},{"date":"2020-W27","count":2},{"date":"2020-W28","count":4},{"date":"2020-W29","count":1},{"date":"2020-W30","count":6},{"date":"2020-W31","count":4},{"date":"2020-W32","count":5},{"date":"2020-W33","count":4},{"date":"2020-W34","count":3},{"date":"2020-W35","count":6},{"date":"2020-W36","count":4},{"date":"2020-W37","count":4},{"date":"2020-W38","count":8},{"date":"2020-W39","count":6},{"date":"2020-W40","count":7},{"date":"2020-W41","count":2},{"date":"2020-W42","count":6},{"date":"2020-W43","count":2},{"date":"2020-W44","count":5},{"date":"2020-W45","count":3},{"date":"2020-W46","count":4},{"date":"2020-W47","count":4},{"date":"2020-W48","count":3},{"date":"2020-W49","count":3},{"date":"2020-W50","count":3},{"date":"2020-W51","count":3},{"date":"2020-W52","count":1},{"date":"2020-W53","count":3},{"date":"2021-W01","count":3},{"date":"2021-W02","count":3},{"date":"2021-W03","count":3},{"date":"2021-W04","count":2},{"date":"2021-W06","count":2},{"date":"2021-W07","count":2},{"date":"2021-W09","count":2},{"date":"2021-W10","count":1},{"date":"2021-W11","count":1},{"date":"2021-W12","count":2},{"date":"2021-W13","count":1},{"date":"2021-W14","count":3},{"date":"2021-W16","count":1},{"date":"2021-W18","count":1},{"date":"2021-W19","count":2},{"date":"2021-W20","count":2},{"date":"2021-W23","count":2},{"date":"2021-W24","count":1},{"date":"2021-W25","count":1},{"date":"2021-W26","count":1},{"date":"2021-W27","count":1},{"date":"2021-W28","count":2},{"date":"2021-W29","count":2},{"date":"2021-W30","count":1},{"date":"2021-W31","count":1},{"date":"2021-W34","count":1},{"date":"2021-W35","count":1},{"date":"2021-W36","count":1},{"date":"2021-W37","count":1},{"date":"2021-W38","count":2},{"date":"2021-W39","count":1},{"date":"2021-W40","count":1},{"date":"2021-W42","count":2},{"date":"2021-W43","count":1},{"date":"2021-W44","count":2},{"date":"2021-W46","count":1},{"date":"2021-W48","count":5},{"date":"2021-W49","count":4},{"date":"2021-W50","count":6},{"date":"2022-W01","count":1},{"date":"2022-W04","count":1},{"date":"2022-W06","count":1},{"date":"2022-W08","count":2},{"date":"2022-W11","count":1},{"date":"2022-W23","count":1},{"date":"2023-W01","count":2},{"date":"2023-W42","count":1},{"date":"2025-W10","count":1}]},"month":{"count":200,"dateMin":"2020-02-10","dateMax":"2025-03-07","buckets":[{"date":"2020-02","count":1},{"date":"2020-03","count":3},{"date":"2020-04","count":1},{"date":"2020-05","count":1},{"date":"2020-06","count":5},{"date":"2020-07","count":17},{"date":"2020-08","count":18},{"date":"2020-09","count":26},{"date":"2020-10","count":18},{"date":"2020-11","count":16},{"date":"2020-12","count":11},{"date":"2021-01","count":11},{"date":"2021-02","count":4},{"date":"2021-03","count":6},{"date":"2021-04","count":5},{"date":"2021-05","count":5},{"date":"2021-06","count":5},{"date":"2021-07","count":6},{"date":"2021-08","count":2},{"date":"2021-09","count":5},{"date":"2021-10","count":5},{"date":"2021-11","count":8},{"date":"2021-12","count":10},{"date":"2022-01","count":2},{"date":"2022-02","count":3},{"date":"2022-03","count":1},{"date":"2022-06","count":1},{"date":"2023-01","count":2},{"date":"2023-10","count":1},{"date":"2025-03","count":1}]}},{"id":"tjHKfkMm","name":"Coronavirus Act 2020","year":2020,"featured":true,"blurb":"Emergency Act passed in March 2020. Smaller SI tail than the Public Health Act.","week":{"count":28,"dateMin":"2020-03-27","dateMax":"2022-03-23","buckets":[{"date":"2020-W13","count":3},{"date":"2020-W14","count":2},{"date":"2020-W15","count":1},{"date":"2020-W16","count":1},{"date":"2020-W25","count":1},{"date":"2020-W27","count":2},{"date":"2020-W31","count":1},{"date":"2020-W35","count":1},{"date":"2020-W36","count":2},{"date":"2020-W37","count":1},{"date":"2020-W38","count":1},{"date":"2020-W43","count":1},{"date":"2020-W50","count":1},{"date":"2021-W03","count":1},{"date":"2021-W10","count":2},{"date":"2021-W16","count":1},{"date":"2021-W19","count":2},{"date":"2021-W25","count":1},{"date":"2021-W36","count":1},{"date":"2021-W43","count":1},{"date":"2022-W12","count":1}]},"month":{"count":28,"dateMin":"2020-03-27","dateMax":"2022-03-23","buckets":[{"date":"2020-03","count":3},{"date":"2020-04","count":4},{"date":"2020-06","count":1},{"date":"2020-07","count":3},{"date":"2020-08","count":1},{"date":"2020-09","count":4},{"date":"2020-10","count":1},{"date":"2020-12","count":1},{"date":"2021-01","count":1},{"date":"2021-03","count":2},{"date":"2021-04","count":1},{"date":"2021-05","count":2},{"date":"2021-06","count":1},{"date":"2021-09","count":1},{"date":"2021-10","count":1},{"date":"2022-03","count":1}]}},{"id":"Ma8CbL0w","name":"European Union (Withdrawal) Act 2018","year":2018,"featured":true,"blurb":"The Brexit retained-EU-law vehicle. Massive SI flood Oct 2018 \u2013 Mar 2019.","week":{"count":1254,"dateMin":"2018-07-16","dateMax":"2026-04-28","buckets":[{"date":"2018-W29","count":13},{"date":"2018-W30","count":19},{"date":"2018-W33","count":1},{"date":"2018-W34","count":1},{"date":"2018-W35","count":2},{"date":"2018-W36","count":2},{"date":"2018-W37","count":2},{"date":"2018-W38","count":4},{"date":"2018-W39","count":8},{"date":"2018-W40","count":3},{"date":"2018-W41","count":13},{"date":"2018-W42","count":15},{"date":"2018-W43","count":15},{"date":"2018-W44","count":32},{"date":"2018-W45","count":13},{"date":"2018-W46","count":21},{"date":"2018-W47","count":34},{"date":"2018-W48","count":51},{"date":"2018-W49","count":31},{"date":"2018-W50","count":44},{"date":"2018-W51","count":52},{"date":"2019-W02","count":16},{"date":"2019-W03","count":34},{"date":"2019-W04","count":32},{"date":"2019-W05","count":51},{"date":"2019-W06","count":30},{"date":"2019-W07","count":57},{"date":"2019-W08","count":21},{"date":"2019-W09","count":21},{"date":"2019-W10","count":23},{"date":"2019-W11","count":10},{"date":"2019-W12","count":5},{"date":"2019-W13","count":7},{"date":"2019-W14","count":14},{"date":"2019-W15","count":10},{"date":"2019-W18","count":2},{"date":"2019-W19","count":3},{"date":"2019-W20","count":1},{"date":"2019-W21","count":1},{"date":"2019-W22","count":1},{"date":"2019-W23","count":3},{"date":"2019-W24","count":5},{"date":"2019-W25","count":6},{"date":"2019-W26","count":2},{"date":"2019-W27","count":7},{"date":"2019-W28","count":6},{"date":"2019-W29","count":7},{"date":"2019-W30","count":12},{"date":"2019-W32","count":1},{"date":"2019-W36","count":9},{"date":"2019-W37","count":3},{"date":"2019-W39","count":1},{"date":"2019-W41","count":4},{"date":"2019-W42","count":8},{"date":"2019-W43","count":3},{"date":"2019-W44","count":1},{"date":"2019-W45","count":1},{"date":"2020-W09","count":2},{"date":"2020-W10","count":2},{"date":"2020-W11","count":2},{"date":"2020-W12","count":2},{"date":"2020-W13","count":2},{"date":"2020-W17","count":3},{"date":"2020-W18","count":2},{"date":"2020-W19","count":2},{"date":"2020-W20","count":3},{"date":"2020-W24","count":1},{"date":"2020-W25","count":2},{"date":"2020-W26","count":2},{"date":"2020-W27","count":16},{"date":"2020-W28","count":7},{"date":"2020-W29","count":7},{"date":"2020-W30","count":8},{"date":"2020-W33","count":2},{"date":"2020-W34","count":1},{"date":"2020-W35","count":1},{"date":"2020-W36","count":1},{"date":"2020-W37","count":3},{"date":"2020-W38","count":6},{"date":"2020-W39","count":5},{"date":"2020-W40","count":6},{"date":"2020-W41","count":14},{"date":"2020-W42","count":34},{"date":"2020-W43","count":16},{"date":"2020-W45","count":6},{"date":"2020-W46","count":5},{"date":"2020-W47","count":4},{"date":"2020-W48","count":7},{"date":"2020-W49","count":4},{"date":"2020-W50","count":9},{"date":"2020-W51","count":2},{"date":"2020-W52","count":4},{"date":"2020-W53","count":1},{"date":"2021-W01","count":3},{"date":"2021-W02","count":7},{"date":"2021-W03","count":3},{"date":"2021-W04","count":1},{"date":"2021-W05","count":1},{"date":"2021-W06","count":4},{"date":"2021-W07","count":3},{"date":"2021-W08","count":4},{"date":"2021-W09","count":2},{"date":"2021-W10","count":6},{"date":"2021-W11","count":5},{"date":"2021-W12","count":11},{"date":"2021-W13","count":3},{"date":"2021-W14","count":1},{"date":"2021-W15","count":1},{"date":"2021-W16","count":1},{"date":"2021-W17","count":3},{"date":"2021-W18","count":2},{"date":"2021-W19","count":8},{"date":"2021-W20","count":1},{"date":"2021-W21","count":5},{"date":"2021-W22","count":3},{"date":"2021-W23","count":4},{"date":"2021-W24","count":1},{"date":"2021-W26","count":3},{"date":"2021-W27","count":2},{"date":"2021-W28","count":2},{"date":"2021-W29","count":4},{"date":"2021-W30","count":1},{"date":"2021-W32","count":1},{"date":"2021-W35","count":1},{"date":"2021-W36","count":3},{"date":"2021-W38","count":1},{"date":"2021-W40","count":1},{"date":"2021-W41","count":3},{"date":"2021-W42","count":4},{"date":"2021-W43","count":4},{"date":"2021-W44","count":4},{"date":"2021-W46","count":3},{"date":"2021-W47","count":2},{"date":"2021-W48","count":1},{"date":"2021-W49","count":2},{"date":"2021-W50","count":3},{"date":"2022-W01","count":1},{"date":"2022-W02","count":2},{"date":"2022-W03","count":3},{"date":"2022-W04","count":4},{"date":"2022-W05","count":1},{"date":"2022-W07","count":1},{"date":"2022-W08","count":1},{"date":"2022-W09","count":1},{"date":"2022-W12","count":2},{"date":"2022-W13","count":1},{"date":"2022-W17","count":3},{"date":"2022-W18","count":1},{"date":"2022-W19","count":5},{"date":"2022-W20","count":1},{"date":"2022-W23","count":4},{"date":"2022-W24","count":1},{"date":"2022-W25","count":3},{"date":"2022-W27","count":4},{"date":"2022-W29","count":4},{"date":"2022-W31","count":1},{"date":"2022-W36","count":2},{"date":"2022-W41","count":1},{"date":"2022-W42","count":15},{"date":"2022-W43","count":3},{"date":"2022-W44","count":1},{"date":"2022-W45","count":3},{"date":"2022-W46","count":2},{"date":"2022-W47","count":1},{"date":"2022-W48","count":2},{"date":"2022-W49","count":1},{"date":"2022-W51","count":2},{"date":"2023-W02","count":1},{"date":"2023-W03","count":1},{"date":"2023-W04","count":1},{"date":"2023-W09","count":1},{"date":"2023-W10","count":1},{"date":"2023-W12","count":1},{"date":"2023-W16","count":3},{"date":"2023-W17","count":2},{"date":"2023-W23","count":2},{"date":"2023-W24","count":1},{"date":"2023-W26","count":2},{"date":"2023-W28","count":1},{"date":"2023-W32","count":1},{"date":"2023-W36","count":4},{"date":"2023-W43","count":1},{"date":"2023-W46","count":2},{"date":"2024-W05","count":2},{"date":"2024-W10","count":2},{"date":"2024-W11","count":2},{"date":"2024-W12","count":1},{"date":"2024-W31","count":1},{"date":"2024-W32","count":1},{"date":"2024-W36","count":1},{"date":"2024-W41","count":2},{"date":"2024-W44","count":2},{"date":"2025-W10","count":1},{"date":"2025-W11","count":2},{"date":"2025-W14","count":2},{"date":"2025-W17","count":1},{"date":"2025-W23","count":1},{"date":"2025-W29","count":3},{"date":"2025-W30","count":1},{"date":"2025-W42","count":1},{"date":"2025-W43","count":3},{"date":"2025-W45","count":1},{"date":"2025-W50","count":1},{"date":"2025-W51","count":1},{"date":"2026-W10","count":2},{"date":"2026-W17","count":1},{"date":"2026-W18","count":1}]},"month":{"count":1254,"dateMin":"2018-07-16","dateMax":"2026-04-28","buckets":[{"date":"2018-07","count":32},{"date":"2018-08","count":4},{"date":"2018-09","count":16},{"date":"2018-10","count":72},{"date":"2018-11","count":125},{"date":"2018-12","count":127},{"date":"2019-01","count":131},{"date":"2019-02","count":128},{"date":"2019-03","count":48},{"date":"2019-04","count":24},{"date":"2019-05","count":8},{"date":"2019-06","count":16},{"date":"2019-07","count":32},{"date":"2019-08","count":1},{"date":"2019-09","count":13},{"date":"2019-10","count":16},{"date":"2019-11","count":1},{"date":"2020-02","count":2},{"date":"2020-03","count":8},{"date":"2020-04","count":5},{"date":"2020-05","count":5},{"date":"2020-06","count":8},{"date":"2020-07","count":35},{"date":"2020-08","count":4},{"date":"2020-09","count":21},{"date":"2020-10","count":64},{"date":"2020-11","count":24},{"date":"2020-12","count":18},{"date":"2021-01","count":14},{"date":"2021-02","count":12},{"date":"2021-03","count":27},{"date":"2021-04","count":6},{"date":"2021-05","count":16},{"date":"2021-06","count":9},{"date":"2021-07","count":11},{"date":"2021-08","count":2},{"date":"2021-09","count":4},{"date":"2021-10","count":12},{"date":"2021-11","count":9},{"date":"2021-12","count":6},{"date":"2022-01","count":11},{"date":"2022-02","count":2},{"date":"2022-03","count":4},{"date":"2022-04","count":3},{"date":"2022-05","count":7},{"date":"2022-06","count":8},{"date":"2022-07","count":8},{"date":"2022-08","count":1},{"date":"2022-09","count":2},{"date":"2022-10","count":20},{"date":"2022-11","count":7},{"date":"2022-12","count":4},{"date":"2023-01","count":3},{"date":"2023-03","count":3},{"date":"2023-04","count":5},{"date":"2023-06","count":5},{"date":"2023-07","count":1},{"date":"2023-08","count":1},{"date":"2023-09","count":4},{"date":"2023-10","count":1},{"date":"2023-11","count":2},{"date":"2024-01","count":2},{"date":"2024-03","count":5},{"date":"2024-07","count":1},{"date":"2024-08","count":1},{"date":"2024-09","count":1},{"date":"2024-10","count":4},{"date":"2025-03","count":4},{"date":"2025-04","count":2},{"date":"2025-06","count":1},{"date":"2025-07","count":4},{"date":"2025-10","count":4},{"date":"2025-11","count":1},{"date":"2025-12","count":2},{"date":"2026-03","count":2},{"date":"2026-04","count":2}]}},{"id":"blBt1z4K","name":"European Union (Withdrawal Agreement) Act 2020","year":2020,"featured":true,"blurb":"Implements the UK\u2013EU Withdrawal Agreement; smaller, focused SI run.","week":{"count":43,"dateMin":"2020-01-28","dateMax":"2025-06-04","buckets":[{"date":"2020-W05","count":4},{"date":"2020-W21","count":1},{"date":"2020-W27","count":1},{"date":"2020-W28","count":2},{"date":"2020-W30","count":3},{"date":"2020-W38","count":3},{"date":"2020-W39","count":3},{"date":"2020-W40","count":2},{"date":"2020-W41","count":3},{"date":"2020-W42","count":7},{"date":"2020-W43","count":1},{"date":"2020-W45","count":1},{"date":"2020-W46","count":1},{"date":"2020-W47","count":2},{"date":"2020-W49","count":1},{"date":"2020-W50","count":3},{"date":"2021-W47","count":1},{"date":"2022-W25","count":1},{"date":"2022-W51","count":1},{"date":"2023-W02","count":1},{"date":"2025-W23","count":1}]},"month":{"count":43,"dateMin":"2020-01-28","dateMax":"2025-06-04","buckets":[{"date":"2020-01","count":4},{"date":"2020-05","count":1},{"date":"2020-06","count":1},{"date":"2020-07","count":5},{"date":"2020-09","count":8},{"date":"2020-10","count":11},{"date":"2020-11","count":4},{"date":"2020-12","count":4},{"date":"2021-11","count":1},{"date":"2022-06","count":1},{"date":"2022-12","count":1},{"date":"2023-01","count":1},{"date":"2025-06","count":1}]}},{"id":"oD0HHKb3","name":"Retained EU Law (Revocation and Reform) Act 2023","year":2023,"featured":true,"blurb":"The 2023 'sunset and revoke' Act. Late-2023 SI surge.","week":{"count":101,"dateMin":"2023-07-19","dateMax":"2026-04-21","buckets":[{"date":"2023-W29","count":1},{"date":"2023-W36","count":2},{"date":"2023-W37","count":2},{"date":"2023-W38","count":4},{"date":"2023-W41","count":1},{"date":"2023-W42","count":5},{"date":"2023-W43","count":3},{"date":"2023-W45","count":4},{"date":"2023-W47","count":1},{"date":"2023-W49","count":1},{"date":"2024-W02","count":1},{"date":"2024-W04","count":1},{"date":"2024-W06","count":1},{"date":"2024-W09","count":1},{"date":"2024-W10","count":1},{"date":"2024-W11","count":2},{"date":"2024-W12","count":2},{"date":"2024-W15","count":1},{"date":"2024-W16","count":2},{"date":"2024-W20","count":1},{"date":"2024-W21","count":1},{"date":"2024-W41","count":1},{"date":"2024-W43","count":1},{"date":"2024-W47","count":2},{"date":"2024-W49","count":1},{"date":"2025-W05","count":2},{"date":"2025-W09","count":2},{"date":"2025-W10","count":1},{"date":"2025-W11","count":2},{"date":"2025-W12","count":2},{"date":"2025-W13","count":3},{"date":"2025-W14","count":2},{"date":"2025-W17","count":2},{"date":"2025-W20","count":1},{"date":"2025-W29","count":1},{"date":"2025-W36","count":2},{"date":"2025-W38","count":1},{"date":"2025-W42","count":1},{"date":"2026-W03","count":2},{"date":"2026-W04","count":5},{"date":"2026-W05","count":4},{"date":"2026-W07","count":2},{"date":"2026-W09","count":6},{"date":"2026-W10","count":5},{"date":"2026-W11","count":4},{"date":"2026-W12","count":3},{"date":"2026-W13","count":2},{"date":"2026-W16","count":1},{"date":"2026-W17","count":2}]},"month":{"count":101,"dateMin":"2023-07-19","dateMax":"2026-04-21","buckets":[{"date":"2023-07","count":1},{"date":"2023-09","count":8},{"date":"2023-10","count":9},{"date":"2023-11","count":5},{"date":"2023-12","count":1},{"date":"2024-01","count":2},{"date":"2024-02","count":2},{"date":"2024-03","count":5},{"date":"2024-04","count":3},{"date":"2024-05","count":2},{"date":"2024-10","count":2},{"date":"2024-11","count":2},{"date":"2024-12","count":1},{"date":"2025-01","count":2},{"date":"2025-02","count":2},{"date":"2025-03","count":8},{"date":"2025-04","count":4},{"date":"2025-05","count":1},{"date":"2025-07","count":1},{"date":"2025-09","count":3},{"date":"2025-10","count":1},{"date":"2026-01","count":11},{"date":"2026-02","count":8},{"date":"2026-03","count":14},{"date":"2026-04","count":3}]}},{"id":"lyPkqhmP","name":"Environment Act 2021","year":2021,"featured":false,"blurb":"Post-EU domestic environmental framework.","week":{"count":21,"dateMin":"2022-11-23","dateMax":"2026-05-06","buckets":[{"date":"2022-W47","count":1},{"date":"2022-W51","count":6},{"date":"2023-W12","count":1},{"date":"2023-W16","count":1},{"date":"2023-W47","count":1},{"date":"2023-W48","count":2},{"date":"2024-W03","count":2},{"date":"2024-W21","count":1},{"date":"2024-W43","count":1},{"date":"2024-W48","count":1},{"date":"2025-W23","count":1},{"date":"2025-W45","count":1},{"date":"2026-W13","count":1},{"date":"2026-W19","count":1}]},"month":{"count":21,"dateMin":"2022-11-23","dateMax":"2026-05-06","buckets":[{"date":"2022-11","count":1},{"date":"2022-12","count":6},{"date":"2023-03","count":1},{"date":"2023-04","count":1},{"date":"2023-11","count":3},{"date":"2024-01","count":2},{"date":"2024-05","count":1},{"date":"2024-10","count":1},{"date":"2024-11","count":1},{"date":"2025-06","count":1},{"date":"2025-11","count":1},{"date":"2026-03","count":1},{"date":"2026-05","count":1}]}},{"id":"3jocakSs","name":"Sanctions and Anti-Money Laundering Act 2018","year":2018,"featured":false,"blurb":"Powers most current UK sanctions SIs (Russia, Belarus, etc.).","week":{"count":125,"dateMin":"2018-11-30","dateMax":"2026-04-22","buckets":[{"date":"2018-W48","count":1},{"date":"2019-W05","count":5},{"date":"2019-W10","count":5},{"date":"2019-W11","count":3},{"date":"2019-W12","count":3},{"date":"2019-W14","count":1},{"date":"2019-W15","count":2},{"date":"2019-W29","count":2},{"date":"2020-W25","count":4},{"date":"2020-W26","count":5},{"date":"2020-W27","count":1},{"date":"2020-W28","count":3},{"date":"2020-W29","count":1},{"date":"2020-W30","count":1},{"date":"2020-W37","count":3},{"date":"2020-W38","count":1},{"date":"2020-W46","count":1},{"date":"2020-W47","count":1},{"date":"2020-W49","count":1},{"date":"2020-W50","count":2},{"date":"2021-W01","count":1},{"date":"2021-W12","count":1},{"date":"2021-W17","count":2},{"date":"2021-W28","count":2},{"date":"2021-W32","count":1},{"date":"2021-W37","count":1},{"date":"2021-W41","count":1},{"date":"2021-W44","count":1},{"date":"2021-W50","count":1},{"date":"2022-W01","count":1},{"date":"2022-W04","count":1},{"date":"2022-W06","count":1},{"date":"2022-W09","count":4},{"date":"2022-W10","count":1},{"date":"2022-W13","count":2},{"date":"2022-W15","count":1},{"date":"2022-W17","count":1},{"date":"2022-W24","count":1},{"date":"2022-W25","count":1},{"date":"2022-W27","count":1},{"date":"2022-W28","count":2},{"date":"2022-W29","count":6},{"date":"2022-W43","count":1},{"date":"2022-W44","count":2},{"date":"2022-W46","count":1},{"date":"2022-W48","count":1},{"date":"2022-W49","count":1},{"date":"2022-W50","count":1},{"date":"2023-W06","count":1},{"date":"2023-W16","count":1},{"date":"2023-W23","count":1},{"date":"2023-W25","count":1},{"date":"2023-W26","count":2},{"date":"2023-W49","count":2},{"date":"2023-W50","count":4},{"date":"2024-W04","count":1},{"date":"2024-W08","count":1},{"date":"2024-W09","count":1},{"date":"2024-W19","count":1},{"date":"2024-W20","count":2},{"date":"2024-W21","count":2},{"date":"2024-W31","count":2},{"date":"2024-W36","count":1},{"date":"2024-W37","count":3},{"date":"2024-W46","count":1},{"date":"2025-W13","count":1},{"date":"2025-W17","count":2},{"date":"2025-W25","count":1},{"date":"2025-W27","count":1},{"date":"2025-W30","count":1},{"date":"2025-W40","count":1},{"date":"2025-W51","count":1},{"date":"2026-W13","count":1},{"date":"2026-W17","count":2}]},"month":{"count":125,"dateMin":"2018-11-30","dateMax":"2026-04-22","buckets":[{"date":"2018-11","count":1},{"date":"2019-01","count":5},{"date":"2019-03","count":11},{"date":"2019-04","count":3},{"date":"2019-07","count":2},{"date":"2020-06","count":10},{"date":"2020-07","count":5},{"date":"2020-09","count":4},{"date":"2020-11","count":2},{"date":"2020-12","count":3},{"date":"2021-01","count":1},{"date":"2021-03","count":1},{"date":"2021-04","count":2},{"date":"2021-07","count":2},{"date":"2021-08","count":1},{"date":"2021-09","count":1},{"date":"2021-10","count":1},{"date":"2021-11","count":1},{"date":"2021-12","count":1},{"date":"2022-01","count":2},{"date":"2022-02","count":3},{"date":"2022-03","count":5},{"date":"2022-04","count":2},{"date":"2022-06","count":2},{"date":"2022-07","count":9},{"date":"2022-10","count":1},{"date":"2022-11","count":4},{"date":"2022-12","count":2},{"date":"2023-02","count":1},{"date":"2023-04","count":1},{"date":"2023-06","count":4},{"date":"2023-12","count":6},{"date":"2024-01","count":1},{"date":"2024-02","count":2},{"date":"2024-05","count":5},{"date":"2024-07","count":2},{"date":"2024-09","count":4},{"date":"2024-11","count":1},{"date":"2025-03","count":1},{"date":"2025-04","count":2},{"date":"2025-06","count":1},{"date":"2025-07","count":2},{"date":"2025-09","count":1},{"date":"2025-12","count":1},{"date":"2026-03","count":1},{"date":"2026-04","count":2}]}},{"id":"3x7OAyEr","name":"Finance Act 2021","year":2021,"featured":false,"blurb":"Finance Acts produce SIs throughout the following tax year.","week":{"count":31,"dateMin":"2021-06-14","dateMax":"2026-02-05","buckets":[{"date":"2021-W24","count":1},{"date":"2021-W43","count":5},{"date":"2021-W49","count":1},{"date":"2021-W50","count":1},{"date":"2022-W06","count":1},{"date":"2022-W09","count":3},{"date":"2022-W10","count":2},{"date":"2022-W11","count":1},{"date":"2022-W24","count":1},{"date":"2022-W38","count":2},{"date":"2023-W23","count":1},{"date":"2024-W04","count":1},{"date":"2024-W12","count":2},{"date":"2024-W21","count":1},{"date":"2024-W42","count":1},{"date":"2024-W46","count":1},{"date":"2025-W06","count":1},{"date":"2025-W14","count":1},{"date":"2025-W42","count":2},{"date":"2026-W06","count":2}]},"month":{"count":31,"dateMin":"2021-06-14","dateMax":"2026-02-05","buckets":[{"date":"2021-06","count":1},{"date":"2021-10","count":5},{"date":"2021-12","count":2},{"date":"2022-02","count":1},{"date":"2022-03","count":6},{"date":"2022-06","count":1},{"date":"2022-09","count":2},{"date":"2023-06","count":1},{"date":"2024-01","count":1},{"date":"2024-03","count":2},{"date":"2024-05","count":1},{"date":"2024-10","count":1},{"date":"2024-11","count":1},{"date":"2025-02","count":1},{"date":"2025-03","count":1},{"date":"2025-10","count":2},{"date":"2026-02","count":2}]}},{"id":"ucuEiEeE","name":"United Kingdom Internal Market Act 2020","year":2020,"featured":false,"blurb":"Internal trade post-Brexit.","week":{"count":5,"dateMin":"2021-09-17","dateMax":"2025-12-01","buckets":[{"date":"2021-W37","count":1},{"date":"2022-W23","count":1},{"date":"2023-W29","count":1},{"date":"2024-W05","count":1},{"date":"2025-W49","count":1}]},"month":{"count":5,"dateMin":"2021-09-17","dateMax":"2025-12-01","buckets":[{"date":"2021-09","count":1},{"date":"2022-06","count":1},{"date":"2023-07","count":1},{"date":"2024-01","count":1},{"date":"2025-12","count":1}]}},{"id":"Sus0VwFW","name":"Companies Act 2006","year":2006,"featured":false,"blurb":"Backbone of UK company law; steady SI cadence.","week":{"count":47,"dateMin":"2017-11-30","dateMax":"2026-04-21","buckets":[{"date":"2017-W48","count":1},{"date":"2017-W49","count":1},{"date":"2018-W08","count":1},{"date":"2018-W24","count":1},{"date":"2018-W26","count":1},{"date":"2018-W29","count":1},{"date":"2018-W45","count":1},{"date":"2019-W03","count":1},{"date":"2019-W15","count":1},{"date":"2019-W29","count":1},{"date":"2020-W06","count":1},{"date":"2020-W26","count":1},{"date":"2020-W28","count":1},{"date":"2020-W30","count":1},{"date":"2020-W38","count":1},{"date":"2020-W46","count":1},{"date":"2021-W15","count":1},{"date":"2021-W43","count":1},{"date":"2022-W25","count":1},{"date":"2022-W27","count":1},{"date":"2022-W36","count":1},{"date":"2023-W29","count":1},{"date":"2023-W36","count":1},{"date":"2023-W51","count":3},{"date":"2024-W03","count":1},{"date":"2024-W08","count":4},{"date":"2024-W14","count":1},{"date":"2024-W21","count":3},{"date":"2024-W44","count":2},{"date":"2025-W10","count":1},{"date":"2025-W14","count":1},{"date":"2025-W20","count":1},{"date":"2025-W27","count":2},{"date":"2025-W29","count":1},{"date":"2025-W30","count":1},{"date":"2025-W43","count":1},{"date":"2025-W44","count":1},{"date":"2026-W17","count":1}]},"month":{"count":47,"dateMin":"2017-11-30","dateMax":"2026-04-21","buckets":[{"date":"2017-11","count":1},{"date":"2017-12","count":1},{"date":"2018-02","count":1},{"date":"2018-06","count":2},{"date":"2018-07","count":1},{"date":"2018-11","count":1},{"date":"2019-01","count":1},{"date":"2019-04","count":1},{"date":"2019-07","count":1},{"date":"2020-02","count":1},{"date":"2020-06","count":1},{"date":"2020-07","count":2},{"date":"2020-09","count":1},{"date":"2020-11","count":1},{"date":"2021-04","count":1},{"date":"2021-10","count":1},{"date":"2022-06","count":1},{"date":"2022-07","count":1},{"date":"2022-09","count":1},{"date":"2023-07","count":1},{"date":"2023-09","count":1},{"date":"2023-12","count":3},{"date":"2024-01","count":1},{"date":"2024-02","count":4},{"date":"2024-04","count":1},{"date":"2024-05","count":3},{"date":"2024-10","count":2},{"date":"2025-03","count":1},{"date":"2025-04","count":1},{"date":"2025-05","count":1},{"date":"2025-06","count":2},{"date":"2025-07","count":2},{"date":"2025-10","count":2},{"date":"2026-04","count":1}]}},{"id":"zR0cqxW6","name":"Environmental Protection Act 1990","year":1990,"featured":false,"blurb":"Older environmental framework (some SIs only post-2017 visible).","week":{"count":19,"dateMin":"2017-11-01","dateMax":"2026-04-23","buckets":[{"date":"2017-W44","count":1},{"date":"2017-W48","count":1},{"date":"2017-W51","count":1},{"date":"2018-W13","count":1},{"date":"2019-W37","count":1},{"date":"2020-W10","count":2},{"date":"2020-W21","count":1},{"date":"2021-W36","count":1},{"date":"2021-W48","count":1},{"date":"2022-W03","count":1},{"date":"2023-W21","count":1},{"date":"2023-W28","count":1},{"date":"2023-W47","count":1},{"date":"2024-W21","count":2},{"date":"2024-W49","count":1},{"date":"2025-W38","count":1},{"date":"2026-W17","count":1}]},"month":{"count":19,"dateMin":"2017-11-01","dateMax":"2026-04-23","buckets":[{"date":"2017-11","count":2},{"date":"2017-12","count":1},{"date":"2018-03","count":1},{"date":"2019-09","count":1},{"date":"2020-03","count":2},{"date":"2020-05","count":1},{"date":"2021-09","count":1},{"date":"2021-12","count":1},{"date":"2022-01","count":1},{"date":"2023-05","count":1},{"date":"2023-07","count":1},{"date":"2023-11","count":1},{"date":"2024-05","count":2},{"date":"2024-12","count":1},{"date":"2025-09","count":1},{"date":"2026-04","count":1}]}},{"id":"SmQ2LS8f","name":"Equality Act 2010","year":2010,"featured":false,"blurb":"Equality and anti-discrimination.","week":{"count":5,"dateMin":"2017-06-27","dateMax":"2023-03-30","buckets":[{"date":"2017-W26","count":1},{"date":"2018-W23","count":1},{"date":"2019-W17","count":1},{"date":"2021-W06","count":1},{"date":"2023-W13","count":1}]},"month":{"count":5,"dateMin":"2017-06-27","dateMax":"2023-03-30","buckets":[{"date":"2017-06","count":1},{"date":"2018-06","count":1},{"date":"2019-04","count":1},{"date":"2021-02","count":1},{"date":"2023-03","count":1}]}},{"id":"SMARVqFK","name":"Building Safety Act 2022","year":2022,"featured":false,"blurb":"Post-Grenfell building-safety regime.","week":{"count":20,"dateMin":"2022-06-07","dateMax":"2026-02-10","buckets":[{"date":"2022-W23","count":1},{"date":"2022-W26","count":2},{"date":"2022-W51","count":1},{"date":"2023-W04","count":1},{"date":"2023-W06","count":1},{"date":"2023-W09","count":1},{"date":"2023-W11","count":1},{"date":"2023-W17","count":1},{"date":"2023-W19","count":1},{"date":"2023-W24","count":1},{"date":"2023-W33","count":4},{"date":"2023-W36","count":1},{"date":"2023-W45","count":1},{"date":"2024-W05","count":1},{"date":"2025-W46","count":1},{"date":"2026-W07","count":1}]},"month":{"count":20,"dateMin":"2022-06-07","dateMax":"2026-02-10","buckets":[{"date":"2022-06","count":3},{"date":"2022-12","count":1},{"date":"2023-01","count":1},{"date":"2023-02","count":1},{"date":"2023-03","count":2},{"date":"2023-04","count":1},{"date":"2023-05","count":1},{"date":"2023-06","count":1},{"date":"2023-08","count":4},{"date":"2023-09","count":1},{"date":"2023-11","count":1},{"date":"2024-02","count":1},{"date":"2025-11","count":1},{"date":"2026-02","count":1}]}},{"id":"6dOHrNkW","name":"Trade Act 2021","year":2021,"featured":false,"blurb":"Continuity trade agreements after Brexit.","week":{"count":12,"dateMin":"2021-05-12","dateMax":"2025-09-16","buckets":[{"date":"2021-W19","count":3},{"date":"2021-W29","count":1},{"date":"2021-W37","count":1},{"date":"2021-W44","count":1},{"date":"2022-W17","count":1},{"date":"2022-W25","count":1},{"date":"2022-W47","count":1},{"date":"2022-W50","count":1},{"date":"2023-W45","count":1},{"date":"2025-W38","count":1}]},"month":{"count":12,"dateMin":"2021-05-12","dateMax":"2025-09-16","buckets":[{"date":"2021-05","count":3},{"date":"2021-07","count":1},{"date":"2021-09","count":1},{"date":"2021-11","count":1},{"date":"2022-04","count":1},{"date":"2022-06","count":1},{"date":"2022-11","count":1},{"date":"2022-12","count":1},{"date":"2023-11","count":1},{"date":"2025-09","count":1}]}},{"id":"zcNyN794","name":"Levelling-up and Regeneration Act 2023","year":2023,"featured":false,"blurb":"Planning reform; SIs landing through 2024\u20132025.","week":{"count":22,"dateMin":"2023-12-11","dateMax":"2026-04-16","buckets":[{"date":"2023-W50","count":2},{"date":"2023-W51","count":1},{"date":"2024-W12","count":1},{"date":"2024-W13","count":1},{"date":"2024-W14","count":1},{"date":"2024-W41","count":1},{"date":"2024-W46","count":1},{"date":"2024-W47","count":1},{"date":"2024-W48","count":3},{"date":"2024-W50","count":1},{"date":"2025-W07","count":1},{"date":"2025-W09","count":1},{"date":"2025-W14","count":1},{"date":"2025-W46","count":1},{"date":"2026-W07","count":1},{"date":"2026-W10","count":1},{"date":"2026-W11","count":1},{"date":"2026-W12","count":1},{"date":"2026-W16","count":1}]},"month":{"count":22,"dateMin":"2023-12-11","dateMax":"2026-04-16","buckets":[{"date":"2023-12","count":3},{"date":"2024-03","count":2},{"date":"2024-04","count":1},{"date":"2024-10","count":1},{"date":"2024-11","count":5},{"date":"2024-12","count":1},{"date":"2025-02","count":2},{"date":"2025-04","count":1},{"date":"2025-11","count":1},{"date":"2026-02","count":1},{"date":"2026-03","count":3},{"date":"2026-04","count":1}]}}],"fetchedAt":"2026-05-08","source":"https://statutoryinstruments-api.parliament.uk/api/v2","licence":"Open Parliament Licence v3.0 \u2014 https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/"}</script>
+<script type="module">
+const PAYLOAD = JSON.parse(document.getElementById('data').textContent);
+const ACTS    = PAYLOAD.acts;
+const BY_ID   = Object.fromEntries(ACTS.map((a) => [a.id, a]));
+
+const FEATURED_IDS = ACTS.filter((a) => a.featured).map((a) => a.id);
+const MAX_SERIES   = 8;
+const PALETTE_LEN  = 8;
+
+const state = {
+  bucket: 'week',
+  scale:  'linear',
+  series: [],
+};
+
+document.getElementById('fetch-date').textContent = PAYLOAD.fetchedAt || '';
+
+// Populate the picker with non-featured acts (or all of them, if you've
+// already removed everything from the chart).
+function refreshPicker() {
+  const picker = document.getElementById('picker');
+  const have = new Set(state.series.map((s) => s.id));
+  const opts = ['<option value="">— pick another Act to add —</option>'];
+  for (const a of ACTS) {
+    if (have.has(a.id)) continue;
+    const count = a[state.bucket].count || 0;
+    opts.push(`<option value="${esc(a.id)}">${esc(a.name)} — ${count.toLocaleString()} SI${count === 1 ? '' : 's'}</option>`);
+  }
+  picker.innerHTML = opts.join('');
+}
+
+function bucketKeyToDate(key) {
+  if (/^\d{4}-W\d{2}$/.test(key)) {
+    const [y, w] = key.split('-W').map(Number);
+    const jan4 = new Date(Date.UTC(y, 0, 4));
+    const dow = jan4.getUTCDay() || 7;
+    const week1Mon = new Date(jan4); week1Mon.setUTCDate(jan4.getUTCDate() - dow + 1);
+    const out = new Date(week1Mon); out.setUTCDate(week1Mon.getUTCDate() + (w - 1) * 7);
+    return out;
+  }
+  if (/^\d{4}-\d{2}$/.test(key)) {
+    const [y, m] = key.split('-').map(Number);
+    return new Date(Date.UTC(y, m - 1, 1));
+  }
+  return null;
+}
+function fmtBucket(key) {
+  const d = bucketKeyToDate(key);
+  if (!d) return key;
+  if (state.bucket === 'month') return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short' });
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function addSeries(actId) {
+  const act = BY_ID[actId];
+  if (!act) return;
+  if (state.series.some((s) => s.id === act.id)) return;
+  if (state.series.length >= MAX_SERIES) {
+    flashStatus(`At most ${MAX_SERIES} Acts at once. Remove one first.`, 'empty');
+    return;
+  }
+  const usedColors = new Set(state.series.map((s) => s.colorIdx));
+  let colorIdx = 0; while (usedColors.has(colorIdx)) colorIdx++;
+  state.series.push({ id: act.id, name: act.name, blurb: act.blurb, colorIdx });
+  render();
+}
+function removeSeries(id) {
+  state.series = state.series.filter((s) => s.id !== id);
+  render();
+}
+function resetFeatured() {
+  state.series = [];
+  for (const id of FEATURED_IDS) addSeries(id);
+}
+
+const svg       = document.getElementById('svg');
+const tip       = document.getElementById('tip');
+const statusEl  = document.getElementById('status');
+const legendEl  = document.getElementById('legend');
+const tableEl   = document.getElementById('table-wrap');
+const blurbEl   = document.getElementById('blurb');
+
+let statusTimer = null;
+function flashStatus(msg, kind) {
+  statusEl.textContent = msg;
+  statusEl.className = 'status' + (kind ? ' ' + kind : '');
+  statusEl.hidden = false;
+  if (statusTimer) clearTimeout(statusTimer);
+  statusTimer = setTimeout(() => { statusEl.hidden = true; }, 4000);
+}
+
+function render() {
+  refreshPicker();
+  renderLegend();
+  renderBlurb();
+  renderChart();
+  renderTable();
+}
+
+function renderLegend() {
+  legendEl.innerHTML = '';
+  for (const s of state.series) {
+    const act = BY_ID[s.id];
+    const count = act?.[state.bucket].count ?? 0;
+    const li = document.createElement('li');
+    li.className = 's' + (s.colorIdx % PALETTE_LEN);
+    const sw = document.createElement('span'); sw.className = 'swatch';
+    sw.style.background = `var(--c${s.colorIdx % PALETTE_LEN})`;
+    li.append(sw);
+    const lt = document.createElement('span'); lt.className = 'label-text'; lt.textContent = s.name;
+    li.append(lt);
+    const cp = document.createElement('span'); cp.className = 'count-pill';
+    cp.textContent = `${count.toLocaleString()} SI${count === 1 ? '' : 's'}`;
+    li.append(cp);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.setAttribute('aria-label', `Remove ${s.name}`);
+    btn.textContent = '×';
+    btn.addEventListener('click', () => removeSeries(s.id));
+    li.append(btn);
+    legendEl.append(li);
+  }
+}
+
+function renderBlurb() {
+  // Show the blurb of the first / only series. With several series,
+  // showing one blurb risks misleading; keep it tight.
+  if (state.series.length === 1) {
+    const a = BY_ID[state.series[0].id];
+    if (a?.blurb) {
+      blurbEl.innerHTML = `<strong>${esc(a.name)}.</strong> ${esc(a.blurb)}`;
+      blurbEl.hidden = false; return;
+    }
+  }
+  blurbEl.hidden = true;
+}
+
+function renderChart() {
+  const VB_W = 800, VB_H = 360;
+  const PAD = { top: 16, right: 12, bottom: 36, left: 44 };
+  const W = VB_W - PAD.left - PAD.right;
+  const H = VB_H - PAD.top  - PAD.bottom;
+
+  const ready = state.series.map((s) => {
+    const act = BY_ID[s.id];
+    return { ...s, buckets: act?.[state.bucket].buckets || [] };
+  }).filter((s) => s.buckets.length > 0);
+
+  if (ready.length === 0) {
+    svg.setAttribute('viewBox', `0 0 ${VB_W} ${VB_H}`);
+    svg.innerHTML = `<text x="${VB_W / 2}" y="${VB_H / 2}" text-anchor="middle"
+      fill="var(--ink-soft)" font-size="14">Select an Act to plot.</text>`;
+    return;
+  }
+
+  let xMin = Infinity, xMax = -Infinity, yMax = 0;
+  for (const s of ready) for (const b of s.buckets) {
+    const d = bucketKeyToDate(b.date)?.getTime();
+    if (!d) continue;
+    if (d < xMin) xMin = d;
+    if (d > xMax) xMax = d;
+    if (b.count > yMax) yMax = b.count;
+  }
+  if (!Number.isFinite(xMin)) { svg.innerHTML = '<text x="50" y="50">No date-bearing data.</text>'; return; }
+  if (xMin === xMax) xMax = xMin + 7 * 86400_000;
+  yMax = Math.max(yMax, 1);
+
+  const useLog = state.scale === 'log';
+  function yScale(v) {
+    if (useLog) {
+      const lv = Math.log10(Math.max(v, 0) + 1);
+      const lm = Math.log10(yMax + 1);
+      return PAD.top + H - (lv / lm) * H;
+    }
+    return PAD.top + H - (v / yMax) * H;
+  }
+  function xScale(d) { return PAD.left + ((d - xMin) / (xMax - xMin)) * W; }
+
+  const parts = [];
+  const yTicks = niceYTicks(yMax, 5, useLog);
+  parts.push('<g class="grid" aria-hidden="true">');
+  for (const t of yTicks) {
+    const y = yScale(t);
+    parts.push(`<line x1="${PAD.left}" x2="${PAD.left + W}" y1="${y}" y2="${y}"/>`);
+  }
+  parts.push('</g>');
+  parts.push('<g class="axis" aria-hidden="true">');
+  parts.push(`<line x1="${PAD.left}" y1="${PAD.top}" x2="${PAD.left}" y2="${PAD.top + H}"/>`);
+  parts.push(`<line x1="${PAD.left}" y1="${PAD.top + H}" x2="${PAD.left + W}" y2="${PAD.top + H}"/>`);
+  for (const t of yTicks) {
+    const y = yScale(t);
+    parts.push(`<text x="${PAD.left - 6}" y="${y + 3}" text-anchor="end">${fmtNum(t)}</text>`);
+  }
+  parts.push(`<text x="${PAD.left - 30}" y="${PAD.top + H / 2}" transform="rotate(-90 ${PAD.left - 30} ${PAD.top + H / 2})" text-anchor="middle" fill="var(--ink-soft)">SIs laid${useLog ? ' (log)' : ''}</text>`);
+
+  const xTicks = niceXTicks(xMin, xMax, 5);
+  for (const t of xTicks) {
+    const x = xScale(t);
+    parts.push(`<line x1="${x}" x2="${x}" y1="${PAD.top + H}" y2="${PAD.top + H + 4}"/>`);
+    parts.push(`<text x="${x}" y="${PAD.top + H + 18}" text-anchor="middle">${fmtTick(t)}</text>`);
+  }
+  parts.push('</g>');
+
+  for (const s of ready) {
+    const cls = 's' + (s.colorIdx % PALETTE_LEN);
+    const pts = s.buckets
+      .map((b) => {
+        const d = bucketKeyToDate(b.date)?.getTime();
+        if (!d) return null;
+        return [xScale(d), yScale(b.count)];
+      })
+      .filter(Boolean);
+    if (pts.length === 0) continue;
+    const path = pts.map((p, i) => (i === 0 ? 'M' : 'L') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+    parts.push(`<g class="${cls}" data-series-id="${esc(s.id)}">`);
+    parts.push(`<path class="series" d="${path}" />`);
+    if (pts.length <= 80) {
+      for (const p of pts) {
+        parts.push(`<circle class="series-dot" cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2.5" />`);
+      }
+    }
+    parts.push('</g>');
+  }
+
+  parts.push(`<rect x="${PAD.left}" y="${PAD.top}" width="${W}" height="${H}" fill="transparent" id="hover-rect"/>`);
+  parts.push(`<line id="focus-line" class="focus-line" x1="0" x2="0" y1="${PAD.top}" y2="${PAD.top + H}" style="display:none"/>`);
+
+  svg.setAttribute('viewBox', `0 0 ${VB_W} ${VB_H}`);
+  svg.innerHTML = parts.join('');
+  wireHover({ xScale, yScale, xMin, xMax, ready, PAD, W, H });
+}
+
+function niceYTicks(max, n, useLog) {
+  if (useLog) {
+    const top = Math.ceil(Math.log10(max + 1));
+    const out = []; for (let i = 0; i <= top; i++) out.push(Math.pow(10, i));
+    return out;
+  }
+  const step = niceStep(max / n);
+  const ticks = [];
+  for (let v = 0; v <= max + step / 2; v += step) ticks.push(v);
+  return ticks;
+}
+function niceStep(raw) {
+  const exp = Math.floor(Math.log10(raw));
+  const f   = raw / Math.pow(10, exp);
+  const nice = f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10;
+  return nice * Math.pow(10, exp);
+}
+function niceXTicks(min, max, n) {
+  const ticks = [];
+  for (let i = 0; i <= n; i++) ticks.push(min + ((max - min) * i) / n);
+  return ticks;
+}
+function fmtNum(v) {
+  if (v === 0) return '0';
+  if (v >= 1000) return (v / 1000).toFixed(v % 1000 === 0 ? 0 : 1) + 'k';
+  return String(v);
+}
+function fmtTick(t) {
+  const d = new Date(t);
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short' });
+}
+function esc(s) { return String(s).replace(/[&<>"']/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c])); }
+
+function wireHover({ xScale, yScale, xMin, xMax, ready, PAD, W, H }) {
+  const rect = svg.querySelector('#hover-rect');
+  const focusLine = svg.querySelector('#focus-line');
+  if (!rect) return;
+  const wrap = document.getElementById('chart');
+  const handler = (clientX) => {
+    const r = svg.getBoundingClientRect();
+    const vb = svg.viewBox.baseVal;
+    const x  = ((clientX - r.left) / r.width) * vb.width;
+    if (x < PAD.left || x > PAD.left + W) { hideTip(); return; }
+    const t  = xMin + ((x - PAD.left) / W) * (xMax - xMin);
+    let bestKey = null, bestT = null;
+    for (const s of ready) for (const b of s.buckets) {
+      const bd = bucketKeyToDate(b.date)?.getTime();
+      if (!bd) continue;
+      if (bestT == null || Math.abs(bd - t) < Math.abs(bestT - t)) { bestT = bd; bestKey = b.date; }
+    }
+    if (bestT == null) { hideTip(); return; }
+    const fx = xScale(bestT);
+    focusLine.setAttribute('x1', fx); focusLine.setAttribute('x2', fx);
+    focusLine.style.display = '';
+    const dl = ['<dl>'];
+    dl.push(`<dt>Bucket</dt><dd>${esc(fmtBucket(bestKey))}</dd>`);
+    for (const s of ready) {
+      const hit = s.buckets.find((b) => b.date === bestKey);
+      const v = hit ? hit.count : 0;
+      dl.push(`<dt><span class="swatch" style="display:inline-block;width:.6rem;height:.6rem;border-radius:999px;background:var(--c${s.colorIdx % PALETTE_LEN})"></span> ${esc(s.name)}</dt><dd>${v}</dd>`);
+    }
+    dl.push('</dl>');
+    tip.innerHTML = dl.join('');
+    const wrapBox = wrap.getBoundingClientRect();
+    const px = ((fx - vb.x) / vb.width) * wrapBox.width;
+    const py = ((PAD.top - vb.y) / vb.height) * wrapBox.height;
+    tip.style.left = px + 'px';
+    tip.style.top  = py + 'px';
+    tip.classList.remove('hidden');
+    tip.setAttribute('aria-hidden', 'false');
+  };
+  function hideTip() {
+    tip.classList.add('hidden'); tip.setAttribute('aria-hidden', 'true');
+    focusLine.style.display = 'none';
+  }
+  rect.addEventListener('pointermove', (e) => handler(e.clientX));
+  rect.addEventListener('pointerleave', hideTip);
+  rect.addEventListener('touchstart', (e) => { if (e.touches[0]) handler(e.touches[0].clientX); }, { passive: true });
+}
+
+function renderTable() {
+  const ready = state.series.map((s) => {
+    const act = BY_ID[s.id];
+    return { ...s, buckets: act?.[state.bucket].buckets || [] };
+  }).filter((s) => s.buckets.length > 0);
+  if (ready.length === 0) { tableEl.innerHTML = '<p>No data yet.</p>'; return; }
+  const keys = new Set();
+  for (const s of ready) for (const b of s.buckets) keys.add(b.date);
+  const sorted = [...keys].sort();
+  const rows = [`<tr><th scope="col">Bucket (${esc(state.bucket)})</th>${ready.map((s) => `<th scope="col">${esc(s.name)}</th>`).join('')}</tr>`];
+  for (const k of sorted) {
+    const cells = ready.map((s) => {
+      const hit = s.buckets.find((b) => b.date === k);
+      return `<td>${hit ? hit.count : ''}</td>`;
+    }).join('');
+    rows.push(`<tr><th scope="row">${esc(fmtBucket(k))}</th>${cells}</tr>`);
+  }
+  tableEl.innerHTML = `<table><caption class="visually-hidden">Statutory instruments laid per ${esc(state.bucket)} bucket, by enabling Act.</caption>${rows.join('')}</table>`;
+}
+
+document.querySelectorAll('[role="tab"][data-bucket]').forEach((tab) => {
+  tab.addEventListener('click', () => {
+    if (state.bucket === tab.dataset.bucket) return;
+    document.querySelectorAll('[role="tab"][data-bucket]').forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+    state.bucket = tab.dataset.bucket;
+    render();
+  });
+});
+document.querySelectorAll('[role="tab"][data-scale]').forEach((tab) => {
+  tab.addEventListener('click', () => {
+    if (state.scale === tab.dataset.scale) return;
+    document.querySelectorAll('[role="tab"][data-scale]').forEach((t) => t.setAttribute('aria-selected', String(t === tab)));
+    state.scale = tab.dataset.scale;
+    render();
+  });
+});
+
+document.getElementById('add-btn').addEventListener('click', () => {
+  const picker = document.getElementById('picker');
+  const v = picker.value;
+  if (!v) { flashStatus('Pick an Act first.'); return; }
+  addSeries(v);
+});
+document.getElementById('reset-btn').addEventListener('click', () => {
+  resetFeatured(); render();
+});
+
+resetFeatured();
+render();
+
+let rt = null;
+window.addEventListener('resize', () => { if (rt) clearTimeout(rt); rt = setTimeout(render, 120); });
+</script>
+</body>
+</html>

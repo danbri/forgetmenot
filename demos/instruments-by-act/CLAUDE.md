@@ -41,8 +41,17 @@ The hard rules summarised:
   two extra-route handlers (`/api/agg/acts`,
   `/api/agg/instruments-by-act`). The mechanics live in
   `lib/proxy.mjs`.
-- `web/index.html` — single-file SVG chart. No build step, no runtime
-  deps. Module-scoped `<script>`.
+- `web/index.html` — the live page. SVG chart, no build step, no
+  runtime deps. Talks to `/api/agg/...` at runtime.
+- `artifact/index.html` — a self-contained, single-file snapshot of
+  the same chart with the per-Act data baked in as a `<script id="data"
+  type="application/json">` block. No proxy required; works offline.
+  Suitable for previewing as an HTML artifact, sharing, or
+  embedding.
+- `build-artifact.mjs` — refreshes the artifact's embedded data by
+  hitting the live SI API for each Act in its built-in list. Run when
+  the snapshot grows stale; paste the printed JSON into
+  `artifact/index.html`.
 - `tests/server.test.mjs` — smoke tests for the bucketing + the
   aggregation handler.
 
