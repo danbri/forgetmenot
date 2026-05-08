@@ -115,8 +115,20 @@ read `reference.md` only if needed.
 
 - `_specs/` — cached OpenAPI specs and discovery snapshots.
 - `lib/facilities/*.mjs` — JS facility modules (Node + browser).
+- `lib/proxy.mjs` — shared zero-dep Node http server core (whitelist,
+  TTL cache, request coalescing, per-host throttle, CORS, OPL
+  attribution, static serving). Documented as a skill at
+  [`skills/parliament-proxy`](skills/parliament-proxy/SKILL.md). Used
+  by demos that need a browser-callable endpoint pointing at
+  `*.parliament.uk` APIs (which don't allow CORS).
 - `bin/parl.mjs` — CLI dispatcher.
 - `browser/` — browser entry + demo HTML.
+- `demos/` — end-user demos that build on the skills above.
+  - [`demos/parliament-live`](demos/parliament-live) — graph navigator
+    over Now / Members / Hansard / Votes / SPARQL.
+  - [`demos/instruments-by-act`](demos/instruments-by-act) — chart of
+    statutory instruments laid before Parliament, by enabling Act
+    over time.
 - `scripts/` — refetch + probe + skill-update automation.
 - `tests/` — smoke tests (`tests/test_endpoints.sh`,
   `tests/test_cli.sh`).
