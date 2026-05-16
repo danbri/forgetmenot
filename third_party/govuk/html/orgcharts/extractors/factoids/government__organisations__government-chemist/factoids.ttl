@@ -1,0 +1,40 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-chemist> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Chemist"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-chemist> ;
+    govuk:hasManager <https://www.gov.uk/government/people/john-black>,
+        <https://www.gov.uk/government/people/julian-braybrook>,
+        <https://www.gov.uk/government/people/kirstin-gray>,
+        <https://www.gov.uk/government/people/malcolm-burns>,
+        <https://www.gov.uk/government/people/paul-hancock>,
+        <https://www.gov.uk/government/people/selvarani-elahi> .
+
+<https://www.gov.uk/government/people/john-black> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/609aaa37d3bf7f288aaa5bdd/s465_John_Black_Gov.UK.jpg> ;
+    schema1:name "John Black"@en .
+
+<https://www.gov.uk/government/people/julian-braybrook> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5b114673e5274a190f3b9be5/s465_Julian_Braybrook_gov_chemist.jpg> ;
+    schema1:name "Dr Julian Braybrook DSc, CChem FRSC"@en .
+
+<https://www.gov.uk/government/people/kirstin-gray> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6c11ed915d595171e6fc/s465_Kirstin_Gray_GC.jpg> ;
+    schema1:name "Kirstin Gray"@en .
+
+<https://www.gov.uk/government/people/malcolm-burns> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f65ff40f0b648c72216f7/s465_Malcolm_Burns.jpg> ;
+    schema1:name "Dr Malcolm Burns"@en .
+
+<https://www.gov.uk/government/people/paul-hancock> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60805900d3bf7f013c8f44da/s465_Paul_Hancock.jpg> ;
+    schema1:name "Paul Hancock BSc, MChemA, MRSC, FIFST"@en .
+
+<https://www.gov.uk/government/people/selvarani-elahi> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6fe3ed915d5954734601/s465_Selvarani_Elahi.jpg> ;
+    schema1:name "Selvarani Elahi MBE, BSc, CChem FRSC, FIFST."@en .
+

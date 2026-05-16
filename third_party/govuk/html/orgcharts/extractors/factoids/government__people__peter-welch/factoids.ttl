@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/peter-welch> .
+
+<https://www.gov.uk/government/people/peter-welch> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Peter Welch is responsible for the delivery of corporate services at RWM, all of which facilitate our mission to deliver a geological disposal facility and provide radioactive waste management solutions. As such, Peter’s portfolio includes our finance, digital and IT, risk and assurance, performance and governance and knowledge and data teams."@en ;
+    schema1:name "Peter Welch"@en ;
+    schema1:url <https://www.gov.uk/government/people/peter-welch> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

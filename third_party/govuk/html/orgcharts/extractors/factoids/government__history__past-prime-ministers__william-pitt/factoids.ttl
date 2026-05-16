@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/william-pitt> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "At just 24 years old, William Pitt The Younger, son of Pitt the Elder , was the youngest Prime Minister in history. He died aged only 46. He was exhausted by the demands of an office whose modern conception he helped to establish, and of a peculiarly threatening international situation which frustrated many of his political goals."@en ;
+    schema1:name "William Pitt 'The Younger'"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/william-pitt> .
+

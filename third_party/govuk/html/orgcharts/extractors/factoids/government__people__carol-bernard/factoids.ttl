@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-people-group> govuk:hasMinister <https://www.gov.uk/government/people/carol-bernard> .
+
+<https://www.gov.uk/government/people/carol-bernard> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Carol has a rich and diverse career leading some of the most transformative public-sector change programmes of the last two decades. As Executive Director for Government People Group, Carol leads a cross-government programme on Line Management Capability for the Civil Service as well as being a Non Executive Director for the Government Property Agency. Previously, as Director of People & Places and Executive Committee member for the Cabinet Office, she spearheaded a significant reorganisation to achieve an unprecedented change to the geographical footprint."@en ;
+    schema1:name "Carol Bernard CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/carol-bernard> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
+    govuk:currentRoleTitle "Executive Director of Line Management Capability and Non-Executive Director"@en .
+

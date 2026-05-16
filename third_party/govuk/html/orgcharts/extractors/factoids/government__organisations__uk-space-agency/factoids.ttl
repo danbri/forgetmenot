@@ -1,0 +1,60 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-space-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "UK Space Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/uk-space-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/anu-ojha>,
+        <https://www.gov.uk/government/people/craig-brown--2>,
+        <https://www.gov.uk/government/people/emily-dineley>,
+        <https://www.gov.uk/government/people/harshbir-sangha>,
+        <https://www.gov.uk/government/people/julie-black>,
+        <https://www.gov.uk/government/people/mark-bacon>,
+        <https://www.gov.uk/government/people/matt-archer>,
+        <https://www.gov.uk/government/people/miriam-grigg>,
+        <https://www.gov.uk/government/people/rebecca-evernden>,
+        <https://www.gov.uk/government/people/tania-celani> .
+
+<https://www.gov.uk/government/people/anu-ojha> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6581b862fc07f3000d8d44f1/s465_anu-ojha.jpg> ;
+    schema1:name "Professor Anu Ojha OBE"@en .
+
+<https://www.gov.uk/government/people/craig-brown--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6581b926ed3c3400133bfbd0/s465_craig-brown.jpg> ;
+    schema1:name "Craig Brown"@en .
+
+<https://www.gov.uk/government/people/emily-dineley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69cbec1ea60a12ca3913c684/s465_Emily_gov_uk.png> ;
+    schema1:name "Emily Dineley"@en .
+
+<https://www.gov.uk/government/people/harshbir-sangha> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6581b8c2fc07f3000d8d44f2/s465_harshbir-sangha.jpg> ;
+    schema1:name "Harshbir Sangha MBE FRSA"@en .
+
+<https://www.gov.uk/government/people/julie-black> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6915cdc5db01ecfcf96fc910/s465_Julie_Black_2025_gov_uk.jpg> ;
+    schema1:name "Julie Black"@en .
+
+<https://www.gov.uk/government/people/mark-bacon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/638744558fa8f5370a746d13/s465_Mark_Bacon_Resized.png> ;
+    schema1:name "Mark Bacon"@en .
+
+<https://www.gov.uk/government/people/matt-archer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6581b80323b70a0013234c4c/s465_matt-archer.jpg> ;
+    schema1:name "Matthew Archer"@en .
+
+<https://www.gov.uk/government/people/miriam-grigg> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69cbe94e69dd81b3f213c683/s465_Miriam_gov_uk.png> ;
+    schema1:name "Miriam Grigg"@en .
+
+<https://www.gov.uk/government/people/rebecca-evernden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69cbe9b42d120d9d5ec0f358/s465_Rebecca_gov_uk.png> ;
+    schema1:name "Rebecca Evernden"@en .
+
+<https://www.gov.uk/government/people/tania-celani> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69cbe91a2d120d9d5ec0f357/s465_Tania_gov_uk.png> ;
+    schema1:name "Tania Celani"@en .
+

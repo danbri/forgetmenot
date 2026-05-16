@@ -1,0 +1,28 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/wales-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> .
+
+<https://www.gov.uk/government/people/anna-mcmorrin> schema1:name "Anna McMorrin MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:responsibility "Broadcasting"@en,
+        "Charities, Voluntary and Third Sectors"@en,
+        "City and Regional Growth Deals"@en,
+        "Digital Infrastructure and Connectivity"@en,
+        "Education and Skills"@en,
+        "Environment, Food and Rural Affairs"@en,
+        "Foreign Affairs"@en,
+        "Health"@en,
+        "R&D and Innovation"@en,
+        "Sport"@en,
+        "Tourism and Heritage"@en,
+        "Welsh Language"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/anna-mcmorrin> .
+

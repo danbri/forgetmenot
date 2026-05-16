@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-office-for-science> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Office for Science"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-office-for-science> ;
+    govuk:hasManager <https://www.gov.uk/government/people/angela-mclean> .
+
+<https://www.gov.uk/government/people/angela-mclean> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6464daaa0b72d3001334467d/s465_8.1288_-_GoS_-_Chief_Scientific_Advisor_Photography-6278__1___1_.jpeg> ;
+    schema1:name "Professor Dame Angela McLean"@en .
+

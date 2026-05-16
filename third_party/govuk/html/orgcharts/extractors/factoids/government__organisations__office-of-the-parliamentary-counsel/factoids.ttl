@@ -1,0 +1,35 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Office of the Parliamentary Counsel"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-scott>,
+        <https://www.gov.uk/government/people/ingrid-meldal-johnsen>,
+        <https://www.gov.uk/government/people/jessica-de-mounteney>,
+        <https://www.gov.uk/government/people/phil-chessum>,
+        <https://www.gov.uk/government/people/richard-spitz> .
+
+<https://www.gov.uk/government/people/andrew-scott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b1951658d4ef5adaf0e4fb/s465_Andrew_Scott.jpg> ;
+    schema1:name "Andrew Scott"@en .
+
+<https://www.gov.uk/government/people/ingrid-meldal-johnsen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b19587187a6dea7823322a/s465_Ingrid_Meldal-Johnsen.jpg> ;
+    schema1:name "Ingrid Meldal-Johnsen"@en .
+
+<https://www.gov.uk/government/people/jessica-de-mounteney> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b1966b58d4ef5adaf0e505/s465_Jessica_de_Mounteney.jpg> ;
+    schema1:name "Jessica de Mounteney"@en .
+
+<https://www.gov.uk/government/people/phil-chessum> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b1955995b74651603496e5/s465_Phil_Chessum.jpg> ;
+    schema1:name "Phil Chessum"@en .
+
+<https://www.gov.uk/government/people/richard-spitz> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b195ba58d4ef5adaf0e503/s465_Richard_Spitz.jpg> ;
+    schema1:name "Richard Spitz"@en .
+

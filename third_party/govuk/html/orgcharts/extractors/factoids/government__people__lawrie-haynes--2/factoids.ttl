@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/lawrie-haynes--2> .
+
+<https://www.gov.uk/government/people/lawrie-haynes--2> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lawrie is the chair of Nuclear Restoration Services, having been appointed in September 2019 when it was known as Magnox Ltd."@en ;
+    schema1:name "Lawrie Haynes"@en ;
+    schema1:url <https://www.gov.uk/government/people/lawrie-haynes--2> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    govuk:currentRoleTitle "Chair and Chair"@en .
+

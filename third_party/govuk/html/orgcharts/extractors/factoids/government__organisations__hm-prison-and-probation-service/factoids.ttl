@@ -1,0 +1,75 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/hm-prison-and-probation-service> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "HM Prison and Probation Service"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-clarke>,
+        <https://www.gov.uk/government/people/ed-cornmell>,
+        <https://www.gov.uk/government/people/glenys-stacey>,
+        <https://www.gov.uk/government/people/hannah-meyer>,
+        <https://www.gov.uk/government/people/james-mcewen>,
+        <https://www.gov.uk/government/people/jim-barton>,
+        <https://www.gov.uk/government/people/jonathan-flory>,
+        <https://www.gov.uk/government/people/kim-thornden-edwards>,
+        <https://www.gov.uk/government/people/mark-lloyd>,
+        <https://www.gov.uk/government/people/michelle-jarman-howe>,
+        <https://www.gov.uk/government/people/nick-campsie--2>,
+        <https://www.gov.uk/government/people/rommel-moseley>,
+        <https://www.gov.uk/government/people/sarah-coccia> .
+
+<https://www.gov.uk/government/people/alison-clarke> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/690e1d2147ad122f854627e8/s465_alison_clarke_960x640.jpg> ;
+    schema1:name "Alison Clarke"@en .
+
+<https://www.gov.uk/government/people/ed-cornmell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/635909a7e90e0777a8f7e0dd/s465_ed-cornmell_960x640.jpg> ;
+    schema1:name "Ed Cornmell"@en .
+
+<https://www.gov.uk/government/people/glenys-stacey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/689369ae039176aec5e89676/s465_Dame_Glenys_Stacey_August_2025.jpg> ;
+    schema1:name "Dame Glenys Stacey"@en .
+
+<https://www.gov.uk/government/people/hannah-meyer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/615c6d62e90e07197d8fb6e0/s465_Hannah_Meyer_resized_three.jpg> ;
+    schema1:name "Hannah Meyer"@en .
+
+<https://www.gov.uk/government/people/james-mcewen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f8822a7d3bf7f633342383c/s465_JamesMcEwenPhotoshoot-16685.jpg> ;
+    schema1:name "James McEwen"@en .
+
+<https://www.gov.uk/government/people/jim-barton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ee39cab86650c03ebe8e3d7/s465_j-barton.jpg> ;
+    schema1:name "Jim Barton"@en .
+
+<https://www.gov.uk/government/people/jonathan-flory> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/656ee7610f12ef070e3e021c/s465_jonathan-flory_colour.jpg> ;
+    schema1:name "Jonathan Flory"@en .
+
+<https://www.gov.uk/government/people/kim-thornden-edwards> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63eb98a58fa8f5612c4f52e0/s465_kim_thorndon-edwards_960x640.jpg> ;
+    schema1:name "Kim Thornden-Edwards"@en .
+
+<https://www.gov.uk/government/people/mark-lloyd> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6258032f8fa8f54a8aed31e9/s465_Mark_Lloyd_photo_2019_3508_.jpg> ;
+    schema1:name "Mark Lloyd"@en .
+
+<https://www.gov.uk/government/people/michelle-jarman-howe> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ca1d507ed915d0c4db02d78/s465_michelle-jarman-howe.jpg> ;
+    schema1:name "Michelle Jarman-Howe"@en .
+
+<https://www.gov.uk/government/people/nick-campsie--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69281d339c1eda2cdf03417d/s465_Nick_Campsie_960x640.jpg> ;
+    schema1:name "Nick Campsie"@en .
+
+<https://www.gov.uk/government/people/rommel-moseley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65254b26244f8e00138e7347/s465_Rommel_Moseley.jpg> ;
+    schema1:name "Rommel Moseley"@en .
+
+<https://www.gov.uk/government/people/sarah-coccia> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/690e2eaa65da22dd5772990d/s465_sarah_coccia_960x640.jpg> ;
+    schema1:name "Sarah Coccia"@en .
+

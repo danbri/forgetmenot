@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/civil-nuclear-constabulary> govuk:hasMinister <https://www.gov.uk/government/people/stephen-martin> .
+
+<https://www.gov.uk/government/people/stephen-martin> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Stephen Martin joined the Civil Nuclear Constabulary as Deputy Chief Constable on 9 May 2022. He had previously been a police officer in Northern Ireland for nearly 34 years, retiring as the T/Deputy Chief Constable in January 2020 when he was responsible for corporate governance, professional standards, organisational change and performance. Having held three separate ACC portfolios, Stephen was variously responsible for: front line uniform and detective policing; protective services; serious and organised crime; intelligence and specialist operations; as well as a range of other operational and support policy areas."@en ;
+    schema1:name "Stephen Martin"@en ;
+    schema1:url <https://www.gov.uk/government/people/stephen-martin> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/civil-nuclear-constabulary> ;
+    govuk:currentRoleTitle "Deputy Chief Constable"@en .
+

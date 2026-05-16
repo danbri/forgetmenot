@@ -1,0 +1,93 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-transport> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> .
+
+<https://www.gov.uk/government/people/heidi-alexander> schema1:name "The Rt Hon Heidi Alexander MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> .
+
+<https://www.gov.uk/government/people/anne-marie-trevelyan> schema1:name "The Rt Hon Anne-Marie Trevelyan"@en .
+
+<https://www.gov.uk/government/people/chris-grayling> schema1:name "The Rt Hon Chris Grayling"@en .
+
+<https://www.gov.uk/government/people/grant-shapps> schema1:name "The Rt Hon Grant Shapps"@en .
+
+<https://www.gov.uk/government/people/justine-greening> schema1:name "The Rt Hon Justine Greening"@en .
+
+<https://www.gov.uk/government/people/louise-haigh> schema1:name "The Rt Hon Louise Haigh MP"@en .
+
+<https://www.gov.uk/government/people/mark-harper> schema1:name "The Rt Hon Mark Harper"@en .
+
+<https://www.gov.uk/government/people/patrick-mcloughlin> schema1:name "The Rt Hon Sir Patrick McLoughlin"@en .
+
+<https://www.gov.uk/government/people/philip-hammond> schema1:name "The Rt Hon Philip Hammond"@en .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Secretary of State for Transport"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-marie-trevelyan>,
+        <https://www.gov.uk/government/people/chris-grayling>,
+        <https://www.gov.uk/government/people/grant-shapps>,
+        <https://www.gov.uk/government/people/justine-greening>,
+        <https://www.gov.uk/government/people/louise-haigh>,
+        <https://www.gov.uk/government/people/mark-harper>,
+        <https://www.gov.uk/government/people/patrick-mcloughlin>,
+        <https://www.gov.uk/government/people/philip-hammond> ;
+    govuk:responsibility "corporate functions such as oversight of departmental finance and public appointments"@en,
+        "delivering the transport priorities of the government: making transport cheaper, greener, and more reliable"@en,
+        "ensuring the transport network is safe and accessible"@en,
+        "overarching responsibility for the departmental portfolio and oversight of the ministerial team"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/heidi-alexander> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/mark-harper> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/patrick-mcloughlin> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2012"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/chris-grayling> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/philip-hammond> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2011"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/louise-haigh> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/justine-greening> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2012"^^xsd:gYear ;
+    govuk:tenureStart "2011"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/anne-marie-trevelyan> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

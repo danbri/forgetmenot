@@ -1,0 +1,29 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/home-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--195> .
+
+<https://www.gov.uk/government/people/david-hanson> schema1:name "The Rt Hon Lord Hanson of Flint"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--195> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--195> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Lords Minister)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--195> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:responsibility "Home Office interests in free trade agreements"@en,
+        "analysis, science and research"@en,
+        "contract management (including asylum accommodation contracts)"@en,
+        "corporate and delivery"@en,
+        "data and identity"@en,
+        "departmental finance"@en,
+        "digital and technology"@en,
+        "fraud"@en,
+        "inquiries"@en,
+        "overseas territories"@en,
+        "public appointments and sponsorship"@en,
+        "public safety, national security and migration and borders business in the Lords"@en,
+        "the Union and devolution"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/david-hanson> .
+

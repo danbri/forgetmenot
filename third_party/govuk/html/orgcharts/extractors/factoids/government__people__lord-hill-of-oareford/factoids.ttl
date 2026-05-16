@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-hill-of-oareford> .
+
+<https://www.gov.uk/government/people/lord-hill-of-oareford> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Hill was appointed Leader of the House of Lords in January 2013. He is a Conservative member of the House of Lords."@en ;
+    schema1:name "The Rt Hon Lord Hill of Oareford CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/lord-hill-of-oareford> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/liam-fox> .
+
+<https://www.gov.uk/government/people/liam-fox> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Liam Fox was Secretary of State for International Trade from July 2016 to July 2019. He was elected as the Conservative MP for North Somerset in 1992."@en ;
+    schema1:name "The Rt Hon Liam Fox"@en ;
+    schema1:url <https://www.gov.uk/government/people/liam-fox> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

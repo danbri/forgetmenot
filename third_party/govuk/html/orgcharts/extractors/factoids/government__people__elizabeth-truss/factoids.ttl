@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/people/elizabeth-truss> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Elizabeth Truss was Prime Minister from 6 September 2022 to 25 October 2022. She was previously Secretary of State for Foreign, Commonwealth and Development Affairs from 15 September 2021. She was appointed Minister for Women and Equalities on 10 September 2019. She was elected as the Conservative MP for south west Norfolk in 2010."@en ;
+    schema1:name "The Rt Hon Elizabeth Truss"@en ;
+    schema1:url <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

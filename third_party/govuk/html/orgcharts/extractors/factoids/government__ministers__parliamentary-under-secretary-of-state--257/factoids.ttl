@@ -1,0 +1,49 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> .
+
+<https://www.gov.uk/government/people/josh-macalister> schema1:name "Josh MacAlister OBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> .
+
+<https://www.gov.uk/government/people/janet-daby> schema1:name "Janet Daby MP"@en .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Children and Families)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/janet-daby> ;
+    govuk:responsibility "adoption"@en,
+        "care leavers"@en,
+        "child protection"@en,
+        "child protection, safeguarding and serious incidents"@en,
+        "children in care and children in need"@en,
+        "children’s social care"@en,
+        "children’s social care workforce"@en,
+        "counter extremism in schools and post-16 settings"@en,
+        "creation of new free schools"@en,
+        "deputising for the Secretary of State for Education in emergencies"@en,
+        "environmental sustainability in the education sectors"@en,
+        "family support including the families first programme"@en,
+        "fostering and regional care cooperatives"@en,
+        "kinship care and family justice"@en,
+        "local authority intervention and improvement"@en,
+        "looked-after children"@en,
+        "maintenance and improvement of the education estate"@en,
+        "out-of-school settings"@en,
+        "prevention of serious violence in schools and post-16 settings"@en,
+        "school safeguarding and guidance on keeping children safe in education"@en,
+        "single unique identifier for children and use of children’s social care data"@en,
+        "tackling antisemitism"@en,
+        "unaccompanied asylum-seeking children"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/josh-macalister> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/janet-daby> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+

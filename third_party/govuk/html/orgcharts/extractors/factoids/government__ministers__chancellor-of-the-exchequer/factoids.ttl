@@ -1,0 +1,90 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasRole <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> .
+
+<https://www.gov.uk/government/people/rachel-reeves> schema1:name "The Rt Hon Rachel Reeves MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> .
+
+<https://www.gov.uk/government/people/george-osborne> schema1:name "The Rt Hon George Osborne"@en .
+
+<https://www.gov.uk/government/people/jeremy-hunt> schema1:name "The Rt Hon Jeremy Hunt MP"@en .
+
+<https://www.gov.uk/government/people/kwasi-kwarteng> schema1:name "The Rt Hon Kwasi Kwarteng"@en .
+
+<https://www.gov.uk/government/people/nadhim-zahawi> schema1:name "The Rt Hon Nadhim Zahawi"@en .
+
+<https://www.gov.uk/government/people/philip-hammond> schema1:name "The Rt Hon Philip Hammond"@en .
+
+<https://www.gov.uk/government/people/rishi-sunak> schema1:name "The Rt Hon Rishi Sunak MP"@en .
+
+<https://www.gov.uk/government/people/sajid-javid> schema1:name "The Rt Hon Sajid Javid"@en .
+
+<https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Chancellor of the Exchequer"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/george-osborne>,
+        <https://www.gov.uk/government/people/jeremy-hunt>,
+        <https://www.gov.uk/government/people/kwasi-kwarteng>,
+        <https://www.gov.uk/government/people/nadhim-zahawi>,
+        <https://www.gov.uk/government/people/philip-hammond>,
+        <https://www.gov.uk/government/people/rishi-sunak>,
+        <https://www.gov.uk/government/people/sajid-javid> ;
+    govuk:responsibility "Capital markets and listings"@en,
+        "Delivering the government’s growth mission"@en,
+        "Economic security and resilience policy"@en,
+        "Fiscal policy (including presenting the annual Budget)"@en,
+        "Leading on international economic and financial affairs including at the G7 and G20 and acting as the UK Governor of the IMF, EBRD and AIIB"@en,
+        "Ministerial arrangements (in her role as Second Lord of the Treasury)"@en,
+        "Oversight of the monetary framework, including setting the inflation remit, and liaison with the Governor of the Bank of England on monetary policy"@en,
+        "The National Wealth Fund"@en,
+        "UK growth and productivity, including working across government on skills, labour market and migration"@en,
+        "Women in the economy and the gender pay gap"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/rachel-reeves> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/rishi-sunak> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/kwasi-kwarteng> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-hunt> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/george-osborne> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/philip-hammond> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/sajid-javid> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+

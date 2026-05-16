@@ -1,0 +1,92 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasRole <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> .
+
+<https://www.gov.uk/government/people/rachel-blake> schema1:name "Rachel Blake MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> .
+
+<https://www.gov.uk/government/people/andrew-griffith> schema1:name "Andrew Griffith MP"@en .
+
+<https://www.gov.uk/government/people/bim-afolami> schema1:name "Bim Afolami MP"@en .
+
+<https://www.gov.uk/government/people/emma-reynolds--2> schema1:name "The Rt Hon Emma Reynolds MP"@en .
+
+<https://www.gov.uk/government/people/lucy-rigby> schema1:name "Lucy Rigby KC MP"@en .
+
+<https://www.gov.uk/government/people/richard-fuller> schema1:name "Richard Fuller MP"@en .
+
+<https://www.gov.uk/government/people/tulip-siddiq> schema1:name "Tulip Siddiq MP"@en .
+
+<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Economic Secretary to the Treasury"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith>,
+        <https://www.gov.uk/government/people/bim-afolami>,
+        <https://www.gov.uk/government/people/emma-reynolds--2>,
+        <https://www.gov.uk/government/people/lucy-rigby>,
+        <https://www.gov.uk/government/people/richard-fuller>,
+        <https://www.gov.uk/government/people/tulip-siddiq> ;
+    govuk:responsibility "Banking and consumer credit"@en,
+        "Cash and Payments including Royal Mint"@en,
+        "Competitiveness and growth of the financial services sector"@en,
+        "Debt and reserves management policy including green gilt, National Savings and Investment ( NS&I ) and Debt Management Office ( DMO )"@en,
+        "Engagement with the Financial Services sector"@en,
+        "Financial conduct, including relationship with the FCA"@en,
+        "Financial inclusion and capability"@en,
+        "Financial sanctions and countering economic crime, money laundering and illicit finance, including the Office for Financial Sanctions Implementation ( OFSI )"@en,
+        "Financial services policy, reform and regulation including: Financial conduct, including relationship with the FCA Financial stability, including relationship with the PRA Competitiveness and growth of the financial services sector Banking and consumer credit Insurance and pensions markets Financial inclusion and capability Sustainable finance Fintech and crypto assets, including Central Bank Digital Currency International financial services including regulatory cooperation and financial services EU issues Sponsorship of UKGI and State-owned financial assets, including NatWest shareholding Cash and Payments including Royal Mint Supporting the Chancellor on capital markets and listings Women in Finance and supporting the Chancellor on the Women in the Economy agenda"@en,
+        "Financial services tax, including bank levy, bank corporation tax surcharge, Insurance Premium Tax"@en,
+        "Financial stability, including relationship with the PRA"@en,
+        "Fintech and crypto assets, including Central Bank Digital Currency"@en,
+        "Insurance and pensions markets"@en,
+        "International financial services including regulatory cooperation and financial services EU issues"@en,
+        "Parliamentary deputy on economy issues"@en,
+        "Personal savings policy, including ISAs , savings tax and pensions tax policy"@en,
+        "Sponsorship of UKGI and State-owned financial assets, including NatWest shareholding"@en,
+        "Supporting the Chancellor on capital markets and listings"@en,
+        "Sustainable finance"@en,
+        "The Treasury’s interest in Overseas Territories and Crown Dependencies issues"@en,
+        "Women in Finance and supporting the Chancellor on the Women in the Economy agenda"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/rachel-blake> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/bim-afolami> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lucy-rigby> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:tenureEnd "2026"^^xsd:gYear ;
+    govuk:tenureStart "2025"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/emma-reynolds--2> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2025"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/tulip-siddiq> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/richard-fuller> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

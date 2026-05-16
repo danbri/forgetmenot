@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/hm-prison-service> govuk:hasMinister <https://www.gov.uk/government/people/sarah-coccia> .
+
+<https://www.gov.uk/government/people/sarah-coccia> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "HM Prison Service and HM Prison and Probation Service"@en ;
+    schema1:name "Sarah Coccia"@en ;
+    schema1:url <https://www.gov.uk/government/people/sarah-coccia> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-prison-service> ;
+    govuk:currentRoleTitle "Chief Operating Officer Prisons"@en .
+

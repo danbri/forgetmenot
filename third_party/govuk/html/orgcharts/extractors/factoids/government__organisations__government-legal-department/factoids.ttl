@@ -1,0 +1,60 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-legal-department> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Legal Department"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-legal-department> ;
+    govuk:hasManager <https://www.gov.uk/government/people/carmel-thornton>,
+        <https://www.gov.uk/government/people/caroline-croft>,
+        <https://www.gov.uk/government/people/damian-paterson>,
+        <https://www.gov.uk/government/people/douglas-wilson>,
+        <https://www.gov.uk/government/people/janet-paraskeva>,
+        <https://www.gov.uk/government/people/mel-nebhrajani>,
+        <https://www.gov.uk/government/people/mike-green--2>,
+        <https://www.gov.uk/government/people/richard-cornish>,
+        <https://www.gov.uk/government/people/sarah-goom>,
+        <https://www.gov.uk/government/people/tim-fallowfield> .
+
+<https://www.gov.uk/government/people/carmel-thornton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68248b45b9226dd8e81ab861/s465_Carmel_Thornton_GOV.UK.jpg> ;
+    schema1:name "Carmel Thornton"@en .
+
+<https://www.gov.uk/government/people/caroline-croft> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6824ab757293a87b6c75ec4d/s465_Caroline_Croft_GOV.UK.jpg> ;
+    schema1:name "Caroline Croft"@en .
+
+<https://www.gov.uk/government/people/damian-paterson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6824aba2aa3556876875ec5c/s465_Damian_Paterson_GOV.UK.jpg> ;
+    schema1:name "Damian Paterson"@en .
+
+<https://www.gov.uk/government/people/douglas-wilson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a354a2b74b3d9dfe36ca82/s465_Doug_Portrait_GOVUK.png> ;
+    schema1:name "Douglas Wilson KC (Hon) OBE"@en .
+
+<https://www.gov.uk/government/people/janet-paraskeva> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67502b5cd12a2dad3bc97a42/s465_Dame_Janet_Paraskeva_GOV.UK.png> ;
+    schema1:name "The Rt Hon Dame Janet Paraskeva DBE PC"@en .
+
+<https://www.gov.uk/government/people/mel-nebhrajani> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/615b1d4de90e0719771828e5/s465_Mel-Nebhrajani-960-x-640.jpg> ;
+    schema1:name "Mel Nebhrajani CB"@en .
+
+<https://www.gov.uk/government/people/mike-green--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/699c3a37cd3d70e6c2f12716/s465_Nicola_Sawford_for_GOV.UK_90_x_640px_v2.jpg> ;
+    schema1:name "Nicola Sawford"@en .
+
+<https://www.gov.uk/government/people/richard-cornish> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68248a1fffcd6ecfbf1ab85e/s465_Richard_Cornish_GOV.UK.jpg> ;
+    schema1:name "Richard Cornish"@en .
+
+<https://www.gov.uk/government/people/sarah-goom> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6825a301aa3556876875ec91/s465_Sarah_Goom_GOV.UK.jpg> ;
+    schema1:name "Sarah Goom"@en .
+
+<https://www.gov.uk/government/people/tim-fallowfield> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6750298cd12a2dad3bc97a3e/s465_Tim_Fallowfield_GOV.UK__1_.png> ;
+    schema1:name "Tim Fallowfield OBE"@en .
+

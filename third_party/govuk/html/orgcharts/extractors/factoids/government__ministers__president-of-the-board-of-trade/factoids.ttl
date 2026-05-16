@@ -1,0 +1,38 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasRole <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> .
+
+<https://www.gov.uk/government/organisations/uk-export-finance> govuk:hasRole <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> .
+
+<https://www.gov.uk/government/people/peter-kyle> schema1:name "The Rt Hon Peter Kyle MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> .
+
+<https://www.gov.uk/government/people/jonathan-reynolds> schema1:name "The Rt Hon Jonathan Reynolds MP"@en .
+
+<https://www.gov.uk/government/people/kemi-badenoch> schema1:name "The Rt Hon Kemi Badenoch MP"@en .
+
+<https://www.gov.uk/government/ministers/president-of-the-board-of-trade> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "President of the Board of Trade"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade>,
+        <https://www.gov.uk/government/organisations/uk-export-finance> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/jonathan-reynolds>,
+        <https://www.gov.uk/government/people/kemi-badenoch> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jonathan-reynolds> ;
+    govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+

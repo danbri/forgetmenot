@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/homes-england> govuk:hasMinister <https://www.gov.uk/government/people/amy-rees> .
+
+<https://www.gov.uk/government/people/amy-rees> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Amy Rees became Chief Executive of Homes England in September 2025, bringing extensive leadership experience across public service delivery and justice reform."@en ;
+    schema1:name "Amy Rees CB"@en ;
+    schema1:url <https://www.gov.uk/government/people/amy-rees> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/homes-england> ;
+    govuk:currentRoleTitle "Chief Executive Officer, Homes England and Non-Executive Director, National Housing Bank"@en .
+

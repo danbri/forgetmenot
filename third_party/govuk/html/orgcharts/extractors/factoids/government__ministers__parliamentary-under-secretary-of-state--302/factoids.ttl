@@ -1,0 +1,37 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
+
+<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
+
+<https://www.gov.uk/government/people/liz-lloyd> schema1:name "Baroness Lloyd of Effra CBE"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Digital Economy)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade>,
+        <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:responsibility "COVID loan recovery"@en,
+        "DBT digital government"@en,
+        "One Login for business"@en,
+        "Regulatory Innovation Office (RIO)"@en,
+        "Smart data"@en,
+        "business support for developing the digital economy"@en,
+        "cyber"@en,
+        "digital inclusion and skills"@en,
+        "digital trade policy"@en,
+        "economic security"@en,
+        "labour market environment for digital entrepreneurs"@en,
+        "preparation for economic impact of transformative AI/AGI"@en,
+        "professional services"@en,
+        "regulatory environment for digital enterprises"@en,
+        "space"@en,
+        "talent – entrepreneurial and investor"@en,
+        "tech adoption and skills"@en,
+        "telecoms"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
+

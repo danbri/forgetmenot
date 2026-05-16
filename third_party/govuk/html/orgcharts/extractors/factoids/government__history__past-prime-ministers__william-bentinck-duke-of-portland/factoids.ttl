@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/william-bentinck-duke-of-portland> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Duke of Portland always thought of himself as a Whig. However he was an important figure in a realignment of British politics which laid the foundation of Tory government in the early nineteenth century. This gave him a significance far greater than his 2 brief spells as prime minister would suggest."@en ;
+    schema1:name "William Cavendish-Bentinck Duke of Portland"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/william-bentinck-duke-of-portland> .
+

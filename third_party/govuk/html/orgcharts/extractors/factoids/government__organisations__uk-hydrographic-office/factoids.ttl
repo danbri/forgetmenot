@@ -1,0 +1,70 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-hydrographic-office> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "UK Hydrographic Office"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/uk-hydrographic-office> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alex-bowen>,
+        <https://www.gov.uk/government/people/amy-carrillo>,
+        <https://www.gov.uk/government/people/angus-essenhigh>,
+        <https://www.gov.uk/government/people/david-english>,
+        <https://www.gov.uk/government/people/david-tomaney>,
+        <https://www.gov.uk/government/people/mark-barclay>,
+        <https://www.gov.uk/government/people/matthew-syrett>,
+        <https://www.gov.uk/government/people/natasha-toothill>,
+        <https://www.gov.uk/government/people/paul-boyle--2>,
+        <https://www.gov.uk/government/people/tara-usher>,
+        <https://www.gov.uk/government/people/tom-betts>,
+        <https://www.gov.uk/government/people/vanessa-blake> .
+
+<https://www.gov.uk/government/people/alex-bowen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6901d7afab5cc9c893799515/s465_2025_UKHOTaunton_Alex_Bowen_-_Gov.uk_website_images.jpg> ;
+    schema1:name "Alex Bowen"@en .
+
+<https://www.gov.uk/government/people/amy-carrillo> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62f24fa6d3bf7f4fe3ff4dca/s465_AmyCarillo_HCT_8992_-_Copy.jpg> ;
+    schema1:name "Amy Carrillo"@en .
+
+<https://www.gov.uk/government/people/angus-essenhigh> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64b15da59959000013002b0e/s465_2023_UKHOTaunton_MJones_Angus_Essenhigh_-_Gov.uk_website_images-01.jpg> ;
+    schema1:name "RAdm Angus Essenhigh OBE"@en .
+
+<https://www.gov.uk/government/people/david-english> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f3bca453505b2ca44efefd/s465_2025_UKHO_David_English_02_-_Gov.uk_website_images.jpg> ;
+    schema1:name "David English"@en .
+
+<https://www.gov.uk/government/people/david-tomaney> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62f250ffd3bf7f4ff1b6a24b/s465_DavidTomaney_HCT_8917_-_Copy.jpg> ;
+    schema1:name "Dave Tomaney"@en .
+
+<https://www.gov.uk/government/people/mark-barclay> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69f470ab161a319cff4fbbcd/s465_Mark_Barclay_-_Gov.uk_website_images.jpg> ;
+    schema1:name "Mark Barclay"@en .
+
+<https://www.gov.uk/government/people/matthew-syrett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66a3a38a49b9c0597fdb05a9/s465_2024_MattSyrett_UKHO_02_-_Gov.uk_website_images.jpg> ;
+    schema1:name "Captain Matt Syrett RN"@en .
+
+<https://www.gov.uk/government/people/natasha-toothill> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64674da10d66460010d9631b/s465_Tash_Toothill_5788_-_Gov.uk_website_images.jpg> ;
+    schema1:name "Natasha Toothill"@en .
+
+<https://www.gov.uk/government/people/paul-boyle--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/643546a789f19f00133cfafb/s465_Paul_Boyle.jpg> ;
+    schema1:name "Paul Boyle"@en .
+
+<https://www.gov.uk/government/people/tara-usher> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6422dfa72fa848000cec0d55/s465_Tara_Usher.jpg> ;
+    schema1:name "Tara Usher"@en .
+
+<https://www.gov.uk/government/people/tom-betts> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/671768b8583ef2380ad998a1/s465_file__2_.jpg> ;
+    schema1:name "Tom Betts"@en .
+
+<https://www.gov.uk/government/people/vanessa-blake> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64b15edb48826b000d3a9e8e/s465_2023_UKHOTaunton_MJones_Vanessa_Blake_-_Gov.uk_website_images-01-01.jpg> ;
+    schema1:name "Vanessa Blake"@en .
+

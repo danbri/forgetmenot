@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/trade-remedies-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Trade Remedies Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/trade-remedies-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/adam-marshall>,
+        <https://www.gov.uk/government/people/clare-brodie>,
+        <https://www.gov.uk/government/people/guita-blake>,
+        <https://www.gov.uk/government/people/jessica-blakely>,
+        <https://www.gov.uk/government/people/john-alty>,
+        <https://www.gov.uk/government/people/john-c-hughes>,
+        <https://www.gov.uk/government/people/nick-baird>,
+        <https://www.gov.uk/government/people/steven-odonoghue>,
+        <https://www.gov.uk/government/people/suarez-carmen--2> .
+
+<https://www.gov.uk/government/people/adam-marshall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c596a172e83aab48866d0d/s465_2.png> ;
+    schema1:name "Adam Marshall CBE"@en .
+
+<https://www.gov.uk/government/people/clare-brodie> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/648c45aa5f7bb700127faba0/s465_Clare__960___640px_.png> ;
+    schema1:name "Clare Brodie"@en .
+
+<https://www.gov.uk/government/people/guita-blake> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67910d4720bce57216a2f18e/s465_Untitled_design__10_.png> ;
+    schema1:name "Guita Blake"@en .
+
+<https://www.gov.uk/government/people/jessica-blakely> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68666744dd1a7e01559e6d29/s465_1.png> ;
+    schema1:name "Jessica Blakely"@en .
+
+<https://www.gov.uk/government/people/john-alty> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6b4ae5274a6bf054ea97/s465_john-alty-shadedbg.jpg> ;
+    schema1:name "John Alty CB"@en .
+
+<https://www.gov.uk/government/people/john-c-hughes> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c5967b72e83aab48866d0b/s465_1.png> ;
+    schema1:name "John C Hughes"@en .
+
+<https://www.gov.uk/government/people/nick-baird> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f673aed915d5954733c16/s465_nick_baird.jpg> ;
+    schema1:name "Nick Baird CMG CVO"@en .
+
+<https://www.gov.uk/government/people/steven-odonoghue> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66222989252f0d71cf757d5f/s465_Steve_O_Donoghue_GOV.UK.png> ;
+    schema1:name "Steven O’Donoghue"@en .
+
+<https://www.gov.uk/government/people/suarez-carmen--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68666769dd1a7e01559e6d2c/s465_2.png> ;
+    schema1:name "Carmen Suarez"@en .
+

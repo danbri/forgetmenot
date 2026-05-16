@@ -1,0 +1,44 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> govuk:hasRole <https://www.gov.uk/government/ministers/lord-privy-seal> .
+
+<https://www.gov.uk/government/people/baroness-smith-of-basildon> schema1:name "The Rt Hon Baroness Smith of Basildon"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-privy-seal> .
+
+<https://www.gov.uk/government/people/baroness-stowell-of-beeston> schema1:name "The Rt Hon Baroness Stowell of Beeston MBE"@en .
+
+<https://www.gov.uk/government/people/lord-true> schema1:name "The Rt Hon Lord True CBE"@en .
+
+<https://www.gov.uk/government/people/natalie-evans-of-bowes-park> schema1:name "The Rt Hon Baroness Evans of Bowes Park"@en .
+
+<https://www.gov.uk/government/ministers/lord-privy-seal> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Lord Privy Seal"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/baroness-stowell-of-beeston>,
+        <https://www.gov.uk/government/people/lord-true>,
+        <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/baroness-smith-of-basildon> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-stowell-of-beeston> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lord-true> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

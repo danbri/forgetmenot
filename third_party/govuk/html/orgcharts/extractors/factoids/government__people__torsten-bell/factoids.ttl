@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary--13> govuk:roleHolder <https://www.gov.uk/government/people/torsten-bell> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205> govuk:roleHolder <https://www.gov.uk/government/people/torsten-bell> .
+
+<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasMinister <https://www.gov.uk/government/people/torsten-bell> .
+
+<https://www.gov.uk/government/people/torsten-bell> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Torsten Bell MP was appointed Parliamentary Secretary in HM Treasury and Parliamentary Under Secretary of State in the Department for Work and Pensions on 14 January 2025."@en ;
+    schema1:name "Torsten Bell MP"@en ;
+    schema1:url <https://www.gov.uk/government/people/torsten-bell> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:currentRoleTitle "Parliamentary Secretary and Parliamentary Under-Secretary of State (Minister for Pensions)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--13>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205> .
+

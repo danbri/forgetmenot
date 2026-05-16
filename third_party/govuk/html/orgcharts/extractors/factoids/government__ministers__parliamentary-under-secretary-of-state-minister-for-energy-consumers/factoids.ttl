@@ -1,0 +1,35 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers> .
+
+<https://www.gov.uk/government/people/martin-mccluskey> schema1:name "Martin McCluskey MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers> .
+
+<https://www.gov.uk/government/people/miatta-fahnbulleh> schema1:name "Miatta Fahnbulleh MP"@en .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Energy Consumers)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/miatta-fahnbulleh> ;
+    govuk:responsibility "Ofgem Review"@en,
+        "Warm Homes Plan"@en,
+        "business and commercial buildings decarbonisation"@en,
+        "clean heat, including the Boiler Upgrade Scheme"@en,
+        "domestic energy efficiency"@en,
+        "energy consumer issues, including; domestic energy bills, Ofgem consumer elements, the energy price cap and smart meters"@en,
+        "fuel poverty"@en,
+        "heat networks"@en,
+        "public sector decarbonisation"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/martin-mccluskey> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/miatta-fahnbulleh> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+

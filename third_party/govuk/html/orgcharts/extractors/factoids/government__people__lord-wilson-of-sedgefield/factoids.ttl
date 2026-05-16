@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--12> govuk:roleHolder <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> .
+
+<https://www.gov.uk/government/people/lord-wilson-of-sedgefield> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Wilson of Sedgefield was appointed Lord in Waiting (Government Whip) on 10 February 2025."@en ;
+    schema1:name "Lord Wilson of Sedgefield"@en ;
+    schema1:url <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:currentRoleTitle "Lord in Waiting (Government Whip)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--12> .
+

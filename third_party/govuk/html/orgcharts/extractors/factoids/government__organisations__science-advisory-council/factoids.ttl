@@ -1,0 +1,30 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/science-advisory-council> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Defra's Science Advisory Council"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/science-advisory-council> ;
+    govuk:hasManager <https://www.gov.uk/government/people/piran-white>,
+        <https://www.gov.uk/government/people/rosie-hails>,
+        <https://www.gov.uk/government/people/rowland-kao>,
+        <https://www.gov.uk/government/people/susan-owens> .
+
+<https://www.gov.uk/government/people/piran-white> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6985f3e2c106cc5501b6e473/s465_Professor_Piran_White.jpg> ;
+    schema1:name "Professor Piran White"@en .
+
+<https://www.gov.uk/government/people/rosie-hails> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/669e1b04ab418ab05559296c/s465_RH_photo_960_640.jpg> ;
+    schema1:name "Professor Rosie Hails MBE DSc hc FRSB"@en .
+
+<https://www.gov.uk/government/people/rowland-kao> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64490cc3814c6600128d06d7/s465_rowland-kao-960x640.png> ;
+    schema1:name "Professor Rowland Kao"@en .
+
+<https://www.gov.uk/government/people/susan-owens> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6449094e814c66000c8d06b3/s465_susan-owens-960x640.jpg> ;
+    schema1:name "Professor Susan Owens"@en .
+

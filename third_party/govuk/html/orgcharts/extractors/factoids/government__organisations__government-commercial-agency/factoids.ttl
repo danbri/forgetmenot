@@ -1,0 +1,43 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-commercial-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Commercial Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-commercial-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-forzani>,
+        <https://www.gov.uk/government/people/charlotte-moar>,
+        <https://www.gov.uk/government/people/fiona-bride>,
+        <https://www.gov.uk/government/people/maura-sullivan>,
+        <https://www.gov.uk/government/people/sam-ulyatt>,
+        <https://www.gov.uk/government/people/sara-halton>,
+        <https://www.gov.uk/government/people/sean-golding> .
+
+<https://www.gov.uk/government/people/andrew-forzani> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61bb53c0d3bf7f054e76960b/s465_20211216-ForzaniA_960x640.jpg> ;
+    schema1:name "Andrew Forzani"@en .
+
+<https://www.gov.uk/government/people/charlotte-moar> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f490176d3bf7f0a2c9679d1/s465_Charlotte_Moar.jpg> ;
+    schema1:name "Charlotte Moar"@en .
+
+<https://www.gov.uk/government/people/fiona-bride> a schema1:Person ;
+    schema1:name "Fiona Bride"@en .
+
+<https://www.gov.uk/government/people/maura-sullivan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d3e129275fc9339a248c53/s465_Maura_Sullivan.jpg> ;
+    schema1:name "Maura Sullivan"@en .
+
+<https://www.gov.uk/government/people/sam-ulyatt> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66e8149924c4f1826d81bb54/s465_Sam_Ulyatt_-_960x640.jpg> ;
+    schema1:name "Sam Ulyatt"@en .
+
+<https://www.gov.uk/government/people/sara-halton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6332ea16e90e0711d40cf135/s465_Sara_Halton_High_Res.jpg> ;
+    schema1:name "Sara Halton"@en .
+
+<https://www.gov.uk/government/people/sean-golding> a schema1:Person ;
+    schema1:name "Sean Golding"@en .
+

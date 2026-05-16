@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-defence> govuk:hasMinister <https://www.gov.uk/government/people/madelaine-mcternan> .
+
+<https://www.gov.uk/government/people/madelaine-mcternan> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Maddy is Chief of Defence Nuclear at the Ministry of Defence (MoD)."@en ;
+    schema1:name "Madelaine McTernan CB"@en ;
+    schema1:url <https://www.gov.uk/government/people/madelaine-mcternan> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    govuk:currentRoleTitle "Chief of Defence Nuclear"@en .
+

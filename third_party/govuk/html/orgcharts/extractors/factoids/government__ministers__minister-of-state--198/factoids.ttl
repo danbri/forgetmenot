@@ -1,0 +1,23 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--198> .
+
+<https://www.gov.uk/government/people/dan-jarvis> schema1:name "Dan Jarvis MBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--198> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--198> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--198> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:responsibility "Civil contingencies"@en,
+        "Cyber security"@en,
+        "Government security group, including UK security vetting"@en,
+        "Integrated security fund"@en,
+        "Investment security"@en,
+        "Resilience"@en,
+        "Supporting CDL with coordination of national security policy"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> .
+

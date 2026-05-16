@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/keith-anderson> .
+
+<https://www.gov.uk/government/people/keith-anderson> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Keith Anderson has been CEO of ScottishPower since 2018. Prior to his appointment as Chief Executive, Keith was CEO of ScottishPower Renewables and led Iberdrola’s international offshore business. Before joining ScottishPower, Keith worked with some major financial institutions including The Royal Bank of Scotland and Standard Life, as well as working as a management consultant with E&Y. Keith has an Honorary Degree from Strathclyde University and is an Honorary Fellow of the Energy Institute."@en ;
+    schema1:name "Keith Anderson"@en ;
+    schema1:url <https://www.gov.uk/government/people/keith-anderson> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en .
+

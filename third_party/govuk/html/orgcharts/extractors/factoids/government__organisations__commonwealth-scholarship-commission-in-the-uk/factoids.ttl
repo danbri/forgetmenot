@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/commonwealth-scholarship-commission-in-the-uk> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Commonwealth Scholarship Commission in the UK"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/commonwealth-scholarship-commission-in-the-uk> ;
+    govuk:hasManager <https://www.gov.uk/government/people/allan-hill>,
+        <https://www.gov.uk/government/people/catherine-mackenzie>,
+        <https://www.gov.uk/government/people/christine-thuranira-mckeever>,
+        <https://www.gov.uk/government/people/elizabeth-tanya-masiyiwa>,
+        <https://www.gov.uk/government/people/kevin-ibeh>,
+        <https://www.gov.uk/government/people/liz-baggs>,
+        <https://www.gov.uk/government/people/morag-mcdonald>,
+        <https://www.gov.uk/government/people/parmjit-jat>,
+        <https://www.gov.uk/government/people/robin-mason>,
+        <https://www.gov.uk/government/people/ryan-shorthouse>,
+        <https://www.gov.uk/government/people/sarah-hawkes> .
+
+<https://www.gov.uk/government/people/allan-hill> a schema1:Person ;
+    schema1:name "Professor Allan Hill"@en .
+
+<https://www.gov.uk/government/people/catherine-mackenzie> a schema1:Person ;
+    schema1:name "Dr Catherine MacKenzie"@en .
+
+<https://www.gov.uk/government/people/christine-thuranira-mckeever> a schema1:Person ;
+    schema1:name "Dr Christine Thuranira-McKeever"@en .
+
+<https://www.gov.uk/government/people/elizabeth-tanya-masiyiwa> a schema1:Person ;
+    schema1:name "Elizabeth Tanya Masiyiwa"@en .
+
+<https://www.gov.uk/government/people/kevin-ibeh> a schema1:Person ;
+    schema1:name "Professor Kevin Ibeh"@en .
+
+<https://www.gov.uk/government/people/liz-baggs> a schema1:Person ;
+    schema1:name "Professor Liz Baggs"@en .
+
+<https://www.gov.uk/government/people/morag-mcdonald> a schema1:Person ;
+    schema1:name "Professor Morag McDonald"@en .
+
+<https://www.gov.uk/government/people/parmjit-jat> a schema1:Person ;
+    schema1:name "Professor Parmjit Jat"@en .
+
+<https://www.gov.uk/government/people/robin-mason> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61e8391ae90e07037d969802/s465_Robin-Mason-govuk.png> ;
+    schema1:name "Professor Robin Mason"@en .
+
+<https://www.gov.uk/government/people/ryan-shorthouse> a schema1:Person ;
+    schema1:name "Ryan Shorthouse"@en .
+
+<https://www.gov.uk/government/people/sarah-hawkes> a schema1:Person ;
+    schema1:name "Professor Sarah Hawkes"@en .
+

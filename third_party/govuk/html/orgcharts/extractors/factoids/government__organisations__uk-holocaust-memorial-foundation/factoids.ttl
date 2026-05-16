@@ -1,0 +1,68 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-holocaust-memorial-foundation> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "UK Holocaust Memorial Foundation"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/uk-holocaust-memorial-foundation> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alice-m-greenwald>,
+        <https://www.gov.uk/government/people/dido-harding>,
+        <https://www.gov.uk/government/people/ed-balls>,
+        <https://www.gov.uk/government/people/ephraim-mirvis>,
+        <https://www.gov.uk/government/people/eric-pickles>,
+        <https://www.gov.uk/government/people/gerald-ronson>,
+        <https://www.gov.uk/government/people/jon-cunliffe>,
+        <https://www.gov.uk/government/people/lloyd-dorfman>,
+        <https://www.gov.uk/government/people/lord-feldman-of-elstree>,
+        <https://www.gov.uk/government/people/matthew-westerman>,
+        <https://www.gov.uk/government/people/mona-siddiqui>,
+        <https://www.gov.uk/government/people/natasha-kaplinsky>,
+        <https://www.gov.uk/government/people/peter-freeman--2> .
+
+<https://www.gov.uk/government/people/alice-m-greenwald> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6102d41be90e0703aee75919/s465_no_picture.png> ;
+    schema1:name "Alice M. Greenwald"@en .
+
+<https://www.gov.uk/government/people/dido-harding> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6102d35ae90e0703af0017a9/s465_no_picture.png> ;
+    schema1:name "Baroness Dido Harding"@en .
+
+<https://www.gov.uk/government/people/ed-balls> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6103dfa2e90e0703b58e8cb5/s465_Ed_Balls_960.jpg> ;
+    schema1:name "The Rt Hon Ed Balls"@en .
+
+<https://www.gov.uk/government/people/ephraim-mirvis> a schema1:Person ;
+    schema1:name "Chief Rabbi Ephraim Mirvis"@en .
+
+<https://www.gov.uk/government/people/eric-pickles> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f7134e5274a6bf054f0b8/s465_Eric_Pickles.jpg> ;
+    schema1:name "The Rt Hon Lord Pickles"@en .
+
+<https://www.gov.uk/government/people/gerald-ronson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6102d5aa8fa8f50435634a33/s465_no_picture.png> ;
+    schema1:name "Gerald Ronson CBE"@en .
+
+<https://www.gov.uk/government/people/jon-cunliffe> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f711fe5274a6bed61411d/s465_blank-person.png> ;
+    schema1:name "Sir Jon Cunliffe"@en .
+
+<https://www.gov.uk/government/people/lloyd-dorfman> a schema1:Person ;
+    schema1:name "Sir Lloyd Dorfman"@en .
+
+<https://www.gov.uk/government/people/lord-feldman-of-elstree> a schema1:Person ;
+    schema1:name "The Rt Hon Lord Feldman of Elstree"@en .
+
+<https://www.gov.uk/government/people/matthew-westerman> a schema1:Person ;
+    schema1:name "Matthew Westerman"@en .
+
+<https://www.gov.uk/government/people/mona-siddiqui> a schema1:Person ;
+    schema1:name "Professor Mona Siddiqui OBE"@en .
+
+<https://www.gov.uk/government/people/natasha-kaplinsky> a schema1:Person ;
+    schema1:name "Natasha Kaplinsky OBE"@en .
+
+<https://www.gov.uk/government/people/peter-freeman--2> a schema1:Person ;
+    schema1:name "Peter Freeman CBE"@en .
+

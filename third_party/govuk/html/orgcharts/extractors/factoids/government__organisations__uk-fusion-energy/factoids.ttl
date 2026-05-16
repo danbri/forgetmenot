@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-fusion-energy> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "UK Fusion Energy"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/uk-fusion-energy> ;
+    govuk:hasManager <https://www.gov.uk/government/people/charlotte-valeur>,
+        <https://www.gov.uk/government/people/david-gann>,
+        <https://www.gov.uk/government/people/ian-chapman>,
+        <https://www.gov.uk/government/people/jamie-stapleton>,
+        <https://www.gov.uk/government/people/julie-nerney>,
+        <https://www.gov.uk/government/people/kaveh-pourteymour>,
+        <https://www.gov.uk/government/people/luc-bardin>,
+        <https://www.gov.uk/government/people/paul-methven>,
+        <https://www.gov.uk/government/people/tim-bestwick> .
+
+<https://www.gov.uk/government/people/charlotte-valeur> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68f2551228f6872f1663f044/s465_Prof-Charlotte-Valeur.jpg> ;
+    schema1:name "Professor Charlotte Valeur"@en .
+
+<https://www.gov.uk/government/people/david-gann> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/679a185ea39e422368d10de3/s465_Prof-David-Gann.jpg> ;
+    schema1:name "Professor David Gann CBE"@en .
+
+<https://www.gov.uk/government/people/ian-chapman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/679a1fb3fe19800263dc7ba0/s465_Prof-Ian-Chapman.jpg> ;
+    schema1:name "Professor Sir Ian Chapman"@en .
+
+<https://www.gov.uk/government/people/jamie-stapleton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/679a1fa1a39e422368d10e07/s465_Jamie-Stapleton.jpg> ;
+    schema1:name "Jamie Stapleton"@en .
+
+<https://www.gov.uk/government/people/julie-nerney> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/679a1f83dc6d75ae3ddc7b90/s465_Julie-Nerney.jpg> ;
+    schema1:name "Julie Nerney"@en .
+
+<https://www.gov.uk/government/people/kaveh-pourteymour> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/679a1f946907bee181d3142f/s465_Kaveh-Pourteymour.jpg> ;
+    schema1:name "Kaveh Pourteymour"@en .
+
+<https://www.gov.uk/government/people/luc-bardin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/679a17a86907bee181d3140a/s465_Dr-Luc-Bardin.jpg> ;
+    schema1:name "Dr Luc Bardin"@en .
+
+<https://www.gov.uk/government/people/paul-methven> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/679a178adc6d75ae3ddc7b6a/s465_Paul-Methvan.jpg> ;
+    schema1:name "Paul Methven CB"@en .
+
+<https://www.gov.uk/government/people/tim-bestwick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/688c908ee8ba9507fc1b0909/s465_Tim_1.jpg> ;
+    schema1:name "Dr Tim Bestwick OBE"@en .
+

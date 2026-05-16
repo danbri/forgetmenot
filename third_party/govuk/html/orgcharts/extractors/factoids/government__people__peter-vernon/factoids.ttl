@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/national-housing-bank> govuk:hasMinister <https://www.gov.uk/government/people/peter-vernon> .
+
+<https://www.gov.uk/government/people/peter-vernon> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Peter Vernon has an extensive senior career in property, regeneration and management consultancy. He is a senior advisor at Places for London and Chair of Grosvenor Hart Homes."@en ;
+    schema1:name "Peter Vernon"@en ;
+    schema1:url <https://www.gov.uk/government/people/peter-vernon> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/national-housing-bank> ;
+    govuk:currentRoleTitle "Chair, National Housing Bank"@en .
+

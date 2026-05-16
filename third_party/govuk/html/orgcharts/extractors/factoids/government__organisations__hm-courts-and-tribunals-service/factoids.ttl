@@ -1,0 +1,40 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "HM Courts & Tribunals Service"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
+    govuk:hasManager <https://www.gov.uk/government/people/annabel-burns>,
+        <https://www.gov.uk/government/people/catherine-blair>,
+        <https://www.gov.uk/government/people/daniel-bateman>,
+        <https://www.gov.uk/government/people/daniel-flury>,
+        <https://www.gov.uk/government/people/john-laverick>,
+        <https://www.gov.uk/government/people/nick-goodwin> .
+
+<https://www.gov.uk/government/people/annabel-burns> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5df7a89ced915d093b10d36c/s465_Annabel_Burns.jpg> ;
+    schema1:name "Annabel Burns"@en .
+
+<https://www.gov.uk/government/people/catherine-blair> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67813017153753104a9217e9/s465_DSC01419__2_.jpg> ;
+    schema1:name "Catherine Blair"@en .
+
+<https://www.gov.uk/government/people/daniel-bateman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69fd939781a251700a20b272/s465_dan-bateman_landscape.png> ;
+    schema1:name "Daniel Bateman"@en .
+
+<https://www.gov.uk/government/people/daniel-flury> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660534c491a320001182b16c/s465_danielflury2.jpg> ;
+    schema1:name "Daniel Flury"@en .
+
+<https://www.gov.uk/government/people/john-laverick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5fa95958e90e070413b14fa2/s465_John_Laverick__960_x_640_.jpg> ;
+    schema1:name "John Laverick"@en .
+
+<https://www.gov.uk/government/people/nick-goodwin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64ae70a58bc29f000d2ccb2c/s465_Nick-Goodwin-HMCTS-CEO.jpg> ;
+    schema1:name "Nick Goodwin"@en .
+

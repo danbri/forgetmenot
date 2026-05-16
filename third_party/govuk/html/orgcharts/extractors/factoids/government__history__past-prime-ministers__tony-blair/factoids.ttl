@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/tony-blair> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Tony Blair was born in 1953 in Edinburgh, Scotland. After taking a gap year he attended the University of Oxford and studied Law; after graduating he became a barrister."@en ;
+    schema1:name "The Rt Hon Sir Tony Blair KG"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/tony-blair> .
+

@@ -1,0 +1,90 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/natural-england> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Natural England"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/natural-england> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alan-law>,
+        <https://www.gov.uk/government/people/alastair-leake>,
+        <https://www.gov.uk/government/people/clare-fitzsimmons>,
+        <https://www.gov.uk/government/people/cynthia-alers>,
+        <https://www.gov.uk/government/people/james-scott>,
+        <https://www.gov.uk/government/people/kate-gibson>,
+        <https://www.gov.uk/government/people/kim-shillinglaw>,
+        <https://www.gov.uk/government/people/kirsty-carter-brown>,
+        <https://www.gov.uk/government/people/lynn-dicks>,
+        <https://www.gov.uk/government/people/marian-spain>,
+        <https://www.gov.uk/government/people/mark-tufnell>,
+        <https://www.gov.uk/government/people/navroza-ladha>,
+        <https://www.gov.uk/government/people/oliver-harmar>,
+        <https://www.gov.uk/government/people/peter-unwin>,
+        <https://www.gov.uk/government/people/sallie-bailey>,
+        <https://www.gov.uk/government/people/tony-juniper> .
+
+<https://www.gov.uk/government/people/alan-law> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65fd8dc8f1d3a0001d32ae17/s465_alan-law-960x640.jpg> ;
+    schema1:name "Alan Law"@en .
+
+<https://www.gov.uk/government/people/alastair-leake> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66cf4fcf913d4f9812597c48/s465_alastair-leake.jpg> ;
+    schema1:name "Dr Alastair Leake"@en .
+
+<https://www.gov.uk/government/people/clare-fitzsimmons> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6221f30dd3bf7f4f05879b2b/s465_clare-fitzsimmons.jpg> ;
+    schema1:name "Professor Clare Fitzsimmons"@en .
+
+<https://www.gov.uk/government/people/cynthia-alers> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66cf4ce0a7256f1cd83a8a0b/s465_cynthia-alers.jpg> ;
+    schema1:name "Cynthia Alers"@en .
+
+<https://www.gov.uk/government/people/james-scott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/669f6b220808eaf43b50d491/s465_james-scott.jpg> ;
+    schema1:name "James Scott"@en .
+
+<https://www.gov.uk/government/people/kate-gibson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6a06f0c022977ebc82cb401c/s465_kate-gibson.jpg> ;
+    schema1:name "Kate Gibson"@en .
+
+<https://www.gov.uk/government/people/kim-shillinglaw> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ed0f4b1e90e0754d3f5eec0/s465_kim-shillinglaw1.jpg> ;
+    schema1:name "Kim Shillinglaw"@en .
+
+<https://www.gov.uk/government/people/kirsty-carter-brown> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63d9548de90e0773d99d59c3/s465_kirsty-carter-brown2.jpg> ;
+    schema1:name "Kirsty Carter-Brown"@en .
+
+<https://www.gov.uk/government/people/lynn-dicks> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6411ad568fa8f5557596f568/s465_lynn-dicks.jpg> ;
+    schema1:name "Professor Lynn Dicks"@en .
+
+<https://www.gov.uk/government/people/marian-spain> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ab3a41d40f0b65bb8ef2018/s465_marian-spain.jpg> ;
+    schema1:name "Marian Spain"@en .
+
+<https://www.gov.uk/government/people/mark-tufnell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/669f6c400808eaf43b50d492/s465_mark-tufnell.png> ;
+    schema1:name "Mark Tufnell"@en .
+
+<https://www.gov.uk/government/people/navroza-ladha> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d0b9d5ced915d0939f84823/s465_navroza-ladha.jpg> ;
+    schema1:name "Navroza Ladha"@en .
+
+<https://www.gov.uk/government/people/oliver-harmar> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/620e740ce90e0710bdc099bf/s465_oliver-harmar.png> ;
+    schema1:name "Oliver Harmar"@en .
+
+<https://www.gov.uk/government/people/peter-unwin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ed11635d3bf7f4604912096/s465_peter-unwin1.jpg> ;
+    schema1:name "Peter Unwin"@en .
+
+<https://www.gov.uk/government/people/sallie-bailey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66965b97a3c2a28abb50d038/s465_Sallie_Bailey_960_640.jpg> ;
+    schema1:name "Professor Sallie Bailey"@en .
+
+<https://www.gov.uk/government/people/tony-juniper> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ce7f850e5274a4871995c36/s465_tonyjuniper-960x640.jpg> ;
+    schema1:name "Dr Tony Juniper CBE"@en .
+

@@ -1,0 +1,43 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/james-gaughan> a schema1:Person ;
+    schema1:name "James Gaughan"@en .
+
+<https://www.gov.uk/government/people/leigh-anne-clarke> a schema1:Person ;
+    schema1:name "Leigh Anne Clarke"@en .
+
+<https://www.gov.uk/government/people/michael-carey> a schema1:Person ;
+    schema1:name "Michael Carey"@en .
+
+<https://www.gov.uk/government/people/neil-taylor--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6a1ded915d595171e4c0/s465_Neil_Taylor.jpg> ;
+    schema1:name "Neil Taylor"@en .
+
+<https://www.gov.uk/government/people/victoria-macdonald> a schema1:Person ;
+    schema1:name "Victoria MacDonald"@en .
+
+<https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> a govuk:MinisterialRole ;
+    schema1:name "HM Advocate General for Scotland"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/catherine-smith> .
+
+<https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Office of the Advocate General for Scotland"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> ;
+    govuk:hasManager <https://www.gov.uk/government/people/james-gaughan>,
+        <https://www.gov.uk/government/people/leigh-anne-clarke>,
+        <https://www.gov.uk/government/people/michael-carey>,
+        <https://www.gov.uk/government/people/neil-taylor--2>,
+        <https://www.gov.uk/government/people/victoria-macdonald> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/catherine-smith> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> .
+
+<https://www.gov.uk/government/people/catherine-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66d9a1f9e87ad2f1218264e4/s465_HEADSHOTS-74__1_.jpg> ;
+    schema1:name "Baroness Smith of Cluny KC"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> .
+

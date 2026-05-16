@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/defence-equipment-and-support> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Defence Equipment and Support"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/defence-equipment-and-support> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andy-start> .
+
+<https://www.gov.uk/government/people/andy-start> a schema1:Person ;
+    schema1:name "Andy Start"@en .
+

@@ -1,0 +1,122 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/people/nic-dakin> schema1:name "Sir Nic Dakin MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/government-whip--2> .
+
+<https://www.gov.uk/government/people/andrew-stephenson> schema1:name "The Rt Hon Andrew Stephenson CBE"@en .
+
+<https://www.gov.uk/government/people/chris-heaton-harris> schema1:name "The Rt Hon Chris Heaton-Harris"@en .
+
+<https://www.gov.uk/government/people/craig-whittaker> schema1:name "The Rt Hon Craig Whittaker"@en .
+
+<https://www.gov.uk/government/people/james-morris> schema1:name "James Morris"@en .
+
+<https://www.gov.uk/government/people/jo-churchill> schema1:name "Jo Churchill"@en .
+
+<https://www.gov.uk/government/people/lilian-greenwood> schema1:name "Lilian Greenwood MP"@en .
+
+<https://www.gov.uk/government/people/marcus-jones> schema1:name "The Rt Hon Marcus Jones"@en .
+
+<https://www.gov.uk/government/people/mark-spencer> schema1:name "The Rt Hon Sir Mark Spencer"@en .
+
+<https://www.gov.uk/government/people/michael-tomlinson> schema1:name "The Rt Hon Michael Tomlinson KC"@en .
+
+<https://www.gov.uk/government/people/samantha-dixon> schema1:name "Samantha Dixon MBE MP"@en .
+
+<https://www.gov.uk/government/people/stuart-anderson> schema1:name "Stuart Anderson MP"@en .
+
+<https://www.gov.uk/government/people/stuart-andrew> schema1:name "The Rt Hon Stuart Andrew MP"@en .
+
+<https://www.gov.uk/government/ministers/government-whip--2> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Vice Chamberlain of HM Household (Government Whip)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson>,
+        <https://www.gov.uk/government/people/chris-heaton-harris>,
+        <https://www.gov.uk/government/people/craig-whittaker>,
+        <https://www.gov.uk/government/people/james-morris>,
+        <https://www.gov.uk/government/people/jo-churchill>,
+        <https://www.gov.uk/government/people/lilian-greenwood>,
+        <https://www.gov.uk/government/people/marcus-jones>,
+        <https://www.gov.uk/government/people/mark-spencer>,
+        <https://www.gov.uk/government/people/michael-tomlinson>,
+        <https://www.gov.uk/government/people/samantha-dixon>,
+        <https://www.gov.uk/government/people/stuart-anderson>,
+        <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/nic-dakin> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/samantha-dixon> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lilian-greenwood> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2025"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/craig-whittaker> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/mark-spencer> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/james-morris> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jo-churchill> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-anderson> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+

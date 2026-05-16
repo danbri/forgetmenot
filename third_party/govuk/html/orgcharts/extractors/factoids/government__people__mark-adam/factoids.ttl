@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/mark-adam> .
+
+<https://www.gov.uk/government/people/mark-adam> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Mark was appointed MOJ’s Director General People & Capability in August 2025. Mark joined the MOJ in 2016 and previously held several senior roles including MOJ’s Chief People Officer and HR Director for HMPPS. Whilst within the department he has driven many of the department’s HR led programmes from restructuring to service improvement, including driving recruitment to fulfil our ministerial commitments to effectively staff prisons and increase officer numbers."@en ;
+    schema1:name "Mark Adam"@en ;
+    schema1:url <https://www.gov.uk/government/people/mark-adam> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:currentRoleTitle "Director General People & Capability"@en .
+

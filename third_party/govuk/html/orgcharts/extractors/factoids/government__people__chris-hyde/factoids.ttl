@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/chris-hyde> .
+
+<https://www.gov.uk/government/people/chris-hyde> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Prof Chris Hyde qualified in Medicine from the University of London in 1986 and completed specialist training in public health in 1994. He has been a Chair of Public Health and Clinical Epidemiology at the University of Exeter since 2009. He leads the Exeter Test Group."@en ;
+    schema1:name "Professor Chris Hyde"@en ;
+    schema1:url <https://www.gov.uk/government/people/chris-hyde> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
+    govuk:currentRoleTitle "Member"@en .
+

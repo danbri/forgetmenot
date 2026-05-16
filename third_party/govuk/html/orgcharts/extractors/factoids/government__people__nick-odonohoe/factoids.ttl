@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/dormant-assets-commission> govuk:hasMinister <https://www.gov.uk/government/people/nick-odonohoe> .
+
+<https://www.gov.uk/government/people/nick-odonohoe> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Nick O’Donohoe was the Chief Executive Officer of Big Society Capital from 2011 to December 2015 and helped to establish and launch this independent financial institution. Nick is a Senior Advisor to the Gates Foundation."@en ;
+    schema1:name "Nick O’Donohoe"@en ;
+    schema1:url <https://www.gov.uk/government/people/nick-odonohoe> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
+    govuk:currentRoleTitle "Chair, Independent Dormant Assets Commission"@en .
+

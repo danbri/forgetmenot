@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/probation-service> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Probation Service"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/probation-service> ;
+    govuk:hasManager <https://www.gov.uk/government/people/chris-jennings>,
+        <https://www.gov.uk/government/people/kim-thornden-edwards> .
+
+<https://www.gov.uk/government/people/chris-jennings> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/664496f1f34f9b5a56adc7e3/s465_chris-jennings_gov_.jpg> ;
+    schema1:name "Chris Jennings"@en .
+
+<https://www.gov.uk/government/people/kim-thornden-edwards> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63eb98a58fa8f5612c4f52e0/s465_kim_thorndon-edwards_960x640.jpg> ;
+    schema1:name "Kim Thornden-Edwards"@en .
+

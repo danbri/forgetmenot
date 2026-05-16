@@ -1,0 +1,28 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--176> .
+
+<https://www.gov.uk/government/people/matthew-pennycook> schema1:name "Matthew Pennycook MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--176> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--176> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Housing and Planning)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--176> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:responsibility "Brownfield Infrastructure Land and Housing Infrastructure Funds"@en,
+        "HM Land Registry and land transparency"@en,
+        "Homes England and Planning Inspectorate sponsorship"@en,
+        "Housing delivery including large-scale new settlements programme (New Towns)"@en,
+        "Housing quality"@en,
+        "Housing supply strategy"@en,
+        "Leasehold and commonhold reform"@en,
+        "Planning casework"@en,
+        "Planning reform and the National Planning Policy Framework (including legislation such as the Planning and Infrastructure Bill)"@en,
+        "Private rented sector and Renters’ Rights Bill"@en,
+        "Social and Affordable Homes Programme"@en,
+        "Social housing"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/matthew-pennycook> .
+

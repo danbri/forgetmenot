@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-property-function> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Property Function"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-property-function> ;
+    govuk:hasManager <https://www.gov.uk/government/people/lynda-rawsthorne>,
+        <https://www.gov.uk/government/people/mark-chivers> .
+
+<https://www.gov.uk/government/people/lynda-rawsthorne> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/667184ded427ab249955cd85/s465_Lynda.jpg> ;
+    schema1:name "Lynda Rawsthorne"@en .
+
+<https://www.gov.uk/government/people/mark-chivers> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/667184fb31a88528d2da7d78/s465_Mark.jpg> ;
+    schema1:name "Mark Chivers"@en .
+

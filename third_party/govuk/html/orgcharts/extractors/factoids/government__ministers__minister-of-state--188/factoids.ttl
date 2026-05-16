@@ -1,0 +1,22 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-of-health-and-social-care> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--188> .
+
+<https://www.gov.uk/government/people/karin-smyth> schema1:name "Karin Smyth MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--188> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--188> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State for Health (Secondary Care)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--188> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    govuk:responsibility "NHS capital, land and estates"@en,
+        "NHS finance"@en,
+        "NHS secondary care"@en,
+        "NHS workforce"@en,
+        "health and social care integration"@en,
+        "urgent and emergency care"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/karin-smyth> .
+

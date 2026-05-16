@@ -1,0 +1,64 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Medicines and Healthcare products Regulatory Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-cave>,
+        <https://www.gov.uk/government/people/anthony-harnden>,
+        <https://www.gov.uk/government/people/dr-ed-middleton>,
+        <https://www.gov.uk/government/people/jacob-george>,
+        <https://www.gov.uk/government/people/james-pound>,
+        <https://www.gov.uk/government/people/julian-beach>,
+        <https://www.gov.uk/government/people/lawrence-tallon>,
+        <https://www.gov.uk/government/people/nicola-rose>,
+        <https://www.gov.uk/government/people/rachel-boswoth>,
+        <https://www.gov.uk/government/people/rose-braithwaite>,
+        <https://www.gov.uk/government/people/tasneem-blondin> .
+
+<https://www.gov.uk/government/people/alison-cave> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/658197aeed3c34000d3bfb8a/s465_Alison-C-edited.png> ;
+    schema1:name "Dr Alison Cave"@en .
+
+<https://www.gov.uk/government/people/anthony-harnden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/681a0758df188ba858873a98/s465_mattphoto_ex_002-edited-gov.uk.png> ;
+    schema1:name "Professor Anthony Harnden"@en .
+
+<https://www.gov.uk/government/people/dr-ed-middleton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6863f0c308bf2f5376121ae5/s465_Ed-M-gov.uk.jpg> ;
+    schema1:name "Dr Ed Middleton"@en .
+
+<https://www.gov.uk/government/people/jacob-george> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/695d23d3b5c46330350ed9c3/s465_Jacob_George.png> ;
+    schema1:name "Professor Jacob George"@en .
+
+<https://www.gov.uk/government/people/james-pound> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6842b33e4d039a010411f01a/s465_James-Pound-Headshot.png> ;
+    schema1:name "James Pound"@en .
+
+<https://www.gov.uk/government/people/julian-beach> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66b35553fc8e12ac3edb0bd2/s465_julian_beach.jpg> ;
+    schema1:name "Julian Beach"@en .
+
+<https://www.gov.uk/government/people/lawrence-tallon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/681dbfa23f1c73824ee3e629/s465_Gov.UK-pic_optimized-version-2.png> ;
+    schema1:name "Lawrence Tallon"@en .
+
+<https://www.gov.uk/government/people/nicola-rose> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/680b4cbd7a11df940be1aaec/s465_NR-gov.uk.png> ;
+    schema1:name "Dr Nicola Rose"@en .
+
+<https://www.gov.uk/government/people/rachel-boswoth> a schema1:Person ;
+    schema1:name "Rachel Bosworth"@en .
+
+<https://www.gov.uk/government/people/rose-braithwaite> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/681a0838fb59a222d4f1731c/s465_Rose-b-edited_-gov.uk.png> ;
+    schema1:name "Rose Braithwaite"@en .
+
+<https://www.gov.uk/government/people/tasneem-blondin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/685ab32adb207fc18744d628/s465_tasmeen-gov.uk.png> ;
+    schema1:name "Tasneem Blondin"@en .
+

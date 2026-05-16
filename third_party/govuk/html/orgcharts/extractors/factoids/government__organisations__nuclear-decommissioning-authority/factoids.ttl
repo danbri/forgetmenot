@@ -1,0 +1,85 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-decommissioning-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Nuclear Decommissioning Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/nuclear-decommissioning-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alan-cumming>,
+        <https://www.gov.uk/government/people/alex-reeves>,
+        <https://www.gov.uk/government/people/catriona-schmolke>,
+        <https://www.gov.uk/government/people/clive-nixon>,
+        <https://www.gov.uk/government/people/david-peattie>,
+        <https://www.gov.uk/government/people/david-vineall>,
+        <https://www.gov.uk/government/people/emma-ferguson-gould>,
+        <https://www.gov.uk/government/people/francis-livens--4>,
+        <https://www.gov.uk/government/people/frank-rainford>,
+        <https://www.gov.uk/government/people/harriet-kemp>,
+        <https://www.gov.uk/government/people/kate-bowyer>,
+        <https://www.gov.uk/government/people/kathryn-cearns>,
+        <https://www.gov.uk/government/people/matt-shaw>,
+        <https://www.gov.uk/government/people/neil-bruce>,
+        <https://www.gov.uk/government/people/paul-vallance> .
+
+<https://www.gov.uk/government/people/alan-cumming> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6840141a4d433cd95b9fe791/s465_Alan_Cumming_960x640.jpg> ;
+    schema1:name "Alan Cumming"@en .
+
+<https://www.gov.uk/government/people/alex-reeves> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6840170739a53c0dca9fe7a5/s465_ALEX_REEVES_960x640.jpg> ;
+    schema1:name "Alex Reeves"@en .
+
+<https://www.gov.uk/government/people/catriona-schmolke> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6847e3f8d25e6f6afd4c0202/s465_Catriona_Schmolke_960x640.jpg> ;
+    schema1:name "Catriona Schmolke CBE FREng"@en .
+
+<https://www.gov.uk/government/people/clive-nixon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684193bbfa0289a17a3e8794/s465_Clive_Nixon_960x640.jpg> ;
+    schema1:name "Clive Nixon"@en .
+
+<https://www.gov.uk/government/people/david-peattie> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684013e539a53c0dca9fe78c/s465_David_Peattie_960x640_2.jpg> ;
+    schema1:name "David Peattie FREng FNucI"@en .
+
+<https://www.gov.uk/government/people/david-vineall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68419ac2280ec7236902c09e/s465_David_Vineall_960x640.jpg> ;
+    schema1:name "David Vineall"@en .
+
+<https://www.gov.uk/government/people/emma-ferguson-gould> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68401427cb73e8b12647b3a3/s465_Emma_F_Gould_960x640.jpg> ;
+    schema1:name "Emma Ferguson-Gould"@en .
+
+<https://www.gov.uk/government/people/francis-livens--4> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684016f38dd459f8c947b3bb/s465_FRANCIS_LIVENS_960x640.jpg> ;
+    schema1:name "Professor Francis Livens"@en .
+
+<https://www.gov.uk/government/people/frank-rainford> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68401450cb73e8b12647b3a5/s465_Frank_Rainford_960x640.jpg> ;
+    schema1:name "Frank Rainford"@en .
+
+<https://www.gov.uk/government/people/harriet-kemp> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684016dd4d433cd95b9fe7a1/s465_HARRIET_KEMP_960x640.jpg> ;
+    schema1:name "Harriet Kemp"@en .
+
+<https://www.gov.uk/government/people/kate-bowyer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6840140a8dd459f8c947b3a3/s465_Kate_Bowyer_960x640.jpg> ;
+    schema1:name "Kate Bowyer"@en .
+
+<https://www.gov.uk/government/people/kathryn-cearns> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684016cce550203c8209ccd9/s465_KATHRYN_CEARNS_960x640.jpg> ;
+    schema1:name "Kathryn Cearns OBE, FCA, FCCA"@en .
+
+<https://www.gov.uk/government/people/matt-shaw> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6841584acb73e8b12647b469/s465_Matt_Shaw_960x640.jpg> ;
+    schema1:name "Matthew Shaw"@en .
+
+<https://www.gov.uk/government/people/neil-bruce> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684194a8280ec7236902c095/s465_Neil_Bruce_960x640.jpg> ;
+    schema1:name "Dr Neil Bruce OBE"@en .
+
+<https://www.gov.uk/government/people/paul-vallance> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68401469cb73e8b12647b3a8/s465_Paul_Vallance_960x640.jpg> ;
+    schema1:name "Paul Vallance"@en .
+

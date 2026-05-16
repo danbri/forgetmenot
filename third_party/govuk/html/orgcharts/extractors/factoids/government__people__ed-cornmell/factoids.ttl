@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/hm-prison-service> govuk:hasMinister <https://www.gov.uk/government/people/ed-cornmell> .
+
+<https://www.gov.uk/government/people/ed-cornmell> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Ed Cornmell was appointed Executive Director of the Long Term and High Security Estate in June 2025. Long Term and High Security Estate is responsible for the safe, decent and secure management of Category A and B men in a range of custodial settings."@en ;
+    schema1:name "Ed Cornmell"@en ;
+    schema1:url <https://www.gov.uk/government/people/ed-cornmell> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-prison-service> ;
+    govuk:currentRoleTitle "Executive Director, Long Term and High Security Estate"@en .
+

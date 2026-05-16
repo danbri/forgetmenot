@@ -1,0 +1,142 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/andrew-robb> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/650c661127d43b0014375b35/s465_andrew-robb.jpg> ;
+    schema1:name "Andrew Robb"@en .
+
+<https://www.gov.uk/government/people/clara-swinson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5b559a3140f0b6338b116d79/s465_Clara_Swinson_for_gov.jpg> ;
+    schema1:name "Clara Swinson"@en .
+
+<https://www.gov.uk/government/people/gurpreet-dehal> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63e258d98fa8f50e8deac20d/s465_GDehal_pic__1_.jpg> ;
+    schema1:name "Gurpreet Dehal"@en .
+
+<https://www.gov.uk/government/people/james-mcewen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f8822a7d3bf7f633342383c/s465_JamesMcEwenPhotoshoot-16685.jpg> ;
+    schema1:name "James McEwen"@en .
+
+<https://www.gov.uk/government/people/jennifer-rademaker> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/650c687afbd7bc000de547cd/s465_jennifer-rademaker.jpg> ;
+    schema1:name "Jennifer Rademaker"@en .
+
+<https://www.gov.uk/government/people/jo-farrar> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/686290121c735341c2111aff/s465_jo-farrar1.jpg> ;
+    schema1:name "Dr Jo Farrar CB OBE"@en .
+
+<https://www.gov.uk/government/people/kelby-harmes> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66b49117a3c2a28abb50deac/s465_Kelby_Harmes_for_GOV.UK.jpg> ;
+    schema1:name "Kelby Harmes"@en .
+
+<https://www.gov.uk/government/people/mark-adam> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68a5d7c6a6acbbc7fb96a3e3/s465_mark_1.png> ;
+    schema1:name "Mark Adam"@en .
+
+<https://www.gov.uk/government/people/mark-thompson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68b180e6b0a373a01819fc55/s465_Untitled_design__5_.png> ;
+    schema1:name "Mark Thompson"@en .
+
+<https://www.gov.uk/government/people/megan-lee-devlin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63cab5c1e90e0707151e0695/s465_Untitled.jpg> ;
+    schema1:name "Megan Lee Devlin"@en .
+
+<https://www.gov.uk/government/people/nick-goodwin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64ae70a58bc29f000d2ccb2c/s465_Nick-Goodwin-HMCTS-CEO.jpg> ;
+    schema1:name "Nick Goodwin"@en .
+
+<https://www.gov.uk/government/people/richard-price> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/628f5e798fa8f5039360fd61/s465_Richard_Price_-_GOV.UK.jpg> ;
+    schema1:name "Richard Price"@en .
+
+<https://www.gov.uk/government/ministers/deputy-prime-minister--4> a govuk:MinisterialRole ;
+    schema1:name "Deputy Prime Minister"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/david-lammy> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--180> a govuk:MinisterialRole ;
+    schema1:name "Minister of State for Courts and Legal Services"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/sarah-sackman> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> a govuk:MinisterialRole ;
+    schema1:name "Minister of State for Prisons, Probation and Reducing Reoffending"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/james-timpson> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State for Victims and Tackling Violence Against Women and Girls"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/catherine-atkinson> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State and Lords Minister"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/baroness-levitt> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State for Sentencing, Youth Justice and International"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jake-richards> .
+
+<https://www.gov.uk/government/people/baroness-levitt> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68bd46ae11b4ded2da19fee4/s465_baroness-levitt.jpeg> ;
+    schema1:name "Baroness Levitt KC"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> .
+
+<https://www.gov.uk/government/people/catherine-atkinson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6a038f40cd2e0e8b5b20b4f5/s465_catherine-atkinson.jpeg> ;
+    schema1:name "Catherine Atkinson MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> .
+
+<https://www.gov.uk/government/people/david-lammy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68efacf28427701993d5e107/s465_Deputy_Prime_Minister_.jpg> ;
+    schema1:name "The Rt Hon David Lammy MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/deputy-prime-minister--4> .
+
+<https://www.gov.uk/government/people/jake-richards> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68be835bcc8356c3c882abb5/s465_jake-richards.jpeg> ;
+    schema1:name "Jake Richards MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> .
+
+<https://www.gov.uk/government/people/james-timpson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668842aeab5fc5929851ba96/s465_james-timpson.jpg> ;
+    schema1:name "Lord Timpson OBE"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> .
+
+<https://www.gov.uk/government/people/sarah-sackman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668eb36fa3c2a28abb50cd66/s465_Sackman_S__960x640_.jpg> ;
+    schema1:name "Sarah Sackman KC MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--180> .
+
+<https://www.gov.uk/government/organisations/ministry-of-justice> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Ministry of Justice"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-robb>,
+        <https://www.gov.uk/government/people/clara-swinson>,
+        <https://www.gov.uk/government/people/gurpreet-dehal>,
+        <https://www.gov.uk/government/people/james-mcewen>,
+        <https://www.gov.uk/government/people/jennifer-rademaker>,
+        <https://www.gov.uk/government/people/jo-farrar>,
+        <https://www.gov.uk/government/people/kelby-harmes>,
+        <https://www.gov.uk/government/people/mark-adam>,
+        <https://www.gov.uk/government/people/mark-thompson>,
+        <https://www.gov.uk/government/people/megan-lee-devlin>,
+        <https://www.gov.uk/government/people/nick-goodwin>,
+        <https://www.gov.uk/government/people/richard-price> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/baroness-levitt>,
+        <https://www.gov.uk/government/people/catherine-atkinson>,
+        <https://www.gov.uk/government/people/david-lammy>,
+        <https://www.gov.uk/government/people/jake-richards>,
+        <https://www.gov.uk/government/people/james-timpson>,
+        <https://www.gov.uk/government/people/sarah-sackman> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/deputy-prime-minister--4>,
+        <https://www.gov.uk/government/ministers/minister-of-state--180>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> .
+

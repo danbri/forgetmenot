@@ -1,0 +1,70 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Committee on Radioactive Waste Management"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
+    govuk:hasManager <https://www.gov.uk/government/people/barry-lennox>,
+        <https://www.gov.uk/government/people/claire-corkhill>,
+        <https://www.gov.uk/government/people/clare-bond>,
+        <https://www.gov.uk/government/people/derek-lacey>,
+        <https://www.gov.uk/government/people/malcolm-joyce>,
+        <https://www.gov.uk/government/people/mark-kirkbridg>,
+        <https://www.gov.uk/government/people/nigel-thrift>,
+        <https://www.gov.uk/government/people/penny-harvey>,
+        <https://www.gov.uk/government/people/peter-bryant>,
+        <https://www.gov.uk/government/people/ray-kemp>,
+        <https://www.gov.uk/government/people/simon-webb>,
+        <https://www.gov.uk/government/people/stephen-tromans> .
+
+<https://www.gov.uk/government/people/barry-lennox> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64e5abe84002ee000d57b52d/s465_barry-lennox.jpg> ;
+    schema1:name "Professor Barry Lennox"@en .
+
+<https://www.gov.uk/government/people/claire-corkhill> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65c0c25dc43191000d1a454d/s465_claire-corkhill-new.jpg> ;
+    schema1:name "Professor Claire Corkhill"@en .
+
+<https://www.gov.uk/government/people/clare-bond> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61dc09fc8fa8f505893f1ca1/s465_Clare_H_S-960.jpg> ;
+    schema1:name "Professor Clare Bond"@en .
+
+<https://www.gov.uk/government/people/derek-lacey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5dfb735140f0b665df884a34/s465_derek-lacey.jpg> ;
+    schema1:name "Dr Derek Lacey"@en .
+
+<https://www.gov.uk/government/people/malcolm-joyce> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64c64f90331a65000d934e2b/s465_malcolm-joyce.png> ;
+    schema1:name "Professor Malcolm Joyce"@en .
+
+<https://www.gov.uk/government/people/mark-kirkbridg> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5dfb7cfe40f0b665dd80f713/s465_mark-kirkbride.jpg> ;
+    schema1:name "Mark Kirkbride"@en .
+
+<https://www.gov.uk/government/people/nigel-thrift> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5b5490abed915d0b6f005e44/s465_nigel-thrift.jpg> ;
+    schema1:name "Sir Nigel Thrift"@en .
+
+<https://www.gov.uk/government/people/penny-harvey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5dfb7ca4ed915d1f6e53b6d6/s465_penny-harvey.jpg> ;
+    schema1:name "Professor Penny Harvey"@en .
+
+<https://www.gov.uk/government/people/peter-bryant> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68de40a9c487360cc70ca020/s465_IAEA_-_2.jpg> ;
+    schema1:name "Professor Peter Bryant"@en .
+
+<https://www.gov.uk/government/people/ray-kemp> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5dfb7e15ed915d1f8f269b4b/s465_ray-kemp.jpg> ;
+    schema1:name "Dr Ray Kemp"@en .
+
+<https://www.gov.uk/government/people/simon-webb> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61ef01398fa8f5058bc04afc/s465_simon-webb-960.jpg> ;
+    schema1:name "Simon Webb"@en .
+
+<https://www.gov.uk/government/people/stephen-tromans> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6797ae63cbd1e3a508a22ccf/s465_STKC.jpg> ;
+    schema1:name "Stephen Tromans KC"@en .
+

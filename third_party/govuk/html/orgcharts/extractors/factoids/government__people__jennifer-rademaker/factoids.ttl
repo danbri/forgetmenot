@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/jennifer-rademaker> .
+
+<https://www.gov.uk/government/people/jennifer-rademaker> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Jennifer joined the Ministry of Justice as a Non-Executive Board Member on 21 August 2023. She brings over 35 years of global experience in payments technology and financial services. She has a strong track record in leading transformative technology initiatives, driving rapid scale of products and services, and de-risking deployment of new technology and technology migrations. Before her retirement in 2024, Jennifer worked for Mastercard for 20 years in global and regional roles in technology delivery, product development, sales, strategy, consulting, and future of work. Her career includes a consistent focus on culture, engagement and inclusivity."@en ;
+    schema1:name "Jennifer Rademaker"@en ;
+    schema1:url <https://www.gov.uk/government/people/jennifer-rademaker> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:currentRoleTitle "Non-executive board member"@en .
+

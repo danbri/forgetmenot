@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/forensic-science-regulator> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Forensic Science Regulator"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/forensic-science-regulator> ;
+    govuk:hasManager <https://www.gov.uk/government/people/marc-bailey> .
+
+<https://www.gov.uk/government/people/marc-bailey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/687fb3c677a3acd9f4d0e258/s465_Marc-Bailey3.jpg> ;
+    schema1:name "Dr Marc Bailey"@en .
+

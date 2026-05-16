@@ -1,0 +1,75 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/independent-reconfiguration-panel> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Independent Reconfiguration Panel"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/independent-reconfiguration-panel> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrea-young--2>,
+        <https://www.gov.uk/government/people/angela-mcnab>,
+        <https://www.gov.uk/government/people/ann-lloyd>,
+        <https://www.gov.uk/government/people/christine-morgan>,
+        <https://www.gov.uk/government/people/david-stout>,
+        <https://www.gov.uk/government/people/elaine-strachan-hall>,
+        <https://www.gov.uk/government/people/gordon-carlson>,
+        <https://www.gov.uk/government/people/graham-jagger--2>,
+        <https://www.gov.uk/government/people/kate-denham--2>,
+        <https://www.gov.uk/government/people/mark-cheetham>,
+        <https://www.gov.uk/government/people/norman-williams>,
+        <https://www.gov.uk/government/people/rajesh-khanna>,
+        <https://www.gov.uk/government/people/rob-ghosh>,
+        <https://www.gov.uk/government/people/simon-brake>,
+        <https://www.gov.uk/government/people/suzy-walton>,
+        <https://www.gov.uk/government/people/tansi-harper> .
+
+<https://www.gov.uk/government/people/andrea-young--2> a schema1:Person ;
+    schema1:name "Andrea Young"@en .
+
+<https://www.gov.uk/government/people/angela-mcnab> a schema1:Person ;
+    schema1:name "Angela McNab"@en .
+
+<https://www.gov.uk/government/people/ann-lloyd> a schema1:Person ;
+    schema1:name "Ann Lloyd CBE"@en .
+
+<https://www.gov.uk/government/people/christine-morgan> a schema1:Person ;
+    schema1:name "Christine Morgan"@en .
+
+<https://www.gov.uk/government/people/david-stout> a schema1:Person ;
+    schema1:name "David Stout"@en .
+
+<https://www.gov.uk/government/people/elaine-strachan-hall> a schema1:Person ;
+    schema1:name "Dr Elaine Strachan-Hall"@en .
+
+<https://www.gov.uk/government/people/gordon-carlson> a schema1:Person ;
+    schema1:name "Professor Gordon Carlson CBE"@en .
+
+<https://www.gov.uk/government/people/graham-jagger--2> a schema1:Person ;
+    schema1:name "Graham Jagger"@en .
+
+<https://www.gov.uk/government/people/kate-denham--2> a schema1:Person ;
+    schema1:name "Kate Denham"@en .
+
+<https://www.gov.uk/government/people/mark-cheetham> a schema1:Person ;
+    schema1:name "Mark Cheetham"@en .
+
+<https://www.gov.uk/government/people/norman-williams> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61b8b377d3bf7f055c4b7882/s465_PSNW.png> ;
+    schema1:name "Professor Sir Norman Williams"@en .
+
+<https://www.gov.uk/government/people/rajesh-khanna> a schema1:Person ;
+    schema1:name "Dr Rajesh Khanna"@en .
+
+<https://www.gov.uk/government/people/rob-ghosh> a schema1:Person ;
+    schema1:name "Dr Rob Ghosh"@en .
+
+<https://www.gov.uk/government/people/simon-brake> a schema1:Person ;
+    schema1:name "Professor Simon Brake"@en .
+
+<https://www.gov.uk/government/people/suzy-walton> a schema1:Person ;
+    schema1:name "Dr Suzy Walton"@en .
+
+<https://www.gov.uk/government/people/tansi-harper> a schema1:Person ;
+    schema1:name "Tansi Harper"@en .
+

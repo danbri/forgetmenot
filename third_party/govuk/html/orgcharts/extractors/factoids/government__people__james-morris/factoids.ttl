@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/james-morris> .
+
+<https://www.gov.uk/government/people/james-morris> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "James Morris was Parliamentary Under Secretary of State in the Department of Health and Social Care between 8 July 2022 and 8 September 2022."@en ;
+    schema1:name "James Morris"@en ;
+    schema1:url <https://www.gov.uk/government/people/james-morris> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

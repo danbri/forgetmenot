@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-chemist> govuk:hasMinister <https://www.gov.uk/government/people/john-black> .
+
+<https://www.gov.uk/government/people/john-black> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "John Black has worked for LGC since 2008 and joined the Government Chemist programme in 2020. John also manages the Chemical & Biological Metrology programme, delivered as part of the UK National Measurement System (NMS) ."@en ;
+    schema1:name "John Black"@en ;
+    schema1:url <https://www.gov.uk/government/people/john-black> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-chemist> ;
+    govuk:currentRoleTitle "Programme Manager"@en .
+

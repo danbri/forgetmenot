@@ -1,0 +1,53 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/windrush-commemoration-committee> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Windrush Commemoration Committee"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    govuk:hasManager <https://www.gov.uk/government/people/ansel-wong>,
+        <https://www.gov.uk/government/people/floella-benjamin>,
+        <https://www.gov.uk/government/people/geoff-thompson>,
+        <https://www.gov.uk/government/people/george-mpanga>,
+        <https://www.gov.uk/government/people/ken-olisa>,
+        <https://www.gov.uk/government/people/paulette-simpson>,
+        <https://www.gov.uk/government/people/rose-hudson-wilkin>,
+        <https://www.gov.uk/government/people/simon-frederick>,
+        <https://www.gov.uk/government/people/tim-campbell> .
+
+<https://www.gov.uk/government/people/ansel-wong> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d0bbf2340f0b62006e1f4d3/s465_Ansel_Wong_960x640.png> ;
+    schema1:name "Ansel Wong"@en .
+
+<https://www.gov.uk/government/people/floella-benjamin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d0b9f7fe5274a069552c199/s465_Floella_960x640.png> ;
+    schema1:name "Baroness Floella Benjamin OBE DL"@en .
+
+<https://www.gov.uk/government/people/geoff-thompson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d0bb8ebed915d09440c15c1/s465_Geoff_Thompson_960x640.png> ;
+    schema1:name "Geoff Thompson MBE DL"@en .
+
+<https://www.gov.uk/government/people/george-mpanga> a schema1:Person ;
+    schema1:name "George Mpanga"@en .
+
+<https://www.gov.uk/government/people/ken-olisa> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d0bbad6e5274a0665abb77e/s465_Sir_Ken_Olisa_960x640.png> ;
+    schema1:name "Sir Ken Olisa OBE, CStJ, FRSA, FBCS"@en .
+
+<https://www.gov.uk/government/people/paulette-simpson> a schema1:Person ;
+    schema1:name "Paulette Simpson"@en .
+
+<https://www.gov.uk/government/people/rose-hudson-wilkin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d0bac2140f0b620109f08fc/s465_Rev_Rose_Hudson-Wilkin_960x640.png> ;
+    schema1:name "Rev Rose Hudson-Wilkin"@en .
+
+<https://www.gov.uk/government/people/simon-frederick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d0bc1f7e5274a0661cafd10/s465_Simon_Frederick_960x640.png> ;
+    schema1:name "Simon Frederick"@en .
+
+<https://www.gov.uk/government/people/tim-campbell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d0bb47e40f0b6200a1c2676/s465_Tim_Campbell_960x640.png> ;
+    schema1:name "Tim Campbell MBE"@en .
+

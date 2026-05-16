@@ -1,0 +1,45 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/oil-and-pipelines-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "The Oil and Pipelines Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/oil-and-pipelines-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/adrian-jackson>,
+        <https://www.gov.uk/government/people/ian-lindsay>,
+        <https://www.gov.uk/government/people/lisa-england>,
+        <https://www.gov.uk/government/people/mark-jessop>,
+        <https://www.gov.uk/government/people/paul-grange>,
+        <https://www.gov.uk/government/people/sue-jemmett>,
+        <https://www.gov.uk/government/people/tim-backhouse> .
+
+<https://www.gov.uk/government/people/adrian-jackson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c483f5940f0b6171357c6e1/s465_Adrian_Jackson_ATP4131-Edit__1_.jpg> ;
+    schema1:name "Adrian Jackson"@en .
+
+<https://www.gov.uk/government/people/ian-lindsay> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c483e3ee5274a6e65dc1d56/s465_Ian_Lindsay_ATP4106-Edit__1_.jpg> ;
+    schema1:name "Ian Lindsay"@en .
+
+<https://www.gov.uk/government/people/lisa-england> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c483debed915d388a7e2c80/s465_Lisa_England_ATP4058-Edit__1_.jpg> ;
+    schema1:name "Lisa England"@en .
+
+<https://www.gov.uk/government/people/mark-jessop> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/641983ff8fa8f547c9a6d75d/s465_Jessop.jpg> ;
+    schema1:name "Mark Jessop"@en .
+
+<https://www.gov.uk/government/people/paul-grange> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c483dcde5274a6e4614facd/s465_Paul_Grange_ATP4077-Edit__1_.jpg> ;
+    schema1:name "Paul Grange"@en .
+
+<https://www.gov.uk/government/people/sue-jemmett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c483d88e5274a6e52aa608e/s465_Sue_Jemmett_ATP4025-Edit__1_.jpg> ;
+    schema1:name "Sue Jemmett"@en .
+
+<https://www.gov.uk/government/people/tim-backhouse> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c483e6740f0b6172bad8465/s465_Tim_Backhouse_ATP3984-Edit__2_.jpg> ;
+    schema1:name "Tim Backhouse"@en .
+

@@ -1,0 +1,80 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/charity-commission> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "The Charity Commission"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/charity-commission> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alan-mather>,
+        <https://www.gov.uk/government/people/ann-phillips>,
+        <https://www.gov.uk/government/people/david-holdsworth>,
+        <https://www.gov.uk/government/people/helen-earner>,
+        <https://www.gov.uk/government/people/jan-lasik>,
+        <https://www.gov.uk/government/people/julia-unwin>,
+        <https://www.gov.uk/government/people/kate-sayer>,
+        <https://www.gov.uk/government/people/mark-simms>,
+        <https://www.gov.uk/government/people/nick-baker--2>,
+        <https://www.gov.uk/government/people/paul-latham>,
+        <https://www.gov.uk/government/people/pippa-britton>,
+        <https://www.gov.uk/government/people/rory-brooks>,
+        <https://www.gov.uk/government/people/shrenik-davda>,
+        <https://www.gov.uk/government/people/tasnim-khalid> .
+
+<https://www.gov.uk/government/people/alan-mather> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6807adbe0324470d6a394e7d/s465_Alan_Mather.png> ;
+    schema1:name "Alan Mather"@en .
+
+<https://www.gov.uk/government/people/ann-phillips> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63341a6f8fa8f5066a4f284a/s465_ann_philips.png> ;
+    schema1:name "Ann Phillips"@en .
+
+<https://www.gov.uk/government/people/david-holdsworth> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668264edaec8650b1009019b/s465_David_Holdsworth_1.png> ;
+    schema1:name "David Holdsworth"@en .
+
+<https://www.gov.uk/government/people/helen-earner> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d4ac1e0ed915d71891a447a/s465_helen_earner.png> ;
+    schema1:name "Helen Earner"@en .
+
+<https://www.gov.uk/government/people/jan-lasik> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6968f55d6958e5645144b0e2/s465_jan_lasik.png> ;
+    schema1:name "Jan Lasik"@en .
+
+<https://www.gov.uk/government/people/julia-unwin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69578b7753866d6cdff21a7b/s465_Dame_Julia_Unwin_1.png> ;
+    schema1:name "Dame Julia Unwin"@en .
+
+<https://www.gov.uk/government/people/kate-sayer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b2c77bc8010d37b34e0095/s465_Kate_Sawer_2.png> ;
+    schema1:name "Kate Sayer"@en .
+
+<https://www.gov.uk/government/people/mark-simms> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67e3dc7ae8428b01705de01e/s465_mark.png> ;
+    schema1:name "Mark Simms OBE"@en .
+
+<https://www.gov.uk/government/people/nick-baker--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f3bb940e90e0732df4dd27f/s465_nick_baker.png> ;
+    schema1:name "Nick Baker"@en .
+
+<https://www.gov.uk/government/people/paul-latham> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ebaaac986650c278a0d1794/s465_paul_latham.png> ;
+    schema1:name "Paul Latham"@en .
+
+<https://www.gov.uk/government/people/pippa-britton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63340b088fa8f506931f6d0e/s465_pippa_green_background.png> ;
+    schema1:name "Pippa Britton OBE"@en .
+
+<https://www.gov.uk/government/people/rory-brooks> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6479d16d103ca60013039869/s465_Rory.png> ;
+    schema1:name "Rory Brooks CBE"@en .
+
+<https://www.gov.uk/government/people/shrenik-davda> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6479d1fe5f7bb700127fa380/s465_Shrenik.png> ;
+    schema1:name "Shrenik Davda"@en .
+
+<https://www.gov.uk/government/people/tasnim-khalid> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6807ae0f3bdfd1243078e6e1/s465_Tasnim_Khalid.png> ;
+    schema1:name "Tasnim Khalid"@en .
+

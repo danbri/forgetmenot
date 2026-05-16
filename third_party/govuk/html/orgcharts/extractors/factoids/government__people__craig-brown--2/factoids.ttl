@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-space-agency> govuk:hasMinister <https://www.gov.uk/government/people/craig-brown--2> .
+
+<https://www.gov.uk/government/people/craig-brown--2> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Craig has been the Deputy Director for Space Ecosystems at the UK Space Agency since April 2026."@en ;
+    schema1:name "Craig Brown"@en ;
+    schema1:url <https://www.gov.uk/government/people/craig-brown--2> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-space-agency> ;
+    govuk:currentRoleTitle "Deputy Director, Space Ecosystems"@en .
+

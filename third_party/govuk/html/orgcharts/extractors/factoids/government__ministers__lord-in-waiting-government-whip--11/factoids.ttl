@@ -1,0 +1,23 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/people/gerrard-lemos> schema1:name "Lord Lemos CMG CBE"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--11> .
+
+<https://www.gov.uk/government/people/lord-moraes> schema1:name "Lord Moraes OBE"@en .
+
+<https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--11> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Lord in Waiting (Government Whip)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--11> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-moraes> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/gerrard-lemos> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lord-moraes> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--11> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2025"^^xsd:gYear .
+

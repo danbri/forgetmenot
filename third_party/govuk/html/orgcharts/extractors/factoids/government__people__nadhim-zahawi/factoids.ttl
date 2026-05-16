@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/nadhim-zahawi> .
+
+<https://www.gov.uk/government/people/nadhim-zahawi> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "He was previously Minister without Portfolio in the Cabinet Office from 25 October 2022 to 29 January 2023"@en ;
+    schema1:name "The Rt Hon Nadhim Zahawi"@en ;
+    schema1:url <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

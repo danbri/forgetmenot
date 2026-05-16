@@ -1,0 +1,23 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/home-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--204> .
+
+<https://www.gov.uk/government/people/sarah-jones> schema1:name "Sarah Jones MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--204> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--204> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Policing and Crime)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--204> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:responsibility "Early intervention and Young Futures"@en,
+        "Emergency Services Mobile Communication Programme"@en,
+        "crime prevention: safer streets, including drugs and county lines, alcohol and licensing, anti-social behaviour, neighbourhood crime, firearms, child criminal exploitation and hate crime."@en,
+        "criminal justice system"@en,
+        "police accountability and system reform – professional standards, performance, culture"@en,
+        "police resourcing and efficiency – neighbourhood policing guarantee, savings, funding"@en,
+        "public order, major events, civil contingencies"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/sarah-jones> .
+

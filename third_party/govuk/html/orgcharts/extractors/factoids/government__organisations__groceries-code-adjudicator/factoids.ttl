@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/groceries-code-adjudicator> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Groceries Code Adjudicator"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/groceries-code-adjudicator> ;
+    govuk:hasManager <https://www.gov.uk/government/people/mark-white> .
+
+<https://www.gov.uk/government/people/mark-white> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f3a4471e90e0732e6fa405c/s465_Mark_-_colour.jpg> ;
+    schema1:name "Mark White"@en .
+

@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/military-aviation-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Military Aviation Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/military-aviation-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/peter-squires> .
+
+<https://www.gov.uk/government/people/peter-squires> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6870c2142cfe301b5fb67a6b/s465_Peter_Squires_960x640.jpg> ;
+    schema1:name "Air Vice-Marshal Peter Squires OBE MA BEng(Hons)"@en .
+

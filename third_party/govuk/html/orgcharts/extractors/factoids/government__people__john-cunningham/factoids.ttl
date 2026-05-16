@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-defence-innovation> govuk:hasMinister <https://www.gov.uk/government/people/john-cunningham> .
+
+<https://www.gov.uk/government/people/john-cunningham> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "John Cunningham is a Senior Civil Servant and currently Director Innovation responsible for UK Defence Innovation . His early career post after attaining a BSc (Hons) in Biochemistry at Leeds University was as a fast-jet pilot and instructor. Tours included air defence missions over Bosnia, Quick Reaction Alert in the UK and the Falkland Islands, and selection as a Tornado F3 Instructor Pilot."@en ;
+    schema1:name "John Cunningham"@en ;
+    schema1:url <https://www.gov.uk/government/people/john-cunningham> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-defence-innovation> ;
+    govuk:currentRoleTitle "Director Innovation of UKDI"@en .
+

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/david-clarke--2> .
+
+<https://www.gov.uk/government/people/david-clarke--2> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "David joined the Nuclear Restoration Services Ltd Board on 1 June 2024 as an Independent Non-Executive Director."@en ;
+    schema1:name "David Clark"@en ;
+    schema1:url <https://www.gov.uk/government/people/david-clarke--2> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    govuk:currentRoleTitle "Non-Executive Director"@en .
+

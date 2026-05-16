@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/boris-johnson> .
+
+<https://www.gov.uk/government/people/boris-johnson> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Boris Johnson was Prime Minister from 24 July 2019 to 6 September 2022. He was previously Foreign Secretary from 13 July 2016 to 9 July 2018."@en ;
+    schema1:name "The Rt Hon Boris Johnson"@en ;
+    schema1:url <https://www.gov.uk/government/people/boris-johnson> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

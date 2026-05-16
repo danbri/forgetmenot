@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/youth-justice-board-for-england-and-wales> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Youth Justice Board for England and Wales"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/youth-justice-board-for-england-and-wales> ;
+    govuk:hasManager <https://www.gov.uk/government/people/phil-bowen>,
+        <https://www.gov.uk/government/people/steph-roberts-bibby> .
+
+<https://www.gov.uk/government/people/phil-bowen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/698df62f75466636847f6a96/s465_Phil_Bowen_web.jpg> ;
+    schema1:name "Phil Bowen"@en .
+
+<https://www.gov.uk/government/people/steph-roberts-bibby> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/650dabc706e1ca00136160de/s465_Steph_RB.jpg> ;
+    schema1:name "Steph Roberts-Bibby"@en .
+

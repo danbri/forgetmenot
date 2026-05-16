@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/gordon-frisby> .
+
+<https://www.gov.uk/government/people/gordon-frisby> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Gordon Frisby is an accomplished global Finance Director with over 25 years of senior management experience."@en ;
+    schema1:name "Gordon Frisby"@en ;
+    schema1:url <https://www.gov.uk/government/people/gordon-frisby> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    govuk:currentRoleTitle "Chief Financial Officer and Chief Financial Officer & Board Member"@en .
+

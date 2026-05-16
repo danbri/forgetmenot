@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/roy-rickhuss> .
+
+<https://www.gov.uk/government/people/roy-rickhuss> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Roy Rickhuss is a British trade union leader and General Secretary of the Community Union since 2013."@en ;
+    schema1:name "Roy Rickhuss OBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/roy-rickhuss> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en .
+

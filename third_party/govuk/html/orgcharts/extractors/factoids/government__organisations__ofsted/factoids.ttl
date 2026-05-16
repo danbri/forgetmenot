@@ -1,0 +1,85 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ofsted> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Ofsted"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/ofsted> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-cook>,
+        <https://www.gov.uk/government/people/caroline-dulon>,
+        <https://www.gov.uk/government/people/james-mcneillie>,
+        <https://www.gov.uk/government/people/jason-bradbury>,
+        <https://www.gov.uk/government/people/jonathan-smart>,
+        <https://www.gov.uk/government/people/katrina-gueli>,
+        <https://www.gov.uk/government/people/lee-owston>,
+        <https://www.gov.uk/government/people/louise-grainger>,
+        <https://www.gov.uk/government/people/lucia-wilde>,
+        <https://www.gov.uk/government/people/martin-oliver>,
+        <https://www.gov.uk/government/people/matthew-purves>,
+        <https://www.gov.uk/government/people/mike-sheridan>,
+        <https://www.gov.uk/government/people/neil-greenwood>,
+        <https://www.gov.uk/government/people/rory-gribbell>,
+        <https://www.gov.uk/government/people/yvette-stanley> .
+
+<https://www.gov.uk/government/people/andrew-cook> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67519c5e2086e98fae35115d/s465_Andrew-Cook-for-web.png> ;
+    schema1:name "Andrew Cook"@en .
+
+<https://www.gov.uk/government/people/caroline-dulon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62a998e18fa8f5039107d6a5/s465_Caroline_Dulon.JPG> ;
+    schema1:name "Caroline Dulon"@en .
+
+<https://www.gov.uk/government/people/james-mcneillie> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60bdd2cfd3bf7f4bd842e226/s465_James_McNeillie_960.jpg> ;
+    schema1:name "James McNeillie"@en .
+
+<https://www.gov.uk/government/people/jason-bradbury> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/690ccfce68fffdd77951ab45/s465_Jason_Bradbury.jpg> ;
+    schema1:name "Jason Bradbury"@en .
+
+<https://www.gov.uk/government/people/jonathan-smart> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/690b846eb04a520c50518539/s465_Jonathan_Smart.png> ;
+    schema1:name "Jonathan Smart"@en .
+
+<https://www.gov.uk/government/people/katrina-gueli> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d7116cde5274a09856f38b4/s465_Katrina_s_photo.jpg> ;
+    schema1:name "Katrina Gueli"@en .
+
+<https://www.gov.uk/government/people/lee-owston> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/658474dcfc07f3000d8d46a9/s465_Lee-Owston-for-web-2.png> ;
+    schema1:name "Lee Owston"@en .
+
+<https://www.gov.uk/government/people/louise-grainger> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/690cb599dad669f061d46b59/s465_Louise_Grainger.png> ;
+    schema1:name "Louise Grainger"@en .
+
+<https://www.gov.uk/government/people/lucia-wilde> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61de7479d3bf7f0544ba73f6/s465_Lucia_Wilde__960x640_PHOTO_FINAL_.jpg> ;
+    schema1:name "Lucia Wilde"@en .
+
+<https://www.gov.uk/government/people/martin-oliver> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65842d54fc07f3000d8d462e/s465_Sir-Martyn-Oliver-for-web.png> ;
+    schema1:name "Sir Martyn Oliver"@en .
+
+<https://www.gov.uk/government/people/matthew-purves> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/673e1ef5b3f0df6d2ebaef6d/s465_Matthew-purves.png> ;
+    schema1:name "Matthew Purves"@en .
+
+<https://www.gov.uk/government/people/mike-sheridan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d9f16a940f0b6686fb7dd5b/s465_Mike_Sheridan_for_govuk.jpg> ;
+    schema1:name "Mike Sheridan"@en .
+
+<https://www.gov.uk/government/people/neil-greenwood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69147546b49cc44345161675/s465_Neil_Greenwood.png> ;
+    schema1:name "Neil Greenwood"@en .
+
+<https://www.gov.uk/government/people/rory-gribbell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/690cb3b3276dd02bc451ab37/s465_Rory_Gribbell.png> ;
+    schema1:name "Rory Gribbell"@en .
+
+<https://www.gov.uk/government/people/yvette-stanley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67519caf0191590a5f351153/s465_Yvette-Stanley-for-web-2.png> ;
+    schema1:name "Yvette Stanley"@en .
+

@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/captain-of-the-kings-bodyguard-of-the-yeoman-of-the-guard-lords-deputy-chief-whip> govuk:roleHolder <https://www.gov.uk/government/people/baroness-wheeler> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/baroness-wheeler> .
+
+<https://www.gov.uk/government/people/baroness-wheeler> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Baroness Wheeler MBE was appointed Captain of The King’s Bodyguard of the Yeoman of the Guard (Lords Deputy Chief Whip) on 10 July 2024."@en ;
+    schema1:name "Baroness Wheeler MBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/baroness-wheeler> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:currentRoleTitle "Captain of The King’s Bodyguard of the Yeoman of the Guard (Lords Deputy Chief Whip)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/captain-of-the-kings-bodyguard-of-the-yeoman-of-the-guard-lords-deputy-chief-whip> .
+

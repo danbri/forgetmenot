@@ -1,0 +1,22 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/prime-minister> .
+
+<https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> govuk:hasRole <https://www.gov.uk/government/ministers/prime-minister> .
+
+<https://www.gov.uk/government/people/keir-starmer> schema1:name "The Rt Hon Sir Keir Starmer KCB KC MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/prime-minister> .
+
+<https://www.gov.uk/government/ministers/prime-minister> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Prime Minister"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office>,
+        <https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> ;
+    govuk:responsibility "chooses members of the government"@en,
+        "is the principal government figure in the House of Commons"@en,
+        "oversees the operation of the Civil Service and government agencies"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/keir-starmer> .
+

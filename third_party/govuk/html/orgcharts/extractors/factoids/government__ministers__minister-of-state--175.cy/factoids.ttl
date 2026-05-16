@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--175.cy> .
+
+<https://www.gov.uk/government/organisations/department-for-work-pensions.cy> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--175.cy> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--175.cy> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Gweinidog Gwladol (Gweinidog dros Sgiliau)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--175.cy> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+        <https://www.gov.uk/government/organisations/department-for-work-pensions.cy> .
+

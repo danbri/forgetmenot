@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/amber-rudd> .
+
+<https://www.gov.uk/government/people/amber-rudd> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Amber Rudd was Secretary of State for Work and Pensions and Minister for Women and Equalities between 24 July 2019 and 7 September 2019."@en ;
+    schema1:name "The Rt Hon Amber Rudd"@en ;
+    schema1:url <https://www.gov.uk/government/people/amber-rudd> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

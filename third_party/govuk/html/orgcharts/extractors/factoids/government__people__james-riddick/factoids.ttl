@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/james-riddick> .
+
+<https://www.gov.uk/government/people/james-riddick> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "James has previously held senior leadership roles in legal, commercial and supply chain functions across nuclear, utilities and logistics sectors."@en ;
+    schema1:name "James Riddick"@en ;
+    schema1:url <https://www.gov.uk/government/people/james-riddick> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    govuk:currentRoleTitle "Chief Commercial Officer"@en .
+

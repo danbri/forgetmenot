@@ -1,0 +1,26 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--203> .
+
+<https://www.gov.uk/government/people/diana-johnson> schema1:name "The Rt Hon Dame Diana Johnson DBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--203> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--203> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Employment)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--203> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:responsibility "Childcare and Parental Employment"@en,
+        "Conditionality and Sanctions"@en,
+        "Devolution (Local)"@en,
+        "Disability Employment"@en,
+        "In Work Progression (conditionality and careers)"@en,
+        "Jobs and Careers Service reform/Jobcentre Plus, including post-19 careers"@en,
+        "Labour Market – including employer engagement"@en,
+        "Locally led employment support"@en,
+        "Poverty"@en,
+        "Work and Health: Occupational Health and Statutory Sick Pay"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/diana-johnson> .
+

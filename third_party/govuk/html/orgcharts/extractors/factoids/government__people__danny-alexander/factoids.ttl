@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/danny-alexander> .
+
+<https://www.gov.uk/government/people/danny-alexander> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Danny Alexander was appointed Chief Secretary to the Treasury in May 2010. He was the Liberal Democrat MP for Inverness, Nairn, Badenoch and Strathspey."@en ;
+    schema1:name "The Rt Hon Danny Alexander"@en ;
+    schema1:url <https://www.gov.uk/government/people/danny-alexander> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

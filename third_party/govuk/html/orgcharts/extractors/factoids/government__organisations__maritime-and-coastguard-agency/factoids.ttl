@@ -1,0 +1,25 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/maritime-and-coastguard-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Maritime and Coastguard Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/maritime-and-coastguard-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/claire-hughes>,
+        <https://www.gov.uk/government/people/lars-lippuner>,
+        <https://www.gov.uk/government/people/virginia-mcvea> .
+
+<https://www.gov.uk/government/people/claire-hughes> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e6ba140d3bf7f26918b7830/s465_claire-hughes.jpg> ;
+    schema1:name "Claire Hughes"@en .
+
+<https://www.gov.uk/government/people/lars-lippuner> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660bed21fb0f77001aec6674/s465_lars-lippuner.png> ;
+    schema1:name "Lars Lippuner"@en .
+
+<https://www.gov.uk/government/people/virginia-mcvea> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642aaff1fbe620000f17db2a/s465_virginia-mcvea-maritime-and-coastguard-agency.jpg> ;
+    schema1:name "Virginia McVea"@en .
+

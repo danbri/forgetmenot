@@ -1,0 +1,39 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--175> .
+
+<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--175> .
+
+<https://www.gov.uk/government/people/jacqui-smith> schema1:name "The Rt Hon Baroness Smith of Malvern"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--175> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--175> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Skills)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--175> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+        <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:responsibility "Skills England and Industry Training Boards"@en,
+        "Youth Guarantee"@en,
+        "access to higher education, participation and lifelong learning entitlement"@en,
+        "adult education, including basic skills"@en,
+        "apprenticeships, including the growth and skills levy"@en,
+        "careers advice"@en,
+        "careers advice and support for young people over the age of 19 not in employment, education or training (NEET)"@en,
+        "funding for education and training, provision and outcomes for 16- to 19-year-olds"@en,
+        "further education financial stability and workforce"@en,
+        "governance, intervention and accountability of further education colleges"@en,
+        "higher technical education (levels 4 and 5)"@en,
+        "international education"@en,
+        "quality of higher education and the student experience (including the Office for Students )"@en,
+        "sector skills packages"@en,
+        "skills bootcamps"@en,
+        "skills strategy and delivery"@en,
+        "student finance (including the Student Loans Company )"@en,
+        "support for young people aged 16 to 19 not in employment, education or training (NEET)"@en,
+        "technical and vocational qualifications (level 3 and below), including T Levels"@en,
+        "technical excellence colleges"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
+

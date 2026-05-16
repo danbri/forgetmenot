@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/animal-and-plant-health-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Animal and Plant Health Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/animal-and-plant-health-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/anna-jenkins>,
+        <https://www.gov.uk/government/people/dan-horton>,
+        <https://www.gov.uk/government/people/irene-cristofaro>,
+        <https://www.gov.uk/government/people/jason-field>,
+        <https://www.gov.uk/government/people/kevin-ingram>,
+        <https://www.gov.uk/government/people/nicola-hirst>,
+        <https://www.gov.uk/government/people/richard-knight>,
+        <https://www.gov.uk/government/people/richard-lewis>,
+        <https://www.gov.uk/government/people/richard-mccart> .
+
+<https://www.gov.uk/government/people/anna-jenkins> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/688a377d647852567573906f/s465_Anna_Jenkins__1___1_.jpg> ;
+    schema1:name "Anna Jenkins"@en .
+
+<https://www.gov.uk/government/people/dan-horton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68764069352c290d20dcae87/s465_Dan_Horton_Melanie_French.jpg> ;
+    schema1:name "Dan Horton"@en .
+
+<https://www.gov.uk/government/people/irene-cristofaro> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6672e37c64e554df3bd0db64/s465_irene-cristofaro.jpg> ;
+    schema1:name "Irene Cristofaro"@en .
+
+<https://www.gov.uk/government/people/jason-field> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/693038c55b5198836f303fba/s465_jason-field-960x640.png> ;
+    schema1:name "Jason Field"@en .
+
+<https://www.gov.uk/government/people/kevin-ingram> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6051da60e90e0752831cc829/s465_kevin-ingram.jpg> ;
+    schema1:name "Kevin Ingram"@en .
+
+<https://www.gov.uk/government/people/nicola-hirst> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62b1e42be90e0765cdf62dc4/s465_Nicola_Hirst.png> ;
+    schema1:name "Nicola Hirst"@en .
+
+<https://www.gov.uk/government/people/richard-knight> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/682c9282d112b221dce8ed24/s465_Richard_Knight.png> ;
+    schema1:name "Richard Knight"@en .
+
+<https://www.gov.uk/government/people/richard-lewis> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6859662b9d116ab6d9eca79c/s465_Richard_Lewis.jpg> ;
+    schema1:name "Richard Lewis"@en .
+
+<https://www.gov.uk/government/people/richard-mccart> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69f223bf0bb62e692c5d6e5c/s465_Richard_McCart_960x640.jpg> ;
+    schema1:name "Richard McCart"@en .
+

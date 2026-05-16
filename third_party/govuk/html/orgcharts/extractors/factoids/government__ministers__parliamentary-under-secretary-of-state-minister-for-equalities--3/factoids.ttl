@@ -1,0 +1,29 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+
+<https://www.gov.uk/government/organisations/race-equality-unit> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+
+<https://www.gov.uk/government/organisations/women-and-equalities-unit> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+
+<https://www.gov.uk/government/people/seema-malhotra> schema1:name "Seema Malhotra MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Equalities)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+        <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity>,
+        <https://www.gov.uk/government/organisations/race-equality-unit>,
+        <https://www.gov.uk/government/organisations/women-and-equalities-unit> ;
+    govuk:responsibility "lead minister for the Equality (Race and Disability) Bill"@en,
+        "ministerial sponsor of the Race Equality Engagement Group"@en,
+        "race and ethnicity policy"@en,
+        "women’s equality policy, including pay gap reporting, equal pay and pay transparency"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/seema-malhotra> .
+

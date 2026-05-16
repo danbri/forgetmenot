@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--195> govuk:roleHolder <https://www.gov.uk/government/people/david-hanson> .
+
+<https://www.gov.uk/government/organisations/home-office> govuk:hasMinister <https://www.gov.uk/government/people/david-hanson> .
+
+<https://www.gov.uk/government/people/david-hanson> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Rt Hon Sir David Hanson was appointed Minister of State at the Home Office on 9 July 2024."@en ;
+    schema1:name "The Rt Hon Lord Hanson of Flint"@en ;
+    schema1:url <https://www.gov.uk/government/people/david-hanson> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:currentRoleTitle "Minister of State (Lords Minister)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--195> .
+

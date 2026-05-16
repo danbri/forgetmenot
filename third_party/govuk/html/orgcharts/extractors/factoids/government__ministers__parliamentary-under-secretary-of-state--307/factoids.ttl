@@ -1,0 +1,16 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> .
+
+<https://www.gov.uk/government/people/nesil-caliskan> schema1:name "Nesil Caliskan MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/nesil-caliskan> .
+

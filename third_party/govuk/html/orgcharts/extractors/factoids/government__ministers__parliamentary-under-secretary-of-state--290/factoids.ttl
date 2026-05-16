@@ -1,0 +1,21 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> .
+
+<https://www.gov.uk/government/people/chris-elmore> schema1:name "Chris Elmore MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under Secretary of State (Multilateral, Human Rights, Latin America and the Caribbean)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:responsibility "Caribbean"@en,
+        "Latin America"@en,
+        "Small Island Developing States"@en,
+        "United Nations, multilateral, human rights and Commonwealth"@en,
+        "strategy and delivery"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/chris-elmore> .
+

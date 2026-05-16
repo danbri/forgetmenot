@@ -1,0 +1,47 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/prison-services-pay-review-body> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Prison Service Pay Review Body"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/prison-services-pay-review-body> ;
+    govuk:hasManager <https://www.gov.uk/government/people/ken-mayhew--2>,
+        <https://www.gov.uk/government/people/luke-corkhill>,
+        <https://www.gov.uk/government/people/mark-hamilton>,
+        <https://www.gov.uk/government/people/mary-carter>,
+        <https://www.gov.uk/government/people/peter-dawson>,
+        <https://www.gov.uk/government/people/raj-jethwa>,
+        <https://www.gov.uk/government/people/rehana-azam>,
+        <https://www.gov.uk/government/people/roy-grant>,
+        <https://www.gov.uk/government/people/tijs-broeke> .
+
+<https://www.gov.uk/government/people/ken-mayhew--2> a schema1:Person ;
+    schema1:name "Professor Ken Mayhew"@en .
+
+<https://www.gov.uk/government/people/luke-corkhill> a schema1:Person ;
+    schema1:name "Luke Corkill"@en .
+
+<https://www.gov.uk/government/people/mark-hamilton> a schema1:Person ;
+    schema1:name "Mark Hamilton OBE"@en .
+
+<https://www.gov.uk/government/people/mary-carter> a schema1:Person ;
+    schema1:name "Mary Carter"@en .
+
+<https://www.gov.uk/government/people/peter-dawson> a schema1:Person ;
+    schema1:name "Peter Dawson CBE"@en .
+
+<https://www.gov.uk/government/people/raj-jethwa> a schema1:Person ;
+    schema1:name "Raj Jethwa"@en .
+
+<https://www.gov.uk/government/people/rehana-azam> a schema1:Person ;
+    schema1:name "Rehana Azam"@en .
+
+<https://www.gov.uk/government/people/roy-grant> a schema1:Person ;
+    schema1:name "Roy Grant"@en .
+
+<https://www.gov.uk/government/people/tijs-broeke> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6890bca9e8ba9507fc1b09b7/s465_Tijs_IMG_2025.jpg> ;
+    schema1:name "Tijs Broeke"@en .
+

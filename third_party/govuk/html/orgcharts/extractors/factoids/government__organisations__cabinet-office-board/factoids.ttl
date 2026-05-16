@@ -1,0 +1,27 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/cat-little> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66dac77ee87ad2f121826545/s465_Untitled.jpg> ;
+    schema1:name "Catherine Little CB"@en .
+
+<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> a govuk:MinisterialRole ;
+    schema1:name "Chancellor of the Duchy of Lancaster"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office-board> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/darren-jones> .
+
+<https://www.gov.uk/government/organisations/cabinet-office-board> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Cabinet Office Board"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/cabinet-office-board> ;
+    govuk:hasManager <https://www.gov.uk/government/people/cat-little> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/darren-jones> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> .
+
+<https://www.gov.uk/government/people/darren-jones> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668843eb4a94d44125d9cdbf/s465_darren-jones.jpg> ;
+    schema1:name "The Rt Hon Darren Jones MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> .
+

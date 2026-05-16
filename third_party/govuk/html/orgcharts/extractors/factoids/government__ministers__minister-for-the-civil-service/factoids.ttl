@@ -1,0 +1,62 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-the-civil-service> .
+
+<https://www.gov.uk/government/people/keir-starmer> schema1:name "The Rt Hon Sir Keir Starmer KCB KC MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-the-civil-service> .
+
+<https://www.gov.uk/government/people/boris-johnson> schema1:name "The Rt Hon Boris Johnson"@en .
+
+<https://www.gov.uk/government/people/david-cameron> schema1:name "The Rt Hon Lord Cameron"@en .
+
+<https://www.gov.uk/government/people/elizabeth-truss> schema1:name "The Rt Hon Elizabeth Truss"@en .
+
+<https://www.gov.uk/government/people/rishi-sunak> schema1:name "The Rt Hon Rishi Sunak MP"@en .
+
+<https://www.gov.uk/government/people/theresa-may> schema1:name "The Rt Hon Theresa May"@en .
+
+<https://www.gov.uk/government/ministers/minister-for-the-civil-service> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister for the Civil Service"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson>,
+        <https://www.gov.uk/government/people/david-cameron>,
+        <https://www.gov.uk/government/people/elizabeth-truss>,
+        <https://www.gov.uk/government/people/rishi-sunak>,
+        <https://www.gov.uk/government/people/theresa-may> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/keir-starmer> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/rishi-sunak> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/theresa-may> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+

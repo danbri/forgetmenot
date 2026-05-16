@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/people/chloe-smith> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Chloe Smith was previously appointed Secretary of State for Science, Innovation and Technology from 28 April 2023 to 20 July 2023 while the Rt Hon Michelle Donelan MP was on maternity leave."@en ;
+    schema1:name "Chloe Smith"@en ;
+    schema1:url <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

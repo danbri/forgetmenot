@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-visas-and-immigration> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "UK Visas and Immigration"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/uk-visas-and-immigration> ;
+    govuk:hasManager <https://www.gov.uk/government/people/paul-morrison> .
+
+<https://www.gov.uk/government/people/paul-morrison> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/664229e7f34f9b5a56adc60c/s465_Paul_Morrison.jpg> ;
+    schema1:name "Paul Morrison CBE"@en .
+

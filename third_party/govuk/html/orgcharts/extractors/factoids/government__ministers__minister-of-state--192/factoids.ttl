@@ -1,0 +1,36 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+
+<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+
+<https://www.gov.uk/government/organisations/disability-unit> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+
+<https://www.gov.uk/government/people/stephen-timms> schema1:name "The Rt Hon Sir Stephen Timms MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--192> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Social Security and Disability)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--192> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+        <https://www.gov.uk/government/organisations/department-for-work-pensions>,
+        <https://www.gov.uk/government/organisations/disability-unit>,
+        <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> ;
+    govuk:responsibility "ALB: Health and Safety Executive"@en,
+        "Access to Work"@en,
+        "Carer’s Allowance (CA)"@en,
+        "Contributory Benefits, Personal Independence Payment (PIP), Disability Living Allowance (DLA), and Employment and Support Allowance (ESA)"@en,
+        "Disability policy and x-Gov responsibility for disabled people"@en,
+        "Health and disability reform"@en,
+        "Housing"@en,
+        "Oversight of Disability Unit (DU)"@en,
+        "Serious Case Panel"@en,
+        "Universal Credit and Legacy Benefits Delivery"@en,
+        "Uprating and Benefit Cap"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/stephen-timms> .
+

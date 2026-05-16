@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/civil-nuclear-police-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Civil Nuclear Police Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/civil-nuclear-police-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alexander-macgill--2>,
+        <https://www.gov.uk/government/people/alyson-armett--2>,
+        <https://www.gov.uk/government/people/andrew-harvey>,
+        <https://www.gov.uk/government/people/chris-pilgrim>,
+        <https://www.gov.uk/government/people/john-campbell>,
+        <https://www.gov.uk/government/people/nick-payne--2>,
+        <https://www.gov.uk/government/people/pam-duerden--2>,
+        <https://www.gov.uk/government/people/susan-johnson--2>,
+        <https://www.gov.uk/government/people/tamya-kerr> .
+
+<https://www.gov.uk/government/people/alexander-macgill--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6945294f3022cdf03a0eb7e6/s465_Mac-MacGill-for-website.jpg> ;
+    schema1:name "Alexander MacGill"@en .
+
+<https://www.gov.uk/government/people/alyson-armett--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ea8c7ff0edd954a99fe958/s465_Alyson-Armett.jpg> ;
+    schema1:name "Alyson Armett"@en .
+
+<https://www.gov.uk/government/people/andrew-harvey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6945279e72075a1d4a508925/s465_Andrew-Harvey-Web.jpg> ;
+    schema1:name "Andrew Harvey"@en .
+
+<https://www.gov.uk/government/people/chris-pilgrim> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6945279f033693d5d50eb7e2/s465_Chris-Pilgrim-Web.jpg> ;
+    schema1:name "Chris Pilgrim"@en .
+
+<https://www.gov.uk/government/people/john-campbell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/694527d4033693d5d50eb7e4/s465_John-Campbell-Web.jpg> ;
+    schema1:name "John Campbell LLB, MBA, QPM"@en .
+
+<https://www.gov.uk/government/people/nick-payne--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/694528142f02611393508928/s465_Nick-Payne-Web.jpg> ;
+    schema1:name "Nick Payne"@en .
+
+<https://www.gov.uk/government/people/pam-duerden--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6945283f1a2e540ccd8a53d1/s465_Pam-Duerden-Web.jpg> ;
+    schema1:name "Pam Duerden"@en .
+
+<https://www.gov.uk/government/people/susan-johnson--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6945291d1a2e540ccd8a53d6/s465_Susan-Johnson-Web.jpg> ;
+    schema1:name "Susan Johnson OBE"@en .
+
+<https://www.gov.uk/government/people/tamya-kerr> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69e229191b255add7216d991/s465_Tamya-Headshot.jpg> ;
+    schema1:name "Tamya Kerr"@en .
+

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> govuk:hasMinister <https://www.gov.uk/government/people/charlotte-valeur> .
+
+<https://www.gov.uk/government/people/charlotte-valeur> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Charlotte is an Investment Banker and experienced FTSE Chair and Non-Executive Director. Her long board-level experience spans a host of sectors and industries and covers IPOs, M&A and restructuring. She is a recognised international authority and professor in corporate governance and leadership, and author of Effective Directors, Questions to Ask."@en ;
+    schema1:name "Professor Charlotte Valeur"@en ;
+    schema1:url <https://www.gov.uk/government/people/charlotte-valeur> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
+    govuk:currentRoleTitle "Non-executive Director"@en .
+

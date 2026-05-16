@@ -1,0 +1,88 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-of-health-and-social-care> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> .
+
+<https://www.gov.uk/government/people/james-murray> schema1:name "The Rt Hon James Murray MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> .
+
+<https://www.gov.uk/government/people/jeremy-hunt> schema1:name "The Rt Hon Jeremy Hunt MP"@en .
+
+<https://www.gov.uk/government/people/matthew-hancock> schema1:name "The Rt Hon Matt Hancock"@en .
+
+<https://www.gov.uk/government/people/sajid-javid> schema1:name "The Rt Hon Sajid Javid"@en .
+
+<https://www.gov.uk/government/people/therese-coffey> schema1:name "The Rt Hon Thérèse Coffey"@en .
+
+<https://www.gov.uk/government/people/victoria-atkins> schema1:name "The Rt Hon Victoria Atkins MP"@en .
+
+<https://www.gov.uk/government/people/wes-streeting> schema1:name "The Rt Hon Wes Streeting MP"@en .
+
+<https://www.gov.uk/government/people/stephen-barclay> schema1:name "The Rt Hon Steve Barclay MP"@en .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Secretary of State for Health and Social Care"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/jeremy-hunt>,
+        <https://www.gov.uk/government/people/matthew-hancock>,
+        <https://www.gov.uk/government/people/sajid-javid>,
+        <https://www.gov.uk/government/people/stephen-barclay>,
+        <https://www.gov.uk/government/people/therese-coffey>,
+        <https://www.gov.uk/government/people/victoria-atkins>,
+        <https://www.gov.uk/government/people/wes-streeting> ;
+    govuk:responsibility "overall financial control and oversight of NHS delivery and performance"@en,
+        "oversight of social care policy"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/james-murray> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/victoria-atkins> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/wes-streeting> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2026"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/therese-coffey> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-hunt> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/sajid-javid> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

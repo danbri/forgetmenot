@@ -1,0 +1,23 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--196> .
+
+<https://www.gov.uk/government/people/baroness-sherlock> schema1:name "Baroness Sherlock OBE"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--196> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--196> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Lords)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--196> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:responsibility "Child Maintenance, Family Test and Reducing Parental Conflict"@en,
+        "DWP Lords spokesperson"@en,
+        "Departmental oversight including Commercial and Research"@en,
+        "Disadvantaged Groups"@en,
+        "Legislation Coordination"@en,
+        "Shadow Fraud in the House of Lords"@en,
+        "Social Security Advisory Committee (SSAC) Oversight"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/baroness-sherlock> .
+

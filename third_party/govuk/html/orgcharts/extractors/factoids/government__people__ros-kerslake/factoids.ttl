@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/national-housing-bank> govuk:hasMinister <https://www.gov.uk/government/people/ros-kerslake> .
+
+<https://www.gov.uk/government/people/ros-kerslake> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Ros Kerslake CBE has more than 20 years’ board level experience in the property and regeneration sectors, serving as chief executive, non-executive director and chair for a number of public and private sector organisations."@en ;
+    schema1:name "Ros Kerslake CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/ros-kerslake> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/national-housing-bank> ;
+    govuk:currentRoleTitle "Non-Executive Director, National Housing Bank"@en .
+

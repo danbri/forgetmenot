@@ -1,0 +1,34 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/security-vetting-appeals-panel> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Security Vetting Appeals Panel"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/security-vetting-appeals-panel> ;
+    govuk:hasManager <https://www.gov.uk/government/people/adrian-fulford>,
+        <https://www.gov.uk/government/people/antony-edwards-stuart>,
+        <https://www.gov.uk/government/people/claire-stokes>,
+        <https://www.gov.uk/government/people/james-barron>,
+        <https://www.gov.uk/government/people/nicholas-griffin>,
+        <https://www.gov.uk/government/people/sally-berlin> .
+
+<https://www.gov.uk/government/people/adrian-fulford> a schema1:Person ;
+    schema1:name "Sir Adrian Fulford"@en .
+
+<https://www.gov.uk/government/people/antony-edwards-stuart> a schema1:Person ;
+    schema1:name "Sir Antony Edwards - Stuart"@en .
+
+<https://www.gov.uk/government/people/claire-stokes> a schema1:Person ;
+    schema1:name "Claire Stokes"@en .
+
+<https://www.gov.uk/government/people/james-barron> a schema1:Person ;
+    schema1:name "James Barron"@en .
+
+<https://www.gov.uk/government/people/nicholas-griffin> a schema1:Person ;
+    schema1:name "Nicholas Griffin KC"@en .
+
+<https://www.gov.uk/government/people/sally-berlin> a schema1:Person ;
+    schema1:name "Sally Berlin"@en .
+

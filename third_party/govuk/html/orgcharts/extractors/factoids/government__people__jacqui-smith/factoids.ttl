@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--175> govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasMinister <https://www.gov.uk/government/people/jacqui-smith> .
+
+<https://www.gov.uk/government/people/jacqui-smith> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Rt Hon Baroness Smith of Malvern was appointed Minister of State (Minister for Skills) in the Department for Education on 6 July 2024. This role also became part of the Department for Work and Pensions on 6 September 2025."@en ;
+    schema1:name "The Rt Hon Baroness Smith of Malvern"@en ;
+    schema1:url <https://www.gov.uk/government/people/jacqui-smith> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:currentRoleTitle "Minister of State (Minister for Skills) and Minister of State (Minister for Women and Equalities)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4>,
+        <https://www.gov.uk/government/ministers/minister-of-state--175> .
+

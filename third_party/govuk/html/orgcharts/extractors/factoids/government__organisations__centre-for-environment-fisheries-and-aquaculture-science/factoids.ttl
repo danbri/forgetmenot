@@ -1,0 +1,63 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/centre-for-environment-fisheries-and-aquaculture-science> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Centre for Environment, Fisheries and Aquaculture Science"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/centre-for-environment-fisheries-and-aquaculture-science> ;
+    govuk:hasManager <https://www.gov.uk/government/people/grant-stentiford>,
+        <https://www.gov.uk/government/people/mark-pendlington>,
+        <https://www.gov.uk/government/people/melanie-siggs>,
+        <https://www.gov.uk/government/people/mike-rowe--2>,
+        <https://www.gov.uk/government/people/neil-hornby>,
+        <https://www.gov.uk/government/people/rachel-mills>,
+        <https://www.gov.uk/government/people/ruth-boumphrey>,
+        <https://www.gov.uk/government/people/sian-limpenny>,
+        <https://www.gov.uk/government/people/simon-reeve>,
+        <https://www.gov.uk/government/people/steve-addison>,
+        <https://www.gov.uk/government/people/tim-green> .
+
+<https://www.gov.uk/government/people/grant-stentiford> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64a6a47bc531eb000c64ff9a/s465_Untitled_design__2_.png> ;
+    schema1:name "Professor Grant Stentiford FRC Path"@en .
+
+<https://www.gov.uk/government/people/mark-pendlington> a schema1:Person ;
+    schema1:name "Mark Pendlington"@en .
+
+<https://www.gov.uk/government/people/melanie-siggs> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67bc764d4ad141d90835345d/s465_1.png> ;
+    schema1:name "Melanie Siggs"@en .
+
+<https://www.gov.uk/government/people/mike-rowe--2> a schema1:Person ;
+    schema1:name "Mike Rowe"@en .
+
+<https://www.gov.uk/government/people/neil-hornby> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6017caf7d3bf7f70c2afe59e/s465_Neil_Hornby_GovUK_sized.png> ;
+    schema1:name "Neil Hornby"@en .
+
+<https://www.gov.uk/government/people/rachel-mills> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60d47ecfe90e07438ee57663/s465_Rachel_Mills_govuk.png> ;
+    schema1:name "Professor Rachel Mills"@en .
+
+<https://www.gov.uk/government/people/ruth-boumphrey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60d2f3efd3bf7f4bd4662d69/s465_Ruth_Boumphrey_govuk.jpg> ;
+    schema1:name "Dr Ruth Boumphrey"@en .
+
+<https://www.gov.uk/government/people/sian-limpenny> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67bc75034ad141d90835345b/s465_2.png> ;
+    schema1:name "Dr Siân Limpenny"@en .
+
+<https://www.gov.uk/government/people/simon-reeve> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67bc7660b3a80ad63e782cb2/s465_3.png> ;
+    schema1:name "Simon Reeve"@en .
+
+<https://www.gov.uk/government/people/steve-addison> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60d48129e90e0743a210e05f/s465_20.png> ;
+    schema1:name "Steve Addison"@en .
+
+<https://www.gov.uk/government/people/tim-green> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60d481bce90e07439ba751ef/s465_18.png> ;
+    schema1:name "Tim Green"@en .
+

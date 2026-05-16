@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> govuk:roleHolder <https://www.gov.uk/government/people/lord-livermore> .
+
+<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasMinister <https://www.gov.uk/government/people/lord-livermore> .
+
+<https://www.gov.uk/government/people/lord-livermore> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Livermore was appointed Financial Secretary to the Treasury on 8 July 2024."@en ;
+    schema1:name "Lord Livermore"@en ;
+    schema1:url <https://www.gov.uk/government/people/lord-livermore> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:currentRoleTitle "Financial Secretary to the Treasury"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> .
+

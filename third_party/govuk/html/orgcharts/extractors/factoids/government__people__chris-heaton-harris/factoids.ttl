@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/chris-heaton-harris> .
+
+<https://www.gov.uk/government/people/chris-heaton-harris> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Chris Heaton-Harris was Secretary of State for Northern Ireland between 6 September 2022 and 5 July 2024."@en ;
+    schema1:name "The Rt Hon Chris Heaton-Harris"@en ;
+    schema1:url <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

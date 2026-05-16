@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-actuarys-department> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Actuary's Department"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-actuarys-department> ;
+    govuk:hasManager <https://www.gov.uk/government/people/bal-kaur>,
+        <https://www.gov.uk/government/people/dave-johnston>,
+        <https://www.gov.uk/government/people/fiona-dunsire>,
+        <https://www.gov.uk/government/people/gary-crowe>,
+        <https://www.gov.uk/government/people/indrani-banerjee-jones>,
+        <https://www.gov.uk/government/people/les-philpott>,
+        <https://www.gov.uk/government/people/liz-thornhill>,
+        <https://www.gov.uk/government/people/matt-gurden>,
+        <https://www.gov.uk/government/people/matt-wood> .
+
+<https://www.gov.uk/government/people/bal-kaur> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f624d8b7e44efc70acc3a7/s465_Bal_Kaur_-_960x640.jpg> ;
+    schema1:name "Bal Kaur"@en .
+
+<https://www.gov.uk/government/people/dave-johnston> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660bea6dfb0f770011ec6675/s465_DAVE_JOHNSTON__ACTUARIAL_DIRECTOR.jpg> ;
+    schema1:name "Dave Johnston"@en .
+
+<https://www.gov.uk/government/people/fiona-dunsire> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660bec3d67958c001f365a2c/s465_FIONA_DUNSIRE__GOVERNMENT_ACTUARY.jpg> ;
+    schema1:name "Fiona Dunsire"@en .
+
+<https://www.gov.uk/government/people/gary-crowe> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6891f0c8f15b237bf6610975/s465_Prof._Gary_Crowe_3_1.jpg> ;
+    schema1:name "Gary Crowe"@en .
+
+<https://www.gov.uk/government/people/indrani-banerjee-jones> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65bb79f421f73f0014e0ba57/s465_Indrani_Banerjee-Jones.jpg> ;
+    schema1:name "Indrani Banerjee-Jones"@en .
+
+<https://www.gov.uk/government/people/les-philpott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660bed0c67958c0011365a31/s465_LES_PHILPOTT__NON-EXECUTIVE_DIRECTOR.jpg> ;
+    schema1:name "Les Philpott"@en .
+
+<https://www.gov.uk/government/people/liz-thornhill> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6763f75cbe7b2c675de30842/s465_Liz_Thornhill_960x640.jpg> ;
+    schema1:name "Liz Thornhill"@en .
+
+<https://www.gov.uk/government/people/matt-gurden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660be762fb0f770011ec666d/s465_MATT_GURDEN__DEPUTY_GOVERNMENT_ACTUARY.jpg> ;
+    schema1:name "Matt Gurden"@en .
+
+<https://www.gov.uk/government/people/matt-wood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68a576a750939bdf2c2b5ecf/s465_Matt_Wood_960x640.jpg> ;
+    schema1:name "Matt Wood"@en .
+

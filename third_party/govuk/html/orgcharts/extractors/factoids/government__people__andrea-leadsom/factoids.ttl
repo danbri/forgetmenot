@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/andrea-leadsom> .
+
+<https://www.gov.uk/government/people/andrea-leadsom> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Rt Hon Andrea Leadsom was Parliamentary Under Secretary of State in the Department of Health and Social Care between 13 November 2023 and 5 July 2024."@en ;
+    schema1:name "The Rt Hon Andrea Leadsom"@en ;
+    schema1:url <https://www.gov.uk/government/people/andrea-leadsom> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

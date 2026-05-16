@@ -1,0 +1,164 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/beth-russell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/635fd826e90e0705ad93ee1a/s465_Beth_Russell_gov.uk.jpg> ;
+    schema1:name "Beth Russell"@en .
+
+<https://www.gov.uk/government/people/brian-bell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e735b9e86650c2978afa2fe/s465_Brian-Bell.jpg> ;
+    schema1:name "Professor Brian Bell"@en .
+
+<https://www.gov.uk/government/people/charlie-mayfield> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69c666014a06660f08544329/s465_Sir_Charlie_Mayfield_gov.uk.jpg> ;
+    schema1:name "Sir Charlie Mayfield"@en .
+
+<https://www.gov.uk/government/people/conrad-smewing> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66853613d9d35187868f43dc/s465_Adobe_Express_2024-07-03_12.28.45.png> ;
+    schema1:name "Conrad Smewing"@en .
+
+<https://www.gov.uk/government/people/dex-hunter-torricke> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ca5c5994c191d28596ecb3/s465_Dex_Hunter-Torricke_gov.uk.jpg> ;
+    schema1:name "Dex Hunter-Torricke"@en .
+
+<https://www.gov.uk/government/people/edward-twiddy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ca59342c5db1b1db67e904/s465_Edward_Twiddy_gov.uk.jpg> ;
+    schema1:name "Edward Twiddy"@en .
+
+<https://www.gov.uk/government/people/gwyneth-nurse> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62c6dd8ee90e07747fa1089a/s465_Gwyneth_gov.uk.jpg> ;
+    schema1:name "Gwyneth Nurse"@en .
+
+<https://www.gov.uk/government/people/james-bowler> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/612749d9e90e07054107582c/s465_James-Bowler__1_.jpg> ;
+    schema1:name "James Bowler CB"@en .
+
+<https://www.gov.uk/government/people/jenny-scott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69c6b558b66ff902f4544398/s465_Jenny_Scott_GOV.UK.jpg> ;
+    schema1:name "Jenny Scott"@en .
+
+<https://www.gov.uk/government/people/jessica-glover> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66435c89993111924d9d3415/s465_Jess.jpg> ;
+    schema1:name "Jessica Glover"@en .
+
+<https://www.gov.uk/government/people/jim-oneil> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/689a00f6a6eb81a3f9b2e339/s465_jimo_neil.jpg> ;
+    schema1:name "Jim O'Neil"@en .
+
+<https://www.gov.uk/government/people/lindsey-whyte> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/628f9fd28fa8f50398e15b36/s465_lindsaywhyte.jpg> ;
+    schema1:name "Lindsey Whyte"@en .
+
+<https://www.gov.uk/government/people/tim-score> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69c6b926cdfd19de13d0f80b/s465_Edward_Braham_Gov.uk.jpg> ;
+    schema1:name "Edward Braham"@en .
+
+<https://www.gov.uk/government/people/will-macfarlane> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68e39c1ddadf7616351e4e38/s465_Will_Macfarlane_for_GOV.UK.jpg> ;
+    schema1:name "Will Macfarlane"@en .
+
+<https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> a govuk:MinisterialRole ;
+    schema1:name "Chancellor of the Exchequer"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/rachel-reeves> .
+
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> a govuk:MinisterialRole ;
+    schema1:name "Chief Secretary to the Treasury"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/lucy-rigby> .
+
+<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> a govuk:MinisterialRole ;
+    schema1:name "Economic Secretary to the Treasury"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/rachel-blake> .
+
+<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> a govuk:MinisterialRole ;
+    schema1:name "Exchequer Secretary to the Treasury"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/daniel-tomlinson> .
+
+<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> a govuk:MinisterialRole ;
+    schema1:name "Financial Secretary to the Treasury"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/lord-livermore> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Investment)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jason-stockwood> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary--13> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Secretary"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/torsten-bell> .
+
+<https://www.gov.uk/government/people/daniel-tomlinson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ef74ad08ecdb5c6f34afea/s465_XST_GOV.UK.jpg> ;
+    schema1:name "Daniel Tomlinson MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> .
+
+<https://www.gov.uk/government/people/jason-stockwood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68e92b6d187483de54d7677f/s465_jason-stockwood.jpg> ;
+    schema1:name "Lord Stockwood"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+
+<https://www.gov.uk/government/people/lord-livermore> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668e7b070808eaf43b50ccfa/s465_Lord_Livermore1.jpg> ;
+    schema1:name "Lord Livermore"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> .
+
+<https://www.gov.uk/government/people/lucy-rigby> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/674de599eb52380f5456afa0/s465_Lucy_Rigby_-_head_and_shoulders__GOV.UK_edit_.jpg> ;
+    schema1:name "Lucy Rigby KC MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> .
+
+<https://www.gov.uk/government/people/rachel-blake> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6a06d71397000cb6073e4e64/s465_rachel-blake.jpeg> ;
+    schema1:name "Rachel Blake MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> .
+
+<https://www.gov.uk/government/people/rachel-reeves> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668805eb4a94d44125d9cd83/s465_rachel-reeves.jpg> ;
+    schema1:name "The Rt Hon Rachel Reeves MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> .
+
+<https://www.gov.uk/government/people/torsten-bell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67e2e04074e40de685195ba7/s465_Torsten_Bell_960x640.jpg> ;
+    schema1:name "Torsten Bell MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--13> .
+
+<https://www.gov.uk/government/organisations/hm-treasury> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "HM Treasury"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:hasManager <https://www.gov.uk/government/people/beth-russell>,
+        <https://www.gov.uk/government/people/brian-bell>,
+        <https://www.gov.uk/government/people/charlie-mayfield>,
+        <https://www.gov.uk/government/people/conrad-smewing>,
+        <https://www.gov.uk/government/people/dex-hunter-torricke>,
+        <https://www.gov.uk/government/people/edward-twiddy>,
+        <https://www.gov.uk/government/people/gwyneth-nurse>,
+        <https://www.gov.uk/government/people/james-bowler>,
+        <https://www.gov.uk/government/people/jenny-scott>,
+        <https://www.gov.uk/government/people/jessica-glover>,
+        <https://www.gov.uk/government/people/jim-oneil>,
+        <https://www.gov.uk/government/people/lindsey-whyte>,
+        <https://www.gov.uk/government/people/tim-score>,
+        <https://www.gov.uk/government/people/will-macfarlane> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/daniel-tomlinson>,
+        <https://www.gov.uk/government/people/jason-stockwood>,
+        <https://www.gov.uk/government/people/lord-livermore>,
+        <https://www.gov.uk/government/people/lucy-rigby>,
+        <https://www.gov.uk/government/people/rachel-blake>,
+        <https://www.gov.uk/government/people/rachel-reeves>,
+        <https://www.gov.uk/government/people/torsten-bell> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer>,
+        <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3>,
+        <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2>,
+        <https://www.gov.uk/government/ministers/parliamentary-secretary--13> .
+

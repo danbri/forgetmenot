@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/brandon-lewis> .
+
+<https://www.gov.uk/government/people/brandon-lewis> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Rt Hon Brandon Lewis CBE was Lord Chancellor and Secretary of State for Justice between 6 September 2022 and 25 October 2022."@en ;
+    schema1:name "The Rt Hon Brandon Lewis CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/brandon-lewis> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/people/greg-hands> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Rt Hon Greg Hands was Minister of State for Trade Policy in the Department for Business and Trade, and Minister for London, between 13 November 2023 and 5 July 2024."@en ;
+    schema1:name "The Rt Hon Greg Hands"@en ;
+    schema1:url <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

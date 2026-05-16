@@ -1,0 +1,24 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> .
+
+<https://www.gov.uk/government/people/baroness-levitt> schema1:name "Baroness Levitt KC"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State and Lords Minister"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:responsibility "All Lords Business (except prisons and probation)"@en,
+        "Family Justice"@en,
+        "Mental Capacity"@en,
+        "Office for the Public Guardian administration"@en,
+        "Parole Policy"@en,
+        "Probate (excluding fees)"@en,
+        "SI Minister"@en,
+        "Transparency and FOI"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/baroness-levitt> .
+

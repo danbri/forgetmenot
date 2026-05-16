@@ -1,0 +1,40 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/environment-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Environment Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/environment-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alan-lovell>,
+        <https://www.gov.uk/government/people/caroline-douglass>,
+        <https://www.gov.uk/government/people/john-leyland>,
+        <https://www.gov.uk/government/people/philip-duffy>,
+        <https://www.gov.uk/government/people/sarah-chare>,
+        <https://www.gov.uk/government/people/tamara-bruck> .
+
+<https://www.gov.uk/government/people/alan-lovell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69170585eba5bda2026fc982/s465_alan-lovell-960x640.png> ;
+    schema1:name "Alan Lovell"@en .
+
+<https://www.gov.uk/government/people/caroline-douglass> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60a687e4e90e071b5a7c0026/s465_caroline-douglass-headshot-2.jpg> ;
+    schema1:name "Caroline Douglass"@en .
+
+<https://www.gov.uk/government/people/john-leyland> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64c8e6e919f562000df3c1c7/s465_john-leyland.jpg> ;
+    schema1:name "John Leyland"@en .
+
+<https://www.gov.uk/government/people/philip-duffy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68f643591c9076042263f0c4/s465_PDuffy_Headshot_GOV.UK.jpeg> ;
+    schema1:name "Philip Duffy"@en .
+
+<https://www.gov.uk/government/people/sarah-chare> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b177ad58d4ef5adaf0e487/s465_Sarah_Chare.jpg> ;
+    schema1:name "Sarah Chare"@en .
+
+<https://www.gov.uk/government/people/tamara-bruck> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65ef34de62ff4898bf87b2f9/s465_tamara-bruck.jpg> ;
+    schema1:name "Tamara Bruck"@en .
+

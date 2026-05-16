@@ -1,0 +1,108 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> .
+
+<https://www.gov.uk/government/organisations/cabinet-office-board> govuk:hasRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> .
+
+<https://www.gov.uk/government/people/darren-jones> schema1:name "The Rt Hon Darren Jones MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> .
+
+<https://www.gov.uk/government/people/david-lidington> schema1:name "The Rt Hon David Lidington CBE"@en .
+
+<https://www.gov.uk/government/people/dowden> schema1:name "The Rt Hon Oliver Dowden CBE MP"@en .
+
+<https://www.gov.uk/government/people/kit-malthouse> schema1:name "The Rt Hon Kit Malthouse MP"@en .
+
+<https://www.gov.uk/government/people/michael-gove> schema1:name "The Rt Hon Michael Gove"@en .
+
+<https://www.gov.uk/government/people/nadhim-zahawi> schema1:name "The Rt Hon Nadhim Zahawi"@en .
+
+<https://www.gov.uk/government/people/oliver-letwin> schema1:name "The Rt Hon Oliver Letwin"@en .
+
+<https://www.gov.uk/government/people/pat-mcfadden> schema1:name "The Rt Hon Pat McFadden MP"@en .
+
+<https://www.gov.uk/government/people/patrick-mcloughlin> schema1:name "The Rt Hon Sir Patrick McLoughlin"@en .
+
+<https://www.gov.uk/government/people/stephen-barclay> schema1:name "The Rt Hon Steve Barclay MP"@en .
+
+<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Chancellor of the Duchy of Lancaster"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office>,
+        <https://www.gov.uk/government/organisations/cabinet-office-board> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-lidington>,
+        <https://www.gov.uk/government/people/dowden>,
+        <https://www.gov.uk/government/people/kit-malthouse>,
+        <https://www.gov.uk/government/people/michael-gove>,
+        <https://www.gov.uk/government/people/nadhim-zahawi>,
+        <https://www.gov.uk/government/people/oliver-letwin>,
+        <https://www.gov.uk/government/people/pat-mcfadden>,
+        <https://www.gov.uk/government/people/patrick-mcloughlin>,
+        <https://www.gov.uk/government/people/stephen-barclay> ;
+    govuk:responsibility "Communications policy for Government"@en,
+        "Coordination and delivery of cross-government priorities"@en,
+        "Oversight of all Cabinet Office policy"@en,
+        "Oversight of national security policy coordination"@en,
+        "Oversight of state reform and Civil Service reform"@en,
+        "Propriety and ethics"@en,
+        "Public appointments"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/darren-jones> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/oliver-letwin> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/kit-malthouse> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/patrick-mcloughlin> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-lidington> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/pat-mcfadden> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/dowden> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

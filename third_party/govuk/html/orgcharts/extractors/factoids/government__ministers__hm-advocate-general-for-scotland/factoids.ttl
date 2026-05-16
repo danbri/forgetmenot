@@ -1,0 +1,47 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> govuk:hasRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> .
+
+<https://www.gov.uk/government/people/catherine-smith> schema1:name "Baroness Smith of Cluny KC"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> .
+
+<https://www.gov.uk/government/people/keith-stewart> schema1:name "Lord Stewart of Dirleton KC"@en .
+
+<https://www.gov.uk/government/people/lord-wallace-of-tankerness> schema1:name "The Rt Hon Lord Wallace of Tankerness KC"@en .
+
+<https://www.gov.uk/government/people/richard-keen> schema1:name "The Rt Hon Lord Keen of Elie KC"@en .
+
+<https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "HM Advocate General for Scotland"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/keith-stewart>,
+        <https://www.gov.uk/government/people/lord-wallace-of-tankerness>,
+        <https://www.gov.uk/government/people/richard-keen> ;
+    govuk:responsibility "Oversight of Schedule 6 to the Scotland Act 1998 relating to ‘devolution issues’ raised before courts or tribunals in Scotland"@en,
+        "The Advocate General can choose to intervene, on behalf of the UK government, in proceedings in which devolution issues have been raised if they so decide"@en,
+        "The Office of the Advocate General considers all Scottish Parliament Bills as they progress, in consultation with interested UK government departments, to assess their legislative competency. Under section 33 of the Scotland Act, the Advocate General has the power to refer Scottish Parliament Bills to the Supreme Court for decisions on their legislative competence"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/catherine-smith> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/richard-keen> ;
+    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2015"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/keith-stewart> ;
+    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lord-wallace-of-tankerness> ;
+    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    govuk:tenureEnd "2015"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
