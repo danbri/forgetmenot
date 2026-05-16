@@ -1,0 +1,24 @@
+_:N883c930d83224696bfc3b94a7c530651 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N078a0d41ff164fdea7e167e33bb17a61 <http://schema.org/description> "The National Security Secretariat coordinates security and intelligence issues of strategic importance across government and supports the National Security Adviser and National Security Council. The Joint Intelligence Organisation produces independent all-source assessments on issues of national security and foreign policy and supports the Joint Intelligence Committee. National Security and Intelligence is part of the Cabinet Office ." .
+_:N3597006fac8d4c29b4e2e230a122d55b <http://schema.org/itemListElement> _:N2a51c0534b1a4aaeb90f1a9bb32f326c .
+_:N883c930d83224696bfc3b94a7c530651 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/cabinet-office> .
+_:Naff735e85643415b9daf6c7a9e27bcae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations/national-security> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N078a0d41ff164fdea7e167e33bb17a61 <http://schema.org/parentOrganization> _:N883c930d83224696bfc3b94a7c530651 .
+_:Nfd883c0d23d94e3b9fa0508ae68ce946 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N3597006fac8d4c29b4e2e230a122d55b <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N2a51c0534b1a4aaeb90f1a9bb32f326c <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N2a51c0534b1a4aaeb90f1a9bb32f326c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N078a0d41ff164fdea7e167e33bb17a61 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N2a51c0534b1a4aaeb90f1a9bb32f326c <http://schema.org/item> <https://www.gov.uk/> .
+_:N078a0d41ff164fdea7e167e33bb17a61 <http://schema.org/potentialAction> _:Nfd883c0d23d94e3b9fa0508ae68ce946 .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nfd883c0d23d94e3b9fa0508ae68ce946 <http://schema.org/description> "Find all content from National Security and Intelligence" .
+_:N3597006fac8d4c29b4e2e230a122d55b <http://schema.org/itemListElement> _:Naff735e85643415b9daf6c7a9e27bcae .
+_:N078a0d41ff164fdea7e167e33bb17a61 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/national-security> .
+_:Naff735e85643415b9daf6c7a9e27bcae <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Naff735e85643415b9daf6c7a9e27bcae <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nfd883c0d23d94e3b9fa0508ae68ce946 <http://schema.org/query> "required" .
+_:N078a0d41ff164fdea7e167e33bb17a61 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N078a0d41ff164fdea7e167e33bb17a61 <http://schema.org/name> "National Security and Intelligence" .

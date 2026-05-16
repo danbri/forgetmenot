@@ -1,0 +1,24 @@
+_:N7382a5b5b1aa4b71bfe8c73b245ed993 <http://schema.org/item> <https://www.gov.uk/> .
+_:Nf5b4db808b4240dd99d014e58fce3e46 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N8ef267b85eac4a59904e03164b71267d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N8ef267b85eac4a59904e03164b71267d <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/defence-and-security-accelerator> .
+_:N2422965ec1294a12b6797859d745e9fa <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N5cec3738b5ae4a03abd82f6649d269bb <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N8ef267b85eac4a59904e03164b71267d <http://schema.org/parentOrganization> _:N5cec3738b5ae4a03abd82f6649d269bb .
+_:N8ef267b85eac4a59904e03164b71267d <http://schema.org/description> "The Defence and Security Accelerator (DASA) finds and funds exploitable innovation for a safer future." .
+_:N2422965ec1294a12b6797859d745e9fa <http://schema.org/itemListElement> _:N7382a5b5b1aa4b71bfe8c73b245ed993 .
+_:N091e0cf0745346aabfaad1e416fae41f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N091e0cf0745346aabfaad1e416fae41f <http://schema.org/description> "Find all content from Defence and Security Accelerator" .
+_:N5cec3738b5ae4a03abd82f6649d269bb <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/ministry-of-defence> .
+_:N8ef267b85eac4a59904e03164b71267d <http://schema.org/name> "Defence and Security Accelerator" .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N8ef267b85eac4a59904e03164b71267d <http://schema.org/potentialAction> _:N091e0cf0745346aabfaad1e416fae41f .
+_:N7382a5b5b1aa4b71bfe8c73b245ed993 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N2422965ec1294a12b6797859d745e9fa <http://schema.org/itemListElement> _:Nf5b4db808b4240dd99d014e58fce3e46 .
+<https://www.gov.uk/government/organisations/defence-and-security-accelerator> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nf5b4db808b4240dd99d014e58fce3e46 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N8ef267b85eac4a59904e03164b71267d <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N7382a5b5b1aa4b71bfe8c73b245ed993 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nf5b4db808b4240dd99d014e58fce3e46 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N091e0cf0745346aabfaad1e416fae41f <http://schema.org/query> "required" .

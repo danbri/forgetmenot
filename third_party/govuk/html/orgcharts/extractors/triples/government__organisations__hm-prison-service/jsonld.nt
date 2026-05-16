@@ -1,0 +1,24 @@
+_:N5e7d2531a92e4c6697fee127cffb1fff <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N5974882fbd1d49b9831374dd926bcf4b <http://schema.org/query> "required" .
+_:N5e7d2531a92e4c6697fee127cffb1fff <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/hm-prison-service> .
+_:N5c3c2696a24c4ea5a2ebc49f58687fec <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nc53c00f8346542b2bd98c5402db262d7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nc3637fb4ea344485906b5133d51df538 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+<https://www.gov.uk/government/organisations/hm-prison-service> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N5e7d2531a92e4c6697fee127cffb1fff <http://schema.org/potentialAction> _:N5974882fbd1d49b9831374dd926bcf4b .
+_:N5c3c2696a24c4ea5a2ebc49f58687fec <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N96a4c604de9e44a49bfb750543c54c34 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N5e7d2531a92e4c6697fee127cffb1fff <http://schema.org/name> "HM Prison Service" .
+_:N5c3c2696a24c4ea5a2ebc49f58687fec <http://schema.org/item> <https://www.gov.uk/> .
+_:Nc53c00f8346542b2bd98c5402db262d7 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> .
+_:N5e7d2531a92e4c6697fee127cffb1fff <http://schema.org/parentOrganization> _:Nc53c00f8346542b2bd98c5402db262d7 .
+_:N5974882fbd1d49b9831374dd926bcf4b <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Nc3637fb4ea344485906b5133d51df538 <http://schema.org/itemListElement> _:N5c3c2696a24c4ea5a2ebc49f58687fec .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nc3637fb4ea344485906b5133d51df538 <http://schema.org/itemListElement> _:N96a4c604de9e44a49bfb750543c54c34 .
+_:N5974882fbd1d49b9831374dd926bcf4b <http://schema.org/description> "Find all content from HM Prison Service" .
+_:N5e7d2531a92e4c6697fee127cffb1fff <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N5e7d2531a92e4c6697fee127cffb1fff <http://schema.org/description> "We keep those sentenced to prison in custody, helping them lead law-abiding and useful lives, both while they are in prison and after they are released. HMPS is part of HM Prison and Probation Service ." .
+_:N96a4c604de9e44a49bfb750543c54c34 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N96a4c604de9e44a49bfb750543c54c34 <http://schema.org/item> <https://www.gov.uk/government/organisations> .

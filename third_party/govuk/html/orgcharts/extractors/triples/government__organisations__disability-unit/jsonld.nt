@@ -1,0 +1,24 @@
+_:Nce410d98e1b94686bd89dd46971f8b57 <http://schema.org/name> "Disability Unit" .
+_:Nce410d98e1b94686bd89dd46971f8b57 <http://schema.org/parentOrganization> _:Nfe7a45cbec8d439fbf15675a97a259d1 .
+_:Nfe7a45cbec8d439fbf15675a97a259d1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nfd6af0a3473a43249669de698f64d304 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N05cc3643fdea4aa9af676ac42798960c <http://schema.org/query> "required" .
+_:N05cc3643fdea4aa9af676ac42798960c <http://schema.org/description> "Find all content from Disability Unit" .
+_:N5da6bd88178f440ea422ee3c7233ed8e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nfd6af0a3473a43249669de698f64d304 <http://schema.org/itemListElement> _:Nfd6e0aa940fe470abc9d36d2c4d6c04e .
+_:Nfd6e0aa940fe470abc9d36d2c4d6c04e <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nce410d98e1b94686bd89dd46971f8b57 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nfd6af0a3473a43249669de698f64d304 <http://schema.org/itemListElement> _:N5da6bd88178f440ea422ee3c7233ed8e .
+_:Nfe7a45cbec8d439fbf15675a97a259d1 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/cabinet-office> .
+_:Nfd6e0aa940fe470abc9d36d2c4d6c04e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N5da6bd88178f440ea422ee3c7233ed8e <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nfd6e0aa940fe470abc9d36d2c4d6c04e <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+<https://www.gov.uk/government/organisations/disability-unit> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nce410d98e1b94686bd89dd46971f8b57 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/disability-unit> .
+_:Nce410d98e1b94686bd89dd46971f8b57 <http://schema.org/potentialAction> _:N05cc3643fdea4aa9af676ac42798960c .
+_:Nce410d98e1b94686bd89dd46971f8b57 <http://schema.org/description> "Our aim is to break down the barriers faced by disabled people in the UK and to work across government to improve disabled people’s lives. Disability Unit is part of the Cabinet Office ." .
+_:N05cc3643fdea4aa9af676ac42798960c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N5da6bd88178f440ea422ee3c7233ed8e <http://schema.org/item> <https://www.gov.uk/> .
+_:Nce410d98e1b94686bd89dd46971f8b57 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .

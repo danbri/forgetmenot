@@ -25,6 +25,8 @@ from __future__ import annotations
 import argparse
 import concurrent.futures as futures
 import hashlib
+import heapq
+import itertools
 import json
 import re
 import sys
@@ -32,7 +34,6 @@ import threading
 import time
 import urllib.parse
 import urllib.robotparser
-from collections import deque
 from pathlib import Path
 from typing import Iterable
 
@@ -72,6 +73,27 @@ SKIP_PATTERNS = (
     re.compile(r"\.(?:json|atom|rss|xml|jpg|jpeg|png|gif|pdf|svg|webp|ico|css|js)(?:$|\?)", re.I),
     re.compile(r"/search(?:/|$)"),
 )
+
+# Priority bands: lower number = fetched first. Within a band we still
+# go FIFO so each band is breadth-first. The point is to drain the
+# org-chart spine (roles → people → history) before the frontier fills
+# up with announcements, publications, and the full organisation A-Z.
+PRIORITY_RULES = (
+    (0, re.compile(r"^/government/(ministers|ministerial-roles|role-appointments)(/|$)")),
+    (1, re.compile(r"^/government/people(/|$)")),
+    (2, re.compile(r"^/government/history(/|$)")),
+    (2, re.compile(r"^/government/how-government-works")),
+    (3, re.compile(r"^/government/organisations(/|$)")),
+    (4, re.compile(r"^/government/(news|speeches|announcements)(/|$)")),
+    (5, re.compile(r"^/government/(publications|consultations|statistics)(/|$)")),
+)
+
+
+def priority_for(path: str) -> int:
+    for prio, pat in PRIORITY_RULES:
+        if pat.match(path):
+            return prio
+    return 9  # in-scope but unranked; fetch last
 
 USER_AGENT = (
     "forgetmenot-govuk-orgchart/0.1 "
@@ -162,7 +184,10 @@ class Crawler:
         self.session.headers["Accept-Language"] = "en-GB,en;q=0.9"
 
         self.lock = threading.Lock()
-        self.frontier: deque[tuple[str, int]] = deque()
+        # Min-heap of (priority, insertion_order, url, depth). insertion_order
+        # makes the heap stable so each priority band stays FIFO.
+        self.frontier: list[tuple[int, int, str, int]] = []
+        self._counter = itertools.count()
         self.queued: set[str] = set()
         self.visited: set[str] = set()
         self.failed: dict[str, str] = {}
@@ -186,6 +211,26 @@ class Crawler:
             prior_seeds = list(state.get("frontier", []))
             self.log(f"resumed: visited={len(self.visited)} frontier={len(prior_seeds)}")
 
+        # Pages on disk are ground truth for "already visited" -- state.json
+        # can get truncated by an earlier non-resume run, but the HTML cache
+        # doesn't lie. Walk pages/<slug>/fetch.json and union the URLs in.
+        recovered = 0
+        for fetch in self.pages_dir.glob("*/fetch.json"):
+            try:
+                data = json.loads(fetch.read_text())
+            except (OSError, json.JSONDecodeError):
+                continue
+            for key in ("final_url", "url"):
+                u = data.get(key)
+                if not u:
+                    continue
+                c = canonicalize(u)
+                if c and c not in self.visited:
+                    self.visited.add(c)
+                    recovered += 1
+        if recovered:
+            self.log(f"recovered {recovered} visited URLs from page cache")
+
         for url in prior_seeds + seeds:
             c = canonicalize(url)
             if c and c not in self.visited:
@@ -204,13 +249,18 @@ class Crawler:
             if not in_scope(url):
                 return
             self.queued.add(url)
-            self.frontier.append((url, depth))
+            path = urllib.parse.urlsplit(url).path
+            heapq.heappush(
+                self.frontier,
+                (priority_for(path), next(self._counter), url, depth),
+            )
 
     def pop(self) -> tuple[str, int] | None:
         with self.lock:
             if not self.frontier:
                 return None
-            return self.frontier.popleft()
+            _, _, url, depth = heapq.heappop(self.frontier)
+            return url, depth
 
     def record_feed(self, url: str, kind: str, source: str) -> None:
         with self.lock:
@@ -333,7 +383,7 @@ class Crawler:
         with self.lock:
             state = {
                 "visited": sorted(self.visited),
-                "frontier": [u for u, _ in self.frontier],
+                "frontier": [u for _, _, u, _ in self.frontier],
                 "failed": self.failed,
                 "feeds": self.feeds,
                 "fetched_count": self.fetched_count,

@@ -1,0 +1,11 @@
+_:Neee90431808b4d3abdf3d34db81342a4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N525660919dfe4d3693acfcc73d37ca48 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Neee90431808b4d3abdf3d34db81342a4 <http://schema.org/itemListElement> _:N525660919dfe4d3693acfcc73d37ca48 .
+<https://www.gov.uk/government/history> <http://schema.org/name> "History of the UK government" .
+_:Neee90431808b4d3abdf3d34db81342a4 <http://schema.org/itemListElement> _:Nc15a91e7bb0b49c1bd4e21be91bbd0a3 .
+_:Nc15a91e7bb0b49c1bd4e21be91bbd0a3 <http://schema.org/item> <https://www.gov.uk/government/history> .
+_:N525660919dfe4d3693acfcc73d37ca48 <http://schema.org/item> <https://www.gov.uk/> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N525660919dfe4d3693acfcc73d37ca48 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nc15a91e7bb0b49c1bd4e21be91bbd0a3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nc15a91e7bb0b49c1bd4e21be91bbd0a3 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .

@@ -1,0 +1,24 @@
+_:Ne1593c979b4047ca9855586a0cb4b5fd <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Ne1593c979b4047ca9855586a0cb4b5fd <http://schema.org/name> "Defence Infrastructure Organisation" .
+<https://www.gov.uk/government/organisations/defence-infrastructure-organisation> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Ne928e7e100174aa49a9b81b40837a5b3 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Ne928e7e100174aa49a9b81b40837a5b3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N126ae9d93dd64d00ac945bb3895b405e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Ne1593c979b4047ca9855586a0cb4b5fd <http://schema.org/potentialAction> _:N126ae9d93dd64d00ac945bb3895b405e .
+_:N126ae9d93dd64d00ac945bb3895b405e <http://schema.org/description> "Find all content from Defence Infrastructure Organisation" .
+_:Ne928e7e100174aa49a9b81b40837a5b3 <http://schema.org/item> <https://www.gov.uk/> .
+_:Ne1593c979b4047ca9855586a0cb4b5fd <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/defence-infrastructure-organisation> .
+_:Ne1593c979b4047ca9855586a0cb4b5fd <http://schema.org/parentOrganization> _:N6379518423f748a0a203f086150b9afa .
+_:N35bcc2f21356424c9468a88bba19b1da <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N35bcc2f21356424c9468a88bba19b1da <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N35bcc2f21356424c9468a88bba19b1da <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Ne1593c979b4047ca9855586a0cb4b5fd <http://schema.org/description> "The Defence Infrastructure Organisation (DIO) is the estate expert for defence, supporting the armed forces to enable military capability by planning, building, maintaining, and servicing infrastructure. DIO is part of the Ministry of Defence ." .
+_:N18d680dc21ba494d9f4cd5af2dbec413 <http://schema.org/itemListElement> _:Ne928e7e100174aa49a9b81b40837a5b3 .
+_:N6379518423f748a0a203f086150b9afa <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/ministry-of-defence> .
+_:N126ae9d93dd64d00ac945bb3895b405e <http://schema.org/query> "required" .
+_:N18d680dc21ba494d9f4cd5af2dbec413 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N18d680dc21ba494d9f4cd5af2dbec413 <http://schema.org/itemListElement> _:N35bcc2f21356424c9468a88bba19b1da .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Ne1593c979b4047ca9855586a0cb4b5fd <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N6379518423f748a0a203f086150b9afa <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .

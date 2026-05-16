@@ -1,0 +1,21 @@
+_:N14a36808c2a641708033967f9138f866 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N3ddf5e4840e1413d8608ef4c40a70b78 <http://schema.org/item> <https://www.gov.uk/> .
+_:Nb58cdcb5b82a4ffc87e51208339ab9ad <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nf7342a87ddf1422cb09f54a2896f881b <http://schema.org/itemListElement> _:N3ddf5e4840e1413d8608ef4c40a70b78 .
+_:N14a36808c2a641708033967f9138f866 <http://schema.org/query> "required" .
+_:Nc5fe267ca6f6494a8f5eebcc7bea833a <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/open-innovation-team> .
+_:Nc5fe267ca6f6494a8f5eebcc7bea833a <http://schema.org/potentialAction> _:N14a36808c2a641708033967f9138f866 .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nc5fe267ca6f6494a8f5eebcc7bea833a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nc5fe267ca6f6494a8f5eebcc7bea833a <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nb58cdcb5b82a4ffc87e51208339ab9ad <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N3ddf5e4840e1413d8608ef4c40a70b78 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nb58cdcb5b82a4ffc87e51208339ab9ad <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N14a36808c2a641708033967f9138f866 <http://schema.org/description> "Find all content from Open Innovation Team" .
+_:Nf7342a87ddf1422cb09f54a2896f881b <http://schema.org/itemListElement> _:Nb58cdcb5b82a4ffc87e51208339ab9ad .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nf7342a87ddf1422cb09f54a2896f881b <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nc5fe267ca6f6494a8f5eebcc7bea833a <http://schema.org/name> "Open Innovation Team" .
+_:N3ddf5e4840e1413d8608ef4c40a70b78 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/government/organisations/open-innovation-team> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nc5fe267ca6f6494a8f5eebcc7bea833a <http://schema.org/description> "We work with experts to generate analysis and ideas for policy." .

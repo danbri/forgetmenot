@@ -1,0 +1,24 @@
+_:N4f245c37087a4c58890c728d15fe012e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Na7db126daa0343349a787cdeec238c31 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N06fa11b349674e5a98389f4a4ef5fb2f <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N06fa11b349674e5a98389f4a4ef5fb2f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N5ba01c00a79e4dd5afd06e91ea8abf1e <http://schema.org/description> "Find all content from Government Social Research Profession" .
+_:N06fa11b349674e5a98389f4a4ef5fb2f <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N0ddcc5397d134f4784940fd4db3a9641 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Na7db126daa0343349a787cdeec238c31 <http://schema.org/parentOrganization> _:Nf6c19d88122d459089c04ba1d4c9b0d2 .
+_:N4f245c37087a4c58890c728d15fe012e <http://schema.org/itemListElement> _:N06fa11b349674e5a98389f4a4ef5fb2f .
+_:N5ba01c00a79e4dd5afd06e91ea8abf1e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Na7db126daa0343349a787cdeec238c31 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/civil-service-government-social-research-profession> .
+_:N0ddcc5397d134f4784940fd4db3a9641 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nf6c19d88122d459089c04ba1d4c9b0d2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N4f245c37087a4c58890c728d15fe012e <http://schema.org/itemListElement> _:N0ddcc5397d134f4784940fd4db3a9641 .
+_:Nf6c19d88122d459089c04ba1d4c9b0d2 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/civil-service> .
+_:Na7db126daa0343349a787cdeec238c31 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N0ddcc5397d134f4784940fd4db3a9641 <http://schema.org/item> <https://www.gov.uk/> .
+_:Na7db126daa0343349a787cdeec238c31 <http://schema.org/name> "Government Social Research Profession" .
+_:Na7db126daa0343349a787cdeec238c31 <http://schema.org/potentialAction> _:N5ba01c00a79e4dd5afd06e91ea8abf1e .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Na7db126daa0343349a787cdeec238c31 <http://schema.org/description> "The Government Social Research profession supports the development, implementation, review and evaluation of government policy. The Government Social Research Profession is part of the Civil Service ." .
+<https://www.gov.uk/government/organisations/civil-service-government-social-research-profession> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N5ba01c00a79e4dd5afd06e91ea8abf1e <http://schema.org/query> "required" .
