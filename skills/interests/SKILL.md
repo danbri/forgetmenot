@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-interests
+name: interests
 description: Query the UK Register of Members' Financial Interests — categories of registrable interests, individual interest entries (with values, dates, descriptions, donors, and any rectification history), and historical published versions of the Register as PDF or CSV. Use when the question is about MPs' or peers' declared earnings, donations, gifts, employment, shareholdings, or other registrable interests.
 ---
 
@@ -55,6 +55,8 @@ curl -s 'https://interests-api.parliament.uk/api/v1/Interests?CategoryId=2&take=
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

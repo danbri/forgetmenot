@@ -55,6 +55,15 @@ verbatim API response, `--out path` for binary downloads).
 | `mnis` | [`skills/members-data-platform`](skills/members-data-platform/SKILL.md) | Legacy Members Data Platform. |
 | `ddpd` | [`skills/data-parliament-uk-datasets`](skills/data-parliament-uk-datasets/SKILL.md) | Catalogue of the 19 explore.data.parliament.uk datasets. |
 | `appg` | [`skills/appg`](skills/appg/SKILL.md) | All-Party Parliamentary Groups — scraped from the Register on publications.parliament.uk; no JSON API. |
+| `whatson` | [`skills/whatson`](skills/whatson/SKILL.md) | Calendar, sittings, recess, parliamentary sessions, procedural dates (sitting / answer / tabling / annulment). |
+| `gtp` | [`skills/guide-to-procedure`](skills/guide-to-procedure/SKILL.md) | MPs' Guide to Procedure — plain-English procedural explainers, distinct from Erskine May. |
+| `bp` | [`skills/bill-papers`](skills/bill-papers/SKILL.md) | Bill Papers CSV catalogue + per-bill RSS at api.parliament.uk/bill-papers. |
+| `library` | [`skills/library-feeds`](skills/library-feeds/SKILL.md) | RSS aggregator for Commons Library / Lords Library / POST research briefings. |
+
+The CLI itself is documented as a top-level skill at
+[`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
+references it for CLI-wide conventions (output modes, flag rules,
+idiomatic chains).
 
 ## Idiomatic chains
 

@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-treaties
+name: treaties
 description: Query treaties laid before the UK Parliament under the Constitutional Reform and Governance Act 2010 (CRaG) — treaty title, command paper number, lead government department, parliamentary timeline (laid, scrutiny period, ratification), and the series each treaty belongs to. Use when the question is about a specific treaty, ratification timeline, or treaties laid by a particular government department.
 ---
 
@@ -59,6 +59,8 @@ curl -s 'https://treaties-api.parliament.uk/api/Treaty?take=1' \
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

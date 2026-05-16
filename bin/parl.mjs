@@ -48,6 +48,13 @@ const FACILITIES = {
   'ddpd':                          F.dataParliamentUkDatasets,
   'data-parliament-uk-datasets':   F.dataParliamentUkDatasets,
   'appg':                          F.appg,
+  'whatson':                       F.whatson,
+  'gtp':                           F.guideToProcedure,
+  'guide-to-procedure':            F.guideToProcedure,
+  'bp':                            F.billPapers,
+  'bill-papers':                   F.billPapers,
+  'library':                       F.libraryFeeds,
+  'library-feeds':                 F.libraryFeeds,
 };
 
 // Per-facility command map. Each entry is:
@@ -287,6 +294,47 @@ const COMMANDS = {
     'contents-url':     { fn: 'contentsUrlCmd',        args: [],            help: 'URL of contents.htm for an edition. --edition YYMMDD' },
     'resolve':          { fn: '__appgResolve__',      args: [],            help: 'Crawl + resolve every APPG officer to a Members API id. --edition --out dir [--wikidata]' },
   },
+  'whatson': {
+    'events':           { fn: 'eventsList',            args: [],            help: 'Calendar events. --house --event-type-id --from --to --location-id --committee-id --term --tag' },
+    'diary':            { fn: 'eventsDiary',           args: [],            help: 'Events in diary view (same filters as events).' },
+    'non-sitting':      { fn: 'eventsNonsitting',      args: [],            help: 'Non-sitting events.' },
+    'speakers':         { fn: 'eventsSpeakers',        args: [],            help: 'Events with speaker lists.' },
+    'event':            { fn: 'event',                 args: ['eventId'],   help: 'One event by id.' },
+    'event-types-meta': { fn: 'eventTypeMetadata',     args: [],            help: 'Event-type metadata.' },
+    'sitting-dates':    { fn: 'sittingDates',          args: ['house'],     help: 'House sitting dates. --from --to' },
+    'next-sitting':     { fn: 'nextSittingDate',       args: ['house'],     help: '--date-to-check --include-weekend-sittings' },
+    'last-sitting':     { fn: 'lastSittingDate',       args: ['house'],     help: '--date-to-check --include-weekend-sittings' },
+    'answer-date':      { fn: 'answerDate',            args: ['house'],     help: '--question-type NamedDay|Ordinary --tabled-date' },
+    'tabling-date':     { fn: 'tablingDate',           args: ['house'],     help: '--requested-date' },
+    'annulment-date':   { fn: 'annulmentDate',         args: [],            help: 'SI/treaty annulment-window date. --date-laid --days-in-future 40 --is-treaty' },
+    'sessions':         { fn: 'sessions',              args: [],            help: 'List parliamentary sessions.' },
+    'session':          { fn: 'sessionById',           args: ['sessionId'], help: 'One session by id.' },
+    'session-for-date': { fn: 'sessionForDate',        args: ['date'],      help: 'Session covering a date.' },
+    'locations':        { fn: 'locations',             args: [],            help: 'Reference: event locations.' },
+    'tags':             { fn: 'tags',                  args: [],            help: 'Reference: event tags.' },
+    'types':            { fn: 'types',                 args: [],            help: 'Reference: event types.' },
+    'categories':       { fn: 'categories',            args: [],            help: 'Reference: event categories.' },
+  },
+  'gtp': {
+    'landing':          { fn: 'landingPage',           args: [],            help: 'Landing page content.' },
+    'how-to':           { fn: 'howToPage',             args: [],            help: 'How-to page content.' },
+    'global-message':   { fn: 'globalMessage',         args: [],            help: 'Site-wide banner / global message.' },
+    'page':             { fn: 'contentPage',           args: ['uri'],       help: 'One content page by URI.' },
+    'search':           { fn: 'search',                args: [],            help: '--search-terms --page-number' },
+  },
+  'bp': {
+    'bills-csv':        { fn: 'billsCsv',              args: [],            help: 'CSV catalogue of all bills.' },
+    'pubtypes-csv':     { fn: 'publicationTypesCsv',   args: [],            help: 'CSV catalogue of publication types.' },
+    'bill-csv':         { fn: 'billCsv',               args: ['billId'],    help: 'CSV of one bill’s papers.' },
+    'bill-rss':         { fn: 'billRss',               args: ['billId'],    help: 'RSS of one bill’s papers.' },
+    'bill-url':         { fn: 'billHtmlUrl',           args: ['billId'],    help: 'HTML detail-page URL.' },
+  },
+  'library': {
+    'rss':              { fn: 'publicationsRss',       args: [],            help: 'Aggregated research-briefings RSS feed.' },
+    'publisher-rss':    { fn: 'publisherRss',          args: ['publisherId'], help: 'RSS feed for one publisher.' },
+    'publishers-url':   { fn: 'publishersHtmlUrl',     args: [],            help: 'HTML index URL for publishers.' },
+    'publications-url': { fn: 'publicationsHtmlUrl',   args: [],            help: 'HTML index URL for publications.' },
+  },
 };
 
 // ---------- main ----------
@@ -467,6 +515,10 @@ Facilities (canonical names; aliases in parens):
   members-data-platform  (alias: mnis)
   data-parliament-uk-datasets  (alias: ddpd)
   appg                         (All-Party Parliamentary Groups, scraped HTML)
+  whatson                      (calendar, sittings, sessions, procedural dates)
+  guide-to-procedure  (alias: gtp)
+  bill-papers          (alias: bp)
+  library-feeds        (alias: library) — Commons Library / POST RSS
 
 Run 'parl <facility>' to list its commands.
 Run 'parl <facility> <command> --help' for command help.

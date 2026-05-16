@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-written-questions-and-statements
+name: written-questions-and-statements
 description: Query written parliamentary questions, written ministerial statements, and the daily report bundle of Q&A activity for both Houses. Written questions ("PQs") receive written answers from a department's minister and are searchable by topic, member, dates, answering body, and unique question reference (UIN). Use for "what did Minister X say about Y" or "how many PQs are outstanding for Department Z".
 ---
 
@@ -55,6 +55,8 @@ curl -s 'https://questions-statements-api.parliament.uk/api/writtenquestions/que
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

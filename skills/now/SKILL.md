@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-annunciator
+name: now
 description: Read the live UK Parliament annunciator system — the screens around the Parliamentary estate that show what is currently happening in each chamber, committee room, etc. Returns the "current" message for an annunciator zone (current speaker, current item of business, division bells), or the most recent message after a given timestamp. Use when the question is about *what is happening right now* in either House.
 ---
 
@@ -50,6 +50,8 @@ curl -s 'https://now-api.parliament.uk/api/Message/message/CommonsMain/current' 
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

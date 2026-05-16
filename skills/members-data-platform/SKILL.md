@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-members-data-platform
+name: members-data-platform
 description: Query the legacy MNIS (Members' Names Information Service / Members Data Platform) at data.parliament.uk/membersdataplatform. Older than the modern Members API, with a different filter syntax (pipe-separated key=value pairs in the URL path) and richer historical detail in some places. Default response is XML; JSON is available via ?format=json on supported routes. Use when a question needs MNIS-flavoured data the modern Members API does not surface, or when an existing MNIS-using script must be kept working.
 ---
 
@@ -82,6 +82,8 @@ curl -s 'https://data.parliament.uk/membersdataplatform/services/mnis/members/qu
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

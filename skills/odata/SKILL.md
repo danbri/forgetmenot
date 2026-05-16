@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-odata
+name: odata
 description: Query the UK Parliament OData v4 endpoint at api.parliament.uk/odata. The same underlying graph as the SPARQL endpoint, but exposed as 183 entity sets (Person, Member, Constituency, Party, House, Committee, FormalBodyMembership, Government, etc.) navigable with $filter / $expand / $select / $orderby / $top. Use when SPARQL feels heavy and a typed OData query suits — especially from C#, Power BI, Excel, or any client with native OData support.
 ---
 
@@ -70,6 +70,8 @@ curl -s 'https://api.parliament.uk/odata/Person?$top=5&$select=Id,PersonGivenNam
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

@@ -76,6 +76,14 @@ forgetmenot/
 | [`historic-hansard`](skills/historic-hansard/SKILL.md) | `https://api.parliament.uk/historic-hansard/` (HTML; pre-1988) |
 | [`members-data-platform`](skills/members-data-platform/SKILL.md) | `https://data.parliament.uk/membersdataplatform/` (legacy MNIS) |
 | [`data-parliament-uk-datasets`](skills/data-parliament-uk-datasets/SKILL.md) | catalogue mapping the explore.data.parliament.uk dataset names to LDA paths and to modern API equivalents |
+| [`whatson`](skills/whatson/SKILL.md) | `https://whatson-api.parliament.uk` — calendar, sittings, sessions, procedural dates |
+| [`guide-to-procedure`](skills/guide-to-procedure/SKILL.md) | `https://guidetoprocedure-api.parliament.uk` — MPs' Guide to Procedure |
+| [`bill-papers`](skills/bill-papers/SKILL.md) | `https://api.parliament.uk/bill-papers` — Bill Papers CSV catalogue + per-bill RSS |
+| [`library-feeds`](skills/library-feeds/SKILL.md) | `https://api.parliament.uk/library-feeds` — Library / POST research-briefing RSS aggregator |
+
+CLI conventions are documented as a top-level skill at
+[`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
+references it.
 
 ## How to use
 

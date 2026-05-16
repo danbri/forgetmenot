@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-commons-votes
+name: commons-votes
 description: Query Commons divisions (recorded votes in the House of Commons) — division metadata, aye/no totals, tellers, every individual member's vote, and grouped-by-party tallies. Use whenever the question is "how did MPs vote on X" or "what was the result of division N". Covers contemporary divisions; historic Commons votes before this API's coverage live in the SPARQL store.
 ---
 
@@ -58,6 +58,8 @@ curl -s "https://commonsvotes-api.parliament.uk/data/division/${LATEST}.json" \
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

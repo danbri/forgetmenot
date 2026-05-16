@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-parameterised-query
+name: parameterised-query
 description: Use the UK Parliament parameterised query browser (api.parliament.uk/query/) — a catalogue of pre-canned SPARQL queries that return JSON without you having to write the SPARQL yourself. Each template has a fixed name and a fixed parameter signature, e.g. person_by_id?person_id=… or constituency_lookup_by_postcode?postcode=…. Use when you want a specific, pre-vetted answer about a Parliament resource and do not want to author SPARQL.
 ---
 
@@ -70,6 +70,8 @@ curl -s 'https://api.parliament.uk/query/constituency_lookup_by_postcode?postcod
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

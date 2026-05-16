@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-data-parliament-uk-datasets
+name: data-parliament-uk-datasets
 description: Catalogue and pointer to the 19 datasets surfaced by explore.data.parliament.uk — the older parliamentary "Open Data" portal. Each dataset is served by the Linked Data API at lda.data.parliament.uk; this skill is the index that maps dataset name to LDA path and to the modern API equivalent (where one exists). Use when a question references the data.parliament.uk portal or a dataset by its portal name (e.g. "Briefing Papers", "Research Briefings", "Thesaurus", "Election Results").
 ---
 
@@ -78,6 +78,8 @@ curl -s 'https://lda.data.parliament.uk/briefingpapers.json?_pageSize=5&_sort=-c
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

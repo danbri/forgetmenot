@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-bills
+name: bills
 description: Track UK Parliament Bills (public, private, hybrid) through their stages — first reading, committee, report, third reading, Lords amendments, ping-pong, royal assent. Use whenever the question is about a piece of UK legislation in progress, its sponsors, current stage, amendments, or publications. Also exposes RSS feeds for real-time tracking.
 ---
 
@@ -60,6 +60,8 @@ curl -s 'https://bills-api.parliament.uk/api/v1/Bills/3678/Publications' \
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

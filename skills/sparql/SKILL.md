@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-sparql
+name: sparql
 description: Query the UK Parliament public SPARQL 1.1 endpoint at api.parliament.uk/sparql. The triple store holds the integrated parliament.uk graph (people, parties, governments, houses, constituencies, periods, incumbencies, divisions, contributions, formal-body memberships) under namespaces id.parliament.uk and similar. Use whenever a question needs to join data across more than one of the REST APIs — SPARQL is the only place where everything is linked by URI.
 ---
 
@@ -116,6 +116,8 @@ For Members, the integer `id` returned by the Members API
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

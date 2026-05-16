@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-hansard
+name: hansard
 description: Search and retrieve the modern UK Hansard — the official transcript of debates and proceedings of both Houses since 1988. Covers debate text, speaker lists, divisions linked to debates, contributions by Member, sitting day calendars, PDFs, and full-text search across debates, members, committees, divisions, petitions, and statements. Use whenever the question is about what was said in Parliament, who spoke, when a debate happened, or how an MP voted in context.
 ---
 
@@ -78,6 +78,8 @@ curl -s 'https://hansard-api.parliament.uk/debates/debate/<debateSectionExtId>.j
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-committees
+name: committees
 description: Query UK Parliament Select and Joint Committees — membership, inquiries, evidence (oral and written), publications (reports, government responses), meetings, broadcasts, and Bill petitions. Use whenever the question is about a committee inquiry, a witness who gave evidence, a published committee report, or a meeting that has been or will be held.
 ---
 
@@ -66,6 +66,8 @@ curl -s 'https://committees-api.parliament.uk/api/Committees/158/Members' \
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

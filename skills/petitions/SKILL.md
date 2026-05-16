@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-petitions
+name: petitions
 description: Query e-petitions submitted to the UK Parliament petitions service — petition text, signatures (total, by constituency, by country), state (open, closed, awaiting moderation, rejected, debated), government and committee responses, scheduled debates, and signature counts over time. Use when the question is about a specific petition, petitions on a topic, signatures by constituency, or which petitions have crossed the 10,000 / 100,000 thresholds.
 ---
 
@@ -66,6 +66,8 @@ curl -s 'https://petition.parliament.uk/petitions.json?state=open&topic=transpor
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

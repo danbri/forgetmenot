@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-appg
+name: appg
 description: All-Party Parliamentary Groups (APPGs) — informal cross-party groups of MPs and peers organised around a country or subject. Use when the question is about who chairs/co-chairs/officers an APPG, which MPs sit on a particular group together, what financial benefits a group has received and from whom, contact and secretariat details, or AGM compliance dates. There is NO official JSON API for APPGs; this facility scrapes the Register of All-Party Parliamentary Groups, which is published as static HTML on publications.parliament.uk roughly every six weeks.
 ---
 

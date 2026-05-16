@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-members
+name: members
 description: Look up Members of the UK House of Commons or House of Lords (current and historical), their constituencies, biographies, voting records, EDMs, written questions, registered interests, party state, government and opposition post-holders, and Commons constituency geometry. Use whenever the question is about an MP, peer, constituency, party composition, or who held a Cabinet / Shadow Cabinet post.
 ---
 
@@ -57,6 +57,8 @@ curl -s 'https://members-api.parliament.uk/api/Members/Search?Name=Smith&House=1
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

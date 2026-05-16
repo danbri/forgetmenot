@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-oral-questions-and-edms
+name: oral-questions-and-edms
 description: Query tabled oral questions and Early Day Motions (EDMs) for the UK House of Commons. Oral questions are scheduled question-time slots (PMQs, departmental questions) that may not all be reached. EDMs are a way for backbench MPs to express opinions and gather signatures without expecting a debate. Use when the question is about an oral question scheduled for a specific date or about an EDM by number, sponsor, or topic.
 ---
 
@@ -55,6 +55,8 @@ curl -s 'https://oralquestionsandmotions-api.parliament.uk/oralquestions/list?pa
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

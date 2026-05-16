@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-historic-hansard
+name: historic-hansard
 description: Browse the historic UK Hansard (1803–2005) website at api.parliament.uk/historic-hansard. There is no documented JSON API; the site is HTML that follows a stable URL convention organising material by year, month, day, House, person, constituency, office, Act, Bill, and division. Use when the question is about pre-1988 parliamentary debates that the modern Hansard API does not cover.
 ---
 
@@ -84,6 +84,8 @@ There is no JSON API, but two reasonable approaches exist:
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

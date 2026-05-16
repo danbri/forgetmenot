@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-statutory-instruments
+name: statutory-instruments
 description: Query statutory instruments (SIs), proposed negatives, draft instruments, their procedures (negative, affirmative, super-affirmative, etc.), the parent Acts they are made under, and the laying bodies that lay them before Parliament. Use whenever the question is about secondary legislation in progress through Parliament, its procedure type, or the timeline of a specific SI.
 ---
 
@@ -63,6 +63,8 @@ OpenAPI 3 spec: `https://statutoryinstruments-api.parliament.uk/swagger/v2/swagg
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:

@@ -1,5 +1,5 @@
 ---
-name: uk-parliament-lords-votes
+name: lords-votes
 description: Query House of Lords divisions — division metadata, content/not-content totals, every individual peer's vote, and grouped-by-party tallies. Use whenever the question is "how did peers vote on X" or "what was the result of the Lords division on Y". Lords vote with "Content" / "Not Content" rather than "Aye" / "No".
 ---
 
@@ -47,6 +47,8 @@ curl -s 'https://lordsvotes-api.parliament.uk/data/Divisions/search?take=1' \
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
