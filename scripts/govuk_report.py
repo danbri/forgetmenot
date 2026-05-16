@@ -39,6 +39,10 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.patches import Rectangle
 
+# Pure-Python path so we can read the Wikidata PM dump on page 5
+# without taking another SPARQL dependency.
+from pathlib import Path as _Path  # noqa: F401  -- already imported below
+
 
 PREFIXES = """
 PREFIX govuk:   <https://forgetmenot.local/govuk#>
@@ -491,49 +495,88 @@ SELECT ?r WHERE {
 
 # --- Page 5: past PM timeline -------------------------------------------
 
+WD_PM_PATH = Path("third_party/data/wikidata/data/uk-prime-ministers.jsonl")
+
+
+def _load_wikidata_pms() -> list[dict]:
+    """Per-PM record from Wikidata: dedupe rows (the P102 join multiplies
+    rows for PMs who held multiple party memberships during their lives)."""
+    if not WD_PM_PATH.exists():
+        return []
+    raw = [json.loads(l) for l in WD_PM_PATH.open()]
+    by_qid: dict[str, dict] = {}
+    for r in raw:
+        qid = r["person"]
+        if qid not in by_qid:
+            by_qid[qid] = dict(r)
+        else:
+            # Keep the row whose partyLabel maps to a known UK party colour;
+            # fall back to whichever has the earliest start.
+            existing = by_qid[qid]
+            new_party = r.get("partyLabel", "")
+            if (PARTY_COLOR.get(new_party) and
+                    not PARTY_COLOR.get(existing.get("partyLabel", ""))):
+                by_qid[qid] = dict(r)
+    return list(by_qid.values())
+
+
 def page_past_pms(pdf: PdfPages, endpoint: str) -> None:
-    rows = sparql(endpoint, """
-SELECT ?pm ?name ?party ?start ?end WHERE {
-  GRAPH ?g {
-    ?pm a govuk:PastPrimeMinister ; schema:name ?name .
-    OPTIONAL { ?pm govuk:party ?party }
-    ?t govuk:holder ?pm ;
-       govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
-       govuk:tenureStart ?start .
-    OPTIONAL { ?t govuk:tenureEnd ?end }
-  }
-}
-""")
-    # Restrict to post-1900 for legibility; the corpus reaches Robert Walpole.
-    items = []
-    for r in rows:
+    # Wikidata is the source of truth for the PM tenure list: it includes
+    # Boris Johnson, Liz Truss and Rishi Sunak, all of whom are absent from
+    # gov.uk's /government/history/past-prime-ministers index. The bridge
+    # in third_party/data/wikidata/ joins each entry back to a gov.uk slug
+    # and parliament.uk id.
+    items: list[tuple[int, int, str, str, str]] = []
+    for r in _load_wikidata_pms():
+        start = r.get("start", "")
+        if not start or len(start) < 4:
+            continue
         try:
-            s = int(v(r, "start"))
-            e = int(v(r, "end")) if v(r, "end") else s + 1
-            party = v(r, "party") or "Independent"
-            name = re.sub(r"^The Rt Hon\s+", "",
-                          re.sub(r"\s+(KG|KCB|KC|CH|MP)\b.*$", "", v(r, "name")))
-            items.append((s, e, name, party, v(r, "pm")))
+            s_year = int(start[:4])
         except ValueError:
             continue
+        end = r.get("end") or ""
+        e_year = int(end[:4]) if (end and end[:4].isdigit()) else date.today().year
+        name = (r.get("personLabel") or "").strip()
+        # Skip ill-defined Wikidata rows: a real PM has either a party
+        # affiliation in P102 or one of the bridge IDs (parliament.uk or
+        # gov.uk slug). Q131426522 ("David", 2003-01-01) trips this --
+        # likely a vandalism / mis-edit on Wikidata's side.
+        if not name:
+            continue
+        if not (r.get("partyLabel") or r.get("parliamentId")
+                or r.get("govukSlug")):
+            continue
+        # Map Wikidata party labels to our colour scheme.
+        party_raw = r.get("partyLabel", "") or "Independent"
+        party = party_raw
+        if "Conservative" in party_raw: party = "Conservative"
+        elif "Labour" in party_raw:     party = "Labour"
+        elif "Liberal" in party_raw:    party = "Liberal"
+        elif "Whig" in party_raw:       party = "Whig"
+        elif "Peelite" in party_raw:    party = "Peelite"
+        elif "Tory" in party_raw:       party = "Tory"
+        elif "National" in party_raw:   party = "National"
+        items.append((s_year, e_year, name, party, r["person"]))
+
     items = [it for it in items if it[0] >= 1900]
-    # Merge multiple tenures per PM (Wilson, etc.) into one row sorted by earliest.
     by_pm: dict[str, list] = {}
     for s, e, name, party, pm in items:
         by_pm.setdefault(pm, []).append((s, e, name, party))
     rows_sorted = sorted(by_pm.values(), key=lambda lst: min(t[0] for t in lst))
 
     fig, ax = plt.subplots(figsize=(8.27, 11.69))
-    fig.subplots_adjust(left=0.20, right=0.96, top=0.93, bottom=0.07)
-    ax.set_title("Prime Ministers since 1900 (per GOV.UK Past PM index)",
-                 size=14, weight="bold", loc="left", pad=18)
+    fig.subplots_adjust(left=0.22, right=0.96, top=0.92, bottom=0.12)
+    fig.text(0.04, 0.955,
+             "Prime Ministers since 1900 (Wikidata, joined to gov.uk slugs)",
+             size=14, weight="bold")
 
     y_labels = [lst[0][2] for lst in rows_sorted]
     for i, tenures in enumerate(rows_sorted):
         for s, e, name, party in tenures:
             color = PARTY_COLOR.get(party, "#888")
-            ax.barh(i, e - s, left=s, height=0.7, color=color,
-                    edgecolor="white")
+            ax.barh(i, max(e - s, 0.4), left=s, height=0.7,
+                    color=color, edgecolor="white")
             if (e - s) >= 3:
                 ax.text(s + (e - s) / 2, i, f"{s}–{e}",
                         ha="center", va="center", size=7.5, color="white",
@@ -548,7 +591,6 @@ SELECT ?pm ?name ?party ?start ?end WHERE {
     for sp in ("top", "right"):
         ax.spines[sp].set_visible(False)
 
-    # Party legend
     used_parties = sorted({party for tenures in rows_sorted for *_, party in tenures})
     handles = [plt.Rectangle((0, 0), 1, 1, color=PARTY_COLOR.get(p, "#888"))
                for p in used_parties]
@@ -556,12 +598,15 @@ SELECT ?pm ?name ?party ?start ?end WHERE {
               frameon=True, fontsize=8, title="Party", title_fontsize=8)
 
     ax.figure.text(
-        0.04, 0.025,
-        "Bars span the years a Prime Minister was in office, coloured by party. "
-        "Year ranges come from the 'Past Prime Ministers' GOV.UK index card "
-        "for each holder; the corpus also contains pre-1900 PMs back to "
-        "Robert Walpole (1721) which are omitted here for legibility.",
-        size=8.5, color="#555", wrap=True,
+        0.04, 0.055,
+        "Bars span the years each Prime Minister was in office, coloured by party.\n"
+        "Source: Wikidata (P39 = Q14211, position held = Prime Minister of the UK), "
+        "with tenure dates from P580/P582 qualifiers.  Wikidata fills the gap that "
+        "gov.uk's /government/history/past-prime-ministers index leaves -- the gov.uk "
+        "index ends at Theresa May (2019) and is missing Boris Johnson, Liz Truss and "
+        "Rishi Sunak.  The Wikidata-to-gov.uk bridge (P10874) reattaches every modern "
+        "PM to a gov.uk person slug.",
+        size=8, color="#555", wrap=True,
     )
     pdf.savefig(fig)
     plt.close(fig)

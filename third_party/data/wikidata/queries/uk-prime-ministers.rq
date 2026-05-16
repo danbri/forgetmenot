@@ -1,0 +1,20 @@
+# Every Prime Minister of the United Kingdom (Q14211 is the position),
+# with full tenure dates as P580 (start) / P582 (end) qualifiers, the
+# party label, and any bridge identifiers we can pick up. This fills
+# the gap in GOV.UK's /government/history/past-prime-ministers index,
+# which (as of the crawl in May 2026) ends at Theresa May and omits
+# Boris Johnson, Liz Truss and Rishi Sunak even though Keir Starmer
+# is the sitting PM.
+
+SELECT ?person ?personLabel ?start ?end ?partyLabel
+       ?parliamentId ?govukSlug WHERE {
+  ?person p:P39 ?stmt .
+  ?stmt ps:P39 wd:Q14211 .            # position held = Prime Minister of the UK
+  OPTIONAL { ?stmt pq:P580 ?start }    # start time
+  OPTIONAL { ?stmt pq:P582 ?end   }    # end time
+  OPTIONAL { ?person wdt:P102 ?party } # member of political party
+  OPTIONAL { ?person wdt:P10428 ?parliamentId }
+  OPTIONAL { ?person wdt:P10874 ?govukSlug    }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+ORDER BY DESC(?start)

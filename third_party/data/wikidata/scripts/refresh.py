@@ -159,7 +159,12 @@ def main(argv: list[str] | None = None) -> int:
     )
     args = parser.parse_args(argv)
 
-    queries = sorted(p.stem for p in Q_DIR.glob("*.rq"))
+    # Queries beginning with `example-` document the merged-corpus workflow
+    # and aren't meant to be run at WDQS (they reference URIs only present
+    # after merging the bridge into the local gov.uk dataset).
+    queries = sorted(
+        p.stem for p in Q_DIR.glob("*.rq") if not p.stem.startswith("example-")
+    )
     if args.query:
         wanted = set(args.query)
         queries = [q for q in queries if q in wanted]
