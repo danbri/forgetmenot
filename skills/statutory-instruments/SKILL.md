@@ -27,11 +27,12 @@ OpenAPI 3 spec: `https://statutoryinstruments-api.parliament.uk/swagger/v2/swagg
 
 | Use case | Endpoint |
 |---|---|
-| List/search SIs | `GET /StatutoryInstrument?searchTerm=...&procedure=...&layingBodyId=...&take=20` |
+| List/search SIs | `GET /StatutoryInstrument?Name=...&Procedure=...&LayingBodyId=...&Take=20` |
+| Flags (boolean) | `ScheduledDebate`, `MotionToStop`, `ConcernsRaisedByCommittee`, `ParliamentaryProcessConcluded`, `RecommendedForProcedureChange` |
 | One SI in detail | `GET /StatutoryInstrument/{instrumentId}` |
 | Timeline / business items for an SI | `GET /StatutoryInstrument/{instrumentId}/BusinessItems` |
 | Same business items by timeline ID | `GET /Timeline/{timelineId}/BusinessItems` |
-| Search Acts of Parliament | `GET /ActOfParliament?searchTerm=...` |
+| Search Acts of Parliament | `GET /ActOfParliament?Name=...` (min 3 chars) |
 | One Act | `GET /ActOfParliament/{id}` |
 | List laying bodies | `GET /LayingBody` |
 | List procedures | `GET /Procedure` |
@@ -43,10 +44,18 @@ OpenAPI 3 spec: `https://statutoryinstruments-api.parliament.uk/swagger/v2/swagg
   `Prayer`, `Approved`, etc. The current status is in the
   `currentBusinessItem` field; the full chain is via
   `BusinessItems`.
-- IDs are guids in some places (`timelineId`) and ints in others
-  (`instrumentId`, `layingBodyId`); check the spec when in doubt.
+- IDs are 8-char alphanumeric strings for `instrumentId`,
+  `procedureId`, `layingBodyId`, `timelineId`; `departmentId` is an
+  int.
 - The closely related [Treaties](../treaties/SKILL.md) API uses an
   identical "business item" timeline pattern.
+- **No date filter.** The API does **not** accept `laidDateFrom`,
+  `madeDateFrom`, `comingIntoForceDateFrom` or any date-range
+  parameter. To slice by date, fetch by other criteria and filter
+  client-side on the response fields `commonsLayingDate`,
+  `lordsLayingDate`, `paperMadeDate`. The default sort is most-recent
+  first, so for "last N months" pull with `--take` large enough and
+  trim locally.
 
 <!-- parl-cli-start -->
 

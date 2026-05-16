@@ -181,11 +181,11 @@ const COMMANDS = {
     'reports':          { fn: 'dailyReports',          args: [],            help: 'Daily report dates. --from --to' },
   },
   'si': {
-    'search':           { fn: 'search',                args: [],            help: '--term --procedure-id --laying-body-id' },
+    'search':           { fn: 'search',                args: [],            help: '--name --procedure --laying-body-id --department-id --house Commons|Lords|Both --scheduled-debate --motion-to-stop --concerns-raised-by-committee --parliamentary-process-concluded --recommended-for-procedure-change --act-of-parliament-id --skip --take. API has no date filter; slice client-side.' },
     'get':              { fn: 'getById',               args: ['instrumentId'], help: 'SI detail.' },
     'timeline':         { fn: 'timeline',              args: ['instrumentId'], help: 'Business items timeline.' },
     'timeline-by-id':   { fn: 'timelineById',          args: ['timelineId'], help: 'Timeline by ID.' },
-    'acts':             { fn: 'actsSearch',            args: [],            help: '--term --year --chapter' },
+    'acts':             { fn: 'actsSearch',            args: [],            help: '--name (min 3 chars) --id (repeatable). API has no year/chapter filter.' },
     'act':              { fn: 'act',                   args: ['id'],        help: 'One Act.' },
     'laying-bodies':    { fn: 'layingBodies',          args: [],            help: '' },
     'procedures':       { fn: 'procedures',            args: [],            help: '' },
