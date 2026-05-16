@@ -51,8 +51,9 @@ From the repo root:
 bash scripts/install-skills.sh
 ```
 
-Creates `.claude/skills/<name>` → `../../skills/<name>` relative
-symlinks. Idempotent, re-runnable, and gitignored — `git status`
+Creates `.claude/skills/<name>` symlinks pointing at the matching
+`skills/<name>/` folder in this repo (absolute paths — no `..` in
+the target). Idempotent, re-runnable, and gitignored — `git status`
 stays clean. Claude Code picks the skills up automatically when run
 in this repo or any subdirectory.
 
