@@ -87,11 +87,19 @@ references it.
 
 ## How to use
 
-The short answer is: clone the repo and point your Claude (Desktop /
-Code / SDK) at `skills/`.
+```sh
+git clone https://github.com/danbri/forgetmenot
+cd forgetmenot
+bash scripts/install-skills.sh     # wires skills/ into .claude/skills/
+                                    # via relative symlinks (gitignored)
+```
 
-The long answer, including non-Claude options, is in
-[`docs/installation.md`](docs/installation.md).
+Then open the repo with Claude Code — all 28 skills auto-discover.
+Use `--user` to install personally (available in every project),
+`--copy` for Windows / restricted filesystems, `--uninstall` to undo.
+
+The long answer (Anthropic Agent SDK, Claude API, claude.ai, other
+LLM platforms) is in [`docs/installation.md`](docs/installation.md).
 
 A no-LLM use also works: the cached OpenAPI specs in `_specs/` are
 self-contained and the discovery scripts let you re-run the cataloguing
