@@ -1,0 +1,12 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> govuk:hasRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland.cy> .
+
+<https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland.cy> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Adfocad Cyffredinol EM yr Alban a llefarydd y Weinyddiaeth Gyfiawnder yn Nhŷ'r Arglwyddi"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland.cy> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> .
+

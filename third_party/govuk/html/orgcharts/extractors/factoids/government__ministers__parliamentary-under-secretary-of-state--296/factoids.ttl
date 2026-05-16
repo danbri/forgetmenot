@@ -1,0 +1,26 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> .
+
+<https://www.gov.uk/government/people/james-frith> schema1:name "James Frith MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> .
+
+<https://www.gov.uk/government/people/josh-simons> schema1:name "Josh Simons MP"@en .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/josh-simons> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/james-frith> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/josh-simons> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> ;
+    govuk:tenureEnd "2026"^^xsd:gYear ;
+    govuk:tenureStart "2026"^^xsd:gYear .
+

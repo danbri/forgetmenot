@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/criminal-injuries-compensation-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Criminal Injuries Compensation Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/criminal-injuries-compensation-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/lynne-henderson> .
+
+<https://www.gov.uk/government/people/lynne-henderson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6908cd76823bdda9488b25e4/s465_LH_ub_for_web.jpeg> ;
+    schema1:name "Lynne Henderson"@en .
+

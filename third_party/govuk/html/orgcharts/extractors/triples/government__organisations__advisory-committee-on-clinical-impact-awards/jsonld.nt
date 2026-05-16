@@ -1,0 +1,24 @@
+_:N9dbea49b0ccb4dc2a142f2f8ef23f85f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N9d836daa3e354baeaa9d871824fece96 <http://schema.org/name> "Advisory Committee on Clinical Impact Awards" .
+_:Nb6e4406db077494b914b29b1dde5ce66 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nb6e4406db077494b914b29b1dde5ce66 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N383ec128851344cfbee82efcee3f7c75 <http://schema.org/item> <https://www.gov.uk/> .
+_:N383ec128851344cfbee82efcee3f7c75 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N383ec128851344cfbee82efcee3f7c75 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nb6e4406db077494b914b29b1dde5ce66 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N50c55d2ea0c44b47a9613afdddec858d <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-of-health-and-social-care> .
+_:N50c55d2ea0c44b47a9613afdddec858d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N2649203c6b0148de8570df5db528ceee <http://schema.org/description> "Find all content from Advisory Committee on Clinical Impact Awards" .
+_:N9d836daa3e354baeaa9d871824fece96 <http://schema.org/parentOrganization> _:N50c55d2ea0c44b47a9613afdddec858d .
+_:N9d836daa3e354baeaa9d871824fece96 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/advisory-committee-on-clinical-impact-awards> .
+<https://www.gov.uk/government/organisations/advisory-committee-on-clinical-impact-awards> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N9d836daa3e354baeaa9d871824fece96 <http://schema.org/description> "The Advisory Committee on Clinical Impact Awards (ACCIA) advises health ministers on the presentation of clinical impact awards to consultants working in the NHS. ACCIA is an advisory non-departmental public body, sponsored by the Department of Health and Social Care ." .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N9d836daa3e354baeaa9d871824fece96 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N9dbea49b0ccb4dc2a142f2f8ef23f85f <http://schema.org/itemListElement> _:N383ec128851344cfbee82efcee3f7c75 .
+_:N9d836daa3e354baeaa9d871824fece96 <http://schema.org/potentialAction> _:N2649203c6b0148de8570df5db528ceee .
+_:N2649203c6b0148de8570df5db528ceee <http://schema.org/query> "required" .
+_:N9dbea49b0ccb4dc2a142f2f8ef23f85f <http://schema.org/itemListElement> _:Nb6e4406db077494b914b29b1dde5ce66 .
+_:N2649203c6b0148de8570df5db528ceee <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N9d836daa3e354baeaa9d871824fece96 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .

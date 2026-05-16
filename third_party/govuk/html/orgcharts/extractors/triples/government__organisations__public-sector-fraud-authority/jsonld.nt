@@ -1,0 +1,27 @@
+_:N02fc5054863048f780d25a2f173608a3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N8ddea0cc04ac41eab6df8882df889328 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N02fc5054863048f780d25a2f173608a3 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/public-sector-fraud-authority> .
+_:N02fc5054863048f780d25a2f173608a3 <http://schema.org/name> "Public Sector Fraud Authority" .
+_:N264416160ec24fe787f0632ef3d0549a <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N8ddea0cc04ac41eab6df8882df889328 <http://schema.org/description> "Find all content from Public Sector Fraud Authority" .
+_:Nad32bb7019cd4d0aaf3d8c60566b53e7 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/hm-treasury> .
+_:N3957481152d249bab04f52b8df2800cc <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N264416160ec24fe787f0632ef3d0549a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N51b4bf03bb7f486daff913bbea4077a8 <http://schema.org/itemListElement> _:N264416160ec24fe787f0632ef3d0549a .
+_:N02fc5054863048f780d25a2f173608a3 <http://schema.org/parentOrganization> _:N3957481152d249bab04f52b8df2800cc .
+_:N3957481152d249bab04f52b8df2800cc <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/cabinet-office> .
+_:N02fc5054863048f780d25a2f173608a3 <http://schema.org/parentOrganization> _:Nad32bb7019cd4d0aaf3d8c60566b53e7 .
+_:N264416160ec24fe787f0632ef3d0549a <http://schema.org/item> <https://www.gov.uk/> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N51b4bf03bb7f486daff913bbea4077a8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nad32bb7019cd4d0aaf3d8c60566b53e7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N8ddea0cc04ac41eab6df8882df889328 <http://schema.org/query> "required" .
+_:N02fc5054863048f780d25a2f173608a3 <http://schema.org/description> "The Public Sector Fraud Authority works with departments and public bodies to understand and reduce the impact of fraud. PSFA is part of the Cabinet Office and HM Treasury ." .
+_:Nb06ea39e57654ff3973022b2536dfdaa <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nb06ea39e57654ff3973022b2536dfdaa <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nb06ea39e57654ff3973022b2536dfdaa <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+<https://www.gov.uk/government/organisations/public-sector-fraud-authority> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N51b4bf03bb7f486daff913bbea4077a8 <http://schema.org/itemListElement> _:Nb06ea39e57654ff3973022b2536dfdaa .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N02fc5054863048f780d25a2f173608a3 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N02fc5054863048f780d25a2f173608a3 <http://schema.org/potentialAction> _:N8ddea0cc04ac41eab6df8882df889328 .

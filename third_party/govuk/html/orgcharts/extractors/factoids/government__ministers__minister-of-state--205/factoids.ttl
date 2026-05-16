@@ -1,0 +1,26 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/home-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--205> .
+
+<https://www.gov.uk/government/people/alex-norris> schema1:name "Alex Norris MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--205> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--205> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Border Security and Asylum)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--205> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:responsibility "Border Security Command: reducing small boat arrivals and organised immigration crime"@en,
+        "European Entry Exit System"@en,
+        "Immigration Enforcement: Increasing returns (including FNOs), immigration detention estate expansion, illegal working"@en,
+        "Immigration White Paper implementation"@en,
+        "asylum, illegal migration and returns policy, safe and legal policy and refugee resettlement policy"@en,
+        "innovative solutions"@en,
+        "modern slavery policy as it relates to immigration status"@en,
+        "reducing net migration: legal migration policy"@en,
+        "reducing the asylum caseload, exiting hotels and reducing the supported population"@en,
+        "tackling visa abuse"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/alex-norris> .
+

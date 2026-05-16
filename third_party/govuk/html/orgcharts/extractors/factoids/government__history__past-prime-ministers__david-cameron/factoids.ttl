@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/david-cameron> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "David Cameron was educated at Eton College and Brasenose College, Oxford, studying politics, philosophy and economics. After graduating he joined the Conservative research department where he worked for Prime Minister Margaret Thatcher and her successor John Major. He was later appointed a special adviser in government, first at the Treasury and then at the Home Office, before joining the media company Carlton Communications, where he worked for seven years, serving on the management board."@en ;
+    schema1:name "The Rt Hon Lord Cameron"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/david-cameron> .
+

@@ -1,0 +1,114 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/andrew-gray> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/699490b40b6fa0acfdaaf118/s465_s465_Andrew_Gray_FOR-GOV-UK.jpg> ;
+    schema1:name "Andrew Gray"@en .
+
+<https://www.gov.uk/government/people/cameron-fox> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642ea007fbe620000f17dddb/s465_Cameron_resized_for_gov.jpg> ;
+    schema1:name "Cameron Fox"@en .
+
+<https://www.gov.uk/government/people/carl-williamson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6a047f9522977ebc82cb3ef8/s465_Carl_headshot.jpg> ;
+    schema1:name "Carl Williamson"@en .
+
+<https://www.gov.uk/government/people/dan-bowden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69943cec899b683e69aaf0ca/s465_dan_crop.jpg> ;
+    schema1:name "Dan Bowden"@en .
+
+<https://www.gov.uk/government/people/ed-prince> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67d4439e4047b1c7801b5bf6/s465_Ed_Prince_GOVUK.png> ;
+    schema1:name "Ed Prince"@en .
+
+<https://www.gov.uk/government/people/jacqueline-keogh> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62fca8308fa8f504bbbe7fd2/s465_Jackie-Keogh-for-gov.jpg> ;
+    schema1:name "Jacqueline Keogh"@en .
+
+<https://www.gov.uk/government/people/jayne-waymark> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642e9e9bfbe620000f17ddd6/s465_Jayne_resized_for_gov.jpg> ;
+    schema1:name "Jayne Whymark"@en .
+
+<https://www.gov.uk/government/people/joana-crellin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6a4e40f0b648ca1d2be3/s465_JoCrellinBioR.jpg> ;
+    schema1:name "Joanna Crellin CMG"@en .
+
+<https://www.gov.uk/government/people/julia-beck> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642e9a1e7de82b0012313734/s465_Julia_resized_for_gov.jpg> ;
+    schema1:name "Julia Beck"@en .
+
+<https://www.gov.uk/government/people/kimberly-wiehl> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60531bcbd3bf7f04591df720/s465_kimberly-weil-960x640-3.jpg> ;
+    schema1:name "Kimberly Wiehl OBE"@en .
+
+<https://www.gov.uk/government/people/robert-gillespie> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66b1e21e49b9c0597fdb0b17/s465_Robert_Gillespie.png> ;
+    schema1:name "Robert Gillespie"@en .
+
+<https://www.gov.uk/government/people/samir-parkash> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642e998d7de82b0012313733/s465_Samir_resized_for_gov.jpg> ;
+    schema1:name "Samir Parkash"@en .
+
+<https://www.gov.uk/government/people/shane-lynch> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642ea0aa7de82b0012313748/s465_Shane_resized_for_gov.jpg> ;
+    schema1:name "Shane Lynch"@en .
+
+<https://www.gov.uk/government/people/tim-frost> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62c82c36d3bf7f2ffaa4aa00/s465_Tim-Frost-for-gov.jpg> ;
+    schema1:name "Tim Frost"@en .
+
+<https://www.gov.uk/government/people/tim-reid> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642ea148ddf8ad000cac0efc/s465_Tim_resized_for_gov.jpg> ;
+    schema1:name "Tim Reid"@en .
+
+<https://www.gov.uk/government/people/vanessa-havard-williams> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6936a26070840a535475d3f0/s465_vanessa_6.png> ;
+    schema1:name "Vanessa Havard-Williams OBE"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state--206> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Trade)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/uk-export-finance> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/chris-bryant> .
+
+<https://www.gov.uk/government/ministers/president-of-the-board-of-trade> a govuk:MinisterialRole ;
+    schema1:name "President of the Board of Trade"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/uk-export-finance> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
+
+<https://www.gov.uk/government/people/chris-bryant> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66a0cba1ab418ab055592c17/s465_minister_bryant_govuk.jpg> ;
+    schema1:name "Sir Chris Bryant MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--206> .
+
+<https://www.gov.uk/government/people/peter-kyle> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66881a3e4a94d44125d9cda2/s465_Peter_Kyle.jpg> ;
+    schema1:name "The Rt Hon Peter Kyle MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> .
+
+<https://www.gov.uk/government/organisations/uk-export-finance> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "UK Export Finance"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/uk-export-finance> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-gray>,
+        <https://www.gov.uk/government/people/cameron-fox>,
+        <https://www.gov.uk/government/people/carl-williamson>,
+        <https://www.gov.uk/government/people/dan-bowden>,
+        <https://www.gov.uk/government/people/ed-prince>,
+        <https://www.gov.uk/government/people/jacqueline-keogh>,
+        <https://www.gov.uk/government/people/jayne-waymark>,
+        <https://www.gov.uk/government/people/joana-crellin>,
+        <https://www.gov.uk/government/people/julia-beck>,
+        <https://www.gov.uk/government/people/kimberly-wiehl>,
+        <https://www.gov.uk/government/people/robert-gillespie>,
+        <https://www.gov.uk/government/people/samir-parkash>,
+        <https://www.gov.uk/government/people/shane-lynch>,
+        <https://www.gov.uk/government/people/tim-frost>,
+        <https://www.gov.uk/government/people/tim-reid>,
+        <https://www.gov.uk/government/people/vanessa-havard-williams> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/chris-bryant>,
+        <https://www.gov.uk/government/people/peter-kyle> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--206>,
+        <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> .
+

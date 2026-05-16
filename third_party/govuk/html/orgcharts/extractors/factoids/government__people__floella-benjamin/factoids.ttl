@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/floella-benjamin> .
+
+<https://www.gov.uk/government/people/floella-benjamin> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Baroness Floella Benjamin, OBE DL was born in Trinidad in 1949 and came to England as a 10 year old child in 1960 as a Windrush child."@en ;
+    schema1:name "Baroness Floella Benjamin OBE DL"@en ;
+    schema1:url <https://www.gov.uk/government/people/floella-benjamin> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    govuk:currentRoleTitle "Chair, Windrush Commemoration Committee"@en .
+

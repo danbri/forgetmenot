@@ -1,0 +1,28 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> .
+
+<https://www.gov.uk/government/people/jake-richards> schema1:name "Jake Richards MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State for Sentencing, Youth Justice and International"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:responsibility "Commons Minister for Prisons, Probation and Reducing Reoffending"@en,
+        "Cross-cutting corporate portfolio"@en,
+        "Crown Dependencies and Overseas Territories"@en,
+        "Devolution and the Union"@en,
+        "Human Rights and ECHR"@en,
+        "International Justice (including Private International Law)"@en,
+        "MOJ Mission lead for Breakdown barriers to opportunity"@en,
+        "Sentencing Bill"@en,
+        "Sentencing Policy"@en,
+        "Transparency"@en,
+        "Youth Custody operations"@en,
+        "Youth Justice policy"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jake-richards> .
+

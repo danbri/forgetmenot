@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/george-grenville> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "George Grenville came from a family of politicians. He became First Lord of the Treasury during a period of considerable political turbulence in the 1760s."@en ;
+    schema1:name "George Grenville"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/george-grenville> .
+

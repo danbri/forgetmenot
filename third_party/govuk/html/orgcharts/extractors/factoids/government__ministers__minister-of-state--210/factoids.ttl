@@ -1,0 +1,21 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--210> .
+
+<https://www.gov.uk/government/people/ian-murray> schema1:name "The Rt Hon Ian Murray MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--210> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--210> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Creative Industries, Media and Arts)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--210> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
+    govuk:responsibility "Arts"@en,
+        "Creative Industries"@en,
+        "Cultural Diplomacy and Soft Power"@en,
+        "Gambling, Heritage, Libraries and Museums (in the Commons)"@en,
+        "Media"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/ian-murray> .
+

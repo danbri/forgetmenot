@@ -1,0 +1,60 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/planning-inspectorate> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Planning Inspectorate"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/planning-inspectorate> ;
+    govuk:hasManager <https://www.gov.uk/government/people/adrian-penfold>,
+        <https://www.gov.uk/government/people/emir-feisal>,
+        <https://www.gov.uk/government/people/graham-stallwood>,
+        <https://www.gov.uk/government/people/hayley-kelly>,
+        <https://www.gov.uk/government/people/joanne-butcher>,
+        <https://www.gov.uk/government/people/oliver-munn>,
+        <https://www.gov.uk/government/people/rachel-graham>,
+        <https://www.gov.uk/government/people/rebecca-phillips>,
+        <https://www.gov.uk/government/people/tom-warth>,
+        <https://www.gov.uk/government/people/trudi-elliott> .
+
+<https://www.gov.uk/government/people/adrian-penfold> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/651ab0086dfda600148e396a/s465_Adrian_Penfold_-_press-2_copy2.jpg> ;
+    schema1:name "Adrian Penfold"@en .
+
+<https://www.gov.uk/government/people/emir-feisal> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66ba2b95a3c2a28abb50e050/s465_Emir_Feisal.jpeg> ;
+    schema1:name "Emir Feisal"@en .
+
+<https://www.gov.uk/government/people/graham-stallwood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69649f89183e25d7051e0d35/s465_Graham_Stallwood_960_x_640.jpg> ;
+    schema1:name "Graham Stallwood"@en .
+
+<https://www.gov.uk/government/people/hayley-kelly> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/664229b64f29e1d07fadc630/s465_Hayley_Kelly.jpg> ;
+    schema1:name "Hayley Kelly"@en .
+
+<https://www.gov.uk/government/people/joanne-butcher> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/664229d1f34f9b5a56adc60a/s465_Joanne_Butcher.jpg> ;
+    schema1:name "Joanne Butcher"@en .
+
+<https://www.gov.uk/government/people/oliver-munn> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6996c23fbfdab2546272bf81/s465_Oliver_Munn_v3.jpg> ;
+    schema1:name "Oliver Munn"@en .
+
+<https://www.gov.uk/government/people/rachel-graham> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66422a07993111924d9d3356/s465_Rachel_Graham.jpg> ;
+    schema1:name "Rachel Graham"@en .
+
+<https://www.gov.uk/government/people/rebecca-phillips> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68135c645966d01801999e65/s465_Rebecca_Phillips_960x640.jpg> ;
+    schema1:name "Rebecca Phillips"@en .
+
+<https://www.gov.uk/government/people/tom-warth> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6968d9233f43dfed1544b0a3/s465_Tom_960_x_640.jpg> ;
+    schema1:name "Tom Warth"@en .
+
+<https://www.gov.uk/government/people/trudi-elliott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ac46d12e5274a0b1849f8ad/s465_Trudi-Elliottgov.uk.jpg> ;
+    schema1:name "Trudi Elliott CBE MRTPI"@en .
+

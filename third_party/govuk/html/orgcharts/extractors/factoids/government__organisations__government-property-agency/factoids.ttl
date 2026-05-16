@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-property-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Property Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-property-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/anna-strongman>,
+        <https://www.gov.uk/government/people/carol-bernard>,
+        <https://www.gov.uk/government/people/hannah-gray>,
+        <https://www.gov.uk/government/people/helen-gillett>,
+        <https://www.gov.uk/government/people/mark-bourgeois>,
+        <https://www.gov.uk/government/people/maura-sullivan>,
+        <https://www.gov.uk/government/people/nick-brown--2>,
+        <https://www.gov.uk/government/people/roger-blundell>,
+        <https://www.gov.uk/government/people/ronen-journo> .
+
+<https://www.gov.uk/government/people/anna-strongman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6707a06030536cb927482f4b/s465_Anna_Strongman_-_square_gov.uk.png> ;
+    schema1:name "Anna Strongman"@en .
+
+<https://www.gov.uk/government/people/carol-bernard> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62ac995b8fa8f5356b96ca69/s465_Carol_Bernard-NED-960x640px.png> ;
+    schema1:name "Carol Bernard CBE"@en .
+
+<https://www.gov.uk/government/people/hannah-gray> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/614da9d6e90e077a3078f924/s465_Hannah_Gray_landscape.png> ;
+    schema1:name "Hannah Gray"@en .
+
+<https://www.gov.uk/government/people/helen-gillett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642a8ff1fbe620000c17dac5/s465_2023-04-03_Gov.uk_-_NED_Helen.png> ;
+    schema1:name "Helen Gillett"@en .
+
+<https://www.gov.uk/government/people/mark-bourgeois> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/656a16111104cf0013fa73c8/s465_Mark_Bourgeois__Interim_CEO-Landscape_960x640.jpg> ;
+    schema1:name "Mark Bourgeois"@en .
+
+<https://www.gov.uk/government/people/maura-sullivan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d3e129275fc9339a248c53/s465_Maura_Sullivan.jpg> ;
+    schema1:name "Maura Sullivan"@en .
+
+<https://www.gov.uk/government/people/nick-brown--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64cb7b9647915a000d2a91ea/s465_Nick_Brown-CFO-960x640px.png> ;
+    schema1:name "Mr Nick Brown"@en .
+
+<https://www.gov.uk/government/people/roger-blundell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a0d0704731769befb047ab/s465_Artboard_1.png> ;
+    schema1:name "Roger Blundell"@en .
+
+<https://www.gov.uk/government/people/ronen-journo> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642a94c57de82b0012313435/s465_2023-04-03_Gov.uk_-_NED_Ronen.png> ;
+    schema1:name "Ronen Journo"@en .
+

@@ -1,0 +1,142 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/ada-burns> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/696fa91dc0f4afaa9536a0e7/s465_Ada_Burns.jpg> ;
+    schema1:name "Ada Burns"@en .
+
+<https://www.gov.uk/government/people/brendan-threlfall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66a2639ca3c2a28abb50d759/s465_Brendan_Thelfall.png> ;
+    schema1:name "Brendan Threlfall"@en .
+
+<https://www.gov.uk/government/people/harris-bokhari> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/696f9eb15b6060ca6736a0cc/s465_Harris_Bokhari_OBE.jpg> ;
+    schema1:name "Harris Bokhari OBE"@en .
+
+<https://www.gov.uk/government/people/joanna-key> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6ac140f0b648c7221ca4/s465_JOANNA_KEY_govuk.jpg> ;
+    schema1:name "Joanna Key"@en .
+
+<https://www.gov.uk/government/people/katie-farrington> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/604f38b4e90e077fe25436f7/s465_katie-farrington.jpg> ;
+    schema1:name "Katie Farrington"@en .
+
+<https://www.gov.uk/government/people/lord-forbes-of-newcastle> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/696f9bf95b6060ca6736a0ca/s465_Lord_Forbes_of_Newcastle_CBE.jpg> ;
+    schema1:name "Lord Forbes of Newcastle CBE"@en .
+
+<https://www.gov.uk/government/people/matt-thurstan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f607e77d3bf7f723ad68bc2/s465_matt-thurstan.png> ;
+    schema1:name "Matt Thurstan"@en .
+
+<https://www.gov.uk/government/people/mo-baines> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6718ff3a4277c78b5e4b97a9/s465_Mo_Baines_960_x_640.jpg> ;
+    schema1:name "Mo Baines"@en .
+
+<https://www.gov.uk/government/people/richard-prager> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64367e3dcc9980000cb89394/s465_Richard_Prager.png> ;
+    schema1:name "Professor Richard Prager"@en .
+
+<https://www.gov.uk/government/people/sarah-healey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6580226e1c0c2a000d18cedf/s465_Sarah_Healey_960.jpg> ;
+    schema1:name "Dame Sarah Healey DCB CVO"@en .
+
+<https://www.gov.uk/government/people/sarah-longlands> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/696fa9d72b64f0e8c32e33b7/s465_Sarah_Longlands.jpg> ;
+    schema1:name "Sarah Longlands"@en .
+
+<https://www.gov.uk/government/people/will-garton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/669e6621ab418ab055592a58/s465_Will_Garton-2.jpg> ;
+    schema1:name "Will Garton"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state--176> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Housing and Planning)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/matthew-pennycook> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--201> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Local Government and Homelessness)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/alison-mcgovern> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Lords Minister for Housing and Local Government)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Building Safety, Fire and Democracy)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/samantha-dixon> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/nesil-caliskan> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Housing, Communities and Local Government"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/steve-reed> .
+
+<https://www.gov.uk/government/people/alison-mcgovern> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668fcb0efc8e12ac3edafb0f/s465_alison-mcgovern.jpg> ;
+    schema1:name "Alison McGovern MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--201> .
+
+<https://www.gov.uk/government/people/baroness-taylor-of-stevenage> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d841e4a94d44125d9cffa/s465_Baroness_Taylor_of_Stevenage.jpeg> ;
+    schema1:name "Baroness Taylor of Stevenage"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250> .
+
+<https://www.gov.uk/government/people/matthew-pennycook> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6689a2bdd9d35187868f457e/s465_matthew-pennycook.jpeg> ;
+    schema1:name "Matthew Pennycook MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--176> .
+
+<https://www.gov.uk/government/people/nesil-caliskan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68be8776b0a373a01819ff09/s465_Nesil_Caliskan_960.jpeg> ;
+    schema1:name "Nesil Caliskan MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> .
+
+<https://www.gov.uk/government/people/samantha-dixon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668e8659ab418ab055592305/s465_samantha-dixon.jpg> ;
+    schema1:name "Samantha Dixon MBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> .
+
+<https://www.gov.uk/government/people/steve-reed> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668825dc4a94d44125d9cda7/s465_steve-reed.jpg> ;
+    schema1:name "The Rt Hon Steve Reed OBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> .
+
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Ministry of Housing, Communities and Local Government"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:hasManager <https://www.gov.uk/government/people/ada-burns>,
+        <https://www.gov.uk/government/people/brendan-threlfall>,
+        <https://www.gov.uk/government/people/harris-bokhari>,
+        <https://www.gov.uk/government/people/joanna-key>,
+        <https://www.gov.uk/government/people/katie-farrington>,
+        <https://www.gov.uk/government/people/lord-forbes-of-newcastle>,
+        <https://www.gov.uk/government/people/matt-thurstan>,
+        <https://www.gov.uk/government/people/mo-baines>,
+        <https://www.gov.uk/government/people/richard-prager>,
+        <https://www.gov.uk/government/people/sarah-healey>,
+        <https://www.gov.uk/government/people/sarah-longlands>,
+        <https://www.gov.uk/government/people/will-garton> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/alison-mcgovern>,
+        <https://www.gov.uk/government/people/baroness-taylor-of-stevenage>,
+        <https://www.gov.uk/government/people/matthew-pennycook>,
+        <https://www.gov.uk/government/people/nesil-caliskan>,
+        <https://www.gov.uk/government/people/samantha-dixon>,
+        <https://www.gov.uk/government/people/steve-reed> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--176>,
+        <https://www.gov.uk/government/ministers/minister-of-state--201>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> .
+

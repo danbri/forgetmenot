@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/wales-office> govuk:hasMinister <https://www.gov.uk/government/people/huw-bryer> .
+
+<https://www.gov.uk/government/people/huw-bryer> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Huw Bryer is a Deputy Director in the Wales Office. He is responsible for Constitutional Policy and Legislation, Domestic Affairs and Regional Growth including Wales’ four City and Growth Deals."@en ;
+    schema1:name "Huw Bryer"@en ;
+    schema1:url <https://www.gov.uk/government/people/huw-bryer> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:currentRoleTitle "Deputy Director, Constitution, Domestic Affairs and Regional Growth"@en .
+

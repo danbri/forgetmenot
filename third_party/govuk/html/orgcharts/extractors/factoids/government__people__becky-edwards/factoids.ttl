@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/further-education-commissioner> govuk:hasMinister <https://www.gov.uk/government/people/becky-edwards> .
+
+<https://www.gov.uk/government/people/becky-edwards> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Becky Edwards joined the Further Education (FE) Commissioner team in 2020 as an FE Adviser. She was appointed Deputy FE Commissioner in September 2023."@en ;
+    schema1:name "Becky Edwards"@en ;
+    schema1:url <https://www.gov.uk/government/people/becky-edwards> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/further-education-commissioner> ;
+    govuk:currentRoleTitle "Deputy Further Education Commissioner"@en .
+

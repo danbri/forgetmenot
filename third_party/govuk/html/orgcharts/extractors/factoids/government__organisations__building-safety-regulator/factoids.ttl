@@ -1,0 +1,30 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/building-safety-regulator> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Building Safety Regulator"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/building-safety-regulator> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-roe>,
+        <https://www.gov.uk/government/people/harjit-sandhu>,
+        <https://www.gov.uk/government/people/kemi-oguntoye>,
+        <https://www.gov.uk/government/people/tricia-hayes> .
+
+<https://www.gov.uk/government/people/andrew-roe> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b1568995b7465160349618/s465_Andrew_Roe.png> ;
+    schema1:name "Lord Andrew Roe KFSM"@en .
+
+<https://www.gov.uk/government/people/harjit-sandhu> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66ab6b2e49b9c0597fdb0952/s465_Harjit_Sandhu.jpg> ;
+    schema1:name "Harjit Sandhu"@en .
+
+<https://www.gov.uk/government/people/kemi-oguntoye> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b1534bcdd628b29e349614/s465_Kemi_Oguntoye.png> ;
+    schema1:name "Kemi Oguntoye"@en .
+
+<https://www.gov.uk/government/people/tricia-hayes> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6315d1e0d3bf7f2d412dd461/s465_2PUS_image_resized.jpg> ;
+    schema1:name "Tricia Hayes CB"@en .
+

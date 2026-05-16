@@ -1,0 +1,81 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/ciaran-hayes> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/695fde83714f11cb497765fb/s465_Ciar%C3%A1n_Hayes.png> ;
+    schema1:name "Ciarán Hayes"@en .
+
+<https://www.gov.uk/government/people/huw-bryer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69dfa8fd61d2e8e9b9e42dc6/s465_H_Bryer_-_GOV.UK.png> ;
+    schema1:name "Huw Bryer"@en .
+
+<https://www.gov.uk/government/people/kate-chamberlain> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ab6dc95d27cee6cccec498/s465_GOV.UK_Website_template__10_.png> ;
+    schema1:name "Dr Kathryn Chamberlain OBE"@en .
+
+<https://www.gov.uk/government/people/kate-starkey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e3abb5640f0b609169cb571/s465_kate_starkey.jpg> ;
+    schema1:name "Kate Starkey"@en .
+
+<https://www.gov.uk/government/people/louise-parry> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e4bd41dd3bf7f393ab3fd2a/s465_Louise_960-640.jpg> ;
+    schema1:name "Louise Parry"@en .
+
+<https://www.gov.uk/government/people/rhian-hayward> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/685d5770f85b4b993fd752eb/s465_Dr_Rhian_Hayward.JPG> ;
+    schema1:name "Dr Rhian Hayward MBE"@en .
+
+<https://www.gov.uk/government/people/sarah-jennings> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60a694ee8fa8f520c6cb6877/s465_Website_Image_Template_-_960x640.png> ;
+    schema1:name "Sarah Jennings"@en .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/anna-mcmorrin> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--305> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/claire-hughes--2> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-wales> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Wales"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jo-stevens> .
+
+<https://www.gov.uk/government/people/anna-mcmorrin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668ea7690808eaf43b50cd55/s465_Anna-McMorrin.jpeg> ;
+    schema1:name "Anna McMorrin MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> .
+
+<https://www.gov.uk/government/people/claire-hughes--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68be89d7d723ba6f74dbaabc/s465_claire-hughes.jpeg> ;
+    schema1:name "Claire Hughes MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--305> .
+
+<https://www.gov.uk/government/people/jo-stevens> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66882a06899a6f92e5d9cdd4/s465_jo-stevens.jpg> ;
+    schema1:name "The Rt Hon Jo Stevens MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> .
+
+<https://www.gov.uk/government/organisations/wales-office> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Wales Office"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:hasManager <https://www.gov.uk/government/people/ciaran-hayes>,
+        <https://www.gov.uk/government/people/huw-bryer>,
+        <https://www.gov.uk/government/people/kate-chamberlain>,
+        <https://www.gov.uk/government/people/kate-starkey>,
+        <https://www.gov.uk/government/people/louise-parry>,
+        <https://www.gov.uk/government/people/rhian-hayward>,
+        <https://www.gov.uk/government/people/sarah-jennings> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/anna-mcmorrin>,
+        <https://www.gov.uk/government/people/claire-hughes--2>,
+        <https://www.gov.uk/government/people/jo-stevens> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--305>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> .
+

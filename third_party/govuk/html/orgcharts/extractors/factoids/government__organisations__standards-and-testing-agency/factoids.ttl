@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/standards-and-testing-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Standards and Testing Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/standards-and-testing-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/gillian-hillier> .
+
+<https://www.gov.uk/government/people/gillian-hillier> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/624708b2e90e075f08be423a/s465_Gillian_GOV.UK_pic.jpg> ;
+    schema1:name "Gillian Hillier"@en .
+

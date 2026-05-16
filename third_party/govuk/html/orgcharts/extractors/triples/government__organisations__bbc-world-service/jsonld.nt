@@ -1,0 +1,21 @@
+_:Nb8ec5431b5714290b3a3aa4a03472845 <http://schema.org/query> "required" .
+_:Nb8ec5431b5714290b3a3aa4a03472845 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N6361c65682d24876bcb2d1dd3ad6c79f <http://schema.org/name> "BBC World Service" .
+_:N505cdad52f694d5d9f2d1f837cdc3601 <http://schema.org/itemListElement> _:N6dfe78d8fc754db48336515506f44fc0 .
+<https://www.gov.uk/government/organisations/bbc-world-service> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N6dfe78d8fc754db48336515506f44fc0 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N505cdad52f694d5d9f2d1f837cdc3601 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N505cdad52f694d5d9f2d1f837cdc3601 <http://schema.org/itemListElement> _:Ne26c6585a1c6444fbfbed303eb2d46b3 .
+_:N6dfe78d8fc754db48336515506f44fc0 <http://schema.org/item> <https://www.gov.uk/> .
+_:Nb8ec5431b5714290b3a3aa4a03472845 <http://schema.org/description> "Find all content from BBC World Service" .
+_:N6361c65682d24876bcb2d1dd3ad6c79f <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/bbc-world-service> .
+_:N6361c65682d24876bcb2d1dd3ad6c79f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N6361c65682d24876bcb2d1dd3ad6c79f <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Ne26c6585a1c6444fbfbed303eb2d46b3 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Ne26c6585a1c6444fbfbed303eb2d46b3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N6361c65682d24876bcb2d1dd3ad6c79f <http://schema.org/description> "The BBC World Service is the BBC’s international broadcaster. It provides impartial accurate news to global audiences through 42 language services. The Foreign Secretary is responsible for agreeing objectives, priorities and targets with the BBC World Service." .
+_:Ne26c6585a1c6444fbfbed303eb2d46b3 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N6dfe78d8fc754db48336515506f44fc0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N6361c65682d24876bcb2d1dd3ad6c79f <http://schema.org/potentialAction> _:Nb8ec5431b5714290b3a3aa4a03472845 .

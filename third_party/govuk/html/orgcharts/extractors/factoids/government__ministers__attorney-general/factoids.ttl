@@ -1,0 +1,91 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/attorney-generals-office> govuk:hasRole <https://www.gov.uk/government/ministers/attorney-general> .
+
+<https://www.gov.uk/government/people/richard-hermer> schema1:name "The Rt Hon Lord Hermer KC"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/attorney-general> .
+
+<https://www.gov.uk/government/people/dominic-grieve> schema1:name "The Rt Hon Dominic Grieve KC"@en .
+
+<https://www.gov.uk/government/people/geoffrey-cox> schema1:name "The Rt Hon Geoffrey Cox KC MP"@en .
+
+<https://www.gov.uk/government/people/jeremy-wright> schema1:name "The Rt Hon Sir Jeremy Wright KC MP"@en .
+
+<https://www.gov.uk/government/people/victoria-prentis> schema1:name "The Rt Hon Victoria Prentis KC"@en .
+
+<https://www.gov.uk/government/people/braverman> schema1:name "The Rt Hon Suella Braverman KC MP"@en .
+
+<https://www.gov.uk/government/people/michael-ellis> schema1:name "The Rt Hon Michael Ellis KC"@en .
+
+<https://www.gov.uk/government/ministers/attorney-general> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Attorney General"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/attorney-generals-office> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/braverman>,
+        <https://www.gov.uk/government/people/dominic-grieve>,
+        <https://www.gov.uk/government/people/geoffrey-cox>,
+        <https://www.gov.uk/government/people/jeremy-wright>,
+        <https://www.gov.uk/government/people/michael-ellis>,
+        <https://www.gov.uk/government/people/victoria-prentis> ;
+    govuk:responsibility "Government’s principal legal adviser dealing with (amongst others) questions of public law, international law, human rights and devolution"@en,
+        "Non-statutory general oversight of the Government Legal Department, the Services Prosecuting Authority, and government prosecuting departments"@en,
+        "Overall responsibility for the work of the Attorney General’s Office and superintended departments (the Government Legal Department, the Crown Prosecution Service, the Serious Fraud Office and HM Crown Prosecution Service Inspectorate)"@en,
+        "Oversight of all major international and domestic litigation involving the Government"@en,
+        "Promoting the rule of law at home and internationally"@en,
+        "Public interest functions, for example, reference of unduly lenient sentences to the Court of Appeal, bringing proceedings for contempt of court and intervention in certain proceedings to protect charities"@en,
+        "Questions of law arising on Bills and with issues of legal policy"@en,
+        "Specific statutory duty to superintend the discharge of duties by the Director of Public Prosecutions (who heads the Crown Prosecution Service) and the Director of the Serious Fraud Office"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/richard-hermer> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/braverman> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-wright> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-grieve> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2014"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/geoffrey-cox> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/braverman> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/victoria-prentis> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

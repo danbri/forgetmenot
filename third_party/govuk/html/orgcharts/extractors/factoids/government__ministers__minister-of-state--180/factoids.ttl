@@ -1,0 +1,39 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--180> .
+
+<https://www.gov.uk/government/people/sarah-sackman> schema1:name "Sarah Sackman KC MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--180> .
+
+<https://www.gov.uk/government/people/heidi-alexander> schema1:name "The Rt Hon Heidi Alexander MP"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state--180> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State for Courts and Legal Services"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--180> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/heidi-alexander> ;
+    govuk:responsibility "Civil Justice"@en,
+        "Criminal courts policy"@en,
+        "His Majesty’s Courts and Tribunals Service administration"@en,
+        "Irregular Migration"@en,
+        "Judicial Review"@en,
+        "Legal Aid"@en,
+        "Legal Aid Agency administration"@en,
+        "Legal Services"@en,
+        "Legal Support and Dispute Resolution"@en,
+        "MOJ Mission lead for Kickstart economic growth"@en,
+        "Magistrates Policy"@en,
+        "Open Justice"@en,
+        "Tribunals Policy (including fees)"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/sarah-sackman> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/heidi-alexander> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--180> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+

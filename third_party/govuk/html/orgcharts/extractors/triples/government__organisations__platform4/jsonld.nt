@@ -1,0 +1,27 @@
+_:N7e80fb2721ac4ec59e6e213ee071d7e6 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N28efe28eee174bb888b81b575e38c0fc <http://schema.org/itemListElement> _:N17fa53bd5850421293ee096df1d17eb9 .
+_:N43ec018fcb924bb3bba00460f1a1a757 <http://schema.org/description> "Platform4 is a wholly owned subsidiary of Network Rail, established to lead the regeneration of surplus railway land across the UK. Platform4 transforms brownfield rail-led land across the country to deliver well-connected homes, communities, industrial sites and workspaces. Platform4 is a public corporation of the Network Rail and the Department for Transport ." .
+_:N349ff7f3eb444eee8143842dc3951a46 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N5ebef8b55b65432fb44baaa2f8f31d0d <http://schema.org/description> "Find all content from Platform4" .
+_:N28efe28eee174bb888b81b575e38c0fc <http://schema.org/itemListElement> _:N7e80fb2721ac4ec59e6e213ee071d7e6 .
+_:N17fa53bd5850421293ee096df1d17eb9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N5ebef8b55b65432fb44baaa2f8f31d0d <http://schema.org/query> "required" .
+_:N43ec018fcb924bb3bba00460f1a1a757 <http://schema.org/potentialAction> _:N5ebef8b55b65432fb44baaa2f8f31d0d .
+<https://www.gov.uk/government/organisations/platform4> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N44cc8a0a55be43fe8211b26c9d5f4a3e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N43ec018fcb924bb3bba00460f1a1a757 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N349ff7f3eb444eee8143842dc3951a46 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-transport> .
+_:N43ec018fcb924bb3bba00460f1a1a757 <http://schema.org/parentOrganization> _:N44cc8a0a55be43fe8211b26c9d5f4a3e .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N43ec018fcb924bb3bba00460f1a1a757 <http://schema.org/name> "Platform4" .
+_:N28efe28eee174bb888b81b575e38c0fc <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N7e80fb2721ac4ec59e6e213ee071d7e6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N17fa53bd5850421293ee096df1d17eb9 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N17fa53bd5850421293ee096df1d17eb9 <http://schema.org/item> <https://www.gov.uk/> .
+_:N43ec018fcb924bb3bba00460f1a1a757 <http://schema.org/parentOrganization> _:N349ff7f3eb444eee8143842dc3951a46 .
+_:N43ec018fcb924bb3bba00460f1a1a757 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N7e80fb2721ac4ec59e6e213ee071d7e6 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N5ebef8b55b65432fb44baaa2f8f31d0d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N44cc8a0a55be43fe8211b26c9d5f4a3e <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/network-rail> .
+_:N43ec018fcb924bb3bba00460f1a1a757 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/platform4> .

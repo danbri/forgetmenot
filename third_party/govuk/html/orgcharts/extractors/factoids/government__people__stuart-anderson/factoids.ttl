@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/stuart-anderson> .
+
+<https://www.gov.uk/government/people/stuart-anderson> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Stuart Anderson was Vice Chamberlain of HM Household (Government Whip) from 14 November 2023 to 5 July 2024."@en ;
+    schema1:name "Stuart Anderson MP"@en ;
+    schema1:url <https://www.gov.uk/government/people/stuart-anderson> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

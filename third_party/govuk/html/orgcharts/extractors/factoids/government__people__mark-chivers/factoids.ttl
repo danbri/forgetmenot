@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-property-function> govuk:hasMinister <https://www.gov.uk/government/people/mark-chivers> .
+
+<https://www.gov.uk/government/people/mark-chivers> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Mark joined the Cabinet Office as Government Chief Property Officer in January 2022."@en ;
+    schema1:name "Mark Chivers"@en ;
+    schema1:url <https://www.gov.uk/government/people/mark-chivers> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-property-function> ;
+    govuk:currentRoleTitle "Government Chief Property Officer"@en .
+

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/public-sector-fraud-authority> govuk:hasMinister <https://www.gov.uk/government/people/mark-cheeseman> .
+
+<https://www.gov.uk/government/people/mark-cheeseman> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Mark Cheeseman OBE is the Chief Executive of the Public Sector Fraud Authority. Mark heads up the Public Sector Fraud Authority, which works with UK government departments and public bodies to better understand and reduce the impact of fraud. Mark is a fraud and financial crime expert, specialising in risk assessment and measurement."@en ;
+    schema1:name "Mark Cheeseman OBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/mark-cheeseman> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/public-sector-fraud-authority> ;
+    govuk:currentRoleTitle "Chief Executive Officer, Public Sector Fraud Authority"@en .
+

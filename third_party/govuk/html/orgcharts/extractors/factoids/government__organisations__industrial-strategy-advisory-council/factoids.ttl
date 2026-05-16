@@ -1,0 +1,90 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Industrial Strategy Advisory Council"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    govuk:hasManager <https://www.gov.uk/government/people/aislinn-rice>,
+        <https://www.gov.uk/government/people/amelia-gould>,
+        <https://www.gov.uk/government/people/chris-grigg>,
+        <https://www.gov.uk/government/people/clare-barclay>,
+        <https://www.gov.uk/government/people/dana-strong>,
+        <https://www.gov.uk/government/people/diane-coyle>,
+        <https://www.gov.uk/government/people/greg-clark>,
+        <https://www.gov.uk/government/people/greg-jackson>,
+        <https://www.gov.uk/government/people/henrik-l-pedersen>,
+        <https://www.gov.uk/government/people/henry-g-overman>,
+        <https://www.gov.uk/government/people/kate-bell>,
+        <https://www.gov.uk/government/people/keith-anderson>,
+        <https://www.gov.uk/government/people/nancy-jane-rothwell>,
+        <https://www.gov.uk/government/people/phil-smith>,
+        <https://www.gov.uk/government/people/roy-rickhuss>,
+        <https://www.gov.uk/government/people/tunde-olanrewaju> .
+
+<https://www.gov.uk/government/people/aislinn-rice> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a29ea0f0c95a498d2113/s465_aislinn-rice-resized-image.jpg> ;
+    schema1:name "Dr Aislinn Rice"@en .
+
+<https://www.gov.uk/government/people/amelia-gould> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6967659fb122b8f5f68d0d3d/s465_amelia-gould-960x640.jpg> ;
+    schema1:name "Amelia Gould CEng FIET"@en .
+
+<https://www.gov.uk/government/people/chris-grigg> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a335a0f0c95a498d2117/s465_chris-grigg-resized-image.jpg> ;
+    schema1:name "Chris Grigg CBE"@en .
+
+<https://www.gov.uk/government/people/clare-barclay> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a15fa0f0c95a498d210d/s465_clare-barclay-resized-image.jpg> ;
+    schema1:name "Dame Clare Barclay DBE"@en .
+
+<https://www.gov.uk/government/people/dana-strong> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6967657310052968efc208ad/s465_dana-strong-960x640.jpg> ;
+    schema1:name "Dana Strong CBE"@en .
+
+<https://www.gov.uk/government/people/diane-coyle> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a34ea0f0c95a498d2119/s465_diane-coyle-resized-image.jpg> ;
+    schema1:name "Professor Dame Diane Coyle DBE"@en .
+
+<https://www.gov.uk/government/people/greg-clark> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a396a0f0c95a498d211b/s465_greg-clark-resized-image.jpg> ;
+    schema1:name "The Rt Hon Greg Clark"@en .
+
+<https://www.gov.uk/government/people/greg-jackson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d3e1df8c739d679fb1dd1c/s465_Greg_Jackson_Headshot_1_2024.jpeg> ;
+    schema1:name "Greg Jackson CBE"@en .
+
+<https://www.gov.uk/government/people/henrik-l-pedersen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a418a0f0c95a498d2121/s465_henrik-pedersen-resized-image.jpg> ;
+    schema1:name "Henrik L Pedersen"@en .
+
+<https://www.gov.uk/government/people/henry-g-overman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a62f68a61757838d2121/s465_henry-overman-resized-image.jpg> ;
+    schema1:name "Professor Henry G Overman OBE"@en .
+
+<https://www.gov.uk/government/people/kate-bell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a66216dc9038974dbcf5/s465_kate-bell-resized-image.jpg> ;
+    schema1:name "Kate Bell"@en .
+
+<https://www.gov.uk/government/people/keith-anderson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/696766f7b122b8f5f68d0d3f/s465_keith-anderson-960x640.jpg> ;
+    schema1:name "Keith Anderson"@en .
+
+<https://www.gov.uk/government/people/nancy-jane-rothwell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a1a772e83aab48866c6b/s465_nancy-rothwell-resized-image.jpg> ;
+    schema1:name "Dame Nancy Rothwell DBE DL FRS FMedSci FRSB FBPhS MAE"@en .
+
+<https://www.gov.uk/government/people/phil-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/683587349afff1b427db02d9/s465_Phil_Smith.png> ;
+    schema1:name "Phil Smith CBE"@en .
+
+<https://www.gov.uk/government/people/roy-rickhuss> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a67cb0bb6528ee866c75/s465_roy-rickhuss-resized-image.jpg> ;
+    schema1:name "Roy Rickhuss OBE"@en .
+
+<https://www.gov.uk/government/people/tunde-olanrewaju> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67c1a697b0bb6528ee866c76/s465_tunde-olanrewaju-resized-image.jpg> ;
+    schema1:name "Tunde Olanrewaju CBE"@en .
+

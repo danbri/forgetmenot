@@ -1,0 +1,24 @@
+_:N1b30f261da394a9ca0f8535bea67c0dc <http://schema.org/item> <https://www.gov.uk/> .
+_:N1b30f261da394a9ca0f8535bea67c0dc <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N4d57ea0529f947c984d83c113ca7ae3b <http://schema.org/itemListElement> _:N1b30f261da394a9ca0f8535bea67c0dc .
+_:N1b30f261da394a9ca0f8535bea67c0dc <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N4f7d4c4f8f7c4d73a727f50fb64f4215 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N940e4a339235498ca5fec770c4ea1cc0 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N940e4a339235498ca5fec770c4ea1cc0 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Nc60d0eb8654b4bf19655ac12ea8a013d <http://schema.org/query> "required" .
+_:N4f7d4c4f8f7c4d73a727f50fb64f4215 <http://schema.org/potentialAction> _:Nc60d0eb8654b4bf19655ac12ea8a013d .
+_:N4d57ea0529f947c984d83c113ca7ae3b <http://schema.org/itemListElement> _:N940e4a339235498ca5fec770c4ea1cc0 .
+_:N940e4a339235498ca5fec770c4ea1cc0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N4f7d4c4f8f7c4d73a727f50fb64f4215 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N4f7d4c4f8f7c4d73a727f50fb64f4215 <http://schema.org/name> "Human Tissue Authority" .
+_:Nc60d0eb8654b4bf19655ac12ea8a013d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N4f7d4c4f8f7c4d73a727f50fb64f4215 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/human-tissue-authority> .
+_:Nc60d0eb8654b4bf19655ac12ea8a013d <http://schema.org/description> "Find all content from Human Tissue Authority" .
+_:Na42077d3ce0f4ebe8718d510186fbbec <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-of-health-and-social-care> .
+_:Na42077d3ce0f4ebe8718d510186fbbec <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N4f7d4c4f8f7c4d73a727f50fb64f4215 <http://schema.org/parentOrganization> _:Na42077d3ce0f4ebe8718d510186fbbec .
+_:N4d57ea0529f947c984d83c113ca7ae3b <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+<https://www.gov.uk/government/organisations/human-tissue-authority> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N4f7d4c4f8f7c4d73a727f50fb64f4215 <http://schema.org/description> "The Human Tissue Authority (HTA) ensures that human tissue is used safely and ethically, and with proper consent. It regulates organisations that remove, store and use tissue for research, medical treatment, post-mortem examination, teaching and display in public. It approves organ and bone marrow donations from living people. HTA is an executive non-departmental public body, sponsored by the Department of Health and Social Care ." .

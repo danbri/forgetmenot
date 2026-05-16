@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-browne-of-madingley> .
+
+<https://www.gov.uk/government/people/lord-browne-of-madingley> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Browne of Madingley was born in 1948. He holds degrees from Cambridge University and Stanford University, California. He was knighted in 1998, made a life peer in 2001, and has numerous honorary degrees, fellowships and awards."@en ;
+    schema1:name "Lord Browne of Madingley"@en ;
+    schema1:url <https://www.gov.uk/government/people/lord-browne-of-madingley> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

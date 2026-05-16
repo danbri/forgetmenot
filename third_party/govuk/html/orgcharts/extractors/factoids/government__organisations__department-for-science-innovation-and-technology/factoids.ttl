@@ -1,0 +1,162 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/adam-tickell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/672c7fbb40f7da695c921c8d/s465_adam-tickell-govuk.jpg> ;
+    schema1:name "Adam Tickell"@en .
+
+<https://www.gov.uk/government/people/alexandra-jones> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6491c86c5f7bb7000c7fae17/s465_alexandra-jones-govuk.jpg> ;
+    schema1:name "Alexandra Jones"@en .
+
+<https://www.gov.uk/government/people/angela-mclean> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6464daaa0b72d3001334467d/s465_8.1288_-_GoS_-_Chief_Scientific_Advisor_Photography-6278__1___1_.jpeg> ;
+    schema1:name "Professor Dame Angela McLean"@en .
+
+<https://www.gov.uk/government/people/christine-bellamy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d031f899a6f92e5d9cf44/s465_chris-bellamy.jpg> ;
+    schema1:name "Christine Bellamy"@en .
+
+<https://www.gov.uk/government/people/dave-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66826799aec8650b1009019d/s465_dave-smith-dsit-national-technology-advisor.png> ;
+    schema1:name "Dr Dave Smith"@en .
+
+<https://www.gov.uk/government/people/dominic-field> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6633b0a11834d96a0aa6d035/s465_dominic-Field-govuk.jpg> ;
+    schema1:name "Dominic Field"@en .
+
+<https://www.gov.uk/government/people/emily-middleton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66d9cb64e87ad2f121826508/s465_director_general_emily_middleton_govuk.jpg> ;
+    schema1:name "Emily Middleton"@en .
+
+<https://www.gov.uk/government/people/emran-mian> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6863bb013464d9c0ad609d9a/s465_emran-mian.jpeg> ;
+    schema1:name "Emran Mian"@en .
+
+<https://www.gov.uk/government/people/freya-guinness> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/607d6fe8d3bf7f4012447861/s465_freya-guinness-960.jpg> ;
+    schema1:name "Freya Guinness"@en .
+
+<https://www.gov.uk/government/people/helen-milner> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/672cbcf8cfb0b183cd67cb05/s465_helen-milner-govuk.jpg> ;
+    schema1:name "Helen Milner"@en .
+
+<https://www.gov.uk/government/people/jason-chin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/644bb39d2f62220013a6a292/s465_jason-chin-gov-uk.png> ;
+    schema1:name "Professor Jason Chin"@en .
+
+<https://www.gov.uk/government/people/liz-cohen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6633b0241c82a7597d4f308a/s465_liz-cohen-govuk.jpg> ;
+    schema1:name "Liz Cohen"@en .
+
+<https://www.gov.uk/government/people/nicola-hodson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/672c7e86f03408fa7966d28a/s465_nicola_hodson-govuk.jpg> ;
+    schema1:name "Dr Nicola Hodson"@en .
+
+<https://www.gov.uk/government/people/ollie-ilott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6899dbf3ad0cbc0e276431fe/s465_Ollie_Iloot_960x640.png> ;
+    schema1:name "Ollie Ilott"@en .
+
+<https://www.gov.uk/government/people/paul-willmott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/606c32c3d3bf7f400f5b3b99/s465_paul_willmott.jpg> ;
+    schema1:name "Paul Willmott"@en .
+
+<https://www.gov.uk/government/people/sarah-connolly> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69d7abf62ea7bc150a394b62/s465_sarah-connolly-dg-govuk.png> ;
+    schema1:name "Sarah Connolly"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-digital-government-and-data> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Digital Government and Data)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/ian-murray> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Science, Innovation, Research and Nuclear)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/patrick-vallance> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/james-frith> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Digital Economy)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for AI and Online Safety)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/kanishka-narayan> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Science, Innovation and Technology"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/liz-kendall> .
+
+<https://www.gov.uk/government/people/ian-murray> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66882879ab5fc5929851ba87/s465_ian-murray.jpg> ;
+    schema1:name "The Rt Hon Ian Murray MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-digital-government-and-data> .
+
+<https://www.gov.uk/government/people/james-frith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69a7158fa2495f2d259f13f9/s465_James_Frith_MP_Parliamentary_Secretary__960_x_640_.png> ;
+    schema1:name "James Frith MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> .
+
+<https://www.gov.uk/government/people/kanishka-narayan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68bd9cb811b4ded2da19feef/s465_kanishka_narayan_960.jpeg> ;
+    schema1:name "Kanishka Narayan MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> .
+
+<https://www.gov.uk/government/people/liz-kendall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6688185dab5fc5929851ba79/s465_liz-kendall.jpg> ;
+    schema1:name "The Rt Hon Liz Kendall MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> .
+
+<https://www.gov.uk/government/people/liz-lloyd> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d28ccee65dc716bfb1dc5f/s465_Liz_Llyod_960x640.png> ;
+    schema1:name "Baroness Lloyd of Effra CBE"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
+
+<https://www.gov.uk/government/people/patrick-vallance> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6993399743eb912f2e15b4c7/s465_patrick-vallance-960.png> ;
+    schema1:name "Lord Vallance"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> .
+
+<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Department for Science, Innovation and Technology"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:hasManager <https://www.gov.uk/government/people/adam-tickell>,
+        <https://www.gov.uk/government/people/alexandra-jones>,
+        <https://www.gov.uk/government/people/angela-mclean>,
+        <https://www.gov.uk/government/people/christine-bellamy>,
+        <https://www.gov.uk/government/people/dave-smith>,
+        <https://www.gov.uk/government/people/dominic-field>,
+        <https://www.gov.uk/government/people/emily-middleton>,
+        <https://www.gov.uk/government/people/emran-mian>,
+        <https://www.gov.uk/government/people/freya-guinness>,
+        <https://www.gov.uk/government/people/helen-milner>,
+        <https://www.gov.uk/government/people/jason-chin>,
+        <https://www.gov.uk/government/people/liz-cohen>,
+        <https://www.gov.uk/government/people/nicola-hodson>,
+        <https://www.gov.uk/government/people/ollie-ilott>,
+        <https://www.gov.uk/government/people/paul-willmott>,
+        <https://www.gov.uk/government/people/sarah-connolly> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/ian-murray>,
+        <https://www.gov.uk/government/people/james-frith>,
+        <https://www.gov.uk/government/people/kanishka-narayan>,
+        <https://www.gov.uk/government/people/liz-kendall>,
+        <https://www.gov.uk/government/people/liz-lloyd>,
+        <https://www.gov.uk/government/people/patrick-vallance> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-digital-government-and-data>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> .
+

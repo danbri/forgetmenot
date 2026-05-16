@@ -1,0 +1,30 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/migration-advisory-committee> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Migration Advisory Committee"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/migration-advisory-committee> ;
+    govuk:hasManager <https://www.gov.uk/government/people/dina-kiwan>,
+        <https://www.gov.uk/government/people/jo-swaffield>,
+        <https://www.gov.uk/government/people/madeleine-sumption>,
+        <https://www.gov.uk/government/people/sergi-pardos-prado> .
+
+<https://www.gov.uk/government/people/dina-kiwan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f79d2c45705eb1a1513eb0/s465_Prof+Dina+Kiwan+GOV.UK.jpg> ;
+    schema1:name "Professor Dina Kiwan"@en .
+
+<https://www.gov.uk/government/people/jo-swaffield> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f79d6f04146682e61bc7c0/s465_Prof+Jo+Swaffield+GOV.UK.jpg> ;
+    schema1:name "Professor Jo Swaffield"@en .
+
+<https://www.gov.uk/government/people/madeleine-sumption> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f79cee45705eb1a1513eae/s465_Dr+Madeleine+Sumption+GOV.UK.jpg> ;
+    schema1:name "Dr Madeleine Sumption MBE"@en .
+
+<https://www.gov.uk/government/people/sergi-pardos-prado> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67fe7b6f4f66a92e28546741/s465_Sergi_Pardos-Prado_GOV.UK.png> ;
+    schema1:name "Professor Sergi Pardos-Prado"@en .
+

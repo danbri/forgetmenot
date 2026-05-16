@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-people-group> govuk:hasMinister <https://www.gov.uk/government/people/caitlin-kinsella> .
+
+<https://www.gov.uk/government/people/caitlin-kinsella> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Caitlin Kinsella assumed the shared interim position of Government Chief People Officer for the Civil Service and Director General for the Government People Group (GPG) in November 2025."@en ;
+    schema1:name "Caitlin Kinsella"@en ;
+    schema1:url <https://www.gov.uk/government/people/caitlin-kinsella> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
+    govuk:currentRoleTitle "Interim Joint Director General and Government Chief People Officer"@en .
+

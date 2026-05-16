@@ -1,0 +1,24 @@
+_:N4fb38fa4515345f0918b642a4b8b0079 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Nfd115f1a346746a18feb662015048556 <http://schema.org/name> "Security Industry Authority" .
+_:N648da244fde64e5db79d1f560c5e6b27 <http://schema.org/item> <https://www.gov.uk/> .
+_:N648da244fde64e5db79d1f560c5e6b27 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nfd115f1a346746a18feb662015048556 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N648da244fde64e5db79d1f560c5e6b27 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N0955db9686564b5899583f2d98e57a49 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nffc9906f0dce4808b73c6406dbcea54a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N4fb38fa4515345f0918b642a4b8b0079 <http://schema.org/description> "Find all content from Security Industry Authority" .
+_:Nfd115f1a346746a18feb662015048556 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/security-industry-authority> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N7441148b2c0c47beb377fc1ceacb537c <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/home-office> .
+_:N7441148b2c0c47beb377fc1ceacb537c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nfd115f1a346746a18feb662015048556 <http://schema.org/parentOrganization> _:N7441148b2c0c47beb377fc1ceacb537c .
+_:Nfd115f1a346746a18feb662015048556 <http://schema.org/description> "We are the regulator of the UK’s private security industry. SIA is an executive non-departmental public body, sponsored by the Home Office ." .
+_:Nffc9906f0dce4808b73c6406dbcea54a <http://schema.org/itemListElement> _:N0955db9686564b5899583f2d98e57a49 .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N0955db9686564b5899583f2d98e57a49 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N0955db9686564b5899583f2d98e57a49 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N4fb38fa4515345f0918b642a4b8b0079 <http://schema.org/query> "required" .
+_:Nffc9906f0dce4808b73c6406dbcea54a <http://schema.org/itemListElement> _:N648da244fde64e5db79d1f560c5e6b27 .
+_:Nfd115f1a346746a18feb662015048556 <http://schema.org/potentialAction> _:N4fb38fa4515345f0918b642a4b8b0079 .
+_:Nfd115f1a346746a18feb662015048556 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+<https://www.gov.uk/government/organisations/security-industry-authority> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .

@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--14> govuk:roleHolder <https://www.gov.uk/government/people/shaun-davies> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/shaun-davies> .
+
+<https://www.gov.uk/government/people/shaun-davies> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Shaun Davies was appointed Assistant Whip, House of Commons on 12 May 2026. He was elected as the MP for Telford in July 2024."@en ;
+    schema1:name "Shaun Davies MP"@en ;
+    schema1:url <https://www.gov.uk/government/people/shaun-davies> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:currentRoleTitle "Assistant Whip, House of Commons"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--14> .
+

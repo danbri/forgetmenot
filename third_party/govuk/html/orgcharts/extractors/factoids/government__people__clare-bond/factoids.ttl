@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> govuk:hasMinister <https://www.gov.uk/government/people/clare-bond> .
+
+<https://www.gov.uk/government/people/clare-bond> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Clare Bond is a Reader and Earth Scientist at the University of Aberdeen. She has academic, industry, policy and third sector experience spanning a 20+ year career."@en ;
+    schema1:name "Professor Clare Bond"@en ;
+    schema1:url <https://www.gov.uk/government/people/clare-bond> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
+    govuk:currentRoleTitle "Member, CoRWM"@en .
+

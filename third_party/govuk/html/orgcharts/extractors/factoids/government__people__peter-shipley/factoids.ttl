@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/peter-shipley> .
+
+<https://www.gov.uk/government/people/peter-shipley> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Peter has a long career managing and leading major projects and programmes including:"@en ;
+    schema1:name "Peter Shipley"@en ;
+    schema1:url <https://www.gov.uk/government/people/peter-shipley> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    govuk:currentRoleTitle "Non-Executive Director"@en .
+

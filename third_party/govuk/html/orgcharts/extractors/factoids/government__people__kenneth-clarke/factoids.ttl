@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/kenneth-clarke> .
+
+<https://www.gov.uk/government/people/kenneth-clarke> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Kenneth Clarke KC served as Conservative MP for Rushcliffe from June 1970 to December 2019."@en ;
+    schema1:name "The Rt Hon Kenneth Clarke KC"@en ;
+    schema1:url <https://www.gov.uk/government/people/kenneth-clarke> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

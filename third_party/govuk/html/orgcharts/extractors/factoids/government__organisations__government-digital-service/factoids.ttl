@@ -1,0 +1,35 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Digital Service"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:hasManager <https://www.gov.uk/government/people/aimee-smith>,
+        <https://www.gov.uk/government/people/christine-bellamy>,
+        <https://www.gov.uk/government/people/david-knott--2>,
+        <https://www.gov.uk/government/people/emily-middleton>,
+        <https://www.gov.uk/government/people/sarah-hodgetts> .
+
+<https://www.gov.uk/government/people/aimee-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69298bf3b3b9afff34e961f3/s465_aimee-smith-gov.uk.png> ;
+    schema1:name "Aimee Smith"@en .
+
+<https://www.gov.uk/government/people/christine-bellamy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d031f899a6f92e5d9cf44/s465_chris-bellamy.jpg> ;
+    schema1:name "Christine Bellamy"@en .
+
+<https://www.gov.uk/government/people/david-knott--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/678fb1576b8b7d3e01328afa/s465_david-knott-1.png> ;
+    schema1:name "David Knott"@en .
+
+<https://www.gov.uk/government/people/emily-middleton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66d9cb64e87ad2f121826508/s465_director_general_emily_middleton_govuk.jpg> ;
+    schema1:name "Emily Middleton"@en .
+
+<https://www.gov.uk/government/people/sarah-hodgetts> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/678fb2986b8b7d3e01328afe/s465_sarah-hodgetts-1.png> ;
+    schema1:name "Sarah Hodgetts"@en .
+

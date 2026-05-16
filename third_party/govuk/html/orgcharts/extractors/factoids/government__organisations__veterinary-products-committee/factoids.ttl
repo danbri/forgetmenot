@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/veterinary-products-committee> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Veterinary Products Committee"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/veterinary-products-committee> ;
+    govuk:hasManager <https://www.gov.uk/government/people/helen-ballantyne> .
+
+<https://www.gov.uk/government/people/helen-ballantyne> a schema1:Person ;
+    schema1:name "Mrs Helen Ballantyne MSc PGDip BSc (Hons) RN RVN"@en .
+

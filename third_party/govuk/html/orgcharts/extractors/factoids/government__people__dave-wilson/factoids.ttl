@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/dave-wilson> .
+
+<https://www.gov.uk/government/people/dave-wilson> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Dave has extensive experience in decommissioning, spanning 30 years since joining the industry as a graduate at Sellafield. He has previously served as site director at Chapelcross and Trawsfynydd, and operations officer for Scotland and Wales."@en ;
+    schema1:name "Dave Wilson"@en ;
+    schema1:url <https://www.gov.uk/government/people/dave-wilson> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    govuk:currentRoleTitle "Managing Director, NRS Dounreay"@en .
+

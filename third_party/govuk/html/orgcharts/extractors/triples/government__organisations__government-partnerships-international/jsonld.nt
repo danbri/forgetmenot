@@ -1,0 +1,24 @@
+_:N7211d53e7b904355a8c197e650903699 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N7211d53e7b904355a8c197e650903699 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Na2edeb90ccf740048cf8fdff1373f908 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nef108b4bb9274b0ca3481ae2bd7189b9 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Na2edeb90ccf740048cf8fdff1373f908 <http://schema.org/description> "GPI is part of the Stabilisation Unit ." .
+_:Na2edeb90ccf740048cf8fdff1373f908 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nca81805d23834943aafdb661424e21e6 <http://schema.org/query> "required" .
+_:Na2edeb90ccf740048cf8fdff1373f908 <http://schema.org/parentOrganization> _:N34438eeacf1247128c9f0c0836e7c0d9 .
+<https://www.gov.uk/government/organisations/government-partnerships-international> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nef108b4bb9274b0ca3481ae2bd7189b9 <http://schema.org/item> <https://www.gov.uk/> .
+_:Na2edeb90ccf740048cf8fdff1373f908 <http://schema.org/name> "Government Partnerships International" .
+_:Na2edeb90ccf740048cf8fdff1373f908 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/government-partnerships-international> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N07b4c2edbea04a56b36119e0b13334f7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Na2edeb90ccf740048cf8fdff1373f908 <http://schema.org/potentialAction> _:Nca81805d23834943aafdb661424e21e6 .
+_:N34438eeacf1247128c9f0c0836e7c0d9 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/stabilisation-unit> .
+_:N34438eeacf1247128c9f0c0836e7c0d9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nca81805d23834943aafdb661424e21e6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N07b4c2edbea04a56b36119e0b13334f7 <http://schema.org/itemListElement> _:N7211d53e7b904355a8c197e650903699 .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nef108b4bb9274b0ca3481ae2bd7189b9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N7211d53e7b904355a8c197e650903699 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nca81805d23834943aafdb661424e21e6 <http://schema.org/description> "Find all content from Government Partnerships International" .
+_:N07b4c2edbea04a56b36119e0b13334f7 <http://schema.org/itemListElement> _:Nef108b4bb9274b0ca3481ae2bd7189b9 .

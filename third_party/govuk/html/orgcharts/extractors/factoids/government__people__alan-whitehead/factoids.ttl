@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> govuk:roleHolder <https://www.gov.uk/government/people/alan-whitehead> .
+
+<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> govuk:hasMinister <https://www.gov.uk/government/people/alan-whitehead> .
+
+<https://www.gov.uk/government/people/alan-whitehead> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Dr Alan Whitehead CBE was appointed as a Minister of State in the Department for Energy Security and Net Zero on 11 November 2025."@en ;
+    schema1:name "Dr Alan Whitehead CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/alan-whitehead> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    govuk:currentRoleTitle "Minister of State (Minister for Energy Security and Net Zero)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> .
+

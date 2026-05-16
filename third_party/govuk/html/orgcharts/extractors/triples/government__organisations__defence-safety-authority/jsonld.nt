@@ -1,0 +1,27 @@
+_:N6886b204e7204148a17ce4f1ae7ca0f4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N94e800001a5040cf8682d7c7607750fa <http://schema.org/subOrganization> _:N6886b204e7204148a17ce4f1ae7ca0f4 .
+_:N94e800001a5040cf8682d7c7607750fa <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N94e800001a5040cf8682d7c7607750fa <http://schema.org/description> "The Defence Safety Authority is established by a Charter issued by the Secretary of State (SofS) empowering it as an independent Regulator and Investigator for Health, Safety and Environmental Protection (HS&EP) in Defence. DSA is part of the Ministry of Defence ." .
+_:N6dbcd26b0f694978bac6f32223385ae4 <http://schema.org/query> "required" .
+_:Ncaa08f1f506b4f188a2c3de86e5f457d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N6dbcd26b0f694978bac6f32223385ae4 <http://schema.org/description> "Find all content from Defence Safety Authority" .
+_:N33f6f43f1cbb48ce88785e64c234612f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N94e800001a5040cf8682d7c7607750fa <http://schema.org/name> "Defence Safety Authority" .
+_:N94e800001a5040cf8682d7c7607750fa <http://schema.org/parentOrganization> _:N1acc8787d2154e40857a64eccd84f977 .
+_:N1fc045166028453a84b3bec45effacbf <http://schema.org/itemListElement> _:Ncaa08f1f506b4f188a2c3de86e5f457d .
+_:N33f6f43f1cbb48ce88785e64c234612f <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N1acc8787d2154e40857a64eccd84f977 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N6886b204e7204148a17ce4f1ae7ca0f4 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/military-aviation-authority> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Ncaa08f1f506b4f188a2c3de86e5f457d <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N94e800001a5040cf8682d7c7607750fa <http://schema.org/potentialAction> _:N6dbcd26b0f694978bac6f32223385ae4 .
+_:Ncaa08f1f506b4f188a2c3de86e5f457d <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N1fc045166028453a84b3bec45effacbf <http://schema.org/itemListElement> _:N33f6f43f1cbb48ce88785e64c234612f .
+_:N1fc045166028453a84b3bec45effacbf <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N6dbcd26b0f694978bac6f32223385ae4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N1acc8787d2154e40857a64eccd84f977 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/ministry-of-defence> .
+_:N33f6f43f1cbb48ce88785e64c234612f <http://schema.org/item> <https://www.gov.uk/> .
+_:N94e800001a5040cf8682d7c7607750fa <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N94e800001a5040cf8682d7c7607750fa <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/defence-safety-authority> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+<https://www.gov.uk/government/organisations/defence-safety-authority> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .

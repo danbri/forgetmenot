@@ -1,0 +1,24 @@
+_:N3a20f01b5c904f2ab55c7f2eb858c6d3 <http://schema.org/item> <https://www.gov.uk/> .
+_:N3a20f01b5c904f2ab55c7f2eb858c6d3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nd88755ad8d2c4772bc06e14c06140f1a <http://schema.org/description> "Find all content from Defence and Security Media Advisory Committee" .
+_:N3a20f01b5c904f2ab55c7f2eb858c6d3 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N146411adca704063856a0a83d1682c05 <http://schema.org/potentialAction> _:Nd88755ad8d2c4772bc06e14c06140f1a .
+_:N146411adca704063856a0a83d1682c05 <http://schema.org/name> "Defence and Security Media Advisory Committee" .
+_:Ne6c6daaaa2b54d4c8dcbeef7582c9cdd <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N146411adca704063856a0a83d1682c05 <http://schema.org/parentOrganization> _:N109cfde8d2774d05b0bc5c4d36318d2a .
+_:Ne6c6daaaa2b54d4c8dcbeef7582c9cdd <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Ne6c6daaaa2b54d4c8dcbeef7582c9cdd <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nde471983d8be4f2c9e717f872dd91f88 <http://schema.org/itemListElement> _:Ne6c6daaaa2b54d4c8dcbeef7582c9cdd .
+_:N109cfde8d2774d05b0bc5c4d36318d2a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N146411adca704063856a0a83d1682c05 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/defence-and-security-media-advisory-committee> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nd88755ad8d2c4772bc06e14c06140f1a <http://schema.org/query> "required" .
+_:N109cfde8d2774d05b0bc5c4d36318d2a <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/ministry-of-defence> .
+_:N146411adca704063856a0a83d1682c05 <http://schema.org/description> "The Defence and Security Media Advisory (DSMA) Committee oversees a voluntary code which operates between the government departments which have responsibility for national security and the media. DSMA works with the Ministry of Defence ." .
+_:Nd88755ad8d2c4772bc06e14c06140f1a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+<https://www.gov.uk/government/organisations/defence-and-security-media-advisory-committee> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N146411adca704063856a0a83d1682c05 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nde471983d8be4f2c9e717f872dd91f88 <http://schema.org/itemListElement> _:N3a20f01b5c904f2ab55c7f2eb858c6d3 .
+_:Nde471983d8be4f2c9e717f872dd91f88 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N146411adca704063856a0a83d1682c05 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .

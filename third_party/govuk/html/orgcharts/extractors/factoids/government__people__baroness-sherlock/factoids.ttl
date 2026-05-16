@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--196> govuk:roleHolder <https://www.gov.uk/government/people/baroness-sherlock> .
+
+<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/baroness-sherlock> .
+
+<https://www.gov.uk/government/people/baroness-sherlock> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Baroness Sherlock OBE was appointed as a Minister of State in the Department for Work and Pensions on 17 December 2024. She was previously Parliamentary Under-Secretary of State at the Department of Work and Pensions from 9 July 2024 to 17 December 2024."@en ;
+    schema1:name "Baroness Sherlock OBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/baroness-sherlock> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:currentRoleTitle "Minister of State (Minister for Lords)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--196> .
+

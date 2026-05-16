@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--8> govuk:roleHolder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250> govuk:roleHolder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
+
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasMinister <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
+
+<https://www.gov.uk/government/people/baroness-taylor-of-stevenage> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Baroness Taylor of Stevenage was appointed Parliamentary Under-Secretary of State at the Ministry of Housing, Communities and Local Government and as a Baroness in Waiting (Government Whip) on 9 July 2024."@en ;
+    schema1:name "Baroness Taylor of Stevenage"@en ;
+    schema1:url <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Lords Minister for Housing and Local Government) and Baroness in Waiting (Government Whip)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--8>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250> .
+

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/defence-safety-authority> govuk:hasMinister <https://www.gov.uk/government/people/alan-gillespie> .
+
+<https://www.gov.uk/government/people/alan-gillespie> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Air Marshal Alan Gillespie was appointed as Director General (DG) Defence Safety Authority (DSA) on 29 November 2024."@en ;
+    schema1:name "Air Marshal Alan Gillespie CBE MA BSc RAF"@en ;
+    schema1:url <https://www.gov.uk/government/people/alan-gillespie> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/defence-safety-authority> ;
+    govuk:currentRoleTitle "Director General Defence Safety Authority"@en .
+

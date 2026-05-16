@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/james-callaghan> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "James Callaghan (sometimes affectionately referred to as ‘Big Jim’ or ‘Sunny Jim’) grew up in poverty during the Depression. Unable to afford the tuition fees for University, he joined the Inland Revenue in the 1930s, helping to set up the Association of Officers of Taxes trade union."@en ;
+    schema1:name "James Callaghan"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/james-callaghan> .
+

@@ -1,0 +1,48 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/legal-aid-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Legal Aid Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/legal-aid-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alistair-adan>,
+        <https://www.gov.uk/government/people/david-phillips>,
+        <https://www.gov.uk/government/people/david-thomas>,
+        <https://www.gov.uk/government/people/hannah-payne>,
+        <https://www.gov.uk/government/people/jane-harbottle>,
+        <https://www.gov.uk/government/people/lucy-jones>,
+        <https://www.gov.uk/government/people/malcolm-bryant>,
+        <https://www.gov.uk/government/people/vacant> .
+
+<https://www.gov.uk/government/people/alistair-adan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5dc0555ee5274a4a98a512a1/s465_Alistair_Adan.png> ;
+    schema1:name "Alistair Adan"@en .
+
+<https://www.gov.uk/government/people/david-phillips> a schema1:Person ;
+    schema1:name "David Phillips"@en .
+
+<https://www.gov.uk/government/people/david-thomas> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6d1aed915d595171e831/s465_David_Thomas960.jpg> ;
+    schema1:name "David Thomas"@en .
+
+<https://www.gov.uk/government/people/hannah-payne> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6af8e5274a6bed613a82/s465_Hannah_Payne.jpg> ;
+    schema1:name "Hannah Payne"@en .
+
+<https://www.gov.uk/government/people/jane-harbottle> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f647ced915d595171dde1/s465_Jane_Harbottle.jpg> ;
+    schema1:name "Jane Harbottle CBE"@en .
+
+<https://www.gov.uk/government/people/lucy-jones> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60ec280ee90e0764cb10bd03/s465_Lucy_Jones.JPG> ;
+    schema1:name "Lucy Jones"@en .
+
+<https://www.gov.uk/government/people/malcolm-bryant> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f7031ed915d595171eb5f/s465_Malcolm_Bryant__002_.jpg> ;
+    schema1:name "Malcolm Bryant"@en .
+
+<https://www.gov.uk/government/people/vacant> a schema1:Person ;
+    schema1:name "Vacant"@en .
+

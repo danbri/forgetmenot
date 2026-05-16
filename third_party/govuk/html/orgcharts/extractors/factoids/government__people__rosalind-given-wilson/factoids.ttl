@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/rosalind-given-wilson> .
+
+<https://www.gov.uk/government/people/rosalind-given-wilson> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Dr Rosalind Given-Wilson is a Consultant Radiologist at St Georges Healthcare NHS Foundation Trust where she set up the breast screening service in 1991 and was Director of Screening, then Medical Director until 2015. She is Vice Chair of Moorfields Eye Hospital and Chair of United Church Schools Trust."@en ;
+    schema1:name "Dr Rosalind Given-Wilson"@en ;
+    schema1:url <https://www.gov.uk/government/people/rosalind-given-wilson> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
+    govuk:currentRoleTitle "Member"@en .
+

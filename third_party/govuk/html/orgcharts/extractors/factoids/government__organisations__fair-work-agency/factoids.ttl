@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/fair-work-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Fair Work Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/fair-work-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/lisa-pinney>,
+        <https://www.gov.uk/government/people/matthew-taylor> .
+
+<https://www.gov.uk/government/people/lisa-pinney> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67726f6dddfe4b5a1ea85d1f/s465_Lisa_Pinney_2025.jpg> ;
+    schema1:name "Lisa Pinney MBE"@en .
+
+<https://www.gov.uk/government/people/matthew-taylor> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ce6b315e0e8088a545b2ef/s465_Mtaylor-960x640.png> ;
+    schema1:name "Matthew Taylor"@en .
+

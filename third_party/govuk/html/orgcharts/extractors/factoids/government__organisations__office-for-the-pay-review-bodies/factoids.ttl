@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/office-for-the-pay-review-bodies> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Office for the Pay Review Bodies"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/office-for-the-pay-review-bodies> ;
+    govuk:hasManager <https://www.gov.uk/government/people/david-fry> .
+
+<https://www.gov.uk/government/people/david-fry> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69cb910595a323ea3496edbb/s465_David_Fry.jpg> ;
+    schema1:name "David Fry"@en .
+

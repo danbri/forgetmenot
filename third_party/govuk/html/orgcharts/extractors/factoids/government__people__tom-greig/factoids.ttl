@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/hm-passport-office> govuk:hasMinister <https://www.gov.uk/government/people/tom-greig> .
+
+<https://www.gov.uk/government/people/tom-greig> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Tom Greig became the Registrar General for England and Wales on 26 February 2024."@en ;
+    schema1:name "Tom Greig CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/tom-greig> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-passport-office> ;
+    govuk:currentRoleTitle "Registrar General for England and Wales"@en .
+

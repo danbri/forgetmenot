@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/cyber-and-specialist-operations-command> govuk:hasMinister <https://www.gov.uk/government/people/clare-walton> .
+
+<https://www.gov.uk/government/people/clare-walton> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Air Marshal Walton joined the Royal Air Force on a University Cadetship in 1987 while studying medicine at St Bartholomew’s Hospital Medical School, London."@en ;
+    schema1:name "Air Marshal Clare Walton CB KHP"@en ;
+    schema1:url <https://www.gov.uk/government/people/clare-walton> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/cyber-and-specialist-operations-command> ;
+    govuk:currentRoleTitle "Director General Defence Medical Services"@en .
+

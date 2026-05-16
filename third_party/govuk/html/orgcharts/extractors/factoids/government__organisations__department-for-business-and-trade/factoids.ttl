@@ -1,0 +1,189 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/amanda-brooks> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69d4ccc140178298997ef04d/s465_amanda-brooks-960x640px.jpg> ;
+    schema1:name "Amanda Brooks CBE"@en .
+
+<https://www.gov.uk/government/people/caleb-deeks> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/682f423da599d03a16bff46e/s465_caleb-deeks-2.jpg> ;
+    schema1:name "Caleb Deeks"@en .
+
+<https://www.gov.uk/government/people/ceri-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69a84bc72f1252e55180d4b1/s465_CeriSmith.jpg> ;
+    schema1:name "Ceri Smith"@en .
+
+<https://www.gov.uk/government/people/david-bickerton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61090fbfd3bf7f0448719ea4/s465_david-bickerton.jpg> ;
+    schema1:name "David Bickerton"@en .
+
+<https://www.gov.uk/government/people/david-sayer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6761a0c5d20fc50099e19044/s465_David_Sayer.png> ;
+    schema1:name "David Sayer"@en .
+
+<https://www.gov.uk/government/people/gavin-lambert> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/682f42c97fb7a7d9cd775231/s465_gavin-lambert-2.jpg> ;
+    schema1:name "Gavin Lambert"@en .
+
+<https://www.gov.uk/government/people/iain-anderson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6761a0311ca3ec0a49e1903e/s465_Iain_Anderson.png> ;
+    schema1:name "Iain Anderson"@en .
+
+<https://www.gov.uk/government/people/isobel-stephen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68a6eb95bceafd8d0d96a080/s465_Isobel-Stephen.png> ;
+    schema1:name "Isobel Stephen"@en .
+
+<https://www.gov.uk/government/people/jaee-samant> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6645ea2bf34f9b5a56adc92e/s465_Jaee+Samant+Image.jpg> ;
+    schema1:name "Jaee Samant"@en .
+
+<https://www.gov.uk/government/people/joana-crellin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6a4e40f0b648ca1d2be3/s465_JoCrellinBioR.jpg> ;
+    schema1:name "Joanna Crellin CMG"@en .
+
+<https://www.gov.uk/government/people/john-latham> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6761a02dd20fc50099e19039/s465_John_Latham__1_.png> ;
+    schema1:name "Professor John Latham CBE"@en .
+
+<https://www.gov.uk/government/people/kate-joseph> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/673381e8bac74dd6026bf318/s465_KJ.png> ;
+    schema1:name "Kate Joseph"@en .
+
+<https://www.gov.uk/government/people/katharine-braddick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6761a03c0345cd72db2534ac/s465_Katharine_Braddick_1.png> ;
+    schema1:name "Katharine Braddick"@en .
+
+<https://www.gov.uk/government/people/mike-clancy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6761a04bf666d2e4faef39c4/s465_Mike_Clancy__1_.jpg> ;
+    schema1:name "Mike Clancy"@en .
+
+<https://www.gov.uk/government/people/nita-clarke> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6761a2bbd20fc50099e1904b/s465_Nita_Clarke.png> ;
+    schema1:name "Nita Clarke OBE"@en .
+
+<https://www.gov.uk/government/people/paul-drechsler> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6761a02d26a2d1ff182534a6/s465_Paul_Dreschler.png> ;
+    schema1:name "Paul Drechsler CBE"@en .
+
+<https://www.gov.uk/government/people/roni-savage> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6761a09d26a2d1ff182534ab/s465_Roni_Savage.png> ;
+    schema1:name "Dr Roni Savage FREng"@en .
+
+<https://www.gov.uk/government/people/sam-lister> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65cccea61d9395000c94666c/s465_Sam_WB__1_.png> ;
+    schema1:name "Sam Lister"@en .
+
+<https://www.gov.uk/government/people/tim-reid> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642ea148ddf8ad000cac0efc/s465_Tim_resized_for_gov.jpg> ;
+    schema1:name "Tim Reid"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state--206> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Trade)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/chris-bryant> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Investment)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jason-stockwood> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Small Business and Economic Transformation)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/blair-mcdougall> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Employment Rights and Consumer Protection)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/kate-dearden> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Digital Economy)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Industry)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/chris-mcdonald> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state--2> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Business and Trade"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
+
+<https://www.gov.uk/government/people/blair-mcdougall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d11b06e65dc716bfb1dbbe/s465_minister-blair-mcdougall.jpg> ;
+    schema1:name "Blair McDougall MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> .
+
+<https://www.gov.uk/government/people/chris-bryant> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66a0cba1ab418ab055592c17/s465_minister_bryant_govuk.jpg> ;
+    schema1:name "Sir Chris Bryant MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--206> .
+
+<https://www.gov.uk/government/people/chris-mcdonald> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69933bb37da91680ad7f44c0/s465_chris-mcdonald-960.png> ;
+    schema1:name "Chris McDonald MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> .
+
+<https://www.gov.uk/government/people/jason-stockwood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68e92b6d187483de54d7677f/s465_jason-stockwood.jpg> ;
+    schema1:name "Lord Stockwood"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+
+<https://www.gov.uk/government/people/kate-dearden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68bd9b9311b4ded2da19feee/s465_kate-dearden.jpeg> ;
+    schema1:name "Kate Dearden MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> .
+
+<https://www.gov.uk/government/people/liz-lloyd> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d28ccee65dc716bfb1dc5f/s465_Liz_Llyod_960x640.png> ;
+    schema1:name "Baroness Lloyd of Effra CBE"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
+
+<https://www.gov.uk/government/people/peter-kyle> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66881a3e4a94d44125d9cda2/s465_Peter_Kyle.jpg> ;
+    schema1:name "The Rt Hon Peter Kyle MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state--2> .
+
+<https://www.gov.uk/government/organisations/department-for-business-and-trade> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Department for Business and Trade"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:hasManager <https://www.gov.uk/government/people/amanda-brooks>,
+        <https://www.gov.uk/government/people/caleb-deeks>,
+        <https://www.gov.uk/government/people/ceri-smith>,
+        <https://www.gov.uk/government/people/david-bickerton>,
+        <https://www.gov.uk/government/people/david-sayer>,
+        <https://www.gov.uk/government/people/gavin-lambert>,
+        <https://www.gov.uk/government/people/iain-anderson>,
+        <https://www.gov.uk/government/people/isobel-stephen>,
+        <https://www.gov.uk/government/people/jaee-samant>,
+        <https://www.gov.uk/government/people/joana-crellin>,
+        <https://www.gov.uk/government/people/john-latham>,
+        <https://www.gov.uk/government/people/kate-joseph>,
+        <https://www.gov.uk/government/people/katharine-braddick>,
+        <https://www.gov.uk/government/people/mike-clancy>,
+        <https://www.gov.uk/government/people/nita-clarke>,
+        <https://www.gov.uk/government/people/paul-drechsler>,
+        <https://www.gov.uk/government/people/roni-savage>,
+        <https://www.gov.uk/government/people/sam-lister>,
+        <https://www.gov.uk/government/people/tim-reid> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/blair-mcdougall>,
+        <https://www.gov.uk/government/people/chris-bryant>,
+        <https://www.gov.uk/government/people/chris-mcdonald>,
+        <https://www.gov.uk/government/people/jason-stockwood>,
+        <https://www.gov.uk/government/people/kate-dearden>,
+        <https://www.gov.uk/government/people/liz-lloyd>,
+        <https://www.gov.uk/government/people/peter-kyle> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--206>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry>,
+        <https://www.gov.uk/government/ministers/secretary-of-state--2> .
+

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/simon-frederick> .
+
+<https://www.gov.uk/government/people/simon-frederick> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Self-taught artist, photographer, filmmaker and broadcaster Simon Frederick was born in London to Grenadian parents. His photographs made history when his collection entitled ‘Black Is The New Black’ became the largest acquisition of African-Caribbean sitters by the National Portrait Gallery, becoming part of the Gallery’s prestigious permanent collection."@en ;
+    schema1:name "Simon Frederick"@en ;
+    schema1:url <https://www.gov.uk/government/people/simon-frederick> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    govuk:currentRoleTitle "Member, Windrush Commemoration Committee"@en .
+

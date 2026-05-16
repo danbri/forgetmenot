@@ -1,0 +1,6 @@
+_:N2c62e95a4d244bc7b3e177ffce76fb25 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nd733d69416b84e4498dd1df57bcf03fa <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N2c62e95a4d244bc7b3e177ffce76fb25 <http://schema.org/itemListElement> _:Nd733d69416b84e4498dd1df57bcf03fa .
+_:Nd733d69416b84e4498dd1df57bcf03fa <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nd733d69416b84e4498dd1df57bcf03fa <http://schema.org/item> <https://www.gov.uk/> .

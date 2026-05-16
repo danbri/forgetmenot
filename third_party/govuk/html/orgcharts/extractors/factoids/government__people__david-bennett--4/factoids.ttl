@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/david-bennett--4> .
+
+<https://www.gov.uk/government/people/david-bennett--4> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "David Bennett is a Non-Executive Director with over 30 years’ experience in financial services having held a range of senior executive positions in retail banking both in the UK and overseas, including the USA and Australia."@en ;
+    schema1:name "David Bennett"@en ;
+    schema1:url <https://www.gov.uk/government/people/david-bennett--4> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:currentRoleTitle "Non-executive board member"@en .
+

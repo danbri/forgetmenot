@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/civil-service-government-communication-service> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Communication Service"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/civil-service-government-communication-service> ;
+    govuk:hasManager <https://www.gov.uk/government/people/david-dinsmore> .
+
+<https://www.gov.uk/government/people/david-dinsmore> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6908d1fcef26c341988b25ea/s465_Image.jpg> ;
+    schema1:name "David Dinsmore"@en .
+

@@ -1,0 +1,30 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/rural-payments-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Rural Payments Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/rural-payments-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/ali-johnson>,
+        <https://www.gov.uk/government/people/mark-ashenden>,
+        <https://www.gov.uk/government/people/oliver-munn>,
+        <https://www.gov.uk/government/people/tom-foster> .
+
+<https://www.gov.uk/government/people/ali-johnson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67488b4a24108edc3c8cebc7/s465_Ali_Johnson.jpg> ;
+    schema1:name "Ali Johnson"@en .
+
+<https://www.gov.uk/government/people/mark-ashenden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6996c27b339ee33f3ad0b8e0/s465_Mark_v3.jpg> ;
+    schema1:name "Mark Ashenden"@en .
+
+<https://www.gov.uk/government/people/oliver-munn> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6996c23fbfdab2546272bf81/s465_Oliver_Munn_v3.jpg> ;
+    schema1:name "Oliver Munn"@en .
+
+<https://www.gov.uk/government/people/tom-foster> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6996c2c7339ee33f3ad0b8e1/s465_Tom_v3.jpg> ;
+    schema1:name "Tom Foster"@en .
+

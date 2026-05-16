@@ -1,0 +1,47 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-the-union> .
+
+<https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-the-union> .
+
+<https://www.gov.uk/government/people/keir-starmer> schema1:name "The Rt Hon Sir Keir Starmer KCB KC MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-the-union> .
+
+<https://www.gov.uk/government/people/boris-johnson> schema1:name "The Rt Hon Boris Johnson"@en .
+
+<https://www.gov.uk/government/people/elizabeth-truss> schema1:name "The Rt Hon Elizabeth Truss"@en .
+
+<https://www.gov.uk/government/people/rishi-sunak> schema1:name "The Rt Hon Rishi Sunak MP"@en .
+
+<https://www.gov.uk/government/ministers/minister-for-the-union> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister for the Union"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-for-the-union> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office>,
+        <https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson>,
+        <https://www.gov.uk/government/people/elizabeth-truss>,
+        <https://www.gov.uk/government/people/rishi-sunak> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/keir-starmer> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/rishi-sunak> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-union> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-union> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-union> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

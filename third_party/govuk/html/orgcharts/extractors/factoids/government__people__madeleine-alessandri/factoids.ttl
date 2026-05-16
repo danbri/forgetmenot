@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/madeleine-alessandri> .
+
+<https://www.gov.uk/government/people/madeleine-alessandri> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Madeleine Alessandri has been Chair of the Joint Intelligence Committee since 1 July 2023. Madeleine was Permanent Secretary for the Northern Ireland Office from 2020 to 2023. Previously she was the UK Deputy National Security Advisor and Prime Minister’s Adviser on National Resilience and Security. She joined government service in 1988 and has held a wide variety of positions in the Diplomatic Service and in National Security in the UK and overseas."@en ;
+    schema1:name "Dame Madeleine Alessandri DCB, CMG"@en ;
+    schema1:url <https://www.gov.uk/government/people/madeleine-alessandri> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:currentRoleTitle "Chair of the Joint Intelligence Committee"@en .
+

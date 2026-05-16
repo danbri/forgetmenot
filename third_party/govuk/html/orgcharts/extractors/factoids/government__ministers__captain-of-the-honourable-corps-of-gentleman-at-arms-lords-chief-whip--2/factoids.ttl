@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/lord-kennedy-of-southwark> schema1:name "The Rt Hon Lord Kennedy of Southwark"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/captain-of-the-honourable-corps-of-gentleman-at-arms-lords-chief-whip--2> .
+
+<https://www.gov.uk/government/ministers/captain-of-the-honourable-corps-of-gentleman-at-arms-lords-chief-whip--2> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Captain of the Honourable Corps of Gentleman at Arms (Lords Chief Whip)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/captain-of-the-honourable-corps-of-gentleman-at-arms-lords-chief-whip--2> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/lord-kennedy-of-southwark> .
+

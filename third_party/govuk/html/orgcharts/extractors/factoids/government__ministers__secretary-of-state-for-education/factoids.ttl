@@ -1,0 +1,116 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-education> .
+
+<https://www.gov.uk/government/people/bridget-phillipson> schema1:name "The Rt Hon Bridget Phillipson MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-education> .
+
+<https://www.gov.uk/government/people/damian-hinds> schema1:name "The Rt Hon Damian Hinds MP"@en .
+
+<https://www.gov.uk/government/people/gavin-williamson> schema1:name "The Rt Hon Sir Gavin Williamson CBE MP"@en .
+
+<https://www.gov.uk/government/people/gillian-keegan> schema1:name "The Rt Hon Gillian Keegan"@en .
+
+<https://www.gov.uk/government/people/james-cleverly> schema1:name "The Rt Hon James Cleverly MP"@en .
+
+<https://www.gov.uk/government/people/justine-greening> schema1:name "The Rt Hon Justine Greening"@en .
+
+<https://www.gov.uk/government/people/kit-malthouse> schema1:name "The Rt Hon Kit Malthouse MP"@en .
+
+<https://www.gov.uk/government/people/michael-gove> schema1:name "The Rt Hon Michael Gove"@en .
+
+<https://www.gov.uk/government/people/michelle-donelan> schema1:name "The Rt Hon Michelle Donelan"@en .
+
+<https://www.gov.uk/government/people/nadhim-zahawi> schema1:name "The Rt Hon Nadhim Zahawi"@en .
+
+<https://www.gov.uk/government/people/nicky-morgan> schema1:name "The Rt Hon Baroness Nicky Morgan"@en .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-education> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Secretary of State for Education"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/damian-hinds>,
+        <https://www.gov.uk/government/people/gavin-williamson>,
+        <https://www.gov.uk/government/people/gillian-keegan>,
+        <https://www.gov.uk/government/people/james-cleverly>,
+        <https://www.gov.uk/government/people/justine-greening>,
+        <https://www.gov.uk/government/people/kit-malthouse>,
+        <https://www.gov.uk/government/people/michael-gove>,
+        <https://www.gov.uk/government/people/michelle-donelan>,
+        <https://www.gov.uk/government/people/nadhim-zahawi>,
+        <https://www.gov.uk/government/people/nicky-morgan> ;
+    govuk:responsibility "academies and free schools"@en,
+        "apprenticeships and skills"@en,
+        "children’s social care"@en,
+        "early years and childcare"@en,
+        "further education"@en,
+        "higher education"@en,
+        "school improvement"@en,
+        "teacher quality, recruitment and retention"@en,
+        "the school curriculum"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/bridget-phillipson> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nicky-morgan> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/damian-hinds> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/james-cleverly> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/gavin-williamson> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/gillian-keegan> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/justine-greening> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/kit-malthouse> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michelle-donelan> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2014"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+

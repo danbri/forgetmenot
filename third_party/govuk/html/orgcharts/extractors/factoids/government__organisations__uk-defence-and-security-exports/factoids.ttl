@@ -1,0 +1,26 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/oliver-harry> a schema1:Person ;
+    schema1:name "Oliver Harry"@en .
+
+<https://www.gov.uk/government/ministers/secretary-of-state--2> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Business and Trade"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/uk-defence-and-security-exports> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
+
+<https://www.gov.uk/government/organisations/uk-defence-and-security-exports> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "UK Defence and Security Exports"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/uk-defence-and-security-exports> ;
+    govuk:hasManager <https://www.gov.uk/government/people/oliver-harry> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/peter-kyle> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state--2> .
+
+<https://www.gov.uk/government/people/peter-kyle> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66881a3e4a94d44125d9cda2/s465_Peter_Kyle.jpg> ;
+    schema1:name "The Rt Hon Peter Kyle MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state--2> .
+

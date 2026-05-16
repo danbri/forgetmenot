@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/disability-unit> govuk:hasMinister <https://www.gov.uk/government/people/alexandra-gowlland> .
+
+<https://www.gov.uk/government/people/alexandra-gowlland> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Alexandra Gowlland has been the Deputy Director of the Disability Unit in the Cabinet Office since March 2023."@en ;
+    schema1:name "Alexandra Gowlland"@en ;
+    schema1:url <https://www.gov.uk/government/people/alexandra-gowlland> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/disability-unit> ;
+    govuk:currentRoleTitle "Deputy Director"@en .
+

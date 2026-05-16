@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/cyber-and-specialist-operations-command> govuk:hasMinister <https://www.gov.uk/government/people/suraya-marshall> .
+
+<https://www.gov.uk/government/people/suraya-marshall> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Air Marshal Suraya Marshall, CBE was appointed Deputy Commander, Cyber & Specialist Operations (CSOC) on 28 November 2025."@en ;
+    schema1:name "Air Marshal Suraya Marshall CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/suraya-marshall> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/cyber-and-specialist-operations-command> ;
+    govuk:currentRoleTitle "Deputy Commander Cyber & Specialist Operations Command"@en .
+

@@ -1,0 +1,23 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--201> .
+
+<https://www.gov.uk/government/people/alison-mcgovern> schema1:name "Alison McGovern MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--201> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--201> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Local Government and Homelessness)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--201> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:responsibility "Homelessness and rough sleeping"@en,
+        "Local government finance (including local taxation, business rates and local government pensions)"@en,
+        "Local government policy (including stewardship, local audit, and governance reform)"@en,
+        "Local government reorganisation"@en,
+        "Planning casework"@en,
+        "Resettlement"@en,
+        "Supported housing and domestic abuse"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/alison-mcgovern> .
+

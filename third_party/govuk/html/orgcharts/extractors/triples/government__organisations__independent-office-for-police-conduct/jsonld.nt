@@ -1,0 +1,24 @@
+_:N765ecaa4fa914f0999843c5b6b31e5d7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N099c9bd113a44ed1833031554fca83b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Nf13c36c64890471bafae8292f12c8a44 <http://schema.org/itemListElement> _:N765ecaa4fa914f0999843c5b6b31e5d7 .
+_:N19a6736eb63743ee89d167a0589f7009 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N277f11495f604630afe2f40a94bacc3d <http://schema.org/description> "The Independent Office for Police Conduct (IOPC) exists to increase public confidence in the police complaints system in England and Wales. It also investigates serious complaints and allegations of misconduct against the police and handles appeals. IOPC is an executive non-departmental public body, sponsored by the Home Office ." .
+_:N099c9bd113a44ed1833031554fca83b0 <http://schema.org/description> "Find all content from Independent Office for Police Conduct" .
+_:N19a6736eb63743ee89d167a0589f7009 <http://schema.org/item> <https://www.gov.uk/> .
+_:N277f11495f604630afe2f40a94bacc3d <http://schema.org/name> "Independent Office for Police Conduct" .
+_:N277f11495f604630afe2f40a94bacc3d <http://schema.org/parentOrganization> _:Na19c680a83b14ebda9fa483145460511 .
+_:N277f11495f604630afe2f40a94bacc3d <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/independent-office-for-police-conduct> .
+_:N277f11495f604630afe2f40a94bacc3d <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Na19c680a83b14ebda9fa483145460511 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nf13c36c64890471bafae8292f12c8a44 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nf13c36c64890471bafae8292f12c8a44 <http://schema.org/itemListElement> _:N19a6736eb63743ee89d167a0589f7009 .
+_:N19a6736eb63743ee89d167a0589f7009 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N277f11495f604630afe2f40a94bacc3d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N277f11495f604630afe2f40a94bacc3d <http://schema.org/potentialAction> _:N099c9bd113a44ed1833031554fca83b0 .
+_:N765ecaa4fa914f0999843c5b6b31e5d7 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+<https://www.gov.uk/government/organisations/independent-office-for-police-conduct> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Na19c680a83b14ebda9fa483145460511 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/home-office> .
+_:N765ecaa4fa914f0999843c5b6b31e5d7 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N099c9bd113a44ed1833031554fca83b0 <http://schema.org/query> "required" .

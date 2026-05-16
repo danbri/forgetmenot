@@ -1,0 +1,24 @@
+_:N7e1d436828204a9db2768627651cc660 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N6fbd069589bc4e80b4b2ce567b882433 <http://schema.org/description> "Find all content from Flood Re" .
+_:N6fbd069589bc4e80b4b2ce567b882433 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N1f5f002f624647df8b9e6b3eab4ecb67 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nabcb273ce02d41aa8c6c328274cbbcfe <http://schema.org/potentialAction> _:N6fbd069589bc4e80b4b2ce567b882433 .
+_:Nb67bb1d09e344017853d597d5114e8cc <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nb67bb1d09e344017853d597d5114e8cc <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nabcb273ce02d41aa8c6c328274cbbcfe <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nabcb273ce02d41aa8c6c328274cbbcfe <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nb67bb1d09e344017853d597d5114e8cc <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N7e1d436828204a9db2768627651cc660 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nabcb273ce02d41aa8c6c328274cbbcfe <http://schema.org/description> "Flood Re is a joint industry and government initiative. Flood Re is a flood re-insurance scheme which provides reinsurance to a) promote affordability and availability of insurance for UK households at high flood risk and b) to manage the transition to risk-reflective pricing of flood insurance for household premises. Flood Re will end in 2039. Flood Re works with the Department for Environment, Food & Rural Affairs ." .
+_:Nabcb273ce02d41aa8c6c328274cbbcfe <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/flood-re> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N1f5f002f624647df8b9e6b3eab4ecb67 <http://schema.org/itemListElement> _:N2193fc2322c0403eb630026ca91a5579 .
+_:N2193fc2322c0403eb630026ca91a5579 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N2193fc2322c0403eb630026ca91a5579 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N6fbd069589bc4e80b4b2ce567b882433 <http://schema.org/query> "required" .
+_:N1f5f002f624647df8b9e6b3eab4ecb67 <http://schema.org/itemListElement> _:Nb67bb1d09e344017853d597d5114e8cc .
+_:N2193fc2322c0403eb630026ca91a5579 <http://schema.org/item> <https://www.gov.uk/> .
+_:Nabcb273ce02d41aa8c6c328274cbbcfe <http://schema.org/parentOrganization> _:N7e1d436828204a9db2768627651cc660 .
+_:Nabcb273ce02d41aa8c6c328274cbbcfe <http://schema.org/name> "Flood Re" .
+<https://www.gov.uk/government/organisations/flood-re> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .

@@ -1,0 +1,34 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/advisory-committee-on-business-appointments> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Advisory Committee on Business Appointments"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/advisory-committee-on-business-appointments> ;
+    govuk:hasManager <https://www.gov.uk/government/people/dawid-konotey-ahulu>,
+        <https://www.gov.uk/government/people/hedley-finn>,
+        <https://www.gov.uk/government/people/isabel-doverty>,
+        <https://www.gov.uk/government/people/michael-prescott>,
+        <https://www.gov.uk/government/people/sarah-de-gay>,
+        <https://www.gov.uk/government/people/the-baroness-thornton> .
+
+<https://www.gov.uk/government/people/dawid-konotey-ahulu> a schema1:Person ;
+    schema1:name "Mr Dawid Konotey-Ahulu CBE"@en .
+
+<https://www.gov.uk/government/people/hedley-finn> a schema1:Person ;
+    schema1:name "Mr Hedley Finn OBE"@en .
+
+<https://www.gov.uk/government/people/isabel-doverty> a schema1:Person ;
+    schema1:name "Isabel Doverty"@en .
+
+<https://www.gov.uk/government/people/michael-prescott> a schema1:Person ;
+    schema1:name "Mr Michael Prescott"@en .
+
+<https://www.gov.uk/government/people/sarah-de-gay> a schema1:Person ;
+    schema1:name "Sarah de Gay"@en .
+
+<https://www.gov.uk/government/people/the-baroness-thornton> a schema1:Person ;
+    schema1:name "The Baroness Thornton"@en .
+

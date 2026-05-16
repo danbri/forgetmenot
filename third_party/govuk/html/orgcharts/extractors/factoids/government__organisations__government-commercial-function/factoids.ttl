@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-commercial-function> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Commercial Function"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-commercial-function> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-forzani> .
+
+<https://www.gov.uk/government/people/andrew-forzani> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61bb53c0d3bf7f054e76960b/s465_20211216-ForzaniA_960x640.jpg> ;
+    schema1:name "Andrew Forzani"@en .
+

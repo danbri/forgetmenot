@@ -1,0 +1,32 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> .
+
+<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> .
+
+<https://www.gov.uk/government/people/patrick-vallance> schema1:name "Lord Vallance"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Science, Innovation, Research and Nuclear)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero>,
+        <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:responsibility "AI in the energy sector"@en,
+        "Horizon Europe"@en,
+        "Oxford – Cambridge Growth Corridor Champion"@en,
+        "Talent - universities"@en,
+        "domestic science and research ecosystem"@en,
+        "fusion"@en,
+        "international science and research"@en,
+        "life sciences"@en,
+        "nuclear"@en,
+        "quantum and engineering biology"@en,
+        "research and development"@en,
+        "science and innovation for climate and energy"@en,
+        "tech and innovation across the missions"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/patrick-vallance> .
+

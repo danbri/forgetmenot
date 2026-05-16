@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/national-housing-bank> govuk:hasMinister <https://www.gov.uk/government/people/simon-pistell> .
+
+<https://www.gov.uk/government/people/simon-pistell> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Currently Risk Director at Legal & General, Simon served as Chief Risk Officer (CRO) for LGIM, the UK’s largest fund manager, and for the past 6 years as CRO of L&G Capital, overseeing housing and regeneration businesses. His remit included major housing areas such as L&G Modular Housing, Build-to-Rent, Affordable Housing, Cala Homes, Strategic Land, together with urban regeneration, clean energy, and venture businesses. He was a key member or advisor across all relevant boards, committees, and governance structures."@en ;
+    schema1:name "Simon Pistell"@en ;
+    schema1:url <https://www.gov.uk/government/people/simon-pistell> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/national-housing-bank> ;
+    govuk:currentRoleTitle "Non-Executive Director, National Housing Bank"@en .
+

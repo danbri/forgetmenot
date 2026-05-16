@@ -1,0 +1,16 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/home-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> .
+
+<https://www.gov.uk/government/people/natalie-fleet> schema1:name "Natalie Fleet MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/natalie-fleet> .
+

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-internal-audit-agency> govuk:hasMinister <https://www.gov.uk/government/people/andrew-cartner> .
+
+<https://www.gov.uk/government/people/andrew-cartner> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Andrew joined HM Treasury (HMT) in September 2022 as Director Public Spending, where he leads the teams responsible for delivering high quality government financial reporting and data, with a focus on using this information to improve decision making and accountability across government. He is also Deputy Head of the Government Finance Function setting the Strategy and Standards for the function. Andrew is a CIMA qualified accountant."@en ;
+    schema1:name "Andrew Cartner"@en ;
+    schema1:url <https://www.gov.uk/government/people/andrew-cartner> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-internal-audit-agency> ;
+    govuk:currentRoleTitle "Board Member and Deputy Head of the Government Finance Function"@en .
+

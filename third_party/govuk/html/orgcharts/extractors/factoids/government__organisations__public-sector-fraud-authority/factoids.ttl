@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/public-sector-fraud-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Public Sector Fraud Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/public-sector-fraud-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/mark-cheeseman>,
+        <https://www.gov.uk/government/people/rich-wentel> .
+
+<https://www.gov.uk/government/people/mark-cheeseman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6499a833831311001329639a/s465_Untitled.jpg> ;
+    schema1:name "Mark Cheeseman OBE"@en .
+
+<https://www.gov.uk/government/people/rich-wentel> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/673494a437aabe56c4161056/s465_Rich.jpg> ;
+    schema1:name "Rich Wentel"@en .
+

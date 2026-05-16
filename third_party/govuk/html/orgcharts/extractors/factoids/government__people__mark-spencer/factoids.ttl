@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/mark-spencer> .
+
+<https://www.gov.uk/government/people/mark-spencer> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "In March 2024, Mark was appointed as a Kings Batchelor by His Majesty the King, creating Sir Mark Spencer, the Rt Hon Member for Sherwood."@en ;
+    schema1:name "The Rt Hon Sir Mark Spencer"@en ;
+    schema1:url <https://www.gov.uk/government/people/mark-spencer> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

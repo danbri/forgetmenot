@@ -1,0 +1,24 @@
+_:N8e87053b57a1437aa701df4c30a2d208 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nfa90aa87f740450eb9012021523fbac1 <http://schema.org/item> <https://www.gov.uk/> .
+_:Ne5be2257054744bf98208d4fd0cf86b9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N4629b63ce031419eabbe52e320e028fa <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N8e87053b57a1437aa701df4c30a2d208 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Ne5be2257054744bf98208d4fd0cf86b9 <http://schema.org/itemListElement> _:Nfa90aa87f740450eb9012021523fbac1 .
+_:Nfa90aa87f740450eb9012021523fbac1 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N4629b63ce031419eabbe52e320e028fa <http://schema.org/name> "Privy Council Office" .
+_:N4629b63ce031419eabbe52e320e028fa <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N412fc47e4fb44140b1849d96662adad6 <http://schema.org/query> "required" .
+_:N4629b63ce031419eabbe52e320e028fa <http://schema.org/description> "The Privy Council is how interdepartmental agreement is reached on items of government business which, for historical or other reasons, fall to ministers as privy counsellors rather than as departmental ministers. The Privy Council Office (PCO) provides secretariat services for the Council, including the arrangements leading to the making of all Royal Proclamations and Orders in Council. PCO works with the Cabinet Office ." .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N8e87053b57a1437aa701df4c30a2d208 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N412fc47e4fb44140b1849d96662adad6 <http://schema.org/description> "Find all content from Privy Council Office" .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N4629b63ce031419eabbe52e320e028fa <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/privy-council-office> .
+_:N412fc47e4fb44140b1849d96662adad6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N4629b63ce031419eabbe52e320e028fa <http://schema.org/potentialAction> _:N412fc47e4fb44140b1849d96662adad6 .
+_:Nc8f43859b25e48179047ae9f1897dcae <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/cabinet-office> .
+_:Ne5be2257054744bf98208d4fd0cf86b9 <http://schema.org/itemListElement> _:N8e87053b57a1437aa701df4c30a2d208 .
+<https://www.gov.uk/government/organisations/privy-council-office> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nc8f43859b25e48179047ae9f1897dcae <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N4629b63ce031419eabbe52e320e028fa <http://schema.org/parentOrganization> _:Nc8f43859b25e48179047ae9f1897dcae .
+_:Nfa90aa87f740450eb9012021523fbac1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .

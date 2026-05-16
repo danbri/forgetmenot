@@ -1,0 +1,24 @@
+_:N0289a39acf9d4e26be971a02da8ee555 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nf7d93e1575a24f80848f0d3dd85b6e23 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N6cf35db2afdc45379344fea6f60304eb <http://schema.org/description> "Find all content from Parole Board" .
+_:Nc0efe239d9d5427690862a963bbd787f <http://schema.org/description> "The Parole Board is an independent body that carries out risk assessments on prisoners to determine whether they can be safely released into the community. Parole Board is an executive non-departmental public body, sponsored by the Ministry of Justice ." .
+_:Nc0efe239d9d5427690862a963bbd787f <http://schema.org/potentialAction> _:N6cf35db2afdc45379344fea6f60304eb .
+_:N6cf35db2afdc45379344fea6f60304eb <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N6cf35db2afdc45379344fea6f60304eb <http://schema.org/query> "required" .
+_:N0289a39acf9d4e26be971a02da8ee555 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations/parole-board> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N0289a39acf9d4e26be971a02da8ee555 <http://schema.org/item> <https://www.gov.uk/> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N5ddc297e669c49aa810f89b359fc6319 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nf1b2e9007f8e40afad1cfeab3d509980 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nc0efe239d9d5427690862a963bbd787f <http://schema.org/parentOrganization> _:Nf7d93e1575a24f80848f0d3dd85b6e23 .
+_:Nf1b2e9007f8e40afad1cfeab3d509980 <http://schema.org/itemListElement> _:N0289a39acf9d4e26be971a02da8ee555 .
+_:N5ddc297e669c49aa810f89b359fc6319 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N5ddc297e669c49aa810f89b359fc6319 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nf7d93e1575a24f80848f0d3dd85b6e23 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/ministry-of-justice> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nc0efe239d9d5427690862a963bbd787f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nc0efe239d9d5427690862a963bbd787f <http://schema.org/name> "Parole Board" .
+_:Nc0efe239d9d5427690862a963bbd787f <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nf1b2e9007f8e40afad1cfeab3d509980 <http://schema.org/itemListElement> _:N5ddc297e669c49aa810f89b359fc6319 .
+_:Nc0efe239d9d5427690862a963bbd787f <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/parole-board> .

@@ -1,0 +1,58 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> .
+
+<https://www.gov.uk/government/people/alan-whitehead> schema1:name "Dr Alan Whitehead CBE"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> .
+
+<https://www.gov.uk/government/people/baroness-curran> schema1:name "Baroness Curran"@en .
+
+<https://www.gov.uk/government/people/graham-stuart> schema1:name "The Rt Hon Graham Stuart MP"@en .
+
+<https://www.gov.uk/government/people/justin-tomlinson> schema1:name "Justin Tomlinson"@en .
+
+<https://www.gov.uk/government/people/lord-hunt-of-kings-heath> schema1:name "The Rt Hon Lord Hunt of Kings Heath OBE"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Energy Security and Net Zero)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/baroness-curran>,
+        <https://www.gov.uk/government/people/graham-stuart>,
+        <https://www.gov.uk/government/people/justin-tomlinson>,
+        <https://www.gov.uk/government/people/lord-hunt-of-kings-heath> ;
+    govuk:responsibility "all departmental business in the House of Lords"@en,
+        "biomethane"@en,
+        "geothermal"@en,
+        "individual planning decisions"@en,
+        "tidal"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/alan-whitehead> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/justin-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/graham-stuart> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lord-hunt-of-kings-heath> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-curran> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2025"^^xsd:gYear .
+

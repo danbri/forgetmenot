@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/david-lidington> .
+
+<https://www.gov.uk/government/people/david-lidington> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "David Lidington was Minister for the Cabinet Office and Chancellor of the Duchy of Lancaster between 8 January 2018 and 24 July 2019."@en ;
+    schema1:name "The Rt Hon David Lidington CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/david-lidington> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

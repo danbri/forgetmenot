@@ -1,0 +1,45 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/high-speed-two-limited> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "High Speed Two (HS2) Limited"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/high-speed-two-limited> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alan-foster>,
+        <https://www.gov.uk/government/people/alan-morris>,
+        <https://www.gov.uk/government/people/emma-head>,
+        <https://www.gov.uk/government/people/jim-crawford--2>,
+        <https://www.gov.uk/government/people/mark-wild>,
+        <https://www.gov.uk/government/people/mike-brown>,
+        <https://www.gov.uk/government/people/morag-stuart> .
+
+<https://www.gov.uk/government/people/alan-foster> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/689b1b725555fb89cf3f5e55/s465_Alan_Foster.jpg> ;
+    schema1:name "Alan Foster"@en .
+
+<https://www.gov.uk/government/people/alan-morris> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/689b1c059159159c36e94055/s465_Alan_Morris.jpg> ;
+    schema1:name "Alan Morris"@en .
+
+<https://www.gov.uk/government/people/emma-head> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/689b1ba55555fb89cf3f5e59/s465_Emma_Head.jpg> ;
+    schema1:name "Emma Head"@en .
+
+<https://www.gov.uk/government/people/jim-crawford--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/689b1c2d5555fb89cf3f5e5d/s465_Jim_Crawford.jpg> ;
+    schema1:name "Jim Crawford"@en .
+
+<https://www.gov.uk/government/people/mark-wild> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/689b1b197b0b51a850e94048/s465_Mark_Wild_.jpg> ;
+    schema1:name "Mark Wild OBE, FREng"@en .
+
+<https://www.gov.uk/government/people/mike-brown> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68b9ace811b4ded2da19fe5a/s465_Mike_Brown3.jpg> ;
+    schema1:name "Mike Brown CBE MVO"@en .
+
+<https://www.gov.uk/government/people/morag-stuart> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/696fa2565b6060ca6736a0d3/s465_Morag_Stuart_Jan_26.jpg> ;
+    schema1:name "Morag Stuart"@en .
+

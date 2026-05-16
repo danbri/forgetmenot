@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/richard-keen> .
+
+<https://www.gov.uk/government/people/richard-keen> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Rt Hon Lord Keen of Elie KC was HM Advocate General for Scotland from 29 May 2015 to 16 September 2020."@en ;
+    schema1:name "The Rt Hon Lord Keen of Elie KC"@en ;
+    schema1:url <https://www.gov.uk/government/people/richard-keen> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

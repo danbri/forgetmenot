@@ -1,0 +1,24 @@
+_:Ne08db1f18e7c404ea3a9ac72682f2b1c <http://schema.org/description> "Find all content from Marine Accident Investigation Branch" .
+_:N73f895b00e6a4e52b8792cc7faa1c620 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Ne08db1f18e7c404ea3a9ac72682f2b1c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N8bf63ffcdcda45c8a53b6e2b8dcc3599 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nc0533e9a6e1b4de7ba3ed904e089e57e <http://schema.org/description> "The MAIB investigates marine accidents involving UK vessels worldwide and all vessels in UK territorial waters. MAIB works with the Department for Transport ." .
+<https://www.gov.uk/government/organisations/marine-accident-investigation-branch> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nc0533e9a6e1b4de7ba3ed904e089e57e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nc0533e9a6e1b4de7ba3ed904e089e57e <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/marine-accident-investigation-branch> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N73f895b00e6a4e52b8792cc7faa1c620 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nc0533e9a6e1b4de7ba3ed904e089e57e <http://schema.org/parentOrganization> _:Nf78b2bceaecf4255aebb818415a61826 .
+_:Nc0533e9a6e1b4de7ba3ed904e089e57e <http://schema.org/potentialAction> _:Ne08db1f18e7c404ea3a9ac72682f2b1c .
+_:Nc0533e9a6e1b4de7ba3ed904e089e57e <http://schema.org/name> "Marine Accident Investigation Branch" .
+_:N73f895b00e6a4e52b8792cc7faa1c620 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Nf78b2bceaecf4255aebb818415a61826 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nf78b2bceaecf4255aebb818415a61826 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-transport> .
+_:Ne08db1f18e7c404ea3a9ac72682f2b1c <http://schema.org/query> "required" .
+_:Nc0533e9a6e1b4de7ba3ed904e089e57e <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N8bf63ffcdcda45c8a53b6e2b8dcc3599 <http://schema.org/itemListElement> _:Nde54c5634de94c3abae549d88aa4ce50 .
+_:Nde54c5634de94c3abae549d88aa4ce50 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N8bf63ffcdcda45c8a53b6e2b8dcc3599 <http://schema.org/itemListElement> _:N73f895b00e6a4e52b8792cc7faa1c620 .
+_:Nde54c5634de94c3abae549d88aa4ce50 <http://schema.org/item> <https://www.gov.uk/> .
+_:Nde54c5634de94c3abae549d88aa4ce50 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .

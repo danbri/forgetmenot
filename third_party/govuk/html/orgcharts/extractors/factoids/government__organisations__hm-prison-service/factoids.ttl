@@ -1,0 +1,30 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/hm-prison-service> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "HM Prison Service"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/hm-prison-service> ;
+    govuk:hasManager <https://www.gov.uk/government/people/ed-cornmell>,
+        <https://www.gov.uk/government/people/michelle-jarman-howe>,
+        <https://www.gov.uk/government/people/neil-richards>,
+        <https://www.gov.uk/government/people/sarah-coccia> .
+
+<https://www.gov.uk/government/people/ed-cornmell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/635909a7e90e0777a8f7e0dd/s465_ed-cornmell_960x640.jpg> ;
+    schema1:name "Ed Cornmell"@en .
+
+<https://www.gov.uk/government/people/michelle-jarman-howe> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ca1d507ed915d0c4db02d78/s465_michelle-jarman-howe.jpg> ;
+    schema1:name "Michelle Jarman-Howe"@en .
+
+<https://www.gov.uk/government/people/neil-richards> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ca1e1f7ed915d0c4db02d7d/s465_neil-richardson.jpg> ;
+    schema1:name "Neil Richards"@en .
+
+<https://www.gov.uk/government/people/sarah-coccia> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/690e2eaa65da22dd5772990d/s465_sarah_coccia_960x640.jpg> ;
+    schema1:name "Sarah Coccia"@en .
+

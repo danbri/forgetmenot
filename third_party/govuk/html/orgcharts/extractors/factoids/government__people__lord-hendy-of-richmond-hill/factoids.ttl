@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--191> govuk:roleHolder <https://www.gov.uk/government/people/lord-hendy-of-richmond-hill> .
+
+<https://www.gov.uk/government/organisations/department-for-transport> govuk:hasMinister <https://www.gov.uk/government/people/lord-hendy-of-richmond-hill> .
+
+<https://www.gov.uk/government/people/lord-hendy-of-richmond-hill> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Hendy of Richmond Hill CBE was appointed Minister of State at the Department for Transport on 8 July 2024."@en ;
+    schema1:name "Lord Hendy of Richmond Hill CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/lord-hendy-of-richmond-hill> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:currentRoleTitle "Minister of State (Minister for Rail)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--191> .
+

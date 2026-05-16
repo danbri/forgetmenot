@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/building-digital-uk> govuk:hasMinister <https://www.gov.uk/government/people/laura-battisegola> .
+
+<https://www.gov.uk/government/people/laura-battisegola> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Laura joined the BDUK Commercial Function in 2019, becoming BDUK Commercial Director in 2021. Prior to that, Laura joined Cabinet Office Commercial in 2018 and the Government Commercial Organisation shortly after, looking at high value and complex spend across government."@en ;
+    schema1:name "Laura Battisegola"@en ;
+    schema1:url <https://www.gov.uk/government/people/laura-battisegola> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/building-digital-uk> ;
+    govuk:currentRoleTitle "Director for Commercial"@en .
+

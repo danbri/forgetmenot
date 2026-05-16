@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/regulatory-innovation-office> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Regulatory Innovation Office"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/regulatory-innovation-office> ;
+    govuk:hasManager <https://www.gov.uk/government/people/david-willetts> .
+
+<https://www.gov.uk/government/people/david-willetts> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f67efe5274a6bed6136ea/s465_David-Willetts-960x640.jpg> ;
+    schema1:name "The Rt Hon Lord David Willetts"@en .
+

@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/industrial-injuries-advisory-council> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Industrial Injuries Advisory Council"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/industrial-injuries-advisory-council> ;
+    govuk:hasManager <https://www.gov.uk/government/people/gillian-leng> .
+
+<https://www.gov.uk/government/people/gillian-leng> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/681ddbccd9c9bb76078f7e66/s465_prof-gillian-leng-cbe.png> ;
+    schema1:name "Professor Gillian Leng CBE"@en .
+

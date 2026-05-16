@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/graham-shortland> .
+
+<https://www.gov.uk/government/people/graham-shortland> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Dr Graham Shortland qualified from the University of Southampton in 1983. He trained in NHS and academic posts in Southampton, Cardiff and Bristol."@en ;
+    schema1:name "Dr Graham Shortland"@en ;
+    schema1:url <https://www.gov.uk/government/people/graham-shortland> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
+    govuk:currentRoleTitle "Vice Chair"@en .
+

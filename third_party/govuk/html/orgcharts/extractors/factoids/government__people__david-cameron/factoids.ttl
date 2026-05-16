@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/david-cameron> .
+
+<https://www.gov.uk/government/people/david-cameron> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "David Cameron was Secretary of State for Foreign, Commonwealth and Development Affairs between 13 November 2023 and 5 July 2024."@en ;
+    schema1:name "The Rt Hon Lord Cameron"@en ;
+    schema1:url <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

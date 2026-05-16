@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/probation-service> govuk:hasMinister <https://www.gov.uk/government/people/kim-thornden-edwards> .
+
+<https://www.gov.uk/government/people/kim-thornden-edwards> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Kim Thornden-Edwards is the Chief Probation Officer for England and Wales and a senior leader at Her Majesty’s Prison and Probation Service. Probation employs around 20,000 staff working, in 11 regions and Wales, and includes the National Security Division which manages the highest risk offenders including those who have committed terrorist offences."@en ;
+    schema1:name "Kim Thornden-Edwards"@en ;
+    schema1:url <https://www.gov.uk/government/people/kim-thornden-edwards> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/probation-service> ;
+    govuk:currentRoleTitle "Chief Probation Officer"@en .
+

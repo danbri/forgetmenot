@@ -1,0 +1,23 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/people/deirdre-costigan> schema1:name "Deirdre Costigan MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--10> .
+
+<https://www.gov.uk/government/people/gen-kitchen> schema1:name "Gen Kitchen MP"@en .
+
+<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--10> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Junior Lord of the Treasury (Government Whip)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--10> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/gen-kitchen> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/deirdre-costigan> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/gen-kitchen> ;
+    govuk:role <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--10> ;
+    govuk:tenureEnd "2026"^^xsd:gYear ;
+    govuk:tenureStart "2025"^^xsd:gYear .
+

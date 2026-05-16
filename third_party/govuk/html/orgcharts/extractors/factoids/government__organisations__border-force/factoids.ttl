@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/border-force> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Border Force"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/border-force> ;
+    govuk:hasManager <https://www.gov.uk/government/people/phil-douglas> .
+
+<https://www.gov.uk/government/people/phil-douglas> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6748893424108edc3c8cebc0/s465_BF_DG_PD_outside_suit_medium_close_up+_1_+_1_960-640.png> ;
+    schema1:name "Phil Douglas CB"@en .
+

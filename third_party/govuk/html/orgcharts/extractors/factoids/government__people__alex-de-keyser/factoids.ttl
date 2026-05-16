@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/alex-de-keyser> .
+
+<https://www.gov.uk/government/people/alex-de-keyser> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Alex is interim General Counsel and Company Secretary for Nuclear Waste Services, leading the Legal and Governance Directorate. Prior to that, she built and led the legal team at Radioactive Waste Management and later Nuclear Waste Services, advising on a broad range of legal subject areas in the context of a public sector nuclear business with an operational site and development programme."@en ;
+    schema1:name "Alex de Keyser"@en ;
+    schema1:url <https://www.gov.uk/government/people/alex-de-keyser> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    govuk:currentRoleTitle "Interim General Counsel and Company Secretary"@en .
+

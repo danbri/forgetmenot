@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/dr-fiona-rayment-obe> .
+
+<https://www.gov.uk/government/people/dr-fiona-rayment-obe> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Dr Fiona Rayment OBE joined the Nuclear Restoration Services Ltd Board in December 2023 as an Independent Non-Executive Director."@en ;
+    schema1:name "Dr Fiona Rayment OBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/dr-fiona-rayment-obe> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    govuk:currentRoleTitle "Non-Executive Director"@en .
+

@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/william-petty-2nd-earl-of-shelburne> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Earl of Shelburne was unfairly branded ‘the Jesuit of Berkeley Square’ on account of his reputation as a dissembler. His reformist inclinations, political independence and vituperative speeches certainly made him a difficult colleague, with more appeal to posterity than to his contemporary politicians."@en ;
+    schema1:name "William Petty, 2nd Earl of Shelburne"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/william-petty-2nd-earl-of-shelburne> .
+

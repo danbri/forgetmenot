@@ -1,0 +1,141 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasRole <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> .
+
+<https://www.gov.uk/government/people/lord-livermore> schema1:name "Lord Livermore"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> .
+
+<https://www.gov.uk/government/people/andrew-griffith> schema1:name "Andrew Griffith MP"@en .
+
+<https://www.gov.uk/government/people/david-gauke> schema1:name "The Rt Hon David Gauke"@en .
+
+<https://www.gov.uk/government/people/greg-clark> schema1:name "The Rt Hon Greg Clark"@en .
+
+<https://www.gov.uk/government/people/jane-ellison> schema1:name "Jane Ellison"@en .
+
+<https://www.gov.uk/government/people/jesse-norman> schema1:name "The Rt Hon Jesse Norman MP"@en .
+
+<https://www.gov.uk/government/people/lucy-frazer> schema1:name "The Rt Hon Lucy Frazer KC"@en .
+
+<https://www.gov.uk/government/people/mark-hoban> schema1:name "Mark Hoban"@en .
+
+<https://www.gov.uk/government/people/mel-stride> schema1:name "The Rt Hon Mel Stride MP"@en .
+
+<https://www.gov.uk/government/people/nicky-morgan> schema1:name "The Rt Hon Baroness Nicky Morgan"@en .
+
+<https://www.gov.uk/government/people/nigel-huddleston> schema1:name "Nigel Huddleston MP"@en .
+
+<https://www.gov.uk/government/people/sajid-javid> schema1:name "The Rt Hon Sajid Javid"@en .
+
+<https://www.gov.uk/government/people/victoria-atkins> schema1:name "The Rt Hon Victoria Atkins MP"@en .
+
+<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Financial Secretary to the Treasury"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith>,
+        <https://www.gov.uk/government/people/david-gauke>,
+        <https://www.gov.uk/government/people/greg-clark>,
+        <https://www.gov.uk/government/people/jane-ellison>,
+        <https://www.gov.uk/government/people/jesse-norman>,
+        <https://www.gov.uk/government/people/lucy-frazer>,
+        <https://www.gov.uk/government/people/mark-hoban>,
+        <https://www.gov.uk/government/people/mel-stride>,
+        <https://www.gov.uk/government/people/nicky-morgan>,
+        <https://www.gov.uk/government/people/nigel-huddleston>,
+        <https://www.gov.uk/government/people/sajid-javid>,
+        <https://www.gov.uk/government/people/victoria-atkins> ;
+    govuk:responsibility "Business engagement (non-FS)"@en,
+        "Departmental minister for HM Treasury Group (including responsibility for the Darlington campus)"@en,
+        "Economic and business regulation and competition"@en,
+        "Industrial Strategy and Trade: leading on the Treasury’s input to the industrial strategy, trade strategy and EU opportunities"@en,
+        "Innovation: including leading on the Treasury’s input to R&D, AI, digital economy and diffusion"@en,
+        "Leading on procurement and commercial strategy, including improving the efficiency and effectiveness of procurement"@en,
+        "Leading on the Treasury’s interest in inward and foreign direct investment (non-FS)"@en,
+        "Leading on the Treasury’s interest in welfare policy"@en,
+        "Net Zero: leading on the Treasury’s input to the clean energy mission, including Great British Energy, decarbonisation, and green industries"@en,
+        "People: leading on the Treasury’s input to skills and workforce policy, including labour market, skills and migration"@en,
+        "Place: leading on the Treasury’s input to regional growth, including cities and devolution and growth elements of housing and planning"@en,
+        "Supporting the Chancellor on economic security and resilience"@en,
+        "Supporting the Chancellor on reforms to the UK’s Public Financial Institutions, including driving growth via the National Wealth Fund and British Business Bank"@en,
+        "Supporting the Chancellor on the Growth Mission, specifically:"@en,
+        "The Crown Estate"@en,
+        "Treasury business in the House of Lords"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/lord-livermore> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/greg-clark> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2013"^^xsd:gYear ;
+    govuk:tenureStart "2012"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/victoria-atkins> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/sajid-javid> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2014"^^xsd:gYear ;
+    govuk:tenureStart "2013"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nicky-morgan> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2014"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/mark-hoban> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2012"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lucy-frazer> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jane-ellison> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2017"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nigel-huddleston> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+

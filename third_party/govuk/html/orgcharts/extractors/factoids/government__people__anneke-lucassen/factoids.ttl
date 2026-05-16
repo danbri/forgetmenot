@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/anneke-lucassen> .
+
+<https://www.gov.uk/government/people/anneke-lucassen> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Anneke is a physician who specialised in clinical genetics and is professor of genomic medicine and consultant in clinical genetics at the University of Oxford (since 2021). She leads a research group extending across universities of Oxford and Southampton that explores the clinical ethical, legal and societal issues (CELS) involved in developments in genomics and big data within medicine."@en ;
+    schema1:name "Professor Anneke Lucassen"@en ;
+    schema1:url <https://www.gov.uk/government/people/anneke-lucassen> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
+    govuk:currentRoleTitle "Member"@en .
+

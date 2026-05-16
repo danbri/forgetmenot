@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/ranil-jayawardena> .
+
+<https://www.gov.uk/government/people/ranil-jayawardena> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Ranil Jayawardena was Secretary of State for Environment, Food and Rural Affairs from 6 September 2022 to 25 October 2022."@en ;
+    schema1:name "The Rt Hon Ranil Jayawardena"@en ;
+    schema1:url <https://www.gov.uk/government/people/ranil-jayawardena> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

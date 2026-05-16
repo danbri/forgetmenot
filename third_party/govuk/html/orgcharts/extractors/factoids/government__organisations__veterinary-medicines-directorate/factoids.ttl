@@ -1,0 +1,40 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/veterinary-medicines-directorate> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Veterinary Medicines Directorate"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/veterinary-medicines-directorate> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-white>,
+        <https://www.gov.uk/government/people/david-catlow>,
+        <https://www.gov.uk/government/people/gavin-hall>,
+        <https://www.gov.uk/government/people/laura-catterick>,
+        <https://www.gov.uk/government/people/mike-venables>,
+        <https://www.gov.uk/government/people/peter-borriello> .
+
+<https://www.gov.uk/government/people/alison-white> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68e66999ef1c2f72bc1e4f1d/s465_Alison_White.png> ;
+    schema1:name "Alison White"@en .
+
+<https://www.gov.uk/government/people/david-catlow> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68e668b1750fcf90fa6fff32/s465_David_Catlow.png> ;
+    schema1:name "David Catlow"@en .
+
+<https://www.gov.uk/government/people/gavin-hall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642c0052ddf8ad000cac0cfb/s465_Gavin_4.jpg> ;
+    schema1:name "Gavin Hall"@en .
+
+<https://www.gov.uk/government/people/laura-catterick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6880cb1e901d5f8d47120517/s465_NED_background.png> ;
+    schema1:name "Laura Catterick"@en .
+
+<https://www.gov.uk/government/people/mike-venables> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68e77b7c187483de54d76680/s465_Mike_Venables.png> ;
+    schema1:name "Mike Venables OBE"@en .
+
+<https://www.gov.uk/government/people/peter-borriello> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/613f64b7d3bf7f05afde0442/s465_Abi_2_Colour_headshot.jpg> ;
+    schema1:name "Abigail Seager"@en .
+

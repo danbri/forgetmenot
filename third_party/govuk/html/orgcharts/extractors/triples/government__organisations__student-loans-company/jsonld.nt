@@ -1,0 +1,24 @@
+_:Ndb15055cec684882a2f4ddada851e674 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N270873193b2546bfa0e9adb27c4663e5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N270873193b2546bfa0e9adb27c4663e5 <http://schema.org/parentOrganization> _:N4d138939a6b04c14a2a2f52774937835 .
+_:N4d138939a6b04c14a2a2f52774937835 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-education> .
+_:Nc0939101e5114b74b383ce0929baf6d7 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N4d138939a6b04c14a2a2f52774937835 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N13b7a586900143eb9a4e84c35a195d48 <http://schema.org/description> "Find all content from Student Loans Company" .
+_:N270873193b2546bfa0e9adb27c4663e5 <http://schema.org/potentialAction> _:N13b7a586900143eb9a4e84c35a195d48 .
+_:N270873193b2546bfa0e9adb27c4663e5 <http://schema.org/name> "Student Loans Company" .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N97bb31b73a854663a75c5718098d5a92 <http://schema.org/itemListElement> _:Ndb15055cec684882a2f4ddada851e674 .
+_:N270873193b2546bfa0e9adb27c4663e5 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N270873193b2546bfa0e9adb27c4663e5 <http://schema.org/description> "We are a non-profit making government-owned organisation that administers loans and grants to students in colleges and universities in the UK. SLC is an executive non-departmental public body, sponsored by the Department for Education ." .
+_:N13b7a586900143eb9a4e84c35a195d48 <http://schema.org/query> "required" .
+_:Nc0939101e5114b74b383ce0929baf6d7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nc0939101e5114b74b383ce0929baf6d7 <http://schema.org/item> <https://www.gov.uk/> .
+_:Ndb15055cec684882a2f4ddada851e674 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/government/organisations/student-loans-company> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N270873193b2546bfa0e9adb27c4663e5 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/student-loans-company> .
+_:N13b7a586900143eb9a4e84c35a195d48 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Ndb15055cec684882a2f4ddada851e674 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N97bb31b73a854663a75c5718098d5a92 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N97bb31b73a854663a75c5718098d5a92 <http://schema.org/itemListElement> _:Nc0939101e5114b74b383ce0929baf6d7 .

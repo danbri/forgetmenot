@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/legal-aid-agency> govuk:hasMinister <https://www.gov.uk/government/people/jane-harbottle> .
+
+<https://www.gov.uk/government/people/jane-harbottle> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Jane Harbottle was appointed Chief Executive of the Legal Aid Agency (LAA) and Director of Legal Aid Casework in March 2021."@en ;
+    schema1:name "Jane Harbottle CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/jane-harbottle> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/legal-aid-agency> ;
+    govuk:currentRoleTitle "Chief Executive"@en .
+

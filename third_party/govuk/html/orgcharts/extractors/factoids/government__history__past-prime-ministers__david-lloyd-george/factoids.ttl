@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/david-lloyd-george> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "David Lloyd George was one of the 20th century’s most famous radicals. He was the first and only Welshman to hold the office of Prime Minister."@en ;
+    schema1:name "David Lloyd George"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/david-lloyd-george> .
+

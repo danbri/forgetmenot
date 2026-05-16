@@ -1,0 +1,24 @@
+_:Nd7b731dd9d134243982f160915caeb08 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Ndd065c411285413597d698b2c51dce60 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Ndd065c411285413597d698b2c51dce60 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N0ad67b51c1374ee0ba448f8e4f296cc2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Ne0887116340e4872ae7538ed30281530 <http://schema.org/itemListElement> _:Nd7b731dd9d134243982f160915caeb08 .
+_:N9c433867a62043638ec9499a335843ad <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/cabinet-office> .
+_:Ne0887116340e4872ae7538ed30281530 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nd7b731dd9d134243982f160915caeb08 <http://schema.org/item> <https://www.gov.uk/> .
+_:N7d52f58b06a440dcbe08dd54ccc8d37e <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Ndd065c411285413597d698b2c51dce60 <http://schema.org/parentOrganization> _:N9c433867a62043638ec9499a335843ad .
+_:N7d52f58b06a440dcbe08dd54ccc8d37e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N7d52f58b06a440dcbe08dd54ccc8d37e <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Ndd065c411285413597d698b2c51dce60 <http://schema.org/potentialAction> _:N0ad67b51c1374ee0ba448f8e4f296cc2 .
+<https://www.gov.uk/government/organisations/civil-service-group> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Ndd065c411285413597d698b2c51dce60 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/civil-service-group> .
+_:Ndd065c411285413597d698b2c51dce60 <http://schema.org/name> "Civil Service Group" .
+_:Ndd065c411285413597d698b2c51dce60 <http://schema.org/description> "Civil Service Group is part of the Cabinet Office ." .
+_:N0ad67b51c1374ee0ba448f8e4f296cc2 <http://schema.org/query> "required" .
+_:Ne0887116340e4872ae7538ed30281530 <http://schema.org/itemListElement> _:N7d52f58b06a440dcbe08dd54ccc8d37e .
+_:N9c433867a62043638ec9499a335843ad <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N0ad67b51c1374ee0ba448f8e4f296cc2 <http://schema.org/description> "Find all content from Civil Service Group" .
+_:Nd7b731dd9d134243982f160915caeb08 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> govuk:hasMinister <https://www.gov.uk/government/people/ian-chapman> .
+
+<https://www.gov.uk/government/people/ian-chapman> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Ian Chapman was appointed Chief Executive Officer of the UK Atomic Energy Authority on 1 October 2016. His career highlights:"@en ;
+    schema1:name "Professor Sir Ian Chapman"@en ;
+    schema1:url <https://www.gov.uk/government/people/ian-chapman> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
+    govuk:currentRoleTitle "Non-executive Director"@en .
+

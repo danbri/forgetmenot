@@ -1,0 +1,129 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/anjali-goswami> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/686e55b581dd8f70f5de3cfd/s465_anjali-goswami-960x640.png> ;
+    schema1:name "Professor Anjali Goswami"@en .
+
+<https://www.gov.uk/government/people/christine-middlemiss> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a97fd4c40f0b67aa2725382/s465_ChristineMiddlemiss-960x640.jpg> ;
+    schema1:name "Professor Christine Middlemiss CB"@en .
+
+<https://www.gov.uk/government/people/dan-corry> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d2a845ca266424b221b1c5/s465_dan-corry-960x640.png> ;
+    schema1:name "Dan Corry"@en .
+
+<https://www.gov.uk/government/people/david-hill> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/686261da1c735341c2111ac5/s465_david-hill-960x640.png> ;
+    schema1:name "David Hill"@en .
+
+<https://www.gov.uk/government/people/emily-miles> a schema1:Person ;
+    schema1:name "Emily Miles"@en .
+
+<https://www.gov.uk/government/people/heather-hancock> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64ba95de06f78d000d7426f0/s465_heather-hancock-960x640.jpg> ;
+    schema1:name "Heather Hancock"@en .
+
+<https://www.gov.uk/government/people/iain-king> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/626bcfc6d3bf7f0e782be8d8/s465_Iain_King_960x640.jpg> ;
+    schema1:name "Iain King"@en .
+
+<https://www.gov.uk/government/people/indro-mukerjee> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67dbf03e0f38d929e57ee318/s465_Indro_Mukerjee_resized.jpg> ;
+    schema1:name "Indro Mukerjee"@en .
+
+<https://www.gov.uk/government/people/nick-folland> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66421dc7ae748c43d37939e0/s465_nick-folland-960x640.jpg> ;
+    schema1:name "Nick Folland"@en .
+
+<https://www.gov.uk/government/people/paul-kissack> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68e93a39e5f463a62cb98680/s465_Paul_Kissack_gov.uk_photo.jpg> ;
+    schema1:name "Paul Kissack"@en .
+
+<https://www.gov.uk/government/people/sachin-jogia> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67dc1a180298101d2d6711ce/s465_Sachin_Jogia_reszied_2.jpg> ;
+    schema1:name "Sachin Jogia"@en .
+
+<https://www.gov.uk/government/people/sally-randall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/672a2340541e1dfbf71e8bb3/s465_sally-randall-960x640.jpg> ;
+    schema1:name "Sally Randall"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state--202> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Food Security and Rural Affairs)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/angela-eagle> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--270> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Water and Flooding)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/emma-hardy> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Biosecurity, Borders and Animals)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/baroness-hayman-of-ullock> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Nature)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/mary-creagh> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Environment, Food and Rural Affairs"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/emma-reynolds--2> .
+
+<https://www.gov.uk/government/people/angela-eagle> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6697904649b9c0597fdafe61/s465_dame-angela-eagle-official-gov.uk.jpg> ;
+    schema1:name "Dame Angela Eagle DBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--202> .
+
+<https://www.gov.uk/government/people/baroness-hayman-of-ullock> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d8d86541aeb9e928f47ce/s465_Baroness_Hayman_of_Ullock.jpeg> ;
+    schema1:name "Baroness Hayman of Ullock"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272> .
+
+<https://www.gov.uk/government/people/emma-hardy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d8cccd9d35187868f47b4/s465_Portrait.jpeg> ;
+    schema1:name "Emma Hardy MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--270> .
+
+<https://www.gov.uk/government/people/emma-reynolds--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d7e93541aeb9e928f47ae/s465_Emma_Reynolds_MP.jpeg> ;
+    schema1:name "The Rt Hon Emma Reynolds MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> .
+
+<https://www.gov.uk/government/people/mary-creagh> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/669a3245ab418ab0555928a6/s465_mary-creagh.jpeg> ;
+    schema1:name "Mary Creagh CBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278> .
+
+<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Department for Environment, Food & Rural Affairs"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    govuk:hasManager <https://www.gov.uk/government/people/anjali-goswami>,
+        <https://www.gov.uk/government/people/christine-middlemiss>,
+        <https://www.gov.uk/government/people/dan-corry>,
+        <https://www.gov.uk/government/people/david-hill>,
+        <https://www.gov.uk/government/people/emily-miles>,
+        <https://www.gov.uk/government/people/heather-hancock>,
+        <https://www.gov.uk/government/people/iain-king>,
+        <https://www.gov.uk/government/people/indro-mukerjee>,
+        <https://www.gov.uk/government/people/nick-folland>,
+        <https://www.gov.uk/government/people/paul-kissack>,
+        <https://www.gov.uk/government/people/sachin-jogia>,
+        <https://www.gov.uk/government/people/sally-randall> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/angela-eagle>,
+        <https://www.gov.uk/government/people/baroness-hayman-of-ullock>,
+        <https://www.gov.uk/government/people/emma-hardy>,
+        <https://www.gov.uk/government/people/emma-reynolds--2>,
+        <https://www.gov.uk/government/people/mary-creagh> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--202>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--270>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> .
+

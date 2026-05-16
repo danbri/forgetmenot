@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/stephen-morgan> schema1:name "Stephen Morgan MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> .
+
+<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Junior Lord of the Treasury (Government Whip)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/stephen-morgan> .
+

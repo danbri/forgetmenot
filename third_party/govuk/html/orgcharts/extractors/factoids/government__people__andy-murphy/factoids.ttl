@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/building-digital-uk> govuk:hasMinister <https://www.gov.uk/government/people/andy-murphy> .
+
+<https://www.gov.uk/government/people/andy-murphy> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Andy became Chief Digital Information Officer for Building Digital UK (BDUK), at the Department for Science, Innovation and Technology (DSIT) in January 2026."@en ;
+    schema1:name "Andy Murphy"@en ;
+    schema1:url <https://www.gov.uk/government/people/andy-murphy> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/building-digital-uk> ;
+    govuk:currentRoleTitle "Chief Digital Information Officer"@en .
+

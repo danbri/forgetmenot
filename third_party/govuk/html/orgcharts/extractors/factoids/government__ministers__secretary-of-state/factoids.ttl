@@ -1,0 +1,35 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state> .
+
+<https://www.gov.uk/government/people/ed-miliband> schema1:name "The Rt Hon Ed Miliband MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state> .
+
+<https://www.gov.uk/government/people/claire-coutinho> schema1:name "The Rt Hon Claire Coutinho MP"@en .
+
+<https://www.gov.uk/government/people/grant-shapps> schema1:name "The Rt Hon Grant Shapps"@en .
+
+<https://www.gov.uk/government/ministers/secretary-of-state> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Secretary of State for Energy Security and Net Zero"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/secretary-of-state> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/claire-coutinho>,
+        <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/ed-miliband> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/claire-coutinho> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+

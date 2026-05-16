@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> govuk:hasMinister <https://www.gov.uk/government/people/kaveh-pourteymour> .
+
+<https://www.gov.uk/government/people/kaveh-pourteymour> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Kaveh is currently Group Chief Digital Information Officer at Rolls Royce plc and is an experienced digital transformation leader with over 30 years’ experience spanning energy, utilities, manufacturing, complex systems engineering and digital modelling. Throughout his career, Kaveh has successfully implemented cutting edge solutions to enhance business performance delivered through operating models that incorporated diversity and inclusion at their heart."@en ;
+    schema1:name "Kaveh Pourteymour"@en ;
+    schema1:url <https://www.gov.uk/government/people/kaveh-pourteymour> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
+    govuk:currentRoleTitle "Non-executive Director"@en .
+

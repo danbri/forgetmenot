@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/gordon-brown> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Gordon Brown was born in Scotland and grew up in the industrial town of Kirkcaldy. He started at Edinburgh University aged 16, becoming the youngest fresher there since the war."@en ;
+    schema1:name "The Rt Hon Gordon Brown"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/gordon-brown> .
+

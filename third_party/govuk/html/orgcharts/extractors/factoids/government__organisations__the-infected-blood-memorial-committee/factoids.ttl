@@ -1,0 +1,70 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/the-infected-blood-memorial-committee> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Infected Blood Memorial Committee"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/the-infected-blood-memorial-committee> ;
+    govuk:hasManager <https://www.gov.uk/government/people/bessie-woodhouse>,
+        <https://www.gov.uk/government/people/clair-walton>,
+        <https://www.gov.uk/government/people/clive-smith>,
+        <https://www.gov.uk/government/people/david-abdo>,
+        <https://www.gov.uk/government/people/gordon-dixon>,
+        <https://www.gov.uk/government/people/john-dearden>,
+        <https://www.gov.uk/government/people/neil-lewis>,
+        <https://www.gov.uk/government/people/nicola-leahey>,
+        <https://www.gov.uk/government/people/nigel-hamilton>,
+        <https://www.gov.uk/government/people/susan-harris>,
+        <https://www.gov.uk/government/people/tom-koukoulis>,
+        <https://www.gov.uk/government/people/william-wright> .
+
+<https://www.gov.uk/government/people/bessie-woodhouse> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69273148345e31ab14ecf5ae/s465_Bessie.jpg> ;
+    schema1:name "Bessie Woodhouse"@en .
+
+<https://www.gov.uk/government/people/clair-walton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69273181b3b9afff34e9609f/s465_Clair.jpg> ;
+    schema1:name "Clair Walton"@en .
+
+<https://www.gov.uk/government/people/clive-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69273085b3b9afff34e9609c/s465_Clive_-_Chair.jpg> ;
+    schema1:name "Clive Smith"@en .
+
+<https://www.gov.uk/government/people/david-abdo> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69f0c50d4e01778358c19198/s465_David.jpg> ;
+    schema1:name "David Abdo"@en .
+
+<https://www.gov.uk/government/people/gordon-dixon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/692731bf345e31ab14ecf5b2/s465_Gordon.jpg> ;
+    schema1:name "Gordon Dixon"@en .
+
+<https://www.gov.uk/government/people/john-dearden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/692731fc2a37784b16ecf5ac/s465_John.jpg> ;
+    schema1:name "John Dearden"@en .
+
+<https://www.gov.uk/government/people/neil-lewis> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6927322eb3b9afff34e960a1/s465_Neil.jpg> ;
+    schema1:name "Neil Lewis"@en .
+
+<https://www.gov.uk/government/people/nicola-leahey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69273261ce50d215cae96099/s465_Nicola.jpg> ;
+    schema1:name "Nicola Leahey"@en .
+
+<https://www.gov.uk/government/people/nigel-hamilton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6927329c9c1eda2cdf034139/s465_Nigel.jpg> ;
+    schema1:name "Nigel Hamilton"@en .
+
+<https://www.gov.uk/government/people/susan-harris> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69f0c4efb73b862445e3abaf/s465_Susan.jpg> ;
+    schema1:name "Susan Harris"@en .
+
+<https://www.gov.uk/government/people/tom-koukoulis> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6927330b345e31ab14ecf5b9/s465_Tom.jpg> ;
+    schema1:name "Tom Koukoulis"@en .
+
+<https://www.gov.uk/government/people/william-wright> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69275401345e31ab14ecf5cb/s465_Bill.jpg> ;
+    schema1:name "William Wright OBE"@en .
+

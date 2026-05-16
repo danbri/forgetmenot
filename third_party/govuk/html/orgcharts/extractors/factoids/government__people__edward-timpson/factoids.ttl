@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/edward-timpson> .
+
+<https://www.gov.uk/government/people/edward-timpson> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Edward Timpson was His Majesty’s Solicitor General for England & Wales between 7 July 2022 and 7 September 2022, and the Minister responsible for Children & Families in the Department for Education from 2012 to 2017."@en ;
+    schema1:name "Edward Timpson CBE KC"@en ;
+    schema1:url <https://www.gov.uk/government/people/edward-timpson> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

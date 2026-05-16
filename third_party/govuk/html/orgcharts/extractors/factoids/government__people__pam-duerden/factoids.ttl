@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/pam-duerden> .
+
+<https://www.gov.uk/government/people/pam-duerden> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Pam joined British Nuclear Fuels (BNFL) in 1989 and has over 35 years of experience in a variety of safety, security, environmental and quality leadership roles across the nuclear industry, including at Board level."@en ;
+    schema1:name "Pam Duerden"@en ;
+    schema1:url <https://www.gov.uk/government/people/pam-duerden> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    govuk:currentRoleTitle "Safety, Health, Environment and Quality Director"@en .
+

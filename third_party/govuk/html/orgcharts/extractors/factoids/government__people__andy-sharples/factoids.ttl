@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/andy-sharples> .
+
+<https://www.gov.uk/government/people/andy-sharples> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Andy has brought more than 30 years’ experience of working on major programmes when he joined Sellafield Ltd in June 2021."@en ;
+    schema1:name "Andy Sharples"@en ;
+    schema1:url <https://www.gov.uk/government/people/andy-sharples> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    govuk:currentRoleTitle "Project Director"@en .
+

@@ -1,0 +1,110 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/sellafield-ltd> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Sellafield Ltd"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-rodwell>,
+        <https://www.gov.uk/government/people/alyson-armett>,
+        <https://www.gov.uk/government/people/andy-sharples>,
+        <https://www.gov.uk/government/people/chris-train>,
+        <https://www.gov.uk/government/people/claude-jaouen>,
+        <https://www.gov.uk/government/people/david-vineall>,
+        <https://www.gov.uk/government/people/euan-hutton>,
+        <https://www.gov.uk/government/people/james-riddick>,
+        <https://www.gov.uk/government/people/jan-hodges>,
+        <https://www.gov.uk/government/people/kate-smith--2>,
+        <https://www.gov.uk/government/people/nic-westcott>,
+        <https://www.gov.uk/government/people/nicola-okeefe>,
+        <https://www.gov.uk/government/people/pam-duerden>,
+        <https://www.gov.uk/government/people/paul-robson>,
+        <https://www.gov.uk/government/people/paul-vallance>,
+        <https://www.gov.uk/government/people/peter-shipley>,
+        <https://www.gov.uk/government/people/roddy-miller>,
+        <https://www.gov.uk/government/people/shirley-mcmillan>,
+        <https://www.gov.uk/government/people/simon-lister>,
+        <https://www.gov.uk/government/people/vicky-bennett> .
+
+<https://www.gov.uk/government/people/alison-rodwell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67093871080bdf716392f24a/s465_Alison_Rodwell-Non_Exec_Director-Sellafield_Ltd-02-10-24-3600px-8531_GOV.jpg> ;
+    schema1:name "Alison Rodwell"@en .
+
+<https://www.gov.uk/government/people/alyson-armett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67af698e6e6c8d18118ace64/s465_Alyson_Armett-18-07-24-3600px-4692_GOV.jpg> ;
+    schema1:name "Alyson Armett"@en .
+
+<https://www.gov.uk/government/people/andy-sharples> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69020bb03650bacb01af703a/s465_Andy_Sharples_5_AUG25_GOV.jpg> ;
+    schema1:name "Andy Sharples"@en .
+
+<https://www.gov.uk/government/people/chris-train> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64f18c019ee0f2000fb7bd44/s465_Chris_Train.jpg> ;
+    schema1:name "Chris Train OBE"@en .
+
+<https://www.gov.uk/government/people/claude-jaouen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66684f8a205b335264f75fbf/s465_CLAUDE_JAOUEN_GOV_3.jpg> ;
+    schema1:name "Claude Jaouen"@en .
+
+<https://www.gov.uk/government/people/david-vineall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68419ac2280ec7236902c09e/s465_David_Vineall_960x640.jpg> ;
+    schema1:name "David Vineall"@en .
+
+<https://www.gov.uk/government/people/euan-hutton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64b7a35d61adff001301b341/s465_Euan_Hutton-Sellafield_Ltd-29-06-23_GOV.jpg> ;
+    schema1:name "Euan Hutton"@en .
+
+<https://www.gov.uk/government/people/james-riddick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66684d28f5e751f1b786dabd/s465_JAMES_RIDDICK_GOV_1.jpg> ;
+    schema1:name "James Riddick"@en .
+
+<https://www.gov.uk/government/people/jan-hodges> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65660c90750074000d1ded64/s465_Jan_Hodges-non_exec_director-27-11-23_GOV.jpg> ;
+    schema1:name "Jan Hodges"@en .
+
+<https://www.gov.uk/government/people/kate-smith--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/624ec26f8fa8f54a935a2751/s465_KATE_GOV.jpg> ;
+    schema1:name "Kate Smith"@en .
+
+<https://www.gov.uk/government/people/nic-westcott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6928836d345e31ab14ecf6a7/s465_Nic_Westcott_1_AUG25_GOV.jpg> ;
+    schema1:name "Nic Westcott"@en .
+
+<https://www.gov.uk/government/people/nicola-okeefe> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/676028341857548bccbcfa5f/s465_Nicola_O_Keeffe-11-12-24-3600px-3995_PREFERRED.jpg> ;
+    schema1:name "Nicola O'Keeffe"@en .
+
+<https://www.gov.uk/government/people/pam-duerden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ae0b62a75f02dffca29af5/s465_Pam_Duerden-06-02-25-3600px-4644APPROVED_Lo.jpg> ;
+    schema1:name "Pam Duerden"@en .
+
+<https://www.gov.uk/government/people/paul-robson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6239937dd3bf7f6abaa053dc/s465_Paul_Robson_GOV.jpg> ;
+    schema1:name "Paul Robson"@en .
+
+<https://www.gov.uk/government/people/paul-vallance> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68401469cb73e8b12647b3a8/s465_Paul_Vallance_960x640.jpg> ;
+    schema1:name "Paul Vallance"@en .
+
+<https://www.gov.uk/government/people/peter-shipley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6841b802fa0289a17a3e87be/s465_PETER_SHIPLEY__NED__JUN25_3_GOV.jpg> ;
+    schema1:name "Peter Shipley"@en .
+
+<https://www.gov.uk/government/people/roddy-miller> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63d79e778fa8f51884b986ff/s465_Roderick_Miller_GOV_resized.jpg> ;
+    schema1:name "Roddy Miller"@en .
+
+<https://www.gov.uk/government/people/shirley-mcmillan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6668511d43c77d8616f75fc2/s465_SHIRLEY_CAMPBELL_GOV_1.jpg> ;
+    schema1:name "Shirley McMillan"@en .
+
+<https://www.gov.uk/government/people/simon-lister> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63887173e90e071dfb5ee849/s465_Simon_Lister_GOV.jpg> ;
+    schema1:name "Sir Simon Lister"@en .
+
+<https://www.gov.uk/government/people/vicky-bennett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6a05e977da82768016cb3faf/s465_Vicky_Bennett-02-02-26-3600px-approved-WHITEBACKGROUND-2404_GOV_size.jpg> ;
+    schema1:name "Vicky Bennett"@en .
+

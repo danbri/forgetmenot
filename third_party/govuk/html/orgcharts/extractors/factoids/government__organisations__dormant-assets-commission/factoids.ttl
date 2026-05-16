@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/dormant-assets-commission> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Independent Dormant Assets Commission"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
+    govuk:hasManager <https://www.gov.uk/government/people/jackie-hunt>,
+        <https://www.gov.uk/government/people/kirsty-cooper>,
+        <https://www.gov.uk/government/people/mark-makepeace>,
+        <https://www.gov.uk/government/people/martin-turner>,
+        <https://www.gov.uk/government/people/nick-odonohoe>,
+        <https://www.gov.uk/government/people/rachel-hanger>,
+        <https://www.gov.uk/government/people/richard-collier-keywood>,
+        <https://www.gov.uk/government/people/sean-donovan-smith>,
+        <https://www.gov.uk/government/people/susan-sternglass-noble> .
+
+<https://www.gov.uk/government/people/jackie-hunt> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f696ded915d5954733ec4/s465_jackie_hunt_960.jpg> ;
+    schema1:name "Jackie Hunt"@en .
+
+<https://www.gov.uk/government/people/kirsty-cooper> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5addaffaed915d0ba9289319/s465_Kirsty_Cooper_W4A1894.jpg> ;
+    schema1:name "Kirsty Cooper"@en .
+
+<https://www.gov.uk/government/people/mark-makepeace> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f66f0ed915d595171e0e2/s465_MarkMakepeace_960.jpg> ;
+    schema1:name "Mark Makepeace"@en .
+
+<https://www.gov.uk/government/people/martin-turner> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6f33ed915d595473456f/s465_martin_turner_960_pic.jpg> ;
+    schema1:name "Martin Turner"@en .
+
+<https://www.gov.uk/government/people/nick-odonohoe> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f69c7ed915d595171e460/s465_nick_o_donahoe_960.jpg> ;
+    schema1:name "Nick O’Donohoe"@en .
+
+<https://www.gov.uk/government/people/rachel-hanger> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f685be5274a6bed613769/s465_Rachel_Hanger_960.jpg> ;
+    schema1:name "Rachel Hanger"@en .
+
+<https://www.gov.uk/government/people/richard-collier-keywood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f642740f0b648ca1d247d/s465_Richard_Collier-Keywood_960.jpg> ;
+    schema1:name "Richard Collier-Keywood"@en .
+
+<https://www.gov.uk/government/people/sean-donovan-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6c21e5274a6bed613bcf/s465_sean-donovan-smith-govuk.jpg> ;
+    schema1:name "Sean Donovan-Smith"@en .
+
+<https://www.gov.uk/government/people/susan-sternglass-noble> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f653d40f0b648c7221610/s465_susan_sternglass_noble_960.jpg> ;
+    schema1:name "Susan Sternglass Noble"@en .
+

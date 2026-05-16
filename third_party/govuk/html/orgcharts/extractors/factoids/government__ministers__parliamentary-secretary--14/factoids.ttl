@@ -1,0 +1,22 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-secretary--14> .
+
+<https://www.gov.uk/government/people/chris-ward> schema1:name "Chris Ward MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--14> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary--14> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Secretary"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-secretary--14> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:responsibility "EU Reset and the Windsor Framework"@en,
+        "Fiscal events and departmental business planning"@en,
+        "Government commercial function"@en,
+        "Infrastructure delivery"@en,
+        "Transparency and freedom of information policy"@en,
+        "Union and constitutional matters"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/chris-ward> .
+

@@ -1,0 +1,64 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/fiona-ross> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6f52e5274a6bed613fad/s465_fiona-ross.png> ;
+    schema1:name "Fiona Ross"@en .
+
+<https://www.gov.uk/government/people/gillian-morton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/693937285cc812f50aa41ed1/s465_GM_web.jpg> ;
+    schema1:name "Gillian Morton"@en .
+
+<https://www.gov.uk/government/people/holly-clark> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6616b6806ad004cd0fac05e1/s465_Holly_Clark_2024.png> ;
+    schema1:name "Holly Clark"@en .
+
+<https://www.gov.uk/government/people/julie-harrison> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/650bfc2efbd7bc0014e54703/s465_Julie_govuk.jpg> ;
+    schema1:name "Ms Julie Harrison"@en .
+
+<https://www.gov.uk/government/people/les-philpott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660bed0c67958c0011365a31/s465_LES_PHILPOTT__NON-EXECUTIVE_DIRECTOR.jpg> ;
+    schema1:name "Les Philpott"@en .
+
+<https://www.gov.uk/government/people/linda-hamilton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69393f705cc812f50aa41ee2/s465_Linda_Hamilton_web.jpg> ;
+    schema1:name "Linda Hamilton"@en .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/northern-ireland-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/matthew-patrick> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Northern Ireland"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/northern-ireland-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/hilary-benn> .
+
+<https://www.gov.uk/government/people/hilary-benn> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66e1898dc428f0f0a6cb2508/s465_SoS_gov.uk.JPG> ;
+    schema1:name "The Rt Hon Hilary Benn MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> .
+
+<https://www.gov.uk/government/people/matthew-patrick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68fa03ccc18f97edd2b636f2/s465_Minister_Patrick_gov.uk_2025.JPG> ;
+    schema1:name "Matthew Patrick MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> .
+
+<https://www.gov.uk/government/organisations/northern-ireland-office> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Northern Ireland Office"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/northern-ireland-office> ;
+    govuk:hasManager <https://www.gov.uk/government/people/fiona-ross>,
+        <https://www.gov.uk/government/people/gillian-morton>,
+        <https://www.gov.uk/government/people/holly-clark>,
+        <https://www.gov.uk/government/people/julie-harrison>,
+        <https://www.gov.uk/government/people/les-philpott>,
+        <https://www.gov.uk/government/people/linda-hamilton> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/hilary-benn>,
+        <https://www.gov.uk/government/people/matthew-patrick> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> .
+

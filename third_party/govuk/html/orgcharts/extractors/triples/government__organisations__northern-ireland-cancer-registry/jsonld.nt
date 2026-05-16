@@ -1,0 +1,24 @@
+_:Nd0fd2ef65d8648149606a03b0e58c8ed <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+<https://www.gov.uk/government/organisations/northern-ireland-cancer-registry> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nd636b7b013da4ae38074fa3b7636facf <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N95df037f2267465a9b0a1e384dbd3211 <http://schema.org/potentialAction> _:Ned9413e72d8e4b139bbb1c38f3887039 .
+_:Nd0fd2ef65d8648149606a03b0e58c8ed <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-of-health-northern-ireland> .
+_:N9876e420404d43c38632a9dc092b1c6a <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N95df037f2267465a9b0a1e384dbd3211 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N95df037f2267465a9b0a1e384dbd3211 <http://schema.org/description> "The Northern Ireland Cancer Registry (NICR) is located in the Centre for Public Health, Queen’s University Belfast and is funded by the Public Health Agency for Northern Ireland. The Department of Health (Northern Ireland) established the Northern Ireland Cancer Registry in 1994. NICR works with the Department of Health (Northern Ireland) ." .
+_:N403c71b42c1041f3ba0acba30bfb53aa <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N9876e420404d43c38632a9dc092b1c6a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N403c71b42c1041f3ba0acba30bfb53aa <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N403c71b42c1041f3ba0acba30bfb53aa <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Ned9413e72d8e4b139bbb1c38f3887039 <http://schema.org/description> "Find all content from Northern Ireland Cancer Registry" .
+_:Ned9413e72d8e4b139bbb1c38f3887039 <http://schema.org/query> "required" .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N9876e420404d43c38632a9dc092b1c6a <http://schema.org/item> <https://www.gov.uk/> .
+_:Nd636b7b013da4ae38074fa3b7636facf <http://schema.org/itemListElement> _:N403c71b42c1041f3ba0acba30bfb53aa .
+_:N95df037f2267465a9b0a1e384dbd3211 <http://schema.org/parentOrganization> _:Nd0fd2ef65d8648149606a03b0e58c8ed .
+_:N95df037f2267465a9b0a1e384dbd3211 <http://schema.org/name> "Northern Ireland Cancer Registry" .
+_:N95df037f2267465a9b0a1e384dbd3211 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/northern-ireland-cancer-registry> .
+_:Nd636b7b013da4ae38074fa3b7636facf <http://schema.org/itemListElement> _:N9876e420404d43c38632a9dc092b1c6a .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N95df037f2267465a9b0a1e384dbd3211 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Ned9413e72d8e4b139bbb1c38f3887039 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .

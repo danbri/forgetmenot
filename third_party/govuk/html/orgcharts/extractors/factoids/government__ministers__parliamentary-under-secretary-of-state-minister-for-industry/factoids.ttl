@@ -1,0 +1,38 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> .
+
+<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> .
+
+<https://www.gov.uk/government/people/chris-mcdonald> schema1:name "Chris McDonald MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Industry)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade>,
+        <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    govuk:responsibility "Industrial Development Advisory Board"@en,
+        "Office For Clean Energy Jobs​​"@en,
+        "advanced manufacturing"@en,
+        "aerospace"@en,
+        "automotive"@en,
+        "carbon leakage​"@en,
+        "chemicals and plastics"@en,
+        "construction"@en,
+        "defence"@en,
+        "energy infrastructure investments ​"@en,
+        "energy sector supply chains​"@en,
+        "green growth sectors​"@en,
+        "green jobs and skills ​​"@en,
+        "industrial decarbonisation and emissions trading, including fuel switching"@en,
+        "industrial energy bills​"@en,
+        "infrastructure"@en,
+        "maritime and shipbuilding"@en,
+        "materials and critical minerals"@en,
+        "steel"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/chris-mcdonald> .
+

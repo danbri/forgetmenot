@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/richard-price> .
+
+<https://www.gov.uk/government/people/richard-price> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Richard Price joined the Ministry of Justice as Director General of Performance, Strategy and Analysis Group in May 2022. He previously served as Director of the Analysis Group at the Department for International Trade (DIT) for five years, where he was also Chief Economist."@en ;
+    schema1:name "Richard Price"@en ;
+    schema1:url <https://www.gov.uk/government/people/richard-price> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:currentRoleTitle "Director General, Performance, Strategy and Analysis Group (PSA)"@en .
+

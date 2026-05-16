@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/andrew-bonar-law> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Andrew Bonar Law was the Canadian-born son of a Scottish clergyman. He worked as a boy on his father’s smallholding and then, at age 12, he went to live with his late mother’s cousins, who were rich Glaswegian merchant bankers in Scotland."@en ;
+    schema1:name "Andrew Bonar Law"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/andrew-bonar-law> .
+

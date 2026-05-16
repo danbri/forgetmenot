@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--190> govuk:roleHolder <https://www.gov.uk/government/people/lord-coaker> .
+
+<https://www.gov.uk/government/organisations/ministry-of-defence> govuk:hasMinister <https://www.gov.uk/government/people/lord-coaker> .
+
+<https://www.gov.uk/government/people/lord-coaker> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Coaker joined the Ministry of Defence in July 2024 as a Minister of State responsible for international relations, diplomacy, and House of Lords parliamentary business. Additional portfolio responsibilities include security and resilience, health and safety, and honours and awards."@en ;
+    schema1:name "Lord Coaker"@en ;
+    schema1:url <https://www.gov.uk/government/people/lord-coaker> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    govuk:currentRoleTitle "Minister of State (Minister for the House of Lords)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--190> .
+

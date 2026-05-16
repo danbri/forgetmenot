@@ -1,0 +1,25 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/office-for-the-internal-market> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Office for the Internal Market"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/office-for-the-internal-market> ;
+    govuk:hasManager <https://www.gov.uk/government/people/adam-land>,
+        <https://www.gov.uk/government/people/joel-bamford>,
+        <https://www.gov.uk/government/people/murdoch-maclennan> .
+
+<https://www.gov.uk/government/people/adam-land> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d56674a94d44125d9cfd2/s465_Adam_Land__.png> ;
+    schema1:name "Adam Land"@en .
+
+<https://www.gov.uk/government/people/joel-bamford> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6658a1fa7b792ffff71a8586/s465_Joel_Bamford.jpg> ;
+    schema1:name "Joel Bamford"@en .
+
+<https://www.gov.uk/government/people/murdoch-maclennan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66589d2316cf36f4d63ebc6b/s465_murdoch_m_.jpg> ;
+    schema1:name "Murdoch MacLennan"@en .
+

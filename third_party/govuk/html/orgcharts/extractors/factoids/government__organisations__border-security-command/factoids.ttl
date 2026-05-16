@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/border-security-command> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Border Security Command"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/border-security-command> ;
+    govuk:hasManager <https://www.gov.uk/government/people/duncan-capps> .
+
+<https://www.gov.uk/government/people/duncan-capps> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69cbef0f8017673ffec0f381/s465_Capps-640.jpg> ;
+    schema1:name "Duncan Capps CBE"@en .
+

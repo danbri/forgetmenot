@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/edward-heath> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Edward ‘Ted’ Heath was born in Kent to working class parents, in contrast to many previous Conservative leaders and Prime Ministers. He was grammar school educated before going to Balliol College, Oxford, where he was awarded an organ scholarship in his first term. He received a second class degree in Philosophy, Politics and Economics and travelled widely in Europe during his holidays, especially in Spain and Germany. It was during these travels that he first witnessed the horrors of fascism and dictatorship that were sweeping across Europe."@en ;
+    schema1:name "Sir Edward Heath"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/edward-heath> .
+

@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/frederick-robinson-viscount-goderich> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Viscount Goderich’s tenure as Prime Minister was hampered by a lack of royal support and his own ill-health. His administration was overtaken by larger shifts in the political landscape, but he returned to high office after his departure from Downing Street."@en ;
+    schema1:name "Frederick Robinson, Viscount Goderich"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/frederick-robinson-viscount-goderich> .
+

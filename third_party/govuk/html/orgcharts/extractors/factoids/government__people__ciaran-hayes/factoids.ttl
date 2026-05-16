@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/wales-office> govuk:hasMinister <https://www.gov.uk/government/people/ciaran-hayes> .
+
+<https://www.gov.uk/government/people/ciaran-hayes> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Ciarán joined the Wales Office as Director in January 2026."@en ;
+    schema1:name "Ciarán Hayes"@en ;
+    schema1:url <https://www.gov.uk/government/people/ciaran-hayes> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:currentRoleTitle "Director, Wales Office"@en .
+

@@ -1,0 +1,45 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/homes-england> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Homes England"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/homes-england> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-crofton>,
+        <https://www.gov.uk/government/people/amy-rees>,
+        <https://www.gov.uk/government/people/ian-workman>,
+        <https://www.gov.uk/government/people/kirsty-shaw>,
+        <https://www.gov.uk/government/people/pat-ritchie>,
+        <https://www.gov.uk/government/people/paul-murphy>,
+        <https://www.gov.uk/government/people/simon-century> .
+
+<https://www.gov.uk/government/people/alison-crofton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ca43c594c191d28596ec73/s465_Alison_Crofton_4_GOV.UK.jpg> ;
+    schema1:name "Alison Crofton"@en .
+
+<https://www.gov.uk/government/people/amy-rees> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ce7621826d774e7b263dd7/s465_Amy.jpg> ;
+    schema1:name "Amy Rees CB"@en .
+
+<https://www.gov.uk/government/people/ian-workman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/650aff5627d43b001491c306/s465_GOVUK_Ian_Workman.jpg> ;
+    schema1:name "Ian Workman"@en .
+
+<https://www.gov.uk/government/people/kirsty-shaw> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/650b00fcfbd7bc0013cb5225/s465_GOVUK_Kirsty_Shaw.jpg> ;
+    schema1:name "Kirsty Shaw"@en .
+
+<https://www.gov.uk/government/people/pat-ritchie> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62875ec0e90e071f5c9b1398/s465_Pat-Ritchie_Gov.uk.jpg> ;
+    schema1:name "Pat Ritchie CBE"@en .
+
+<https://www.gov.uk/government/people/paul-murphy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ce732ab168efedf97eefbc/s465_Paul_Murphy_GOV.UK.jpg> ;
+    schema1:name "Paul Murphy"@en .
+
+<https://www.gov.uk/government/people/simon-century> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69aed9f8917847c0a4c899e4/s465_Simon_Century_GOVUK.jpg> ;
+    schema1:name "Simon Century"@en .
+

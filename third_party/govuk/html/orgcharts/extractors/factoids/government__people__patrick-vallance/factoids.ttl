@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> govuk:roleHolder <https://www.gov.uk/government/people/patrick-vallance> .
+
+<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> govuk:hasMinister <https://www.gov.uk/government/people/patrick-vallance> .
+
+<https://www.gov.uk/government/people/patrick-vallance> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Vallance KCB FRS FMedSci FRCP HonFREng was appointed Minister for Science, Innovation, Research and Nuclear in the Department for Science, Innovation and Technology ( DSIT ) and the Department for Energy Security and Net Zero ( DESNZ ) on 6 September 2025."@en ;
+    schema1:name "Lord Vallance"@en ;
+    schema1:url <https://www.gov.uk/government/people/patrick-vallance> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    govuk:currentRoleTitle "Minister of State (Minister for Science, Innovation, Research and Nuclear)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> .
+

@@ -1,0 +1,32 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-defence> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> .
+
+<https://www.gov.uk/government/people/louise-sandher-jones> schema1:name "Louise Sandher-Jones MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Veterans and People)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    govuk:responsibility "Armed Forces Commissioner"@en,
+        "Armed Forces Covenant"@en,
+        "Armed Forces Parliamentary Scheme"@en,
+        "Armed Forces People and Families"@en,
+        "Cadets"@en,
+        "Defence Business Services (including legal, pensions and compensation)"@en,
+        "Defence culture – including oversight of the Raising our Standards Programme and Equality, Diversity and Inclusion"@en,
+        "Office for Veterans Affairs"@en,
+        "Reserves"@en,
+        "Service Justice System and Service Complaints"@en,
+        "Service resettlement and transition"@en,
+        "Veterans policy and delivery (including VALOUR)"@en,
+        "civilian workforce (including RFA)"@en,
+        "implementation of relevant SDR Vision and Recommendations"@en,
+        "recruitment and renewing the contract between the nation and those who serve"@en,
+        "retention and incentivisation, including training skills and development"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/louise-sandher-jones> .
+

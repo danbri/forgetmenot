@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/home-office> govuk:hasMinister <https://www.gov.uk/government/people/duncan-capps> .
+
+<https://www.gov.uk/government/people/duncan-capps> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Major General Duncan Capps CBE is a former senior British Army officer."@en ;
+    schema1:name "Duncan Capps CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/duncan-capps> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:currentRoleTitle "Interim Border Security Commander"@en .
+

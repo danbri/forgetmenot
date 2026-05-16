@@ -1,0 +1,37 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> .
+
+<https://www.gov.uk/government/people/catherine-atkinson> schema1:name "Catherine Atkinson MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> .
+
+<https://www.gov.uk/government/people/alex-davies-jones> schema1:name "Alex Davies-Jones MP"@en .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State for Victims and Tackling Violence Against Women and Girls"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/alex-davies-jones> ;
+    govuk:responsibility "Criminal Cases Review Commission"@en,
+        "Criminal Injuries Compensation Authority"@en,
+        "Criminal Law"@en,
+        "Death Management, Inquiries and Coroners"@en,
+        "Hillsborough"@en,
+        "MOJ Mission lead for Safer Streets"@en,
+        "Miscarriages of Justice"@en,
+        "Rape and Serious Sexual Offences (RASSO)"@en,
+        "Victims and Courts Bill (VAC)"@en,
+        "Victims, Witnesses and Vulnerabilities"@en,
+        "Violence Against Women and Girls (VAWG)"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/catherine-atkinson> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/alex-davies-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> ;
+    govuk:tenureEnd "2026"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+

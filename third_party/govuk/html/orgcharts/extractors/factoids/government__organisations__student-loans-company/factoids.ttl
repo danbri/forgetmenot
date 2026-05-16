@@ -1,0 +1,90 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/student-loans-company> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Student Loans Company"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/student-loans-company> ;
+    govuk:hasManager <https://www.gov.uk/government/people/audrey-mccoll>,
+        <https://www.gov.uk/government/people/chris-larmer>,
+        <https://www.gov.uk/government/people/david-wallace>,
+        <https://www.gov.uk/government/people/derek-ross--2>,
+        <https://www.gov.uk/government/people/gary-page>,
+        <https://www.gov.uk/government/people/gary-womersley>,
+        <https://www.gov.uk/government/people/gillian-byrdie>,
+        <https://www.gov.uk/government/people/jackie-currie>,
+        <https://www.gov.uk/government/people/janette-campbell>,
+        <https://www.gov.uk/government/people/jason-dunham>,
+        <https://www.gov.uk/government/people/kath-moore>,
+        <https://www.gov.uk/government/people/mandy-beech>,
+        <https://www.gov.uk/government/people/margaret-ollerenshaw>,
+        <https://www.gov.uk/government/people/natasha-toothill>,
+        <https://www.gov.uk/government/people/nauman-dar>,
+        <https://www.gov.uk/government/people/stephen-marston> .
+
+<https://www.gov.uk/government/people/audrey-mccoll> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/610c0f478fa8f506cd80084d/s465_Audrey_McColl.jpg> ;
+    schema1:name "Audrey McColl"@en .
+
+<https://www.gov.uk/government/people/chris-larmer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60cc82d5e90e0743ae8c29d6/s465_Chris_Larmer.jpg> ;
+    schema1:name "Chris Larmer"@en .
+
+<https://www.gov.uk/government/people/david-wallace> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c76c0b7e5274a0ec8f210e3/s465__Renzo_Mazzolini_SLC_2019--41.jpg> ;
+    schema1:name "David Wallace"@en .
+
+<https://www.gov.uk/government/people/derek-ross--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c7fee79e5274a39d4e4736a/s465_Derek_GOV.UK.jpg> ;
+    schema1:name "Derek Ross"@en .
+
+<https://www.gov.uk/government/people/gary-page> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f913f89d3bf7f35e4a61a7c/s465_Gary_Page_960_x_640.jpg> ;
+    schema1:name "Gary Page"@en .
+
+<https://www.gov.uk/government/people/gary-womersley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5ce66f0fe5274a4425db7b06/s465_Gary_Womersley.jpg> ;
+    schema1:name "Gary Womersley"@en .
+
+<https://www.gov.uk/government/people/gillian-byrdie> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64c0d29d90b545000d3e82f5/s465_Gillian_Brydie_GOV.jpg> ;
+    schema1:name "Gillian Brydie"@en .
+
+<https://www.gov.uk/government/people/jackie-currie> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63847b5ed3bf7f1541cf4997/s465_Jackie._C_Gov.jpg> ;
+    schema1:name "Jackie Currie"@en .
+
+<https://www.gov.uk/government/people/janette-campbell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6745aa32da210676b4ffe110/s465_Janette_Campbell.jpg> ;
+    schema1:name "Janette Campbell"@en .
+
+<https://www.gov.uk/government/people/jason-dunham> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6475f0d5103ca6000c039628/s465_Jason_Dunham_Gov.jpg> ;
+    schema1:name "Jason Dunham"@en .
+
+<https://www.gov.uk/government/people/kath-moore> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69a9962998da555143be92d7/s465_KathMoore.jpg> ;
+    schema1:name "Kath Moore"@en .
+
+<https://www.gov.uk/government/people/mandy-beech> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6707b62992bb81fcdbe7b640/s465_Mandy_Beech__002_.jpg> ;
+    schema1:name "Mandy Beech"@en .
+
+<https://www.gov.uk/government/people/margaret-ollerenshaw> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6707b716080bdf716392f140/s465_Margaret.Ollerenshaw.jpg> ;
+    schema1:name "Margaret Ollerenshaw"@en .
+
+<https://www.gov.uk/government/people/natasha-toothill> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64674da10d66460010d9631b/s465_Tash_Toothill_5788_-_Gov.uk_website_images.jpg> ;
+    schema1:name "Natasha Toothill"@en .
+
+<https://www.gov.uk/government/people/nauman-dar> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66b1f098ab418ab055593342/s465_Nauman.Dar.Gov.jpg> ;
+    schema1:name "Nauman Dar"@en .
+
+<https://www.gov.uk/government/people/stephen-marston> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6707b43230536cb927482f80/s465_Stephen_Marston.jpg> ;
+    schema1:name "Stephen Marston"@en .
+

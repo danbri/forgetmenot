@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/jake-richards> schema1:name "Jake Richards MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--6> .
+
+<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--6> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Assistant Whip, House of Commons"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--6> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jake-richards> .
+

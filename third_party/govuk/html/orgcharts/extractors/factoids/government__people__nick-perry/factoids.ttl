@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-defence> govuk:hasMinister <https://www.gov.uk/government/people/nick-perry> .
+
+<https://www.gov.uk/government/people/nick-perry> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Nick Perry commissioned into the Army and The King’s Royal Hussars in 1996."@en ;
+    schema1:name "Lieutenant General Nick Perry DSO MBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/nick-perry> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    govuk:currentRoleTitle "Chief of Joint Operations (CJO)"@en .
+

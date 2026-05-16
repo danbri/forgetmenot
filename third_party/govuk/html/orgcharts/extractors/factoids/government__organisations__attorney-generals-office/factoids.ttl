@@ -1,0 +1,39 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/michael-padfield--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/683585b8a15ee66ab43c8596/s465_Michael_Padfield_960x640.jpg> ;
+    schema1:name "Michael Padfield"@en .
+
+<https://www.gov.uk/government/ministers/attorney-general> a govuk:MinisterialRole ;
+    schema1:name "Attorney General"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/attorney-generals-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/richard-hermer> .
+
+<https://www.gov.uk/government/ministers/solicitor-general> a govuk:MinisterialRole ;
+    schema1:name "Solicitor General"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/attorney-generals-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/ellie-reeves> .
+
+<https://www.gov.uk/government/people/ellie-reeves> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66912920a3c2a28abb50ce85/s465_Untitled.jpg> ;
+    schema1:name "The Rt Hon Ellie Reeves KC MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/solicitor-general> .
+
+<https://www.gov.uk/government/people/richard-hermer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66884381ab5fc5929851ba97/s465_richard-hermer.jpg> ;
+    schema1:name "The Rt Hon Lord Hermer KC"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/attorney-general> .
+
+<https://www.gov.uk/government/organisations/attorney-generals-office> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Attorney General's Office"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/attorney-generals-office> ;
+    govuk:hasManager <https://www.gov.uk/government/people/michael-padfield--2> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/ellie-reeves>,
+        <https://www.gov.uk/government/people/richard-hermer> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/attorney-general>,
+        <https://www.gov.uk/government/ministers/solicitor-general> .
+

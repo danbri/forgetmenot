@@ -1,0 +1,16 @@
+_:Nec9e6296e5fa44118e15f878a5b22666 <http://schema.org/item> <https://www.gov.uk/government/how-government-works> .
+_:Ne4d32ca1c56d429c937bb35018e4cfe0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Ne4d32ca1c56d429c937bb35018e4cfe0 <http://schema.org/position> "3"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nec9e6296e5fa44118e15f878a5b22666 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nbfffc8476eb8460da541d2ae64fdda10 <http://schema.org/itemListElement> _:Ne17b6c160d854fbd98ffafe92489ecfd .
+_:Ne17b6c160d854fbd98ffafe92489ecfd <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nec9e6296e5fa44118e15f878a5b22666 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Ne17b6c160d854fbd98ffafe92489ecfd <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/how-government-works> <http://schema.org/name> "How government works" .
+_:Nbfffc8476eb8460da541d2ae64fdda10 <http://schema.org/itemListElement> _:Nec9e6296e5fa44118e15f878a5b22666 .
+_:Ne17b6c160d854fbd98ffafe92489ecfd <http://schema.org/item> <https://www.gov.uk/> .
+_:Nbfffc8476eb8460da541d2ae64fdda10 <http://schema.org/itemListElement> _:Ne4d32ca1c56d429c937bb35018e4cfe0 .
+<https://www.gov.uk/government/history> <http://schema.org/name> "History of the UK government" .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nbfffc8476eb8460da541d2ae64fdda10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Ne4d32ca1c56d429c937bb35018e4cfe0 <http://schema.org/item> <https://www.gov.uk/government/history> .

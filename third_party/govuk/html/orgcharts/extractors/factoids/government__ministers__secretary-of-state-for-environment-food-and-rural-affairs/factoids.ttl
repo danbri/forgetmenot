@@ -1,0 +1,120 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> .
+
+<https://www.gov.uk/government/people/emma-reynolds--2> schema1:name "The Rt Hon Emma Reynolds MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> .
+
+<https://www.gov.uk/government/people/andrea-leadsom> schema1:name "The Rt Hon Andrea Leadsom"@en .
+
+<https://www.gov.uk/government/people/caroline-spelman> schema1:name "Dame Caroline Spelman"@en .
+
+<https://www.gov.uk/government/people/elizabeth-truss> schema1:name "The Rt Hon Elizabeth Truss"@en .
+
+<https://www.gov.uk/government/people/george-eustice> schema1:name "The Rt Hon George Eustice"@en .
+
+<https://www.gov.uk/government/people/michael-gove> schema1:name "The Rt Hon Michael Gove"@en .
+
+<https://www.gov.uk/government/people/owen-paterson> schema1:name "The Rt Hon Owen Paterson"@en .
+
+<https://www.gov.uk/government/people/ranil-jayawardena> schema1:name "The Rt Hon Ranil Jayawardena"@en .
+
+<https://www.gov.uk/government/people/stephen-barclay> schema1:name "The Rt Hon Steve Barclay MP"@en .
+
+<https://www.gov.uk/government/people/steve-reed> schema1:name "The Rt Hon Steve Reed OBE MP"@en .
+
+<https://www.gov.uk/government/people/theresa-villiers> schema1:name "The Rt Hon Theresa Villiers"@en .
+
+<https://www.gov.uk/government/people/therese-coffey> schema1:name "The Rt Hon Thérèse Coffey"@en .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Secretary of State for Environment, Food and Rural Affairs"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrea-leadsom>,
+        <https://www.gov.uk/government/people/caroline-spelman>,
+        <https://www.gov.uk/government/people/elizabeth-truss>,
+        <https://www.gov.uk/government/people/george-eustice>,
+        <https://www.gov.uk/government/people/michael-gove>,
+        <https://www.gov.uk/government/people/owen-paterson>,
+        <https://www.gov.uk/government/people/ranil-jayawardena>,
+        <https://www.gov.uk/government/people/stephen-barclay>,
+        <https://www.gov.uk/government/people/steve-reed>,
+        <https://www.gov.uk/government/people/theresa-villiers>,
+        <https://www.gov.uk/government/people/therese-coffey> ;
+    govuk:responsibility "budget, including Official Development Assistance ( ODA )"@en,
+        "economic growth"@en,
+        "international relations"@en,
+        "senior appointments"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/emma-reynolds--2> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/steve-reed> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/theresa-villiers> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/george-eustice> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/andrea-leadsom> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2017"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/caroline-spelman> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2012"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/therese-coffey> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/owen-paterson> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2014"^^xsd:gYear ;
+    govuk:tenureStart "2012"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/ranil-jayawardena> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

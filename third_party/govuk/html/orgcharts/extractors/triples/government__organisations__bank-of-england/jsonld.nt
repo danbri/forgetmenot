@@ -1,0 +1,24 @@
+_:N20ded4a20ffd4bd9989cc128d37f4644 <http://schema.org/itemListElement> _:N22aacd4a09524451b3f2d5101519a258 .
+_:N8c32c7e1a22b45dea77a67ca95a7f83a <http://schema.org/query> "required" .
+_:N8c32c7e1a22b45dea77a67ca95a7f83a <http://schema.org/description> "Find all content from Bank of England" .
+<https://www.gov.uk/government/organisations/bank-of-england> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Ned995e21c57b401094c530004667b165 <http://schema.org/description> "The Bank of England is the central bank of the United Kingdom. Bank of England works with the Treasury Solicitor’s Department ." .
+_:N22aacd4a09524451b3f2d5101519a258 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Ned995e21c57b401094c530004667b165 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/bank-of-england> .
+_:Ned995e21c57b401094c530004667b165 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N22aacd4a09524451b3f2d5101519a258 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Ndf49eca8bd614f72b264f6575d172fa4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Ndf49eca8bd614f72b264f6575d172fa4 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/treasury-solicitor-s-department> .
+_:N7a15b5d7cda24e1a92918d225cc01081 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N8c32c7e1a22b45dea77a67ca95a7f83a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Ned995e21c57b401094c530004667b165 <http://schema.org/parentOrganization> _:Ndf49eca8bd614f72b264f6575d172fa4 .
+_:N7a15b5d7cda24e1a92918d225cc01081 <http://schema.org/item> <https://www.gov.uk/> .
+_:N22aacd4a09524451b3f2d5101519a258 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N7a15b5d7cda24e1a92918d225cc01081 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Ned995e21c57b401094c530004667b165 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N20ded4a20ffd4bd9989cc128d37f4644 <http://schema.org/itemListElement> _:N7a15b5d7cda24e1a92918d225cc01081 .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N20ded4a20ffd4bd9989cc128d37f4644 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Ned995e21c57b401094c530004667b165 <http://schema.org/potentialAction> _:N8c32c7e1a22b45dea77a67ca95a7f83a .
+_:Ned995e21c57b401094c530004667b165 <http://schema.org/name> "Bank of England" .

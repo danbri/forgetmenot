@@ -1,0 +1,80 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/social-security-advisory-committee> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Social Security Advisory Committee"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/social-security-advisory-committee> ;
+    govuk:hasManager <https://www.gov.uk/government/people/bruce-calderrwood>,
+        <https://www.gov.uk/government/people/daphne-hall>,
+        <https://www.gov.uk/government/people/fran-bennett>,
+        <https://www.gov.uk/government/people/jacob-meagher>,
+        <https://www.gov.uk/government/people/joanne-cairns>,
+        <https://www.gov.uk/government/people/les-allamby>,
+        <https://www.gov.uk/government/people/owen-mccloskey>,
+        <https://www.gov.uk/government/people/phil-jones>,
+        <https://www.gov.uk/government/people/rachel-chiu>,
+        <https://www.gov.uk/government/people/richard-machin>,
+        <https://www.gov.uk/government/people/sharon-wright>,
+        <https://www.gov.uk/government/people/stephen-brien>,
+        <https://www.gov.uk/government/people/suzy-walton--2>,
+        <https://www.gov.uk/government/people/tom-clark> .
+
+<https://www.gov.uk/government/people/bruce-calderrwood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63d7aaded3bf7f25251182cb/s465_bruce-calderwood-960.jpg> ;
+    schema1:name "Bruce Calderwood"@en .
+
+<https://www.gov.uk/government/people/daphne-hall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65c0d570704282000d7521f6/s465_daphne-hall.png> ;
+    schema1:name "Daphne Hall"@en .
+
+<https://www.gov.uk/government/people/fran-bennett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68da610dc487360cc70c9e85/s465_Fran_photo_for_website_profile.JPG> ;
+    schema1:name "Fran Bennett"@en .
+
+<https://www.gov.uk/government/people/jacob-meagher> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/661fd4d3ced96304c8757e9f/s465_jacob-meagher-960.jpg> ;
+    schema1:name "Jacob Meagher"@en .
+
+<https://www.gov.uk/government/people/joanne-cairns> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68da62e38c1db6022d0c9e6c/s465_Joanne_Cairns.jpg> ;
+    schema1:name "Joanne Cairns"@en .
+
+<https://www.gov.uk/government/people/les-allamby> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/661fd4feced96304c8757ea2/s465_les-allamby-960.jpg> ;
+    schema1:name "Les Allamby"@en .
+
+<https://www.gov.uk/government/people/owen-mccloskey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/697c8bc62ff8d10a830d5db1/s465_Owen_McCloskey.jpg> ;
+    schema1:name "Owen McCloskey"@en .
+
+<https://www.gov.uk/government/people/phil-jones> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/663b5f491c82a7597d4f329a/s465_phil-jones.png> ;
+    schema1:name "Phil Jones"@en .
+
+<https://www.gov.uk/government/people/rachel-chiu> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/661fd4a8ced96304c8757e9b/s465_rachel-chiu-960.jpg> ;
+    schema1:name "Rachel Chiu"@en .
+
+<https://www.gov.uk/government/people/richard-machin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/697c8b22b28b2cc262572f7f/s465_Richard_Machin.png> ;
+    schema1:name "Richard Machin"@en .
+
+<https://www.gov.uk/government/people/sharon-wright> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68da6236750fcf90fa6ffb4f/s465_Sharon_Wright_Photo.jpg> ;
+    schema1:name "Professor Sharon Wright"@en .
+
+<https://www.gov.uk/government/people/stephen-brien> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f9989e4d3bf7f1e345407a4/s465_stephen-brien.jpg> ;
+    schema1:name "Dr Stephen Brien"@en .
+
+<https://www.gov.uk/government/people/suzy-walton--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65c0e938704282000d75220f/s465_suzy-walton.png> ;
+    schema1:name "Dr Suzy Walton"@en .
+
+<https://www.gov.uk/government/people/tom-clark> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68da5fb1c487360cc70c9e7e/s465_TomClarkHeadshot.jpg> ;
+    schema1:name "Tom Clark"@en .
+

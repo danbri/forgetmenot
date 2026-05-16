@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/office-for-investment-financial-services> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Office for Investment: Financial Services"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/office-for-investment-financial-services> ;
+    govuk:hasManager <https://www.gov.uk/government/people/rahul-ahluwalia> .
+
+<https://www.gov.uk/government/people/rahul-ahluwalia> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69958c7cb33a4db7ff889d3e/s465_rahul-ahluwalia-biography.jpg> ;
+    schema1:name "Rahul Ahluwalia"@en .
+

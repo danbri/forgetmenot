@@ -1,0 +1,65 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Driver and Vehicle Licensing Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/brian-sullivan>,
+        <https://www.gov.uk/government/people/charmion-pears>,
+        <https://www.gov.uk/government/people/darren-thompson>,
+        <https://www.gov.uk/government/people/david-jones--3>,
+        <https://www.gov.uk/government/people/lynette-rose>,
+        <https://www.gov.uk/government/people/sarah-ellen-stacey>,
+        <https://www.gov.uk/government/people/sarah-williams-gardener>,
+        <https://www.gov.uk/government/people/stephen-tetlow>,
+        <https://www.gov.uk/government/people/tim-moss>,
+        <https://www.gov.uk/government/people/tony-ackroyd>,
+        <https://www.gov.uk/government/people/tracy-nash> .
+
+<https://www.gov.uk/government/people/brian-sullivan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5cfa615140f0b663fc324b98/s465_Brian_Sullivan.jpg> ;
+    schema1:name "Brian Sullivan"@en .
+
+<https://www.gov.uk/government/people/charmion-pears> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65e7258d7bc329020bb8c2e5/s465_2024_02_28_Charmion_Pears_427A5122__1_.jpg> ;
+    schema1:name "Charmion Pears"@en .
+
+<https://www.gov.uk/government/people/darren-thompson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/643fa8b222ef3b000f66f48f/s465_DThompsonCCS__1_.jpg> ;
+    schema1:name "Darren Thompson"@en .
+
+<https://www.gov.uk/government/people/david-jones--3> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65c22e8d373948001021361d/s465_David_Jones_427A4769__003_.jpg> ;
+    schema1:name "David Jones"@en .
+
+<https://www.gov.uk/government/people/lynette-rose> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67334ab4c10bb403d96bf2c6/s465_Lynette_Rose_GOV.UK.jpg> ;
+    schema1:name "Lynette Rose"@en .
+
+<https://www.gov.uk/government/people/sarah-ellen-stacey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/686d1e0e2cfe301b5fb67887/s465_HR_Director_2.png> ;
+    schema1:name "Sarah-Ellen Stacey"@en .
+
+<https://www.gov.uk/government/people/sarah-williams-gardener> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65c22a40688c390013334c3a/s465_Sarah_Williams-Gardener_427A4924.jpg> ;
+    schema1:name "Sarah Williams-Gardener"@en .
+
+<https://www.gov.uk/government/people/stephen-tetlow> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65c225dc3739480010213612/s465_Stephen_Tetlow_MBE_427A4811__003_.jpg> ;
+    schema1:name "Stephen Tetlow MBE CEng FIET FIMechE"@en .
+
+<https://www.gov.uk/government/people/tim-moss> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f63feed915d595171dd48/s465_Tim-Moss-biog-photo.jpg> ;
+    schema1:name "Tim Moss"@en .
+
+<https://www.gov.uk/government/people/tony-ackroyd> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f703fed915d595171eb6a/s465_Tony_Ackroyd.jpg> ;
+    schema1:name "Tony Ackroyd"@en .
+
+<https://www.gov.uk/government/people/tracy-nash> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5fb7af01d3bf7f5731e86b49/s465_dvla-interim-finance-director-tracy-nash.jpg> ;
+    schema1:name "Tracy Nash"@en .
+

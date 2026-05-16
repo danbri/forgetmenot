@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/nancy-jane-rothwell> .
+
+<https://www.gov.uk/government/people/nancy-jane-rothwell> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Professor Dame Nancy Rothwell is a British physiologist who served as president and vice-chancellor of the University of Manchester between 2010 and 2024."@en ;
+    schema1:name "Dame Nancy Rothwell DBE DL FRS FMedSci FRSB FBPhS MAE"@en ;
+    schema1:url <https://www.gov.uk/government/people/nancy-jane-rothwell> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    govuk:currentRoleTitle "Deputy Chair, Industrial Strategy Advisory Council"@en .
+

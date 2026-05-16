@@ -1,0 +1,24 @@
+_:N6699b2af21c345ef9cb4255acc18f297 <http://schema.org/description> "The Police (Discipline) Appeals Tribunal hears appeals against the findings of internal disciplinary proceedings brought against members of the police force. Police Discipline is a tribunal of the Home Office ." .
+_:N6699b2af21c345ef9cb4255acc18f297 <http://schema.org/name> "Police Discipline Appeals Tribunal" .
+_:Na3d408f8d2444e5b8a5244960d45adf2 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Ncd59264909604a49be64fbb235ab792d <http://schema.org/description> "Find all content from Police Discipline Appeals Tribunal" .
+_:Nca839b21a22b40fabcd8911c857783b4 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/government/organisations/police-discipline-appeals-tribunal> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N6699b2af21c345ef9cb4255acc18f297 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Na3d408f8d2444e5b8a5244960d45adf2 <http://schema.org/item> <https://www.gov.uk/> .
+_:Nfa7efbc2a4ee4fcb9ef38434013059f4 <http://schema.org/itemListElement> _:Na3d408f8d2444e5b8a5244960d45adf2 .
+_:Na3d408f8d2444e5b8a5244960d45adf2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N6699b2af21c345ef9cb4255acc18f297 <http://schema.org/potentialAction> _:Ncd59264909604a49be64fbb235ab792d .
+_:N6699b2af21c345ef9cb4255acc18f297 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Ncd59264909604a49be64fbb235ab792d <http://schema.org/query> "required" .
+_:Nd423530eab79483f8c63640b47907460 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nfa7efbc2a4ee4fcb9ef38434013059f4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nfa7efbc2a4ee4fcb9ef38434013059f4 <http://schema.org/itemListElement> _:Nca839b21a22b40fabcd8911c857783b4 .
+_:Nca839b21a22b40fabcd8911c857783b4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N6699b2af21c345ef9cb4255acc18f297 <http://schema.org/parentOrganization> _:Nd423530eab79483f8c63640b47907460 .
+_:Nd423530eab79483f8c63640b47907460 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/home-office> .
+_:Ncd59264909604a49be64fbb235ab792d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N6699b2af21c345ef9cb4255acc18f297 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/police-discipline-appeals-tribunal> .
+_:Nca839b21a22b40fabcd8911c857783b4 <http://schema.org/item> <https://www.gov.uk/government/organisations> .

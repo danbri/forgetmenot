@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/small-business-commissioner> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Small Business Commissioner"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/small-business-commissioner> ;
+    govuk:hasManager <https://www.gov.uk/government/people/emma-jones> .
+
+<https://www.gov.uk/government/people/emma-jones> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6858f9bbb328f1ba50f3cea6/s465_emma-jones-cbe.jpg> ;
+    schema1:name "Emma Jones CBE"@en .
+

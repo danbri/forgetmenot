@@ -1,0 +1,97 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/hm-revenue-customs> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "HM Revenue & Customs"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/hm-revenue-customs> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alan-evans>,
+        <https://www.gov.uk/government/people/angela-macdonald>,
+        <https://www.gov.uk/government/people/bill-dodwell>,
+        <https://www.gov.uk/government/people/carol-bristow>,
+        <https://www.gov.uk/government/people/craig-mackey>,
+        <https://www.gov.uk/government/people/daljit-rehal>,
+        <https://www.gov.uk/government/people/heather-self>,
+        <https://www.gov.uk/government/people/helen-pickles>,
+        <https://www.gov.uk/government/people/jayne-anne-gadhia>,
+        <https://www.gov.uk/government/people/jen-tippin>,
+        <https://www.gov.uk/government/people/john-paul-marks>,
+        <https://www.gov.uk/government/people/jonathan-athow>,
+        <https://www.gov.uk/government/people/justin-holliday>,
+        <https://www.gov.uk/government/people/michael-hearty>,
+        <https://www.gov.uk/government/people/myrtle-lloyd>,
+        <https://www.gov.uk/government/people/penny-ciniewicz>,
+        <https://www.gov.uk/government/people/sachin-jogia>,
+        <https://www.gov.uk/government/people/suzanne-newton> .
+
+<https://www.gov.uk/government/people/alan-evans> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69f096170bb62e692c5d6d52/s465_alan-evans-960x640-28-04-2026-3.png> ;
+    schema1:name "Alan Evans"@en .
+
+<https://www.gov.uk/government/people/angela-macdonald> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61af9852d3bf7f055c4b77bd/s465_Angela_MacDonald_GOVUK_960x640.jpg> ;
+    schema1:name "Angela MacDonald"@en .
+
+<https://www.gov.uk/government/people/bill-dodwell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f60dd14d3bf7f7239aa13b8/s465_New_bill_pic_resized_150920.jpg> ;
+    schema1:name "Bill Dodwell"@en .
+
+<https://www.gov.uk/government/people/carol-bristow> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62828978d3bf7f1f3c97dcaa/s465_Carol-Bristow-GOVUK.jpg> ;
+    schema1:name "Carol Bristow"@en .
+
+<https://www.gov.uk/government/people/craig-mackey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62b41425e90e0765d25ded62/s465_Chairman-Sir-Craig-Mackey-QPM-2022-WEBSITE.jpg> ;
+    schema1:name "Sir Craig Mackey QPM"@en .
+
+<https://www.gov.uk/government/people/daljit-rehal> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61af990be90e07044462d7c7/s465_Daljit_Rehal_GOVUK_960x640.jpg> ;
+    schema1:name "Daljit Rehal"@en .
+
+<https://www.gov.uk/government/people/heather-self> a schema1:Person ;
+    schema1:name "Heather Self"@en .
+
+<https://www.gov.uk/government/people/helen-pickles> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6516e21a7c2c4a000d95e2b5/s465_helen-pickles.png> ;
+    schema1:name "Helen Pickles"@en .
+
+<https://www.gov.uk/government/people/jayne-anne-gadhia> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/609a9501d3bf7f288b42363d/s465_Dame_Jayne-Anne_Gadhia_GOVUK_960x640.jpg> ;
+    schema1:name "Dame Jayne-Anne Gadhia"@en .
+
+<https://www.gov.uk/government/people/jen-tippin> a schema1:Person ;
+    schema1:name "Jen Tippin"@en .
+
+<https://www.gov.uk/government/people/john-paul-marks> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67efef542c7cfb9f47d9569a/s465_HMRC-JP-077F25vc_960x640.jpg> ;
+    schema1:name "John-Paul Marks CB"@en .
+
+<https://www.gov.uk/government/people/jonathan-athow> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61b078f8d3bf7f05522e2f4a/s465_Jonathan_Athow_GOVUK_960x640.jpg> ;
+    schema1:name "Jonathan Athow"@en .
+
+<https://www.gov.uk/government/people/justin-holliday> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61af98d4d3bf7f0557065392/s465_Justin_Holliday_GOVUK_960x640.jpg> ;
+    schema1:name "Justin Holliday"@en .
+
+<https://www.gov.uk/government/people/michael-hearty> a schema1:Person ;
+    schema1:name "Michael Hearty"@en .
+
+<https://www.gov.uk/government/people/myrtle-lloyd> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61af986ed3bf7f05522e2f44/s465_Myrtle_Lloyd_GOVUK_960x640.jpg> ;
+    schema1:name "Myrtle Lloyd"@en .
+
+<https://www.gov.uk/government/people/penny-ciniewicz> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69986986a58a315dbe72c0a8/s465_RS11989__15035__Penny_Ciniewicz_lo.jpg> ;
+    schema1:name "Penny Ciniewicz"@en .
+
+<https://www.gov.uk/government/people/sachin-jogia> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67dc1a180298101d2d6711ce/s465_Sachin_Jogia_reszied_2.jpg> ;
+    schema1:name "Sachin Jogia"@en .
+
+<https://www.gov.uk/government/people/suzanne-newton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6633a711cf3b5081b14f3081/s465_SN_Photo.jpg> ;
+    schema1:name "Suzanne Newton"@en .
+

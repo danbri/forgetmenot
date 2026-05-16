@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-office-for-science> govuk:hasMinister <https://www.gov.uk/government/people/angela-mclean> .
+
+<https://www.gov.uk/government/people/angela-mclean> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Professor Dame Angela McLean DBE FRS is the Government Chief Scientific Adviser having taken up the role in April 2023. She is also Head of the Government Science and Engineering Profession. Prior to this Angela was the Chief Scientific Adviser for the Ministry of Defence."@en ;
+    schema1:name "Professor Dame Angela McLean"@en ;
+    schema1:url <https://www.gov.uk/government/people/angela-mclean> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-office-for-science> ;
+    govuk:currentRoleTitle "Government Chief Scientific Adviser"@en .
+

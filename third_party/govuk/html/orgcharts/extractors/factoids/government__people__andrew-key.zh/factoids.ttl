@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-people-group> govuk:hasMinister <https://www.gov.uk/government/people/andrew-key.zh> .
+
+<https://www.gov.uk/government/people/andrew-key.zh> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Andrew Key"@en ;
+    schema1:url <https://www.gov.uk/government/people/andrew-key.zh> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
+    govuk:currentRoleTitle "Director of Government Skills"@en .
+

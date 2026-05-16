@@ -1,0 +1,46 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--187> .
+
+<https://www.gov.uk/government/people/georgia-gould> schema1:name "Georgia Gould OBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--187> .
+
+<https://www.gov.uk/government/people/catherine-mckinnell> schema1:name "Catherine McKinnell MP"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state--187> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for School Standards)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--187> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/catherine-mckinnell> ;
+    govuk:responsibility "Teaching Regulation Agency (TRA)"@en,
+        "access to sport, arts and music in education, working with other departments"@en,
+        "admissions and pupil movement"@en,
+        "alternative provision"@en,
+        "core school funding"@en,
+        "initial teacher training and incentives"@en,
+        "national curriculum"@en,
+        "pupil premium"@en,
+        "qualifications (including links with Ofqual )"@en,
+        "regional improvement for standards and excellence (RISE)"@en,
+        "relationships and sex education and health education (RSHE) review"@en,
+        "school governance"@en,
+        "school improvement, intervention and inspection (including links with Ofsted )"@en,
+        "school leadership"@en,
+        "school productivity"@en,
+        "school support staff"@en,
+        "special educational needs and disabilities (SEND) and high needs"@en,
+        "special schools (including independent special schools (ISS))"@en,
+        "teacher pay and pensions"@en,
+        "teacher retention including the early career framework and teacher training entitlement"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/georgia-gould> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/catherine-mckinnell> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--187> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+

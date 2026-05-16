@@ -1,0 +1,32 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/alexandra-gowlland> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/654ccd2ce2e16a000d42ac49/s465_alexandra-gowlland.JPG> ;
+    schema1:name "Alexandra Gowlland"@en .
+
+<https://www.gov.uk/government/people/marcus-bell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e3d8c1340f0b609148d2a55/s465_1581070284686_marcus-bell.jpg> ;
+    schema1:name "Marcus Bell OBE"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state--192> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Social Security and Disability)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/disability-unit> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/stephen-timms> .
+
+<https://www.gov.uk/government/organisations/disability-unit> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Disability Unit"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/disability-unit> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alexandra-gowlland>,
+        <https://www.gov.uk/government/people/marcus-bell> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/stephen-timms> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+
+<https://www.gov.uk/government/people/stephen-timms> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6773ddda02c3076590308cbd/s465_Stephen_Timms.jpg> ;
+    schema1:name "The Rt Hon Sir Stephen Timms MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+

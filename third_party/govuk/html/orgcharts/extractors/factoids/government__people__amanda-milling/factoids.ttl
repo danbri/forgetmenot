@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/amanda-milling> .
+
+<https://www.gov.uk/government/people/amanda-milling> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Dame Amanda Milling was Government Whip (Lord Commissioner of HM Treasury) from 14 November 2023 to 5 July 2024."@en ;
+    schema1:name "The Rt Hon Dame Amanda Milling"@en ;
+    schema1:url <https://www.gov.uk/government/people/amanda-milling> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

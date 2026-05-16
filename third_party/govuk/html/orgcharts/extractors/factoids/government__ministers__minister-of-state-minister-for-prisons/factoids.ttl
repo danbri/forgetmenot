@@ -1,0 +1,29 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> .
+
+<https://www.gov.uk/government/people/james-timpson> schema1:name "Lord Timpson OBE"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State for Prisons, Probation and Reducing Reoffending"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:responsibility "Counter Terrorism"@en,
+        "Cross-cutting Artificial Intelligence, Digital, Data and transformation"@en,
+        "Electronic Monitoring (EM)"@en,
+        "Female Offenders"@en,
+        "Foreign National Offenders"@en,
+        "His Majesty’s Prison and Probation Service administration"@en,
+        "Offender health and drugs"@en,
+        "Prison capacity and related policy"@en,
+        "Prison operations policy, reform, industrial relations and workforce"@en,
+        "Prisoner Escort Contracts"@en,
+        "Probation policy, operations, industrial relations, and transparency"@en,
+        "Reducing Reoffending"@en,
+        "Sustainability"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/james-timpson> .
+

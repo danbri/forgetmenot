@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/oliver-letwin> .
+
+<https://www.gov.uk/government/people/oliver-letwin> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Rt Hon Oliver Letwin served as Minister for Government Policy in the Cabinet Office from May 2010 until 14 July 2016. He also served as Chancellor of the Duchy of Lancaster from July 2014 until 14 July 2016. Oliver was elected Conservative MP for West Dorset in 1997."@en ;
+    schema1:name "The Rt Hon Oliver Letwin"@en ;
+    schema1:url <https://www.gov.uk/government/people/oliver-letwin> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

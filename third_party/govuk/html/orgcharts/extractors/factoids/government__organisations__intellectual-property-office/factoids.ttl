@@ -1,0 +1,90 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/intellectual-property-office> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Intellectual Property Office"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/intellectual-property-office> ;
+    govuk:hasManager <https://www.gov.uk/government/people/adam-williams>,
+        <https://www.gov.uk/government/people/andrew-lawrence>,
+        <https://www.gov.uk/government/people/andy-bartlett>,
+        <https://www.gov.uk/government/people/catherine-salway>,
+        <https://www.gov.uk/government/people/chris-mills>,
+        <https://www.gov.uk/government/people/harriet-kelsall>,
+        <https://www.gov.uk/government/people/harry-rich>,
+        <https://www.gov.uk/government/people/hilary-newiss>,
+        <https://www.gov.uk/government/people/kirsty-whitehead>,
+        <https://www.gov.uk/government/people/laurie-benson>,
+        <https://www.gov.uk/government/people/natasha-chick>,
+        <https://www.gov.uk/government/people/neil-hartley>,
+        <https://www.gov.uk/government/people/penny-phillpotts>,
+        <https://www.gov.uk/government/people/sian-nia-davies>,
+        <https://www.gov.uk/government/people/steph-dales>,
+        <https://www.gov.uk/government/people/timothy-render> .
+
+<https://www.gov.uk/government/people/adam-williams> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f644ced915d5954733880/s465_Adam_Williams_web.jpg> ;
+    schema1:name "Adam Williams"@en .
+
+<https://www.gov.uk/government/people/andrew-lawrence> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5bbaf9b0e5274a225429e066/s465_Andrew_web.jpg> ;
+    schema1:name "Andrew Lawrence"@en .
+
+<https://www.gov.uk/government/people/andy-bartlett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62fcdf39e90e0703e39e3734/s465_andy-bartlett-bio.jpg> ;
+    schema1:name "Andy Bartlett"@en .
+
+<https://www.gov.uk/government/people/catherine-salway> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67360af70b168c11ea82315d/s465_catherine-salway-govuk.jpg> ;
+    schema1:name "Catherine Salway"@en .
+
+<https://www.gov.uk/government/people/chris-mills> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/689a0417ad0cbc0e27643249/s465_Interim_Director_of_Rights_Policy.png> ;
+    schema1:name "Michael Prior"@en .
+
+<https://www.gov.uk/government/people/harriet-kelsall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61a74588d3bf7f0560be6443/s465_Harriet_Kelsall.jpg> ;
+    schema1:name "Harriet Kelsall"@en .
+
+<https://www.gov.uk/government/people/harry-rich> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/618b9b598fa8f5037ac7412d/s465_Harry_Rich_Web.jpg> ;
+    schema1:name "Harry Rich"@en .
+
+<https://www.gov.uk/government/people/hilary-newiss> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61a74726d3bf7f055fce7398/s465_Hilary_Newiss.jpg> ;
+    schema1:name "Hilary Newiss"@en .
+
+<https://www.gov.uk/government/people/kirsty-whitehead> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67360ae60b168c11ea82315c/s465_kirsty-whitehead-govuk.jpg> ;
+    schema1:name "Kirsty Whitehead"@en .
+
+<https://www.gov.uk/government/people/laurie-benson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e258f5b40f0b62c4e9da647/s465_Laurie_Benson_web_ready.png> ;
+    schema1:name "Laurie Benson"@en .
+
+<https://www.gov.uk/government/people/natasha-chick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684febd977c424182b0c4e5c/s465_Natasha-Chick.jpg> ;
+    schema1:name "Natasha Chick"@en .
+
+<https://www.gov.uk/government/people/neil-hartley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a69de7c40f0b63b5bc9104b/s465_NH_pic.jpg> ;
+    schema1:name "Neil Hartley"@en .
+
+<https://www.gov.uk/government/people/penny-phillpotts> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/633ed8e68fa8f52a59a7f70b/s465_Penny-Phillpotts.jpg> ;
+    schema1:name "Penny Phillpotts"@en .
+
+<https://www.gov.uk/government/people/sian-nia-davies> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62fa44fdd3bf7f4c69d707a2/s465_Sian-Nia-CDDTO.jpg> ;
+    schema1:name "Sian-Nia Davies"@en .
+
+<https://www.gov.uk/government/people/steph-dales> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/661e6c457469198185bd3ddc/s465_Steph-Dales.jpg> ;
+    schema1:name "Steph Bell"@en .
+
+<https://www.gov.uk/government/people/timothy-render> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67360a26f6920bfb5abc7b84/s465_timothy-render-govuk.jpg> ;
+    schema1:name "Timothy Render"@en .
+

@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/michelle-donelan> .
+
+<https://www.gov.uk/government/people/michelle-donelan> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Michelle Donelan was Secretary of State for Science, Innovation and Technology between 7 February 2023 and 5 July 2024."@en ;
+    schema1:name "The Rt Hon Michelle Donelan"@en ;
+    schema1:url <https://www.gov.uk/government/people/michelle-donelan> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

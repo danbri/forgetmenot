@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/david-jones> .
+
+<https://www.gov.uk/government/people/david-jones> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "David Jones was appointed Minister of State at the Department for Exiting the European Union on 17 July 2016. He was elected Conservative MP for Clwyd West in May 2005."@en ;
+    schema1:name "The Rt Hon David Jones"@en ;
+    schema1:url <https://www.gov.uk/government/people/david-jones> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

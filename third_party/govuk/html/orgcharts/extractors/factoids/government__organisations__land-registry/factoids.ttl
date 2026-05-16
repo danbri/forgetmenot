@@ -1,0 +1,75 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/land-registry> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "HM Land Registry"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/land-registry> ;
+    govuk:hasManager <https://www.gov.uk/government/people/abi-howarth>,
+        <https://www.gov.uk/government/people/angie-clarkson>,
+        <https://www.gov.uk/government/people/ann-henshaw>,
+        <https://www.gov.uk/government/people/caroline-crowther-and-charlotte-spencer>,
+        <https://www.gov.uk/government/people/deborah-mclaughlin--2>,
+        <https://www.gov.uk/government/people/emily-hobbs>,
+        <https://www.gov.uk/government/people/enda-ridge>,
+        <https://www.gov.uk/government/people/hena-jalil>,
+        <https://www.gov.uk/government/people/iain-banfield>,
+        <https://www.gov.uk/government/people/mark-gray>,
+        <https://www.gov.uk/government/people/neil-sachdev>,
+        <https://www.gov.uk/government/people/rommel-pereira>,
+        <https://www.gov.uk/government/people/stephen-aynsley-smith> .
+
+<https://www.gov.uk/government/people/abi-howarth> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67d150050c569e0d48fb09e7/s465_Abi_GOV.UK_.jpg> ;
+    schema1:name "Abi Howarth"@en .
+
+<https://www.gov.uk/government/people/angie-clarkson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6971fc4ca1311bdcfa0ed894/s465_Angie_Clarkson_960x640.jpg> ;
+    schema1:name "Angie Clarkson"@en .
+
+<https://www.gov.uk/government/people/ann-henshaw> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60dd9184d3bf7f7c3327461e/s465_Ann-Henshaw.png> ;
+    schema1:name "Ann Henshaw"@en .
+
+<https://www.gov.uk/government/people/caroline-crowther-and-charlotte-spencer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68010d07da5bb2fc4a681fd1/s465_Caroline-Crowther-and-Charlotte-Spencer.png> ;
+    schema1:name "Caroline Crowther and Charlotte Spencer"@en .
+
+<https://www.gov.uk/government/people/deborah-mclaughlin--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a095263f28b7444270a392/s465_Untitled_design__17_.png> ;
+    schema1:name "Deborah McLaughlin"@en .
+
+<https://www.gov.uk/government/people/emily-hobbs> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69a857d1487f0b64a680d4bc/s465_Emily_Hobbs_MGL9370_960x640.png> ;
+    schema1:name "Emily Hobbs"@en .
+
+<https://www.gov.uk/government/people/enda-ridge> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a094301d14e76535afb6bd/s465_Untitled_design__16_.png> ;
+    schema1:name "Enda Ridge"@en .
+
+<https://www.gov.uk/government/people/hena-jalil> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a607a69ea59546af0a8868/s465_Untitled_design__21_.png> ;
+    schema1:name "Hena Jalil"@en .
+
+<https://www.gov.uk/government/people/iain-banfield> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c6ac199ed915d4a3506ad5d/s465_Iain_Banfield_2.jpg> ;
+    schema1:name "Iain Banfield"@en .
+
+<https://www.gov.uk/government/people/mark-gray> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64bfcda01e10bf000e17ce0b/s465_MarkGray1.jpeg> ;
+    schema1:name "Mark Gray"@en .
+
+<https://www.gov.uk/government/people/neil-sachdev> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69e75da17c6fed91a05ee7b9/s465_Neil_Sachdev.jpg> ;
+    schema1:name "Neil Sachdev"@en .
+
+<https://www.gov.uk/government/people/rommel-pereira> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67aa29fd3b41f783cca46236/s465_Untitled_design__22_.png> ;
+    schema1:name "Rommel Pereira"@en .
+
+<https://www.gov.uk/government/people/stephen-aynsley-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d41e938c739d679fb1dd6c/s465_Stephen_Aynsley_Smith2.jpg> ;
+    schema1:name "Stephen Aynsley-Smith"@en .
+

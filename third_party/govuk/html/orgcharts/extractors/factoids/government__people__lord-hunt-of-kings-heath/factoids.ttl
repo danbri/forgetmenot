@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-hunt-of-kings-heath> .
+
+<https://www.gov.uk/government/people/lord-hunt-of-kings-heath> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Hunt of Kings Heath OBE was Minister of State at the Department of Energy Security and Net Zero from 9 July 2024 to 22 May 2025."@en ;
+    schema1:name "The Rt Hon Lord Hunt of Kings Heath OBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/lord-hunt-of-kings-heath> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

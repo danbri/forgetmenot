@@ -1,0 +1,100 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Nuclear Restoration Services"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-munro>,
+        <https://www.gov.uk/government/people/angharad-rayner>,
+        <https://www.gov.uk/government/people/colin-reid--2>,
+        <https://www.gov.uk/government/people/dave-wilson>,
+        <https://www.gov.uk/government/people/david-clarke--2>,
+        <https://www.gov.uk/government/people/dr-fiona-rayment-obe>,
+        <https://www.gov.uk/government/people/emma-ferguson-gould--2>,
+        <https://www.gov.uk/government/people/emma-regan>,
+        <https://www.gov.uk/government/people/frank-rainford>,
+        <https://www.gov.uk/government/people/gordon-frisby>,
+        <https://www.gov.uk/government/people/jayne-scott--3>,
+        <https://www.gov.uk/government/people/jenifer-carruthers>,
+        <https://www.gov.uk/government/people/john-vickerman>,
+        <https://www.gov.uk/government/people/lawrie-haynes--2>,
+        <https://www.gov.uk/government/people/mark-rouse--2>,
+        <https://www.gov.uk/government/people/rob-fletcher>,
+        <https://www.gov.uk/government/people/simon-haben>,
+        <https://www.gov.uk/government/people/tracy-murray> .
+
+<https://www.gov.uk/government/people/andrew-munro> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b7f38b9b26024aef3017/s465_andy.png> ;
+    schema1:name "Andy Munro"@en .
+
+<https://www.gov.uk/government/people/angharad-rayner> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b9416812c7adcf513ede/s465_angharad.png> ;
+    schema1:name "Angharad Rayner"@en .
+
+<https://www.gov.uk/government/people/colin-reid--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7acb6c6046b50261bc7cb/s465_colin.png> ;
+    schema1:name "Colin Reid"@en .
+
+<https://www.gov.uk/government/people/dave-wilson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b12704146682e61bc7e6/s465_dave.png> ;
+    schema1:name "Dave Wilson"@en .
+
+<https://www.gov.uk/government/people/david-clarke--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7ae4ec6046b50261bc7d0/s465_david.png> ;
+    schema1:name "David Clark"@en .
+
+<https://www.gov.uk/government/people/dr-fiona-rayment-obe> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7addec6046b50261bc7cf/s465_fionaa.png> ;
+    schema1:name "Dr Fiona Rayment OBE"@en .
+
+<https://www.gov.uk/government/people/emma-ferguson-gould--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6756e0ab43b2de5fee8dae7f/s465_emma.webp.png> ;
+    schema1:name "Emma Ferguson-Gould"@en .
+
+<https://www.gov.uk/government/people/emma-regan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b21949d2ffceecef3012/s465_emma.png> ;
+    schema1:name "Emma Regan"@en .
+
+<https://www.gov.uk/government/people/frank-rainford> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68401450cb73e8b12647b3a5/s465_Frank_Rainford_960x640.jpg> ;
+    schema1:name "Frank Rainford"@en .
+
+<https://www.gov.uk/government/people/gordon-frisby> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7ad1b6812c7adcf513ec5/s465_gordon.png> ;
+    schema1:name "Gordon Frisby"@en .
+
+<https://www.gov.uk/government/people/jayne-scott--3> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b73945705eb1a1513eda/s465_jayne.png> ;
+    schema1:name "Jayne Scott"@en .
+
+<https://www.gov.uk/government/people/jenifer-carruthers> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b8ae8b9b26024aef3019/s465_f6b02a63-4921-4a3b-b910-f89a1aa193d7.png> ;
+    schema1:name "Jenifer Carruthers"@en .
+
+<https://www.gov.uk/government/people/john-vickerman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b9f545705eb1a1513ee3/s465_john.png> ;
+    schema1:name "John Vickerman"@en .
+
+<https://www.gov.uk/government/people/lawrie-haynes--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7af34c6046b50261bc7d8/s465_laurie.png> ;
+    schema1:name "Lawrie Haynes"@en .
+
+<https://www.gov.uk/government/people/mark-rouse--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b767c6046b50261bc7e6/s465_john.png> ;
+    schema1:name "John Grierson"@en .
+
+<https://www.gov.uk/government/people/rob-fletcher> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b01004146682e61bc7e3/s465_rob.png> ;
+    schema1:name "Rob Fletcher"@en .
+
+<https://www.gov.uk/government/people/simon-haben> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7aee945705eb1a1513ed1/s465_simon.png> ;
+    schema1:name "Simon Haben"@en .
+
+<https://www.gov.uk/government/people/tracy-murray> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f7b4bb8b9b26024aef3011/s465_tracy.png> ;
+    schema1:name "Tracy Murray"@en .
+

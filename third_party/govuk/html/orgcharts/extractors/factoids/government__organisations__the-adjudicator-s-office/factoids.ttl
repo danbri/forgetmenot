@@ -1,0 +1,35 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/the-adjudicator-s-office> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "The Adjudicator’s Office"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/the-adjudicator-s-office> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andy-fowler>,
+        <https://www.gov.uk/government/people/clare-kirby>,
+        <https://www.gov.uk/government/people/mandy-fields>,
+        <https://www.gov.uk/government/people/mike-mcmahon>,
+        <https://www.gov.uk/government/people/richard-fowler>,
+        <https://www.gov.uk/government/people/sarah-doherty> .
+
+<https://www.gov.uk/government/people/andy-fowler> a schema1:Person ;
+    schema1:name "Andy Fowler"@en .
+
+<https://www.gov.uk/government/people/clare-kirby> a schema1:Person ;
+    schema1:name "Clare Kirby"@en .
+
+<https://www.gov.uk/government/people/mandy-fields> a schema1:Person ;
+    schema1:name "Mandy Fields"@en .
+
+<https://www.gov.uk/government/people/mike-mcmahon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60c9d9ea8fa8f57cf12e61c3/s465_Michael_McMahon_bio.jpg> ;
+    schema1:name "Mike McMahon"@en .
+
+<https://www.gov.uk/government/people/richard-fowler> a schema1:Person ;
+    schema1:name "Richard Fowler"@en .
+
+<https://www.gov.uk/government/people/sarah-doherty> a schema1:Person ;
+    schema1:name "Sarah Doherty"@en .
+

@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/john-major> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "John Major was born in 1943 in Carshalton, Surrey, but raised in Brixton. Unlike many Prime Ministers of the 20th century, he did not attend university after leaving school at 16."@en ;
+    schema1:name "The Rt Hon Sir John Major KG CH"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/john-major> .
+
