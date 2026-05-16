@@ -7,3 +7,8 @@ node_modules/
 # Skills live under skills/ in this repo and are wired into the
 # Claude-discoverable .claude/skills/ via relative symlinks.
 .claude/skills/
+
+# FCDO Treaties crawler output: keep records/, ignore bulk derivatives.
+third_party/data/fcdo_treaties/html/
+third_party/data/fcdo_treaties/pdfs/
+third_party/data/fcdo_treaties/crawl.log
