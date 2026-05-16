@@ -1,0 +1,99 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/competition-and-markets-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Competition and Markets Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/competition-and-markets-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/chris-prevett>,
+        <https://www.gov.uk/government/people/cyrus-mehta>,
+        <https://www.gov.uk/government/people/daniel-lambauer>,
+        <https://www.gov.uk/government/people/david-halpern>,
+        <https://www.gov.uk/government/people/doug-gurr--2>,
+        <https://www.gov.uk/government/people/jessica-lennard>,
+        <https://www.gov.uk/government/people/joel-bamford>,
+        <https://www.gov.uk/government/people/juliette-enser>,
+        <https://www.gov.uk/government/people/justin-basini>,
+        <https://www.gov.uk/government/people/karen-croxson>,
+        <https://www.gov.uk/government/people/katie-kapernaros>,
+        <https://www.gov.uk/government/people/martin-coleman>,
+        <https://www.gov.uk/government/people/michael-mire>,
+        <https://www.gov.uk/government/people/murdoch-maclennan>,
+        <https://www.gov.uk/government/people/patricia-hodgson>,
+        <https://www.gov.uk/government/people/sarah-cardell>,
+        <https://www.gov.uk/government/people/suma-chakrabarti>,
+        <https://www.gov.uk/government/people/will-hayter> .
+
+<https://www.gov.uk/government/people/chris-prevett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6659869bdc15efdddf1a85d5/s465_Chris_Prevett.jpg> ;
+    schema1:name "Chris Prevett"@en .
+
+<https://www.gov.uk/government/people/cyrus-mehta> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6659877ddc15efdddf1a85d7/s465_Cyrus_Mehta.jpg> ;
+    schema1:name "Cyrus Mehta"@en .
+
+<https://www.gov.uk/government/people/daniel-lambauer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a63a226006e4154dc498cc/s465_Daniel_Lambert_NEW.png> ;
+    schema1:name "Daniel Lambauer"@en .
+
+<https://www.gov.uk/government/people/david-halpern> a schema1:Person ;
+    schema1:name "David Halpern CBE"@en .
+
+<https://www.gov.uk/government/people/doug-gurr--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a639f1f425d97ff6c498d0/s465_DOUG_NEW.png> ;
+    schema1:name "Doug Gurr"@en .
+
+<https://www.gov.uk/government/people/jessica-lennard> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67b45ec6b56d8b0856c2fdde/s465_jl_new_new.png> ;
+    schema1:name "Jessica Lennard"@en .
+
+<https://www.gov.uk/government/people/joel-bamford> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6658a1fa7b792ffff71a8586/s465_Joel_Bamford.jpg> ;
+    schema1:name "Joel Bamford"@en .
+
+<https://www.gov.uk/government/people/juliette-enser> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6658a29b8f90ef31c23ebc83/s465_Juliet_Enser.jpg> ;
+    schema1:name "Juliette Enser"@en .
+
+<https://www.gov.uk/government/people/justin-basini> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6658a1638f90ef31c23ebc7b/s465_Justin_Basini.jpg> ;
+    schema1:name "Justin Basini"@en .
+
+<https://www.gov.uk/government/people/karen-croxson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6659834916cf36f4d63ebc9e/s465_Karen_Croxon.jpg> ;
+    schema1:name "Dr Karen Croxson"@en .
+
+<https://www.gov.uk/government/people/katie-kapernaros> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c543c8d40f0b625504f45de/s465_katie-kapernaros-bpdts-960.jpg> ;
+    schema1:name "Katie Kapernaros"@en .
+
+<https://www.gov.uk/government/people/martin-coleman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a63a046006e4154dc498cb/s465_MARTIN_COLEMAN_NEW.png> ;
+    schema1:name "Martin Coleman"@en .
+
+<https://www.gov.uk/government/people/michael-mire> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f665a40f0b648ca1d2717/s465_s960_Michael_Mire_-_govuk.jpg> ;
+    schema1:name "Michael Mire"@en .
+
+<https://www.gov.uk/government/people/murdoch-maclennan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66589d2316cf36f4d63ebc6b/s465_murdoch_m_.jpg> ;
+    schema1:name "Murdoch MacLennan"@en .
+
+<https://www.gov.uk/government/people/patricia-hodgson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66630acea8f98e4a64ca94f8/s465_Patricia_Hodgson_headshot.jpg> ;
+    schema1:name "Dame Patricia Hodgson"@en .
+
+<https://www.gov.uk/government/people/sarah-cardell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66754f693f6733e8c91666f0/s465_Sarah_Cardell_headshot_2_.jpg> ;
+    schema1:name "Sarah Cardell"@en .
+
+<https://www.gov.uk/government/people/suma-chakrabarti> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ea2fa6606c20d412163338/s465_Suma_headshot.png> ;
+    schema1:name "Sir Suma Chakrabarti"@en .
+
+<https://www.gov.uk/government/people/will-hayter> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6658a2137b792ffff71a8587/s465_Will_Hayter.jpg> ;
+    schema1:name "Will Hayter"@en .
+

@@ -1,0 +1,90 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/skills-england> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Skills England"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/skills-england> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andy-westwood>,
+        <https://www.gov.uk/government/people/anthony-impey>,
+        <https://www.gov.uk/government/people/brian-holliday>,
+        <https://www.gov.uk/government/people/david-bell--2>,
+        <https://www.gov.uk/government/people/fazal-dad>,
+        <https://www.gov.uk/government/people/fiona-aldridge>,
+        <https://www.gov.uk/government/people/fiona-kendrick>,
+        <https://www.gov.uk/government/people/gemma-marsh>,
+        <https://www.gov.uk/government/people/helen-woodward-davies>,
+        <https://www.gov.uk/government/people/nicki-hay>,
+        <https://www.gov.uk/government/people/phil-smith>,
+        <https://www.gov.uk/government/people/sara-todd>,
+        <https://www.gov.uk/government/people/sarah-maclean>,
+        <https://www.gov.uk/government/people/sian-elliott>,
+        <https://www.gov.uk/government/people/tessa-griffiths>,
+        <https://www.gov.uk/government/people/zoe-lewis> .
+
+<https://www.gov.uk/government/people/andy-westwood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6835893cd6d2692c9bdb02e1/s465_Andy_Westwood.png> ;
+    schema1:name "Andy Westwood"@en .
+
+<https://www.gov.uk/government/people/anthony-impey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6835a2c1214f7f554cf692f4/s465_Anthony_Impey.png> ;
+    schema1:name "Anthony Impey MBE"@en .
+
+<https://www.gov.uk/government/people/brian-holliday> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68358a8a9afff1b427db02e0/s465_Brian_Holliday.png> ;
+    schema1:name "Brian Holliday"@en .
+
+<https://www.gov.uk/government/people/david-bell--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6835a2ae214f7f554cf692f2/s465_Sir_David_Bell.png> ;
+    schema1:name "Sir David Bell"@en .
+
+<https://www.gov.uk/government/people/fazal-dad> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68358b0b16faee32e975547e/s465_Fazal_Dad.png> ;
+    schema1:name "Dr Fazal Dad CBE"@en .
+
+<https://www.gov.uk/government/people/fiona-aldridge> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68358b93c239ae3e866c03b8/s465_Fiona_Aldridge.png> ;
+    schema1:name "Dr Fiona Aldridge"@en .
+
+<https://www.gov.uk/government/people/fiona-kendrick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68358cafa01dbe19ef755482/s465_Fiona_Kendrick.png> ;
+    schema1:name "Dame Fiona Kendrick"@en .
+
+<https://www.gov.uk/government/people/gemma-marsh> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/683584ccd6d2692c9bdb02d6/s465_Gemma_Marsh.png> ;
+    schema1:name "Gemma Marsh"@en .
+
+<https://www.gov.uk/government/people/helen-woodward-davies> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68358d06a01dbe19ef755483/s465_Helen_Woodward_Davies.png> ;
+    schema1:name "Helen Woodward Davies"@en .
+
+<https://www.gov.uk/government/people/nicki-hay> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68359cdb214f7f554cf692e6/s465_Nicki_Hay.png> ;
+    schema1:name "Nicki Hay MBE"@en .
+
+<https://www.gov.uk/government/people/phil-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/683587349afff1b427db02d9/s465_Phil_Smith.png> ;
+    schema1:name "Phil Smith CBE"@en .
+
+<https://www.gov.uk/government/people/sara-todd> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68358ecf5f8330ed48e72ac3/s465_Sara_Todd.png> ;
+    schema1:name "Sara Todd"@en .
+
+<https://www.gov.uk/government/people/sarah-maclean> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6835841c5d4f0caf4c3c8595/s465_Sarah_Maclean.png> ;
+    schema1:name "Sarah Maclean CBE"@en .
+
+<https://www.gov.uk/government/people/sian-elliott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68358f16c239ae3e866c03be/s465_Sian_Elliott.png> ;
+    schema1:name "Sian Elliott"@en .
+
+<https://www.gov.uk/government/people/tessa-griffiths> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6835a2923dd61280f46c03d9/s465_Tessa_Griffiths.png> ;
+    schema1:name "Tessa Griffiths CBE"@en .
+
+<https://www.gov.uk/government/people/zoe-lewis> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68358f601b586507b9e72ac5/s465_Zoe_Lewis.png> ;
+    schema1:name "Zoe Lewis CBE"@en .
+

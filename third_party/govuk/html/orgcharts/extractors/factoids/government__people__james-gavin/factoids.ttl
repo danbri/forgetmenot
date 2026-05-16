@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-defence-innovation> govuk:hasMinister <https://www.gov.uk/government/people/james-gavin> .
+
+<https://www.gov.uk/government/people/james-gavin> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "James Gavin is the Head of MoD Technology Transition, as Deputy Director UKDI"@en ;
+    schema1:name "James Gavin"@en ;
+    schema1:url <https://www.gov.uk/government/people/james-gavin> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-defence-innovation> ;
+    govuk:currentRoleTitle "Deputy Director of UKDI (Prove and Exploit)"@en .
+

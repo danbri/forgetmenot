@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/thomas-pelham-holles-1st-duke-of-newcastle> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Thomas Pelham-Holles, Duke of Newcastle, held major political office for nearly 4 decades, the ultimate insider of 18th-century British politics. He was both Secretary of State and First Lord of the Treasury. Although a member of the House of Lords, he exerted considerable influence in the Commons as the patron of several boroughs."@en ;
+    schema1:name "Thomas Pelham-Holles 1st Duke of Newcastle"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/thomas-pelham-holles-1st-duke-of-newcastle> .
+

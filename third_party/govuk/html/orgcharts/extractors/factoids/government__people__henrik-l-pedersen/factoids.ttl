@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/henrik-l-pedersen> .
+
+<https://www.gov.uk/government/people/henrik-l-pedersen> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Henrik L Pedersen was appointed Chief Executive Officer and Executive Director of the Board of Associated British Ports ( ABP ) in August 2018. ABP is the UK’s leading port owner and operator. ABP operates some of the nation’s biggest and most strategically located ports, in the Humber, Southampton and South Wales. Henrik joined ABP from APM Terminals, a global ports company owned by the Maersk Group, where he served as Chief Commercial Officer. During his 20-year tenure with the Maersk Group he held a wide range of senior leadership roles based in Denmark, USA, China, Panama, Singapore and the Netherlands."@en ;
+    schema1:name "Henrik L Pedersen"@en ;
+    schema1:url <https://www.gov.uk/government/people/henrik-l-pedersen> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en .
+

@@ -1,0 +1,24 @@
+_:N901679b06236448199d45207fb2b6d5f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nd1c828500f824073b5f74dcb8b0c5486 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N5ff5b5c3fc9f4dc5845ecec071f810bc <http://schema.org/parentOrganization> _:Nd57d11c1f58b4ac99265b2e61707c4b2 .
+_:N5ff5b5c3fc9f4dc5845ecec071f810bc <http://schema.org/name> "Government Recruitment Service" .
+_:Ncd69ef30ac104b7da7080df70e6683ba <http://schema.org/query> "required" .
+_:Nd57d11c1f58b4ac99265b2e61707c4b2 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/government-people-group> .
+_:N901679b06236448199d45207fb2b6d5f <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/government/organisations/government-recruitment-service> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N5ff5b5c3fc9f4dc5845ecec071f810bc <http://schema.org/description> "The Government Recruitment Service (GRS) was launched in September 2017 and is part of the Cabinet Office’s Government People Group. GRS delivers award-winning recruitment services and functions for organisations across the Civil Service, supporting and enabling the recruitment of exceptional civil servants. GRS is part of the Government People Group ." .
+_:N685957c92fc54317926d41d3efaebe0f <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N5ff5b5c3fc9f4dc5845ecec071f810bc <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/government-recruitment-service> .
+_:Ncd69ef30ac104b7da7080df70e6683ba <http://schema.org/description> "Find all content from Government Recruitment Service" .
+_:N685957c92fc54317926d41d3efaebe0f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N685957c92fc54317926d41d3efaebe0f <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Nd1c828500f824073b5f74dcb8b0c5486 <http://schema.org/itemListElement> _:N901679b06236448199d45207fb2b6d5f .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N901679b06236448199d45207fb2b6d5f <http://schema.org/item> <https://www.gov.uk/> .
+_:Nd1c828500f824073b5f74dcb8b0c5486 <http://schema.org/itemListElement> _:N685957c92fc54317926d41d3efaebe0f .
+_:N5ff5b5c3fc9f4dc5845ecec071f810bc <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N5ff5b5c3fc9f4dc5845ecec071f810bc <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nd57d11c1f58b4ac99265b2e61707c4b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Ncd69ef30ac104b7da7080df70e6683ba <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N5ff5b5c3fc9f4dc5845ecec071f810bc <http://schema.org/potentialAction> _:Ncd69ef30ac104b7da7080df70e6683ba .

@@ -1,0 +1,65 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/mining-remediation-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Mining Remediation Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/mining-remediation-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/bull>,
+        <https://www.gov.uk/government/people/carl-banton>,
+        <https://www.gov.uk/government/people/geraldine-wildman>,
+        <https://www.gov.uk/government/people/james-lowth>,
+        <https://www.gov.uk/government/people/jeff-halliwell>,
+        <https://www.gov.uk/government/people/kim-fuller>,
+        <https://www.gov.uk/government/people/nick-cox>,
+        <https://www.gov.uk/government/people/paul-farringham>,
+        <https://www.gov.uk/government/people/richard-bond>,
+        <https://www.gov.uk/government/people/victoria-slingsby>,
+        <https://www.gov.uk/government/people/zoe-rose-higgins> .
+
+<https://www.gov.uk/government/people/bull> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67daabe0b1857deda3da0211/s465_Fay_Bull_for_gov.jpg> ;
+    schema1:name "Fay Bull"@en .
+
+<https://www.gov.uk/government/people/carl-banton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f15b678e90e075e90a720e0/s465_CarlBantonGov.uk.jpg> ;
+    schema1:name "Carl Banton"@en .
+
+<https://www.gov.uk/government/people/geraldine-wildman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69d79bd069de22b2bf86f6a9/s465_Geraldine_Wildman_for_GOVUK.jpg> ;
+    schema1:name "Geraldine Wildman"@en .
+
+<https://www.gov.uk/government/people/james-lowth> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d247dfded915d32f228b9af/s465_James_Lowth.JPG> ;
+    schema1:name "James Lowth"@en .
+
+<https://www.gov.uk/government/people/jeff-halliwell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/606584ea8fa8f515b3fd0abb/s465_Jeff_headshot_2.jpg> ;
+    schema1:name "Jeff Halliwell"@en .
+
+<https://www.gov.uk/government/people/kim-fuller> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69d8eca46b695d635c34dc3d/s465_Kim_Fuller_GOVUK.jpg> ;
+    schema1:name "Kim Fuller"@en .
+
+<https://www.gov.uk/government/people/nick-cox> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/697b7ba387922ed83d0d5d5b/s465_Nick_Cox_for_govuk.jpg> ;
+    schema1:name "Nick Cox"@en .
+
+<https://www.gov.uk/government/people/paul-farringham> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69d7a4ef2ea7bc150a394b5c/s465_Paul_Frammingham_GOVUK.jpg> ;
+    schema1:name "Paul Frammingham"@en .
+
+<https://www.gov.uk/government/people/richard-bond> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65560a7fd03a8d000d07fa65/s465_Richard_warm_for_gov.uk.jpg> ;
+    schema1:name "Richard Bond, DL"@en .
+
+<https://www.gov.uk/government/people/victoria-slingsby> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66e44788e47cfc6de429d6e9/s465_Victoria_for_gov.jpg> ;
+    schema1:name "Victoria Slingsby"@en .
+
+<https://www.gov.uk/government/people/zoe-rose-higgins> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69d7bcb847eb6fd98375fa43/s465_Zoe_Rose-Higgins_GOVUK.jpg> ;
+    schema1:name "Zoe Rose-Higgins"@en .
+

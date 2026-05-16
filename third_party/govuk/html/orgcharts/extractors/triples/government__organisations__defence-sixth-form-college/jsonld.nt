@@ -1,0 +1,24 @@
+_:N576bac495d40421fb43cb5179d91273c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Ndc2868f9fd034488a875b68aaca8c37e <http://schema.org/description> "Find all content from Defence Sixth Form College" .
+_:Ndc2868f9fd034488a875b68aaca8c37e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N576bac495d40421fb43cb5179d91273c <http://schema.org/itemListElement> _:Nc19f702f20d349349078c5ff4e8711fe .
+_:Nd326af5c05974199aef0e1094e791e26 <http://schema.org/parentOrganization> _:N1c922b1b6ef94c7fa4cd978dbaaef2e8 .
+_:Nd326af5c05974199aef0e1094e791e26 <http://schema.org/description> "Welbeck Defence Sixth Form College (DSFC) offers a unique programme of personal, physical and intellectual development, which provides its students with an education designed to meet the needs of today’s modern technical Armed Forces. DSFC is part of the Ministry of Defence ." .
+_:Nc19f702f20d349349078c5ff4e8711fe <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Na34fb62d0c0a4da7ae198d50fc88db30 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nd326af5c05974199aef0e1094e791e26 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nc19f702f20d349349078c5ff4e8711fe <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Nd326af5c05974199aef0e1094e791e26 <http://schema.org/name> "Defence Sixth Form College" .
+_:Na34fb62d0c0a4da7ae198d50fc88db30 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nc19f702f20d349349078c5ff4e8711fe <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N1c922b1b6ef94c7fa4cd978dbaaef2e8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Na34fb62d0c0a4da7ae198d50fc88db30 <http://schema.org/item> <https://www.gov.uk/> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+<https://www.gov.uk/government/organisations/defence-sixth-form-college> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nd326af5c05974199aef0e1094e791e26 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/defence-sixth-form-college> .
+_:Ndc2868f9fd034488a875b68aaca8c37e <http://schema.org/query> "required" .
+_:Nd326af5c05974199aef0e1094e791e26 <http://schema.org/potentialAction> _:Ndc2868f9fd034488a875b68aaca8c37e .
+_:N576bac495d40421fb43cb5179d91273c <http://schema.org/itemListElement> _:Na34fb62d0c0a4da7ae198d50fc88db30 .
+_:N1c922b1b6ef94c7fa4cd978dbaaef2e8 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/ministry-of-defence> .
+_:Nd326af5c05974199aef0e1094e791e26 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .

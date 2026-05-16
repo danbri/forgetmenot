@@ -1,0 +1,152 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> .
+
+<https://www.gov.uk/government/people/lucy-rigby> schema1:name "Lucy Rigby KC MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> .
+
+<https://www.gov.uk/government/people/chris-philp-mp> schema1:name "The Rt Hon Chris Philp MP"@en .
+
+<https://www.gov.uk/government/people/danny-alexander> schema1:name "The Rt Hon Danny Alexander"@en .
+
+<https://www.gov.uk/government/people/darren-jones> schema1:name "The Rt Hon Darren Jones MP"@en .
+
+<https://www.gov.uk/government/people/david-gauke> schema1:name "The Rt Hon David Gauke"@en .
+
+<https://www.gov.uk/government/people/david-laws> schema1:name "The Rt Hon David Laws"@en .
+
+<https://www.gov.uk/government/people/edward-argar> schema1:name "The Rt Hon Edward Argar MP"@en .
+
+<https://www.gov.uk/government/people/elizabeth-truss> schema1:name "The Rt Hon Elizabeth Truss"@en .
+
+<https://www.gov.uk/government/people/greg-hands> schema1:name "The Rt Hon Greg Hands"@en .
+
+<https://www.gov.uk/government/people/james-murray> schema1:name "The Rt Hon James Murray MP"@en .
+
+<https://www.gov.uk/government/people/john-glen> schema1:name "The Rt Hon John Glen MP"@en .
+
+<https://www.gov.uk/government/people/laura-trott> schema1:name "The Rt Hon Laura Trott MBE MP"@en .
+
+<https://www.gov.uk/government/people/rishi-sunak> schema1:name "The Rt Hon Rishi Sunak MP"@en .
+
+<https://www.gov.uk/government/people/simon-clarke> schema1:name "The Rt Hon Simon Clarke"@en .
+
+<https://www.gov.uk/government/people/stephen-barclay> schema1:name "The Rt Hon Steve Barclay MP"@en .
+
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Chief Secretary to the Treasury"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-philp-mp>,
+        <https://www.gov.uk/government/people/danny-alexander>,
+        <https://www.gov.uk/government/people/darren-jones>,
+        <https://www.gov.uk/government/people/david-gauke>,
+        <https://www.gov.uk/government/people/david-laws>,
+        <https://www.gov.uk/government/people/edward-argar>,
+        <https://www.gov.uk/government/people/elizabeth-truss>,
+        <https://www.gov.uk/government/people/greg-hands>,
+        <https://www.gov.uk/government/people/james-murray>,
+        <https://www.gov.uk/government/people/john-glen>,
+        <https://www.gov.uk/government/people/laura-trott>,
+        <https://www.gov.uk/government/people/rishi-sunak>,
+        <https://www.gov.uk/government/people/simon-clarke>,
+        <https://www.gov.uk/government/people/stephen-barclay> ;
+    govuk:responsibility "Annual Managed Expenditure and welfare spending"@en,
+        "Childcare, including tax free childcare"@en,
+        "Digital and technology spending"@en,
+        "Infrastructure spending"@en,
+        "Public Works Loan Board"@en,
+        "Public sector pay"@en,
+        "Tax credits policy"@en,
+        "Treasury interest in devolution to Scotland, Wales and Northern Ireland"@en,
+        "Treasury’s interest in mission delivery and public service reform (noting that responsibility for the Growth Mission sits with the Chancellor of the Exchequer)"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/lucy-rigby> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/james-murray> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2026"^^xsd:gYear ;
+    govuk:tenureStart "2025"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/laura-trott> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/simon-clarke> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/edward-argar> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/chris-philp-mp> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2015"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/darren-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/danny-alexander> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2015"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/rishi-sunak> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-laws> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2010"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2017"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/john-glen> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

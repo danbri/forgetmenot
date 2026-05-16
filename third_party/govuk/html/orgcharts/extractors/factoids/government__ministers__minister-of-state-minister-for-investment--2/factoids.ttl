@@ -1,0 +1,27 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+
+<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+
+<https://www.gov.uk/government/organisations/office-for-investment> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+
+<https://www.gov.uk/government/people/jason-stockwood> schema1:name "Lord Stockwood"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Investment)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade>,
+        <https://www.gov.uk/government/organisations/hm-treasury>,
+        <https://www.gov.uk/government/organisations/office-for-investment> ;
+    govuk:responsibility "GREAT Board"@en,
+        "Investor Relations"@en,
+        "Office for Investment"@en,
+        "investment delivery"@en,
+        "investment events"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jason-stockwood> .
+

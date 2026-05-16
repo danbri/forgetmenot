@@ -1,0 +1,145 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> .
+
+<https://www.gov.uk/government/people/daniel-tomlinson> schema1:name "Daniel Tomlinson MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> .
+
+<https://www.gov.uk/government/people/alan-mak> schema1:name "Alan Mak MP"@en .
+
+<https://www.gov.uk/government/people/andrew-jones> schema1:name "Andrew Jones"@en .
+
+<https://www.gov.uk/government/people/damian-hinds> schema1:name "The Rt Hon Damian Hinds MP"@en .
+
+<https://www.gov.uk/government/people/david-gauke> schema1:name "The Rt Hon David Gauke"@en .
+
+<https://www.gov.uk/government/people/felicity-buchan> schema1:name "Felicity Buchan"@en .
+
+<https://www.gov.uk/government/people/gareth-davies--2> schema1:name "Gareth Davies MP"@en .
+
+<https://www.gov.uk/government/people/helen-whately> schema1:name "Helen Whately MP"@en .
+
+<https://www.gov.uk/government/people/james-cartlidge> schema1:name "James Cartlidge MP"@en .
+
+<https://www.gov.uk/government/people/james-murray> schema1:name "The Rt Hon James Murray MP"@en .
+
+<https://www.gov.uk/government/people/kemi-badenoch> schema1:name "The Rt Hon Kemi Badenoch MP"@en .
+
+<https://www.gov.uk/government/people/priti-patel> schema1:name "The Rt Hon Priti Patel MP"@en .
+
+<https://www.gov.uk/government/people/robert-jenrick> schema1:name "The Rt Hon Robert Jenrick MP"@en .
+
+<https://www.gov.uk/government/people/simon-clarke> schema1:name "The Rt Hon Simon Clarke"@en .
+
+<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Exchequer Secretary to the Treasury"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/alan-mak>,
+        <https://www.gov.uk/government/people/andrew-jones>,
+        <https://www.gov.uk/government/people/damian-hinds>,
+        <https://www.gov.uk/government/people/david-gauke>,
+        <https://www.gov.uk/government/people/felicity-buchan>,
+        <https://www.gov.uk/government/people/gareth-davies--2>,
+        <https://www.gov.uk/government/people/helen-whately>,
+        <https://www.gov.uk/government/people/james-cartlidge>,
+        <https://www.gov.uk/government/people/james-murray>,
+        <https://www.gov.uk/government/people/kemi-badenoch>,
+        <https://www.gov.uk/government/people/priti-patel>,
+        <https://www.gov.uk/government/people/robert-jenrick>,
+        <https://www.gov.uk/government/people/simon-clarke> ;
+    govuk:responsibility "Customs and VAT at the border"@en,
+        "Direct, indirect, business, property, and personal taxation (except for taxes covered by EST)"@en,
+        "Energy profits Levy"@en,
+        "Energy, environment and climate taxes (including transport taxes)"@en,
+        "European and other international tax issues"@en,
+        "Indirect taxes, including stakeholder engagement on excise duties and excise fraud and law enforcement."@en,
+        "Input to Investment Zones and Freeports focussing on tax and customs elements"@en,
+        "Tax administration policy"@en,
+        "Taxation of charities, the voluntary sector and gift aid"@en,
+        "The Finance Bill and the National Insurance Bill"@en,
+        "The UK tax system including: Direct, indirect, business, property, and personal taxation (except for taxes covered by EST) European and other international tax issues Customs and VAT at the border The Finance Bill and the National Insurance Bill Indirect taxes, including stakeholder engagement on excise duties and excise fraud and law enforcement."@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/daniel-tomlinson> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/james-murray> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/priti-patel> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2015"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/damian-hinds> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2015"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2014"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/felicity-buchan> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/helen-whately> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/simon-clarke> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/alan-mak> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/james-cartlidge> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/robert-jenrick> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/gareth-davies--2> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+

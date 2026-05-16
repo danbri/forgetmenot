@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> govuk:hasMinister <https://www.gov.uk/government/people/luc-bardin> .
+
+<https://www.gov.uk/government/people/luc-bardin> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "A strategic partnering expert, Dr Luc Bardin is an advisor to world-leading companies including the Toyota Motor Corporation, and to the UK Government’s Cabinet Office and Ministry of Defence. He is chair of two companies he founded to provide consultancy services – The Strategic Brand Ltd and Strategic Partnering Ltd."@en ;
+    schema1:name "Dr Luc Bardin"@en ;
+    schema1:url <https://www.gov.uk/government/people/luc-bardin> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
+    govuk:currentRoleTitle "Non-executive Director and Non-executive Director"@en .
+

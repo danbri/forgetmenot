@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/corhyn-parr> .
+
+<https://www.gov.uk/government/people/corhyn-parr> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Corhyn Parr is CEO of Nuclear Waste Services, the Nuclear Decommissioning Authority’s waste management organisation. She was previously Director of Integrated Waste at the Nuclear Decommissioning Authority (NDA), a role which includes bringing together RWM and LLWR into a single waste organisation and creating a national programme for integrated waste management to improve how waste is retrieved, treated, transported, stored, and disposed of."@en ;
+    schema1:name "Corhyn Parr"@en ;
+    schema1:url <https://www.gov.uk/government/people/corhyn-parr> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

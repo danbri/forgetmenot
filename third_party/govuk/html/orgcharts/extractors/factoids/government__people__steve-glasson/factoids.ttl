@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/steve-glasson> .
+
+<https://www.gov.uk/government/people/steve-glasson> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Steve is an experienced commercial professional and leader with proven expertise in developing and implementing commercial and supply chain strategies in complex environments."@en ;
+    schema1:name "Steve Glasson"@en ;
+    schema1:url <https://www.gov.uk/government/people/steve-glasson> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    govuk:currentRoleTitle "Commercial Functions Director"@en .
+

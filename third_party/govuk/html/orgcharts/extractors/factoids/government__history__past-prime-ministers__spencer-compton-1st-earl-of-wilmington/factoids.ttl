@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/spencer-compton-1st-earl-of-wilmington> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Spencer Compton, Earl of Wilmington, was a successful Speaker of the House of Commons. His tenure as First Lord of the Treasury was short and he died in office. He came to prominence after Sir Robert Walpole’s lengthy administration and was only ever seen as a temporary replacement."@en ;
+    schema1:name "Spencer Compton, 1st Earl of Wilmington"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/spencer-compton-1st-earl-of-wilmington> .
+

@@ -1,0 +1,24 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
+
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
+
+<https://www.gov.uk/government/organisations/women-and-equalities-unit> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
+
+<https://www.gov.uk/government/people/olivia-bailey> schema1:name "Olivia Bailey MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Equalities)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+        <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity>,
+        <https://www.gov.uk/government/organisations/women-and-equalities-unit> ;
+    govuk:responsibility "LGBT+ legislation including on conversion practices"@en,
+        "LGBT+ policy"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/olivia-bailey> .
+

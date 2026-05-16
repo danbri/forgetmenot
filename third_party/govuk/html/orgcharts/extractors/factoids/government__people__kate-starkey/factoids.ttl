@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/wales-office> govuk:hasMinister <https://www.gov.uk/government/people/kate-starkey> .
+
+<https://www.gov.uk/government/people/kate-starkey> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Kate joined UK Government in Wales in June 2019 with her job-share partner, Louise Parry. Kate came to the department from the Constitution Group in Cabinet Office where she worked on parliamentary, election and lobbying policy and legislation. Before that, Kate held other positions in Whitehall, including in the Economic and Domestic Secretariat (EDS) in Cabinet Office, the Department for Education, the Department for Business, Enterprise and Industrial Strategy and HM Treasury."@en ;
+    schema1:name "Kate Starkey"@en ;
+    schema1:url <https://www.gov.uk/government/people/kate-starkey> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:currentRoleTitle "Deputy Director, Policy"@en .
+

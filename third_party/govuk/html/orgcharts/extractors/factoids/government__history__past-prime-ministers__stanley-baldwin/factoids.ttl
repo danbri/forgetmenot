@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/stanley-baldwin> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Stanley Baldwin had a double inheritance. His father’s family were wealthy industrialists and he helped his father create what was, from 1902, one of Britain’s largest iron and steel firms, Baldwins Ltd. His mother’s family had artistic and literary interests: his uncles included the artists Sir Edward Burne-Jones and Sir Edward Poynter, and Rudyard Kipling was a cousin."@en ;
+    schema1:name "Stanley Baldwin"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/stanley-baldwin> .
+

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> govuk:hasMinister <https://www.gov.uk/government/people/katherine-cowell> .
+
+<https://www.gov.uk/government/people/katherine-cowell> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Katherine Cowell started in her role as Regional Director for North East in September 2022."@en ;
+    schema1:name "Katherine Cowell"@en ;
+    schema1:url <https://www.gov.uk/government/people/katherine-cowell> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
+    govuk:currentRoleTitle "Regional Director for North East"@en .
+

@@ -1,0 +1,44 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/school-teachers-review-body> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "School Teachers' Review Body"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/school-teachers-review-body> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-macleod>,
+        <https://www.gov.uk/government/people/claire-tunbridge>,
+        <https://www.gov.uk/government/people/jo-grunwell>,
+        <https://www.gov.uk/government/people/lauren-costello>,
+        <https://www.gov.uk/government/people/lena-levy>,
+        <https://www.gov.uk/government/people/mark-cornelius>,
+        <https://www.gov.uk/government/people/mike-aldred>,
+        <https://www.gov.uk/government/people/tim-gilson> .
+
+<https://www.gov.uk/government/people/alison-macleod> a schema1:Person ;
+    schema1:name "Alison Macleod"@en .
+
+<https://www.gov.uk/government/people/claire-tunbridge> a schema1:Person ;
+    schema1:name "Claire Tunbridge"@en .
+
+<https://www.gov.uk/government/people/jo-grunwell> a schema1:Person ;
+    schema1:name "Jo Grunwell"@en .
+
+<https://www.gov.uk/government/people/lauren-costello> a schema1:Person ;
+    schema1:name "Lauren Costello OBE"@en .
+
+<https://www.gov.uk/government/people/lena-levy> a schema1:Person ;
+    schema1:name "Lena Levy"@en .
+
+<https://www.gov.uk/government/people/mark-cornelius> a schema1:Person ;
+    schema1:name "Mark Cornelius"@en .
+
+<https://www.gov.uk/government/people/mike-aldred> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62fe3d30e90e0703e0050da6/s465_Mike_Aldred.jpg> ;
+    schema1:name "Dr Mike Aldred"@en .
+
+<https://www.gov.uk/government/people/tim-gilson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68e790e2e5f463a62cb985a3/s465_Dr_Tim_Gilson.jpg> ;
+    schema1:name "Dr Tim Gilson"@en .
+

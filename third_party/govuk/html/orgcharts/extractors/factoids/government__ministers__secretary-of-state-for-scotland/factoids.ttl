@@ -1,0 +1,71 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/scotland-office> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> .
+
+<https://www.gov.uk/government/people/douglas-alexander> schema1:name "The Rt Hon Douglas Alexander MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> .
+
+<https://www.gov.uk/government/people/alistair-carmichael> schema1:name "The Rt Hon Alistair Carmichael MP"@en .
+
+<https://www.gov.uk/government/people/alister-jack> schema1:name "The Rt Hon Alister Jack"@en .
+
+<https://www.gov.uk/government/people/david-mundell> schema1:name "The Rt Hon David Mundell MP"@en .
+
+<https://www.gov.uk/government/people/ian-murray> schema1:name "The Rt Hon Ian Murray MP"@en .
+
+<https://www.gov.uk/government/people/michael-moore> schema1:name "The Rt Hon Michael Moore"@en .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Secretary of State for Scotland"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/scotland-office> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/alistair-carmichael>,
+        <https://www.gov.uk/government/people/alister-jack>,
+        <https://www.gov.uk/government/people/david-mundell>,
+        <https://www.gov.uk/government/people/ian-murray>,
+        <https://www.gov.uk/government/people/michael-moore> ;
+    govuk:responsibility "Child Poverty"@en,
+        "Constitutional policy"@en,
+        "Defence"@en,
+        "Energy and North Sea Policy"@en,
+        "FTAs and market access"@en,
+        "Industrial strategy delivery"@en,
+        "Investment"@en,
+        "Local Growth"@en,
+        "Oversight of Brand Scotland programme"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/douglas-alexander> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-moore> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:tenureEnd "2013"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/alistair-carmichael> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:tenureEnd "2015"^^xsd:gYear ;
+    govuk:tenureStart "2013"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/alister-jack> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-mundell> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2015"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/ian-murray> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+

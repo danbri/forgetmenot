@@ -1,0 +1,45 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/building-digital-uk> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Building Digital UK"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/building-digital-uk> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-field>,
+        <https://www.gov.uk/government/people/andy-murphy>,
+        <https://www.gov.uk/government/people/ben-whitestone>,
+        <https://www.gov.uk/government/people/debbie-asbury>,
+        <https://www.gov.uk/government/people/hiren-dhimar>,
+        <https://www.gov.uk/government/people/laura-battisegola>,
+        <https://www.gov.uk/government/people/matt-agar> .
+
+<https://www.gov.uk/government/people/andrew-field> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62459d2a8fa8f527785ed16b/s465_Andrew_Field.jpg> ;
+    schema1:name "Andrew Field"@en .
+
+<https://www.gov.uk/government/people/andy-murphy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6984886fa3cfa2208f06b4df/s465_Untitled_design.jpg> ;
+    schema1:name "Andy Murphy"@en .
+
+<https://www.gov.uk/government/people/ben-whitestone> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6245c505e90e075f0b5a3db9/s465_DSC09047.jpg> ;
+    schema1:name "Ben Whitestone"@en .
+
+<https://www.gov.uk/government/people/debbie-asbury> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/625fdeccd3bf7f6010c0edef/s465_499A2584.jpg> ;
+    schema1:name "Debbie Asbury"@en .
+
+<https://www.gov.uk/government/people/hiren-dhimar> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66d9cbed293afcbf8a81113f/s465_Hiren_Dhimar_-_BDUK.png> ;
+    schema1:name "Hiren Dhimar"@en .
+
+<https://www.gov.uk/government/people/laura-battisegola> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/625fdeffd3bf7f600e76da09/s465_DSC09139__1_.jpg> ;
+    schema1:name "Laura Battisegola"@en .
+
+<https://www.gov.uk/government/people/matt-agar> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6246d0fed3bf7f32aa54d748/s465_DSC08979.jpg> ;
+    schema1:name "Matt Agar"@en .
+

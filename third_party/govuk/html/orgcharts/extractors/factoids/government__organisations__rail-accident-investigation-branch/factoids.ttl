@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/rail-accident-investigation-branch> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Rail Accident Investigation Branch"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/rail-accident-investigation-branch> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-hall> .
+
+<https://www.gov.uk/government/people/andrew-hall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6246aa72e90e075f0e1447fd/s465_Andrew_Hall-GOVUK.jpg> ;
+    schema1:name "Andrew Hall"@en .
+

@@ -411,9 +411,35 @@
     width: 80px; height: 3px; margin: 1.2rem auto 0; border-radius: 2px;
     background: var(--ink-mute); transition: background .9s ease;
   }
+  .screensaver .ss-quote {
+    font: italic 500 17px/1.45 "SF Pro Text", system-ui;
+    color: var(--ink-soft);
+    margin: 1.6rem auto 0;
+    max-width: 600px;
+    text-wrap: balance;
+    transition: opacity .9s ease;
+    /* Clamp to ~4 lines so a long contribution doesn't push the layout
+       off; everything past line 4 is replaced with an ellipsis. */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  /* Curly-quote marks only appear when there's a quote to mark — empty
+     selector avoids floating quote glyphs on members with no Hansard
+     contributions (some peers, recent introductions, etc). */
+  .screensaver .ss-quote:not(:empty)::before { content: '\201C'; opacity: .55; padding-right: 2px; }
+  .screensaver .ss-quote:not(:empty)::after  { content: '\201D'; opacity: .55; padding-left: 2px; }
+  .screensaver .ss-quote-meta {
+    font: 500 12px/1.3 "SF Mono", monospace; color: var(--ink-mute);
+    margin: .5rem auto 0; max-width: 600px;
+    transition: opacity .9s ease;
+  }
   .screensaver.fade .ss-portrait,
   .screensaver.fade .ss-name,
-  .screensaver.fade .ss-meta { opacity: 0; }
+  .screensaver.fade .ss-meta,
+  .screensaver.fade .ss-quote,
+  .screensaver.fade .ss-quote-meta { opacity: 0; }
   .screensaver .ss-hint {
     position: absolute; bottom: 1.5rem; left: 0; right: 0; text-align: center;
     font: 500 11px/1 "SF Mono", monospace; letter-spacing: .15em;
@@ -424,8 +450,8 @@
   .learn-controls .body { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between; }
   .learn-score { font: 600 18px/1 "SF Mono", monospace; }
   .learn-score .delta { margin-left: .4rem; font-size: 13px; }
-  .learn-score .delta.up   { color: #4caf50; }
-  .learn-score .delta.down { color: var(--alert); }
+  .learn-score .delta.up   { color: var(--ink); }
+  .learn-score .delta.down { color: var(--ink-mute); }
   .learn-size { display: inline-flex; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 8px; }
   .learn-size button {
     background: transparent; border: 0; color: var(--ink-soft); font: 500 13px/1 "SF Mono", monospace;
@@ -435,40 +461,213 @@
   .learn-size button:focus-visible { outline: 2px solid var(--gold-dim); outline-offset: 2px; }
 
   .learn-board { position: relative; }
-  .learn-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  .learn-ring {
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
+    aspect-ratio: 1 / 1;
+  }
+  /* Hex-flower bubbles: each node is a square box, clipped to a pointy-top
+     hexagon. The outer box paints the border colour; ::before paints a
+     slightly inset hexagon in the panel/photo colour so a few px of outer
+     show through as the "border". State classes change the outer colour. */
+  .learn-node {
+    position: absolute;
+    display: flex; align-items: center; justify-content: center;
+    /* The outer hex paints the visible "inner border" of the bubble — the
+       3px ring of colour around the panel/photo. Default --line; profile
+       bubbles override to their party colour via inline style. State
+       classes override both. */
+    background: var(--line);
+    cursor: pointer;
+    box-sizing: border-box;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transition: background-color .15s ease, transform .15s ease;
+  }
+  .learn-node.profile { background: var(--party, var(--line)); }
+  .learn-node::before {
+    content: "";
+    position: absolute; inset: 3px; z-index: 0;
+    background: var(--panel);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  .learn-node > * { position: relative; z-index: 1; }
+  .learn-node:focus-visible { outline: 3px solid rgba(255,255,255,.5); outline-offset: 3px; }
+  .learn-node.selected { background: var(--gold); transform: scale(1.04); }
+  .learn-node.linked   { background: var(--gold-dim); }
+  .learn-node.correct  { background: var(--ink); }
+  .learn-node.wrong    { background: rgba(255,255,255,.45); opacity: .85; }
+
+  .learn-node.profile {
+    /* Override .learn-node's `align-items: center` so the .nm / .sub divs
+       stretch across the available width and text wraps on word boundaries
+       inside that width — instead of shrinking to min-content (longest
+       word) and stacking each word on its own line. Padding is set inline
+       in layoutLearnRing in pixels: percentage padding here would be
+       computed against the *parent ring's* width, not this bubble's, so
+       a 196px bubble inside a 640px ring would get 51px horizontal padding
+       and the text would have only ~90px to fit in. */
     align-items: stretch;
+    text-align: center;
+    flex-direction: column;
+    gap: 4px;
   }
-  .learn-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
-  .learn-tile {
-    border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
-    background: var(--panel); cursor: pointer; min-height: 96px;
-    display: flex; align-items: center; gap: 10px;
-    transition: border-color .15s ease, box-shadow .15s ease;
+  .learn-node .nm, .learn-node .sub {
+    /* The page-wide body rule sets word-break: break-word + overflow-wrap:
+       break-word so long URLs / debate titles don't force horizontal
+       scroll on phones. Inside narrow hex bubbles that breaks names like
+       "Knaresborough" in the middle. Override locally so wrap happens at
+       spaces only; with the hex clip-path any horizontal overflow on a
+       single oversize word is invisible anyway. */
+    word-break: normal;
+    overflow-wrap: normal;
   }
-  .learn-tile:focus-visible { outline: 2px solid var(--gold-dim); outline-offset: 2px; }
-  .learn-tile.selected { border-color: var(--gold); box-shadow: 0 0 0 2px rgba(200,169,81,.35); }
-  .learn-tile.linked   { border-color: var(--gold-dim); }
-  .learn-tile.correct  { border-color: #4caf50; box-shadow: 0 0 0 2px rgba(76,175,80,.25); }
-  .learn-tile.wrong    { border-color: var(--alert); box-shadow: 0 0 0 2px rgba(206,76,76,.25); }
-  .learn-tile .info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
-  .learn-tile .nm { font: 700 16px/1.2 "SF Pro Display", system-ui; color: var(--ink); }
-  .learn-tile .sub { font: 500 12px/1.3 "SF Mono", monospace; color: var(--ink-soft); }
-  .learn-tile .stripe { width: 4px; align-self: stretch; border-radius: 2px; background: var(--ink-mute); flex: 0 0 4px; }
-  .learn-tile.right { padding: 6px; flex-direction: column; align-items: stretch; min-height: 140px; }
-  .learn-tile.right .photo {
-    width: 100%; aspect-ratio: 3/4; object-fit: cover; border-radius: 8px; background: #222;
+  .learn-node.profile .nm  { font-family: "SF Pro Display", system-ui; font-weight: 700; font-size: var(--nm-size, 14px); line-height: 1.15; color: var(--ink); }
+  .learn-node.profile .sub { font-family: "SF Mono", monospace;        font-weight: 500; font-size: var(--sub-size, 11px); line-height: 1.25; color: var(--ink-soft); }
+
+  .learn-node.photo::before { background: #222; }
+  .learn-node.photo .photo {
+    position: absolute; inset: 3px;
+    width: calc(100% - 6px); height: calc(100% - 6px);
+    object-fit: cover;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   }
-  .learn-tile.right .reveal { font: 600 13px/1.2 "SF Mono", monospace; color: var(--ink-soft); padding: 4px 2px 0; min-height: 0; }
+  .learn-node.photo .reveal {
+    position: absolute; left: 3px; right: 3px; bottom: 3px;
+    padding: 28% 12% 10%;
+    background: linear-gradient(180deg, transparent, rgba(0,0,0,.88) 55%);
+    font-family: "SF Mono", monospace;
+    font-weight: 700;
+    font-size: var(--reveal-size, 12px);
+    line-height: 1.15;
+    color: var(--ink);
+    text-align: center;
+    pointer-events: none;
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  }
+  .learn-node.photo .reveal:empty { display: none; }
+
   .learn-svg { position: absolute; inset: 0; pointer-events: none; }
-  .learn-svg line { stroke: var(--gold-dim); stroke-width: 2; stroke-dasharray: 5 4; }
-  .learn-svg line.correct { stroke: #4caf50; stroke-dasharray: none; }
-  .learn-svg line.wrong   { stroke: var(--alert); stroke-dasharray: none; }
+  .learn-svg line {
+    stroke: rgba(255,255,255,.55);
+    stroke-width: 6;
+    stroke-dasharray: 10 8;
+    stroke-linecap: round;
+  }
+  .learn-svg line.correct { stroke: var(--ink);                stroke-width: 8; stroke-dasharray: none; }
+  .learn-svg line.wrong   { stroke: rgba(255,255,255,.30);     stroke-width: 4; stroke-dasharray: 2 6; }
   .learn-actions { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1rem; }
   .learn-actions .btn { min-height: 44px; }
   .learn-empty-hint {
     color: var(--ink-soft); font-size: 13px; text-align: center; padding: .6rem 0 0;
   }
+
+  /* Monochrome mode: hide all party / gold accents, the party-name span
+     in profile sub-lines, and desaturate photos. Activated by the
+     .learn-mono class on the .learn-board. Geometry is unaffected. */
+  .learn-mono .learn-node.profile { background: var(--line); }
+  .learn-mono .learn-node.selected { background: rgba(255,255,255,.80); }
+  .learn-mono .learn-node.linked   { background: rgba(255,255,255,.40); }
+  .learn-mono .learn-node.photo .photo { filter: grayscale(100%); }
+  .learn-mono .learn-size button.on { background: rgba(255,255,255,.20); color: var(--ink); }
+  .learn-mono .learn-toggle.on { background: rgba(255,255,255,.20); color: var(--ink); }
+  .learn-mono .sub-party { display: none; }
+  .learn-toggle {
+    background: transparent; border: 1px solid var(--line);
+    color: var(--ink-soft); font: 500 13px/1 "SF Mono", monospace;
+    padding: 6px 10px; border-radius: 8px; cursor: pointer;
+  }
+  .learn-toggle.on { background: var(--gold-dim); color: #1a1408; border-color: var(--gold); }
+  .learn-toggle:focus-visible { outline: 2px solid var(--gold-dim); outline-offset: 2px; }
+
+  /* Photo-pick mode: the centre hex (empty in match-all) holds the answer
+     photo; the 6 outer hexagons hold numbered description chips. The user
+     picks 1-6 by keyboard or click. Reuses .learn-node bubble styles; only
+     the centre placement, the 1-6 numeral, and post-answer feedback differ. */
+  .learn-node.center {
+    /* Sized + positioned by layoutLearnRing; no defaults needed. */
+  }
+  .learn-node .idx {
+    position: absolute; top: 8%; left: 50%; transform: translateX(-50%);
+    font: 700 14px/1 "SF Mono", monospace;
+    color: var(--ink-soft);
+    background: rgba(0,0,0,.45);
+    padding: 3px 8px; border-radius: 999px;
+    pointer-events: none;
+  }
+  .learn-node.center .idx { display: none; }
+
+  /* Slide-in drawer for the round options. Plain <div> rather than <dialog>
+     because dialog + showModal() + transition-on-transform interacts badly
+     with the top-layer in some browsers (the transform doesn't animate from
+     the offscreen initial state). The div is hidden by default; opening
+     forces a reflow before adding .open so the slide-in transition fires
+     reliably. ESC + backdrop click + focus trap are wired manually. */
+  .learn-drawer {
+    position: fixed; inset: 0; z-index: 1000;
+    pointer-events: none;
+  }
+  .learn-drawer.open { pointer-events: auto; }
+  .learn-drawer .drawer-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,.55);
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .learn-drawer.open .drawer-backdrop { opacity: 1; }
+  .learn-drawer .drawer-panel {
+    position: absolute; top: 0; bottom: 0; right: 0;
+    width: min(380px, 100vw);
+    background: var(--panel);
+    border-left: 1px solid var(--line);
+    padding: 1.2rem 1.4rem;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform .25s ease;
+    box-sizing: border-box;
+    display: flex; flex-direction: column; gap: 1.4rem;
+  }
+  .learn-drawer.open .drawer-panel { transform: translateX(0); }
+  .learn-drawer[hidden] { display: none; }
+
+  /* Photo-pick centre face is always grayscale — the player has to
+     identify it from name/party/seat alone, so colour cues like skin
+     tone or a school-tie shouldn't tip the answer. Independent of the
+     monochrome toggle, which affects the surrounding description hexes
+     and any other photos. */
+  .learn-node.center .photo { filter: grayscale(100%); }
+  .drawer-head {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .drawer-head h2 { margin: 0; font: 700 18px/1.2 "SF Pro Display", system-ui; }
+  .drawer-close {
+    background: transparent; border: 0; color: var(--ink-soft);
+    font: 400 28px/1 system-ui; cursor: pointer; padding: 0 .4rem;
+    border-radius: 6px;
+  }
+  .drawer-close:hover { color: var(--ink); }
+  .drawer-close:focus-visible { outline: 2px solid var(--gold-dim); outline-offset: 2px; }
+  .learn-drawer section { display: flex; flex-direction: column; gap: .5rem; }
+  .learn-drawer section h3 {
+    margin: 0; font: 600 13px/1 "SF Mono", monospace;
+    color: var(--ink-soft); text-transform: uppercase; letter-spacing: .04em;
+  }
+  .learn-drawer section .help { margin: 0; font-size: 12px; color: var(--ink-soft); line-height: 1.4; }
+  .learn-drawer .mode-radios {
+    display: flex; flex-direction: column; gap: .4rem;
+  }
+  .learn-drawer .mode-radios label {
+    display: flex; align-items: center; gap: .6rem;
+    padding: .5rem .6rem; border: 1px solid var(--line); border-radius: 8px;
+    cursor: pointer; min-height: 44px;
+  }
+  .learn-drawer .mode-radios label:has(input:checked) {
+    border-color: var(--gold); background: rgba(200,169,81,.10);
+  }
+  .learn-drawer .mode-radios input { accent-color: var(--gold); }
+  .learn-drawer .mode-radios .mode-name { font-weight: 600; }
+  .learn-drawer .mode-radios .mode-help { font-size: 12px; color: var(--ink-soft); }
 
   footer.attribution {
     color: var(--ink-mute); font-size: 11.5px; line-height: 1.5;
@@ -648,7 +847,7 @@
       <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
     </p>
   </div>
-</div>
+</dialog>
 
 <!-- Screensaver -->
 <div class="screensaver" id="screensaver">
@@ -657,6 +856,8 @@
     <div class="ss-name" id="ss-name">…</div>
     <div class="ss-meta" id="ss-meta">…</div>
     <div class="ss-stripe" id="ss-stripe"></div>
+    <div class="ss-quote" id="ss-quote"></div>
+    <div class="ss-quote-meta" id="ss-quote-meta"></div>
   </div>
   <div class="ss-hint">tap anywhere to exit</div>
 </div>
@@ -2398,6 +2599,17 @@ async function startScreensaver() {
     const ready = (preload.decode ? preload.decode() : new Promise(res => {
       preload.onload = preload.onerror = res;
     })).catch(() => {});
+    // Fetch a recent Hansard quote in parallel — non-blocking on the
+    // slide change. Some members (very new peers, recently introduced
+    // MPs) have no contributions yet; treat those as no-quote, don't
+    // fail the slide. Hansard's per-member contribution feed is shape-
+    // probed: /search/contributions/Spoken.json returns
+    //   { Results: [{ ContributionTextFull, SittingDate, DebateSection,
+    //                 House, AttributedTo, ... }] }
+    // and the proxy applies the existing 60s search-cache TTL.
+    const quoteP = fetchJson(
+      `${API}/hansard/search/contributions/Spoken.json?memberId=${v.id}&take=3`
+    ).catch(() => null);
     await Promise.all([ready, new Promise(res => setTimeout(res, 900))]);
     if (ssCancelled) return;
     document.getElementById('ss-img').src = url;
@@ -2406,8 +2618,29 @@ async function startScreensaver() {
       [p.name, h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
         .filter(Boolean).join(' · ');
     document.getElementById('ss-stripe').style.background = cols.bg;
+    // Clear the previous slide's quote during the fade-in so a stale
+    // line from the prior member doesn't briefly show against the new
+    // photo if the quote fetch is slow.
+    document.getElementById('ss-quote').textContent = '';
+    document.getElementById('ss-quote-meta').textContent = '';
     ss.classList.remove('fade');
-    ssTimer = setTimeout(step, 7000);
+    // Paint the quote when (or if) it arrives. The slide moves on after
+    // 7s regardless, so a slow Hansard call just produces a quoteless
+    // slide — no UI gets stuck.
+    quoteP.then(qd => {
+      if (ssCancelled) return;
+      // Only paint if this is still the active slide (next step() may
+      // have advanced i and changed v; check by comparing the visible
+      // member name, the cheapest stable identifier we keep in DOM).
+      if (document.getElementById('ss-name').textContent !== (v.nameDisplayAs || '')) return;
+      const q = qd && Array.isArray(qd.Results) ? qd.Results[0] : null;
+      if (!q || !q.ContributionTextFull) return;
+      document.getElementById('ss-quote').textContent = q.ContributionTextFull.trim();
+      document.getElementById('ss-quote-meta').textContent =
+        [q.SittingDate ? fmtDate(q.SittingDate) : '', q.DebateSection]
+          .filter(Boolean).join(' · ');
+    });
+    ssTimer = setTimeout(step, 9000);
   }
   step();
 }
@@ -2434,7 +2667,10 @@ function stopScreensaver() {
 
 const LEARN_KEY_N     = 'fpkg_learn_n';
 const LEARN_KEY_SCORE = 'fpkg_learn_score';
+const LEARN_KEY_MONO  = 'fpkg_learn_mono';
+const LEARN_KEY_MODE  = 'fpkg_learn_mode';
 const LEARN_VALID_N   = [2, 3, 5];
+const LEARN_VALID_MODES = ['photo-pick', 'match-all'];
 
 function getLearnN() {
   const v = parseInt(localStorage.getItem(LEARN_KEY_N) || '3', 10);
@@ -2443,6 +2679,13 @@ function getLearnN() {
 function setLearnN(n) { localStorage.setItem(LEARN_KEY_N, String(n)); }
 function getLearnScore() { const v = parseInt(localStorage.getItem(LEARN_KEY_SCORE) || '0', 10); return Number.isFinite(v) ? v : 0; }
 function setLearnScore(s) { localStorage.setItem(LEARN_KEY_SCORE, String(s)); }
+function getLearnMono()  { return localStorage.getItem(LEARN_KEY_MONO) === '1'; }
+function setLearnMono(b) { localStorage.setItem(LEARN_KEY_MONO, b ? '1' : '0'); }
+function getLearnMode() {
+  const v = localStorage.getItem(LEARN_KEY_MODE) || 'photo-pick';
+  return LEARN_VALID_MODES.includes(v) ? v : 'photo-pick';
+}
+function setLearnMode(m) { localStorage.setItem(LEARN_KEY_MODE, m); }
 
 async function pickQuiz(n) {
   // Pull a wider pool than we need so we can pick the most "similar"
@@ -2484,22 +2727,28 @@ async function viewLearn(_m, _q, gen) {
   root.append(el('div', { class: 'hero' },
     el('div', { class: 'crumb' }, 'Game'),
     el('h1', {}, 'Match name to face'),
-    el('p', { style: 'margin:.4rem 0 0; color:var(--ink-soft); font-size:14px' },
-      'Tap a profile, then tap the photo you think is theirs. Tap a linked tile again to break the link. Submit when every profile has a candidate.')));
+    el('p', { id: 'learn-blurb', style: 'margin:.4rem 0 0; color:var(--ink-soft); font-size:14px' },
+      learnBlurbForMode(getLearnMode()))));
 
   const header = el('div', { class: 'card learn-controls' },
     el('div', { class: 'body' },
       el('div', { class: 'learn-score', id: 'learn-score' }, `score ${getLearnScore()}`),
-      el('div', { style: 'display:flex; gap:.6rem; align-items:center' },
-        el('span', { style: 'font-size:13px; color:var(--ink-soft)' }, 'people'),
-        renderSizeSelector(gen))));
+      el('button', {
+        class: 'btn',
+        type: 'button',
+        'aria-haspopup': 'dialog',
+        onclick: () => openLearnDrawer(gen),
+      }, 'options')));
   root.append(header);
 
-  const board = el('div', { class: 'learn-board card' },
+  const board = el('div', { class: 'learn-board card', id: 'learn-board' },
     el('div', { class: 'body', id: 'learn-body' }));
   root.append(board);
+  // Apply persisted monochrome state on first paint.
+  board.classList.toggle('learn-mono', getLearnMono());
 
-  const actions = el('div', { class: 'learn-actions' },
+  // Match-all action buttons. Hidden in modes that auto-advance per answer.
+  const actions = el('div', { class: 'learn-actions', id: 'learn-actions' },
     el('button', { class: 'btn primary', id: 'learn-submit', onclick: onSubmitLearn }, 'submit'),
     el('button', { class: 'btn',         id: 'learn-reset',  onclick: onResetLearn  }, 'reset'),
     el('button', { class: 'btn',         id: 'learn-next',   onclick: () => runLearnRound(gen), style: 'display:none' }, 'next round'));
@@ -2509,6 +2758,157 @@ async function viewLearn(_m, _q, gen) {
   // Redraw lines on resize / orientation change so the SVG stays aligned.
   // Idempotent — addEventListener dedupes identical (event, fn) pairs.
   window.addEventListener('resize', scheduleLearnRedraw);
+  if (!viewLearn._keyAttached) {
+    window.addEventListener('keydown', onLearnGlobalKey);
+    viewLearn._keyAttached = true;
+  }
+}
+
+function learnBlurbForMode(mode) {
+  if (mode === 'photo-pick') return 'A face appears in the centre. Tap or press 1-6 to choose the matching profile from the six around it.';
+  return 'Tap a profile, then tap the photo you think is theirs. Tap a linked tile again to break the link. Submit when every profile has a candidate.';
+}
+
+function onLearnGlobalKey(e) {
+  if (!learnState || learnState.locked) return;
+  if (learnState.mode !== 'photo-pick') return;
+  if (e.target && /^(input|textarea|select)$/i.test(e.target.tagName)) return;
+  const m = /^[1-6]$/.exec(e.key);
+  if (!m) return;
+  e.preventDefault();
+  onPhotoPickAnswer(parseInt(e.key, 10) - 1);
+}
+
+function renderMonoToggle() {
+  const btn = el('button', {
+    class: 'learn-toggle' + (getLearnMono() ? ' on' : ''),
+    type: 'button',
+    'aria-pressed': getLearnMono() ? 'true' : 'false',
+    title: 'Hide party colour, party name, and photo colour',
+    onclick: () => {
+      const next = !getLearnMono();
+      setLearnMono(next);
+      const board = document.getElementById('learn-board');
+      if (board) board.classList.toggle('learn-mono', next);
+      btn.classList.toggle('on', next);
+      btn.setAttribute('aria-pressed', String(next));
+    },
+  }, 'monochrome');
+  return btn;
+}
+
+function ensureLearnDrawer(gen) {
+  let d = document.getElementById('learn-drawer');
+  if (d) return d;
+  d = el('div', {
+    class: 'learn-drawer',
+    id: 'learn-drawer',
+    role: 'dialog',
+    'aria-modal': 'true',
+    'aria-label': 'options',
+    hidden: '',
+  },
+    el('div', { class: 'drawer-backdrop', onclick: closeLearnDrawer }),
+    el('div', { class: 'drawer-panel', role: 'document' },
+      el('div', { class: 'drawer-head' },
+        el('h2', {}, 'options'),
+        el('button', {
+          class: 'drawer-close',
+          type: 'button',
+          'aria-label': 'close options',
+          onclick: closeLearnDrawer,
+        }, '×')),
+      el('section', {},
+        el('h3', {}, 'mode'),
+        renderModeRadios(gen)),
+      el('section', {},
+        el('h3', {}, 'display'),
+        renderMonoToggle()),
+      el('section', { id: 'drawer-size-section' },
+        el('h3', {}, 'round size'),
+        el('p', { class: 'help' }, 'people per round — only used in match-all mode'),
+        renderSizeSelector(gen))));
+  document.body.append(d);
+  return d;
+}
+
+let drawerLastFocus = null;
+
+function openLearnDrawer(gen) {
+  const d = ensureLearnDrawer(gen);
+  drawerLastFocus = document.activeElement;
+  d.removeAttribute('hidden');
+  // Force a reflow so the panel paints at translateX(100%) before the
+  // .open class flips it to 0 and triggers the slide transition. Without
+  // this the browser may collapse the two style changes and skip the
+  // animation.
+  void d.offsetHeight;
+  requestAnimationFrame(() => {
+    d.classList.add('open');
+    const closeBtn = d.querySelector('.drawer-close');
+    if (closeBtn) closeBtn.focus();
+  });
+  document.addEventListener('keydown', drawerKeyHandler, true);
+}
+
+function closeLearnDrawer() {
+  const d = document.getElementById('learn-drawer');
+  if (!d || d.hidden) return;
+  d.classList.remove('open');
+  document.removeEventListener('keydown', drawerKeyHandler, true);
+  setTimeout(() => {
+    d.setAttribute('hidden', '');
+    if (drawerLastFocus && typeof drawerLastFocus.focus === 'function') {
+      try { drawerLastFocus.focus(); } catch {}
+    }
+    drawerLastFocus = null;
+  }, 260);
+}
+
+function drawerKeyHandler(e) {
+  const d = document.getElementById('learn-drawer');
+  if (!d || d.hidden) return;
+  if (e.key === 'Escape') { e.preventDefault(); closeLearnDrawer(); return; }
+  if (e.key !== 'Tab') return;
+  const focusables = d.querySelectorAll(
+    'button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])');
+  if (!focusables.length) return;
+  const first = focusables[0], last = focusables[focusables.length - 1];
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault(); last.focus();
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault(); first.focus();
+  }
+}
+
+function renderModeRadios(gen) {
+  const wrap = el('div', { class: 'mode-radios', role: 'radiogroup', 'aria-label': 'game mode' });
+  const cur = getLearnMode();
+  const modes = [
+    { id: 'photo-pick', name: 'identify the face',  help: '1 photo + 6 description options. Tap or 1-6.' },
+    { id: 'match-all',  name: 'match all',          help: 'pair every name to every photo at once.' },
+  ];
+  for (const m of modes) {
+    const lbl = el('label', {},
+      el('input', {
+        type: 'radio', name: 'learn-mode', value: m.id,
+        checked: m.id === cur ? '' : null,
+        onchange: e => {
+          if (!e.target.checked) return;
+          setLearnMode(m.id);
+          // Drawer doesn't need to re-render; just kick a fresh round.
+          runLearnRound(gen);
+          // Round size only matters for match-all.
+          const sizeSec = document.getElementById('drawer-size-section');
+          if (sizeSec) sizeSec.style.opacity = (m.id === 'match-all') ? '1' : '.45';
+        },
+      }),
+      el('div', {},
+        el('div', { class: 'mode-name' }, m.name),
+        el('div', { class: 'mode-help' }, m.help)));
+    wrap.append(lbl);
+  }
+  return wrap;
 }
 
 function renderSizeSelector(gen) {
@@ -2537,12 +2937,129 @@ function renderSizeSelector(gen) {
 }
 
 async function runLearnRound(gen) {
+  const blurb = document.getElementById('learn-blurb');
+  if (blurb) blurb.textContent = learnBlurbForMode(getLearnMode());
+  if (getLearnMode() === 'photo-pick') return runPhotoPickRound(gen);
+  return runMatchAllRound(gen);
+}
+
+async function runPhotoPickRound(gen) {
+  const body = document.getElementById('learn-body');
+  if (!body) return;
+  body.replaceChildren(el('div', { class: 'loading' }, 'shuffling…'));
+  // Hide match-all-only action buttons.
+  const actions = document.getElementById('learn-actions');
+  if (actions) actions.style.display = 'none';
+
+  let people;
+  try { people = await pickQuiz(6); }
+  catch (e) {
+    body.replaceChildren(el('div', { class: 'errblock' }, 'Could not load round: ' + e.message));
+    return;
+  }
+  if (gen !== routeGen) return;
+
+  // pickQuiz puts the seed at index 0 — that's the answer. Shuffle the
+  // 6 outer slot positions independently so the seed lands somewhere
+  // random, then record which slot holds it.
+  const order = [0, 1, 2, 3, 4, 5];
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  const answerSlot = order.indexOf(0);
+
+  learnState = {
+    mode: 'photo-pick',
+    people, order, answerSlot,
+    picked: null, locked: false, gen,
+  };
+
+  const ring = el('div', { class: 'learn-ring', id: 'learn-grid' });
+  const answer = people[0];
+  // Centre hex: the photo to identify.
+  ring.append(el('div', {
+    class: 'learn-node photo center',
+    id: 'lt-center',
+    'aria-label': 'face to identify',
+  },
+    el('img', {
+      class: 'photo',
+      src: authedImg(`/members/Members/${answer.id}/Portrait?cropType=OneOne`),
+      alt: '',
+    })));
+
+  // 6 outer hexes: numbered description chips.
+  for (let i = 0; i < 6; i++) {
+    const v = people[order[i]];
+    const p = v.latestParty || {}, h = v.latestHouseMembership || {};
+    const cols = partyColours(p);
+    ring.append(el('div', {
+      class: 'learn-node profile',
+      id: `lt-out-${i}`,
+      role: 'button',
+      tabindex: '0',
+      'aria-label': `option ${i + 1}: ${v.nameDisplayAs}, ${p.name || ''}, ${h.membershipFrom || ''}`,
+      style: `--party:${cols.bg}`,
+      onclick: () => onPhotoPickAnswer(i),
+      onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onPhotoPickAnswer(i); } },
+    },
+      el('div', { class: 'idx' }, String(i + 1)),
+      el('div', { class: 'nm' }, v.nameDisplayAs || ''),
+      el('div', { class: 'sub' },
+        p.name ? el('span', { class: 'sub-party' }, p.name + ' · ') : '',
+        [h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
+          .filter(Boolean).join(' · '))));
+  }
+
+  body.replaceChildren(ring,
+    el('div', { class: 'learn-empty-hint', id: 'learn-hint' },
+      'tap or press 1-6 to identify the face'));
+  scheduleLearnRedraw();
+}
+
+function onPhotoPickAnswer(slot) {
+  if (!learnState || learnState.mode !== 'photo-pick' || learnState.locked) return;
+  if (slot < 0 || slot > 5) return;
+  learnState.locked = true;
+  learnState.picked = slot;
+  const correct = slot === learnState.answerSlot;
+
+  const pickedNode  = document.getElementById(`lt-out-${slot}`);
+  const correctNode = document.getElementById(`lt-out-${learnState.answerSlot}`);
+  if (pickedNode)  pickedNode.classList.add(correct ? 'correct' : 'wrong');
+  if (correctNode) correctNode.classList.add('correct');
+
+  const delta = correct ? 1 : -1;
+  const newScore = getLearnScore() + delta;
+  setLearnScore(newScore);
+  const scoreEl = document.getElementById('learn-score');
+  if (scoreEl) {
+    scoreEl.replaceChildren(
+      document.createTextNode(`score ${newScore}`),
+      el('span', { class: 'delta ' + (delta >= 0 ? 'up' : 'down') },
+        (delta >= 0 ? '+' : '') + delta));
+  }
+  const hint = document.getElementById('learn-hint');
+  if (hint) hint.textContent = correct ? 'right — next…' : 'no — answer highlighted, next…';
+
+  const myGen = learnState.gen;
+  setTimeout(() => {
+    if (routeGen === myGen && learnState && learnState.mode === 'photo-pick') {
+      runPhotoPickRound(myGen);
+    }
+  }, correct ? 1000 : 1700);
+}
+
+async function runMatchAllRound(gen) {
   const body = document.getElementById('learn-body');
   if (!body) return;
   body.replaceChildren(el('div', { class: 'loading' }, 'shuffling…'));
   const submitBtn = document.getElementById('learn-submit');
   const resetBtn  = document.getElementById('learn-reset');
   const nextBtn   = document.getElementById('learn-next');
+  const actions   = document.getElementById('learn-actions');
+  if (actions) actions.style.display = '';
   if (submitBtn) submitBtn.disabled = true;
   if (resetBtn)  resetBtn.disabled  = true;
   if (nextBtn)   nextBtn.style.display = 'none';
@@ -2568,6 +3085,7 @@ async function runLearnRound(gen) {
   if (photoOrder.every((v, i) => v === i)) photoOrder.push(photoOrder.shift());
 
   learnState = {
+    mode: 'match-all',
     people,
     photoOrder,             // photoOrder[rightIdx] = peopleIdx
     links: new Map(),       // leftIdx -> rightIdx
@@ -2575,48 +3093,54 @@ async function runLearnRound(gen) {
     locked: false,
   };
 
-  const grid = el('div', { class: 'learn-grid', id: 'learn-grid' });
-  const leftCol = el('div', { class: 'learn-col left' });
-  const rightCol = el('div', { class: 'learn-col right' });
-  for (let i = 0; i < people.length; i++) {
+  const ring = el('div', { class: 'learn-ring', id: 'learn-grid' });
+  // Profile and photo bubbles alternate around the ring, starting profile #0
+  // at the top (12 o'clock). For N people there are 2N bubbles; profile i
+  // sits at angle (2i)/(2N) of a full turn, photo r at angle (2r+1)/(2N).
+  const N = people.length;
+  for (let i = 0; i < N; i++) {
     const v = people[i];
     const p = v.latestParty || {}, h = v.latestHouseMembership || {};
     const cols = partyColours(p);
-    const tile = el('div', {
-      class: 'learn-tile left', id: `lt-L-${i}`, role: 'button', tabindex: '0',
+    const node = el('div', {
+      class: 'learn-node profile', id: `lt-L-${i}`, role: 'button', tabindex: '0',
       'aria-label': `${v.nameDisplayAs}, ${p.name || ''}, ${h.membershipFrom || ''}`,
+      style: `--party:${cols.bg}`,
       onclick: () => onTileClick('L', i),
       onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onTileClick('L', i); } },
     },
-      el('div', { class: 'stripe', style: `background:${cols.bg}` }),
-      el('div', { class: 'info' },
-        el('div', { class: 'nm' }, v.nameDisplayAs || ''),
-        el('div', { class: 'sub' },
-          [p.name, h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
-            .filter(Boolean).join(' · '))));
-    leftCol.append(tile);
+      el('div', { class: 'nm' }, v.nameDisplayAs || ''),
+      // Sub-line: party · constituency · house. Party is in its own span so
+      // monochrome mode can hide it without touching the rest. The span
+      // includes its own trailing separator so removing it leaves a clean
+      // "constituency · house" with no orphan dot.
+      el('div', { class: 'sub' },
+        p.name ? el('span', { class: 'sub-party' }, p.name + ' · ') : '',
+        [h.membershipFrom, h.house === 1 ? 'Commons' : (h.house === 2 ? 'Lords' : '')]
+          .filter(Boolean).join(' · ')));
+    ring.append(node);
   }
   for (let r = 0; r < photoOrder.length; r++) {
     const peopleIdx = photoOrder[r];
     const v = people[peopleIdx];
-    const tile = el('div', {
-      class: 'learn-tile right', id: `lt-R-${r}`, role: 'button', tabindex: '0',
+    const node = el('div', {
+      class: 'learn-node photo', id: `lt-R-${r}`, role: 'button', tabindex: '0',
       'aria-label': `photo ${r + 1} of ${photoOrder.length}`,
       onclick: () => onTileClick('R', r),
       onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onTileClick('R', r); } },
     },
-      el('img', { class: 'photo', src: authedImg(`/members/Members/${v.id}/Portrait?cropType=ThreeFour`), alt: '' }),
+      el('img', { class: 'photo', src: authedImg(`/members/Members/${v.id}/Portrait?cropType=OneOne`), alt: '' }),
       el('div', { class: 'reveal', id: `lt-R-${r}-reveal` }, ''));
-    rightCol.append(tile);
+    ring.append(node);
   }
-  grid.append(leftCol, rightCol);
   // SVG container must be in the SVG namespace, otherwise document.createElement('svg')
   // yields an HTMLUnknownElement and the layout/sizing attributes silently no-op.
   const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   svg.setAttribute('class', 'learn-svg');
   svg.setAttribute('id', 'learn-svg');
   svg.setAttribute('aria-hidden', 'true');
-  body.replaceChildren(grid, svg, el('div', { class: 'learn-empty-hint', id: 'learn-hint' }, 'tap a name on the left, then a photo on the right'));
+  ring.appendChild(svg);
+  body.replaceChildren(ring, el('div', { class: 'learn-empty-hint', id: 'learn-hint' }, 'tap a name, then a photo'));
   if (resetBtn) resetBtn.disabled = false;
   // First paint of the SVG canvas needs the grid to be laid out.
   scheduleLearnRedraw();
@@ -2695,31 +3219,142 @@ function scheduleLearnRedraw() {
   learnRedrawScheduled = true;
   requestAnimationFrame(() => {
     learnRedrawScheduled = false;
+    layoutLearnRing();
     drawLearnLines();
   });
 }
 
+// Position the bubbles around the ring. Bubble diameter is sized so that
+// adjacent bubbles have a small gap between them (no overlap). Match-all
+// mode places 2N bubbles around the ring (profile/photo alternating);
+// photo-pick mode places 6 outer bubbles plus a centre bubble.
+function layoutLearnRing() {
+  if (!learnState) return;
+  const ring = document.getElementById('learn-grid');
+  if (!ring) return;
+  const W = ring.clientWidth;
+  if (!W) return;
+  const mode = learnState.mode;
+  const total = mode === 'photo-pick' ? 6 : 2 * learnState.people.length;
+  // Adjacent bubble *centres* on the ring are 2R·sin(π/total) apart. For a
+  // gap of (1-f) of that distance to remain between bubble edges, we need
+  // D ≤ 2R·sin(π/total)·f, with R = W/2 - D/2 - margin. Solve:
+  //   D = (W - 2margin) · s · f / (1 + s · f)   where s = sin(π/total).
+  const margin = 8;
+  const f = 0.92; // 8% gap between adjacent bubbles
+  const sf = Math.sin(Math.PI / total) * f;
+  const D = Math.max(56, Math.floor(((W - 2 * margin) * sf) / (1 + sf)));
+  const R = W / 2 - D / 2 - margin;
+  const cx = W / 2, cy = W / 2; // square ring
+
+  // Photo-pick mode: centre hex + 6 outer hexes.
+  if (mode === 'photo-pick') {
+    const center = document.getElementById('lt-center');
+    if (center) {
+      // Centre bubble is sized to the empty space between the 6 outer
+      // bubbles; for a hex flower with neighbour distance R, that's also
+      // about D. Slightly smaller looks less crowded.
+      const cD = Math.floor(D * 0.95);
+      center.style.left   = (cx - cD / 2) + 'px';
+      center.style.top    = (cy - cD / 2) + 'px';
+      center.style.width  = cD + 'px';
+      center.style.height = cD + 'px';
+      center.style.setProperty('--reveal-size',
+        Math.max(10, Math.min(15, Math.round(cD * 0.10))) + 'px');
+    }
+    // Padding scales with the bubble's own width (px). Vertical padding
+    // is wider than horizontal because the hex pinches at top and bottom
+    // (the polygon goes from full width at 25%-75% to zero at 0%/100%).
+    const padX = Math.max(6, Math.round(D * 0.06));
+    const padY = Math.max(10, Math.round(D * 0.16));
+    for (let i = 0; i < 6; i++) {
+      const o = document.getElementById(`lt-out-${i}`);
+      if (!o) continue;
+      const a = -Math.PI / 2 + (i / 6) * 2 * Math.PI;
+      o.style.left = (cx + R * Math.cos(a) - D / 2) + 'px';
+      o.style.top  = (cy + R * Math.sin(a) - D / 2) + 'px';
+      o.style.width  = D + 'px';
+      o.style.height = D + 'px';
+      o.style.padding = padY + 'px ' + padX + 'px';
+      o.style.setProperty('--nm-size',
+        Math.max(11, Math.min(20, Math.round(D * 0.115))) + 'px');
+      o.style.setProperty('--sub-size',
+        Math.max(9, Math.min(13, Math.round(D * 0.078))) + 'px');
+    }
+    return;
+  }
+
+  const N = learnState.people.length;
+  const place = (idx, isPhoto) => {
+    // Profile at even slots, photo at odd. start at top (12 o'clock).
+    const slot = isPhoto ? (idx * 2 + 1) : (idx * 2);
+    const a = -Math.PI / 2 + (slot / total) * 2 * Math.PI;
+    const x = cx + R * Math.cos(a) - D / 2;
+    const y = cy + R * Math.sin(a) - D / 2;
+    return { x, y };
+  };
+  // Note on CSS custom properties: el.style['--foo'] = 'bar' is a no-op —
+  // CSSStyleDeclaration only honours custom-property writes via setProperty.
+  // (Object.assign on .style routes through the same setter.) So scale-vars
+  // have to be set explicitly with setProperty.
+  const padX = Math.max(6, Math.round(D * 0.06));
+  const padY = Math.max(10, Math.round(D * 0.16));
+  for (let i = 0; i < N; i++) {
+    const lt = document.getElementById(`lt-L-${i}`);
+    if (!lt) continue;
+    const { x, y } = place(i, false);
+    lt.style.left = x + 'px'; lt.style.top = y + 'px';
+    lt.style.width = D + 'px'; lt.style.height = D + 'px';
+    lt.style.padding = padY + 'px ' + padX + 'px';
+    // Text scales with bubble size — empirical tuning that stays legible
+    // for N=2 (huge), N=3 (default), and N=5 (tight).
+    lt.style.setProperty('--nm-size',  Math.max(11, Math.min(20, Math.round(D * 0.115))) + 'px');
+    lt.style.setProperty('--sub-size', Math.max(9,  Math.min(13, Math.round(D * 0.078))) + 'px');
+  }
+  for (let r = 0; r < learnState.photoOrder.length; r++) {
+    const rt = document.getElementById(`lt-R-${r}`);
+    if (!rt) continue;
+    const { x, y } = place(r, true);
+    rt.style.left = x + 'px'; rt.style.top = y + 'px';
+    rt.style.width = D + 'px'; rt.style.height = D + 'px';
+    rt.style.setProperty('--reveal-size', Math.max(10, Math.min(15, Math.round(D * 0.10))) + 'px');
+  }
+}
+
 function drawLearnLines() {
   const svg = document.getElementById('learn-svg');
-  const grid = document.getElementById('learn-grid');
-  if (!svg || !grid || !learnState) return;
-  const board = grid.parentElement; // .body of the .learn-board card
-  const bRect = board.getBoundingClientRect();
-  svg.setAttribute('width',  bRect.width);
-  svg.setAttribute('height', bRect.height);
-  svg.setAttribute('viewBox', `0 0 ${bRect.width} ${bRect.height}`);
-  // Clear
+  const ring = document.getElementById('learn-grid');
+  if (!svg || !ring || !learnState) return;
+  // photo-pick mode has no connector lines — there's only one answer
+  // per round, marked by border-state on the picked / correct bubble.
+  if (learnState.mode === 'photo-pick') return;
+  const W = ring.clientWidth, H = ring.clientHeight;
+  svg.setAttribute('width',  W);
+  svg.setAttribute('height', H);
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
   while (svg.firstChild) svg.removeChild(svg.firstChild);
+  const ringRect = ring.getBoundingClientRect();
   for (const [leftIdx, rightIdx] of learnState.links.entries()) {
     const lt = document.getElementById(`lt-L-${leftIdx}`);
     const rt = document.getElementById(`lt-R-${rightIdx}`);
     if (!lt || !rt) continue;
     const a = lt.getBoundingClientRect();
     const b = rt.getBoundingClientRect();
-    const x1 = a.right - bRect.left;
-    const y1 = a.top + a.height / 2 - bRect.top;
-    const x2 = b.left  - bRect.left;
-    const y2 = b.top + b.height / 2 - bRect.top;
+    const cx1 = a.left + a.width / 2 - ringRect.left;
+    const cy1 = a.top  + a.height / 2 - ringRect.top;
+    const cx2 = b.left + b.width / 2 - ringRect.left;
+    const cy2 = b.top  + b.height / 2 - ringRect.top;
+    const r1 = a.width / 2, r2 = b.width / 2;
+    const dx = cx2 - cx1, dy = cy2 - cy1;
+    const dist = Math.hypot(dx, dy) || 1;
+    const ux = dx / dist, uy = dy / dist;
+    // Pull endpoints in to each bubble's edge, plus a small gap so the line
+    // doesn't visually fuse with the bubble border.
+    const pad = 4;
+    const x1 = cx1 + ux * (r1 + pad);
+    const y1 = cy1 + uy * (r1 + pad);
+    const x2 = cx2 - ux * (r2 + pad);
+    const y2 = cy2 - uy * (r2 + pad);
     const ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
     ln.setAttribute('x1', x1); ln.setAttribute('y1', y1);
     ln.setAttribute('x2', x2); ln.setAttribute('y2', y2);

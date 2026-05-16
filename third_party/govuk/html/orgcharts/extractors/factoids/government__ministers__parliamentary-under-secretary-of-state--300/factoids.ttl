@@ -1,0 +1,22 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/department-for-transport> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> .
+
+<https://www.gov.uk/government/people/keir-mather> schema1:name "Keir Mather MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Aviation, Maritime and Decarbonisation)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:responsibility "aviation and airport expansion"@en,
+        "decarbonisation and electric vehicles (EVs)"@en,
+        "freight and borders"@en,
+        "international"@en,
+        "maritime"@en,
+        "security"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/keir-mather> .
+

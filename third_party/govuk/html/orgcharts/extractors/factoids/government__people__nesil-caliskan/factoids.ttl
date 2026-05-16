@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> govuk:roleHolder <https://www.gov.uk/government/people/nesil-caliskan> .
+
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasMinister <https://www.gov.uk/government/people/nesil-caliskan> .
+
+<https://www.gov.uk/government/people/nesil-caliskan> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Nesil Caliskan was appointed Parliamentary Under-Secretary of State in the Ministry of Housing, Communities and Local Government on 12 May 2026."@en ;
+    schema1:name "Nesil Caliskan MP"@en ;
+    schema1:url <https://www.gov.uk/government/people/nesil-caliskan> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:currentRoleTitle "Parliamentary Under-Secretary of State"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> .
+

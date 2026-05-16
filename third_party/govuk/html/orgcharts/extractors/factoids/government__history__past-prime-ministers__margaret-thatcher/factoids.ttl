@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/margaret-thatcher> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Margaret Thatcher’s father, a shopkeeper and Mayor of Grantham, was a major influence in her childhood. She was educated at the local grammar school and studied Chemistry at Oxford University, where she became president of the university Conservative association."@en ;
+    schema1:name "Baroness Thatcher"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/margaret-thatcher> .
+

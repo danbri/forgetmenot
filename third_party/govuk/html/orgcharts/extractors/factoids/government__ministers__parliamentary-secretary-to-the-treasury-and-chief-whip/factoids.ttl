@@ -1,0 +1,122 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/people/jonathan-reynolds> schema1:name "The Rt Hon Jonathan Reynolds MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> .
+
+<https://www.gov.uk/government/people/alan-campbell> schema1:name "The Rt Hon Sir Alan Campbell MP"@en .
+
+<https://www.gov.uk/government/people/andrew-mitchell> schema1:name "The Rt Hon Andrew Mitchell MP"@en .
+
+<https://www.gov.uk/government/people/chris-heaton-harris> schema1:name "The Rt Hon Chris Heaton-Harris"@en .
+
+<https://www.gov.uk/government/people/gavin-williamson> schema1:name "The Rt Hon Sir Gavin Williamson CBE MP"@en .
+
+<https://www.gov.uk/government/people/george-young> schema1:name "The Rt Hon Sir George Young Bt"@en .
+
+<https://www.gov.uk/government/people/julian-smith> schema1:name "The Rt Hon Julian Smith MP"@en .
+
+<https://www.gov.uk/government/people/mark-harper> schema1:name "The Rt Hon Mark Harper"@en .
+
+<https://www.gov.uk/government/people/mark-spencer> schema1:name "The Rt Hon Sir Mark Spencer"@en .
+
+<https://www.gov.uk/government/people/michael-gove> schema1:name "The Rt Hon Michael Gove"@en .
+
+<https://www.gov.uk/government/people/patrick-mcloughlin> schema1:name "The Rt Hon Sir Patrick McLoughlin"@en .
+
+<https://www.gov.uk/government/people/simon-hart> schema1:name "The Rt Hon Simon Hart"@en .
+
+<https://www.gov.uk/government/people/wendy-morton> schema1:name "Wendy Morton MP"@en .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Secretary to the Treasury (Chief Whip)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/alan-campbell>,
+        <https://www.gov.uk/government/people/andrew-mitchell>,
+        <https://www.gov.uk/government/people/chris-heaton-harris>,
+        <https://www.gov.uk/government/people/gavin-williamson>,
+        <https://www.gov.uk/government/people/george-young>,
+        <https://www.gov.uk/government/people/julian-smith>,
+        <https://www.gov.uk/government/people/mark-harper>,
+        <https://www.gov.uk/government/people/mark-spencer>,
+        <https://www.gov.uk/government/people/michael-gove>,
+        <https://www.gov.uk/government/people/patrick-mcloughlin>,
+        <https://www.gov.uk/government/people/simon-hart>,
+        <https://www.gov.uk/government/people/wendy-morton> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jonathan-reynolds> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/gavin-williamson> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2017"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/alan-campbell> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/wendy-morton> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-mitchell> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2012"^^xsd:gYear ;
+    govuk:tenureStart "2012"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/mark-spencer> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2015"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/george-young> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2014"^^xsd:gYear ;
+    govuk:tenureStart "2012"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/mark-harper> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2015"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/patrick-mcloughlin> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2012"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/simon-hart> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+

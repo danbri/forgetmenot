@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-space-agency> govuk:hasMinister <https://www.gov.uk/government/people/emily-dineley> .
+
+<https://www.gov.uk/government/people/emily-dineley> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "UK Space Agency"@en ;
+    schema1:name "Emily Dineley"@en ;
+    schema1:url <https://www.gov.uk/government/people/emily-dineley> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-space-agency> ;
+    govuk:currentRoleTitle "Deputy Director, Portfolio Management"@en .
+

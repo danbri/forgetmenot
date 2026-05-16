@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/james-brokenshire> .
+
+<https://www.gov.uk/government/people/james-brokenshire> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "James Brokenshire was appointed Minister of State at the Home Office on 13 February 2020."@en ;
+    schema1:name "The Rt Hon James Brokenshire"@en ;
+    schema1:url <https://www.gov.uk/government/people/james-brokenshire> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

@@ -1,0 +1,51 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/marcus-bell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e3d8c1340f0b609148d2a55/s465_1581070284686_marcus-bell.jpg> ;
+    schema1:name "Marcus Bell OBE"@en .
+
+<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> a govuk:MinisterialRole ;
+    schema1:name "Minister for Women and Equalities"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/race-equality-unit> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/bridget-phillipson> .
+
+<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Women and Equalities)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/race-equality-unit> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Equalities)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/race-equality-unit> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/seema-malhotra> .
+
+<https://www.gov.uk/government/people/bridget-phillipson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668811fd4a94d44125d9cd94/s465_bridget-phillipson.jpg> ;
+    schema1:name "The Rt Hon Bridget Phillipson MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
+
+<https://www.gov.uk/government/people/jacqui-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/669551bfa3c2a28abb50cfe8/s465_Jacqui_Smith_960x640.jpg> ;
+    schema1:name "The Rt Hon Baroness Smith of Malvern"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
+
+<https://www.gov.uk/government/people/seema-malhotra> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d689864e830dd22fa1cec6/s465_AR109377.jpg> ;
+    schema1:name "Seema Malhotra MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+
+<https://www.gov.uk/government/organisations/race-equality-unit> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Race Equality Unit"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/race-equality-unit> ;
+    govuk:hasManager <https://www.gov.uk/government/people/marcus-bell> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/bridget-phillipson>,
+        <https://www.gov.uk/government/people/jacqui-smith>,
+        <https://www.gov.uk/government/people/seema-malhotra> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3>,
+        <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+

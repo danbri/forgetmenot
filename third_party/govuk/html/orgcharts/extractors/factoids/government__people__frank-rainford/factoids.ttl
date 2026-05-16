@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/frank-rainford> .
+
+<https://www.gov.uk/government/people/frank-rainford> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Frank joined the Nuclear Decommissioning Authority (NDA) in February 2017. He has responsibility for security, cyber, information governance, ICT, the CEO’s Office, the Project Management Office and the provision of other Corporate Centre services."@en ;
+    schema1:name "Frank Rainford"@en ;
+    schema1:url <https://www.gov.uk/government/people/frank-rainford> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    govuk:currentRoleTitle "Non-Executive Director, Group Chief of Staff and Security Officer, and Non-Executive Director"@en .
+

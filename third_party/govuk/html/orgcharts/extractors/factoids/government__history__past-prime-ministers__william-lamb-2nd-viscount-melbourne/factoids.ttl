@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/william-lamb-2nd-viscount-melbourne> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Viscount Melbourne had 2 lives – the first as the cuckolded husband in one of the most scandalous affairs of the 19th century, and the second as senior statesman and mentor to Queen Victoria."@en ;
+    schema1:name "William Lamb, 2nd Viscount Melbourne"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/william-lamb-2nd-viscount-melbourne> .
+

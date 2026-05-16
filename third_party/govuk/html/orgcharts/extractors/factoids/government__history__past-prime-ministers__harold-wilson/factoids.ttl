@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/harold-wilson> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Harold Wilson, the son of a chemist and teacher, was born in Yorkshire during the First World War. In 1924, aged 8, he visited 10 Downing Street, which would eventually become his home."@en ;
+    schema1:name "Harold Wilson"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/harold-wilson> .
+

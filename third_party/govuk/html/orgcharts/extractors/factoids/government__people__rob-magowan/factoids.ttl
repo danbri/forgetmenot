@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ministry-of-defence> govuk:hasMinister <https://www.gov.uk/government/people/rob-magowan> .
+
+<https://www.gov.uk/government/people/rob-magowan> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Rob Magowan joined the Royal Marines in 1989 after reading chemistry at Southampton university. His career to Lt Col included an operational tour of Northern Ireland, US Marine Corps staff college, the first deployment to Afghanistan post 9/11 and the invasion of Iraq in 2003."@en ;
+    schema1:name "General Sir Rob Magowan KCB CBE ADC RM"@en ;
+    schema1:url <https://www.gov.uk/government/people/rob-magowan> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    govuk:currentRoleTitle "Commander Cyber & Specialist Operations Command"@en .
+

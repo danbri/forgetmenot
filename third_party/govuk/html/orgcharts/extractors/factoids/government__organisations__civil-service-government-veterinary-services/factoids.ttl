@@ -1,0 +1,25 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/civil-service-government-veterinary-services> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Veterinary Services"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/civil-service-government-veterinary-services> ;
+    govuk:hasManager <https://www.gov.uk/government/people/christine-middlemiss>,
+        <https://www.gov.uk/government/people/ele-brown>,
+        <https://www.gov.uk/government/people/jorge-martin-almagro> .
+
+<https://www.gov.uk/government/people/christine-middlemiss> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a97fd4c40f0b67aa2725382/s465_ChristineMiddlemiss-960x640.jpg> ;
+    schema1:name "Professor Christine Middlemiss CB"@en .
+
+<https://www.gov.uk/government/people/ele-brown> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64d65e409607100013b27e81/s465_ele-brown-960x640.jpg> ;
+    schema1:name "Ele Brown"@en .
+
+<https://www.gov.uk/government/people/jorge-martin-almagro> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65f471238112250011579f64/s465_Jorge_media.jpg> ;
+    schema1:name "Jorge Martin-Almagro"@en .
+

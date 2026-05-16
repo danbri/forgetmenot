@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/tunde-olanrewaju> .
+
+<https://www.gov.uk/government/people/tunde-olanrewaju> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Tunde Olanrewaju CBE is a Senior Partner with McKinsey and Company based in the London office, and Managing Partner for Europe, leading the firm’s practice across 23 countries. He is also a member of the firm’s global leadership team, the Enablement Team."@en ;
+    schema1:name "Tunde Olanrewaju CBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/tunde-olanrewaju> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en .
+

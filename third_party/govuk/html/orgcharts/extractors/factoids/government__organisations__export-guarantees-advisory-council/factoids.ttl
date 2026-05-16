@@ -1,0 +1,46 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/export-guarantees-advisory-council> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Export Guarantees Advisory Council"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/export-guarantees-advisory-council> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alex-ocinneide>,
+        <https://www.gov.uk/government/people/belinda-howell>,
+        <https://www.gov.uk/government/people/ben-caldecott>,
+        <https://www.gov.uk/government/people/harold-freeman>,
+        <https://www.gov.uk/government/people/jonathan-samuel>,
+        <https://www.gov.uk/government/people/sarah-steele>,
+        <https://www.gov.uk/government/people/tracey-mcdermott>,
+        <https://www.gov.uk/government/people/vanessa-havard-williams> .
+
+<https://www.gov.uk/government/people/alex-ocinneide> a schema1:Person ;
+    schema1:name "Dr Alex O’Cinneide"@en .
+
+<https://www.gov.uk/government/people/belinda-howell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/659524db01760d000d5cf9d5/s465_Dr_Belinda_Howell_GOV.jpg> ;
+    schema1:name "Belinda Howell"@en .
+
+<https://www.gov.uk/government/people/ben-caldecott> a schema1:Person ;
+    schema1:name "Dr Ben Caldecott"@en .
+
+<https://www.gov.uk/government/people/harold-freeman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68b562c7536d629f9c82a92d/s465_harold_edit.jpg> ;
+    schema1:name "Harold Freeman"@en .
+
+<https://www.gov.uk/government/people/jonathan-samuel> a schema1:Person ;
+    schema1:name "Jonathan Samuel"@en .
+
+<https://www.gov.uk/government/people/sarah-steele> a schema1:Person ;
+    schema1:name "Sarah Steele"@en .
+
+<https://www.gov.uk/government/people/tracey-mcdermott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68b566143f3e5483efdba852/s465_tracey_headshot.jpg> ;
+    schema1:name "Tracey McDermott CBE"@en .
+
+<https://www.gov.uk/government/people/vanessa-havard-williams> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6936a26070840a535475d3f0/s465_vanessa_6.png> ;
+    schema1:name "Vanessa Havard-Williams OBE"@en .
+

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> govuk:hasMinister <https://www.gov.uk/government/people/daniel-flury> .
+
+<https://www.gov.uk/government/people/daniel-flury> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Daniel Flury was appointed Operations Director for HMCTS in March 2024, leading nearly 15,000 people working across courts, tribunals and national services."@en ;
+    schema1:name "Daniel Flury"@en ;
+    schema1:url <https://www.gov.uk/government/people/daniel-flury> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
+    govuk:currentRoleTitle "HMCTS Operations Director"@en .
+

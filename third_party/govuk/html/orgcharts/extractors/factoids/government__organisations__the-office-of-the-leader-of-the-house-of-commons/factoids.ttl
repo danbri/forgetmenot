@@ -1,0 +1,22 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/lord-president-of-the-council> a govuk:MinisterialRole ;
+    schema1:name "Lord President of the Council"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/the-office-of-the-leader-of-the-house-of-commons> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/alan-campbell> .
+
+<https://www.gov.uk/government/organisations/the-office-of-the-leader-of-the-house-of-commons> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Office of the Leader of the House of Commons"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/the-office-of-the-leader-of-the-house-of-commons> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/alan-campbell> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/lord-president-of-the-council> .
+
+<https://www.gov.uk/government/people/alan-campbell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66884292541aeb9e928f458e/s465_alan-campbell.jpg> ;
+    schema1:name "The Rt Hon Sir Alan Campbell MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-president-of-the-council> .
+

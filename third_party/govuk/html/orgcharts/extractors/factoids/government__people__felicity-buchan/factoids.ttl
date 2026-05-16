@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/felicity-buchan> .
+
+<https://www.gov.uk/government/people/felicity-buchan> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Felicity Buchan was Parliamentary Under Secretary of State in the Department for Levelling Up, Housing and Communities between 30 October 2022 and 5 July 2024."@en ;
+    schema1:name "Felicity Buchan"@en ;
+    schema1:url <https://www.gov.uk/government/people/felicity-buchan> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/michael-fallon> .
+
+<https://www.gov.uk/government/people/michael-fallon> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Sir Michael Fallon was elected Conservative MP for Sevenoaks, Kent in 1997."@en ;
+    schema1:name "The Rt Hon Sir Michael Fallon"@en ;
+    schema1:url <https://www.gov.uk/government/people/michael-fallon> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

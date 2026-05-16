@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jeremy-quin> .
+
+<https://www.gov.uk/government/people/jeremy-quin> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Jeremy Quin was previously Paymaster General and Minister for the Cabinet Office between 25 October 2022 and 13 November 2023."@en ;
+    schema1:name "The Rt Hon Jeremy Quin"@en ;
+    schema1:url <https://www.gov.uk/government/people/jeremy-quin> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

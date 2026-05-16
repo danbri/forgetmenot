@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/shrin-honap> .
+
+<https://www.gov.uk/government/people/shrin-honap> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Shrinivas Honap is a Chartered accountant by profession and served with Vodafone, Capita, KPMG and Egg during his executive career."@en ;
+    schema1:name "Shrin Honap"@en ;
+    schema1:url <https://www.gov.uk/government/people/shrin-honap> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:currentRoleTitle "Nuclear Waste Services Independent Non-Executive Director"@en .
+

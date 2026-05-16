@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/augustus-henry-fitzroy-3rd-duke-of-grafton> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Augustus Henry Fitzroy, Duke of Grafton was a colourful figure whose complex private life overshadowed his time as Prime Minister."@en ;
+    schema1:name "Augustus Henry Fitzroy, 3rd Duke of Grafton"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/augustus-henry-fitzroy-3rd-duke-of-grafton> .
+

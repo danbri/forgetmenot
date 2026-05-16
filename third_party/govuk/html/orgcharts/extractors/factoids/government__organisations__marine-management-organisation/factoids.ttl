@@ -1,0 +1,85 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/marine-management-organisation> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Marine Management Organisation"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/marine-management-organisation> ;
+    govuk:hasManager <https://www.gov.uk/government/people/elysia-mccaffrey>,
+        <https://www.gov.uk/government/people/judith-petts>,
+        <https://www.gov.uk/government/people/laura-dance>,
+        <https://www.gov.uk/government/people/les-philpott>,
+        <https://www.gov.uk/government/people/mark-ripley>,
+        <https://www.gov.uk/government/people/michael-coyle>,
+        <https://www.gov.uk/government/people/michelle-willis>,
+        <https://www.gov.uk/government/people/paul-errington>,
+        <https://www.gov.uk/government/people/pete-redfern>,
+        <https://www.gov.uk/government/people/peter-clark>,
+        <https://www.gov.uk/government/people/peter-judge>,
+        <https://www.gov.uk/government/people/rob-wilson>,
+        <https://www.gov.uk/government/people/terry-jones>,
+        <https://www.gov.uk/government/people/tony-delahunty>,
+        <https://www.gov.uk/government/people/trudi-wakelin> .
+
+<https://www.gov.uk/government/people/elysia-mccaffrey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69e200c0748e5b3e949a1b62/s465_Untitled_design_-_2026-04-01T161949.036.png> ;
+    schema1:name "Elysia McCaffrey"@en .
+
+<https://www.gov.uk/government/people/judith-petts> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/670e54fa3b919067bb483186/s465_Professor_Dame_Judith_Petts_DBE__FAcSS__FRGS__FRSA.jpg> ;
+    schema1:name "Professor Dame Judith Petts"@en .
+
+<https://www.gov.uk/government/people/laura-dance> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69fb493dcd2e0e8b5b20b1d9/s465_Laura_Dance.jpg> ;
+    schema1:name "Laura Dance"@en .
+
+<https://www.gov.uk/government/people/les-philpott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660bed0c67958c0011365a31/s465_LES_PHILPOTT__NON-EXECUTIVE_DIRECTOR.jpg> ;
+    schema1:name "Les Philpott"@en .
+
+<https://www.gov.uk/government/people/mark-ripley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5b460a7be5274a37842ee3de/s465_Mark_large_.jpg> ;
+    schema1:name "Mark Ripley"@en .
+
+<https://www.gov.uk/government/people/michael-coyle> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6717604296def6d27a4c9b6c/s465_1.png> ;
+    schema1:name "Michael Coyle"@en .
+
+<https://www.gov.uk/government/people/michelle-willis> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6433e5274a6bed613260/s465_MichelleWillis.jpg> ;
+    schema1:name "Michelle Willis"@en .
+
+<https://www.gov.uk/government/people/paul-errington> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65a10ea23308d2000d1fbebe/s465_Untitled_design__21_.png> ;
+    schema1:name "Paul Errington"@en .
+
+<https://www.gov.uk/government/people/pete-redfern> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/695ceb8434c664251c38a0e9/s465_Staff__5_.png> ;
+    schema1:name "Pete Redfern"@en .
+
+<https://www.gov.uk/government/people/peter-clark> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/632aed6dd3bf7f75c989d912/s465_Untitled_design__31_.png> ;
+    schema1:name "Peter Clark"@en .
+
+<https://www.gov.uk/government/people/peter-judge> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c599e71ed915d045f3778af/s465_Peter_Judge_govuk.jpg> ;
+    schema1:name "Peter Judge"@en .
+
+<https://www.gov.uk/government/people/rob-wilson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6d4bed915d595171e86a/s465_RW2_gov.uk.jpg> ;
+    schema1:name "Rob Wilson"@en .
+
+<https://www.gov.uk/government/people/terry-jones> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69fb49ad8cc72d2f863ea54a/s465_Terry_Jones.jpg> ;
+    schema1:name "Terry Jones"@en .
+
+<https://www.gov.uk/government/people/tony-delahunty> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f67f740f0b648c7221963/s465_Tony_Delahunty.jpg> ;
+    schema1:name "Tony Delahunty OBE"@en .
+
+<https://www.gov.uk/government/people/trudi-wakelin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6f8540f0b648ca1d31d5/s465_Trudi_Wakelin.jpg> ;
+    schema1:name "Trudi Wakelin"@en .
+

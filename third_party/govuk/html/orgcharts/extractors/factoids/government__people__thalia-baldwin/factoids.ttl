@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/thalia-baldwin> .
+
+<https://www.gov.uk/government/people/thalia-baldwin> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Thalia was the Director of the Geospatial Commission, which is an independent Expert Committee within the UK Government’s Department for Science, Innovation and Technology, tasked with advising the government on priorities for improving the UK’s location data, running the public sector’s key geospatial data contracts and developing and overseeing implementation of the UK’s national geospatial strategy. Prior to this, Thalia established and led HM Treasury’s digital policy team, where she was responsible for the approach to public spending on digital technology and infrastructure."@en ;
+    schema1:name "Thalia Baldwin"@en ;
+    schema1:url <https://www.gov.uk/government/people/thalia-baldwin> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

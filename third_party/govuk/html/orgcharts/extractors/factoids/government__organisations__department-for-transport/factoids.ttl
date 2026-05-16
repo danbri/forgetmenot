@@ -1,0 +1,145 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/antonia-williams> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/695e86d08832ab3a4851385c/s465_antonia-williams-960.jpg> ;
+    schema1:name "Antonia Williams"@en .
+
+<https://www.gov.uk/government/people/ashley-ibbett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b8312ffdbfc4d58fc8d04c/s465_ashley-ibbett-960.jpg> ;
+    schema1:name "Ashley Ibbett"@en .
+
+<https://www.gov.uk/government/people/conrad-bailey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61af9bf6d3bf7f055fce7448/s465_conrad-bailey-960.jpg> ;
+    schema1:name "Conrad Bailey"@en .
+
+<https://www.gov.uk/government/people/dean-creamer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6965046a96e60a090ce1ff73/s465_dean-creamer-960.jpg> ;
+    schema1:name "Dean Creamer"@en .
+
+<https://www.gov.uk/government/people/ian-king> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f68aeed915d5954733de3/s465_960-dft-ned-ian-king.jpg> ;
+    schema1:name "Ian King"@en .
+
+<https://www.gov.uk/government/people/james-norton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61af9d22e90e070448c520e1/s465_james-norton-960.jpg> ;
+    schema1:name "James Norton"@en .
+
+<https://www.gov.uk/government/people/jo-shanmugalingam> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/686531a46569be0acf74db48/s465_jo-shanmugalingam-960-640.jpg> ;
+    schema1:name "Jo Shanmugalingam CB"@en .
+
+<https://www.gov.uk/government/people/patricia-thornley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69650d49e8b93f59c3aeccee/s465_patricia-thornley-960.jpg> ;
+    schema1:name "Professor Patricia Thornley FREng"@en .
+
+<https://www.gov.uk/government/people/richard-goodman> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67d7f6409dc953ac3bfe92d8/s465_richard-goodman-960.jpg> ;
+    schema1:name "Richard Goodman"@en .
+
+<https://www.gov.uk/government/people/richard-keys> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6aabe5274a6bf054e9df/s465_Richard_Keys_960x640.jpg> ;
+    schema1:name "Richard Keys"@en .
+
+<https://www.gov.uk/government/people/ross-gribbin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6965075199fbdc498faecd00/s465_ross-gribbin-960.jpg> ;
+    schema1:name "Ross Gribbin"@en .
+
+<https://www.gov.uk/government/people/sarah-storey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6065917e8fa8f515b28f4c77/s465_dame-sarah-storey.png> ;
+    schema1:name "Dame Sarah Storey"@en .
+
+<https://www.gov.uk/government/people/stephen-cave> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63612aebe90e0705ad93ee30/s465_stephen-cave-960__1_.jpg> ;
+    schema1:name "Stephen Cave"@en .
+
+<https://www.gov.uk/government/people/tony-poulter> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/632c67d78fa8f51d2a8630f4/s465_tony-poulter.png> ;
+    schema1:name "Tony Poulter"@en .
+
+<https://www.gov.uk/government/people/tracey-westall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6d4d40f0b648c7221faa/s465_960-dft-ned-tracey-westall.jpg> ;
+    schema1:name "Tracy Westall"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state--191> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Rail)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/lord-hendy-of-richmond-hill> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--266> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Roads and Buses)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/simon-lightwood> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Aviation, Maritime and Decarbonisation)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/keir-mather> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--304> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Local Transport)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/lilian-greenwood> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Transport"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/heidi-alexander> .
+
+<https://www.gov.uk/government/people/heidi-alexander> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6989b43f6da2dee8230a9b9d/s465_heidi-alexander-960.jpg> ;
+    schema1:name "The Rt Hon Heidi Alexander MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> .
+
+<https://www.gov.uk/government/people/keir-mather> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668ea1a049b9c0597fdafa86/s465_Keir-Mather.jpg> ;
+    schema1:name "Keir Mather MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> .
+
+<https://www.gov.uk/government/people/lilian-greenwood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d8bf0ab5fc5929851bcf2/s465_Portrait.jpeg> ;
+    schema1:name "Lilian Greenwood MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--304> .
+
+<https://www.gov.uk/government/people/lord-hendy-of-richmond-hill> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668bc1017541f54efe51bb44/s465_Lord_Hendy.jpg> ;
+    schema1:name "Lord Hendy of Richmond Hill CBE"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--191> .
+
+<https://www.gov.uk/government/people/simon-lightwood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68da63b8750fcf90fa6ffb59/s465_sl-photo-960.jpg> ;
+    schema1:name "Simon Lightwood MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--266> .
+
+<https://www.gov.uk/government/organisations/department-for-transport> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Department for Transport"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:hasManager <https://www.gov.uk/government/people/antonia-williams>,
+        <https://www.gov.uk/government/people/ashley-ibbett>,
+        <https://www.gov.uk/government/people/conrad-bailey>,
+        <https://www.gov.uk/government/people/dean-creamer>,
+        <https://www.gov.uk/government/people/ian-king>,
+        <https://www.gov.uk/government/people/james-norton>,
+        <https://www.gov.uk/government/people/jo-shanmugalingam>,
+        <https://www.gov.uk/government/people/patricia-thornley>,
+        <https://www.gov.uk/government/people/richard-goodman>,
+        <https://www.gov.uk/government/people/richard-keys>,
+        <https://www.gov.uk/government/people/ross-gribbin>,
+        <https://www.gov.uk/government/people/sarah-storey>,
+        <https://www.gov.uk/government/people/stephen-cave>,
+        <https://www.gov.uk/government/people/tony-poulter>,
+        <https://www.gov.uk/government/people/tracey-westall> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/heidi-alexander>,
+        <https://www.gov.uk/government/people/keir-mather>,
+        <https://www.gov.uk/government/people/lilian-greenwood>,
+        <https://www.gov.uk/government/people/lord-hendy-of-richmond-hill>,
+        <https://www.gov.uk/government/people/simon-lightwood> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--191>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--266>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--304>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> .
+

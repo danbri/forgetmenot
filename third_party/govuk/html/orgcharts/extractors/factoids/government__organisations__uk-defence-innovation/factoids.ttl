@@ -1,0 +1,28 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-defence-innovation> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "UK Defence Innovation"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/uk-defence-innovation> ;
+    govuk:hasManager <https://www.gov.uk/government/people/anita-friend>,
+        <https://www.gov.uk/government/people/james-gavin>,
+        <https://www.gov.uk/government/people/john-cunningham>,
+        <https://www.gov.uk/government/people/natasha-fox> .
+
+<https://www.gov.uk/government/people/anita-friend> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d6d0219e5274a1714045bc5/s465_Official_photo.jpg> ;
+    schema1:name "Anita Friend"@en .
+
+<https://www.gov.uk/government/people/james-gavin> a schema1:Person ;
+    schema1:name "James Gavin"@en .
+
+<https://www.gov.uk/government/people/john-cunningham> a schema1:Person ;
+    schema1:name "John Cunningham"@en .
+
+<https://www.gov.uk/government/people/natasha-fox> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6995d9cea58a315dbe72bf71/s465_UKDI_Natasha_Fox.png> ;
+    schema1:name "Natasha Fox"@en .
+

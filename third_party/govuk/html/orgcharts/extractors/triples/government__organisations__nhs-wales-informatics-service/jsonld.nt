@@ -1,0 +1,21 @@
+_:N7345cb1807a5418aa8d0ff2f60ddc994 <http://schema.org/itemListElement> _:Nfd0405e84b67497da7116aacf20ac328 .
+_:Nfd0405e84b67497da7116aacf20ac328 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nfd0405e84b67497da7116aacf20ac328 <http://schema.org/item> <https://www.gov.uk/> .
+_:Nc891ca16938b4042b2767231119cd809 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nc891ca16938b4042b2767231119cd809 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Nf65a9a70ca5943daa71098113b6b6e87 <http://schema.org/description> "NHS Wales Information Service collects, stores and analyses and presents national data and statistical information for NHS Wales." .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+<https://www.gov.uk/government/organisations/nhs-wales-informatics-service> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nf65a9a70ca5943daa71098113b6b6e87 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/nhs-wales-informatics-service> .
+_:Nf65a9a70ca5943daa71098113b6b6e87 <http://schema.org/name> "NHS Wales Informatics Service" .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nbca6e15898d54759bab134ebc0c4cefa <http://schema.org/query> "required" .
+_:N7345cb1807a5418aa8d0ff2f60ddc994 <http://schema.org/itemListElement> _:Nc891ca16938b4042b2767231119cd809 .
+_:Nbca6e15898d54759bab134ebc0c4cefa <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Nf65a9a70ca5943daa71098113b6b6e87 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nbca6e15898d54759bab134ebc0c4cefa <http://schema.org/description> "Find all content from NHS Wales Informatics Service" .
+_:Nf65a9a70ca5943daa71098113b6b6e87 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nc891ca16938b4042b2767231119cd809 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nfd0405e84b67497da7116aacf20ac328 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N7345cb1807a5418aa8d0ff2f60ddc994 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nf65a9a70ca5943daa71098113b6b6e87 <http://schema.org/potentialAction> _:Nbca6e15898d54759bab134ebc0c4cefa .

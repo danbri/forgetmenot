@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/gov-facility-services-limited> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Gov Facility Services Limited"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/gov-facility-services-limited> ;
+    govuk:hasManager <https://www.gov.uk/government/people/colin-allars> .
+
+<https://www.gov.uk/government/people/colin-allars> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/635f99428fa8f505806e65de/s465_colin-allars-headshot.jpg> ;
+    schema1:name "Colin Allars"@en .
+

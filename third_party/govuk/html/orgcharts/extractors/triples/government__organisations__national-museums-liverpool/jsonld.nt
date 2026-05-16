@@ -1,0 +1,24 @@
+_:N3fa06f7ebec7401e849e8386250bfdf2 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N1bf1ab9ec7ee476fbc57772f26fdbe88 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> .
+_:N98206a4301454f8880d9125aec9ea651 <http://schema.org/description> "Find all content from National Museums Liverpool" .
+_:N35b06f86de724527b89a92902ebbb6d7 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/national-museums-liverpool> .
+_:Nabad7f8e15614c689066157144746f11 <http://schema.org/item> <https://www.gov.uk/> .
+_:Nabad7f8e15614c689066157144746f11 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N35b06f86de724527b89a92902ebbb6d7 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N35b06f86de724527b89a92902ebbb6d7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N35b06f86de724527b89a92902ebbb6d7 <http://schema.org/description> "National Museums Liverpool (NML) is a diverse group of museums and galleries. Its collections are among the most important and varied in Europe, and contain everything from Impressionist paintings and rare beetles to a lifejacket from the Titanic and artefacts from ancient Egypt. NML is an executive non-departmental public body, sponsored by the Department for Culture, Media and Sport ." .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N35b06f86de724527b89a92902ebbb6d7 <http://schema.org/parentOrganization> _:N1bf1ab9ec7ee476fbc57772f26fdbe88 .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N98206a4301454f8880d9125aec9ea651 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N35b06f86de724527b89a92902ebbb6d7 <http://schema.org/name> "National Museums Liverpool" .
+_:N3fa06f7ebec7401e849e8386250bfdf2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N98206a4301454f8880d9125aec9ea651 <http://schema.org/query> "required" .
+_:N978335dc4e30404ea7e5497fc6a1ad04 <http://schema.org/itemListElement> _:N3fa06f7ebec7401e849e8386250bfdf2 .
+_:N35b06f86de724527b89a92902ebbb6d7 <http://schema.org/potentialAction> _:N98206a4301454f8880d9125aec9ea651 .
+<https://www.gov.uk/government/organisations/national-museums-liverpool> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nabad7f8e15614c689066157144746f11 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N978335dc4e30404ea7e5497fc6a1ad04 <http://schema.org/itemListElement> _:Nabad7f8e15614c689066157144746f11 .
+_:N1bf1ab9ec7ee476fbc57772f26fdbe88 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N3fa06f7ebec7401e849e8386250bfdf2 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N978335dc4e30404ea7e5497fc6a1ad04 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .

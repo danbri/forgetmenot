@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean> govuk:roleHolder <https://www.gov.uk/government/people/baroness-chapman-of-darlington> .
+
+<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> govuk:hasMinister <https://www.gov.uk/government/people/baroness-chapman-of-darlington> .
+
+<https://www.gov.uk/government/people/baroness-chapman-of-darlington> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Baroness Chapman was appointed Minister of State (International Development and Africa) in the Foreign, Commonwealth & Development Office in September 2025."@en ;
+    schema1:name "The Rt Hon Baroness Chapman of Darlington"@en ;
+    schema1:url <https://www.gov.uk/government/people/baroness-chapman-of-darlington> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:currentRoleTitle "Minister of State (International Development and Africa)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean> .
+

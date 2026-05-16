@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/george-mpanga> .
+
+<https://www.gov.uk/government/people/george-mpanga> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "George Mpanga was born to Ugandan parents on the St Raphael’s Estate in Neasden, north-west London and began performing rap and grime when he was 15 years old."@en ;
+    schema1:name "George Mpanga"@en ;
+    schema1:url <https://www.gov.uk/government/people/george-mpanga> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    govuk:currentRoleTitle "Member, Windrush Commemoration Committee"@en .
+

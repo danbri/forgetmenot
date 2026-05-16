@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/francis-maude> .
+
+<https://www.gov.uk/government/people/francis-maude> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Francis Maude was Minister of State for Trade and Investment from 11 May 2015 to 11 April 2016. Francis was previously Minister for the Cabinet Office and Paymaster General from May 2010 to May 2015."@en ;
+    schema1:name "The Rt Hon Lord Maude of Horsham"@en ;
+    schema1:url <https://www.gov.uk/government/people/francis-maude> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

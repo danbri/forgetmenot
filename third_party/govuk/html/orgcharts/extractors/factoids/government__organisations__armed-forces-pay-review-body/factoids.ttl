@@ -1,0 +1,44 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/armed-forces-pay-review-body> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Armed Forces' Pay Review Body"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/armed-forces-pay-review-body> ;
+    govuk:hasManager <https://www.gov.uk/government/people/dougie-peedle>,
+        <https://www.gov.uk/government/people/emma-boggis>,
+        <https://www.gov.uk/government/people/gillian-fairfield>,
+        <https://www.gov.uk/government/people/joel-griffin>,
+        <https://www.gov.uk/government/people/julian-miller--2>,
+        <https://www.gov.uk/government/people/mark-ackrill>,
+        <https://www.gov.uk/government/people/schellion-horn>,
+        <https://www.gov.uk/government/people/steve-dickson> .
+
+<https://www.gov.uk/government/people/dougie-peedle> a schema1:Person ;
+    schema1:name "Dougie Peedle"@en .
+
+<https://www.gov.uk/government/people/emma-boggis> a schema1:Person ;
+    schema1:name "Emma Boggis"@en .
+
+<https://www.gov.uk/government/people/gillian-fairfield> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6203f0d3e90e077f77bd366c/s465_Staff_Headshots_-_Gillian_Fairfield_-_With_Background.png> ;
+    schema1:name "Dr Gillian Fairfield"@en .
+
+<https://www.gov.uk/government/people/joel-griffin> a schema1:Person ;
+    schema1:name "Joel Griffin"@en .
+
+<https://www.gov.uk/government/people/julian-miller--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62b97e47e90e0765cc32e169/s465_Julian_Miller.jpg> ;
+    schema1:name "Julian Miller"@en .
+
+<https://www.gov.uk/government/people/mark-ackrill> a schema1:Person ;
+    schema1:name "Mark Ackrill"@en .
+
+<https://www.gov.uk/government/people/schellion-horn> a schema1:Person ;
+    schema1:name "Schellion Horn"@en .
+
+<https://www.gov.uk/government/people/steve-dickson> a schema1:Person ;
+    schema1:name "Steven Dickson"@en .
+

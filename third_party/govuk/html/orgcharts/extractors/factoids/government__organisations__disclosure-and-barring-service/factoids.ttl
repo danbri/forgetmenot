@@ -1,0 +1,84 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/disclosure-and-barring-service> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Disclosure and Barring Service"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/disclosure-and-barring-service> ;
+    govuk:hasManager <https://www.gov.uk/government/people/amanda-arrowsmith>,
+        <https://www.gov.uk/government/people/colin-reid>,
+        <https://www.gov.uk/government/people/emir-feisal--2>,
+        <https://www.gov.uk/government/people/gillian-fairfield>,
+        <https://www.gov.uk/government/people/ian-johnston>,
+        <https://www.gov.uk/government/people/jeff-james>,
+        <https://www.gov.uk/government/people/joanne-kelland-owen>,
+        <https://www.gov.uk/government/people/julian-blazeby>,
+        <https://www.gov.uk/government/people/martin-skeats>,
+        <https://www.gov.uk/government/people/mike-wright>,
+        <https://www.gov.uk/government/people/neil-curtis>,
+        <https://www.gov.uk/government/people/parul-kumar>,
+        <https://www.gov.uk/government/people/rob-eason>,
+        <https://www.gov.uk/government/people/sarah-clifford>,
+        <https://www.gov.uk/government/people/steve-gardner> .
+
+<https://www.gov.uk/government/people/amanda-arrowsmith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6984608a7da3dc19896c7da0/s465_Amanda_Arrowsmith__Gov__1.png> ;
+    schema1:name "Amanda Arrowsmith"@en .
+
+<https://www.gov.uk/government/people/colin-reid> a schema1:Person ;
+    schema1:name "Colin Reid"@en .
+
+<https://www.gov.uk/government/people/emir-feisal--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64955c3f831311000c29623c/s465_Staff_Headshots_-_Emir_Feisal_-_With_Background.png> ;
+    schema1:name "Emir Feisal"@en .
+
+<https://www.gov.uk/government/people/gillian-fairfield> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6203f0d3e90e077f77bd366c/s465_Staff_Headshots_-_Gillian_Fairfield_-_With_Background.png> ;
+    schema1:name "Dr Gillian Fairfield"@en .
+
+<https://www.gov.uk/government/people/ian-johnston> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d1385bced915d3221af8ece/s465_Ian_Johnston.jpg> ;
+    schema1:name "Ian Johnston"@en .
+
+<https://www.gov.uk/government/people/jeff-james> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/683da41a8e9bdf1409b90b6b/s465_Jeff_James__Gov_.png> ;
+    schema1:name "Dr Jeff James CBE"@en .
+
+<https://www.gov.uk/government/people/joanne-kelland-owen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ffbb03712bf73dea135545/s465_Joanne_Kelland-Owen__Gov_.png> ;
+    schema1:name "Joanne Kelland-Owen"@en .
+
+<https://www.gov.uk/government/people/julian-blazeby> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64955ab3de8682000cbc8ce1/s465_Staff_Headshots_-_Julian_Blazeby_-_With_Background.png> ;
+    schema1:name "Julian Blazeby"@en .
+
+<https://www.gov.uk/government/people/martin-skeats> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6203f108d3bf7f314cd46b91/s465_Staff_Headshots_-_Martin_Skeats_-_With_Background.png> ;
+    schema1:name "Martin Skeats"@en .
+
+<https://www.gov.uk/government/people/mike-wright> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66a0aca9fc8e12ac3edb0349/s465_Mike_Wright.png> ;
+    schema1:name "Mike Wright"@en .
+
+<https://www.gov.uk/government/people/neil-curtis> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69f47d96ab602a88957eefb8/s465_Neil_Curtis__GOV_.png> ;
+    schema1:name "Neil Curtis"@en .
+
+<https://www.gov.uk/government/people/parul-kumar> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66a8f0bfa3c2a28abb50d9e0/s465_Parul_Kumar__Gov_.png> ;
+    schema1:name "Parul Kumar"@en .
+
+<https://www.gov.uk/government/people/rob-eason> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a0df624731769befb047bb/s465_Rob_Eason__Gov_.png> ;
+    schema1:name "Rob Eason"@en .
+
+<https://www.gov.uk/government/people/sarah-clifford> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6717732c194d62fb68540520/s465_Sarah_Clifford__Gov___3_.png> ;
+    schema1:name "Sarah Clifford"@en .
+
+<https://www.gov.uk/government/people/steve-gardner> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67e172320114b0b86e59f4f8/s465_Steve_Gardner__Gov_.png> ;
+    schema1:name "Steve Gardner"@en .
+

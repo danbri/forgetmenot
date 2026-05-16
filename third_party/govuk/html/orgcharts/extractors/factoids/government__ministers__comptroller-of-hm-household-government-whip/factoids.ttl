@@ -1,0 +1,86 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/people/gen-kitchen> schema1:name "Gen Kitchen MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> .
+
+<https://www.gov.uk/government/people/chris-elmore> schema1:name "Chris Elmore MP"@en .
+
+<https://www.gov.uk/government/people/chris-heaton-harris> schema1:name "The Rt Hon Chris Heaton-Harris"@en .
+
+<https://www.gov.uk/government/people/jeremy-quin> schema1:name "The Rt Hon Jeremy Quin"@en .
+
+<https://www.gov.uk/government/people/marcus-jones> schema1:name "The Rt Hon Marcus Jones"@en .
+
+<https://www.gov.uk/government/people/mark-spencer> schema1:name "The Rt Hon Sir Mark Spencer"@en .
+
+<https://www.gov.uk/government/people/mike-freer> schema1:name "Mike Freer"@en .
+
+<https://www.gov.uk/government/people/nesil-caliskan> schema1:name "Nesil Caliskan MP"@en .
+
+<https://www.gov.uk/government/people/rebecca-harris> schema1:name "Rebecca Harris MP"@en .
+
+<https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Comptroller of HM Household (Government Whip)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-elmore>,
+        <https://www.gov.uk/government/people/chris-heaton-harris>,
+        <https://www.gov.uk/government/people/jeremy-quin>,
+        <https://www.gov.uk/government/people/marcus-jones>,
+        <https://www.gov.uk/government/people/mark-spencer>,
+        <https://www.gov.uk/government/people/mike-freer>,
+        <https://www.gov.uk/government/people/nesil-caliskan>,
+        <https://www.gov.uk/government/people/rebecca-harris> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/gen-kitchen> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/chris-elmore> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/rebecca-harris> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/mike-freer> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nesil-caliskan> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2026"^^xsd:gYear ;
+    govuk:tenureStart "2025"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/mark-spencer> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-quin> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+

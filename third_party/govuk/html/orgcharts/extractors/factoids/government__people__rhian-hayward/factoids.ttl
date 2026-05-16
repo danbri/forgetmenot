@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/wales-office> govuk:hasMinister <https://www.gov.uk/government/people/rhian-hayward> .
+
+<https://www.gov.uk/government/people/rhian-hayward> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Rhian is the first Chief Executive Officer of AberInnovation and has overseen the development of the £40.5m UK Research & Innovation Campus at Aberystwyth University. Previously, Rhian worked in the commercialisation of life science technologies in both the private and public sectors, founding a consultancy business, holding marketing and business development roles in biotechnology companies and leading technology transfer within the Higher Education sector."@en ;
+    schema1:name "Dr Rhian Hayward MBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/rhian-hayward> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:currentRoleTitle "Non-Executive Director for the Wales Office and Food Standards Agency Board Member"@en .
+

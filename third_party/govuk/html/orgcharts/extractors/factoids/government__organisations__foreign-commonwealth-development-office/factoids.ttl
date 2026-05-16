@@ -1,0 +1,137 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/beverley-tew> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d69322620e762dc5866435/s465_image.png> ;
+    schema1:name "Beverley Tew CMG"@en .
+
+<https://www.gov.uk/government/people/christina-scott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68c15e927596dbfa052bfdf5/s465_christina_scott.jpg> ;
+    schema1:name "Christina Scott CMG"@en .
+
+<https://www.gov.uk/government/people/edward-llewellyn> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61e722c2e90e0703731d3ae6/s465_ed-llewellyn.jpg> ;
+    schema1:name "The Rt Hon Edward Llewellyn CVO OBE"@en .
+
+<https://www.gov.uk/government/people/helena-vega-lozano> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d6a888dadf7616351e4b18/s465_AR100291.jpg> ;
+    schema1:name "Helena Vega-Lozano"@en .
+
+<https://www.gov.uk/government/people/james-bilefield> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6645d9b3ae748c43d3793cdb/s465_James_Bilefield_960x640.png> ;
+    schema1:name "James Bilefield"@en .
+
+<https://www.gov.uk/government/people/jon-watts> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68275b47256994af4172ab64/s465_Jon-Watts.png> ;
+    schema1:name "Jon Watts"@en .
+
+<https://www.gov.uk/government/people/jonathan-allen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d6ba1ddadf7616351e4b2b/s465_AR109981.jpg> ;
+    schema1:name "Jonathan Allen CMG"@en .
+
+<https://www.gov.uk/government/people/melinda-bohannon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d6909b29e2934106866439/s465_AR100107.jpg> ;
+    schema1:name "Melinda Bohannon"@en .
+
+<https://www.gov.uk/government/people/neil-wigan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68dfef2aef1c2f72bc1e4dd4/s465_Neil-Wigan.jpg> ;
+    schema1:name "Neil Wigan OBE"@en .
+
+<https://www.gov.uk/government/people/nick-dyer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68dfeed8dadf7616351e4e0e/s465_Nick-Dyer.jpg> ;
+    schema1:name "Nick Dyer"@en .
+
+<https://www.gov.uk/government/people/sally-langrish> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d6944e29e2934106866440/s465_OIP.jpg> ;
+    schema1:name "Sally Langrish"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state--178> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Europe, North America and Overseas Territories)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/stephen-doughty> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (International Development and Africa)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/baroness-chapman-of-darlington> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Middle East, North Africa, Afghanistan and Pakistan)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/hamish-falconer> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--283> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Indo-Pacific)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/seema-malhotra> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under Secretary of State (Multilateral, Human Rights, Latin America and the Caribbean)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/chris-elmore> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Foreign, Commonwealth and Development Affairs"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/yvette-cooper> .
+
+<https://www.gov.uk/government/people/baroness-chapman-of-darlington> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68dba7f749e17d00a56ffbd9/s465_BC_official_photo.jpg> ;
+    schema1:name "The Rt Hon Baroness Chapman of Darlington"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean> .
+
+<https://www.gov.uk/government/people/chris-elmore> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d68aa29cb44667f7a1cecc/s465_AR109629.jpg> ;
+    schema1:name "Chris Elmore MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> .
+
+<https://www.gov.uk/government/people/hamish-falconer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d688b048b997bf604b159a/s465_AR109780.jpg> ;
+    schema1:name "Hamish Falconer MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276> .
+
+<https://www.gov.uk/government/people/seema-malhotra> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d689864e830dd22fa1cec6/s465_AR109377.jpg> ;
+    schema1:name "Seema Malhotra MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--283> .
+
+<https://www.gov.uk/government/people/stephen-doughty> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d685774e830dd22fa1cec0/s465_AR109618.jpg> ;
+    schema1:name "Stephen Doughty MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--178> .
+
+<https://www.gov.uk/government/people/yvette-cooper> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d682bc620e762dc586640d/s465_AR109490.jpg> ;
+    schema1:name "The Rt Hon Yvette Cooper MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> .
+
+<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Foreign, Commonwealth & Development Office"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:hasManager <https://www.gov.uk/government/people/beverley-tew>,
+        <https://www.gov.uk/government/people/christina-scott>,
+        <https://www.gov.uk/government/people/edward-llewellyn>,
+        <https://www.gov.uk/government/people/helena-vega-lozano>,
+        <https://www.gov.uk/government/people/james-bilefield>,
+        <https://www.gov.uk/government/people/jon-watts>,
+        <https://www.gov.uk/government/people/jonathan-allen>,
+        <https://www.gov.uk/government/people/melinda-bohannon>,
+        <https://www.gov.uk/government/people/neil-wigan>,
+        <https://www.gov.uk/government/people/nick-dyer>,
+        <https://www.gov.uk/government/people/sally-langrish> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/baroness-chapman-of-darlington>,
+        <https://www.gov.uk/government/people/chris-elmore>,
+        <https://www.gov.uk/government/people/hamish-falconer>,
+        <https://www.gov.uk/government/people/seema-malhotra>,
+        <https://www.gov.uk/government/people/stephen-doughty>,
+        <https://www.gov.uk/government/people/yvette-cooper> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--178>,
+        <https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--283>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> .
+

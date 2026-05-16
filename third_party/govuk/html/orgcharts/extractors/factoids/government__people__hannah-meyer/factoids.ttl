@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/hm-prison-and-probation-service> govuk:hasMinister <https://www.gov.uk/government/people/hannah-meyer> .
+
+<https://www.gov.uk/government/people/hannah-meyer> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Hannah joined HMPPS in October 2019 to establish a new Reducing Reoffending Directorate, building on her experience of strategic policy making, cross-Government and local partnership working and programme delivery. Her directorate, renamed to Reducing Reoffending, Partnerships & Accommodation in 2020, works across Government, with the wider public and voluntary sector to reduce reoffending, primarily through improving accommodation, employment and substance misuse outcomes for prison leavers."@en ;
+    schema1:name "Hannah Meyer"@en ;
+    schema1:url <https://www.gov.uk/government/people/hannah-meyer> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> ;
+    govuk:currentRoleTitle "Executive Director Strategy, Planning & Performance"@en .
+

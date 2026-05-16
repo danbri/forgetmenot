@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/adrian-hannell> .
+
+<https://www.gov.uk/government/people/adrian-hannell> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Adrian Hannell was appointed Interim Director of Finance and Digital at the Legal Aid Agency in September 2017."@en ;
+    schema1:name "Adrian Hannell"@en ;
+    schema1:url <https://www.gov.uk/government/people/adrian-hannell> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

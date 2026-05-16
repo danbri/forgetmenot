@@ -1,0 +1,164 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/gila-sacks> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68dfd38bc487360cc70ca0f1/s465_Gila_Sacks_960x640.jpg> ;
+    schema1:name "Gila Sacks"@en .
+
+<https://www.gov.uk/government/people/ian-knowles> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69f4c5e195de5140ec7eefe3/s465_Ian_Knowles_960x640.jpg> ;
+    schema1:name "Ian Knowles"@en .
+
+<https://www.gov.uk/government/people/julia-kinniburgh> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5fe0ea0cd3bf7f08945c054e/s465_Julia_Kinniburgh_960x640.JPG> ;
+    schema1:name "Julia Kinniburgh"@en .
+
+<https://www.gov.uk/government/people/kevan-collins> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f3eab853505b2ca44eff36/s465_Sir_Kevan_Collins_960x640.jpg> ;
+    schema1:name "Sir Kevan Collins"@en .
+
+<https://www.gov.uk/government/people/margaret-casely-hayford> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f3eac553505b2ca44eff37/s465_Margaret_Casely-Hayford_960x640.jpg> ;
+    schema1:name "Margaret Casely-Hayford CBE"@en .
+
+<https://www.gov.uk/government/people/naomi-eisenstadt> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f3eae97ed82b90fcf5bff2/s465_Naomi_Eisenstadt_960x640.jpg> ;
+    schema1:name "Naomi Eisenstadt CB"@en .
+
+<https://www.gov.uk/government/people/peter-bazalgette> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66434847bd01f5ed32793aa6/s465_peter_bazalgette.jpg> ;
+    schema1:name "Sir Peter Bazalgette"@en .
+
+<https://www.gov.uk/government/people/rebecca-george> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f3eae930feae0e082ab8dd/s465_Rebecca_George_960x640.jpg> ;
+    schema1:name "Rebecca George CBE"@en .
+
+<https://www.gov.uk/government/people/sinead-osullivan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6978e930d6ab92f1d3a4d6e5/s465_Sinead_OSullivan.jpg> ;
+    schema1:name "Sinead O'Sullivan"@en .
+
+<https://www.gov.uk/government/people/steve-crocker> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f3eae9d3f1efd2ce2ab8ee/s465_Steve_Crocker_960x640.jpg> ;
+    schema1:name "Steve Crocker OBE"@en .
+
+<https://www.gov.uk/government/people/stuart-mcminnies> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62ab0434e90e07038f064b0f/s465_SM_Profile.jpg> ;
+    schema1:name "Stuart McMinnies"@en .
+
+<https://www.gov.uk/government/people/susan-acland-hood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/605b2cc5d3bf7f2f100009c1/s465_Susan_Acland-Hood_2021_960x640.jpg> ;
+    schema1:name "Susan Acland-Hood"@en .
+
+<https://www.gov.uk/government/people/tim-coulson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f707fe5274a6bf054f022/s465_Dr_Tim_Coulson.jpg> ;
+    schema1:name "Dr Tim Coulson"@en .
+
+<https://www.gov.uk/government/people/tony-foot> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/642c42c3ddf8ad000cac0d8e/s465_Tony_Foot_640x960.jpg> ;
+    schema1:name "Tony Foot"@en .
+
+<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Women and Equalities)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--187> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for School Standards)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/georgia-gould> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--192> a govuk:MinisterialRole ;
+    schema1:name "Minister of State (Minister for Social Security and Disability)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/stephen-timms> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Early Education)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/olivia-bailey> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Children and Families)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/josh-macalister> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Equalities)"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/seema-malhotra> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-education> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Education"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/bridget-phillipson> .
+
+<https://www.gov.uk/government/people/bridget-phillipson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668811fd4a94d44125d9cd94/s465_bridget-phillipson.jpg> ;
+    schema1:name "The Rt Hon Bridget Phillipson MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-education> .
+
+<https://www.gov.uk/government/people/georgia-gould> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668fa9e849b9c0597fdafadb/s465_Untitled.jpg> ;
+    schema1:name "Georgia Gould OBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--187> .
+
+<https://www.gov.uk/government/people/jacqui-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/669551bfa3c2a28abb50cfe8/s465_Jacqui_Smith_960x640.jpg> ;
+    schema1:name "The Rt Hon Baroness Smith of Malvern"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
+
+<https://www.gov.uk/government/people/josh-macalister> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68bd9945b0a373a01819fef2/s465_josh-macalister.jpeg> ;
+    schema1:name "Josh MacAlister OBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> .
+
+<https://www.gov.uk/government/people/olivia-bailey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68bd9abfcc8356c3c882ab9b/s465_olivia_bailey_portrait_960.jpeg> ;
+    schema1:name "Olivia Bailey MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> .
+
+<https://www.gov.uk/government/people/seema-malhotra> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68d689864e830dd22fa1cec6/s465_AR109377.jpg> ;
+    schema1:name "Seema Malhotra MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+
+<https://www.gov.uk/government/people/stephen-timms> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6773ddda02c3076590308cbd/s465_Stephen_Timms.jpg> ;
+    schema1:name "The Rt Hon Sir Stephen Timms MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+
+<https://www.gov.uk/government/organisations/department-for-education> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Department for Education"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:hasManager <https://www.gov.uk/government/people/gila-sacks>,
+        <https://www.gov.uk/government/people/ian-knowles>,
+        <https://www.gov.uk/government/people/julia-kinniburgh>,
+        <https://www.gov.uk/government/people/kevan-collins>,
+        <https://www.gov.uk/government/people/margaret-casely-hayford>,
+        <https://www.gov.uk/government/people/naomi-eisenstadt>,
+        <https://www.gov.uk/government/people/peter-bazalgette>,
+        <https://www.gov.uk/government/people/rebecca-george>,
+        <https://www.gov.uk/government/people/sinead-osullivan>,
+        <https://www.gov.uk/government/people/steve-crocker>,
+        <https://www.gov.uk/government/people/stuart-mcminnies>,
+        <https://www.gov.uk/government/people/susan-acland-hood>,
+        <https://www.gov.uk/government/people/tim-coulson>,
+        <https://www.gov.uk/government/people/tony-foot> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/bridget-phillipson>,
+        <https://www.gov.uk/government/people/georgia-gould>,
+        <https://www.gov.uk/government/people/jacqui-smith>,
+        <https://www.gov.uk/government/people/josh-macalister>,
+        <https://www.gov.uk/government/people/olivia-bailey>,
+        <https://www.gov.uk/government/people/seema-malhotra>,
+        <https://www.gov.uk/government/people/stephen-timms> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4>,
+        <https://www.gov.uk/government/ministers/minister-of-state--187>,
+        <https://www.gov.uk/government/ministers/minister-of-state--192>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-education> .
+

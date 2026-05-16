@@ -1,0 +1,75 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Driver and Vehicle Standards Agency"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency> ;
+    govuk:hasManager <https://www.gov.uk/government/people/beverley-warmington>,
+        <https://www.gov.uk/government/people/carrie-dolan>,
+        <https://www.gov.uk/government/people/clare-nichols>,
+        <https://www.gov.uk/government/people/helen-aston>,
+        <https://www.gov.uk/government/people/jacob-abboud>,
+        <https://www.gov.uk/government/people/jane-reakes-davies>,
+        <https://www.gov.uk/government/people/marian-kitson>,
+        <https://www.gov.uk/government/people/nick-bitel>,
+        <https://www.gov.uk/government/people/oliver-mulvey>,
+        <https://www.gov.uk/government/people/pauline-reeves>,
+        <https://www.gov.uk/government/people/peter-hearn>,
+        <https://www.gov.uk/government/people/richard-hennessy>,
+        <https://www.gov.uk/government/people/tina-churcher> .
+
+<https://www.gov.uk/government/people/beverley-warmington> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69527587f828b4d60df50626/s465_beverley-warmington.jpg> ;
+    schema1:name "Beverley Warmington"@en .
+
+<https://www.gov.uk/government/people/carrie-dolan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5fb545408fa8f54aae26ded3/s465_carrie_dolan.png> ;
+    schema1:name "Carrie Dolan MBE"@en .
+
+<https://www.gov.uk/government/people/clare-nichols> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/63b3f00dd3bf7f36a4b85779/s465_clare-nichols.png> ;
+    schema1:name "Clare Nichols"@en .
+
+<https://www.gov.uk/government/people/helen-aston> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65e99bb162ff48001187b309/s465_helen-aston.jpg> ;
+    schema1:name "Helen Aston"@en .
+
+<https://www.gov.uk/government/people/jacob-abboud> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62ea3a18e90e07142e42a226/s465_Jacob_Abboud.jpg> ;
+    schema1:name "Jacob Abboud"@en .
+
+<https://www.gov.uk/government/people/jane-reakes-davies> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68553843b46781eacfd71d84/s465_jane-reakes-davies.jpg> ;
+    schema1:name "Jane Reakes-Davies"@en .
+
+<https://www.gov.uk/government/people/marian-kitson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e6274aa86650c514461caf0/s465_marian_kitson.png> ;
+    schema1:name "Marian Kitson"@en .
+
+<https://www.gov.uk/government/people/nick-bitel> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60f19b2de90e0764c5938360/s465_Nick_Bitel_profile_picture.png> ;
+    schema1:name "Nick Bitel"@en .
+
+<https://www.gov.uk/government/people/oliver-mulvey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69302c19375aee4a15ee8b0a/s465_oliver-mulvey.png> ;
+    schema1:name "Oliver Mulvey"@en .
+
+<https://www.gov.uk/government/people/pauline-reeves> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6728eb57fbd69e1861921af7/s465_Pauline-reeves-gov-uk.png> ;
+    schema1:name "Pauline Reeves OBE"@en .
+
+<https://www.gov.uk/government/people/peter-hearn> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62ea39bed3bf7f75af092419/s465_Peter_Hearn.jpg> ;
+    schema1:name "Peter Hearn"@en .
+
+<https://www.gov.uk/government/people/richard-hennessy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e627477d3bf7f1082ef951f/s465_rich_hennessey.png> ;
+    schema1:name "Richard Hennessy"@en .
+
+<https://www.gov.uk/government/people/tina-churcher> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6a049336c0cc74b4523e4d88/s465_tina-churcher.jpg> ;
+    schema1:name "Tina Churcher"@en .
+

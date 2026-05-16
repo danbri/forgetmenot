@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/bona-vacantia> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Bona Vacantia"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/bona-vacantia> ;
+    govuk:hasManager <https://www.gov.uk/government/people/caroline-harold>,
+        <https://www.gov.uk/government/people/douglas-wilson> .
+
+<https://www.gov.uk/government/people/caroline-harold> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6c5840f0b648ca1d2e38/s465_Caroline-Harold-Photo.jpg> ;
+    schema1:name "Caroline Harold"@en .
+
+<https://www.gov.uk/government/people/douglas-wilson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67a354a2b74b3d9dfe36ca82/s465_Doug_Portrait_GOVUK.png> ;
+    schema1:name "Douglas Wilson KC (Hon) OBE"@en .
+

@@ -1,0 +1,75 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/uk-atomic-energy-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "UK Atomic Energy Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/uk-atomic-energy-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/bernard-taylor>,
+        <https://www.gov.uk/government/people/claire-flint>,
+        <https://www.gov.uk/government/people/heather-lewtas>,
+        <https://www.gov.uk/government/people/justin-kingsford>,
+        <https://www.gov.uk/government/people/lee-mcdonough>,
+        <https://www.gov.uk/government/people/luc-bardin>,
+        <https://www.gov.uk/government/people/mary-ryan>,
+        <https://www.gov.uk/government/people/richard-hookway>,
+        <https://www.gov.uk/government/people/robin-grimes>,
+        <https://www.gov.uk/government/people/ruth-elliot--2>,
+        <https://www.gov.uk/government/people/stephen-hillier>,
+        <https://www.gov.uk/government/people/sue-gray--2>,
+        <https://www.gov.uk/government/people/tim-bestwick> .
+
+<https://www.gov.uk/government/people/bernard-taylor> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/664b5bcb4f29e1d07fadcaf9/s465_Bernard_Taylor.jpg> ;
+    schema1:name "Mr Bernard Taylor CVO, CBE, DL"@en .
+
+<https://www.gov.uk/government/people/claire-flint> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684fd387bd35d2f88bcba38a/s465_claire-flint.jpg> ;
+    schema1:name "Claire Flint"@en .
+
+<https://www.gov.uk/government/people/heather-lewtas> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/688c6fe8fdde2b8f7346957e/s465_heather-lewtas.jpg> ;
+    schema1:name "Heather Lewtas"@en .
+
+<https://www.gov.uk/government/people/justin-kingsford> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/645cedc56539660011bd3d7b/s465_Justin_Kingsford.jpg> ;
+    schema1:name "Justin Kingsford"@en .
+
+<https://www.gov.uk/government/people/lee-mcdonough> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68fb4ee5b3e33205c4e6f07d/s465_6K9A1158_v1.jpg> ;
+    schema1:name "Lee McDonough"@en .
+
+<https://www.gov.uk/government/people/luc-bardin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/679a17a86907bee181d3140a/s465_Dr-Luc-Bardin.jpg> ;
+    schema1:name "Dr Luc Bardin"@en .
+
+<https://www.gov.uk/government/people/mary-ryan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66b4c9ce0808eaf43b50df0f/s465_Mary_Ryan.png> ;
+    schema1:name "Professor Mary Ryan"@en .
+
+<https://www.gov.uk/government/people/richard-hookway> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/619fbbe7e90e070445fd7676/s465_RH.jpg> ;
+    schema1:name "Richard Hookway"@en .
+
+<https://www.gov.uk/government/people/robin-grimes> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6c84ed915d595171e781/s465_robin-grimes-960.jpg> ;
+    schema1:name "Professor Sir Robin Grimes FRS FREng"@en .
+
+<https://www.gov.uk/government/people/ruth-elliot--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/645ced9b6539660011bd3d78/s465_Ruth_Elliot.jpg> ;
+    schema1:name "Ruth Elliot"@en .
+
+<https://www.gov.uk/government/people/stephen-hillier> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f7026ed915d595171eb54/s465_Hillier-ACM-CAS-004_960x640.jpg> ;
+    schema1:name "Air Chief Marshal Sir Stephen Hillier KCB CBE DFC ADC MA RAF"@en .
+
+<https://www.gov.uk/government/people/sue-gray--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66e99d4ce4b40ed591881cab/s465_Sue-Gray.jpg> ;
+    schema1:name "Air Marshal Dame Sue Gray DBE CB MSc, FREng, FIET"@en .
+
+<https://www.gov.uk/government/people/tim-bestwick> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/688c908ee8ba9507fc1b0909/s465_Tim_1.jpg> ;
+    schema1:name "Dr Tim Bestwick OBE"@en .
+

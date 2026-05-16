@@ -1,0 +1,29 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/home-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--174> .
+
+<https://www.gov.uk/government/people/dan-jarvis> schema1:name "Dan Jarvis MBE MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--174> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--174> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Security)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state--174> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:responsibility "MP security and VIP protection"@en,
+        "anti-corruption"@en,
+        "aviation and maritime security"@en,
+        "counter terrorism and extremism"@en,
+        "cyber security and crime"@en,
+        "economic crime (excluding fraud)"@en,
+        "exclusions and deprivations"@en,
+        "extradition"@en,
+        "international criminality"@en,
+        "online safety"@en,
+        "oversight of the National Crime Agency"@en,
+        "serious and organised crime"@en,
+        "state threats"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> .
+

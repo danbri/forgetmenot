@@ -1,0 +1,37 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/review-body-on-senior-salaries> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Senior Salaries Review Body"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/review-body-on-senior-salaries> ;
+    govuk:hasManager <https://www.gov.uk/government/people/ian-mccafferty>,
+        <https://www.gov.uk/government/people/lea-paterson>,
+        <https://www.gov.uk/government/people/mark-emerton>,
+        <https://www.gov.uk/government/people/mark-polin>,
+        <https://www.gov.uk/government/people/pippa-greenslade>,
+        <https://www.gov.uk/government/people/zoe-billingham> .
+
+<https://www.gov.uk/government/people/ian-mccafferty> a schema1:Person ;
+    schema1:name "Ian McCafferty CBE"@en .
+
+<https://www.gov.uk/government/people/lea-paterson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67126d368a62ffa8df77b3ae/s465_Lea_Paterson_CBE.1.jpg> ;
+    schema1:name "Lea Paterson CBE"@en .
+
+<https://www.gov.uk/government/people/mark-emerton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/672c9b8fbd79990dfa67cadd/s465_Mark_Emerton_1.jpg> ;
+    schema1:name "Mark Emerton"@en .
+
+<https://www.gov.uk/government/people/mark-polin> a schema1:Person ;
+    schema1:name "Mark Polin OBE QPM"@en .
+
+<https://www.gov.uk/government/people/pippa-greenslade> a schema1:Person ;
+    schema1:name "Pippa Greenslade"@en .
+
+<https://www.gov.uk/government/people/zoe-billingham> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6915cd0adb01ecfcf96fc90a/s465_Zoe_Billingham.jpg> ;
+    schema1:name "The Hon Zoë Billingham CBE"@en .
+

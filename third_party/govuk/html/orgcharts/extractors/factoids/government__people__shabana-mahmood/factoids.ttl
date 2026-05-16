@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> govuk:roleHolder <https://www.gov.uk/government/people/shabana-mahmood> .
+
+<https://www.gov.uk/government/organisations/home-office> govuk:hasMinister <https://www.gov.uk/government/people/shabana-mahmood> .
+
+<https://www.gov.uk/government/people/shabana-mahmood> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Shabana Mahmood was appointed Secretary of State for the Home Department on 5 September 2025."@en ;
+    schema1:name "The Rt Hon Shabana Mahmood MP"@en ;
+    schema1:url <https://www.gov.uk/government/people/shabana-mahmood> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:currentRoleTitle "Secretary of State for the Home Department"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> .
+

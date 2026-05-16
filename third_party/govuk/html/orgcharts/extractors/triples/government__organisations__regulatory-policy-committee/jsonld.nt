@@ -1,0 +1,24 @@
+_:N7593928f2453444faf82317db0db2682 <http://schema.org/description> "Find all content from Regulatory Policy Committee" .
+_:N2515e9eee6a340bf9c52f339e7f3c7b1 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Ncaec6c1e7c0e4dcbab9354b964296191 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N8767a7a8c1b2425d959671acce0ce64c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N9e49fe2ed1464bf998bffd3ef1d63a3f <http://schema.org/parentOrganization> _:Ncaec6c1e7c0e4dcbab9354b964296191 .
+_:N9e49fe2ed1464bf998bffd3ef1d63a3f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N8767a7a8c1b2425d959671acce0ce64c <http://schema.org/itemListElement> _:N2515e9eee6a340bf9c52f339e7f3c7b1 .
+_:Naee259723b824e12a4fdba0538ec9b10 <http://schema.org/item> <https://www.gov.uk/> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N9e49fe2ed1464bf998bffd3ef1d63a3f <http://schema.org/name> "Regulatory Policy Committee" .
+_:N7593928f2453444faf82317db0db2682 <http://schema.org/query> "required" .
+_:N8767a7a8c1b2425d959671acce0ce64c <http://schema.org/itemListElement> _:Naee259723b824e12a4fdba0538ec9b10 .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Naee259723b824e12a4fdba0538ec9b10 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N9e49fe2ed1464bf998bffd3ef1d63a3f <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N9e49fe2ed1464bf998bffd3ef1d63a3f <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/regulatory-policy-committee> .
+<https://www.gov.uk/government/organisations/regulatory-policy-committee> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N9e49fe2ed1464bf998bffd3ef1d63a3f <http://schema.org/description> "We provide independent expert advice to the UK government to create better regulation, reduce unnecessary burdens on business and support economic growth. RPC is an advisory non-departmental public body, sponsored by the Department for Business and Trade ." .
+_:N7593928f2453444faf82317db0db2682 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Ncaec6c1e7c0e4dcbab9354b964296191 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-business-and-trade> .
+_:N9e49fe2ed1464bf998bffd3ef1d63a3f <http://schema.org/potentialAction> _:N7593928f2453444faf82317db0db2682 .
+_:N2515e9eee6a340bf9c52f339e7f3c7b1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Naee259723b824e12a4fdba0538ec9b10 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N2515e9eee6a340bf9c52f339e7f3c7b1 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .

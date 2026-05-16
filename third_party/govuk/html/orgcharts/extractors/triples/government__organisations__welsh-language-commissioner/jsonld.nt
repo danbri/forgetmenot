@@ -1,0 +1,21 @@
+_:N12648a9a37b142149e9200c3a762d663 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N27f62190bc4045129e8c291714b35011 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N464e6534903a4181ba9039ff611e9106 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N27f62190bc4045129e8c291714b35011 <http://schema.org/potentialAction> _:N12648a9a37b142149e9200c3a762d663 .
+_:N27f62190bc4045129e8c291714b35011 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N27f62190bc4045129e8c291714b35011 <http://schema.org/name> "Welsh Language Commissioner" .
+<https://www.gov.uk/government/organisations/welsh-language-commissioner> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nd32eee035c7e4dcfaec0daa2ed0ff1c5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N374678b436d3483faf8164c08ee62b5d <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nd32eee035c7e4dcfaec0daa2ed0ff1c5 <http://schema.org/itemListElement> _:N374678b436d3483faf8164c08ee62b5d .
+_:Nd32eee035c7e4dcfaec0daa2ed0ff1c5 <http://schema.org/itemListElement> _:N464e6534903a4181ba9039ff611e9106 .
+_:N12648a9a37b142149e9200c3a762d663 <http://schema.org/query> "required" .
+_:N27f62190bc4045129e8c291714b35011 <http://schema.org/description> "The Welsh Language Commissioner works to promote and facilitate the use of the Welsh language, ensuring that those who want to use Welsh are able to do so. Gwaith Comisiynydd y Gymraeg yw hybu a hwyluso defnydd y Gymraeg, gan sicrhau bod y rhai sydd am ddefnyddio’r Gymraeg yn gallu gwneud hynny." .
+_:N374678b436d3483faf8164c08ee62b5d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N27f62190bc4045129e8c291714b35011 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/welsh-language-commissioner> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N374678b436d3483faf8164c08ee62b5d <http://schema.org/item> <https://www.gov.uk/> .
+_:N464e6534903a4181ba9039ff611e9106 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N12648a9a37b142149e9200c3a762d663 <http://schema.org/description> "Find all content from Welsh Language Commissioner" .
+_:N464e6534903a4181ba9039ff611e9106 <http://schema.org/item> <https://www.gov.uk/government/organisations> .

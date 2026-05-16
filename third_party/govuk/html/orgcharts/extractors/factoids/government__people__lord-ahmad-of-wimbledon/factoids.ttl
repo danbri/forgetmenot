@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
+
+<https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Ahmad was Special Representative on Preventing Sexual Violence in Conflict and Minister of State for the Commonwealth and the United Nations between June 2017 and July 2024."@en ;
+    schema1:name "Lord (Tariq) Ahmad of Wimbledon KCMG"@en ;
+    schema1:url <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

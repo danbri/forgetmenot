@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/central-arbitration-committee> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Central Arbitration Committee"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/central-arbitration-committee> ;
+    govuk:hasManager <https://www.gov.uk/government/people/stephen-redmond--3> .
+
+<https://www.gov.uk/government/people/stephen-redmond--3> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5b195545ed915d2cccc8d367/s465_ACAS_National_Shoot.jpg> ;
+    schema1:name "Mr Stephen Redmond"@en .
+

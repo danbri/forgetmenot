@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/sajid-javid> .
+
+<https://www.gov.uk/government/people/sajid-javid> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Sajid Javid was previously Secretary of State for Health and Social Care from 26 June 2021 to 5 July 2022."@en ;
+    schema1:name "The Rt Hon Sajid Javid"@en ;
+    schema1:url <https://www.gov.uk/government/people/sajid-javid> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

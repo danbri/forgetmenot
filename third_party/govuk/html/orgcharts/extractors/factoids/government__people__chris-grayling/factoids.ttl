@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/chris-grayling> .
+
+<https://www.gov.uk/government/people/chris-grayling> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Chris Grayling was Secretary of State for Transport from July 2016 to July 2019. He was elected Conservative MP for Epsom and Ewell in 2001."@en ;
+    schema1:name "The Rt Hon Chris Grayling"@en ;
+    schema1:url <https://www.gov.uk/government/people/chris-grayling> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

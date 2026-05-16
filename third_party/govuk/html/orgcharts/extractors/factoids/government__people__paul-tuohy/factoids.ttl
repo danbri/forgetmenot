@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/paul-tuohy> .
+
+<https://www.gov.uk/government/people/paul-tuohy> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Paul is accountable for Strategy and all aspects of Integrated Waste Management across Nuclear Waste Services. He originally joined the LLWR leadership team in 2021 from the Nuclear Decommissioning Authority."@en ;
+    schema1:name "Paul Tuohy"@en ;
+    schema1:url <https://www.gov.uk/government/people/paul-tuohy> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    govuk:currentRoleTitle "Interim Strategic Review Director"@en .
+

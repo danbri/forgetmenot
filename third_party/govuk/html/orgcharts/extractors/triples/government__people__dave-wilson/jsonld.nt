@@ -1,0 +1,12 @@
+_:Na89d14ac1ecd4da1bac943f1a7a7f1e2 <http://schema.org/item> <https://www.gov.uk/> .
+_:N4d02bc1552534f2ea734dcb0a8dab11f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> .
+_:Na89d14ac1ecd4da1bac943f1a7a7f1e2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N4d02bc1552534f2ea734dcb0a8dab11f <http://schema.org/name> "Dave Wilson" .
+_:N4d02bc1552534f2ea734dcb0a8dab11f <http://schema.org/image> <https://assets.publishing.service.gov.uk/media/67f7b12704146682e61bc7e6/s465_dave.png> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+<https://www.gov.uk/government/people/dave-wilson> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N4d02bc1552534f2ea734dcb0a8dab11f <http://schema.org/description> "<p>Dave has extensive experience in decommissioning, spanning 30 years since joining the industry as a graduate at Sellafield. He has previously served as site director at Chapelcross and Trawsfynydd, and operations officer for Scotland and Wales.</p>\n\n<p>Before his appointment as Managing Director of NRS Dounreay, his most recent role was at AtkinsRéalis, where he was market director and delivery lead for its nuclear decommissioning and waste services business.</p>\n" .
+_:N4d02bc1552534f2ea734dcb0a8dab11f <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/people/dave-wilson> .
+_:Na89d14ac1ecd4da1bac943f1a7a7f1e2 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N667c914c9499474f8014d4b47642384c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N667c914c9499474f8014d4b47642384c <http://schema.org/itemListElement> _:Na89d14ac1ecd4da1bac943f1a7a7f1e2 .

@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/people/grant-shapps> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "The Rt Hon Grant Shapps was Secretary of State for Defence between 31 August 2023 and 5 July 2024. Previously he was Secretary of State for Energy Security and Net Zero from 7 February 2023 to 31 August 2023."@en ;
+    schema1:name "The Rt Hon Grant Shapps"@en ;
+    schema1:url <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

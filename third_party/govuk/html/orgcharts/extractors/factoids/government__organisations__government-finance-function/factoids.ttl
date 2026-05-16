@@ -1,0 +1,30 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-finance-function> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Finance Function"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-finance-function> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-cartner>,
+        <https://www.gov.uk/government/people/clive-martin>,
+        <https://www.gov.uk/government/people/conrad-smewing>,
+        <https://www.gov.uk/government/people/tara-smith> .
+
+<https://www.gov.uk/government/people/andrew-cartner> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6603ef8ac34a860011be7622/s465_Andrew_Cartner.jpg> ;
+    schema1:name "Andrew Cartner"@en .
+
+<https://www.gov.uk/government/people/clive-martin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/627905c6d3bf7f5e3867a6aa/s465_Clive_Martin_Photo_GOVUK.jpg> ;
+    schema1:name "Clive Martin"@en .
+
+<https://www.gov.uk/government/people/conrad-smewing> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66853613d9d35187868f43dc/s465_Adobe_Express_2024-07-03_12.28.45.png> ;
+    schema1:name "Conrad Smewing"@en .
+
+<https://www.gov.uk/government/people/tara-smith> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6470d48180dffe001323ee6e/s465_Tara_Smith_Headshot.jpg> ;
+    schema1:name "Tara Smith"@en .
+

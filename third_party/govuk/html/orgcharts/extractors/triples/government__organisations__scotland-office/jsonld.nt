@@ -1,0 +1,24 @@
+<https://www.gov.uk/government/organisations/scotland-office> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N1beeebd251fb47d2b8e8bd5056017564 <http://schema.org/name> "Scotland Office" .
+_:N9b1f12200aea4d869c23254fd76eac27 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/boundary-commission-for-scotland> .
+_:N0ada838c371d48c6a72fa4b4c0498498 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N0ada838c371d48c6a72fa4b4c0498498 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N9eca0ff47daf463096de02a391742b1c <http://schema.org/description> "Find all content from Scotland Office" .
+_:Ncc8d3470ba854c2eb87877704b4a3727 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N1beeebd251fb47d2b8e8bd5056017564 <http://schema.org/subOrganization> _:N9b1f12200aea4d869c23254fd76eac27 .
+_:N0ada838c371d48c6a72fa4b4c0498498 <http://schema.org/item> <https://www.gov.uk/> .
+_:N9aa3744a56af474d932ab202967a7323 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N9eca0ff47daf463096de02a391742b1c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:Ncc8d3470ba854c2eb87877704b4a3727 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N1beeebd251fb47d2b8e8bd5056017564 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Ncc8d3470ba854c2eb87877704b4a3727 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N1beeebd251fb47d2b8e8bd5056017564 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N9b1f12200aea4d869c23254fd76eac27 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N1beeebd251fb47d2b8e8bd5056017564 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/scotland-office> .
+_:N1beeebd251fb47d2b8e8bd5056017564 <http://schema.org/description> "The Scotland Office supports the Secretary of State in promoting the best interests of Scotland within a stronger United Kingdom. Scotland Office is a ministerial department, supported by 1 public body ." .
+_:N9aa3744a56af474d932ab202967a7323 <http://schema.org/itemListElement> _:Ncc8d3470ba854c2eb87877704b4a3727 .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N1beeebd251fb47d2b8e8bd5056017564 <http://schema.org/potentialAction> _:N9eca0ff47daf463096de02a391742b1c .
+_:N9aa3744a56af474d932ab202967a7323 <http://schema.org/itemListElement> _:N0ada838c371d48c6a72fa4b4c0498498 .
+_:N9eca0ff47daf463096de02a391742b1c <http://schema.org/query> "required" .

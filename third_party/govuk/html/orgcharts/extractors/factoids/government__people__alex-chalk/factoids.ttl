@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/alex-chalk> .
+
+<https://www.gov.uk/government/people/alex-chalk> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Alex Chalk KC was Lord Chancellor and Secretary of State for Justice between 21 April 2023 and 5 July 2024. He was Minister of State in the Ministry of Defence from October 2022 to April 2023 and was formerly HM Solicitor General for England and Wales and the Prisons and Probation Minister. Alex Chalk KC was the MP for Cheltenham from 2015 to 2024."@en ;
+    schema1:name "The Rt Hon Alex Chalk KC"@en ;
+    schema1:url <https://www.gov.uk/government/people/alex-chalk> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

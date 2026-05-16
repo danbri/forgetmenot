@@ -1,0 +1,50 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/national-infrastructure-and-service-transformation-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "National Infrastructure and Service Transformation Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/national-infrastructure-and-service-transformation-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-baptiste>,
+        <https://www.gov.uk/government/people/becky-wood>,
+        <https://www.gov.uk/government/people/jen-coe-hannah-brown>,
+        <https://www.gov.uk/government/people/jon-loveday>,
+        <https://www.gov.uk/government/people/jonathan-saks>,
+        <https://www.gov.uk/government/people/karina-singh>,
+        <https://www.gov.uk/government/people/margaret-read>,
+        <https://www.gov.uk/government/people/matthew-vickerstaff> .
+
+<https://www.gov.uk/government/people/alison-baptiste> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5b74334eed915d0ad553402f/s465_A_Baptiste_photo.jpg> ;
+    schema1:name "Alison Baptiste CBE"@en .
+
+<https://www.gov.uk/government/people/becky-wood> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/683d5eb51b1ab198165ff283/s465_BeckyWoodPic_Cropped_960_x_640_px.jpg> ;
+    schema1:name "Becky Wood"@en .
+
+<https://www.gov.uk/government/people/jen-coe-hannah-brown> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69834c6bafabc06c35d343e6/s465_Composite_Change_Director_image.jpg> ;
+    schema1:name "Jen Coe / Rachel Hitchings"@en .
+
+<https://www.gov.uk/government/people/jon-loveday> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f200b04d3bf7f59664829a6/s465_Jon_Loveday_-_for_IPA__1_.jpg> ;
+    schema1:name "Jon Loveday"@en .
+
+<https://www.gov.uk/government/people/jonathan-saks> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f66345563cc9c84bacc3d0/s465_Jonny_Saks_Cropped_960_x_640.jpg> ;
+    schema1:name "Jonathan Saks"@en .
+
+<https://www.gov.uk/government/people/karina-singh> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5acf64de40f0b617df3358e7/s465_Karina_22C9789_960.jpg> ;
+    schema1:name "Karina Singh"@en .
+
+<https://www.gov.uk/government/people/margaret-read> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67e3c6ef5698d84e39cfdb4f/s465_Margaret_Read_NISTA_website_JPG.jpg> ;
+    schema1:name "Margaret Read"@en .
+
+<https://www.gov.uk/government/people/matthew-vickerstaff> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f642ded915d595171dd80/s465_VICKERSTAFF_resized.jpg> ;
+    schema1:name "Matthew Vickerstaff"@en .
+

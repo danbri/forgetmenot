@@ -1,0 +1,24 @@
+_:Ne58cdb5455b24a2ab7d9a4888cf23077 <http://schema.org/query> "required" .
+_:Na26c9dd946a547e487014d490827eef9 <http://schema.org/item> <https://www.gov.uk/> .
+_:N2557e840180b4b2e9791c46bf2fa7b8c <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Ne58cdb5455b24a2ab7d9a4888cf23077 <http://schema.org/description> "Find all content from Sellafield Ltd" .
+_:N37f1960345d54f05926b754fa8adf343 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N2557e840180b4b2e9791c46bf2fa7b8c <http://schema.org/potentialAction> _:Ne58cdb5455b24a2ab7d9a4888cf23077 .
+_:N55192927bfef41988d9bcce9c36f1303 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations/sellafield-ltd> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N2557e840180b4b2e9791c46bf2fa7b8c <http://schema.org/name> "Sellafield Ltd" .
+_:N37f1960345d54f05926b754fa8adf343 <http://schema.org/itemListElement> _:Na26c9dd946a547e487014d490827eef9 .
+_:Ne58cdb5455b24a2ab7d9a4888cf23077 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N37f1960345d54f05926b754fa8adf343 <http://schema.org/itemListElement> _:N55192927bfef41988d9bcce9c36f1303 .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N2557e840180b4b2e9791c46bf2fa7b8c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N2557e840180b4b2e9791c46bf2fa7b8c <http://schema.org/description> "We’re creating a clean and safe environment for future generations. The Sellafield Ltd works with the Nuclear Decommissioning Authority ." .
+_:Na26c9dd946a547e487014d490827eef9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N2557e840180b4b2e9791c46bf2fa7b8c <http://schema.org/parentOrganization> _:N8b898a487e1c4d83abed5bc5a57ff6cf .
+_:N8b898a487e1c4d83abed5bc5a57ff6cf <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N8b898a487e1c4d83abed5bc5a57ff6cf <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/nuclear-decommissioning-authority> .
+_:Na26c9dd946a547e487014d490827eef9 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N55192927bfef41988d9bcce9c36f1303 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N2557e840180b4b2e9791c46bf2fa7b8c <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/sellafield-ltd> .
+_:N55192927bfef41988d9bcce9c36f1303 <http://schema.org/item> <https://www.gov.uk/government/organisations> .

@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/anne-milton> .
+
+<https://www.gov.uk/government/people/anne-milton> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Anne Milton was Minister of State at the Department for Education from 12 June 2017 to 23 July 2019. She was elected as MP for Guildford (revised boundary) in 2010."@en ;
+    schema1:name "The Rt Hon Anne Milton"@en ;
+    schema1:url <https://www.gov.uk/government/people/anne-milton> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

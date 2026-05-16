@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/alyson-armett> .
+
+<https://www.gov.uk/government/people/alyson-armett> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Alyson has brought more than 20 years’ experience of working in both public and private sectors, managing high risk, complex programmes in highly regulated environments."@en ;
+    schema1:name "Alyson Armett"@en ;
+    schema1:url <https://www.gov.uk/government/people/alyson-armett> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    govuk:currentRoleTitle "Strategy and Business Planning Director"@en .
+

@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> govuk:hasMinister <https://www.gov.uk/government/people/stephen-tromans> .
+
+<https://www.gov.uk/government/people/stephen-tromans> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Stephen Tromans is a barrister practising at 39 Essex Chambers, London."@en ;
+    schema1:name "Stephen Tromans KC"@en ;
+    schema1:url <https://www.gov.uk/government/people/stephen-tromans> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
+    govuk:currentRoleTitle "Member, CoRWM"@en .
+

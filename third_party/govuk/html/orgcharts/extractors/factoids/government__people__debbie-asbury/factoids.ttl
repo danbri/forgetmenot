@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/building-digital-uk> govuk:hasMinister <https://www.gov.uk/government/people/debbie-asbury> .
+
+<https://www.gov.uk/government/people/debbie-asbury> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Debbie joined BDUK in April 2019 and is Director for Finance and HR. Her responsibilities include managing all of the resource and funding requirements for BDUK."@en ;
+    schema1:name "Debbie Asbury"@en ;
+    schema1:url <https://www.gov.uk/government/people/debbie-asbury> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/building-digital-uk> ;
+    govuk:currentRoleTitle "Director for Finance and Human Resources"@en .
+

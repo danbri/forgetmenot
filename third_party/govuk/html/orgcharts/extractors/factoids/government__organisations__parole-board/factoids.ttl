@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/parole-board> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parole Board"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/parole-board> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alexandra-marks-cbe>,
+        <https://www.gov.uk/government/people/martin-jones> .
+
+<https://www.gov.uk/government/people/alexandra-marks-cbe> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/687a2e383f4bde279ef45270/s465_Untitled_design.jpg> ;
+    schema1:name "Alexandra Marks CBE"@en .
+
+<https://www.gov.uk/government/people/martin-jones> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67600ec30fb02bbe4853ef59/s465_Cecilia_French.png> ;
+    schema1:name "Cecilia French"@en .
+

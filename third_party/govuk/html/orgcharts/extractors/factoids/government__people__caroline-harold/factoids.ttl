@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/bona-vacantia> govuk:hasMinister <https://www.gov.uk/government/people/caroline-harold> .
+
+<https://www.gov.uk/government/people/caroline-harold> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Caroline took up post as Head of Bona Vacantia Division on 28 November 2016."@en ;
+    schema1:name "Caroline Harold"@en ;
+    schema1:url <https://www.gov.uk/government/people/caroline-harold> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/bona-vacantia> ;
+    govuk:currentRoleTitle "Head of Bona Vacantia Division"@en .
+

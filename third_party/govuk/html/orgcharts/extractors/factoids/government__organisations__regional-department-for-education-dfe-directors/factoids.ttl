@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Regional Department for Education (DfE) Directors"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-wilson>,
+        <https://www.gov.uk/government/people/jonathan-duff>,
+        <https://www.gov.uk/government/people/kate-dethridge>,
+        <https://www.gov.uk/government/people/katherine-cowell>,
+        <https://www.gov.uk/government/people/lucy-livings>,
+        <https://www.gov.uk/government/people/nigel-minns>,
+        <https://www.gov.uk/government/people/sue-lovelock>,
+        <https://www.gov.uk/government/people/vanessa-ogden>,
+        <https://www.gov.uk/government/people/vicky-beer> .
+
+<https://www.gov.uk/government/people/alison-wilson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64197bf38fa8f547ce1ac496/s465_Alison_1_.jpg> ;
+    schema1:name "Alison Wilson"@en .
+
+<https://www.gov.uk/government/people/jonathan-duff> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/624719afe90e075f14254751/s465_jonathan_duff.jpg> ;
+    schema1:name "Jonathan Duff"@en .
+
+<https://www.gov.uk/government/people/kate-dethridge> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6107fe60e90e0703b33b2a88/s465_DKD.jpg> ;
+    schema1:name "Dame Kate Dethridge"@en .
+
+<https://www.gov.uk/government/people/katherine-cowell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61237553e90e07054d10bf3a/s465_KC.jpg> ;
+    schema1:name "Katherine Cowell"@en .
+
+<https://www.gov.uk/government/people/lucy-livings> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660fe1c59f92ac0011516d4e/s465_Lucy_Livings.jpg> ;
+    schema1:name "Lucy Livings"@en .
+
+<https://www.gov.uk/government/people/nigel-minns> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69b963fa635612b767a46645/s465_NIgel_Minns.jpg> ;
+    schema1:name "Nigel Minns"@en .
+
+<https://www.gov.uk/government/people/sue-lovelock> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5e5ce4f9d3bf7f06f438668a/s465_Sue_Lovelock_GOV.UK.jpg> ;
+    schema1:name "Sue Lovelock"@en .
+
+<https://www.gov.uk/government/people/vanessa-ogden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69e6508744a079b27f997fb9/s465_Dr_Vanessa_Ogden_960x640.jpg> ;
+    schema1:name "Dr Vanessa Ogden CBE"@en .
+
+<https://www.gov.uk/government/people/vicky-beer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5a4f6681e5274a6bf054e4f2/s465_Vicky_Beer.jpg> ;
+    schema1:name "Vicky Beer"@en .
+

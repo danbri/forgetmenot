@@ -1,0 +1,24 @@
+_:N5c4bef612ee04c158f631ce015bcd070 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N473ca40d97474e0da1c2616fe6a6b0b6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N9bf6fcebba76403bba5efc13158b20d0 <http://schema.org/name> "British Museum" .
+_:N473ca40d97474e0da1c2616fe6a6b0b6 <http://schema.org/item> <https://www.gov.uk/> .
+_:N473ca40d97474e0da1c2616fe6a6b0b6 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N9bf6fcebba76403bba5efc13158b20d0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nda11836aa9634476a6547ddaa37ced99 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N9bf6fcebba76403bba5efc13158b20d0 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/british-museum> .
+_:N9bf6fcebba76403bba5efc13158b20d0 <http://schema.org/description> "The British Museum (BM) was the first national public museum in the world. Its permanent collection, over 8 million works, is amongst the largest and most comprehensive in existence and originates from every continent, illustrating and documenting the story of human culture from its beginnings to the present. BM is an executive non-departmental public body, sponsored by the Department for Culture, Media and Sport ." .
+_:N9bf6fcebba76403bba5efc13158b20d0 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N1f640b130b9645599cbd3d2f29e18f0e <http://schema.org/query> "required" .
+_:N9bf6fcebba76403bba5efc13158b20d0 <http://schema.org/potentialAction> _:N1f640b130b9645599cbd3d2f29e18f0e .
+_:N9bf6fcebba76403bba5efc13158b20d0 <http://schema.org/parentOrganization> _:N5c4bef612ee04c158f631ce015bcd070 .
+_:Nf8d581986ba94775b8516c113015eb64 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N1f640b130b9645599cbd3d2f29e18f0e <http://schema.org/description> "Find all content from British Museum" .
+_:N1f640b130b9645599cbd3d2f29e18f0e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+<https://www.gov.uk/government/organisations/british-museum> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nf8d581986ba94775b8516c113015eb64 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nf8d581986ba94775b8516c113015eb64 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nda11836aa9634476a6547ddaa37ced99 <http://schema.org/itemListElement> _:N473ca40d97474e0da1c2616fe6a6b0b6 .
+_:N5c4bef612ee04c158f631ce015bcd070 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> .
+_:Nda11836aa9634476a6547ddaa37ced99 <http://schema.org/itemListElement> _:Nf8d581986ba94775b8516c113015eb64 .

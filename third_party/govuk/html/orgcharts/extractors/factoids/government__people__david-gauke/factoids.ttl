@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/david-gauke> .
+
+<https://www.gov.uk/government/people/david-gauke> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "David Gauke was Lord Chancellor and Secretary of State for Justice between 8 January 2018 and 24 July 2019. He was Secretary of State for Work and Pensions from June 2017 to January 2018. He was elected the Conservative MP for Hertfordshire South West in May 2005."@en ;
+    schema1:name "The Rt Hon David Gauke"@en ;
+    schema1:url <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> govuk:roleHolder <https://www.gov.uk/government/people/baroness-merron> .
+
+<https://www.gov.uk/government/organisations/department-of-health-and-social-care> govuk:hasMinister <https://www.gov.uk/government/people/baroness-merron> .
+
+<https://www.gov.uk/government/people/baroness-merron> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Baroness Merron was appointed Parliamentary Under-Secretary of State at the Department of Health and Social Care on 9 July 2024."@en ;
+    schema1:name "Baroness Merron"@en ;
+    schema1:url <https://www.gov.uk/government/people/baroness-merron> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    govuk:currentRoleTitle "Parliamentary Under-Secretary of State for Women's Health and Mental Health"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> .
+

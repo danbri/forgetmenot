@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-moraes> .
+
+<https://www.gov.uk/government/people/lord-moraes> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Lord Moraes OBE was Lord in Waiting (Government Whip) from 10 February 2025 to 22 July 2025."@en ;
+    schema1:name "Lord Moraes OBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/lord-moraes> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

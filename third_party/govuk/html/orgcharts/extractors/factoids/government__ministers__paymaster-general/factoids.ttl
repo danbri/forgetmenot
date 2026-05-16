@@ -1,0 +1,125 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/paymaster-general> .
+
+<https://www.gov.uk/government/people/nick-thomas-symonds> schema1:name "The Rt Hon Nick Thomas–Symonds MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/paymaster-general> .
+
+<https://www.gov.uk/government/people/ben-gummer> schema1:name "The Rt Hon Ben Gummer"@en .
+
+<https://www.gov.uk/government/people/chris-philp-mp> schema1:name "The Rt Hon Chris Philp MP"@en .
+
+<https://www.gov.uk/government/people/dowden> schema1:name "The Rt Hon Oliver Dowden CBE MP"@en .
+
+<https://www.gov.uk/government/people/edward-argar> schema1:name "The Rt Hon Edward Argar MP"@en .
+
+<https://www.gov.uk/government/people/francis-maude> schema1:name "The Rt Hon Lord Maude of Horsham"@en .
+
+<https://www.gov.uk/government/people/jeremy-quin> schema1:name "The Rt Hon Jeremy Quin"@en .
+
+<https://www.gov.uk/government/people/jesse-norman> schema1:name "The Rt Hon Jesse Norman MP"@en .
+
+<https://www.gov.uk/government/people/john-glen> schema1:name "The Rt Hon John Glen MP"@en .
+
+<https://www.gov.uk/government/people/matthew-hancock> schema1:name "The Rt Hon Matt Hancock"@en .
+
+<https://www.gov.uk/government/people/mel-stride> schema1:name "The Rt Hon Mel Stride MP"@en .
+
+<https://www.gov.uk/government/people/michael-ellis> schema1:name "The Rt Hon Michael Ellis KC"@en .
+
+<https://www.gov.uk/government/people/penny-mordaunt> schema1:name "The Rt Hon Penny Mordaunt"@en .
+
+<https://www.gov.uk/government/ministers/paymaster-general> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Paymaster General"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/ben-gummer>,
+        <https://www.gov.uk/government/people/chris-philp-mp>,
+        <https://www.gov.uk/government/people/dowden>,
+        <https://www.gov.uk/government/people/edward-argar>,
+        <https://www.gov.uk/government/people/francis-maude>,
+        <https://www.gov.uk/government/people/jeremy-quin>,
+        <https://www.gov.uk/government/people/jesse-norman>,
+        <https://www.gov.uk/government/people/john-glen>,
+        <https://www.gov.uk/government/people/matthew-hancock>,
+        <https://www.gov.uk/government/people/mel-stride>,
+        <https://www.gov.uk/government/people/michael-ellis>,
+        <https://www.gov.uk/government/people/penny-mordaunt> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/nick-thomas-symonds> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/penny-mordaunt> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-quin> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/chris-philp-mp> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/dowden> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/francis-maude> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2015"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/ben-gummer> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2017"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/edward-argar> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/john-glen> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2015"^^xsd:gYear .
+

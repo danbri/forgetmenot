@@ -1,0 +1,14 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/tim-campbell> .
+
+<https://www.gov.uk/government/people/tim-campbell> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Tim Campbell, who was awarded the MBE for Enterprise Culture in the 2012 New Year’s Honours List, is the founder of his own entrepreneurial social enterprise, Bright Ideas Trust, small business owner and co-author of one of Amazon’s Top 10 business books for 2010, ‘What’s Your Bright Idea?’."@en ;
+    schema1:name "Tim Campbell MBE"@en ;
+    schema1:url <https://www.gov.uk/government/people/tim-campbell> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    govuk:currentRoleTitle "Member, Windrush Commemoration Committee"@en .
+

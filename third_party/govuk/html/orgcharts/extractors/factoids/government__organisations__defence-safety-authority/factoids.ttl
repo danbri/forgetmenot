@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/defence-safety-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Defence Safety Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/defence-safety-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alan-gillespie>,
+        <https://www.gov.uk/government/people/mark-hunt> .
+
+<https://www.gov.uk/government/people/alan-gillespie> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61d551e0d3bf7f1f76d00b7c/s465_Alan_Gillespie_960x640.jpg> ;
+    schema1:name "Air Marshal Alan Gillespie CBE MA BSc RAF"@en .
+
+<https://www.gov.uk/government/people/mark-hunt> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/678f433fea48a571517acfcc/s465_Mark_Hunt_960x640.jpg> ;
+    schema1:name "Air Vice-Marshal Mark Hunt OBE BEng(Hons) MSc MA MBA FCMI CEng FRAeS FIMechE RAF"@en .
+

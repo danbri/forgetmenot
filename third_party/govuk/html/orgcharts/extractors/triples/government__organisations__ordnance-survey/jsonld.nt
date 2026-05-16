@@ -1,0 +1,24 @@
+_:N9e72821f675b487489806a082221b5ea <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> .
+_:N2a2f54f9bf694c1f8c4cf8240b461989 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N9e72821f675b487489806a082221b5ea <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N1fc6fecd280848d6a90e855816b52c08 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nca4ec3458a884510b524b7e34538cdb7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N2a2f54f9bf694c1f8c4cf8240b461989 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nca4ec3458a884510b524b7e34538cdb7 <http://schema.org/itemListElement> _:N2a2f54f9bf694c1f8c4cf8240b461989 .
+_:Nca4ec3458a884510b524b7e34538cdb7 <http://schema.org/itemListElement> _:N1fc6fecd280848d6a90e855816b52c08 .
+_:N1fc6fecd280848d6a90e855816b52c08 <http://schema.org/item> <https://www.gov.uk/> .
+_:N2a2f54f9bf694c1f8c4cf8240b461989 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N405ce0febf2d40679ab16ac639a8d5b1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N48efea7379344fbf9c0c3e210abe05b6 <http://schema.org/name> "Ordnance Survey" .
+_:N48efea7379344fbf9c0c3e210abe05b6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N48efea7379344fbf9c0c3e210abe05b6 <http://schema.org/potentialAction> _:N405ce0febf2d40679ab16ac639a8d5b1 .
+_:N405ce0febf2d40679ab16ac639a8d5b1 <http://schema.org/description> "Find all content from Ordnance Survey" .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N48efea7379344fbf9c0c3e210abe05b6 <http://schema.org/description> "Ordnance Survey (OS) is Great Britain’s national mapping agency. It carries out the official surveying of GB, providing the most accurate and up-to-date geographic data, relied on by government, business and individuals. OS is a public corporation of the Department for Science, Innovation and Technology ." .
+_:N48efea7379344fbf9c0c3e210abe05b6 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N1fc6fecd280848d6a90e855816b52c08 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N48efea7379344fbf9c0c3e210abe05b6 <http://schema.org/parentOrganization> _:N9e72821f675b487489806a082221b5ea .
+_:N405ce0febf2d40679ab16ac639a8d5b1 <http://schema.org/query> "required" .
+_:N48efea7379344fbf9c0c3e210abe05b6 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/ordnance-survey> .
+<https://www.gov.uk/government/organisations/ordnance-survey> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .

@@ -1,0 +1,24 @@
+_:Nc82a696e49e04bdcb48b0cc7fb894071 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N9faf02119a42450abe46fae9b601a164 <http://schema.org/description> "The Financial Conduct Authority (FCA) regulates the financial services industry in the UK. Its role includes protecting consumers, keeping the industry stable, and promoting healthy competition between financial service providers. FCA works with HM Treasury ." .
+_:N09eab59c87c349d495174db111fb4cf3 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N84da46644866409088f14a5e53be4bd7 <http://schema.org/itemListElement> _:Nbbf353c7a944440499c83765d78dec8c .
+_:Nf6b7146ca226494e9beb701a0a1f013c <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/hm-treasury> .
+_:N84da46644866409088f14a5e53be4bd7 <http://schema.org/itemListElement> _:Nc82a696e49e04bdcb48b0cc7fb894071 .
+_:N9faf02119a42450abe46fae9b601a164 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N9faf02119a42450abe46fae9b601a164 <http://schema.org/parentOrganization> _:Nf6b7146ca226494e9beb701a0a1f013c .
+_:N9faf02119a42450abe46fae9b601a164 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nbbf353c7a944440499c83765d78dec8c <http://schema.org/item> <https://www.gov.uk/> .
+_:Nbbf353c7a944440499c83765d78dec8c <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nc82a696e49e04bdcb48b0cc7fb894071 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N9faf02119a42450abe46fae9b601a164 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/financial-conduct-authority> .
+_:N84da46644866409088f14a5e53be4bd7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+<https://www.gov.uk/government/organisations/financial-conduct-authority> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N9faf02119a42450abe46fae9b601a164 <http://schema.org/potentialAction> _:N09eab59c87c349d495174db111fb4cf3 .
+_:Nbbf353c7a944440499c83765d78dec8c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N9faf02119a42450abe46fae9b601a164 <http://schema.org/name> "Financial Conduct Authority" .
+_:N09eab59c87c349d495174db111fb4cf3 <http://schema.org/description> "Find all content from Financial Conduct Authority" .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nc82a696e49e04bdcb48b0cc7fb894071 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N09eab59c87c349d495174db111fb4cf3 <http://schema.org/query> "required" .
+_:Nf6b7146ca226494e9beb701a0a1f013c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .

@@ -1,0 +1,17 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/attorney-general> govuk:roleHolder <https://www.gov.uk/government/people/richard-hermer> .
+
+<https://www.gov.uk/government/organisations/attorney-generals-office> govuk:hasMinister <https://www.gov.uk/government/people/richard-hermer> .
+
+<https://www.gov.uk/government/people/richard-hermer> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Richard Hermer was appointed Attorney General on 5 July 2024."@en ;
+    schema1:name "The Rt Hon Lord Hermer KC"@en ;
+    schema1:url <https://www.gov.uk/government/people/richard-hermer> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/attorney-generals-office> ;
+    govuk:currentRoleTitle "Attorney General"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/attorney-general> .
+

@@ -1,0 +1,23 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/people/shaun-davies> schema1:name "Shaun Davies MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--14> .
+
+<https://www.gov.uk/government/people/deirdre-costigan> schema1:name "Deirdre Costigan MP"@en .
+
+<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--14> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Assistant Whip, House of Commons"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--14> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/deirdre-costigan> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/shaun-davies> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/deirdre-costigan> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--14> ;
+    govuk:tenureEnd "2026"^^xsd:gYear ;
+    govuk:tenureStart "2025"^^xsd:gYear .
+

@@ -1,0 +1,65 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/people/alasdair-macdonald> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66c89dcf837cc2c203913571/s465_Untitled_design__4_.png> ;
+    schema1:name "Alasdair Macdonald"@en .
+
+<https://www.gov.uk/government/people/alison-evans> a schema1:Person ;
+    schema1:name "Alison Evans"@en .
+
+<https://www.gov.uk/government/people/anna-macmillan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6824c4afab96d4ed0b262f4b/s465_Untitled_design__15_.jpg> ;
+    schema1:name "Anna Macmillan"@en .
+
+<https://www.gov.uk/government/people/clark-dunn> a schema1:Person ;
+    schema1:name "Clark Dunn"@en .
+
+<https://www.gov.uk/government/people/fiona-mettam> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68b851cccc8356c3c882aa24/s465_GOV.UK_resize__13_.png> ;
+    schema1:name "Fiona Mettam"@en .
+
+<https://www.gov.uk/government/people/laura-crawforth> a schema1:Person ;
+    schema1:name "Laura Crawforth"@en .
+
+<https://www.gov.uk/government/people/rachel-irvine> a schema1:Person ;
+    schema1:name "Louise Nicholls"@en .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--273> a govuk:MinisterialRole ;
+    schema1:name "Parliamentary Under-Secretary of State"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/scotland-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/kirsty-mcneill> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> a govuk:MinisterialRole ;
+    schema1:name "Secretary of State for Scotland"@en ;
+    govuk:partOf <https://www.gov.uk/government/organisations/scotland-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/douglas-alexander> .
+
+<https://www.gov.uk/government/people/douglas-alexander> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668aa451d9d35187868f4586/s465_070724_Minister_Alexander_arrival_photos-8-960.jpg> ;
+    schema1:name "The Rt Hon Douglas Alexander MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> .
+
+<https://www.gov.uk/government/people/kirsty-mcneill> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668eae82a3c2a28abb50cd62/s465_Untitled_design__1_.png> ;
+    schema1:name "Kirsty McNeill MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--273> .
+
+<https://www.gov.uk/government/organisations/scotland-office> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Scotland Office"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/scotland-office> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alasdair-macdonald>,
+        <https://www.gov.uk/government/people/alison-evans>,
+        <https://www.gov.uk/government/people/anna-macmillan>,
+        <https://www.gov.uk/government/people/clark-dunn>,
+        <https://www.gov.uk/government/people/fiona-mettam>,
+        <https://www.gov.uk/government/people/laura-crawforth>,
+        <https://www.gov.uk/government/people/rachel-irvine> ;
+    govuk:hasMinister <https://www.gov.uk/government/people/douglas-alexander>,
+        <https://www.gov.uk/government/people/kirsty-mcneill> ;
+    govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--273>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> .
+

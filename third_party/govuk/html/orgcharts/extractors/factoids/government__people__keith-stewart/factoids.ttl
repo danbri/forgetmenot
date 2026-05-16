@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/keith-stewart> .
+
+<https://www.gov.uk/government/people/keith-stewart> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Keith Stewart KC was Advocate General for Scotland from October 2020 to July 2024."@en ;
+    schema1:name "Lord Stewart of Dirleton KC"@en ;
+    schema1:url <https://www.gov.uk/government/people/keith-stewart> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

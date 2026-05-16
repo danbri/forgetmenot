@@ -1,0 +1,24 @@
+_:Nb8470cf4604b42d9845414bff2a109e6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N4422ea6d38cd40fabce9d3a56a3a5caf <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/cabinet-office> .
+_:Nbaf62d4af9c64593b365f56c3bb71e4f <http://schema.org/description> "10 Downing Street is the official residence and the office of the British Prime Minister. The office helps the Prime Minister to establish and deliver the government’s overall strategy and policy priorities, and to communicate the government’s policies to Parliament, the public and international audiences." .
+_:N0bab99a988e34f23a71569909e92810c <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N637fd595965c4de0abe52594724bc0e8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nbaf62d4af9c64593b365f56c3bb71e4f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nbaf62d4af9c64593b365f56c3bb71e4f <http://schema.org/name> "Prime Minister's Office, 10 Downing Street" .
+_:N0bab99a988e34f23a71569909e92810c <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N0bab99a988e34f23a71569909e92810c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N637fd595965c4de0abe52594724bc0e8 <http://schema.org/itemListElement> _:Nb3c3ed824dc44f3a917177cbf305ff8a .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nb8470cf4604b42d9845414bff2a109e6 <http://schema.org/query> "required" .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N637fd595965c4de0abe52594724bc0e8 <http://schema.org/itemListElement> _:N0bab99a988e34f23a71569909e92810c .
+_:Nbaf62d4af9c64593b365f56c3bb71e4f <http://schema.org/potentialAction> _:Nb8470cf4604b42d9845414bff2a109e6 .
+_:Nbaf62d4af9c64593b365f56c3bb71e4f <http://schema.org/parentOrganization> _:N4422ea6d38cd40fabce9d3a56a3a5caf .
+_:Nbaf62d4af9c64593b365f56c3bb71e4f <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> .
+_:Nbaf62d4af9c64593b365f56c3bb71e4f <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nb8470cf4604b42d9845414bff2a109e6 <http://schema.org/description> "Find all content from Prime Minister's Office, 10 Downing Street" .
+_:N4422ea6d38cd40fabce9d3a56a3a5caf <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nb3c3ed824dc44f3a917177cbf305ff8a <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nb3c3ed824dc44f3a917177cbf305ff8a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nb3c3ed824dc44f3a917177cbf305ff8a <http://schema.org/item> <https://www.gov.uk/> .

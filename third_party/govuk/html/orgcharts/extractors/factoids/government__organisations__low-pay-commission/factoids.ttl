@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/low-pay-commission> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Low Pay Commission"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/low-pay-commission> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-goodacre>,
+        <https://www.gov.uk/government/people/janet-williamson>,
+        <https://www.gov.uk/government/people/jonathan-wadsworth>,
+        <https://www.gov.uk/government/people/louise-fisher>,
+        <https://www.gov.uk/government/people/matthew-fell>,
+        <https://www.gov.uk/government/people/nigel-cotgrove>,
+        <https://www.gov.uk/government/people/patricia-rice>,
+        <https://www.gov.uk/government/people/philippa-stroud>,
+        <https://www.gov.uk/government/people/simon-sapper> .
+
+<https://www.gov.uk/government/people/andrew-goodacre> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ed3ae453fa8521c3248be3/s465_Andrew_cropped.jpg> ;
+    schema1:name "Andrew Goodacre"@en .
+
+<https://www.gov.uk/government/people/janet-williamson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ed399298b3bac1ec299bb0/s465_Janet_Williamson_cropped.jpg> ;
+    schema1:name "Janet Williamson"@en .
+
+<https://www.gov.uk/government/people/jonathan-wadsworth> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61faf0a2e90e07689e1f3f26/s465_Photo_-_Jonathan_Wadsworth.jpg> ;
+    schema1:name "Professor Jonathan Wadsworth"@en .
+
+<https://www.gov.uk/government/people/louise-fisher> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/620fb1ec8fa8f5490cf511ef/s465_Photo_-_Louise.jpg> ;
+    schema1:name "Louise Fisher"@en .
+
+<https://www.gov.uk/government/people/matthew-fell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/615ae9118fa8f52986e61bce/s465_Photo_-_Matthew_Fell.jpg> ;
+    schema1:name "Matthew Fell"@en .
+
+<https://www.gov.uk/government/people/nigel-cotgrove> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ed3a3c632d0f88e8248be7/s465_Nigel_cropped.jpg> ;
+    schema1:name "Nigel Cotgrove"@en .
+
+<https://www.gov.uk/government/people/patricia-rice> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/611cf587e90e070547b65f3d/s465_Patricia_Rice_Photo.jpg> ;
+    schema1:name "Dr Patricia Rice"@en .
+
+<https://www.gov.uk/government/people/philippa-stroud> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65ca8a3ea7ded0000e79e4d6/s465_Photo_Philippa_Stroud.jpg> ;
+    schema1:name "Baroness Philippa Stroud"@en .
+
+<https://www.gov.uk/government/people/simon-sapper> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67f58947e3c60873d6c90d74/s465_Simon___Photo....jpg> ;
+    schema1:name "Simon Sapper"@en .
+

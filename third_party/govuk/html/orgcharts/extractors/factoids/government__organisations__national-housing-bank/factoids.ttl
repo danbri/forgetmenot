@@ -1,0 +1,45 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/national-housing-bank> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "National Housing Bank"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/national-housing-bank> ;
+    govuk:hasManager <https://www.gov.uk/government/people/amy-rees>,
+        <https://www.gov.uk/government/people/chris-taylor>,
+        <https://www.gov.uk/government/people/james-coppin>,
+        <https://www.gov.uk/government/people/peter-vernon>,
+        <https://www.gov.uk/government/people/ros-kerslake>,
+        <https://www.gov.uk/government/people/simon-century>,
+        <https://www.gov.uk/government/people/simon-pistell> .
+
+<https://www.gov.uk/government/people/amy-rees> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ce7621826d774e7b263dd7/s465_Amy.jpg> ;
+    schema1:name "Amy Rees CB"@en .
+
+<https://www.gov.uk/government/people/chris-taylor> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ce74f540178298997eefd4/s465_Chris_Taylor.jpg> ;
+    schema1:name "Chris Taylor"@en .
+
+<https://www.gov.uk/government/people/james-coppin> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ce7520826d774e7b263dd2/s465_James_Coppin_OBE.jpg> ;
+    schema1:name "James Coppin"@en .
+
+<https://www.gov.uk/government/people/peter-vernon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ce7643d6a236570a263de2/s465_Peter_Vernon.jpg> ;
+    schema1:name "Peter Vernon"@en .
+
+<https://www.gov.uk/government/people/ros-kerslake> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ce72d6b168efedf97eefb9/s465_Ros_Kerslake_CBE.jpg> ;
+    schema1:name "Ros Kerslake CBE"@en .
+
+<https://www.gov.uk/government/people/simon-century> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69aed9f8917847c0a4c899e4/s465_Simon_Century_GOVUK.jpg> ;
+    schema1:name "Simon Century"@en .
+
+<https://www.gov.uk/government/people/simon-pistell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69ca42022c5db1b1db67e8d2/s465_Simon_Pistell.jpg> ;
+    schema1:name "Simon Pistell"@en .
+

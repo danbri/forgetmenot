@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/alister-jack> .
+
+<https://www.gov.uk/government/people/alister-jack> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Alister Jack was Secretary of State for Scotland between 24 July 2019 and 5 July 2024. He was previously Lord Commissioner of HM Treasury and a Government Whip."@en ;
+    schema1:name "The Rt Hon Alister Jack"@en ;
+    schema1:url <https://www.gov.uk/government/people/alister-jack> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

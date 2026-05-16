@@ -1,0 +1,45 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Defence Science and Technology Laboratory"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory> ;
+    govuk:hasManager <https://www.gov.uk/government/people/adrian-belton>,
+        <https://www.gov.uk/government/people/andy-bell>,
+        <https://www.gov.uk/government/people/paul-hollinshead>,
+        <https://www.gov.uk/government/people/rob-cocks>,
+        <https://www.gov.uk/government/people/simon-donnan>,
+        <https://www.gov.uk/government/people/teresa-stanley>,
+        <https://www.gov.uk/government/people/tim-sheldon> .
+
+<https://www.gov.uk/government/people/adrian-belton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5fe0cdd28fa8f56afb2296c4/s465_Adrian_Belton_resized.jpg> ;
+    schema1:name "Adrian Belton"@en .
+
+<https://www.gov.uk/government/people/andy-bell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5c348ea540f0b6446eee6b01/s465_Andy_Bell_gov_uk.jpg> ;
+    schema1:name "Prof Andy Bell"@en .
+
+<https://www.gov.uk/government/people/paul-hollinshead> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/620a23dbd3bf7f4f02760709/s465_Dr_Paul_Hollinshead_Dstl_960x640.png> ;
+    schema1:name "Dr Paul Hollinshead MBA OBE"@en .
+
+<https://www.gov.uk/government/people/rob-cocks> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67aa274831fb10faa31484b0/s465_Dstl_Rob_Cocks-960x640.jpg> ;
+    schema1:name "Rob Cocks"@en .
+
+<https://www.gov.uk/government/people/simon-donnan> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/674459e24a89e48361cb353a/s465_DSC_5685.jpg> ;
+    schema1:name "Simon Donnan"@en .
+
+<https://www.gov.uk/government/people/teresa-stanley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66269c631cbbb3400ba7e605/s465_DSTL-O-Teresa_Stanley-05072023-D2336-078-1_gov_uk.jpg> ;
+    schema1:name "Teresa Stanley"@en .
+
+<https://www.gov.uk/government/people/tim-sheldon> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6671714363178530b7692cb1/s465_Dstl-O-TimSheldon-07.05.24-6615_gov_uk.jpg> ;
+    schema1:name "Dr Tim Sheldon"@en .
+

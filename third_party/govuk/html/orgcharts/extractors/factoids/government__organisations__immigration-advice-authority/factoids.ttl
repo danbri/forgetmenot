@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/immigration-advice-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Immigration Advice Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/immigration-advice-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/gaon-hart>,
+        <https://www.gov.uk/government/people/heather-laing> .
+
+<https://www.gov.uk/government/people/gaon-hart> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/695d3000b5c46330350ed9d0/s465_GH_960x640.png> ;
+    schema1:name "Gaon Hart"@en .
+
+<https://www.gov.uk/government/people/heather-laing> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68f9fbc035dbb2bcedb5f908/s465_HL_website_bio_image.png> ;
+    schema1:name "Heather Laing"@en .
+

@@ -1,0 +1,39 @@
+_:N56f8cf435e9844e3a447eba73a317dd0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> <https://forgetmenot.local/extractor/jsonld> .
+_:N4f6f74d90d28423a962a99b64c9ad588 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> <https://forgetmenot.local/extractor/jsonld> .
+_:N4b089bebec2847ba99d4465f90b24cf5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> <https://forgetmenot.local/extractor/jsonld> .
+_:N30310a15d348431fb2f462064156ab9a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> <https://forgetmenot.local/extractor/jsonld> .
+_:N30310a15d348431fb2f462064156ab9a <http://schema.org/item> <https://www.gov.uk/> <https://forgetmenot.local/extractor/jsonld> .
+_:N170bf60cb5d94a29b766f20de7ea01d7 <http://schema.org/parentOrganization> _:N4b089bebec2847ba99d4465f90b24cf5 <https://forgetmenot.local/extractor/jsonld> .
+_:N4b089bebec2847ba99d4465f90b24cf5 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> <https://forgetmenot.local/extractor/jsonld> .
+_:N170bf60cb5d94a29b766f20de7ea01d7 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> <https://forgetmenot.local/extractor/jsonld> .
+_:N170bf60cb5d94a29b766f20de7ea01d7 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> <https://forgetmenot.local/extractor/jsonld> .
+_:N170bf60cb5d94a29b766f20de7ea01d7 <http://schema.org/potentialAction> _:N4f6f74d90d28423a962a99b64c9ad588 <https://forgetmenot.local/extractor/jsonld> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" <https://forgetmenot.local/extractor/jsonld> .
+_:N56f8cf435e9844e3a447eba73a317dd0 <http://schema.org/itemListElement> _:N30310a15d348431fb2f462064156ab9a <https://forgetmenot.local/extractor/jsonld> .
+_:N56f8cf435e9844e3a447eba73a317dd0 <http://schema.org/itemListElement> _:Naf837ae40f2548579ef2499e36d7ca2c <https://forgetmenot.local/extractor/jsonld> .
+_:Naf837ae40f2548579ef2499e36d7ca2c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> <https://forgetmenot.local/extractor/jsonld> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" <https://forgetmenot.local/extractor/jsonld> .
+_:N170bf60cb5d94a29b766f20de7ea01d7 <http://schema.org/name> "South Downs National Park Authority" <https://forgetmenot.local/extractor/jsonld> .
+_:N4f6f74d90d28423a962a99b64c9ad588 <http://schema.org/description> "Find all content from South Downs National Park Authority" <https://forgetmenot.local/extractor/jsonld> .
+_:N4f6f74d90d28423a962a99b64c9ad588 <http://schema.org/query> "required" <https://forgetmenot.local/extractor/jsonld> .
+_:Naf837ae40f2548579ef2499e36d7ca2c <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> <https://forgetmenot.local/extractor/jsonld> .
+_:N170bf60cb5d94a29b766f20de7ea01d7 <http://schema.org/description> "The South Downs National Park (SDNP) authority conserves and enhances the natural beauty, wildlife and cultural heritage of the South Downs and promotes opportunities for the understanding and enjoyment of the area by the public. SDNP works with the Department for Environment, Food & Rural Affairs ." <https://forgetmenot.local/extractor/jsonld> .
+_:N170bf60cb5d94a29b766f20de7ea01d7 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/south-downs-national-park-authority> <https://forgetmenot.local/extractor/jsonld> .
+_:Naf837ae40f2548579ef2499e36d7ca2c <http://schema.org/item> <https://www.gov.uk/government/organisations> <https://forgetmenot.local/extractor/jsonld> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> <https://forgetmenot.local/extractor/jsonld> .
+_:N30310a15d348431fb2f462064156ab9a <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <https://forgetmenot.local/extractor/jsonld> .
+_:N96b06624ed924b9b890a1fad780e77d4 <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#alert> <https://forgetmenot.local/extractor/rdfa> .
+_:N80c7716f73844c86a7a454ee15a8f49c <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#presentation> <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority#search> <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#search> <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority> <http://ogp.me/ns#image> "https://www.gov.uk/assets/collections/govuk-opengraph-image-4196a4d6333cf92aaf720047f56cfd91b3532d7635fc21ebcf0d5897df6b5f77.png"@en <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority> <http://ogp.me/ns#type> "article"@en <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority> <http://ogp.me/ns#site_name> "GOV.UK"@en <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority#global-cookie-message> <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#region> <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority> <http://ogp.me/ns#title> "South Downs National Park Authority"@en <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority> <http://ogp.me/ns#description> "The South Downs National Park (SDNP) authority conserves and enhances the natural beauty, wildlife and cultural heritage of the South Downs and promotes opportunities for the understanding and enjoyment of the area by the public. SDNP works with the Department for Environment, Food & Rural Affairs ."@en <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority> <http://ogp.me/ns#url> "https://www.gov.uk/government/organisations/south-downs-national-park-authority"@en <https://forgetmenot.local/extractor/rdfa> .
+_:N567a0ec9c4d24d939cfb6730ab534690 <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#img> <https://forgetmenot.local/extractor/rdfa> .
+_:N4908ffbb1aeb4c92ba973b96a32ee411 <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#button> <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/south-downs-national-park-authority> <http://www.w3.org/1999/xhtml/vocab#license> <https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/> <https://forgetmenot.local/extractor/rdfa> .
+_:Ndd48baee53ce4cb7a5cd6098d3ba6f2f <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#region> <https://forgetmenot.local/extractor/rdfa> .
+

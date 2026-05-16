@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-office-for-technology-transfer> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Office for Technology Transfer"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-office-for-technology-transfer> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-campbell> .
+
+<https://www.gov.uk/government/people/alison-campbell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/633c47048fa8f5643321b553/s465_Alison_960_640.png> ;
+    schema1:name "Dr Alison Campbell OBE"@en .
+

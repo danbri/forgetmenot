@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/ministers/minister-for-the-constitution-and-european-union-relations> govuk:roleHolder <https://www.gov.uk/government/people/nick-thomas-symonds> .
+
+<https://www.gov.uk/government/ministers/paymaster-general> govuk:roleHolder <https://www.gov.uk/government/people/nick-thomas-symonds> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/nick-thomas-symonds> .
+
+<https://www.gov.uk/government/people/nick-thomas-symonds> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Nick Thomas–Symonds was appointed Paymaster General and Minister for the Cabinet Office (Minister for the Constitution and European Union Relations) at the Cabinet Office on 8 July 2024."@en ;
+    schema1:name "The Rt Hon Nick Thomas–Symonds MP"@en ;
+    schema1:url <https://www.gov.uk/government/people/nick-thomas-symonds> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:currentRoleTitle "Paymaster General and Minister for the Cabinet Office (Minister for the Constitution and European Union Relations)"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-the-constitution-and-european-union-relations>,
+        <https://www.gov.uk/government/ministers/paymaster-general> .
+

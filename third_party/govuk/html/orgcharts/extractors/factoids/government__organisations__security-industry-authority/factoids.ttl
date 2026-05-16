@@ -1,0 +1,75 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/security-industry-authority> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Security Industry Authority"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/security-industry-authority> ;
+    govuk:hasManager <https://www.gov.uk/government/people/caroline-corby>,
+        <https://www.gov.uk/government/people/debbie-bartlett>,
+        <https://www.gov.uk/government/people/duncan-worsell>,
+        <https://www.gov.uk/government/people/hannah-wadey>,
+        <https://www.gov.uk/government/people/laura-gibb>,
+        <https://www.gov.uk/government/people/michelle-russell>,
+        <https://www.gov.uk/government/people/mike-cunningham>,
+        <https://www.gov.uk/government/people/paul-glibbery>,
+        <https://www.gov.uk/government/people/pete-easterbrook>,
+        <https://www.gov.uk/government/people/philip-urquhart>,
+        <https://www.gov.uk/government/people/sarah-pumfrett>,
+        <https://www.gov.uk/government/people/stephen-grainger>,
+        <https://www.gov.uk/government/people/tim-archer> .
+
+<https://www.gov.uk/government/people/caroline-corby> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/687a313d3f4bde279ef45279/s465_CC_photo.png> ;
+    schema1:name "Caroline Corby"@en .
+
+<https://www.gov.uk/government/people/debbie-bartlett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6821c791db6463b14cd818ba/s465_debbie-bartlett.jpg> ;
+    schema1:name "Debbie Bartlett OBE"@en .
+
+<https://www.gov.uk/government/people/duncan-worsell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/663b451f74933dccbbb6c394/s465_DuncanWorsell.jpg> ;
+    schema1:name "Duncan Worsell MBE"@en .
+
+<https://www.gov.uk/government/people/hannah-wadey> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6821f4c0ced319d02c906104/s465_hannah-wadey.jpg> ;
+    schema1:name "Hannah Wadey"@en .
+
+<https://www.gov.uk/government/people/laura-gibb> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6980bbbb3915f71236580115/s465_laura-gibb.jpg> ;
+    schema1:name "Laura Gibb"@en .
+
+<https://www.gov.uk/government/people/michelle-russell> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6863ac2fb77395b48b609d7f/s465_michelle-russel.jpg> ;
+    schema1:name "Michelle Russell"@en .
+
+<https://www.gov.uk/government/people/mike-cunningham> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69a552b401cc32678a5bd76a/s465_mike-cunningham.jpg> ;
+    schema1:name "Mike Cunningham CBE QPM"@en .
+
+<https://www.gov.uk/government/people/paul-glibbery> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/663b45cb1c82a7597d4f3274/s465_PaulGlibbery.jpg> ;
+    schema1:name "Paul Glibbery"@en .
+
+<https://www.gov.uk/government/people/pete-easterbrook> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6821cd26d9c9bb76078f7f09/s465_pete-easterbrook.jpg> ;
+    schema1:name "Pete Easterbrook"@en .
+
+<https://www.gov.uk/government/people/philip-urquhart> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67920cd8033e83af5f45b471/s465_philip-urquhart.jpg> ;
+    schema1:name "Philip Urquhart"@en .
+
+<https://www.gov.uk/government/people/sarah-pumfrett> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/691359ec8c90b927c818adeb/s465_sarah-pumfrett.jpg> ;
+    schema1:name "Sarah Pumfrett"@en .
+
+<https://www.gov.uk/government/people/stephen-grainger> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6821ed37d9c9bb76078f7f2c/s465_stephen-grainger.jpg> ;
+    schema1:name "Stephen Grainger"@en .
+
+<https://www.gov.uk/government/people/tim-archer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66703979891714c0d01401d8/s465_tim-archer.jpg> ;
+    schema1:name "Tim Archer"@en .
+

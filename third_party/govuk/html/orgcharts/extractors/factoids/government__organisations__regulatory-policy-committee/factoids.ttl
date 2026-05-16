@@ -1,0 +1,50 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/regulatory-policy-committee> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Regulatory Policy Committee"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/regulatory-policy-committee> ;
+    govuk:hasManager <https://www.gov.uk/government/people/allan-little>,
+        <https://www.gov.uk/government/people/caroline-elliott>,
+        <https://www.gov.uk/government/people/caroline-turnbull-hall>,
+        <https://www.gov.uk/government/people/frances-warburton>,
+        <https://www.gov.uk/government/people/hilary-jennings>,
+        <https://www.gov.uk/government/people/john-davies>,
+        <https://www.gov.uk/government/people/ryan-williams>,
+        <https://www.gov.uk/government/people/stephen-gibson> .
+
+<https://www.gov.uk/government/people/allan-little> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ed27019eae202448299bab/s465_Allan_Little_small.jpg> ;
+    schema1:name "Dr Allan Little"@en .
+
+<https://www.gov.uk/government/people/caroline-elliott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65fc0d9165ca2f001b7da72e/s465_Elliott_pic.jpg> ;
+    schema1:name "Professor Caroline Elliott"@en .
+
+<https://www.gov.uk/government/people/caroline-turnbull-hall> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ef9c1f632d0f88e8248d25/s465_New.jpg> ;
+    schema1:name "Caroline Turnbull-Hall"@en .
+
+<https://www.gov.uk/government/people/frances-warburton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ed2a0c632d0f88e8248bcc/s465_Frances_Warburton.jpg> ;
+    schema1:name "Frances Warburton"@en .
+
+<https://www.gov.uk/government/people/hilary-jennings> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/61fbfd2ee90e0768a4477f64/s465_Jennings_pic.jpg> ;
+    schema1:name "Hilary Jennings"@en .
+
+<https://www.gov.uk/government/people/john-davies> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67ed26859eae202448299baa/s465_John_Davies.jpg> ;
+    schema1:name "John Davies"@en .
+
+<https://www.gov.uk/government/people/ryan-williams> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65fc0e1f65ca2f001b7da730/s465_Williams_pic.jpg> ;
+    schema1:name "Dr Ryan Williams"@en .
+
+<https://www.gov.uk/government/people/stephen-gibson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62023b13d3bf7f78ddff959c/s465_Gibson_pic.jpg> ;
+    schema1:name "Stephen Gibson"@en .
+

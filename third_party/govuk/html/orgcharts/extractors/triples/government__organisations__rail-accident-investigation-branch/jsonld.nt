@@ -1,0 +1,24 @@
+_:N9139823f027c48589b38b1ce394503c9 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N9139823f027c48589b38b1ce394503c9 <http://schema.org/description> "Find all content from Rail Accident Investigation Branch" .
+_:N2bc783af0be24a4d8a90236715e75e99 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N0dd9f85315d349da989caea1e916535c <http://schema.org/potentialAction> _:N9139823f027c48589b38b1ce394503c9 .
+_:N2bc783af0be24a4d8a90236715e75e99 <http://schema.org/item> <https://www.gov.uk/> .
+_:N2bc783af0be24a4d8a90236715e75e99 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N0dd9f85315d349da989caea1e916535c <http://schema.org/name> "Rail Accident Investigation Branch" .
+_:N0dd9f85315d349da989caea1e916535c <http://schema.org/description> "The Rail Accident Investigation Branch (RAIB) independently investigates accidents to improve railway safety, and inform the industry and the public. RAIB works with the Department for Transport ." .
+_:N612eb79661694c7f9dd0576fac82b1d8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N62c82bc6e5c24394afc8b02d164617ab <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N0dd9f85315d349da989caea1e916535c <http://schema.org/parentOrganization> _:N612eb79661694c7f9dd0576fac82b1d8 .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nd7642b6c78ac4347ba454994b9efc1c1 <http://schema.org/itemListElement> _:N2bc783af0be24a4d8a90236715e75e99 .
+_:Nd7642b6c78ac4347ba454994b9efc1c1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N62c82bc6e5c24394afc8b02d164617ab <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N9139823f027c48589b38b1ce394503c9 <http://schema.org/query> "required" .
+_:Nd7642b6c78ac4347ba454994b9efc1c1 <http://schema.org/itemListElement> _:N62c82bc6e5c24394afc8b02d164617ab .
+_:N612eb79661694c7f9dd0576fac82b1d8 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-transport> .
+_:N62c82bc6e5c24394afc8b02d164617ab <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N0dd9f85315d349da989caea1e916535c <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/rail-accident-investigation-branch> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N0dd9f85315d349da989caea1e916535c <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+<https://www.gov.uk/government/organisations/rail-accident-investigation-branch> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N0dd9f85315d349da989caea1e916535c <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .

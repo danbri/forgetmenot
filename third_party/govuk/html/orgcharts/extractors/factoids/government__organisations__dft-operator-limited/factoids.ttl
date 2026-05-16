@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/dft-operator-limited> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "DfT Operator Limited"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/dft-operator-limited> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alex-hynes>,
+        <https://www.gov.uk/government/people/andrew-haines>,
+        <https://www.gov.uk/government/people/charles-donald>,
+        <https://www.gov.uk/government/people/harriet-kemp>,
+        <https://www.gov.uk/government/people/kathryn-cearns>,
+        <https://www.gov.uk/government/people/laura-shoaf>,
+        <https://www.gov.uk/government/people/richard-harrison>,
+        <https://www.gov.uk/government/people/steve>,
+        <https://www.gov.uk/government/people/tony-poulter> .
+
+<https://www.gov.uk/government/people/alex-hynes> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/660bacdcf9ab417b75eea36f/s465_alex-hynes-portrait-960.jpg> ;
+    schema1:name "Alex Hynes"@en .
+
+<https://www.gov.uk/government/people/andrew-haines> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69806e5601dffa64655800b2/s465_andrew-haines-960.jpg> ;
+    schema1:name "Sir Andrew Haines"@en .
+
+<https://www.gov.uk/government/people/charles-donald> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69c40802471d520038d0f61a/s465_charles-donald-960.jpg> ;
+    schema1:name "Charles Donald"@en .
+
+<https://www.gov.uk/government/people/harriet-kemp> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684016dd4d433cd95b9fe7a1/s465_HARRIET_KEMP_960x640.jpg> ;
+    schema1:name "Harriet Kemp"@en .
+
+<https://www.gov.uk/government/people/kathryn-cearns> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/684016cce550203c8209ccd9/s465_KATHRYN_CEARNS_960x640.jpg> ;
+    schema1:name "Kathryn Cearns OBE, FCA, FCCA"@en .
+
+<https://www.gov.uk/government/people/laura-shoaf> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69c3f37f93cc6e8b87a6f678/s465_laura-shoaf-960.png> ;
+    schema1:name "Laura Shoaf"@en .
+
+<https://www.gov.uk/government/people/richard-harrison> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/661e2af50b9916e452bd3d34/s465_richard-harrison-960.jpg> ;
+    schema1:name "Richard Harrison"@en .
+
+<https://www.gov.uk/government/people/steve> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/678e64701bc5bb4c4a9bdb0f/s465_steve-murphy-960.gif> ;
+    schema1:name "Steve Murphy"@en .
+
+<https://www.gov.uk/government/people/tony-poulter> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/632c67d78fa8f51d2a8630f4/s465_tony-poulter.png> ;
+    schema1:name "Tony Poulter"@en .
+

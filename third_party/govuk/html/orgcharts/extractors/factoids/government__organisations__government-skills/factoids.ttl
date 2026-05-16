@@ -1,0 +1,15 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-skills> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Government Skills"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/government-skills> ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-key> .
+
+<https://www.gov.uk/government/people/andrew-key> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65ef0a213649a23451ed6371/s465_Untitled-design-79.png> ;
+    schema1:name "Andrew Key"@en .
+

@@ -1,0 +1,24 @@
+_:N61503e63578f413294948153925652f8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N38db9020745945729ffe5d81e8375b25 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/civil-service> .
+_:N592af717ff6d494982d771e65318cf17 <http://schema.org/description> "Supporting economists in the Civil Service. GES is part of the Civil Service ." .
+_:Ne46cc58ea7c3440aa5ddb15926f8a52e <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N61503e63578f413294948153925652f8 <http://schema.org/itemListElement> _:Ne46cc58ea7c3440aa5ddb15926f8a52e .
+_:N592af717ff6d494982d771e65318cf17 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/civil-service-government-economic-service> .
+_:Ne46cc58ea7c3440aa5ddb15926f8a52e <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N592af717ff6d494982d771e65318cf17 <http://schema.org/name> "Government Economic Service" .
+_:N592af717ff6d494982d771e65318cf17 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Ne46cc58ea7c3440aa5ddb15926f8a52e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nf9fa73fa0518451caf774647fecaf8ee <http://schema.org/query> "required" .
+<https://www.gov.uk/government/organisations/civil-service-government-economic-service> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nf74a6ea90cc444eebb104efb6802116f <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N592af717ff6d494982d771e65318cf17 <http://schema.org/parentOrganization> _:N38db9020745945729ffe5d81e8375b25 .
+_:Nf74a6ea90cc444eebb104efb6802116f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N592af717ff6d494982d771e65318cf17 <http://schema.org/potentialAction> _:Nf9fa73fa0518451caf774647fecaf8ee .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:Nf9fa73fa0518451caf774647fecaf8ee <http://schema.org/description> "Find all content from Government Economic Service" .
+_:N61503e63578f413294948153925652f8 <http://schema.org/itemListElement> _:Nf74a6ea90cc444eebb104efb6802116f .
+_:N38db9020745945729ffe5d81e8375b25 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:Nf74a6ea90cc444eebb104efb6802116f <http://schema.org/item> <https://www.gov.uk/> .
+_:Nf9fa73fa0518451caf774647fecaf8ee <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N592af717ff6d494982d771e65318cf17 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .

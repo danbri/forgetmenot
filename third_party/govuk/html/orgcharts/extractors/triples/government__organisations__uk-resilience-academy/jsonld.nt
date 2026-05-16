@@ -1,0 +1,24 @@
+_:N9a874e09d28c44bcbbe04b49389f0b22 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N88c75432583d4347902578ef16db8112 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N88c75432583d4347902578ef16db8112 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N9a874e09d28c44bcbbe04b49389f0b22 <http://schema.org/item> <https://www.gov.uk/> .
+_:N88c75432583d4347902578ef16db8112 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Nc27b9180608a425a8732c496f86e62cd <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Nf8cce6950ec94c86b18143901134b594 <http://schema.org/itemListElement> _:N9a874e09d28c44bcbbe04b49389f0b22 .
+_:Nc27b9180608a425a8732c496f86e62cd <http://schema.org/description> "The UK Resilience Academy will provide learning and development to people leading and working in government and across the wider resilience sector. UKRA is part of the Cabinet Office ." .
+_:Nc27b9180608a425a8732c496f86e62cd <http://schema.org/name> "UK Resilience Academy" .
+_:N54924af99ddb437e848b36d49b3eb08a <http://schema.org/description> "Find all content from UK Resilience Academy" .
+<https://www.gov.uk/government/organisations/uk-resilience-academy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N945127efb5e843ff9ee945c261235f0a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N9a874e09d28c44bcbbe04b49389f0b22 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nc27b9180608a425a8732c496f86e62cd <http://schema.org/parentOrganization> _:N945127efb5e843ff9ee945c261235f0a .
+_:Nf8cce6950ec94c86b18143901134b594 <http://schema.org/itemListElement> _:N88c75432583d4347902578ef16db8112 .
+_:Nf8cce6950ec94c86b18143901134b594 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nc27b9180608a425a8732c496f86e62cd <http://schema.org/potentialAction> _:N54924af99ddb437e848b36d49b3eb08a .
+_:Nc27b9180608a425a8732c496f86e62cd <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/uk-resilience-academy> .
+_:Nc27b9180608a425a8732c496f86e62cd <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N945127efb5e843ff9ee945c261235f0a <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/cabinet-office> .
+_:N54924af99ddb437e848b36d49b3eb08a <http://schema.org/query> "required" .
+_:N54924af99ddb437e848b36d49b3eb08a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .

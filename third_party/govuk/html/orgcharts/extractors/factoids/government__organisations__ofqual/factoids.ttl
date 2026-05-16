@@ -1,0 +1,55 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/ofqual> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Ofqual"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/ofqual> ;
+    govuk:hasManager <https://www.gov.uk/government/people/amanda-swann>,
+        <https://www.gov.uk/government/people/catherine-large>,
+        <https://www.gov.uk/government/people/daniel-gutteridge>,
+        <https://www.gov.uk/government/people/david-bowden>,
+        <https://www.gov.uk/government/people/ian-bauckham>,
+        <https://www.gov.uk/government/people/matt-trimmer>,
+        <https://www.gov.uk/government/people/michael-hanton>,
+        <https://www.gov.uk/government/people/susan-tranter>,
+        <https://www.gov.uk/government/people/tom-bramley> .
+
+<https://www.gov.uk/government/people/amanda-swann> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65cc83cb39a8a7000c60d4f2/s465_Amanda_Swann_4.png> ;
+    schema1:name "Amanda Swann"@en .
+
+<https://www.gov.uk/government/people/catherine-large> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69de47bbb0b0b93055e04f7b/s465_Catherine_Large.JPG> ;
+    schema1:name "Catherine Large OBE"@en .
+
+<https://www.gov.uk/government/people/daniel-gutteridge> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65cca96d1d9395001294662c/s465_DGutteridge_001_960x640.png> ;
+    schema1:name "Daniel Gutteridge"@en .
+
+<https://www.gov.uk/government/people/david-bowden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65cc9fb61d9395000c94661c/s465_David_Bowden_2.png> ;
+    schema1:name "David Bowden"@en .
+
+<https://www.gov.uk/government/people/ian-bauckham> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68b6e978536d629f9c82a9ca/s465_sir_ian_b.jpg> ;
+    schema1:name "Sir Ian Bauckham CBE"@en .
+
+<https://www.gov.uk/government/people/matt-trimmer> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65cc7c9939a8a7000f60d4e9/s465_Matt_Trimmer_1.png> ;
+    schema1:name "Matt Trimmer"@en .
+
+<https://www.gov.uk/government/people/michael-hanton> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/62b479a4d3bf7f0affd6560f/s465_MHanton_002_960x640.png> ;
+    schema1:name "Michael Hanton"@en .
+
+<https://www.gov.uk/government/people/susan-tranter> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/677bf1d56f01ae28ab5c040f/s465_STranter_Ofqual.jpg> ;
+    schema1:name "Dr Susan Tranter"@en .
+
+<https://www.gov.uk/government/people/tom-bramley> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/666315e0a8f98e4a64ca9502/s465_Tom_Bramley.jpg> ;
+    schema1:name "Tom Bramley"@en .
+

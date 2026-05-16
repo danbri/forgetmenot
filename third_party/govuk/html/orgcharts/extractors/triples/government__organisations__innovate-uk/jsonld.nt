@@ -1,0 +1,24 @@
+_:N723cb08d4410445d95fa924d6cdeb068 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/innovate-uk> .
+_:N723cb08d4410445d95fa924d6cdeb068 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N408634bfa63946fabd492ab102cfa503 <http://schema.org/query> "required" .
+_:Nc8bfa77dd7f1464298cf532697c9e2f4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N408634bfa63946fabd492ab102cfa503 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N723cb08d4410445d95fa924d6cdeb068 <http://schema.org/potentialAction> _:N408634bfa63946fabd492ab102cfa503 .
+_:Nc8bfa77dd7f1464298cf532697c9e2f4 <http://schema.org/itemListElement> _:Nfde2511e8e884ce493bb17092e6bc0c8 .
+_:Nd5211be9c6054d3d9e180ad84cf9b60f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N8a334e29c68a4cf1b73d671b1eb6d4f1 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/uk-research-and-innovation> .
+_:N408634bfa63946fabd492ab102cfa503 <http://schema.org/description> "Find all content from Innovate UK" .
+_:N723cb08d4410445d95fa924d6cdeb068 <http://schema.org/name> "Innovate UK" .
+_:N723cb08d4410445d95fa924d6cdeb068 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N8a334e29c68a4cf1b73d671b1eb6d4f1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nd5211be9c6054d3d9e180ad84cf9b60f <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nfde2511e8e884ce493bb17092e6bc0c8 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:Nfde2511e8e884ce493bb17092e6bc0c8 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:Nd5211be9c6054d3d9e180ad84cf9b60f <http://schema.org/item> <https://www.gov.uk/> .
+_:Nc8bfa77dd7f1464298cf532697c9e2f4 <http://schema.org/itemListElement> _:Nd5211be9c6054d3d9e180ad84cf9b60f .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N723cb08d4410445d95fa924d6cdeb068 <http://schema.org/parentOrganization> _:N8a334e29c68a4cf1b73d671b1eb6d4f1 .
+<https://www.gov.uk/government/organisations/innovate-uk> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Nfde2511e8e884ce493bb17092e6bc0c8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N723cb08d4410445d95fa924d6cdeb068 <http://schema.org/description> "Innovate UK is the UK’s national innovation agency supporting business-led innovation in all sectors, technologies and UK regions. Innovate UK is part of the UK Research and Innovation ." .

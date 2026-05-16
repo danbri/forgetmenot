@@ -1,0 +1,95 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/regulator-of-social-housing> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Regulator of Social Housing"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/regulator-of-social-housing> ;
+    govuk:hasManager <https://www.gov.uk/government/people/angela-holden>,
+        <https://www.gov.uk/government/people/bernadette-conroy>,
+        <https://www.gov.uk/government/people/chan-kataria>,
+        <https://www.gov.uk/government/people/david-cassidy>,
+        <https://www.gov.uk/government/people/deborah-gregory>,
+        <https://www.gov.uk/government/people/emma-tarran>,
+        <https://www.gov.uk/government/people/geoff-smyth>,
+        <https://www.gov.uk/government/people/harold-brown>,
+        <https://www.gov.uk/government/people/john-liver>,
+        <https://www.gov.uk/government/people/jonathan-walters>,
+        <https://www.gov.uk/government/people/kalpesh-brahmbhatt>,
+        <https://www.gov.uk/government/people/karen-doran>,
+        <https://www.gov.uk/government/people/kate-dodsworth>,
+        <https://www.gov.uk/government/people/richard-peden>,
+        <https://www.gov.uk/government/people/robert-light>,
+        <https://www.gov.uk/government/people/sukhvinder-kaur-stubbs>,
+        <https://www.gov.uk/government/people/will-perry> .
+
+<https://www.gov.uk/government/people/angela-holden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/677d3e328ef66f3f5ea39772/s465_Untitled_2_.png> ;
+    schema1:name "Angela Holden"@en .
+
+<https://www.gov.uk/government/people/bernadette-conroy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6553503e0feb29000d1cab5f/s465_CONROY_Bernadette__960_.jpg> ;
+    schema1:name "Bernadette Conroy"@en .
+
+<https://www.gov.uk/government/people/chan-kataria> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6904a2b2ef26c341988b24f4/s465_chan.png> ;
+    schema1:name "Chan Kataria OBE"@en .
+
+<https://www.gov.uk/government/people/david-cassidy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/6863a6ab08bf2f5376121a6e/s465_dave_cassidy_webphoto.png> ;
+    schema1:name "David Cassidy"@en .
+
+<https://www.gov.uk/government/people/deborah-gregory> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5dbacb6f40f0b63796dc4bed/s465_GREGORY__Deborah__960_.jpg> ;
+    schema1:name "Deborah Gregory"@en .
+
+<https://www.gov.uk/government/people/emma-tarran> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/677d3fa799c93b7286a39762/s465_emma.png> ;
+    schema1:name "Emma Tarran"@en .
+
+<https://www.gov.uk/government/people/geoff-smyth> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/677d3ec1d721a08c00665513/s465_geoff_smyth.png> ;
+    schema1:name "Geoff Smyth"@en .
+
+<https://www.gov.uk/government/people/harold-brown> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5bce5578ed915d4346a3a999/s465_BROWN_Harold__960_.jpg> ;
+    schema1:name "Harold Brown"@en .
+
+<https://www.gov.uk/government/people/john-liver> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67332b7cc10bb403d96bf297/s465_john_liver.png> ;
+    schema1:name "John Liver"@en .
+
+<https://www.gov.uk/government/people/jonathan-walters> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5bae5706e5274a3de0f18dab/s465_WALTERS_Jonathan__960_.jpg> ;
+    schema1:name "Jonathan Walters"@en .
+
+<https://www.gov.uk/government/people/kalpesh-brahmbhatt> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/677d3f2699c93b7286a3975d/s465_Brahmbatt.png> ;
+    schema1:name "Kalpesh Brahmbhatt"@en .
+
+<https://www.gov.uk/government/people/karen-doran> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/65534ab9019bd600149f1fc3/s465_karen.JPG> ;
+    schema1:name "Karen Doran"@en .
+
+<https://www.gov.uk/government/people/kate-dodsworth> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/655351364ac0e1001277d7e4/s465_kate3.JPG> ;
+    schema1:name "Kate Dodsworth"@en .
+
+<https://www.gov.uk/government/people/richard-peden> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5bce5486e5274a6bc1e8c924/s465_PEDAN_Richard__960_.jpg> ;
+    schema1:name "Richard Peden"@en .
+
+<https://www.gov.uk/government/people/robert-light> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67332acfbac74dd6026bf291/s465_robert_light.png> ;
+    schema1:name "Robert Light"@en .
+
+<https://www.gov.uk/government/people/sukhvinder-kaur-stubbs> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/60bf2558e90e0743a8ed35cf/s465_SKSresized.JPG> ;
+    schema1:name "Sukhvinder Kaur-Stubbs"@en .
+
+<https://www.gov.uk/government/people/will-perry> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5d8a4f1f40f0b611698b2e9d/s465_PERRY_Will__960_.jpg> ;
+    schema1:name "Will Perry"@en .
+

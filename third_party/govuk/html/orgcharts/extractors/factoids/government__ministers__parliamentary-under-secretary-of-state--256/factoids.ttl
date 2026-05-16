@@ -1,0 +1,48 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> .
+
+<https://www.gov.uk/government/people/olivia-bailey> schema1:name "Olivia Bailey MP"@en ;
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> .
+
+<https://www.gov.uk/government/people/stephen-morgan> schema1:name "Stephen Morgan MP"@en .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Parliamentary Under-Secretary of State (Minister for Early Education)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-morgan> ;
+    govuk:responsibility "Best Start Family Hubs and parenting"@en,
+        "behaviour, preventing bullying and exclusions in schools"@en,
+        "breakfast clubs"@en,
+        "changes to existing schools"@en,
+        "childcare and the home learning environment"@en,
+        "early communication skills and early intervention"@en,
+        "early years education including for children with special educational needs and disabilities (SEND)"@en,
+        "early years workforce"@en,
+        "faith schools"@en,
+        "holiday activities and food (HAF) programme"@en,
+        "home-to-school transport"@en,
+        "illegal schools"@en,
+        "independent schools"@en,
+        "intervention in failing schools and school improvement"@en,
+        "mental health support in schools"@en,
+        "reception admissions"@en,
+        "school attendance, including register of children who are not in school"@en,
+        "school food, including free school meals"@en,
+        "school uniform"@en,
+        "use of data, digital technology and artificial intelligence (AI) in education"@en,
+        "use of research, science and evidence at DfE"@en,
+        "young carers"@en ;
+    govuk:roleHolder <https://www.gov.uk/government/people/olivia-bailey> .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/stephen-morgan> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+

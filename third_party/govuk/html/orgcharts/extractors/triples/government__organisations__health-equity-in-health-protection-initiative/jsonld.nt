@@ -1,0 +1,24 @@
+_:N7cfa3d79dfb343f692c0ebe7618407df <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/uk-health-security-agency> .
+_:N586f36147b9745a4827413cd4a60bb0e <http://schema.org/description> "Find all content from Health Equity in Health Protection Initiative" .
+_:N7d9bd6b146954c5cada805954ad42f43 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N586f36147b9745a4827413cd4a60bb0e <http://schema.org/query> "required" .
+_:N931c96b5f7384a8bbc8420b1ab22efe5 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N931c96b5f7384a8bbc8420b1ab22efe5 <http://schema.org/parentOrganization> _:N7cfa3d79dfb343f692c0ebe7618407df .
+_:N420890d7785a49c792c3718a6a7d6a24 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N7d9bd6b146954c5cada805954ad42f43 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N7cfa3d79dfb343f692c0ebe7618407df <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N420890d7785a49c792c3718a6a7d6a24 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N607202836b024fb3afc51bcf482eaa42 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N931c96b5f7384a8bbc8420b1ab22efe5 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/health-equity-in-health-protection-initiative> .
+_:N607202836b024fb3afc51bcf482eaa42 <http://schema.org/itemListElement> _:N7d9bd6b146954c5cada805954ad42f43 .
+_:N931c96b5f7384a8bbc8420b1ab22efe5 <http://schema.org/potentialAction> _:N586f36147b9745a4827413cd4a60bb0e .
+_:N7d9bd6b146954c5cada805954ad42f43 <http://schema.org/item> <https://www.gov.uk/> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N931c96b5f7384a8bbc8420b1ab22efe5 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N586f36147b9745a4827413cd4a60bb0e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N420890d7785a49c792c3718a6a7d6a24 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N931c96b5f7384a8bbc8420b1ab22efe5 <http://schema.org/name> "Health Equity in Health Protection Initiative" .
+_:N931c96b5f7384a8bbc8420b1ab22efe5 <http://schema.org/description> "The Health Equity in Health Protection Initiative (HEHPI) provides a central, external-facing platform that brings together UKHSA’s key health equity resources in one place. It helps ensure that data, research, and community insights are easier to find, use, and share. HEHPI is part of the UK Health Security Agency ." .
+<https://www.gov.uk/government/organisations/health-equity-in-health-protection-initiative> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N607202836b024fb3afc51bcf482eaa42 <http://schema.org/itemListElement> _:N420890d7785a49c792c3718a6a7d6a24 .

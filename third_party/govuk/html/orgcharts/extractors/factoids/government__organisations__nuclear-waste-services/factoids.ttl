@@ -1,0 +1,65 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/nuclear-waste-services> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Nuclear Waste Services"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    govuk:hasManager <https://www.gov.uk/government/people/alex-de-keyser>,
+        <https://www.gov.uk/government/people/chris-sly>,
+        <https://www.gov.uk/government/people/john-corderoy>,
+        <https://www.gov.uk/government/people/liz-peace>,
+        <https://www.gov.uk/government/people/mike-pigott>,
+        <https://www.gov.uk/government/people/nigel-lister--2>,
+        <https://www.gov.uk/government/people/paul-tuohy>,
+        <https://www.gov.uk/government/people/seth-kybird>,
+        <https://www.gov.uk/government/people/shameem-akhtar>,
+        <https://www.gov.uk/government/people/simon-hughes--2>,
+        <https://www.gov.uk/government/people/steve-glasson> .
+
+<https://www.gov.uk/government/people/alex-de-keyser> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69bd0df0f7b1c24d8e23cec4/s465_Alex_DK__1_.png> ;
+    schema1:name "Alex de Keyser"@en .
+
+<https://www.gov.uk/government/people/chris-sly> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/691449cbbc34c86ce4e6e62d/s465_Chris_Sly_960x640.jpg> ;
+    schema1:name "Chris Sly"@en .
+
+<https://www.gov.uk/government/people/john-corderoy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/64c2748d7aea5b001407507c/s465_NWS_ExecTeam_Headshot_John_Corderoy_960x640.png> ;
+    schema1:name "John Corderoy"@en .
+
+<https://www.gov.uk/government/people/liz-peace> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/66ab4e27a3c2a28abb50db45/s465_Liz_Peace_CBE.png> ;
+    schema1:name "Liz Peace CBE"@en .
+
+<https://www.gov.uk/government/people/mike-pigott> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68dba7c8dadf7616351e4bfe/s465_Mike_Pigott_960x640.jpg> ;
+    schema1:name "Mike Pigott"@en .
+
+<https://www.gov.uk/government/people/nigel-lister--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/628f704d8fa8f50390d44f64/s465_NWS_ExecTeam_Headshot_NigelLister.png> ;
+    schema1:name "Nigel Lister"@en .
+
+<https://www.gov.uk/government/people/paul-tuohy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d5d40ab5fc5929851bcba/s465_PaulTouhy_960x640_01.jpg> ;
+    schema1:name "Paul Tuohy"@en .
+
+<https://www.gov.uk/government/people/seth-kybird> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/67eb984bf0edd954a99fe9b1/s465_Seth_Kybird_960x640.jpg> ;
+    schema1:name "Seth Kybird"@en .
+
+<https://www.gov.uk/government/people/shameem-akhtar> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/68cd666bb6d7ea468dbea6fc/s465_Shameem_Akhtar_960x640.jpg> ;
+    schema1:name "Shameem Akhtar"@en .
+
+<https://www.gov.uk/government/people/simon-hughes--2> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/5f8d7cf7d3bf7f49ae830ce4/s465_RWM_SimonHughes_B2_960x460px.jpg> ;
+    schema1:name "Simon Hughes"@en .
+
+<https://www.gov.uk/government/people/steve-glasson> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/668d5af57541f54efe51bcb1/s465_SteveGlasson_960x640_01.jpg> ;
+    schema1:name "Steve Glasson"@en .
+

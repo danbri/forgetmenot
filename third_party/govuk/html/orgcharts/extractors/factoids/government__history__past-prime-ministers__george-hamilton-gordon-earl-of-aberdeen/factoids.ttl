@@ -1,0 +1,11 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/history/past-prime-ministers/george-hamilton-gordon-earl-of-aberdeen> a schema1:Person,
+        govuk:PastPrimeMinister ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "George Hamilton Gordon, later the Earl of Aberdeen, had a short-lived term in the highest office. While he managed to pass a number of reforms, he was brought down by his handling of the Crimean War and his failure to manage the strong personalities of his colleagues."@en ;
+    schema1:name "George Hamilton Gordon Earl of Aberdeen"@en ;
+    schema1:url <https://www.gov.uk/government/history/past-prime-ministers/george-hamilton-gordon-earl-of-aberdeen> .
+

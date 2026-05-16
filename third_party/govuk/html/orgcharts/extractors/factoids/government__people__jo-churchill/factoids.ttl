@@ -1,0 +1,13 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jo-churchill> .
+
+<https://www.gov.uk/government/people/jo-churchill> a schema1:Person ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:description "Jo Churchill was Minister of State for the Department for Work and Pensions from 13 November 2023 to 5 July 2024."@en ;
+    schema1:name "Jo Churchill"@en ;
+    schema1:url <https://www.gov.uk/government/people/jo-churchill> ;
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+

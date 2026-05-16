@@ -1,0 +1,20 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+
+<https://www.gov.uk/government/organisations/great-british-energy-nuclear> a schema1:GovernmentOrganization,
+        govuk:Organisation ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Great British Energy – Nuclear"@en ;
+    schema1:url <https://www.gov.uk/government/organisations/great-british-energy-nuclear> ;
+    govuk:hasManager <https://www.gov.uk/government/people/simon-bowen>,
+        <https://www.gov.uk/government/people/simon-roddy> .
+
+<https://www.gov.uk/government/people/simon-bowen> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/646f4bfd7dd6e70012a9b3b2/s465_simon-bowen-gov-uk.jpg> ;
+    schema1:name "Simon Bowen"@en .
+
+<https://www.gov.uk/government/people/simon-roddy> a schema1:Person ;
+    schema1:image <https://assets.publishing.service.gov.uk/media/69fdf0878cc72d2f863ea66c/s465_Untitled_design__10_.png> ;
+    schema1:name "Simon Roddy"@en .
+

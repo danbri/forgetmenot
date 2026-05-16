@@ -1,0 +1,24 @@
+_:N6330443cf0e942b3a21a390cdae54edd <http://schema.org/potentialAction> _:N03d642aa32c9441eb34a42e09bf5cd96 .
+_:N8bb0da7ed71e41fcae42391858d780c2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N348e6d1527944f81895ee4f68c1e1815 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nfa28cf8fb1124aa5ad979375d3c7f9d6 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> .
+_:N03d642aa32c9441eb34a42e09bf5cd96 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N03d642aa32c9441eb34a42e09bf5cd96 <http://schema.org/query> "required" .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N6330443cf0e942b3a21a390cdae54edd <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N6330443cf0e942b3a21a390cdae54edd <http://schema.org/parentOrganization> _:Nfa28cf8fb1124aa5ad979375d3c7f9d6 .
+_:N6330443cf0e942b3a21a390cdae54edd <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/leasehold-advisory-service> .
+_:N348e6d1527944f81895ee4f68c1e1815 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N6330443cf0e942b3a21a390cdae54edd <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N8bb0da7ed71e41fcae42391858d780c2 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N8bb0da7ed71e41fcae42391858d780c2 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+<https://www.gov.uk/government/organisations/leasehold-advisory-service> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N03d642aa32c9441eb34a42e09bf5cd96 <http://schema.org/description> "Find all content from Leasehold Advisory Service" .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N94c076e3efff449599a76aa6c3b27442 <http://schema.org/itemListElement> _:N8bb0da7ed71e41fcae42391858d780c2 .
+_:N348e6d1527944f81895ee4f68c1e1815 <http://schema.org/item> <https://www.gov.uk/> .
+_:N6330443cf0e942b3a21a390cdae54edd <http://schema.org/name> "Leasehold Advisory Service" .
+_:N94c076e3efff449599a76aa6c3b27442 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N94c076e3efff449599a76aa6c3b27442 <http://schema.org/itemListElement> _:N348e6d1527944f81895ee4f68c1e1815 .
+_:N6330443cf0e942b3a21a390cdae54edd <http://schema.org/description> "The Leasehold Advisory Service (LEASE) gives free legal advice to leaseholders on the law affecting residential leasehold in England and Wales. LEASE is an executive non-departmental public body, sponsored by the Ministry of Housing, Communities and Local Government ." .
+_:Nfa28cf8fb1124aa5ad979375d3c7f9d6 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .

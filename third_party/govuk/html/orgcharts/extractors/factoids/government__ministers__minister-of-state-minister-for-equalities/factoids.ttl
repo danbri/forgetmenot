@@ -1,0 +1,33 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> .
+
+<https://www.gov.uk/government/organisations/government-equalities-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> .
+
+<https://www.gov.uk/government/organisations/the-equality-hub> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> .
+
+<https://www.gov.uk/government/people/kemi-badenoch> schema1:name "The Rt Hon Kemi Badenoch MP"@en .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> a govuk:MinisterialRole ;
+    dcterms:isPartOf <https://www.gov.uk/government> ;
+    schema1:name "Minister of State (Minister for Equalities)"@en ;
+    schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> ;
+    govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office>,
+        <https://www.gov.uk/government/organisations/government-equalities-office>,
+        <https://www.gov.uk/government/organisations/the-equality-hub> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> ;
+    govuk:responsibility "Equality Act and Public Sector Equality Duty oversight"@en,
+        "Inclusion at Work Panel oversight"@en,
+        "Inclusive Britain Strategy"@en,
+        "Racial and ethnic disparities"@en,
+        "Sponsoring minister for the Social Mobility Commission and the Equality and Human Rights Commission"@en .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
