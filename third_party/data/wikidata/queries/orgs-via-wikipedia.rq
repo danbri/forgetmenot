@@ -1,0 +1,25 @@
+# Wikidata has no first-class GOV.UK organisation ID property (as of
+# this writing only P10874 'gov.uk person ID' exists, not an
+# organisation analogue). The fall-back is to look up each Wikidata
+# UK-government item via its Wikipedia article -- the article often
+# carries a stable redirect to the GOV.UK page, and Wikidata items
+# carry their Wikipedia sitelink as `schema:about`.
+#
+# This query lists every Wikidata item typed as a department of the
+# UK government (P31 = Q2500378 or subclass thereof) along with the
+# en.wikipedia.org article URL. The slug-match against /government/
+# organisations/<slug> URLs from our crawl is done by the join
+# script (coverage.py); it is approximate, since departments rename
+# and Wikipedia articles consolidate.
+
+SELECT ?org ?orgLabel ?article ?inception ?dissolved WHERE {
+  ?org wdt:P31/wdt:P279* wd:Q2500378 .    # department of the UK Government
+  OPTIONAL { ?org wdt:P571 ?inception }
+  OPTIONAL { ?org wdt:P576 ?dissolved }
+  OPTIONAL {
+    ?article schema:about ?org ;
+             schema:isPartOf <https://en.wikipedia.org/> .
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+ORDER BY ?orgLabel

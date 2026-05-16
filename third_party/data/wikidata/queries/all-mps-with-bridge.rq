@@ -1,0 +1,12 @@
+# Every Wikidata item that carries a parliament.uk member id (P10428) --
+# this is, by definition, an MP or peer (the Members API only issues
+# ids to those). Useful for measuring how many of them ALSO have a
+# gov.uk person slug (P10874) -- i.e. have ever held a ministerial
+# role on the GOV.UK side -- and how many don't.
+
+SELECT ?person ?personLabel ?parliamentId ?govukSlug WHERE {
+  ?person wdt:P10428 ?parliamentId .
+  OPTIONAL { ?person wdt:P10874 ?govukSlug }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+ORDER BY ?personLabel

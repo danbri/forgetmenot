@@ -1,0 +1,25 @@
+# A worked example. Run this against a dataset that has BOTH
+#   third_party/govuk/html/orgcharts/extractors/factoids/all.nq
+# AND
+#   third_party/data/wikidata/data/people-bridge.ttl
+# loaded (the latter into the default graph, the former with its
+# per-page named graphs intact).
+#
+# Returns the current Chancellor of the Exchequer along with their
+# stable Wikidata QID and parliament.uk member id, ready to drop
+# straight into the Members API URL.
+
+PREFIX govuk: <https://forgetmenot.local/govuk#>
+PREFIX owl:   <http://www.w3.org/2002/07/owl#>
+PREFIX rdfs:  <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX parl:  <https://id.parliament.uk/schema/>
+
+SELECT ?holder ?label ?wikidata ?parliamentId WHERE {
+  GRAPH ?g {
+    <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer>
+      govuk:roleHolder ?holder .
+  }
+  ?holder owl:sameAs   ?wikidata ;
+          parl:memberId ?parliamentId ;
+          rdfs:label    ?label .
+}
