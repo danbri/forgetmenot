@@ -23,12 +23,21 @@ treaties by their organisation (UN, OECD, etc.).
 
 | Use case | Endpoint |
 |---|---|
-| List/search treaties | `GET /Treaty?SearchText=...&Country=...&TreatyTypeId=...&SubjectId=...&LayingBodyId=...&take=20` |
+| List/search treaties | `GET /Treaty?SearchText=...&GovernmentOrganisationId=...&Series=...&ParliamentaryProcess=...&DebateScheduled=...&take=20` |
 | One treaty | `GET /Treaty/{id}` |
 | Treaty timeline | `GET /Treaty/{id}/BusinessItems` |
 | One business item | `GET /BusinessItem/{id}` |
 | Government organisations | `GET /GovernmentOrganisation` |
 | Treaty series memberships | `GET /SeriesMembership` |
+
+The spec accepts only the parameters listed above plus `Skip` /
+`Take`. **There is no server-side date or laying-body filter** —
+the library implements `laidDateFrom` / `laidDateTo`,
+`signedDateFrom` / `signedDateTo`, `layingBodyId` and
+`leadDepartmentId` client-side by auto-paging and stopping once
+results fall below the cutoff (default cap 2000 records). The
+returned object gains `_unfilteredTotal`, `_fetched`, and
+`_exhausted` keys when a client filter is active.
 
 ## Worked example
 

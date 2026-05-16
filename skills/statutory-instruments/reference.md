@@ -23,10 +23,15 @@ itself is case-insensitive on query keys.
   - `House` (enum: Commons / Lords / Both).
   - `Skip`, `Take` (paging).
 
-  **There is no date-range filter.** The library used to advertise
-  `laidDateFrom`/`madeDateFrom`/`comingIntoForceDateFrom` etc. — none
-  of those exist in the API and the parameters are silently ignored,
-  so old call sites would have returned the full unfiltered set.
+  **No server-side date-range filter** — the library wraps the
+  endpoint with a client-side implementation. Pass `laidDateFrom` /
+  `laidDateTo` (matched against `commonsLayingDate` / falling back to
+  `lordsLayingDate`) or `madeDateFrom` / `madeDateTo` (matched
+  against `paperMadeDate`) and the library auto-pages the API in
+  most-recent-first order, stopping once results fall below the
+  cutoff. The response carries `_unfilteredTotal`, `_fetched` and
+  `_exhausted` keys so you can see whether the scan hit
+  `--max-fetch` (default 2000) before exhausting the date range.
 - `GET /StatutoryInstrument/{instrumentId}` — full record incl.
   `currentBusinessItem`, parent Act reference, procedure, laying body,
   associated documents.

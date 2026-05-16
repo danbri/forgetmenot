@@ -181,7 +181,7 @@ const COMMANDS = {
     'reports':          { fn: 'dailyReports',          args: [],            help: 'Daily report dates. --from --to' },
   },
   'si': {
-    'search':           { fn: 'search',                args: [],            help: '--name --procedure --laying-body-id --department-id --house Commons|Lords|Both --scheduled-debate --motion-to-stop --concerns-raised-by-committee --parliamentary-process-concluded --recommended-for-procedure-change --act-of-parliament-id --skip --take. API has no date filter; slice client-side.' },
+    'search':           { fn: 'search',                args: [],            help: '--name --procedure --laying-body-id --department-id --house Commons|Lords|Both --scheduled-debate --motion-to-stop --concerns-raised-by-committee --parliamentary-process-concluded --recommended-for-procedure-change --act-of-parliament-id --laid-date-from YYYY-MM-DD --laid-date-to --made-date-from --made-date-to --skip --take. Date filters are client-side (auto-pages until --max-fetch).' },
     'get':              { fn: 'getById',               args: ['instrumentId'], help: 'SI detail.' },
     'timeline':         { fn: 'timeline',              args: ['instrumentId'], help: 'Business items timeline.' },
     'timeline-by-id':   { fn: 'timelineById',          args: ['timelineId'], help: 'Timeline by ID.' },
@@ -192,7 +192,7 @@ const COMMANDS = {
     'procedure':        { fn: 'procedure',             args: ['id'],        help: 'One procedure.' },
   },
   'treaties': {
-    'search':           { fn: 'search',                args: [],            help: '--search-text --government-organisation-id --series --parliamentary-process --debate-scheduled --motions-tabled-about-a-treaty --committee-raised-concerns --house. API has no date filter; slice client-side on layingDate.' },
+    'search':           { fn: 'search',                args: [],            help: '--search-text --government-organisation-id --series --parliamentary-process --debate-scheduled --motions-tabled-about-a-treaty --committee-raised-concerns --house --laid-date-from YYYY-MM-DD --laid-date-to --signed-date-from --signed-date-to --laying-body-id --lead-department-id. Date / dept filters are client-side (auto-pages until --max-fetch).' },
     'get':              { fn: 'getById',               args: ['id'],        help: 'Treaty detail.' },
     'timeline':         { fn: 'timeline',              args: ['id'],        help: 'Business items.' },
     'business-item':    { fn: 'businessItem',          args: ['id'],        help: 'One business item.' },

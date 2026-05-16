@@ -49,13 +49,16 @@ OpenAPI 3 spec: `https://statutoryinstruments-api.parliament.uk/swagger/v2/swagg
   int.
 - The closely related [Treaties](../treaties/SKILL.md) API uses an
   identical "business item" timeline pattern.
-- **No date filter.** The API does **not** accept `laidDateFrom`,
-  `madeDateFrom`, `comingIntoForceDateFrom` or any date-range
-  parameter. To slice by date, fetch by other criteria and filter
-  client-side on the response fields `commonsLayingDate`,
-  `lordsLayingDate`, `paperMadeDate`. The default sort is most-recent
-  first, so for "last N months" pull with `--take` large enough and
-  trim locally.
+- **Date filter is client-side.** The underlying API does **not**
+  accept `laidDateFrom`, `madeDateFrom`, or any date-range parameter,
+  so the library implements `laid-date-from / --laid-date-to` and
+  `--made-date-from / --made-date-to` itself: it auto-pages through
+  the default most-recent-first sort and short-circuits once results
+  fall below the cutoff (capped at `--max-fetch`, default 2000
+  records). The response gains `_unfilteredTotal`, `_fetched`, and
+  `_exhausted` keys so callers can see how aggressive the scan was.
+  `comingIntoForceDate` is only in the per-instrument detail record,
+  so no client filter for it.
 
 <!-- parl-cli-start -->
 
