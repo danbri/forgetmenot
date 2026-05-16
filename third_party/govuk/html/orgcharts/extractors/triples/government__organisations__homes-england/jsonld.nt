@@ -1,0 +1,27 @@
+_:N513ae28caba44c80ae1e667fde9059ec <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N839b2ce3fa9c45eb8aab2a750145e292 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N0e1256b31ff24cf9b138d69259216f03 <http://schema.org/name> "Homes England" .
+<https://www.gov.uk/government/organisations/homes-england> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N0e1256b31ff24cf9b138d69259216f03 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N6443c0f130794aaa979110a069aab72a <http://schema.org/itemListElement> _:N513ae28caba44c80ae1e667fde9059ec .
+_:N6443c0f130794aaa979110a069aab72a <http://schema.org/itemListElement> _:Nb2683ffc68624cefa0584227b9a698f8 .
+_:N0e1256b31ff24cf9b138d69259216f03 <http://schema.org/parentOrganization> _:N839b2ce3fa9c45eb8aab2a750145e292 .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N513ae28caba44c80ae1e667fde9059ec <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N0e1256b31ff24cf9b138d69259216f03 <http://schema.org/subOrganization> _:N23b633e06881403aa0dc3d64eddad217 .
+_:N0e1256b31ff24cf9b138d69259216f03 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/homes-england> .
+_:N8289e27670f94a9dbec5879833c76feb <http://schema.org/description> "Find all content from Homes England" .
+_:Nb2683ffc68624cefa0584227b9a698f8 <http://schema.org/item> <https://www.gov.uk/> .
+_:Nb2683ffc68624cefa0584227b9a698f8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Nb2683ffc68624cefa0584227b9a698f8 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N8289e27670f94a9dbec5879833c76feb <http://schema.org/query> "required" .
+_:N6443c0f130794aaa979110a069aab72a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N0e1256b31ff24cf9b138d69259216f03 <http://schema.org/potentialAction> _:N8289e27670f94a9dbec5879833c76feb .
+_:N839b2ce3fa9c45eb8aab2a750145e292 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> .
+_:N513ae28caba44c80ae1e667fde9059ec <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N23b633e06881403aa0dc3d64eddad217 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/national-housing-bank> .
+_:N23b633e06881403aa0dc3d64eddad217 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N0e1256b31ff24cf9b138d69259216f03 <http://schema.org/description> "As the government’s housing and regeneration agency we believe that affordable, quality homes in well-designed places are key to improving people’s lives. Together with our partners, we’re accelerating the pace of house building and regeneration across the country, as we seek to deliver homes and places people are proud to live in – for generations to come. Homes England is an executive non-departmental public body, sponsored by the Ministry of Housing, Communities and Local Government , supported by 1 public body ." .
+_:N8289e27670f94a9dbec5879833c76feb <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N0e1256b31ff24cf9b138d69259216f03 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .

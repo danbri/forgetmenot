@@ -1,0 +1,24 @@
+_:N6607f7e548fb465e83034af1921961f2 <http://schema.org/itemListElement> _:N9e37dc8a3f5541c18e4c47af0831d8ac .
+_:N874e124eb80c44f7a534fa405ccbdb78 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N874e124eb80c44f7a534fa405ccbdb78 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N6d43d52bfbb34adaad21190fed55d972 <http://schema.org/name> "British Business Bank" .
+_:N9e37dc8a3f5541c18e4c47af0831d8ac <http://schema.org/item> <https://www.gov.uk/> .
+_:N6d43d52bfbb34adaad21190fed55d972 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/british-business-bank> .
+_:N6d43d52bfbb34adaad21190fed55d972 <http://schema.org/parentOrganization> _:Nbc89265263d84325b4f08e0fb8a0bf86 .
+_:N9e37dc8a3f5541c18e4c47af0831d8ac <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N9e37dc8a3f5541c18e4c47af0831d8ac <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:Na389abeed57a4a059534346c6f89c573 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N6607f7e548fb465e83034af1921961f2 <http://schema.org/itemListElement> _:N874e124eb80c44f7a534fa405ccbdb78 .
+_:N6607f7e548fb465e83034af1921961f2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:Nbc89265263d84325b4f08e0fb8a0bf86 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:Nbc89265263d84325b4f08e0fb8a0bf86 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-business-and-trade> .
+_:N6d43d52bfbb34adaad21190fed55d972 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N6d43d52bfbb34adaad21190fed55d972 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N6d43d52bfbb34adaad21190fed55d972 <http://schema.org/description> "BBB works with the Department for Business and Trade ." .
+_:N874e124eb80c44f7a534fa405ccbdb78 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N6d43d52bfbb34adaad21190fed55d972 <http://schema.org/potentialAction> _:Na389abeed57a4a059534346c6f89c573 .
+<https://www.gov.uk/government/organisations/british-business-bank> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:Na389abeed57a4a059534346c6f89c573 <http://schema.org/query> "required" .
+_:Na389abeed57a4a059534346c6f89c573 <http://schema.org/description> "Find all content from British Business Bank" .

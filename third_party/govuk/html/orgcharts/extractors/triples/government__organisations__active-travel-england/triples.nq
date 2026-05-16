@@ -1,0 +1,39 @@
+_:N7eefefbd643040f788ff6c42d084cd74 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> <https://forgetmenot.local/extractor/jsonld> .
+_:N57310cbc733f448d8c2e0efc2cbc0c73 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> <https://forgetmenot.local/extractor/jsonld> .
+_:N7eefefbd643040f788ff6c42d084cd74 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> <https://forgetmenot.local/extractor/jsonld> .
+_:N353e9b8eb79448c4a5871bf0f942969e <http://schema.org/item> <https://www.gov.uk/> <https://forgetmenot.local/extractor/jsonld> .
+_:N353e9b8eb79448c4a5871bf0f942969e <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> <https://forgetmenot.local/extractor/jsonld> .
+_:N95d4c142210041a5880755c230396a64 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/active-travel-england> <https://forgetmenot.local/extractor/jsonld> .
+_:N95d4c142210041a5880755c230396a64 <http://schema.org/potentialAction> _:N57310cbc733f448d8c2e0efc2cbc0c73 <https://forgetmenot.local/extractor/jsonld> .
+_:Na15f8a4c40904bbdbe73d23ac421b50f <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> <https://forgetmenot.local/extractor/jsonld> .
+_:N353e9b8eb79448c4a5871bf0f942969e <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> <https://forgetmenot.local/extractor/jsonld> .
+_:Na15f8a4c40904bbdbe73d23ac421b50f <http://schema.org/itemListElement> _:N7eefefbd643040f788ff6c42d084cd74 <https://forgetmenot.local/extractor/jsonld> .
+_:N7d69817aa5404abeae3ce2eba839da2d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> <https://forgetmenot.local/extractor/jsonld> .
+_:N7d69817aa5404abeae3ce2eba839da2d <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-transport> <https://forgetmenot.local/extractor/jsonld> .
+_:N57310cbc733f448d8c2e0efc2cbc0c73 <http://schema.org/query> "required" <https://forgetmenot.local/extractor/jsonld> .
+_:N95d4c142210041a5880755c230396a64 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> <https://forgetmenot.local/extractor/jsonld> .
+_:N95d4c142210041a5880755c230396a64 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> <https://forgetmenot.local/extractor/jsonld> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" <https://forgetmenot.local/extractor/jsonld> .
+_:N57310cbc733f448d8c2e0efc2cbc0c73 <http://schema.org/description> "Find all content from Active Travel England" <https://forgetmenot.local/extractor/jsonld> .
+_:Na15f8a4c40904bbdbe73d23ac421b50f <http://schema.org/itemListElement> _:N353e9b8eb79448c4a5871bf0f942969e <https://forgetmenot.local/extractor/jsonld> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" <https://forgetmenot.local/extractor/jsonld> .
+_:N95d4c142210041a5880755c230396a64 <http://schema.org/parentOrganization> _:N7d69817aa5404abeae3ce2eba839da2d <https://forgetmenot.local/extractor/jsonld> .
+_:N95d4c142210041a5880755c230396a64 <http://schema.org/description> "Active Travel England is the government’s executive agency responsible for making walking, wheeling and cycling the preferred choice for everyone to get around in England. ATE is an executive agency, sponsored by the Department for Transport ." <https://forgetmenot.local/extractor/jsonld> .
+_:N95d4c142210041a5880755c230396a64 <http://schema.org/name> "Active Travel England" <https://forgetmenot.local/extractor/jsonld> .
+<https://www.gov.uk/government/organisations/active-travel-england> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> <https://forgetmenot.local/extractor/jsonld> .
+_:N7eefefbd643040f788ff6c42d084cd74 <http://schema.org/item> <https://www.gov.uk/government/organisations> <https://forgetmenot.local/extractor/jsonld> .
+_:N1162bf55a9f941ea9421acdae866cfff <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#region> <https://forgetmenot.local/extractor/rdfa> .
+_:Ne549de22fada453fac14e801efd5ff8b <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#button> <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/active-travel-england> <http://ogp.me/ns#description> "Active Travel England is the government’s executive agency responsible for making walking, wheeling and cycling the preferred choice for everyone to get around in England. ATE is an executive agency, sponsored by the Department for Transport ."@en <https://forgetmenot.local/extractor/rdfa> .
+_:Nf929eb3b85824f55b89179e6dd8947d7 <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#alert> <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/active-travel-england> <http://ogp.me/ns#type> "article"@en <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/active-travel-england#global-cookie-message> <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#region> <https://forgetmenot.local/extractor/rdfa> .
+_:Nce4a60fb5360485992dc5cb7e99fdb47 <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#presentation> <https://forgetmenot.local/extractor/rdfa> .
+_:N9d2b6e3ca3c34d6d9851348490d329af <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#img> <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/active-travel-england> <http://www.w3.org/1999/xhtml/vocab#license> <https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/> <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/active-travel-england> <http://ogp.me/ns#site_name> "GOV.UK"@en <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/active-travel-england> <http://ogp.me/ns#url> "https://www.gov.uk/government/organisations/active-travel-england"@en <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/active-travel-england#search> <http://www.w3.org/1999/xhtml/vocab#role> <http://www.w3.org/1999/xhtml/vocab#search> <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/active-travel-england> <http://ogp.me/ns#image> "https://www.gov.uk/assets/collections/govuk-opengraph-image-4196a4d6333cf92aaf720047f56cfd91b3532d7635fc21ebcf0d5897df6b5f77.png"@en <https://forgetmenot.local/extractor/rdfa> .
+<https://www.gov.uk/government/organisations/active-travel-england> <http://ogp.me/ns#title> "Active Travel England"@en <https://forgetmenot.local/extractor/rdfa> .
+

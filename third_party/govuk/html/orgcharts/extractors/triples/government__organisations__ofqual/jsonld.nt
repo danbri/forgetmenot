@@ -1,0 +1,24 @@
+_:N55052cd7cb704556b8f5b57303f149bd <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N500bcd2642af47d4bb5a1f3684c3a4c8 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:N55052cd7cb704556b8f5b57303f149bd <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N90ef6c0287eb466b96b6515734c0b356 <http://schema.org/itemListElement> _:N0e1b0262d9a74f709b9ed08a6c02b290 .
+_:N500bcd2642af47d4bb5a1f3684c3a4c8 <http://schema.org/parentOrganization> _:N96eb4a3594ce4e7c8f339ac7c9e1672d .
+_:N4616f67bacba471c87a99e1af9997f99 <http://schema.org/query> "required" .
+_:N500bcd2642af47d4bb5a1f3684c3a4c8 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N90ef6c0287eb466b96b6515734c0b356 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N90ef6c0287eb466b96b6515734c0b356 <http://schema.org/itemListElement> _:N55052cd7cb704556b8f5b57303f149bd .
+_:N4616f67bacba471c87a99e1af9997f99 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N4616f67bacba471c87a99e1af9997f99 <http://schema.org/description> "Find all content from Ofqual" .
+_:N500bcd2642af47d4bb5a1f3684c3a4c8 <http://schema.org/description> "The Office of Qualifications and Examinations Regulation (Ofqual) regulates qualifications, examinations and assessments in England. Ofqual is a non-ministerial department." .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N500bcd2642af47d4bb5a1f3684c3a4c8 <http://schema.org/name> "Ofqual" .
+<https://www.gov.uk/government/organisations/ofqual> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N0e1b0262d9a74f709b9ed08a6c02b290 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N96eb4a3594ce4e7c8f339ac7c9e1672d <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/department-for-education> .
+_:N0e1b0262d9a74f709b9ed08a6c02b290 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N500bcd2642af47d4bb5a1f3684c3a4c8 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/ofqual> .
+_:N500bcd2642af47d4bb5a1f3684c3a4c8 <http://schema.org/potentialAction> _:N4616f67bacba471c87a99e1af9997f99 .
+_:N0e1b0262d9a74f709b9ed08a6c02b290 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N96eb4a3594ce4e7c8f339ac7c9e1672d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N55052cd7cb704556b8f5b57303f149bd <http://schema.org/item> <https://www.gov.uk/> .

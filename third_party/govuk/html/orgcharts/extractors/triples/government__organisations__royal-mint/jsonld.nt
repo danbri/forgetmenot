@@ -1,0 +1,24 @@
+_:Ncf3373c803bf43d39d9b3cea96bc9538 <http://schema.org/query> "required" .
+_:Ncf3373c803bf43d39d9b3cea96bc9538 <http://schema.org/description> "Find all content from Royal Mint" .
+_:N47729cf9e5864f1cb9c84362c709986d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/BreadcrumbList> .
+_:N9aa460bd8692403996e63d1b0f327d64 <http://schema.org/mainEntityOfPage> <https://www.gov.uk/government/organisations/royal-mint> .
+_:N9aa460bd8692403996e63d1b0f327d64 <http://schema.org/logo> <https://www.gov.uk/assets/collections/govuk_publishing_components/govuk-logo-b8553f688131fad665e52a8c2df7633f9cd1c0fffb9f69703cc68c728e7b3b74.png> .
+_:Ncf3373c803bf43d39d9b3cea96bc9538 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/SearchAction> .
+_:N9aa460bd8692403996e63d1b0f327d64 <http://schema.org/name> "Royal Mint" .
+_:N4f160ab889164f6a8009f94dcc402862 <http://schema.org/item> <https://www.gov.uk/government/organisations> .
+_:N809934375522433095340f7b7bc65d61 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+_:N47729cf9e5864f1cb9c84362c709986d <http://schema.org/itemListElement> _:N87b97b0438db4e52aa0aa4e639216d41 .
+<https://www.gov.uk/government/organisations/royal-mint> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/WebPage> .
+_:N9aa460bd8692403996e63d1b0f327d64 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/GovernmentOrganization> .
+<https://www.gov.uk/government/organisations> <http://schema.org/name> "Organisations" .
+_:N47729cf9e5864f1cb9c84362c709986d <http://schema.org/itemListElement> _:N4f160ab889164f6a8009f94dcc402862 .
+_:N4f160ab889164f6a8009f94dcc402862 <http://schema.org/position> "2"^^<http://www.w3.org/2001/XMLSchema#integer> .
+_:N809934375522433095340f7b7bc65d61 <http://schema.org/sameAs> <https://www.gov.uk/government/organisations/hm-treasury> .
+_:N4f160ab889164f6a8009f94dcc402862 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N9aa460bd8692403996e63d1b0f327d64 <http://schema.org/description> "The Royal Mint is one of the oldest companies in the world - supplying coins to the UK for over 1,100 years. It also produces commemorative coins, to mark events of national, historical and cultural significance, offers investment in precious metals, a jewellery collection and recycling precious metals from e-waste. RM works with HM Treasury ." .
+_:N87b97b0438db4e52aa0aa4e639216d41 <http://schema.org/item> <https://www.gov.uk/> .
+<https://www.gov.uk/> <http://schema.org/name> "Home" .
+_:N87b97b0438db4e52aa0aa4e639216d41 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/ListItem> .
+_:N9aa460bd8692403996e63d1b0f327d64 <http://schema.org/potentialAction> _:Ncf3373c803bf43d39d9b3cea96bc9538 .
+_:N9aa460bd8692403996e63d1b0f327d64 <http://schema.org/parentOrganization> _:N809934375522433095340f7b7bc65d61 .
+_:N87b97b0438db4e52aa0aa4e639216d41 <http://schema.org/position> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .

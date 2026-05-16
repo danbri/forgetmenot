@@ -1,0 +1,6 @@
+# Crawler output - the raw HTML cache. Re-creatable by running
+#   python3 scripts/govuk_crawl.py --resume
+# Extracted triples (extractors/) and the feeds index ARE committed.
+pages/
+crawl.log
+state.json
