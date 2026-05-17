@@ -61,6 +61,12 @@ verbatim API response, `--out path` for binary downloads).
 | `library` | [`skills/library-feeds`](skills/library-feeds/SKILL.md) | RSS aggregator for Commons Library / Lords Library / POST research briefings. |
 | `mapit` | [`skills/mysoc-mapit`](skills/mysoc-mapit/SKILL.md) | Tier-3: mySociety MapIt — postcode / lat-lon → Westminster constituency + every other administrative area. |
 | `ons-geo` | [`skills/ons-geo`](skills/ons-geo/SKILL.md) | Tier-3: ONS Open Geography Portal — authoritative constituency / ward / LAD boundary polygons. |
+| `twfy` | [`skills/mysoc-twfy`](skills/mysoc-twfy/SKILL.md) | Tier-3: TheyWorkForYou (mySociety) — voting summaries, debates, written answers, with mySociety analyses. API key required. |
+| `caselaw` | [`skills/tna-caselaw`](skills/tna-caselaw/SKILL.md) | Tier-3: Find Case Law (TNA) — judgments from Supreme Court, Court of Appeal, **High Court**, Upper Tribunals as Akoma Ntoso XML + Atom feeds. |
+| `candidates` | [`skills/dc-candidates`](skills/dc-candidates/SKILL.md) | Tier-3: DemocracyClub Candidates — every UK electoral candidate, with sources and stable IDs. |
+| `elections` | [`skills/dc-elections`](skills/dc-elections/SKILL.md) | Tier-3: DemocracyClub EveryElection — every UK election (Westminster, devolved, mayoral, local, PCCs, parishes) with canonical IDs. |
+| `ec` | [`skills/ec-donations`](skills/ec-donations/SKILL.md) | Tier-3: Electoral Commission — donations, spending, loans, registers of regulated parties and campaigners. |
+| `wd` | [`skills/wikidata`](skills/wikidata/SKILL.md) | Tier-3: Wikidata SPARQL + label search — cross-ID glue across every UK politician identifier ecosystem. |
 
 The CLI itself is documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill

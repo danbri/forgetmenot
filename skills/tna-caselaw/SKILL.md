@@ -1,43 +1,76 @@
 ---
 name: tna-caselaw
-description: Find Case Law -- TNA's open service for judgments and decisions of UK courts and tribunals at caselaw.nationalarchives.gov.uk. Distributed as LegalDocML / Akoma Ntoso XML with Atom feeds and a public search API. SKILL STUB -- see notes below; full crawler/extractor is the next bite.
-license: Open Justice Licence (judgments) / OGL v3.0 (TNA wrapping); skill text MIT.
+description: "Find Case Law — The National Archives' open service for UK court and tribunal judgments at caselaw.nationalarchives.gov.uk. Use when the question is about an approved judgment from the Supreme Court, Court of Appeal (Civil or Criminal), High Court (King's Bench / Chancery / Family / Administrative / Commercial / TCC), Upper Tribunal, Employment Appeal Tribunal, or a growing set of First-tier Tribunals. Distributed as LegalDocML (Akoma Ntoso) XML with Atom feeds and a public search. Pair with tna-legislation — judgments cite legislation; legislation Acts are interpreted by judgments."
+license: Open Justice Licence (judgment text); OGL v3.0 (TNA wrapper); MIT (this skill's library)
 metadata:
-  provenance-policy: docs/provenance.md
+  facility: tna-caselaw
+  cli-alias: caselaw
+  base-url: https://caselaw.nationalarchives.gov.uk
   provenance:
     tier: 3
-    operator: "The National Archives (TNA)"
+    operator: The National Archives (TNA) — Find Case Law service
     service: caselaw.nationalarchives.gov.uk
-    upstream-data: "Court and tribunal judgments as LegalDocML (Akoma Ntoso) XML, Atom feeds, OAI-PMH"
-    citation-short: "Find Case Law (TNA)"
-    citation-formal: "Find Case Law, The National Archives, retrieved {date} under the Open Justice Licence"
-    confidence: derived
-    confidence-notes: "Stub. No code yet. Find Case Law is published as structured XML so extraction can target Akoma Ntoso elements directly; this skill will document the shape, sample queries (XPath / SPARQL after RDF lifting), and ShEx shapes once implemented."
+    upstream-data: "Approved judgments from the senior courts and tribunals, published by the courts and rendered by TNA as Akoma Ntoso XML"
+    citation-short: "via Find Case Law (TNA)"
+    citation-formal: "Find Case Law, The National Archives, retrieved {date}, under the Open Justice Licence"
+    confidence: authoritative
+    confidence-notes: "Judgment text is the official approved version. Coverage is growing — older judgments are being added retrospectively; absence of a judgment from Find Case Law does not prove it isn't reportable."
 ---
 
-# `tna-caselaw` — Find Case Law
+# Find Case Law (TNA)
 
-**Stub.** TNA's Find Case Law publishes judgments from the High Court,
-Court of Appeal, Supreme Court, Upper Tribunal, and a growing set of
-First-tier Tribunals as LegalDocML (Akoma Ntoso) XML at
-[`caselaw.nationalarchives.gov.uk`](https://caselaw.nationalarchives.gov.uk).
+Base URL: `https://caselaw.nationalarchives.gov.uk`. Distributed as
+**Akoma Ntoso** (LegalDocML) XML, the same standard `legislation.gov.uk`
+uses. Atom feeds for new judgments per court.
 
-The data plane is rich and structured (Akoma Ntoso is a global standard
-for legal documents); the crawler/extractor is not yet built. Tracked
-in `docs/provenance.md` under tier-3 third-party facilities.
+## Court URL slugs
 
-## What's intended
+| Slug | Court |
+|---|---|
+| `uksc` | Supreme Court of the United Kingdom |
+| `ewca/civ` | Court of Appeal, Civil Division |
+| `ewca/crim` | Court of Appeal, Criminal Division |
+| `ewhc/kb` | High Court — King's Bench |
+| `ewhc/ch` | High Court — Chancery |
+| `ewhc/fam` | High Court — Family |
+| `ewhc/admin` | High Court — Administrative |
+| `ewhc/comm` | High Court — Commercial |
+| `ewhc/tcc` | High Court — Technology and Construction |
+| `ukut/aac` | Upper Tribunal — Administrative Appeals Chamber |
+| `ukut/iac` | Upper Tribunal — Immigration & Asylum |
+| `ukut/lc`  | Upper Tribunal — Lands |
+| `ukut/tcc` | Upper Tribunal — Tax & Chancery |
+| `ukeat`    | Employment Appeal Tribunal |
 
-- Atom feed discovery (judgments published per day)
-- Public search API at `https://caselaw.nationalarchives.gov.uk/judgments/search`
-- Akoma Ntoso XML per judgment via content negotiation
-- Lift to RDF using the LegalDocML→RDF conventions
-- ShEx shapes for the document model
-- Local SPARQL materialisation pattern (same as `tna-legislation`)
+## CLI
 
-## See also
+```sh
+parl caselaw atom
+parl caselaw atom-court uksc
+parl caselaw search --query "Online Safety Act" --court ewhc/admin --format atom
+parl caselaw judgment ewhc/admin/2024/2042                # Akoma Ntoso XML (default)
+parl caselaw judgment ewhc/admin/2024/2042 --format html
+parl caselaw judgment ewhc/admin/2024/2042 --format pdf --out judgment.pdf
+parl caselaw url ewhc/admin/2024/2042 --format xml        # URL only
+```
 
-- [`tna-legislation`](../tna-legislation/SKILL.md) — sibling skill, fully built
-- [`data-quality`](../data-quality/SKILL.md) — discipline to follow when building
-- [Akoma Ntoso 1.0 spec](http://docs.oasis-open.org/legaldocml/akn-core/v1.0/)
-- [Find Case Law API docs](https://nationalarchives.github.io/ds-find-caselaw-docs/)
+## Joins
+
+- Judgments cite Acts / SIs via Akoma Ntoso `<ref href>` elements
+  pointing at `legislation.gov.uk` URIs. Pair with
+  [`tna-legislation`](../tna-legislation/SKILL.md).
+- For procedural / political context around legislation cited,
+  follow back to [`bills`](../bills/SKILL.md) and
+  [`hansard`](../hansard/SKILL.md).
+
+## Provenance to cite
+
+**Tier 3 — third-party (TNA), authoritative within coverage.**
+
+- Inline cite: **"(via Find Case Law, TNA)"** — once per paragraph.
+- For formal output: court + year + neutral citation
+  (e.g. `[2024] EWHC 2042 (Admin)`) plus the TNA URL.
+- Coverage is incomplete for older judgments — see the `versionDate`
+  on each judgment's Akoma Ntoso `<FRBRdate>` for the publication
+  date on Find Case Law. "Not in Find Case Law" ≠ "never reported".
+- See [`../../docs/provenance.md`](../../docs/provenance.md).
