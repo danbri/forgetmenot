@@ -79,6 +79,8 @@ verbatim API response, `--out path` for binary downloads).
 | `gov-content` | [`skills/gov-content`](skills/gov-content/SKILL.md) | Tier-3: gov.uk Content + Search API — every page on www.gov.uk as structured JSON; ~1,900 lookup-shaped pages (local_transaction, smart_answer, place, transaction, …) plus bank-holidays.json. |
 | `flood` | [`skills/ea-flood`](skills/ea-flood/SKILL.md) | Tier-3: Environment Agency Real-Time Flood Monitoring — active flood warnings + ~5,000 monitoring stations (England only). |
 | `fsa` | [`skills/fsa`](skills/fsa/SKILL.md) | Tier-3: Food Standards Agency Hygiene Rating Scheme — every food business in E/W/NI scored 0-5, Scotland Pass/Improvement. ~660,000 records. |
+| `scotstats` | [`skills/scotgov-stats`](skills/scotgov-stats/SKILL.md) | Tier-3: statistics.gov.scot SPARQL — Scottish Government statistics as RDF DataCube. Pairs with `sp`. |
+| `eurlex` | [`skills/eur-lex`](skills/eur-lex/SKILL.md) | Tier-3: EUR-Lex CELLAR SPARQL — EU law as Linked Data. Cross-references via CELEX number, useful for Retained EU Law Act 2023 research. |
 
 The CLI itself is documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
