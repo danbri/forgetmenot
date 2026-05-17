@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> govuk:hasMinister <https://www.gov.uk/government/people/mark-kirkbridg> .
 
-<https://www.gov.uk/government/people/mark-kirkbridg> a schema1:Person ;
+<https://www.gov.uk/government/people/mark-kirkbridg> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-08-01T14:18:56+01:00" ;
     schema1:description "Mark Kirkbride was appointed to the Committee on Radioactive Waste Management in November 2019."@en ;
     schema1:name "Mark Kirkbride"@en ;
     schema1:url <https://www.gov.uk/government/people/mark-kirkbridg> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
-    govuk:currentRoleTitle "Member, CoRWM"@en .
+    govuk:contentId "392de1d8-d944-4c6a-82f8-4e2f3d6996d9" ;
+    govuk:currentRoleTitle "Member, CoRWM"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

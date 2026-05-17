@@ -1,17 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean> govuk:roleHolder <https://www.gov.uk/government/people/baroness-chapman-of-darlington> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> govuk:hasMinister <https://www.gov.uk/government/people/baroness-chapman-of-darlington> .
 
-<https://www.gov.uk/government/people/baroness-chapman-of-darlington> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean> govuk:roleHolder <https://www.gov.uk/government/people/baroness-chapman-of-darlington> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--277> govuk:previouslyHeldBy <https://www.gov.uk/government/people/baroness-chapman-of-darlington> .
+
+<https://www.gov.uk/government/people/baroness-chapman-of-darlington> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-30T12:48:13+01:00" ;
     schema1:description "Baroness Chapman was appointed Minister of State (International Development and Africa) in the Foreign, Commonwealth & Development Office in September 2025."@en ;
     schema1:name "The Rt Hon Baroness Chapman of Darlington"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-chapman-of-darlington> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:contentId "71d4e873-9d40-4ed5-97ea-75158ac630a1" ;
     govuk:currentRoleTitle "Minister of State (International Development and Africa)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--277> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-chapman-of-darlington> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--277> ;
+    govuk:tenureEnd "2025-02-28"^^xsd:date ;
+    govuk:tenureStart "2024-07-18"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-chapman-of-darlington> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-international-development-latin-america-and-caribbean> ;
+    govuk:tenureStart "2025-02-28"^^xsd:date .
 

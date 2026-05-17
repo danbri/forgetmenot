@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/government-people-group> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-04-04T16:04:32+01:00" ;
     schema1:name "Government People Group"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-people-group> ;
+    govuk:contentId "5be796f1-9b02-484f-bbd4-dc2cf8003014" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-kean>,
         <https://www.gov.uk/government/people/andrew-key>,
         <https://www.gov.uk/government/people/caitlin-kinsella>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/janette-durbin>,
         <https://www.gov.uk/government/people/nathan-moores>,
         <https://www.gov.uk/government/people/simon-claydon>,
-        <https://www.gov.uk/government/people/zoe-sweet> .
+        <https://www.gov.uk/government/people/zoe-sweet> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrew-kean> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6605a1aae8c442197c220329/s465_Screenshot_2024-03-28_165658.png> ;

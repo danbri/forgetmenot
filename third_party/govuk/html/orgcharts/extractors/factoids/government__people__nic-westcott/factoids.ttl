@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/nic-westcott> .
 
-<https://www.gov.uk/government/people/nic-westcott> a schema1:Person ;
+<https://www.gov.uk/government/people/nic-westcott> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-11-27T16:59:25+00:00" ;
     schema1:description "Nic Westcott is Chief People Officer at Sellafield Ltd, where she leads the people strategy for one of Europe’s most complex industrial sites within the NDA Group."@en ;
     schema1:name "Nic Westcott"@en ;
     schema1:url <https://www.gov.uk/government/people/nic-westcott> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Chief People Officer"@en .
+    govuk:contentId "c1aa25e0-09df-4927-8f37-1f3391b6a848" ;
+    govuk:currentRoleTitle "Chief People Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

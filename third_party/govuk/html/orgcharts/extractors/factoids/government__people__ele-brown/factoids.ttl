@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/civil-service-government-veterinary-services> govuk:hasMinister <https://www.gov.uk/government/people/ele-brown> .
 
-<https://www.gov.uk/government/people/ele-brown> a schema1:Person ;
+<https://www.gov.uk/government/people/ele-brown> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-08-11T17:13:52+01:00" ;
     schema1:description "Ele was appointed Deputy Chief Veterinary Officer for national, domestic and exotic diseases at the Department for Environment, Food and Rural Affairs in July 2023."@en ;
     schema1:name "Ele Brown"@en ;
     schema1:url <https://www.gov.uk/government/people/ele-brown> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/civil-service-government-veterinary-services> ;
-    govuk:currentRoleTitle "Deputy Chief Veterinary Officer for national, domestic and exotic diseases"@en .
+    govuk:contentId "404d99ba-7ceb-409f-b40f-f447217ea707" ;
+    govuk:currentRoleTitle "Deputy Chief Veterinary Officer for national, domestic and exotic diseases"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

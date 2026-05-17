@@ -1,13 +1,89 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/marcus-jones> .
 
-<https://www.gov.uk/government/people/marcus-jones> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--7> govuk:previouslyHeldBy <https://www.gov.uk/government/people/marcus-jones> .
+
+<https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/marcus-jones> .
+
+<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/marcus-jones> .
+
+<https://www.gov.uk/government/ministers/government-whip--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/marcus-jones> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-at-the-department-for-levelling-up-housing-and-communities> govuk:previouslyHeldBy <https://www.gov.uk/government/people/marcus-jones> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/marcus-jones> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-local-government> govuk:previouslyHeldBy <https://www.gov.uk/government/people/marcus-jones> .
+
+<https://www.gov.uk/government/people/marcus-jones> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T10:53:48+01:00" ;
     schema1:description "Marcus Jones was Treasurer of His Majesty’s Household (Deputy Chief Whip) from 27 October 2022 to 5 July 2024."@en ;
     schema1:name "The Rt Hon Marcus Jones"@en ;
     schema1:url <https://www.gov.uk/government/people/marcus-jones> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "ad85f664-e99f-4408-88a8-1394e829d647" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--7>,
+        <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip>,
+        <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2>,
+        <https://www.gov.uk/government/ministers/government-whip--2>,
+        <https://www.gov.uk/government/ministers/minister-of-state-at-the-department-for-levelling-up-housing-and-communities>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing--2>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-local-government> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-local-government> ;
+    govuk:tenureEnd "2018-01-08"^^xsd:date ;
+    govuk:tenureStart "2015-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--7> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2019-07-29"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing--2> ;
+    govuk:tenureEnd "2022-09-07"^^xsd:date ;
+    govuk:tenureStart "2022-07-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2021-09-17"^^xsd:date ;
+    govuk:tenureStart "2020-02-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2022-07-07"^^xsd:date ;
+    govuk:tenureStart "2021-09-17"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-10-27"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-at-the-department-for-levelling-up-housing-and-communities> ;
+    govuk:tenureEnd "2022-07-07"^^xsd:date ;
+    govuk:tenureStart "2022-07-07"^^xsd:date .
 

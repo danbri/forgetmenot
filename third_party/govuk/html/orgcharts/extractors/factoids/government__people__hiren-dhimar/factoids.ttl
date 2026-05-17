@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/building-digital-uk> govuk:hasMinister <https://www.gov.uk/government/people/hiren-dhimar> .
 
-<https://www.gov.uk/government/people/hiren-dhimar> a schema1:Person ;
+<https://www.gov.uk/government/people/hiren-dhimar> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-09-05T16:19:08+01:00" ;
     schema1:description "Hiren Dhimar has been the Programme Director for the Shared Rural Network programme since February 2024, and has responsibility for the programme’s overall delivery."@en ;
     schema1:name "Hiren Dhimar"@en ;
     schema1:url <https://www.gov.uk/government/people/hiren-dhimar> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/building-digital-uk> ;
-    govuk:currentRoleTitle "Shared Rural Network Programme Director"@en .
+    govuk:contentId "fc55a015-554f-4d22-bc05-57f256fa0ce7" ;
+    govuk:currentRoleTitle "Shared Rural Network Programme Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

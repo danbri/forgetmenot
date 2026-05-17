@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/danny-alexander> .
 
-<https://www.gov.uk/government/people/danny-alexander> a schema1:Person ;
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/danny-alexander> .
+
+<https://www.gov.uk/government/people/danny-alexander> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2015-03-30T12:13:26+01:00" ;
     schema1:description "Danny Alexander was appointed Chief Secretary to the Treasury in May 2010. He was the Liberal Democrat MP for Inverness, Nairn, Badenoch and Strathspey."@en ;
     schema1:name "The Rt Hon Danny Alexander"@en ;
     schema1:url <https://www.gov.uk/government/people/danny-alexander> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85292870-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/danny-alexander> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2015-05-08"^^xsd:date ;
+    govuk:tenureStart "2010-05-29"^^xsd:date .
 

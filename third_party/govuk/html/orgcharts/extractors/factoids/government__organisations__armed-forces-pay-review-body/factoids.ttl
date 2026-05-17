@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/armed-forces-pay-review-body> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-10-30T11:28:49+00:00" ;
     schema1:name "Armed Forces' Pay Review Body"@en ;
     schema1:url <https://www.gov.uk/government/organisations/armed-forces-pay-review-body> ;
+    govuk:contentId "0cd45244-7fac-4c82-9657-d2633892c6db" ;
     govuk:hasManager <https://www.gov.uk/government/people/dougie-peedle>,
         <https://www.gov.uk/government/people/emma-boggis>,
         <https://www.gov.uk/government/people/gillian-fairfield>,
@@ -14,7 +16,9 @@
         <https://www.gov.uk/government/people/julian-miller--2>,
         <https://www.gov.uk/government/people/mark-ackrill>,
         <https://www.gov.uk/government/people/schellion-horn>,
-        <https://www.gov.uk/government/people/steve-dickson> .
+        <https://www.gov.uk/government/people/steve-dickson> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/dougie-peedle> a schema1:Person ;
     schema1:name "Dougie Peedle"@en .

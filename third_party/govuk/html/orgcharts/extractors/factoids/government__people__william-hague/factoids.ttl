@@ -1,13 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/william-hague> .
 
-<https://www.gov.uk/government/people/william-hague> a schema1:Person ;
+<https://www.gov.uk/government/ministers/first-secretary-of-state> govuk:previouslyHeldBy <https://www.gov.uk/government/people/william-hague> .
+
+<https://www.gov.uk/government/ministers/foreign-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/william-hague> .
+
+<https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> govuk:previouslyHeldBy <https://www.gov.uk/government/people/william-hague> .
+
+<https://www.gov.uk/government/people/william-hague> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2019-11-06T15:55:20+00:00" ;
     schema1:description "The Rt Hon William Hague was appointed First Secretary of State and Leader of the House of Commons on 15 July 2014. He was elected to Parliament in 1989 as the Conservative MP for Richmond (Yorks)."@en ;
     schema1:name "The Rt Hon William Hague"@en ;
     schema1:url <https://www.gov.uk/government/people/william-hague> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85291c9c-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/first-secretary-of-state>,
+        <https://www.gov.uk/government/ministers/foreign-secretary>,
+        <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/william-hague> ;
+    govuk:role <https://www.gov.uk/government/ministers/first-secretary-of-state> ;
+    govuk:tenureEnd "2015-05-08"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/william-hague> ;
+    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
+    govuk:tenureEnd "2014-07-14"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/william-hague> ;
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> ;
+    govuk:tenureEnd "2015-05-10"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
 

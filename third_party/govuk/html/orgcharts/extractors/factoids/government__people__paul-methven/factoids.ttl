@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> govuk:hasMinister <https://www.gov.uk/government/people/paul-methven> .
 
-<https://www.gov.uk/government/people/paul-methven> a schema1:Person ;
+<https://www.gov.uk/government/people/paul-methven> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-06T16:35:47+01:00" ;
     schema1:description "Paul was appointed Chief Executive Officer of UK Industrial Fusion Solutions Ltd in October 2023. He joined the STEP programme in September 2020 from the Ministry of Defence, where he was Director of Submarine Acquisition at the Submarine Delivery Agency. In this role he was responsible for Dreadnought, the UK’s second largest major programme after HS2, and has previously led a number of other complex major programmes across the MoD."@en ;
     schema1:name "Paul Methven CB"@en ;
     schema1:url <https://www.gov.uk/government/people/paul-methven> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
-    govuk:currentRoleTitle "CEO & Senior Responsible Owner for STEP Fusion"@en .
+    govuk:contentId "87d976e8-88e9-4b73-b185-362177f0f84c" ;
+    govuk:currentRoleTitle "CEO & Senior Responsible Owner for STEP Fusion"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

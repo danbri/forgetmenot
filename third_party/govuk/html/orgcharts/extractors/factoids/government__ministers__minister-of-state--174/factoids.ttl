@@ -9,9 +9,12 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state--174> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-31T14:12:52+00:00" ;
     schema1:name "Minister of State (Minister for Security)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--174> ;
+    govuk:contentId "b6023b8d-21a1-4d97-9242-9b7244cb0a15" ;
     govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "MP security and VIP protection"@en,
         "anti-corruption"@en,
         "aviation and maritime security"@en,
@@ -25,5 +28,6 @@
         "oversight of the National Crime Agency"@en,
         "serious and organised crime"@en,
         "state threats"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> .
+    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> ;
+    govuk:schemaName "role" .
 

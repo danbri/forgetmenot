@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/national-housing-bank> govuk:hasMinister <https://www.gov.uk/government/people/chris-taylor> .
 
-<https://www.gov.uk/government/people/chris-taylor> a schema1:Person ;
+<https://www.gov.uk/government/people/chris-taylor> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-30T10:13:37+01:00" ;
     schema1:description "Chris is Chair of Real Estate and a Senior Vice President at Federated Hermes Limited, as well as Chair of MEPC, a leading UK placemaking and regeneration developer. He has overseen major regeneration projects such as King’s Cross, Paradise Birmingham, NOMA Manchester, Wellington Place Leeds, Silverstone, and central Milton Keynes."@en ;
     schema1:name "Chris Taylor"@en ;
     schema1:url <https://www.gov.uk/government/people/chris-taylor> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/national-housing-bank> ;
-    govuk:currentRoleTitle "Non-Executive Director, National Housing Bank"@en .
+    govuk:contentId "6b1d7ba3-86ac-43f9-b176-034516c92af4" ;
+    govuk:currentRoleTitle "Non-Executive Director, National Housing Bank"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

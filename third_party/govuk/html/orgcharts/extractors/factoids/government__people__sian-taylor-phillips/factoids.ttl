@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/sian-taylor-phillips> .
 
-<https://www.gov.uk/government/people/sian-taylor-phillips> a schema1:Person ;
+<https://www.gov.uk/government/people/sian-taylor-phillips> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-06-22T11:23:09+01:00" ;
     schema1:description "Sian Taylor-Phillips is Professor of Population Health at the University of Warwick, specialising in evaluation of medical tests and screening programmes. She leads Warwick Screening, a team of researchers which synthesises evidence for national policy-makers, and undertakes primary research across several screening programmes. Sian has a particular interest in evaluating the benefits and harms of different versions of breast cancer screening and holds several grants in this area."@en ;
     schema1:name "Professor Sian Taylor-Phillips"@en ;
     schema1:url <https://www.gov.uk/government/people/sian-taylor-phillips> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
-    govuk:currentRoleTitle "Member"@en .
+    govuk:contentId "285c87cc-5af1-4d08-bd50-ea0d6118f6b0" ;
+    govuk:currentRoleTitle "Member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

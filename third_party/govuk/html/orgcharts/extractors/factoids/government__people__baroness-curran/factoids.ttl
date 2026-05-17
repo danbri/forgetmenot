@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/baroness-curran> .
 
-<https://www.gov.uk/government/people/baroness-curran> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> govuk:previouslyHeldBy <https://www.gov.uk/government/people/baroness-curran> .
+
+<https://www.gov.uk/government/people/baroness-curran> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-22T16:55:51+01:00" ;
     schema1:description "Baroness Curran was appointed as a Minister of State in the Department for Energy Security and Net Zero on 22 May 2025."@en ;
     schema1:name "Baroness Curran"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-curran> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "84bb3f5a-93b9-4ad2-a731-53b57398f0da" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-curran> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    govuk:tenureEnd "2025-06-06"^^xsd:date ;
+    govuk:tenureStart "2025-05-22"^^xsd:date .
 

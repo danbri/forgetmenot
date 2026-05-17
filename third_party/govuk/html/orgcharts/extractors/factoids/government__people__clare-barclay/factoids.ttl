@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/clare-barclay> .
 
-<https://www.gov.uk/government/people/clare-barclay> a schema1:Person ;
+<https://www.gov.uk/government/people/clare-barclay> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-06-16T12:00:01+01:00" ;
     schema1:description "Dame Clare Barclay DBE is President of Enterprise and Industry EMEA at Microsoft, appointed in November 2024. Prior to this Clare spent 4 years as CEO of Microsoft UK, leading through a period of significant transformation and growth. She is responsible for driving Microsoft’s growth ambitions and driving AI industry innovation across the UK, Europe, Middle East and Africa."@en ;
     schema1:name "Dame Clare Barclay DBE"@en ;
     schema1:url <https://www.gov.uk/government/people/clare-barclay> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
-    govuk:currentRoleTitle "Chair, Industrial Strategy Advisory Council"@en .
+    govuk:contentId "063da50c-b056-4532-87a0-3eb89cb5690b" ;
+    govuk:currentRoleTitle "Chair, Industrial Strategy Advisory Council"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

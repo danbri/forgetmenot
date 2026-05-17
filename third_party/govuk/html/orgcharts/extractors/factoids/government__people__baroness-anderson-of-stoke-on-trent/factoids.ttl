@@ -1,20 +1,38 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> .
 
 <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--12> govuk:roleHolder <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> .
 
 <https://www.gov.uk/government/ministers/parliamentary-secretary--17> govuk:roleHolder <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> .
-
-<https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> a schema1:Person ;
+<https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-03T13:57:17+00:00" ;
     schema1:description "Baroness Anderson of Stoke-on-Trent was appointed Baroness in Waiting (Government Whip) on 11 July 2024. She was appointed as Parliamentary Secretary in the Cabinet Office on 3 March 2026."@en ;
     schema1:name "Baroness Anderson of Stoke-on-Trent"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:contentId "96774ebc-23e6-4432-952f-7c7532557f73" ;
     govuk:currentRoleTitle "Baroness in Waiting (Government Whip) and Parliamentary Secretary"@en ;
     govuk:holdsRole <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--12>,
-        <https://www.gov.uk/government/ministers/parliamentary-secretary--17> .
+        <https://www.gov.uk/government/ministers/parliamentary-secretary--17> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> ;
+    govuk:role <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--12> ;
+    govuk:tenureStart "2024-07-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary--17> ;
+    govuk:tenureStart "2026-03-03"^^xsd:date .
 

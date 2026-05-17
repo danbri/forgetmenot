@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/serious-fraud-office> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-03-27T13:23:22+00:00" ;
     schema1:name "Serious Fraud Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/serious-fraud-office> ;
+    govuk:contentId "ebae4517-422f-44dd-9f87-13304c9815cb" ;
     govuk:hasManager <https://www.gov.uk/government/people/caroline-firstbrook>,
         <https://www.gov.uk/government/people/claire-bassett>,
         <https://www.gov.uk/government/people/emma-luxton>,
@@ -14,7 +16,9 @@
         <https://www.gov.uk/government/people/james-thomson>,
         <https://www.gov.uk/government/people/matthew-wagstaff>,
         <https://www.gov.uk/government/people/nick-ephgrave-qpm>,
-        <https://www.gov.uk/government/people/simon-mckinnon-cb-cbe> .
+        <https://www.gov.uk/government/people/simon-mckinnon-cb-cbe> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/caroline-firstbrook> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6731ebaa0a2b4132b43d139f/s465_Caroline_Firstbrook.jpg> ;

@@ -1,13 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-true> .
 
-<https://www.gov.uk/government/people/lord-true> a schema1:Person ;
+<https://www.gov.uk/government/ministers/leader-of-the-house-of-lords> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-true> .
+
+<https://www.gov.uk/government/ministers/lord-privy-seal> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-true> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--99> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-true> .
+
+<https://www.gov.uk/government/people/lord-true> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T10:49:12+01:00" ;
     schema1:description "Lord True was Lord Privy Seal and Leader of the House of Lords between 6 September 2022 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Lord True CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/lord-true> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "6cadef8c-23d4-4c4f-bb4c-7ab8aaff7844" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/leader-of-the-house-of-lords>,
+        <https://www.gov.uk/government/ministers/lord-privy-seal>,
+        <https://www.gov.uk/government/ministers/minister-of-state--99> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-true> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--99> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2020-02-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-true> ;
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-lords> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-true> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
 

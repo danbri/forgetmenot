@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/charity-commission> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-05-13T15:33:28+01:00" ;
     schema1:name "The Charity Commission"@en ;
     schema1:url <https://www.gov.uk/government/organisations/charity-commission> ;
+    govuk:contentId "489e651f-34c8-4b34-bdd7-e13c2324cde3" ;
     govuk:hasManager <https://www.gov.uk/government/people/alan-mather>,
         <https://www.gov.uk/government/people/ann-phillips>,
         <https://www.gov.uk/government/people/david-holdsworth>,
@@ -20,7 +22,9 @@
         <https://www.gov.uk/government/people/pippa-britton>,
         <https://www.gov.uk/government/people/rory-brooks>,
         <https://www.gov.uk/government/people/shrenik-davda>,
-        <https://www.gov.uk/government/people/tasnim-khalid> .
+        <https://www.gov.uk/government/people/tasnim-khalid> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alan-mather> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6807adbe0324470d6a394e7d/s465_Alan_Mather.png> ;

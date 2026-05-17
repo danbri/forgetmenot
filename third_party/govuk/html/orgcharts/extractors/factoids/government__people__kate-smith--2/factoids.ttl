@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/kate-smith--2> .
 
-<https://www.gov.uk/government/people/kate-smith--2> a schema1:Person ;
+<https://www.gov.uk/government/people/kate-smith--2> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-09-22T12:05:11+01:00" ;
     schema1:description "Having headed up Sellafield Ltd’s Regulatory and Planning Law team within the Office of General Counsel since 2009, Kate was appointed Company Secretary in May 2022."@en ;
     schema1:name "Kate Smith"@en ;
     schema1:url <https://www.gov.uk/government/people/kate-smith--2> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Company Secretary"@en .
+    govuk:contentId "1d6210a0-2f75-4b31-9f4b-97c7cec3bd73" ;
+    govuk:currentRoleTitle "Company Secretary"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

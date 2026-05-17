@@ -4,10 +4,15 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/steve-unger> .
 
-<https://www.gov.uk/government/people/steve-unger> a schema1:Person ;
+<https://www.gov.uk/government/people/steve-unger> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-16T10:19:22+01:00" ;
     schema1:description "Until recently Steve was a Board member of Ofcom, the UK regulator responsible for digital communications. He set strategy for regulation in the UK, represented the UK internationally, was Ofcom’s Chief Technology Officer, and served as Acting Chief Executive. Before becoming a regulator he spent several years in the private sector, working for high-tech start-ups who were exploiting new wireless technologies."@en ;
     schema1:name "Steve Unger"@en ;
     schema1:url <https://www.gov.uk/government/people/steve-unger> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "88d1e397-d203-4e16-8aee-a59b0cb6d107" ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

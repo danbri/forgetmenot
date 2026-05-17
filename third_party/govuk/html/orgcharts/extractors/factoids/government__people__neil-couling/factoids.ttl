@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/neil-couling> .
 
-<https://www.gov.uk/government/people/neil-couling> a schema1:Person ;
+<https://www.gov.uk/government/people/neil-couling> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-06-24T14:18:20+01:00" ;
     schema1:description "Neil was appointed Director General, DWP Services and Fraud in March 2025."@en ;
     schema1:name "Neil Couling CB CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/neil-couling> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    govuk:currentRoleTitle "Director General, DWP Services and Fraud"@en .
+    govuk:contentId "85444df2-c0f1-11e4-8223-005056011aef" ;
+    govuk:currentRoleTitle "Director General, DWP Services and Fraud"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

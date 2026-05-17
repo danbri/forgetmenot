@@ -1,13 +1,109 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/chloe-smith> .
 
-<https://www.gov.uk/government/people/chloe-smith> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--14> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--91> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-disabled-people> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-political-and-constitutional-reform> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-at-the-northern-ireland-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology-maternity-cover> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chloe-smith> .
+
+<https://www.gov.uk/government/people/chloe-smith> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:00:58+01:00" ;
     schema1:description "Chloe Smith was previously appointed Secretary of State for Science, Innovation and Technology from 28 April 2023 to 20 July 2023 while the Rt Hon Michelle Donelan MP was on maternity leave."@en ;
     schema1:name "Chloe Smith"@en ;
     schema1:url <https://www.gov.uk/government/people/chloe-smith> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8529474f-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--14>,
+        <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/minister-of-state--91>,
+        <https://www.gov.uk/government/ministers/minister-of-state-disabled-people>,
+        <https://www.gov.uk/government/ministers/parliamentary-secretary--3>,
+        <https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-political-and-constitutional-reform>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-at-the-northern-ireland-office>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology-maternity-cover>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology-maternity-cover> ;
+    govuk:tenureEnd "2023-07-20"^^xsd:date ;
+    govuk:tenureStart "2023-04-28"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-at-the-northern-ireland-office> ;
+    govuk:tenureEnd "2018-01-08"^^xsd:date ;
+    govuk:tenureStart "2017-06-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--14> ;
+    govuk:tenureEnd "2018-01-08"^^xsd:date ;
+    govuk:tenureStart "2017-06-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-political-and-constitutional-reform> ;
+    govuk:tenureEnd "2013-10-06"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary--3> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2011-10-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-disabled-people> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--91> ;
+    govuk:tenureEnd "2021-09-15"^^xsd:date ;
+    govuk:tenureStart "2020-02-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
 

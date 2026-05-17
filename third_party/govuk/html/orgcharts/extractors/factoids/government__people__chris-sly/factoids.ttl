@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/chris-sly> .
 
-<https://www.gov.uk/government/people/chris-sly> a schema1:Person ;
+<https://www.gov.uk/government/people/chris-sly> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-11-12T08:48:10+00:00" ;
     schema1:description "Chris moved into the nuclear sector when joining NWS in 2023 as Finance Director."@en ;
     schema1:name "Chris Sly"@en ;
     schema1:url <https://www.gov.uk/government/people/chris-sly> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
-    govuk:currentRoleTitle "Interim Chief Financial Officer"@en .
+    govuk:contentId "22d0406e-7f32-4310-8589-fa9c2257e3bb" ;
+    govuk:currentRoleTitle "Interim Chief Financial Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

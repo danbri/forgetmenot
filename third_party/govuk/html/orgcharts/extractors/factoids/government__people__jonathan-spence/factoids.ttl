@@ -4,10 +4,15 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jonathan-spence> .
 
-<https://www.gov.uk/government/people/jonathan-spence> a schema1:Person ;
+<https://www.gov.uk/government/people/jonathan-spence> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-09-21T16:50:20+01:00" ;
     schema1:description "Jonathan joined the Ministry of Justice as a Non Executive Board Member on 21 August 2023."@en ;
     schema1:name "Jonathan Spence"@en ;
     schema1:url <https://www.gov.uk/government/people/jonathan-spence> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "ce6420e1-4735-48f9-9901-4b4df5de3737" ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

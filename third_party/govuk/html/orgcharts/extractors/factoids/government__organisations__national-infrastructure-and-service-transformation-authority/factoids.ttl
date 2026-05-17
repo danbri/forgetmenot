@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/national-infrastructure-and-service-transformation-authority> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-07-17T12:07:21+01:00" ;
     schema1:name "National Infrastructure and Service Transformation Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/national-infrastructure-and-service-transformation-authority> ;
+    govuk:contentId "8d40c606-b836-4bf1-88f6-0778e1681899" ;
     govuk:hasManager <https://www.gov.uk/government/people/alison-baptiste>,
         <https://www.gov.uk/government/people/becky-wood>,
         <https://www.gov.uk/government/people/jen-coe-hannah-brown>,
@@ -14,7 +16,9 @@
         <https://www.gov.uk/government/people/jonathan-saks>,
         <https://www.gov.uk/government/people/karina-singh>,
         <https://www.gov.uk/government/people/margaret-read>,
-        <https://www.gov.uk/government/people/matthew-vickerstaff> .
+        <https://www.gov.uk/government/people/matthew-vickerstaff> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alison-baptiste> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5b74334eed915d0ad553402f/s465_A_Baptiste_photo.jpg> ;

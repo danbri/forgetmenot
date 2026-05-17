@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/natalie-armstrong> .
 
-<https://www.gov.uk/government/people/natalie-armstrong> a schema1:Person ;
+<https://www.gov.uk/government/people/natalie-armstrong> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-06-10T15:10:16+01:00" ;
     schema1:description "Natalie Armstrong is Professor of Healthcare Improvement Research at the University of Leicester, where she is also Implementation Lead for the NIHR Applied Research Collaboration – East Midlands (ARC-EM). Natalie is experienced in applying social science theory and methods to the area of healthcare implementation and improvement research."@en ;
     schema1:name "Professor Natalie Armstrong BA, MSc, PhD, SFHEA"@en ;
     schema1:url <https://www.gov.uk/government/people/natalie-armstrong> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
-    govuk:currentRoleTitle "Member"@en .
+    govuk:contentId "aafcded5-d700-429e-850a-0f595711ba73" ;
+    govuk:currentRoleTitle "Member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

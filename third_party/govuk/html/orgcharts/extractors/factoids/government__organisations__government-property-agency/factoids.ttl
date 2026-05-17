@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/government-property-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-12-12T15:02:39+00:00" ;
     schema1:name "Government Property Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-property-agency> ;
+    govuk:contentId "e8ca4eeb-69b9-41f6-a6ff-971bf4dd0cb1" ;
     govuk:hasManager <https://www.gov.uk/government/people/anna-strongman>,
         <https://www.gov.uk/government/people/carol-bernard>,
         <https://www.gov.uk/government/people/hannah-gray>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/maura-sullivan>,
         <https://www.gov.uk/government/people/nick-brown--2>,
         <https://www.gov.uk/government/people/roger-blundell>,
-        <https://www.gov.uk/government/people/ronen-journo> .
+        <https://www.gov.uk/government/people/ronen-journo> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/anna-strongman> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6707a06030536cb927482f4b/s465_Anna_Strongman_-_square_gov.uk.png> ;

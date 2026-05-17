@@ -1,17 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth> govuk:roleHolder <https://www.gov.uk/government/people/stephanie-peacock> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> govuk:hasMinister <https://www.gov.uk/government/people/stephanie-peacock> .
 
-<https://www.gov.uk/government/people/stephanie-peacock> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--271> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephanie-peacock> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth> govuk:roleHolder <https://www.gov.uk/government/people/stephanie-peacock> .
+
+<https://www.gov.uk/government/people/stephanie-peacock> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-11T15:57:57+01:00" ;
     schema1:description "Stephanie Peacock was appointed Minister for Sport, Tourism, Civil Society and Youth on 11 September 2025, having been Minister for Sport, Media, Civil Society and Youth from 9 July 2024."@en ;
     schema1:name "Stephanie Peacock MP"@en ;
     schema1:url <https://www.gov.uk/government/people/stephanie-peacock> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
+    govuk:contentId "611cafa0-1b96-45fa-8a8a-7d254cba6ffb" ;
     govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Sport, Tourism, Civil Society and Youth)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--271> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stephanie-peacock> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--271> ;
+    govuk:tenureEnd "2025-09-10"^^xsd:date ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stephanie-peacock> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth> ;
+    govuk:tenureStart "2025-09-11"^^xsd:date .
 

@@ -1,13 +1,57 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jeremy-wright> .
 
-<https://www.gov.uk/government/people/jeremy-wright> a schema1:Person ;
+<https://www.gov.uk/government/ministers/attorney-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jeremy-wright> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--27> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jeremy-wright> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jeremy-wright> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jeremy-wright> .
+
+<https://www.gov.uk/government/people/jeremy-wright> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-15T13:11:51+01:00" ;
     schema1:description "The Rt Hon Sir Jeremy Wright KC was elected the Conservative MP for Kenilworth and Southam in 2010 and was MP for Rugby and Kenilworth 2005 to 2010."@en ;
     schema1:name "The Rt Hon Sir Jeremy Wright KC MP"@en ;
     schema1:url <https://www.gov.uk/government/people/jeremy-wright> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852c34a6-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/attorney-general>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--27>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-wright> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2018-07-09"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-wright> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2018-07-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-wright> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport> .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-wright> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--27> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/further-education-commissioner> govuk:hasMinister <https://www.gov.uk/government/people/graham-razey> .
 
-<https://www.gov.uk/government/people/graham-razey> a schema1:Person ;
+<https://www.gov.uk/government/people/graham-razey> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-21T12:34:30+01:00" ;
     schema1:description "Graham Razey was appointed Deputy Further Education (FE) Commissioner in December 2025."@en ;
     schema1:name "Graham Razey"@en ;
     schema1:url <https://www.gov.uk/government/people/graham-razey> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/further-education-commissioner> ;
-    govuk:currentRoleTitle "Deputy Further Education Commissioner"@en .
+    govuk:contentId "d18584a5-8a66-4936-a818-75d91b9888db" ;
+    govuk:currentRoleTitle "Deputy Further Education Commissioner"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

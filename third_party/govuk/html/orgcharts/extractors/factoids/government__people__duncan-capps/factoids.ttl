@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/home-office> govuk:hasMinister <https://www.gov.uk/government/people/duncan-capps> .
 
-<https://www.gov.uk/government/people/duncan-capps> a schema1:Person ;
+<https://www.gov.uk/government/people/duncan-capps> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-31T17:01:06+01:00" ;
     schema1:description "Major General Duncan Capps CBE is a former senior British Army officer."@en ;
     schema1:name "Duncan Capps CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/duncan-capps> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:currentRoleTitle "Interim Border Security Commander"@en .
+    govuk:contentId "c4aafb24-a16e-4ab1-8e89-62ca9e6e2ed8" ;
+    govuk:currentRoleTitle "Interim Border Security Commander"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/kenneth-clarke> .
 
-<https://www.gov.uk/government/people/kenneth-clarke> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-without-portfolio--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kenneth-clarke> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kenneth-clarke> .
+
+<https://www.gov.uk/government/people/kenneth-clarke> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-09-28T14:05:05+01:00" ;
     schema1:description "Kenneth Clarke KC served as Conservative MP for Rushcliffe from June 1970 to December 2019."@en ;
     schema1:name "The Rt Hon Kenneth Clarke KC"@en ;
     schema1:url <https://www.gov.uk/government/people/kenneth-clarke> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85291dde-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-without-portfolio--2>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/kenneth-clarke> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-without-portfolio--2> ;
+    govuk:tenureEnd "2014-07-14"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/kenneth-clarke> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/wales-office> govuk:hasMinister <https://www.gov.uk/government/people/ciaran-hayes> .
 
-<https://www.gov.uk/government/people/ciaran-hayes> a schema1:Person ;
+<https://www.gov.uk/government/people/ciaran-hayes> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-01-08T16:44:03+00:00" ;
     schema1:description "Ciarán joined the Wales Office as Director in January 2026."@en ;
     schema1:name "Ciarán Hayes"@en ;
     schema1:url <https://www.gov.uk/government/people/ciaran-hayes> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/wales-office> ;
-    govuk:currentRoleTitle "Director, Wales Office"@en .
+    govuk:contentId "836876a7-220b-4bb2-a59c-f3149e6552a2" ;
+    govuk:currentRoleTitle "Director, Wales Office"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

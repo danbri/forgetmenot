@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/land-registry> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-09T10:13:08+00:00" ;
     schema1:name "HM Land Registry"@en ;
     schema1:url <https://www.gov.uk/government/organisations/land-registry> ;
+    govuk:contentId "5c54ae52-341b-499e-a6dd-67f04633b8cf" ;
     govuk:hasManager <https://www.gov.uk/government/people/abi-howarth>,
         <https://www.gov.uk/government/people/angie-clarkson>,
         <https://www.gov.uk/government/people/ann-henshaw>,
@@ -19,7 +21,9 @@
         <https://www.gov.uk/government/people/mark-gray>,
         <https://www.gov.uk/government/people/neil-sachdev>,
         <https://www.gov.uk/government/people/rommel-pereira>,
-        <https://www.gov.uk/government/people/stephen-aynsley-smith> .
+        <https://www.gov.uk/government/people/stephen-aynsley-smith> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/abi-howarth> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67d150050c569e0d48fb09e7/s465_Abi_GOV.UK_.jpg> ;

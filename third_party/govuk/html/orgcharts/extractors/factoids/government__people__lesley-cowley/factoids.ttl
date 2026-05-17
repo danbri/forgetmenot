@@ -4,10 +4,15 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lesley-cowley> .
 
-<https://www.gov.uk/government/people/lesley-cowley> a schema1:Person ;
+<https://www.gov.uk/government/people/lesley-cowley> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-06-18T09:01:33+01:00" ;
     schema1:description "Lesley became Chair of BDUK in July 2025. She is also Chair of ACL Ltd and a Non-Executive Director of Public Digital Ltd, both private companies."@en ;
     schema1:name "Lesley Cowley OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/lesley-cowley> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8544083d-c0f1-11e4-8223-005056011aef" ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

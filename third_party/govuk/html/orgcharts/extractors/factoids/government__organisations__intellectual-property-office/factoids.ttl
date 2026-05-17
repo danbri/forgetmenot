@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/intellectual-property-office> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-22T10:06:59+01:00" ;
     schema1:name "Intellectual Property Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/intellectual-property-office> ;
+    govuk:contentId "5d6f9583-991f-413d-ae83-be7274e5eae4" ;
     govuk:hasManager <https://www.gov.uk/government/people/adam-williams>,
         <https://www.gov.uk/government/people/andrew-lawrence>,
         <https://www.gov.uk/government/people/andy-bartlett>,
@@ -22,7 +24,9 @@
         <https://www.gov.uk/government/people/penny-phillpotts>,
         <https://www.gov.uk/government/people/sian-nia-davies>,
         <https://www.gov.uk/government/people/steph-dales>,
-        <https://www.gov.uk/government/people/timothy-render> .
+        <https://www.gov.uk/government/people/timothy-render> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/adam-williams> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5a4f644ced915d5954733880/s465_Adam_Williams_web.jpg> ;

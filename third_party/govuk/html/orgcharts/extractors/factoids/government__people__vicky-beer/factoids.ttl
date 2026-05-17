@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> govuk:hasMinister <https://www.gov.uk/government/people/vicky-beer> .
 
-<https://www.gov.uk/government/people/vicky-beer> a schema1:Person ;
+<https://www.gov.uk/government/people/vicky-beer> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-09-07T09:19:59+01:00" ;
     schema1:description "Vicky Beer started her role as Regional Director for North West in September 2022."@en ;
     schema1:name "Vicky Beer"@en ;
     schema1:url <https://www.gov.uk/government/people/vicky-beer> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
-    govuk:currentRoleTitle "Regional Director for North West"@en .
+    govuk:contentId "765f6f64-d353-4c1f-9a26-b525eadf7b56" ;
+    govuk:currentRoleTitle "Regional Director for North West"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

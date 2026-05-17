@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/competition-and-markets-authority> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-09T09:30:04+01:00" ;
     schema1:name "Competition and Markets Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/competition-and-markets-authority> ;
+    govuk:contentId "957eb4ec-089b-4f71-ba2a-dc69ac8919ea" ;
     govuk:hasManager <https://www.gov.uk/government/people/chris-prevett>,
         <https://www.gov.uk/government/people/cyrus-mehta>,
         <https://www.gov.uk/government/people/daniel-lambauer>,
@@ -24,7 +26,9 @@
         <https://www.gov.uk/government/people/patricia-hodgson>,
         <https://www.gov.uk/government/people/sarah-cardell>,
         <https://www.gov.uk/government/people/suma-chakrabarti>,
-        <https://www.gov.uk/government/people/will-hayter> .
+        <https://www.gov.uk/government/people/will-hayter> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/chris-prevett> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6659869bdc15efdddf1a85d5/s465_Chris_Prevett.jpg> ;

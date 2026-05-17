@@ -1,13 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> .
 
-<https://www.gov.uk/government/people/natalie-evans-of-bowes-park> a schema1:Person ;
+<https://www.gov.uk/government/ministers/government-whip-baroness-in-waiting--5> govuk:previouslyHeldBy <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> .
+
+<https://www.gov.uk/government/ministers/leader-of-the-house-of-lords> govuk:previouslyHeldBy <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> .
+
+<https://www.gov.uk/government/ministers/lord-privy-seal> govuk:previouslyHeldBy <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> .
+
+<https://www.gov.uk/government/people/natalie-evans-of-bowes-park> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-09-06T20:48:37+01:00" ;
     schema1:description "Baroness Evans of Bowes Park was Lord Privy Seal and Leader of the House of Lords between 14 July 2016 and 6 September 2022."@en ;
     schema1:name "The Rt Hon Baroness Evans of Bowes Park"@en ;
     schema1:url <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "26d76f68-a6fc-4a19-8bc5-2dfb323794e5" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/government-whip-baroness-in-waiting--5>,
+        <https://www.gov.uk/government/ministers/leader-of-the-house-of-lords>,
+        <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2016-07-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-baroness-in-waiting--5> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2015-05-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/natalie-evans-of-bowes-park> ;
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-lords> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2016-07-16"^^xsd:date .
 

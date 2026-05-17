@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-10-11T12:46:55+01:00" ;
     schema1:name "Driver and Vehicle Licensing Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/driver-and-vehicle-licensing-agency> ;
+    govuk:contentId "70580624-93b5-4aed-823b-76042486c769" ;
     govuk:hasManager <https://www.gov.uk/government/people/brian-sullivan>,
         <https://www.gov.uk/government/people/charmion-pears>,
         <https://www.gov.uk/government/people/darren-thompson>,
@@ -17,7 +19,9 @@
         <https://www.gov.uk/government/people/stephen-tetlow>,
         <https://www.gov.uk/government/people/tim-moss>,
         <https://www.gov.uk/government/people/tony-ackroyd>,
-        <https://www.gov.uk/government/people/tracy-nash> .
+        <https://www.gov.uk/government/people/tracy-nash> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/brian-sullivan> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5cfa615140f0b663fc324b98/s465_Brian_Sullivan.jpg> ;

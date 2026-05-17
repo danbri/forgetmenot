@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/michael-moore> .
 
-<https://www.gov.uk/government/people/michael-moore> a schema1:Person ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-moore> .
+
+<https://www.gov.uk/government/people/michael-moore> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T15:28:12+01:00" ;
     schema1:description "Michael Moore was appointed Secretary of State for Scotland in May 2010. He was elected Liberal Democrat MP for Berwickshire, Roxburgh and Selkirk in May 2005."@en ;
     schema1:name "The Rt Hon Michael Moore"@en ;
     schema1:url <https://www.gov.uk/government/people/michael-moore> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852927d8-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-moore> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:tenureEnd "2013-10-07"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/government-chemist> govuk:hasMinister <https://www.gov.uk/government/people/malcolm-burns> .
 
-<https://www.gov.uk/government/people/malcolm-burns> a schema1:Person ;
+<https://www.gov.uk/government/people/malcolm-burns> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2014-07-17T14:45:12+01:00" ;
     schema1:description "Malcolm Burns joined the Government Chemist programme in October 2000. He has more than 15 years’ experience in the field of molecular biology and is also the Manager for the UK National Reference Laboratory for Genetically Modified Organisms in Food and Feed. Malcolm gives regular presentations at national and international level regarding food authenticity testing, and is a member of several international working groups and advisory committees."@en ;
     schema1:name "Dr Malcolm Burns"@en ;
     schema1:url <https://www.gov.uk/government/people/malcolm-burns> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-chemist> ;
-    govuk:currentRoleTitle "Principal Scientist and Special Advisor"@en .
+    govuk:contentId "85404f24-c0f1-11e4-8223-005056011aef" ;
+    govuk:currentRoleTitle "Principal Scientist and Special Advisor"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

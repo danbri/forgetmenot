@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/civil-service-government-veterinary-services> govuk:hasMinister <https://www.gov.uk/government/people/jorge-martin-almagro> .
 
-<https://www.gov.uk/government/people/jorge-martin-almagro> a schema1:Person ;
+<https://www.gov.uk/government/people/jorge-martin-almagro> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-03-15T16:03:57+00:00" ;
     schema1:description "Jorge was appointed Deputy Chief Veterinary Officer for international and trade affairs at the Department for Environment, Food and Rural Affairs in March 2024. Jorge was appointed on an interim basis in July 2023."@en ;
     schema1:name "Jorge Martin-Almagro"@en ;
     schema1:url <https://www.gov.uk/government/people/jorge-martin-almagro> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/civil-service-government-veterinary-services> ;
-    govuk:currentRoleTitle "Deputy Chief Veterinary Officer for international and trade affairs"@en .
+    govuk:contentId "432efd1f-88f0-48e1-92c2-bb27072c1bf0" ;
+    govuk:currentRoleTitle "Deputy Chief Veterinary Officer for international and trade affairs"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

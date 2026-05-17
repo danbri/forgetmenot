@@ -1,13 +1,143 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/greg-hands> .
 
-<https://www.gov.uk/government/people/greg-hands> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--4> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--110> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--163> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--37> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--75> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-for-trade-and-investment> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/minister-without-portfolio--8> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/minister-for-london> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--96> govuk:previouslyHeldBy <https://www.gov.uk/government/people/greg-hands> .
+
+<https://www.gov.uk/government/people/greg-hands> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:39:59+01:00" ;
     schema1:description "The Rt Hon Greg Hands was Minister of State for Trade Policy in the Department for Business and Trade, and Minister for London, between 13 November 2023 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Greg Hands"@en ;
     schema1:url <https://www.gov.uk/government/people/greg-hands> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852e83e6-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--4>,
+        <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2>,
+        <https://www.gov.uk/government/ministers/minister-for-london>,
+        <https://www.gov.uk/government/ministers/minister-of-state--110>,
+        <https://www.gov.uk/government/ministers/minister-of-state--163>,
+        <https://www.gov.uk/government/ministers/minister-of-state--37>,
+        <https://www.gov.uk/government/ministers/minister-of-state--75>,
+        <https://www.gov.uk/government/ministers/minister-of-state--96>,
+        <https://www.gov.uk/government/ministers/minister-of-state-for-trade-and-investment>,
+        <https://www.gov.uk/government/ministers/minister-without-portfolio--8> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-london> ;
+    govuk:tenureEnd "2018-01-09"^^xsd:date ;
+    govuk:tenureStart "2017-06-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--163> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-11-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2015-05-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2015-05-11"^^xsd:date ;
+    govuk:tenureStart "2013-10-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--96> ;
+    govuk:tenureEnd "2023-02-07"^^xsd:date ;
+    govuk:tenureStart "2022-10-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--110> ;
+    govuk:tenureEnd "2021-09-16"^^xsd:date ;
+    govuk:tenureStart "2021-09-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--4> ;
+    govuk:tenureEnd "2013-10-07"^^xsd:date ;
+    govuk:tenureStart "2011-10-01"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-london> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-11-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-for-trade-and-investment> ;
+    govuk:tenureEnd "2017-09-03"^^xsd:date ;
+    govuk:tenureStart "2016-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--75> ;
+    govuk:tenureEnd "2022-09-07"^^xsd:date ;
+    govuk:tenureStart "2021-09-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--96> ;
+    govuk:tenureEnd "2021-09-15"^^xsd:date ;
+    govuk:tenureStart "2020-02-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--37> ;
+    govuk:tenureEnd "2018-06-21"^^xsd:date ;
+    govuk:tenureStart "2017-09-03"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-without-portfolio--8> ;
+    govuk:tenureEnd "2023-11-13"^^xsd:date ;
+    govuk:tenureStart "2023-02-07"^^xsd:date .
 

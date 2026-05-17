@@ -151,8 +151,10 @@
 <https://www.gov.uk/government/organisations/department-for-business-and-trade> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-02-19T09:32:17+00:00" ;
     schema1:name "Department for Business and Trade"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:contentId "aa750cdf-7925-429d-a2b3-0d9fa47d2c48" ;
     govuk:hasManager <https://www.gov.uk/government/people/amanda-brooks>,
         <https://www.gov.uk/government/people/caleb-deeks>,
         <https://www.gov.uk/government/people/ceri-smith>,
@@ -185,5 +187,7 @@
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry>,
-        <https://www.gov.uk/government/ministers/secretary-of-state--2> .
+        <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

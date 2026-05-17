@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/cyber-and-specialist-operations-command> govuk:hasMinister <https://www.gov.uk/government/people/suraya-marshall> .
 
-<https://www.gov.uk/government/people/suraya-marshall> a schema1:Person ;
+<https://www.gov.uk/government/people/suraya-marshall> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-12-05T15:47:17+00:00" ;
     schema1:description "Air Marshal Suraya Marshall, CBE was appointed Deputy Commander, Cyber & Specialist Operations (CSOC) on 28 November 2025."@en ;
     schema1:name "Air Marshal Suraya Marshall CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/suraya-marshall> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/cyber-and-specialist-operations-command> ;
-    govuk:currentRoleTitle "Deputy Commander Cyber & Specialist Operations Command"@en .
+    govuk:contentId "a5da70d2-0487-4f67-811a-a0ed0bdb6d2d" ;
+    govuk:currentRoleTitle "Deputy Commander Cyber & Specialist Operations Command"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

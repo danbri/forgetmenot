@@ -1,13 +1,99 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/mel-stride> .
 
-<https://www.gov.uk/government/people/mel-stride> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--4> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mel-stride> .
+
+<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mel-stride> .
+
+<https://www.gov.uk/government/ministers/government-whip-comptroller-of-hm-household> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mel-stride> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--7> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mel-stride> .
+
+<https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mel-stride> .
+
+<https://www.gov.uk/government/ministers/lord-president-of-the-council> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mel-stride> .
+
+<https://www.gov.uk/government/ministers/paymaster-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mel-stride> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mel-stride> .
+
+<https://www.gov.uk/government/people/mel-stride> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T10:57:41+01:00" ;
     schema1:description "The Rt Hon Mel Stride was Secretary of State for Work and Pensions between 25 October 2022 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Mel Stride MP"@en ;
     schema1:url <https://www.gov.uk/government/people/mel-stride> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8540200b-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--4>,
+        <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/government-whip-comptroller-of-hm-household>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--7>,
+        <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons>,
+        <https://www.gov.uk/government/ministers/lord-president-of-the-council>,
+        <https://www.gov.uk/government/ministers/paymaster-general>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2019-05-23"^^xsd:date ;
+    govuk:tenureStart "2017-06-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-10-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2019-05-23"^^xsd:date ;
+    govuk:tenureStart "2017-06-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--7> ;
+    govuk:tenureEnd "2016-07-18"^^xsd:date ;
+    govuk:tenureStart "2015-05-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-comptroller-of-hm-household> ;
+    govuk:tenureEnd "2017-06-12"^^xsd:date ;
+    govuk:tenureStart "2016-07-18"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2019-05-23"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2019-05-23"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--4> ;
+    govuk:tenureEnd "2015-05-13"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
 

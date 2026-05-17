@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/national-data-guardian> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-09-16T11:10:15+01:00" ;
     schema1:name "National Data Guardian"@en ;
     schema1:url <https://www.gov.uk/government/organisations/national-data-guardian> ;
-    govuk:hasManager <https://www.gov.uk/government/people/nicola-byrne> .
+    govuk:contentId "c9fa14af-052d-451c-a003-5d03a13b92b2" ;
+    govuk:hasManager <https://www.gov.uk/government/people/nicola-byrne> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/nicola-byrne> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/60547e4fe90e0724cce0afcd/s465_Dr_Nicola_Byrne_for_GOV_UK.jpg> ;

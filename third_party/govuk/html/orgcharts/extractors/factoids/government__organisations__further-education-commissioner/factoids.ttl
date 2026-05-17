@@ -5,12 +5,16 @@
 <https://www.gov.uk/government/organisations/further-education-commissioner> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-04-15T10:04:56+01:00" ;
     schema1:name "Further Education Commissioner"@en ;
     schema1:url <https://www.gov.uk/government/organisations/further-education-commissioner> ;
+    govuk:contentId "7c4a25e0-8672-4036-8245-0a2f330fbdfa" ;
     govuk:hasManager <https://www.gov.uk/government/people/becky-edwards>,
         <https://www.gov.uk/government/people/ellen-thinnesen>,
         <https://www.gov.uk/government/people/esme-winch>,
-        <https://www.gov.uk/government/people/graham-razey> .
+        <https://www.gov.uk/government/people/graham-razey> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/becky-edwards> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/64f2053e9ee0f2000fb7bddf/s465_Becky_Edwards.jpg> ;

@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/uk-national-screening-committee> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-02-16T11:53:21+00:00" ;
     schema1:name "UK National Screening Committee"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
+    govuk:contentId "afb55c90-1986-4ac8-bd0b-3944b836493e" ;
     govuk:hasManager <https://www.gov.uk/government/people/anne-slowther>,
         <https://www.gov.uk/government/people/anneke-lucassen>,
         <https://www.gov.uk/government/people/bethany-shinkins>,
@@ -17,7 +19,9 @@
         <https://www.gov.uk/government/people/rosalind-given-wilson>,
         <https://www.gov.uk/government/people/sharon-hillier>,
         <https://www.gov.uk/government/people/sian-taylor-phillips>,
-        <https://www.gov.uk/government/people/sir-mike-richards> .
+        <https://www.gov.uk/government/people/sir-mike-richards> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/anne-slowther> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/609d2462d3bf7f2883267c14/s465_Anne-Marie_Slowther.jpg> ;

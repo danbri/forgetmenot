@@ -1,13 +1,86 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/david-gauke> .
 
-<https://www.gov.uk/government/people/david-gauke> a schema1:Person ;
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-gauke> .
+
+<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-gauke> .
+
+<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-gauke> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-gauke> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-gauke> .
+
+<https://www.gov.uk/government/ministers/lord-chancellor> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-gauke> .
+
+<https://www.gov.uk/government/people/david-gauke> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2019-11-06T16:02:05+00:00" ;
     schema1:description "David Gauke was Lord Chancellor and Secretary of State for Justice between 8 January 2018 and 24 July 2019. He was Secretary of State for Work and Pensions from June 2017 to January 2018. He was elected the Conservative MP for Hertfordshire South West in May 2005."@en ;
     schema1:name "The Rt Hon David Gauke"@en ;
     schema1:url <https://www.gov.uk/government/people/david-gauke> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85293feb-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/lord-chancellor>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-justice>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    govuk:tenureEnd "2018-01-08"^^xsd:date ;
+    govuk:tenureStart "2017-06-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2017-06-11"^^xsd:date ;
+    govuk:tenureStart "2016-07-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2018-01-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

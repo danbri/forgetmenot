@@ -4,10 +4,15 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/louise-alexander> .
 
-<https://www.gov.uk/government/people/louise-alexander> a schema1:Person ;
+<https://www.gov.uk/government/people/louise-alexander> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-07-11T17:28:43+01:00" ;
     schema1:description "Louise joined HM Courts & Tribunals Service from the Insolvency Service where, in her role as People and Capability Director, she had responsibilities across the HR sphere including resourcing, reward, talent, learning & development, engagement, and internal communications. Prior to that, Louise was Deputy Director of HR at the Department of Health and before that took on the role of Head of HR for Royal Mail Operations."@en ;
     schema1:name "Louise Alexander"@en ;
     schema1:url <https://www.gov.uk/government/people/louise-alexander> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "0922e92d-46f1-418a-8574-c63db5c2f7c8" ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

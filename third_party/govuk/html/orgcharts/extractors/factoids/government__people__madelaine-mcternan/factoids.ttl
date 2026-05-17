@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/ministry-of-defence> govuk:hasMinister <https://www.gov.uk/government/people/madelaine-mcternan> .
 
-<https://www.gov.uk/government/people/madelaine-mcternan> a schema1:Person ;
+<https://www.gov.uk/government/people/madelaine-mcternan> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-09-26T09:17:37+01:00" ;
     schema1:description "Maddy is Chief of Defence Nuclear at the Ministry of Defence (MoD)."@en ;
     schema1:name "Madelaine McTernan CB"@en ;
     schema1:url <https://www.gov.uk/government/people/madelaine-mcternan> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-defence> ;
-    govuk:currentRoleTitle "Chief of Defence Nuclear"@en .
+    govuk:contentId "5e6077d2-3882-47b6-89b0-181b2e5cc977" ;
+    govuk:currentRoleTitle "Chief of Defence Nuclear"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

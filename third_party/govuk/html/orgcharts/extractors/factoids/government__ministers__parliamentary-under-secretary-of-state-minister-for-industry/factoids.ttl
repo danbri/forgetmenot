@@ -11,10 +11,13 @@
 
 <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-18T11:01:53+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Industry)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> ;
+    govuk:contentId "91ed8ed2-9214-472c-8ccd-361562ce5dd8" ;
     govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade>,
         <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Industrial Development Advisory Board"@en,
         "Office For Clean Energy Jobs​​"@en,
         "advanced manufacturing"@en,
@@ -34,5 +37,6 @@
         "maritime and shipbuilding"@en,
         "materials and critical minerals"@en,
         "steel"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/chris-mcdonald> .
+    govuk:roleHolder <https://www.gov.uk/government/people/chris-mcdonald> ;
+    govuk:schemaName "role" .
 

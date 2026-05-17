@@ -5,12 +5,16 @@
 <https://www.gov.uk/government/organisations/building-safety-regulator> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-01-27T09:06:05+00:00" ;
     schema1:name "Building Safety Regulator"@en ;
     schema1:url <https://www.gov.uk/government/organisations/building-safety-regulator> ;
+    govuk:contentId "cc6cdcfe-7756-4737-bd88-1199c8e6bb8f" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-roe>,
         <https://www.gov.uk/government/people/harjit-sandhu>,
         <https://www.gov.uk/government/people/kemi-oguntoye>,
-        <https://www.gov.uk/government/people/tricia-hayes> .
+        <https://www.gov.uk/government/people/tricia-hayes> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrew-roe> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69b1568995b7465160349618/s465_Andrew_Roe.png> ;

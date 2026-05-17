@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/immigration-advice-authority> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-30T16:25:41+01:00" ;
     schema1:name "Immigration Advice Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/immigration-advice-authority> ;
+    govuk:contentId "48fd24fe-60ba-4b9a-8618-9a84818e403d" ;
     govuk:hasManager <https://www.gov.uk/government/people/gaon-hart>,
-        <https://www.gov.uk/government/people/heather-laing> .
+        <https://www.gov.uk/government/people/heather-laing> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/gaon-hart> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/695d3000b5c46330350ed9d0/s465_GH_960x640.png> ;

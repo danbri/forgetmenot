@@ -1,0 +1,14 @@
+# Wikidata items with a GOV.UK person slug (P10874) -- includes people
+# we may have crawled into the org-chart corpus who don't (yet) have
+# a parliament.uk member id on Wikidata. Useful for finding the
+# coverage gap and for joining people who appear on GOV.UK but who
+# aren't (or are no longer) MPs/peers (e.g. permanent secretaries,
+# special advisers).
+
+SELECT ?person ?personLabel ?govukSlug ?parliamentId ?dob WHERE {
+  ?person wdt:P10874 ?govukSlug .
+  OPTIONAL { ?person wdt:P10428 ?parliamentId }
+  OPTIONAL { ?person wdt:P569   ?dob          }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+ORDER BY ?govukSlug

@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/government-office-for-technology-transfer> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-09T09:40:18+01:00" ;
     schema1:name "Government Office for Technology Transfer"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-office-for-technology-transfer> ;
-    govuk:hasManager <https://www.gov.uk/government/people/alison-campbell> .
+    govuk:contentId "b9e7b282-1c89-4c2f-9aff-35b258a5bab5" ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-campbell> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alison-campbell> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/633c47048fa8f5643321b553/s465_Alison_960_640.png> ;

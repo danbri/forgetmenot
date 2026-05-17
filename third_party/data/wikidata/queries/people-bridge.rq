@@ -1,0 +1,15 @@
+# Every Wikidata item that carries BOTH a Parliament member id (P10428)
+# AND a GOV.UK person slug (P10874) -- i.e. someone we can reliably
+# join between the Members API and our GOV.UK org-chart corpus without
+# relying on name strings or URL paths that change.
+#
+# Returns one row per person with the QID, both external IDs, and the
+# canonical name. The bridge is maintained by Wikidata editors, so
+# stable.
+
+SELECT ?person ?personLabel ?parliamentId ?govukSlug WHERE {
+  ?person wdt:P10428 ?parliamentId ;
+          wdt:P10874 ?govukSlug .
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+ORDER BY ?personLabel

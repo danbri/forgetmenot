@@ -11,12 +11,16 @@
 
 <https://www.gov.uk/government/ministers/prime-minister> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-05T12:32:36+01:00" ;
     schema1:name "Prime Minister"@en ;
     schema1:url <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:contentId "845e5811-c0f1-11e4-8223-005056011aef" ;
     govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office>,
         <https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "chooses members of the government"@en,
         "is the principal government figure in the House of Commons"@en,
         "oversees the operation of the Civil Service and government agencies"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/keir-starmer> .
+    govuk:roleHolder <https://www.gov.uk/government/people/keir-starmer> ;
+    govuk:schemaName "role" .
 

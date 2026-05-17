@@ -1,13 +1,129 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/andrew-stephenson> .
 
-<https://www.gov.uk/government/people/andrew-stephenson> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--13> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/government-whip--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--21> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--167> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--83> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--86> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-for-africa-at-the-foreign-commonwealth-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/minister-without-portfolio--5> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--184> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-stephenson> .
+
+<https://www.gov.uk/government/people/andrew-stephenson> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:34:46+01:00" ;
     schema1:description "Andrew Stephenson was Minister of State in the Department of Health and Social Care between 13 November 2023 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Andrew Stephenson CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-stephenson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "be182c58-f9eb-4294-9e42-5f09572870e4" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--13>,
+        <https://www.gov.uk/government/ministers/government-whip--2>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--21>,
+        <https://www.gov.uk/government/ministers/minister-of-state--167>,
+        <https://www.gov.uk/government/ministers/minister-of-state--83>,
+        <https://www.gov.uk/government/ministers/minister-of-state--86>,
+        <https://www.gov.uk/government/ministers/minister-of-state-for-africa-at-the-foreign-commonwealth-office>,
+        <https://www.gov.uk/government/ministers/minister-without-portfolio--5>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--184>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--167> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-11-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2019-04-04"^^xsd:date ;
+    govuk:tenureStart "2018-07-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--86> ;
+    govuk:tenureEnd "2022-07-07"^^xsd:date ;
+    govuk:tenureStart "2020-02-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> ;
+    govuk:tenureEnd "2019-07-25"^^xsd:date ;
+    govuk:tenureStart "2019-04-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury> ;
+    govuk:tenureEnd "2018-07-25"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--83> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2019-07-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-without-portfolio--5> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2022-07-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--184> ;
+    govuk:tenureEnd "2022-10-27"^^xsd:date ;
+    govuk:tenureStart "2022-09-20"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--13> ;
+    govuk:tenureEnd "2018-01-09"^^xsd:date ;
+    govuk:tenureStart "2017-06-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--21> ;
+    govuk:tenureEnd "2023-11-13"^^xsd:date ;
+    govuk:tenureStart "2022-10-27"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-stephenson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-for-africa-at-the-foreign-commonwealth-office> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2019-07-25"^^xsd:date .
 

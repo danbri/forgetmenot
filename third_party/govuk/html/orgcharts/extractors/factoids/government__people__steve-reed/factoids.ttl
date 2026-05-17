@@ -1,17 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> govuk:roleHolder <https://www.gov.uk/government/people/steve-reed> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasMinister <https://www.gov.uk/government/people/steve-reed> .
 
-<https://www.gov.uk/government/people/steve-reed> a schema1:Person ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/steve-reed> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> govuk:roleHolder <https://www.gov.uk/government/people/steve-reed> .
+
+<https://www.gov.uk/government/people/steve-reed> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-05T17:46:48+01:00" ;
     schema1:description "Steve Reed OBE was appointed Secretary of State for Housing, Communities and Local Government on 5 September 2025."@en ;
     schema1:name "The Rt Hon Steve Reed OBE MP"@en ;
     schema1:url <https://www.gov.uk/government/people/steve-reed> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:contentId "bd2495e5-5e20-4814-9dab-bf88e5c706d0" ;
     govuk:currentRoleTitle "Secretary of State for Housing, Communities and Local Government"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/steve-reed> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/steve-reed> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> ;
+    govuk:tenureStart "2025-09-05"^^xsd:date .
 

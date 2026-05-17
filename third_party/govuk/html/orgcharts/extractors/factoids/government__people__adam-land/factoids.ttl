@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/office-for-the-internal-market> govuk:hasMinister <https://www.gov.uk/government/people/adam-land> .
 
-<https://www.gov.uk/government/people/adam-land> a schema1:Person ;
+<https://www.gov.uk/government/people/adam-land> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-08T10:50:16+01:00" ;
     schema1:description "Adam Land was appointed Senior Director of the Office for the Internal Market and the Subsidy Advice Unit on 1 July 2024."@en ;
     schema1:name "Adam Land"@en ;
     schema1:url <https://www.gov.uk/government/people/adam-land> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-for-the-internal-market> ;
-    govuk:currentRoleTitle "Senior Director"@en .
+    govuk:contentId "159aa3f1-dc35-44e6-9949-48fcd52b541c" ;
+    govuk:currentRoleTitle "Senior Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

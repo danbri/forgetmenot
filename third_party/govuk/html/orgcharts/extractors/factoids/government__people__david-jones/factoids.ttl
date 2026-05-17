@@ -1,13 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/david-jones> .
 
-<https://www.gov.uk/government/people/david-jones> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state--38> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-jones> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--32> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-jones> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-wales> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-jones> .
+
+<https://www.gov.uk/government/people/david-jones> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:00:57+01:00" ;
     schema1:description "David Jones was appointed Minister of State at the Department for Exiting the European Union on 17 July 2016. He was elected Conservative MP for Clwyd West in May 2005."@en ;
     schema1:name "The Rt Hon David Jones"@en ;
     schema1:url <https://www.gov.uk/government/people/david-jones> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852940e5-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state--38>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--32>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    govuk:tenureEnd "2014-07-14"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--32> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--38> ;
+    govuk:tenureEnd "2017-06-12"^^xsd:date ;
+    govuk:tenureStart "2016-07-17"^^xsd:date .
 

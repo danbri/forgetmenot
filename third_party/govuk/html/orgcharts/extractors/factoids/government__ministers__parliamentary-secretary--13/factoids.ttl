@@ -12,11 +12,15 @@
 
 <https://www.gov.uk/government/ministers/parliamentary-secretary--13> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-09T19:19:23+01:00" ;
     schema1:name "Parliamentary Secretary"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-secretary--13> ;
+    govuk:contentId "1a773367-4103-413e-9f83-fc3cee9b436c" ;
     govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/emma-reynolds--2> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/torsten-bell> .
+    govuk:publishingApp "whitehall" ;
+    govuk:roleHolder <https://www.gov.uk/government/people/torsten-bell> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/emma-reynolds--2> ;

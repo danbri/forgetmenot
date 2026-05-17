@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/floella-benjamin> .
 
-<https://www.gov.uk/government/people/floella-benjamin> a schema1:Person ;
+<https://www.gov.uk/government/people/floella-benjamin> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2019-06-20T16:00:14+01:00" ;
     schema1:description "Baroness Floella Benjamin, OBE DL was born in Trinidad in 1949 and came to England as a 10 year old child in 1960 as a Windrush child."@en ;
     schema1:name "Baroness Floella Benjamin OBE DL"@en ;
     schema1:url <https://www.gov.uk/government/people/floella-benjamin> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
-    govuk:currentRoleTitle "Chair, Windrush Commemoration Committee"@en .
+    govuk:contentId "ea30fe23-b949-4637-891c-7775930c9fa4" ;
+    govuk:currentRoleTitle "Chair, Windrush Commemoration Committee"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

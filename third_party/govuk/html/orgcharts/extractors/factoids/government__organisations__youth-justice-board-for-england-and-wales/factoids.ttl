@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/youth-justice-board-for-england-and-wales> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-02-07T10:45:28+00:00" ;
     schema1:name "Youth Justice Board for England and Wales"@en ;
     schema1:url <https://www.gov.uk/government/organisations/youth-justice-board-for-england-and-wales> ;
+    govuk:contentId "7ad091b4-9098-4abd-aae3-1d2b790ee11e" ;
     govuk:hasManager <https://www.gov.uk/government/people/phil-bowen>,
-        <https://www.gov.uk/government/people/steph-roberts-bibby> .
+        <https://www.gov.uk/government/people/steph-roberts-bibby> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/phil-bowen> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/698df62f75466636847f6a96/s465_Phil_Bowen_web.jpg> ;

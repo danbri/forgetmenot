@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/disability-unit> govuk:hasMinister <https://www.gov.uk/government/people/alexandra-gowlland> .
 
-<https://www.gov.uk/government/people/alexandra-gowlland> a schema1:Person ;
+<https://www.gov.uk/government/people/alexandra-gowlland> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-11-09T12:14:36+00:00" ;
     schema1:description "Alexandra Gowlland has been the Deputy Director of the Disability Unit in the Cabinet Office since March 2023."@en ;
     schema1:name "Alexandra Gowlland"@en ;
     schema1:url <https://www.gov.uk/government/people/alexandra-gowlland> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/disability-unit> ;
-    govuk:currentRoleTitle "Deputy Director"@en .
+    govuk:contentId "19ed1122-d799-469b-807b-0ebf70e14a7e" ;
+    govuk:currentRoleTitle "Deputy Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-12-22T09:15:19+00:00" ;
     schema1:name "HM Prison and Probation Service"@en ;
     schema1:url <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> ;
+    govuk:contentId "37a2a3c3-ccd7-46b0-8b81-199a746a2768" ;
     govuk:hasManager <https://www.gov.uk/government/people/alison-clarke>,
         <https://www.gov.uk/government/people/ed-cornmell>,
         <https://www.gov.uk/government/people/glenys-stacey>,
@@ -19,7 +21,9 @@
         <https://www.gov.uk/government/people/michelle-jarman-howe>,
         <https://www.gov.uk/government/people/nick-campsie--2>,
         <https://www.gov.uk/government/people/rommel-moseley>,
-        <https://www.gov.uk/government/people/sarah-coccia> .
+        <https://www.gov.uk/government/people/sarah-coccia> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alison-clarke> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/690e1d2147ad122f854627e8/s465_alison_clarke_960x640.jpg> ;

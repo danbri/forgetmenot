@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/government-skills> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-03-14T14:07:25+00:00" ;
     schema1:name "Government Skills"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-skills> ;
-    govuk:hasManager <https://www.gov.uk/government/people/andrew-key> .
+    govuk:contentId "87fb8d96-cd9f-4de2-839c-e7ae0381856a" ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-key> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrew-key> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/65ef0a213649a23451ed6371/s465_Untitled-design-79.png> ;

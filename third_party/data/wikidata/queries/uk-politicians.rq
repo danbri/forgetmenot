@@ -1,0 +1,22 @@
+# Broad set: anyone Wikidata describes as a politician (P106 = Q82955)
+# AND as a citizen of the United Kingdom (P27 = Q145). Returns
+# whichever bridge identifiers Wikidata has for them. This is the
+# "fish in a wider net" query -- it picks up regional politicians,
+# devolved-legislature members, councillors, mayors, MEPs, and
+# party officials who never sat in Westminster, plus everyone the
+# strict parliament.uk-id query already gives.
+#
+# It is intentionally broad and intentionally heuristic: Wikidata's
+# P27 (citizenship) is anachronistic for figures predating the UK
+# (pre-1707, pre-1801), and "politician" as an occupation tag is
+# applied unevenly. Use it as a starting set, not as a register.
+
+SELECT ?person ?personLabel ?dob ?dod ?parliamentId ?govukSlug WHERE {
+  ?person wdt:P106 wd:Q82955 ;       # occupation = politician
+          wdt:P27  wd:Q145 .          # citizen of the United Kingdom
+  OPTIONAL { ?person wdt:P569 ?dob }  # date of birth
+  OPTIONAL { ?person wdt:P570 ?dod }  # date of death
+  OPTIONAL { ?person wdt:P10428 ?parliamentId }
+  OPTIONAL { ?person wdt:P10874 ?govukSlug    }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}

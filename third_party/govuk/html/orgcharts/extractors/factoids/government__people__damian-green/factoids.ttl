@@ -1,13 +1,69 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/damian-green> .
 
-<https://www.gov.uk/government/people/damian-green> a schema1:Person ;
+<https://www.gov.uk/government/ministers/first-secretary-of-state> govuk:previouslyHeldBy <https://www.gov.uk/government/people/damian-green> .
+
+<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/damian-green> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-immigration> govuk:previouslyHeldBy <https://www.gov.uk/government/people/damian-green> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-policing-and-criminal-justice> govuk:previouslyHeldBy <https://www.gov.uk/government/people/damian-green> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> govuk:previouslyHeldBy <https://www.gov.uk/government/people/damian-green> .
+
+<https://www.gov.uk/government/people/damian-green> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:00:56+01:00" ;
     schema1:description "Damian Green was appointed First Secretary of State and Minister for the Cabinet Office on 11 June 2017. He was elected Conservative MP for Ashford in 1997."@en ;
     schema1:name "The Rt Hon Damian Green"@en ;
     schema1:url <https://www.gov.uk/government/people/damian-green> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8529370c-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/first-secretary-of-state>,
+        <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office>,
+        <https://www.gov.uk/government/ministers/minister-of-state-immigration>,
+        <https://www.gov.uk/government/ministers/minister-of-state-policing-and-criminal-justice>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/damian-green> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    govuk:tenureEnd "2017-06-11"^^xsd:date ;
+    govuk:tenureStart "2016-07-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/damian-green> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-immigration> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/damian-green> ;
+    govuk:role <https://www.gov.uk/government/ministers/first-secretary-of-state> ;
+    govuk:tenureEnd "2017-12-20"^^xsd:date ;
+    govuk:tenureStart "2017-06-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/damian-green> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
+    govuk:tenureEnd "2017-12-20"^^xsd:date ;
+    govuk:tenureStart "2017-06-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/damian-green> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-policing-and-criminal-justice> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
 

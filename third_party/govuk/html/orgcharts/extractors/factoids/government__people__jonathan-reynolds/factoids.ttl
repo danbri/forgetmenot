@@ -1,17 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> govuk:roleHolder <https://www.gov.uk/government/people/jonathan-reynolds> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jonathan-reynolds> .
 
-<https://www.gov.uk/government/people/jonathan-reynolds> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> govuk:roleHolder <https://www.gov.uk/government/people/jonathan-reynolds> .
+
+<https://www.gov.uk/government/ministers/president-of-the-board-of-trade> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jonathan-reynolds> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jonathan-reynolds> .
+
+<https://www.gov.uk/government/people/jonathan-reynolds> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-05T18:05:20+01:00" ;
     schema1:description "Jonathan Reynolds was appointed Parliamentary Secretary to the Treasury (Chief Whip) on 5 September 2025. He was previously Secretary of State for Business and Trade and President of the Board of Trade from 5 July 2024 to 5 September 2025."@en ;
     schema1:name "The Rt Hon Jonathan Reynolds MP"@en ;
     schema1:url <https://www.gov.uk/government/people/jonathan-reynolds> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "1bda1bf9-acfe-42b6-8b82-7e7b6417593e" ;
     govuk:currentRoleTitle "Parliamentary Secretary to the Treasury (Chief Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/president-of-the-board-of-trade>,
+        <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jonathan-reynolds> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureStart "2025-09-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jonathan-reynolds> ;
+    govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jonathan-reynolds> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
 

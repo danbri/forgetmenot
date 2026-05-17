@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/national-housing-bank> govuk:hasMinister <https://www.gov.uk/government/people/simon-century> .
 
-<https://www.gov.uk/government/people/simon-century> a schema1:Person ;
+<https://www.gov.uk/government/people/simon-century> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-31T11:57:54+01:00" ;
     schema1:description "Simon Century is the Chief Executive Officer of the National Housing Bank, having joined Homes England in 2025 as Chief Investment Officer."@en ;
     schema1:name "Simon Century"@en ;
     schema1:url <https://www.gov.uk/government/people/simon-century> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/national-housing-bank> ;
-    govuk:currentRoleTitle "Chief Executive Officer, National Housing Bank"@en .
+    govuk:contentId "705ac2c8-d5bf-411c-86d3-557ce4b1c344" ;
+    govuk:currentRoleTitle "Chief Executive Officer, National Housing Bank"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

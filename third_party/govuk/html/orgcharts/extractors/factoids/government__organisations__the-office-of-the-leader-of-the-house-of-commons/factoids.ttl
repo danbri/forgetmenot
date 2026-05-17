@@ -10,10 +10,14 @@
 <https://www.gov.uk/government/organisations/the-office-of-the-leader-of-the-house-of-commons> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-11-03T12:29:22+00:00" ;
     schema1:name "Office of the Leader of the House of Commons"@en ;
     schema1:url <https://www.gov.uk/government/organisations/the-office-of-the-leader-of-the-house-of-commons> ;
+    govuk:contentId "3cba3de4-da66-470b-ac4a-75a0bd05f7cc" ;
     govuk:hasMinister <https://www.gov.uk/government/people/alan-campbell> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/lord-president-of-the-council> .
+    govuk:hasRole <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alan-campbell> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66884292541aeb9e928f458e/s465_alan-campbell.jpg> ;

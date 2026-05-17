@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> govuk:hasMinister <https://www.gov.uk/government/people/clare-bond> .
 
-<https://www.gov.uk/government/people/clare-bond> a schema1:Person ;
+<https://www.gov.uk/government/people/clare-bond> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-02T16:51:42+01:00" ;
     schema1:description "Clare Bond is a Reader and Earth Scientist at the University of Aberdeen. She has academic, industry, policy and third sector experience spanning a 20+ year career."@en ;
     schema1:name "Professor Clare Bond"@en ;
     schema1:url <https://www.gov.uk/government/people/clare-bond> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
-    govuk:currentRoleTitle "Member, CoRWM"@en .
+    govuk:contentId "f260535e-11d2-42f6-af92-a6e8f74b983f" ;
+    govuk:currentRoleTitle "Member, CoRWM"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

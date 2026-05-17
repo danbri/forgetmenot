@@ -1,6 +1,7 @@
 {
   "// purpose": "MCP servers Claude Code should auto-start on session boot.",
   "// schema":  "Each entry under mcpServers is a server definition; type=stdio uses the package's bin entry; type=http for HTTP transports.",
+  "// note":    "MCP servers are picked up at session start. A running session cannot self-load a new server -- changes here take effect next session.",
   "mcpServers": {
     "chrome-devtools": {
       "// what":  "Drives a headless Chrome via the Chrome DevTools Protocol. Exposes screenshot, accessibility tree, network monitor, page navigation, console capture as MCP tools — tighter and faster than DOM scraping.",
@@ -9,6 +10,15 @@
       "type":    "stdio",
       "command": "npx",
       "args":    ["-y", "chrome-devtools-mcp@latest"]
+    },
+    "govuk-sparql": {
+      "// what":  "Exposes SPARQL queries against the local gov.uk org-chart corpus (third_party/govuk/html/orgcharts/extractors/factoids/all.nq). Two tools: sparql_query and sparql_describe. Wraps the rdflib-endpoint HTTP at 127.0.0.1:8765.",
+      "// when":  "Use when answering questions about UK ministerial roles / holders / departments / org chart. Start the endpoint first: ./scripts/govuk_sparql_serve.sh",
+      "// see":   "skills/govuk-orgchart/SKILL.md, skills/data-quality/SKILL.md",
+      "// dep":   "pip install mcp",
+      "type":    "stdio",
+      "command": "python3",
+      "args":    ["scripts/govuk_mcp_sparql.py"]
     }
   }
 }

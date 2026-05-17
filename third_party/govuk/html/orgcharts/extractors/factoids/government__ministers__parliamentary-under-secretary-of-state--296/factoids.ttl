@@ -12,11 +12,15 @@
 
 <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-04T15:55:26+00:00" ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> ;
+    govuk:contentId "057221f5-6b77-4406-93bb-d0f2a531af94" ;
     govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/josh-simons> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/james-frith> .
+    govuk:publishingApp "whitehall" ;
+    govuk:roleHolder <https://www.gov.uk/government/people/james-frith> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/josh-simons> ;

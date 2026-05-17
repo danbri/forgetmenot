@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/probation-service> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-12-22T09:16:17+00:00" ;
     schema1:name "Probation Service"@en ;
     schema1:url <https://www.gov.uk/government/organisations/probation-service> ;
+    govuk:contentId "d64a0959-bedf-4c6d-8e94-d607cc56ab5b" ;
     govuk:hasManager <https://www.gov.uk/government/people/chris-jennings>,
-        <https://www.gov.uk/government/people/kim-thornden-edwards> .
+        <https://www.gov.uk/government/people/kim-thornden-edwards> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/chris-jennings> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/664496f1f34f9b5a56adc7e3/s465_chris-jennings_gov_.jpg> ;

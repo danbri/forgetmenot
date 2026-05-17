@@ -5,11 +5,15 @@
 <https://www.gov.uk/government/organisations/office-for-the-internal-market> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-01-16T11:10:59+00:00" ;
     schema1:name "Office for the Internal Market"@en ;
     schema1:url <https://www.gov.uk/government/organisations/office-for-the-internal-market> ;
+    govuk:contentId "b1123ceb-77e4-40fc-9526-83ad0ba7cf01" ;
     govuk:hasManager <https://www.gov.uk/government/people/adam-land>,
         <https://www.gov.uk/government/people/joel-bamford>,
-        <https://www.gov.uk/government/people/murdoch-maclennan> .
+        <https://www.gov.uk/government/people/murdoch-maclennan> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/adam-land> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668d56674a94d44125d9cfd2/s465_Adam_Land__.png> ;

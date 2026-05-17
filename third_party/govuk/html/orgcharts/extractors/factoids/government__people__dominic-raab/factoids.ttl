@@ -1,13 +1,160 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/dominic-raab> .
 
-<https://www.gov.uk/government/people/dominic-raab> a schema1:Person ;
+<https://www.gov.uk/government/ministers/deputy-prime-minister> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/first-secretary-of-state--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/foreign-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--53> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--50> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/prime-minister> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-exiting-the-european-union> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/deputy-prime-minister--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/lord-chancellor> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-raab> .
+
+<https://www.gov.uk/government/people/dominic-raab> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:01:07+01:00" ;
     schema1:description "Dominic Raab was Deputy Prime Minister, Lord Chancellor and Secretary of State for Justice from 25 October 2022 to 21 April 2023. He previously held the same role between 15 September 2021 and 6 September 2022."@en ;
     schema1:name "The Rt Hon Dominic Raab"@en ;
     schema1:url <https://www.gov.uk/government/people/dominic-raab> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "a710c41d-8bff-44f0-909e-5e602a2d96f9" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-prime-minister>,
+        <https://www.gov.uk/government/ministers/deputy-prime-minister--2>,
+        <https://www.gov.uk/government/ministers/first-secretary-of-state--2>,
+        <https://www.gov.uk/government/ministers/foreign-secretary>,
+        <https://www.gov.uk/government/ministers/lord-chancellor>,
+        <https://www.gov.uk/government/ministers/minister-of-state--53>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--50>,
+        <https://www.gov.uk/government/ministers/prime-minister>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-exiting-the-european-union>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-prime-minister--2> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-prime-minister> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--53> ;
+    govuk:tenureEnd "2018-01-09"^^xsd:date ;
+    govuk:tenureStart "2017-06-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
+    govuk:tenureEnd "2021-09-14"^^xsd:date ;
+    govuk:tenureStart "2020-09-02"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--50> ;
+    govuk:tenureEnd "2016-07-16"^^xsd:date ;
+    govuk:tenureStart "2015-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:tenureEnd "2023-04-21"^^xsd:date ;
+    govuk:tenureStart "2022-10-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing> ;
+    govuk:tenureEnd "2018-07-09"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-exiting-the-european-union> ;
+    govuk:tenureEnd "2018-11-15"^^xsd:date ;
+    govuk:tenureStart "2018-07-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-prime-minister--2> ;
+    govuk:tenureEnd "2023-04-21"^^xsd:date ;
+    govuk:tenureStart "2022-10-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
+    govuk:tenureEnd "2020-09-01"^^xsd:date ;
+    govuk:tenureStart "2019-07-24"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:role <https://www.gov.uk/government/ministers/first-secretary-of-state--2> ;
+    govuk:tenureEnd "2021-09-14"^^xsd:date ;
+    govuk:tenureStart "2019-07-24"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
 

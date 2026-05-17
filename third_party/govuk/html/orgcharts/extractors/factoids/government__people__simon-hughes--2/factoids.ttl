@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/simon-hughes--2> .
 
-<https://www.gov.uk/government/people/simon-hughes--2> a schema1:Person ;
+<https://www.gov.uk/government/people/simon-hughes--2> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-01-22T15:35:45+00:00" ;
     schema1:description "Simon Hughes is GDF Executive Director at Nuclear Waste Services (NWS), with over thirty years’ experience leading and regulating infrastructure across the nuclear, water and environment sectors."@en ;
     schema1:name "Simon Hughes"@en ;
     schema1:url <https://www.gov.uk/government/people/simon-hughes--2> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
-    govuk:currentRoleTitle "GDF Executive Director"@en .
+    govuk:contentId "503f7ff0-c78e-42d8-b46f-a7d53a29be15" ;
+    govuk:currentRoleTitle "GDF Executive Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

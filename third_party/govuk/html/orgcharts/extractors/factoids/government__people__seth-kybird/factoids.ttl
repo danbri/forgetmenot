@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/seth-kybird> .
 
-<https://www.gov.uk/government/people/seth-kybird> a schema1:Person ;
+<https://www.gov.uk/government/people/seth-kybird> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-04-01T08:39:55+01:00" ;
     schema1:description "Seth Kybird is interim Chief Executive Officer at Nuclear Waste Services (NWS). Before joining NWS in April 2025, Seth was CEO at Nuclear Transport Solutions (NTS) since its formation in 2021, and previously Managing Director of International Nuclear Services (INS)."@en ;
     schema1:name "Seth Kybird"@en ;
     schema1:url <https://www.gov.uk/government/people/seth-kybird> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
-    govuk:currentRoleTitle "Chief Executive Officer"@en .
+    govuk:contentId "562d56e8-db8e-4ab8-a56e-c1a03c35635f" ;
+    govuk:currentRoleTitle "Chief Executive Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -9,9 +9,12 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state--198> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-06T11:46:25+01:00" ;
     schema1:name "Minister of State"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--198> ;
+    govuk:contentId "bf5eae5d-1ae8-4032-bbb1-04d10146dfd0" ;
     govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Civil contingencies"@en,
         "Cyber security"@en,
         "Government security group, including UK security vetting"@en,
@@ -19,5 +22,6 @@
         "Investment security"@en,
         "Resilience"@en,
         "Supporting CDL with coordination of national security policy"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> .
+    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> ;
+    govuk:schemaName "role" .
 

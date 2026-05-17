@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasMinister <https://www.gov.uk/government/people/alexandra-jones> .
 
-<https://www.gov.uk/government/people/alexandra-jones> a schema1:Person ;
+<https://www.gov.uk/government/people/alexandra-jones> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-01T11:33:14+01:00" ;
     schema1:description "Alexandra Jones is Director General for Growth, Science and International at the Department for Science, Innovation and Technology ( DSIT ), appointed to the role in January 2026."@en ;
     schema1:name "Alexandra Jones"@en ;
     schema1:url <https://www.gov.uk/government/people/alexandra-jones> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
-    govuk:currentRoleTitle "Director General, Growth, Science and International"@en .
+    govuk:contentId "bd02e0a9-7049-42f4-82d7-7f723458d9d1" ;
+    govuk:currentRoleTitle "Director General, Growth, Science and International"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

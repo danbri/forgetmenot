@@ -5,11 +5,15 @@
 <https://www.gov.uk/government/organisations/maritime-and-coastguard-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-02-14T12:43:27+00:00" ;
     schema1:name "Maritime and Coastguard Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/maritime-and-coastguard-agency> ;
+    govuk:contentId "23a24aa8-1711-42b6-bf6b-47af0f230295" ;
     govuk:hasManager <https://www.gov.uk/government/people/claire-hughes>,
         <https://www.gov.uk/government/people/lars-lippuner>,
-        <https://www.gov.uk/government/people/virginia-mcvea> .
+        <https://www.gov.uk/government/people/virginia-mcvea> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/claire-hughes> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5e6ba140d3bf7f26918b7830/s465_claire-hughes.jpg> ;

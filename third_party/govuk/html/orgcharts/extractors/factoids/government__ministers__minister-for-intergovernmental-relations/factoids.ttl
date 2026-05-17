@@ -14,12 +14,16 @@
 
 <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-09-22T17:12:59+01:00" ;
     schema1:name "Minister for Intergovernmental Relations"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations> ;
+    govuk:contentId "aa511506-ce8c-46fc-9e59-f3d14612ee37" ;
     govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove>,
         <https://www.gov.uk/government/people/pat-mcfadden> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/darren-jones> .
+    govuk:publishingApp "whitehall" ;
+    govuk:roleHolder <https://www.gov.uk/government/people/darren-jones> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/michael-gove> ;

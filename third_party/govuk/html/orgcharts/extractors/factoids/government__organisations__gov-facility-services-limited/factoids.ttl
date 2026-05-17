@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/gov-facility-services-limited> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-11-10T09:56:52+00:00" ;
     schema1:name "Gov Facility Services Limited"@en ;
     schema1:url <https://www.gov.uk/government/organisations/gov-facility-services-limited> ;
-    govuk:hasManager <https://www.gov.uk/government/people/colin-allars> .
+    govuk:contentId "af425099-515f-4dcb-b411-430e6d3d66a6" ;
+    govuk:hasManager <https://www.gov.uk/government/people/colin-allars> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/colin-allars> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/635f99428fa8f505806e65de/s465_colin-allars-headshot.jpg> ;

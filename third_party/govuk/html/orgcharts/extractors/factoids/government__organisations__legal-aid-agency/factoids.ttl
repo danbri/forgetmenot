@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/legal-aid-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-04-29T16:58:27+01:00" ;
     schema1:name "Legal Aid Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/legal-aid-agency> ;
+    govuk:contentId "6ba90ae6-972d-4d48-ad66-693bbb31496d" ;
     govuk:hasManager <https://www.gov.uk/government/people/alistair-adan>,
         <https://www.gov.uk/government/people/david-phillips>,
         <https://www.gov.uk/government/people/david-thomas>,
@@ -14,7 +16,9 @@
         <https://www.gov.uk/government/people/jane-harbottle>,
         <https://www.gov.uk/government/people/lucy-jones>,
         <https://www.gov.uk/government/people/malcolm-bryant>,
-        <https://www.gov.uk/government/people/vacant> .
+        <https://www.gov.uk/government/people/vacant> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alistair-adan> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5dc0555ee5274a4a98a512a1/s465_Alistair_Adan.png> ;

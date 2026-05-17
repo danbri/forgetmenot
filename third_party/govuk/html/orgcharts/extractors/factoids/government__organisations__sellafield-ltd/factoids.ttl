@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/sellafield-ltd> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-04-02T15:03:51+01:00" ;
     schema1:name "Sellafield Ltd"@en ;
     schema1:url <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    govuk:contentId "35ec21d9-c787-4821-871c-f914069e7904" ;
     govuk:hasManager <https://www.gov.uk/government/people/alison-rodwell>,
         <https://www.gov.uk/government/people/alyson-armett>,
         <https://www.gov.uk/government/people/andy-sharples>,
@@ -26,7 +28,9 @@
         <https://www.gov.uk/government/people/roddy-miller>,
         <https://www.gov.uk/government/people/shirley-mcmillan>,
         <https://www.gov.uk/government/people/simon-lister>,
-        <https://www.gov.uk/government/people/vicky-bennett> .
+        <https://www.gov.uk/government/people/vicky-bennett> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alison-rodwell> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67093871080bdf716392f24a/s465_Alison_Rodwell-Non_Exec_Director-Sellafield_Ltd-02-10-24-3600px-8531_GOV.jpg> ;

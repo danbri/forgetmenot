@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/defence-infrastructure-organisation> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-12-13T09:53:43+00:00" ;
     schema1:name "Defence Infrastructure Organisation"@en ;
     schema1:url <https://www.gov.uk/government/organisations/defence-infrastructure-organisation> ;
-    govuk:hasManager <https://www.gov.uk/government/people/mike-green> .
+    govuk:contentId "73068a99-7122-4cad-a876-35ca0b0778b4" ;
+    govuk:hasManager <https://www.gov.uk/government/people/mike-green> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/mike-green> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6751deab0191590a5f3511ba/s465_Mike-Green.jpg> ;

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/dormant-assets-commission> govuk:hasMinister <https://www.gov.uk/government/people/susan-sternglass-noble> .
 
-<https://www.gov.uk/government/people/susan-sternglass-noble> a schema1:Person ;
+<https://www.gov.uk/government/people/susan-sternglass-noble> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2016-03-10T14:04:28+00:00" ;
     schema1:description "Susan Sternglass Noble has had a long career as a leading analyst and investor in financial services companies. Susan has worked in senior roles at Goldman Sachs, JP Morgan, CQS and AXA Investment Managers. She has been active in corporate governance of financial institutions. Susan has recently been appointed as Senior Adviser to the Investor Forum."@en ;
     schema1:name "Susan Sternglass Noble"@en ;
     schema1:url <https://www.gov.uk/government/people/susan-sternglass-noble> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
-    govuk:currentRoleTitle "Dormant Assets Commissioner"@en .
+    govuk:contentId "90830257-4abf-4851-8a39-b5694a1ca005" ;
+    govuk:currentRoleTitle "Dormant Assets Commissioner"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

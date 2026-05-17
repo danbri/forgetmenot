@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/anne-slowther> .
 
-<https://www.gov.uk/government/people/anne-slowther> a schema1:Person ;
+<https://www.gov.uk/government/people/anne-slowther> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-05-13T14:06:42+01:00" ;
     schema1:description "Anne Slowther is Professor of Clinical Ethics at the University of Warwick, and a clinical ethicist at University Hospitals Coventry and Warwickshire. Her clinical background is in general practice and she co-leads the values, law and ethics teaching in the MBChB curriculum at Warwick."@en ;
     schema1:name "Dr Anne Slowther"@en ;
     schema1:url <https://www.gov.uk/government/people/anne-slowther> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
-    govuk:currentRoleTitle "Member"@en .
+    govuk:contentId "dd65fdb6-a501-4816-a4d2-b7bd03527ed0" ;
+    govuk:currentRoleTitle "Member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/government-finance-function> govuk:hasMinister <https://www.gov.uk/government/people/clive-martin> .
 
-<https://www.gov.uk/government/people/clive-martin> a schema1:Person ;
+<https://www.gov.uk/government/people/clive-martin> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-05-09T13:15:01+01:00" ;
     schema1:description "Clive joined HMT in May 2022 as Head of the Government Risk Profession. Clive was at EY for 17 years (the last 9 of which were as a Partner) where among other responsibilities he led the development of client-facing risk management practices, ran a digital learning & communication business, and had overall responsibility for everything the firm did for some major financial services clients in London, New York and Zurich."@en ;
     schema1:name "Clive Martin"@en ;
     schema1:url <https://www.gov.uk/government/people/clive-martin> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-finance-function> ;
-    govuk:currentRoleTitle "Head of the Government Risk Profession"@en .
+    govuk:contentId "ee7f013b-e4c3-462f-8c20-67fc430cd1b3" ;
+    govuk:currentRoleTitle "Head of the Government Risk Profession"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

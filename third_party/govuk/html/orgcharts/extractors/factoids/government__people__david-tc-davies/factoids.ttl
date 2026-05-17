@@ -1,13 +1,59 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/david-tc-davies> .
 
-<https://www.gov.uk/government/people/david-tc-davies> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--18> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-tc-davies> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--14> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-tc-davies> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--116> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-tc-davies> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-wales> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-tc-davies> .
+
+<https://www.gov.uk/government/people/david-tc-davies> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:21:35+01:00" ;
     schema1:description "David T C Davies was Secretary of State for Wales from 25 October 2022 to 5 July 2024."@en ;
     schema1:name "The Rt Hon David TC Davies"@en ;
     schema1:url <https://www.gov.uk/government/people/david-tc-davies> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "f268e9a9-de91-408a-b663-9404096e7c34" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--18>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--14>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--116>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-tc-davies> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--116> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2019-12-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-tc-davies> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-10-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-tc-davies> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--14> ;
+    govuk:tenureEnd "2022-09-07"^^xsd:date ;
+    govuk:tenureStart "2022-07-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-tc-davies> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--18> ;
+    govuk:tenureEnd "2022-07-06"^^xsd:date ;
+    govuk:tenureStart "2019-12-16"^^xsd:date .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/civil-nuclear-constabulary> govuk:hasMinister <https://www.gov.uk/government/people/michael-vance> .
 
-<https://www.gov.uk/government/people/michael-vance> a schema1:Person ;
+<https://www.gov.uk/government/people/michael-vance> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-01-06T14:47:51+00:00" ;
     schema1:description "Michael Vance joined the Civil Nuclear Constabulary ( CNC ) in 2004, having previously served in the Royal Irish Regiment in the armed forces."@en ;
     schema1:name "Michael Vance"@en ;
     schema1:url <https://www.gov.uk/government/people/michael-vance> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/civil-nuclear-constabulary> ;
-    govuk:currentRoleTitle "Assistant Chief Constable, Operations"@en .
+    govuk:contentId "9d574de0-a72e-483f-bd2d-6ee048d101c1" ;
+    govuk:currentRoleTitle "Assistant Chief Constable, Operations"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

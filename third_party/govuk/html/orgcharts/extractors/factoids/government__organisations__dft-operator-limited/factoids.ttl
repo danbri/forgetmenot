@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/dft-operator-limited> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-20T12:15:10+00:00" ;
     schema1:name "DfT Operator Limited"@en ;
     schema1:url <https://www.gov.uk/government/organisations/dft-operator-limited> ;
+    govuk:contentId "d96162f6-2fe4-40cd-8eac-0a6ac08254fd" ;
     govuk:hasManager <https://www.gov.uk/government/people/alex-hynes>,
         <https://www.gov.uk/government/people/andrew-haines>,
         <https://www.gov.uk/government/people/charles-donald>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/laura-shoaf>,
         <https://www.gov.uk/government/people/richard-harrison>,
         <https://www.gov.uk/government/people/steve>,
-        <https://www.gov.uk/government/people/tony-poulter> .
+        <https://www.gov.uk/government/people/tony-poulter> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alex-hynes> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/660bacdcf9ab417b75eea36f/s465_alex-hynes-portrait-960.jpg> ;

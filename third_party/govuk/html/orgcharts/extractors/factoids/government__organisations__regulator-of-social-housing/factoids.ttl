@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/regulator-of-social-housing> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-02-02T08:18:02+00:00" ;
     schema1:name "Regulator of Social Housing"@en ;
     schema1:url <https://www.gov.uk/government/organisations/regulator-of-social-housing> ;
+    govuk:contentId "0e8892fa-d676-43c4-9f51-9674e1830892" ;
     govuk:hasManager <https://www.gov.uk/government/people/angela-holden>,
         <https://www.gov.uk/government/people/bernadette-conroy>,
         <https://www.gov.uk/government/people/chan-kataria>,
@@ -23,7 +25,9 @@
         <https://www.gov.uk/government/people/richard-peden>,
         <https://www.gov.uk/government/people/robert-light>,
         <https://www.gov.uk/government/people/sukhvinder-kaur-stubbs>,
-        <https://www.gov.uk/government/people/will-perry> .
+        <https://www.gov.uk/government/people/will-perry> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/angela-holden> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/677d3e328ef66f3f5ea39772/s465_Untitled_2_.png> ;

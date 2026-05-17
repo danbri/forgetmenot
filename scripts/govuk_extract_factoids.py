@@ -90,7 +90,40 @@ def caption_above_h1(soup: BeautifulSoup) -> str:
     return text_of(cap)
 
 
-def page_kind(url: str) -> str | None:
+# Map GOV.UK's `<meta name="govuk:schema-name">` values to our templated
+# kinds. schema-name is the canonical document-type marker gov.uk emits
+# on every public page and is far more stable than URL-prefix matching
+# (which silently breaks when gov.uk reorganises a URL space).
+_SCHEMA_TO_KIND = {
+    "person":              "person",
+    "role":                "role",          # ministerial role
+    "ministerial_role":    "role",
+    "organisation":        "organisation",
+    "ministers_index":     "pms-index",     # only matches the past-PM index
+    "historic_appointment": "past-pm",
+    "historic_appointments": "pms-index",
+}
+
+
+def page_kind(url: str, soup: BeautifulSoup | None = None) -> str | None:
+    """Return our internal templated-kind label for a GOV.UK page.
+
+    Prefers the page's own `<meta name="govuk:schema-name">` when soup
+    is supplied -- a publishing-app-emitted identifier we can rely on.
+    Falls back to URL-prefix matching only for legacy callers that
+    don't have a parsed DOM."""
+    if soup is not None:
+        meta = soup.find("meta", attrs={"name": "govuk:schema-name"})
+        if meta and meta.get("content"):
+            kind = _SCHEMA_TO_KIND.get(meta["content"].strip())
+            if kind:
+                # historic_appointment is only "past-pm" when the URL is
+                # actually under past-prime-ministers/ -- other historic
+                # appointment pages exist.
+                path = urllib.parse.urlsplit(url).path
+                if kind == "past-pm" and "/past-prime-ministers/" not in path:
+                    return None
+                return kind
     path = urllib.parse.urlsplit(url).path
     if re.match(r"^/government/ministers/[^/]+/?$", path):
         return "role"
@@ -103,6 +136,27 @@ def page_kind(url: str) -> str | None:
     if re.match(r"^/government/history/past-prime-ministers/[^/]+/?$", path):
         return "past-pm"
     return None
+
+
+def add_govuk_meta_identifiers(soup: BeautifulSoup, subj: URIRef,
+                                g: rdflib.Graph) -> None:
+    """Lift GOV.UK's stable structural identifiers off the page.
+
+    `govuk:content-id` is a UUID that survives URL renames -- a much
+    safer join key than the URL itself, since gov.uk reshuffles slugs
+    over time. `govuk:schema-name` is the document-type marker.
+    These are emitted by the publishing-app, not part of govuk-frontend
+    presentational classes that drift between releases.
+    """
+    for meta_name, predicate in [
+        ("govuk:content-id",       GOVUK.contentId),
+        ("govuk:schema-name",      GOVUK.schemaName),
+        ("govuk:publishing-app",   GOVUK.publishingApp),
+        ("govuk:public-updated-at", DCTERMS.modified),
+    ]:
+        m = soup.find("meta", attrs={"name": meta_name})
+        if m and m.get("content"):
+            g.add((subj, predicate, Literal(m["content"].strip())))
 
 
 _YEAR_RANGE_RE = re.compile(r"(\d{4})\s+to\s+(\d{4}|present)", re.IGNORECASE)
@@ -214,9 +268,124 @@ _PERSON_ROLE_HINTS = (
     "Leader of the House", "Paymaster", "Comptroller",
 )
 
+# Biography-prose extraction. GOV.UK's structured /api/content/<path>
+# JSON (used in extract_from_api below) is the primary, canonical
+# source -- it has day-level dates and explicit `current` flags. We
+# keep this prose-mining path as a *second independent extractor* so
+# QA can cross-check the two: if API tenure dates and prose-extracted
+# years disagree, that's a corner-case bug worth surfacing rather
+# than silently trusting one source.
+#
+# Triples produced this way are tagged govuk:proseExtracted true; the
+# API ones carry govuk:apiSourced true. A consumer can join on (holder,
+# role) to compare the two views.
+
+# Match a date as either "D Month YYYY" or "Month YYYY" or "YYYY".
+_DATE = r"(?:\d{1,2}\s+)?(?:January|February|March|April|May|June|July|"\
+        r"August|September|October|November|December)?\s*\d{4}"
+
+# Roles we attempt to recognise in biography prose. Restrict the set so we
+# don't accidentally promote a passing mention ("met the Foreign Secretary")
+# into a held-the-role claim. Each entry is (regex, role-page slug).
+_PROSE_ROLES = [
+    (re.compile(r"\bPrime Minister\b", re.IGNORECASE),
+        "prime-minister"),
+    (re.compile(r"\bChancellor of the Exchequer\b", re.IGNORECASE),
+        "chancellor-of-the-exchequer"),
+    (re.compile(r"\bForeign Secretary\b|"
+                r"\bSecretary of State for Foreign(?:,| and)?\s*"
+                r"Commonwealth(?: and Development)?\s*Affairs\b",
+                re.IGNORECASE),
+        "foreign-secretary"),
+    (re.compile(r"\bHome Secretary\b|"
+                r"\bSecretary of State for the Home Department\b",
+                re.IGNORECASE),
+        "home-secretary"),
+    (re.compile(r"\bLord Chancellor\b|"
+                r"\bSecretary of State for Justice\b",
+                re.IGNORECASE),
+        "lord-chancellor"),
+    (re.compile(r"\bSecretary of State for Defence\b|"
+                r"\bDefence Secretary\b",
+                re.IGNORECASE),
+        "defence-secretary"),
+    (re.compile(r"\bDeputy Prime Minister\b", re.IGNORECASE),
+        "deputy-prime-minister"),
+]
+
+# "X was <role> from <date> to <date>" or "between <date> and <date>".
+_TENURE_SPAN = re.compile(
+    rf"(?:from|between)\s+({_DATE})\s+(?:to|and)\s+({_DATE})",
+    re.IGNORECASE,
+)
+
+
+def _year_of(date_text: str) -> str | None:
+    m = re.search(r"\b(\d{4})\b", date_text)
+    return m.group(1) if m else None
+
+
+# Pronouns / lead words that introduce a held-the-role claim. GOV.UK
+# biographies use "X was Foreign Secretary...", "He was previously
+# Foreign Secretary...", "She was previously...", and (for non-binary
+# subjects or when avoiding gendered language) "They were previously...".
+# Anchoring on the subject prefix prevents passing mentions ("X met
+# the Foreign Secretary") from being read as held-the-role claims.
+_SUBJECT_PREFIX = re.compile(
+    r"\b(?:[A-Z][\w'-]+(?:\s+[A-Z][\w'-]+){0,3}|He|She|They)\s+"
+    r"(?:was|were|has\s+been|had\s+been|previously\s+was)\s+"
+    r"(?:appointed\s+|previously\s+)?",
+)
+
+
+def mine_biography_prose(biography: str, person: rdflib.URIRef,
+                         g: rdflib.Graph) -> int:
+    """Extract '<subject> was <role> from Y to Z' tenure claims from
+    biography prose. <subject> is the person's surname, "He", "She", or
+    "They" -- matched as a prefix so a passing mention ("X met the
+    Foreign Secretary") cannot be read as a held-the-role claim.
+
+    Returns the number of tenure triples added. Each tenure is a reified
+    govuk:RoleTenure blank node carrying govuk:proseExtracted true.
+    """
+    n = 0
+    if not biography or len(biography) < 30:
+        return 0
+    for role_re, role_slug in _PROSE_ROLES:
+        for m in role_re.finditer(biography):
+            lead = biography[max(0, m.start() - 80): m.start()]
+            if not _SUBJECT_PREFIX.search(lead):
+                continue
+            tail = biography[m.end(): m.end() + 240]
+            span = _TENURE_SPAN.search(tail)
+            if not span:
+                continue
+            start_yr = _year_of(span.group(1))
+            end_yr = _year_of(span.group(2))
+            if not start_yr:
+                continue
+            role_uri = URIRef(f"https://www.gov.uk/government/ministers/{role_slug}")
+            tenure = rdflib.BNode()
+            g.add((tenure, RDF.type, GOVUK.RoleTenure))
+            g.add((tenure, GOVUK.role, role_uri))
+            g.add((tenure, GOVUK.holder, person))
+            g.add((tenure, GOVUK.proseExtracted, Literal(True)))
+            g.add((tenure, GOVUK.tenureStart,
+                   Literal(start_yr, datatype=XSD.gYear)))
+            if end_yr:
+                g.add((tenure, GOVUK.tenureEnd,
+                       Literal(end_yr, datatype=XSD.gYear)))
+            g.add((person, GOVUK.previouslyHeldRole, role_uri))
+            g.add((role_uri, GOVUK.previouslyHeldBy, person))
+            n += 1
+    return n
+
 
 def extract_person(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
-    counts: dict[str, int] = {"person": 0, "role_link": 0, "org_link": 0}
+    counts: dict[str, int] = {
+        "person": 0, "role_link": 0, "org_link": 0,
+        "former_office_marker": 0, "prose_tenures": 0,
+    }
     subj = URIRef(page)
     g.add((subj, RDF.type, SCHEMA.Person))
     g.add((subj, SCHEMA.url, subj))
@@ -227,6 +396,12 @@ def extract_person(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
     caption = caption_above_h1(soup)
     if caption:
         g.add((subj, GOVUK.currentRoleTitle, Literal(caption, lang="en")))
+    # Current vs former office-holder status is set by extract_from_api()
+    # below using the structured `current` flag on each role appointment.
+    # The previous HTML heuristic (empty caption-xl = former) was brittle:
+    # the class name is a govuk-publishing-components artefact that drifts
+    # between page revisions, and an empty caption can mean either
+    # "former" or "non-political appointee" with no way to tell apart.
 
     # "More about this role" -> /government/ministers/<slug>
     for a in soup.find_all("a", href=True):
@@ -249,17 +424,27 @@ def extract_person(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
             counts["org_link"] += 1
             break  # first one is typically the primary affiliation
 
-    # Biography: first <p> after the "Biography" h2.
+    # Biography: collect every <p> after the "Biography" h2 until the next
+    # h2, so the prose miner sees the whole career narrative, not just the
+    # opening sentence.
     bio_h = next(
         (h for h in soup.find_all("h2") if clean(h.get_text()) == "Biography"),
         None,
     )
+    bio_text_parts: list[str] = []
     if bio_h:
-        p = bio_h.find_next("p")
-        if p:
-            t = text_of(p)
-            if t:
-                g.add((subj, SCHEMA.description, Literal(t, lang="en")))
+        for el in bio_h.find_all_next():
+            if el.name == "h2" and el is not bio_h:
+                break
+            if el.name == "p":
+                t = text_of(el)
+                if t:
+                    bio_text_parts.append(t)
+    full_bio = " ".join(bio_text_parts)
+    if full_bio:
+        # Keep the opening paragraph as the canonical schema:description.
+        g.add((subj, SCHEMA.description, Literal(bio_text_parts[0], lang="en")))
+        counts["prose_tenures"] = mine_biography_prose(full_bio, subj, g)
 
     # OG image (the headshot) -- structured-data extractor sees the URL too
     # but it's worth pinning it to the person directly here.
@@ -342,6 +527,16 @@ def extract_organisation(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dic
 # --- past PM index + individual ---------------------------------------
 
 def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
+    """Extract past PMs from the index page's anchored cards.
+
+    The page also lists recently-departed PMs who don't yet have a
+    dedicated /government/history/past-prime-ministers/<slug>
+    biography URL (e.g. Johnson, Truss, Sunak as of 2026); those
+    appear as unlinked cards in HTML and are exposed structurally as
+    `details.appointments_without_historical_accounts` in the parallel
+    /api/content/ JSON. extract_from_api() below picks those up, so
+    here we only need to handle the linked cohort.
+    """
     counts = {"past_pm": 0}
     for a in soup.find_all("a", href=lambda h: h and "/government/history/past-prime-ministers/" in h):
         href = a["href"]
@@ -354,9 +549,6 @@ def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
         name = text_of(a)
         if name:
             g.add((pm, SCHEMA.name, Literal(name, lang="en")))
-        # The list item with the party + year-range sits inside the same
-        # text-wrapper as the anchor. (`class_=lambda` doesn't work with
-        # `find_parent` in our BS4 version, so use a tag-level predicate.)
         def _is_image_card(tag: Tag) -> bool:
             c = tag.get("class") or []
             return tag.name == "div" and any("gem-c-image-card" in cc for cc in c)
@@ -370,7 +562,6 @@ def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
             )
             if li:
                 li_text = text_of(li)
-            # "Conservative 2016 to 2019" or two ranges for Wilson
             for m in _YEAR_RANGE_RE.finditer(li_text):
                 tenure = rdflib.BNode()
                 g.add((tenure, RDF.type, GOVUK.RoleTenure))
@@ -387,6 +578,132 @@ def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
             if pm_party:
                 g.add((pm, GOVUK.party, Literal(pm_party.group(1), lang="en")))
             counts["past_pm"] += 1
+    return counts
+
+
+# Map "The Rt Hon X" / "X" titles from the appointments_without_accounts
+# list to gov.uk person slugs. Conservative -- only the small set of
+# recent PMs the index currently lacks dedicated bios for. If gov.uk
+# later issues bios for them this code is harmless (the linked cohort
+# will populate the same triples).
+_PM_TITLE_TO_PEOPLE_SLUG = {
+    "The Rt Hon Rishi Sunak MP":   "rishi-sunak",
+    "The Rt Hon Elizabeth Truss":  "elizabeth-truss",
+    "The Rt Hon Boris Johnson":    "boris-johnson",
+    "The Rt Hon Sir Keir Starmer KCB KC MP": "keir-starmer",
+}
+
+
+def _extract_pms_index_from_api(data: dict, g: rdflib.Graph) -> int:
+    """For PMs that gov.uk lists on the past-PMs index without a
+    dedicated history-bio URL, mark their /government/people/<slug>
+    page as a PastPrimeMinister and emit a year-range RoleTenure.
+    """
+    n = 0
+    rec_role = URIRef("https://www.gov.uk/government/ministers/prime-minister")
+    for a in data.get("details", {}).get(
+            "appointments_without_historical_accounts", []) or []:
+        title = (a.get("title") or "").strip()
+        slug = _PM_TITLE_TO_PEOPLE_SLUG.get(title)
+        if not slug:
+            continue
+        pm = URIRef(f"https://www.gov.uk/government/people/{slug}")
+        g.add((pm, RDF.type, GOVUK.PastPrimeMinister))
+        g.add((pm, SCHEMA.name, Literal(title, lang="en")))
+        for dio in a.get("dates_in_office", []) or []:
+            tenure = rdflib.BNode()
+            g.add((tenure, RDF.type, GOVUK.RoleTenure))
+            g.add((tenure, GOVUK.holder, pm))
+            g.add((tenure, GOVUK.role, rec_role))
+            g.add((tenure, GOVUK.apiSourced, Literal(True)))
+            if dio.get("start_year"):
+                g.add((tenure, GOVUK.tenureStart,
+                       Literal(str(dio["start_year"]), datatype=XSD.gYear)))
+            if dio.get("end_year"):
+                g.add((tenure, GOVUK.tenureEnd,
+                       Literal(str(dio["end_year"]), datatype=XSD.gYear)))
+        n += 1
+    return n
+
+
+# --- API-driven extraction (preferred over HTML scraping) -------------
+
+def extract_from_api(api_path: Path, page: str, kind: str,
+                     g: rdflib.Graph) -> dict:
+    """Add triples derived from gov.uk's structured /api/content/ JSON.
+
+    For person pages we emit a govuk:RoleTenure node per role appointment,
+    with the API's start/end dates and a CurrentOfficeHolder /
+    FormerOfficeHolder marker driven by the API's `current` boolean
+    rather than the HTML's brittle caption-xl class. Triples are tagged
+    govuk:apiSourced true so they can be told apart from HTML-scraped
+    ones.
+    """
+    counts: dict[str, int] = {"api_tenures": 0, "api_status_marker": 0}
+    try:
+        data = json.loads(api_path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return counts
+    if data.get("_forgetmenot_status") == 404:
+        return counts
+    if kind == "pms-index":
+        # The past-PMs index page exposes recently-departed PMs without
+        # a dedicated /history/ biography URL in this collection -- the
+        # HTML version renders them as unlinked cards, easy for an HTML
+        # scraper to miss. The API names the collection explicitly.
+        counts["past_pms_without_account"] = _extract_pms_index_from_api(data, g)
+        return counts
+    if kind != "person":
+        # Org/role pages also have rich API data but we already template
+        # those well from HTML; keep this targeted for the moment.
+        return counts
+
+    subj = URIRef(page)
+    appointments = data.get("links", {}).get("role_appointments", []) or []
+    any_current = False
+    for ra in appointments:
+        det = ra.get("details", {}) or {}
+        current = bool(det.get("current"))
+        if current:
+            any_current = True
+        role_link = (ra.get("links", {}) or {}).get("role", [])
+        role_base = role_link[0].get("base_path") if role_link else None
+        if not role_base:
+            continue
+        role_uri = URIRef(f"https://www.gov.uk{role_base}")
+        started = det.get("started_on")
+        ended = det.get("ended_on")
+        tenure = rdflib.BNode()
+        g.add((tenure, RDF.type, GOVUK.RoleTenure))
+        g.add((tenure, GOVUK.role, role_uri))
+        g.add((tenure, GOVUK.holder, subj))
+        g.add((tenure, GOVUK.apiSourced, Literal(True)))
+        if started:
+            # Day-level precision: store as xsd:date.
+            g.add((tenure, GOVUK.tenureStart,
+                   Literal(started[:10], datatype=XSD.date)))
+        if ended:
+            g.add((tenure, GOVUK.tenureEnd,
+                   Literal(ended[:10], datatype=XSD.date)))
+        if current:
+            g.add((subj, GOVUK.holdsRole, role_uri))
+            g.add((role_uri, GOVUK.roleHolder, subj))
+        else:
+            g.add((subj, GOVUK.previouslyHeldRole, role_uri))
+            g.add((role_uri, GOVUK.previouslyHeldBy, subj))
+        counts["api_tenures"] += 1
+
+    # Replace the HTML-driven empty-caption guess with the API's truth:
+    # the person is a current office-holder iff some role_appointment has
+    # current=true. Strip any FormerOfficeHolder we may have added from
+    # the HTML pass if the API says otherwise.
+    if appointments:
+        if any_current:
+            g.remove((subj, RDF.type, GOVUK.FormerOfficeHolder))
+            g.add((subj, RDF.type, GOVUK.CurrentOfficeHolder))
+        else:
+            g.add((subj, RDF.type, GOVUK.FormerOfficeHolder))
+        counts["api_status_marker"] = 1
     return counts
 
 
@@ -452,10 +769,25 @@ def extract_one(page_dir: Path, out_dir: Path, refresh: bool) -> dict:
 
     html = html_path.read_text(encoding="utf-8", errors="replace")
     soup = BeautifulSoup(html, "lxml")
+    # Re-resolve kind from the page itself in case URL-based detection
+    # disagrees with the publishing-app's own govuk:schema-name marker.
+    refined = page_kind(page, soup) or kind
+    if refined != kind:
+        kind = refined
     g = rdflib.Graph()
     bind_prefixes(g)
     g.add((URIRef(page), DCTERMS.isPartOf, URIRef("https://www.gov.uk/government")))
+    add_govuk_meta_identifiers(soup, URIRef(page), g)
     counts = EXTRACTORS[kind](soup, page, g)
+
+    # Augment with the structured GOV.UK Content API JSON if present.
+    # The API exposes role_appointments with explicit `current` + day-level
+    # start/end dates -- a far stronger signal than any HTML scrape.
+    api_path = page_dir / "api.json"
+    if api_path.exists():
+        api_counts = extract_from_api(api_path, page, kind, g)
+        for k, n in api_counts.items():
+            counts[k] = counts.get(k, 0) + n
 
     g.serialize(destination=str(target / "factoids.ttl"), format="turtle")
     summary = {

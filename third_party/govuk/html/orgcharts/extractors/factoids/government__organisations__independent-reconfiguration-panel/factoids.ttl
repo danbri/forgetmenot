@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/independent-reconfiguration-panel> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-08-15T14:01:01+01:00" ;
     schema1:name "Independent Reconfiguration Panel"@en ;
     schema1:url <https://www.gov.uk/government/organisations/independent-reconfiguration-panel> ;
+    govuk:contentId "171abbf3-beca-46b9-a0c3-4b4ff1e8c8ed" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrea-young--2>,
         <https://www.gov.uk/government/people/angela-mcnab>,
         <https://www.gov.uk/government/people/ann-lloyd>,
@@ -22,7 +24,9 @@
         <https://www.gov.uk/government/people/rob-ghosh>,
         <https://www.gov.uk/government/people/simon-brake>,
         <https://www.gov.uk/government/people/suzy-walton>,
-        <https://www.gov.uk/government/people/tansi-harper> .
+        <https://www.gov.uk/government/people/tansi-harper> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrea-young--2> a schema1:Person ;
     schema1:name "Andrea Young"@en .

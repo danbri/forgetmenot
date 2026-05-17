@@ -26,8 +26,10 @@
 
 <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-15T11:43:47+01:00" ;
     schema1:name "Secretary of State for Northern Ireland"@en ;
     schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:contentId "845e6581-c0f1-11e4-8223-005056011aef" ;
     govuk:partOf <https://www.gov.uk/government/organisations/northern-ireland-office> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/brandon-lewis>,
         <https://www.gov.uk/government/people/chris-heaton-harris>,
@@ -37,6 +39,7 @@
         <https://www.gov.uk/government/people/owen-paterson>,
         <https://www.gov.uk/government/people/shailesh-vara>,
         <https://www.gov.uk/government/people/theresa-villiers> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Engagement with the NI Executive (focusing on the Executive Office, Department of Justice, Department of Finance and Department of Agriculture, Environment and Rural Affairs);"@en,
         "Implementation of the Windsor Framework;"@en,
         "Legacy;"@en,
@@ -44,19 +47,32 @@
         "Political stability;"@en,
         "Relationships with other governments;"@en,
         "Work to ensure that NI is fully engaged in the development and delivery of new government policy, especially the Missions-led approach."@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/hilary-benn> .
+    govuk:roleHolder <https://www.gov.uk/government/people/hilary-benn> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/karen-bradley> ;
+    govuk:holder <https://www.gov.uk/government/people/james-brokenshire> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2018"^^xsd:gYear .
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/brandon-lewis> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
     govuk:tenureEnd "2022"^^xsd:gYear ;
     govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/theresa-villiers> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2012"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/owen-paterson> ;
@@ -71,26 +87,14 @@
     govuk:tenureStart "2022"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
-    govuk:tenureEnd "2020"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/shailesh-vara> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
     govuk:tenureEnd "2022"^^xsd:gYear ;
     govuk:tenureStart "2022"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/theresa-villiers> ;
+    govuk:holder <https://www.gov.uk/government/people/karen-bradley> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2012"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/james-brokenshire> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2018"^^xsd:gYear .
 

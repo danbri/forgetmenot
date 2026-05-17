@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/ranil-jayawardena> .
 
-<https://www.gov.uk/government/people/ranil-jayawardena> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--139> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ranil-jayawardena> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ranil-jayawardena> .
+
+<https://www.gov.uk/government/people/ranil-jayawardena> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:01:21+01:00" ;
     schema1:description "Ranil Jayawardena was Secretary of State for Environment, Food and Rural Affairs from 6 September 2022 to 25 October 2022."@en ;
     schema1:name "The Rt Hon Ranil Jayawardena"@en ;
     schema1:url <https://www.gov.uk/government/people/ranil-jayawardena> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "48a14b63-613c-4b94-a0da-5678f4f5a00d" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--139>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/ranil-jayawardena> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/ranil-jayawardena> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--139> ;
+    govuk:tenureEnd "2022-09-05"^^xsd:date ;
+    govuk:tenureStart "2020-05-05"^^xsd:date .
 

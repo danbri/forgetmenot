@@ -5,12 +5,16 @@
 <https://www.gov.uk/government/organisations/government-finance-function> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-06-30T12:04:11+01:00" ;
     schema1:name "Government Finance Function"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-finance-function> ;
+    govuk:contentId "8051158e-24de-4717-b384-6484fc0c3f24" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-cartner>,
         <https://www.gov.uk/government/people/clive-martin>,
         <https://www.gov.uk/government/people/conrad-smewing>,
-        <https://www.gov.uk/government/people/tara-smith> .
+        <https://www.gov.uk/government/people/tara-smith> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrew-cartner> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6603ef8ac34a860011be7622/s465_Andrew_Cartner.jpg> ;

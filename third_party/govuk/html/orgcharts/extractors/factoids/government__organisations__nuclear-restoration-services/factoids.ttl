@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/nuclear-restoration-services> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-20T10:21:06+00:00" ;
     schema1:name "Nuclear Restoration Services"@en ;
     schema1:url <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    govuk:contentId "9803332c-2423-409c-bcaa-a9591e60a5be" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-munro>,
         <https://www.gov.uk/government/people/angharad-rayner>,
         <https://www.gov.uk/government/people/colin-reid--2>,
@@ -24,7 +26,9 @@
         <https://www.gov.uk/government/people/mark-rouse--2>,
         <https://www.gov.uk/government/people/rob-fletcher>,
         <https://www.gov.uk/government/people/simon-haben>,
-        <https://www.gov.uk/government/people/tracy-murray> .
+        <https://www.gov.uk/government/people/tracy-murray> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrew-munro> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67f7b7f38b9b26024aef3017/s465_andy.png> ;

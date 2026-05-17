@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/government-office-for-science> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-03-08T16:46:52+00:00" ;
     schema1:name "Government Office for Science"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-office-for-science> ;
-    govuk:hasManager <https://www.gov.uk/government/people/angela-mclean> .
+    govuk:contentId "37c13dbd-1662-4c14-8a09-d4f921851e00" ;
+    govuk:hasManager <https://www.gov.uk/government/people/angela-mclean> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/angela-mclean> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6464daaa0b72d3001334467d/s465_8.1288_-_GoS_-_Chief_Scientific_Advisor_Photography-6278__1___1_.jpeg> ;

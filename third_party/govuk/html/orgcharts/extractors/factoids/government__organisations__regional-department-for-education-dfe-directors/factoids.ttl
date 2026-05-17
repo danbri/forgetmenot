@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-09-07T09:42:44+01:00" ;
     schema1:name "Regional Department for Education (DfE) Directors"@en ;
     schema1:url <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
+    govuk:contentId "d1e421ee-1cfc-44b4-9948-305266d1838d" ;
     govuk:hasManager <https://www.gov.uk/government/people/alison-wilson>,
         <https://www.gov.uk/government/people/jonathan-duff>,
         <https://www.gov.uk/government/people/kate-dethridge>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/nigel-minns>,
         <https://www.gov.uk/government/people/sue-lovelock>,
         <https://www.gov.uk/government/people/vanessa-ogden>,
-        <https://www.gov.uk/government/people/vicky-beer> .
+        <https://www.gov.uk/government/people/vicky-beer> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alison-wilson> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/64197bf38fa8f547ce1ac496/s465_Alison_1_.jpg> ;

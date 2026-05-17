@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/civil-service-government-communication-service> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-04-15T10:03:31+01:00" ;
     schema1:name "Government Communication Service"@en ;
     schema1:url <https://www.gov.uk/government/organisations/civil-service-government-communication-service> ;
-    govuk:hasManager <https://www.gov.uk/government/people/david-dinsmore> .
+    govuk:contentId "39d7f79d-7470-46bf-8a27-425a9693b984" ;
+    govuk:hasManager <https://www.gov.uk/government/people/david-dinsmore> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/david-dinsmore> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6908d1fcef26c341988b25ea/s465_Image.jpg> ;

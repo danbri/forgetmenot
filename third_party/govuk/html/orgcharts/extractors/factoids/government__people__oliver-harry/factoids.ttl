@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-defence-and-security-exports> govuk:hasMinister <https://www.gov.uk/government/people/oliver-harry> .
 
-<https://www.gov.uk/government/people/oliver-harry> a schema1:Person ;
+<https://www.gov.uk/government/people/oliver-harry> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-09-10T17:11:52+01:00" ;
     schema1:description "Oliver Harry is the Director for Defence and Security Exports ( UKDSE ) for the Department for Business and Trade."@en ;
     schema1:name "Oliver Harry"@en ;
     schema1:url <https://www.gov.uk/government/people/oliver-harry> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-defence-and-security-exports> ;
-    govuk:currentRoleTitle "Director, UKDSE"@en .
+    govuk:contentId "d21ab905-7909-4359-814d-66278a4c3111" ;
+    govuk:currentRoleTitle "Director, UKDSE"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

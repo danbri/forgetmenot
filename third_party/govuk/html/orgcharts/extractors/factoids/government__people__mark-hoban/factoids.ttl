@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/mark-hoban> .
 
-<https://www.gov.uk/government/people/mark-hoban> a schema1:Person ;
+<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mark-hoban> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-employment> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mark-hoban> .
+
+<https://www.gov.uk/government/people/mark-hoban> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2015-04-02T16:42:08+01:00" ;
     schema1:description "Mark Hoban was appointed Minister of State for Employment in September 2012. He was elected Conservative MP for Fareham on 7 June 2001."@en ;
     schema1:name "Mark Hoban"@en ;
     schema1:url <https://www.gov.uk/government/people/mark-hoban> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85293f93-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/minister-of-state-employment> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mark-hoban> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-employment> ;
+    govuk:tenureEnd "2013-10-07"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mark-hoban> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

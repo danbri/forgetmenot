@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/dana-strong> .
 
-<https://www.gov.uk/government/people/dana-strong> a schema1:Person ;
+<https://www.gov.uk/government/people/dana-strong> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-01-14T09:27:56+00:00" ;
     schema1:description "Dana Strong is Group Chief Executive of Sky, one of Europe’s leading media and entertainment companies and part of Comcast Corporation, a global media and technology group. Sky operates across multiple European markets and is a major investor in UK content, technology and skills."@en ;
     schema1:name "Dana Strong CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/dana-strong> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
-    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en .
+    govuk:contentId "30a73d6a-1ede-4984-9f06-c0d9646f8478" ;
+    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

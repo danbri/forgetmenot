@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> govuk:hasMinister <https://www.gov.uk/government/people/simon-webb> .
 
-<https://www.gov.uk/government/people/simon-webb> a schema1:Person ;
+<https://www.gov.uk/government/people/simon-webb> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-08-06T11:15:20+01:00" ;
     schema1:description "Simon Webb CBE, FICE, specialises in major programmes and strategic change."@en ;
     schema1:name "Simon Webb"@en ;
     schema1:url <https://www.gov.uk/government/people/simon-webb> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
-    govuk:currentRoleTitle "Member, CoRWM"@en .
+    govuk:contentId "7eaaee82-fe9f-4e53-9d85-b87a86d92e5b" ;
+    govuk:currentRoleTitle "Member, CoRWM"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

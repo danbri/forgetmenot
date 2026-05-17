@@ -4,11 +4,15 @@
 
 <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> govuk:hasMinister <https://www.gov.uk/government/people/alison-clarke> .
 
-<https://www.gov.uk/government/people/alison-clarke> a schema1:Person ;
+<https://www.gov.uk/government/people/alison-clarke> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    schema1:description "HM Prison and Probation Service and Youth Custody Service"@en ;
+    dcterms:modified "2025-11-07T16:24:00+00:00" ;
     schema1:name "Alison Clarke"@en ;
     schema1:url <https://www.gov.uk/government/people/alison-clarke> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> ;
-    govuk:currentRoleTitle "Executive Director, Youth Custody Service"@en .
+    govuk:contentId "93ba5851-b0c6-4ab0-8556-3d182a10d05b" ;
+    govuk:currentRoleTitle "Executive Director, Youth Custody Service"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

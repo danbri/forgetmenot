@@ -89,8 +89,10 @@
 <https://www.gov.uk/government/organisations/uk-export-finance> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-08-28T10:43:10+01:00" ;
     schema1:name "UK Export Finance"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-export-finance> ;
+    govuk:contentId "c4e41647-ad69-4e96-843b-05fa7867bbc0" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-gray>,
         <https://www.gov.uk/government/people/cameron-fox>,
         <https://www.gov.uk/government/people/carl-williamson>,
@@ -110,5 +112,7 @@
     govuk:hasMinister <https://www.gov.uk/government/people/chris-bryant>,
         <https://www.gov.uk/government/people/peter-kyle> ;
     govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--206>,
-        <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> .
+        <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

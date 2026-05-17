@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/nigel-lister--2> .
 
-<https://www.gov.uk/government/people/nigel-lister--2> a schema1:Person ;
+<https://www.gov.uk/government/people/nigel-lister--2> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-05-26T13:19:25+01:00" ;
     schema1:description "Nigel started his career at Sellafield in 1991 on the BNFL Graduate Training Scheme as a health physicist and held several senior roles on the site."@en ;
     schema1:name "Nigel Lister"@en ;
     schema1:url <https://www.gov.uk/government/people/nigel-lister--2> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
-    govuk:currentRoleTitle "Environmental, Health, Safety, Security & Quality (EHSSQ) Director"@en .
+    govuk:contentId "bd1b6421-8f49-4b8d-a721-80da7b5e28da" ;
+    govuk:currentRoleTitle "Environmental, Health, Safety, Security & Quality (EHSSQ) Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

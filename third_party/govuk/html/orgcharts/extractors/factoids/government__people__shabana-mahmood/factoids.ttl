@@ -1,17 +1,66 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> govuk:roleHolder <https://www.gov.uk/government/people/shabana-mahmood> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/home-office> govuk:hasMinister <https://www.gov.uk/government/people/shabana-mahmood> .
 
-<https://www.gov.uk/government/people/shabana-mahmood> a schema1:Person ;
+<https://www.gov.uk/government/ministers/home-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/shabana-mahmood> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> govuk:previouslyHeldBy <https://www.gov.uk/government/people/shabana-mahmood> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> govuk:roleHolder <https://www.gov.uk/government/people/shabana-mahmood> .
+
+<https://www.gov.uk/government/ministers/lord-chancellor> govuk:previouslyHeldBy <https://www.gov.uk/government/people/shabana-mahmood> .
+
+<https://www.gov.uk/government/people/shabana-mahmood> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-15T12:53:10+01:00" ;
     schema1:description "Shabana Mahmood was appointed Secretary of State for the Home Department on 5 September 2025."@en ;
     schema1:name "The Rt Hon Shabana Mahmood MP"@en ;
     schema1:url <https://www.gov.uk/government/people/shabana-mahmood> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:contentId "d2025439-9d59-49af-8534-0ba4cf54517a" ;
     govuk:currentRoleTitle "Secretary of State for the Home Department"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/home-secretary>,
+        <https://www.gov.uk/government/ministers/lord-chancellor>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/home-secretary> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    govuk:tenureStart "2025-09-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
 

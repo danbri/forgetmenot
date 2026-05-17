@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/civil-nuclear-police-authority> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-05-26T14:34:15+01:00" ;
     schema1:name "Civil Nuclear Police Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/civil-nuclear-police-authority> ;
+    govuk:contentId "b0f55845-c93e-44d3-bf04-56261181a845" ;
     govuk:hasManager <https://www.gov.uk/government/people/alexander-macgill--2>,
         <https://www.gov.uk/government/people/alyson-armett--2>,
         <https://www.gov.uk/government/people/andrew-harvey>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/nick-payne--2>,
         <https://www.gov.uk/government/people/pam-duerden--2>,
         <https://www.gov.uk/government/people/susan-johnson--2>,
-        <https://www.gov.uk/government/people/tamya-kerr> .
+        <https://www.gov.uk/government/people/tamya-kerr> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alexander-macgill--2> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6945294f3022cdf03a0eb7e6/s465_Mac-MacGill-for-website.jpg> ;

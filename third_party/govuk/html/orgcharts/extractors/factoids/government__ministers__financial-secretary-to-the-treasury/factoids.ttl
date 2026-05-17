@@ -34,8 +34,10 @@
 
 <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-02T12:05:34+01:00" ;
     schema1:name "Financial Secretary to the Treasury"@en ;
     schema1:url <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:contentId "845e887b-c0f1-11e4-8223-005056011aef" ;
     govuk:partOf <https://www.gov.uk/government/organisations/hm-treasury> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith>,
         <https://www.gov.uk/government/people/david-gauke>,
@@ -49,6 +51,7 @@
         <https://www.gov.uk/government/people/nigel-huddleston>,
         <https://www.gov.uk/government/people/sajid-javid>,
         <https://www.gov.uk/government/people/victoria-atkins> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Business engagement (non-FS)"@en,
         "Departmental minister for HM Treasury Group (including responsibility for the Darlington campus)"@en,
         "Economic and business regulation and competition"@en,
@@ -65,13 +68,8 @@
         "Supporting the Chancellor on the Growth Mission, specifically:"@en,
         "The Crown Estate"@en,
         "Treasury business in the House of Lords"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/lord-livermore> .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/greg-clark> ;
-    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2013"^^xsd:gYear ;
-    govuk:tenureStart "2012"^^xsd:gYear .
+    govuk:roleHolder <https://www.gov.uk/government/people/lord-livermore> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/victoria-atkins> ;
@@ -80,34 +78,22 @@
     govuk:tenureStart "2022"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    govuk:holder <https://www.gov.uk/government/people/mark-hoban> ;
     govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+    govuk:tenureEnd "2012"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/sajid-javid> ;
+    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
     govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2014"^^xsd:gYear ;
-    govuk:tenureStart "2013"^^xsd:gYear .
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/nicky-morgan> ;
     govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
     govuk:tenureEnd "2014"^^xsd:gYear ;
     govuk:tenureStart "2014"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
-    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2014"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/mark-hoban> ;
-    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2012"^^xsd:gYear ;
-    govuk:tenureStart "2010"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/lucy-frazer> ;
@@ -122,20 +108,38 @@
     govuk:tenureStart "2016"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
+    govuk:holder <https://www.gov.uk/government/people/sajid-javid> ;
     govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2017"^^xsd:gYear .
+    govuk:tenureEnd "2014"^^xsd:gYear ;
+    govuk:tenureStart "2013"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/nigel-huddleston> ;
+    govuk:holder <https://www.gov.uk/government/people/greg-clark> ;
     govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2023"^^xsd:gYear .
+    govuk:tenureEnd "2013"^^xsd:gYear ;
+    govuk:tenureStart "2012"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
     govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
     govuk:tenureEnd "2021"^^xsd:gYear ;
     govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nigel-huddleston> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
 

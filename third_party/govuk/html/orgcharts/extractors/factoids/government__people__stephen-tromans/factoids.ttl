@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> govuk:hasMinister <https://www.gov.uk/government/people/stephen-tromans> .
 
-<https://www.gov.uk/government/people/stephen-tromans> a schema1:Person ;
+<https://www.gov.uk/government/people/stephen-tromans> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-11-02T06:55:22+00:00" ;
     schema1:description "Stephen Tromans is a barrister practising at 39 Essex Chambers, London."@en ;
     schema1:name "Stephen Tromans KC"@en ;
     schema1:url <https://www.gov.uk/government/people/stephen-tromans> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
-    govuk:currentRoleTitle "Member, CoRWM"@en .
+    govuk:contentId "dfc03b6f-7e6a-456c-9e78-780a5d79c85f" ;
+    govuk:currentRoleTitle "Member, CoRWM"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

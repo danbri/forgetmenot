@@ -13,17 +13,21 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-06-16T13:07:21+01:00" ;
     schema1:name "Minister of State (Minister for Equalities)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> ;
+    govuk:contentId "871a9d80-d9ec-4219-bccb-28afa271bd9e" ;
     govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office>,
         <https://www.gov.uk/government/organisations/government-equalities-office>,
         <https://www.gov.uk/government/organisations/the-equality-hub> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Equality Act and Public Sector Equality Duty oversight"@en,
         "Inclusion at Work Panel oversight"@en,
         "Inclusive Britain Strategy"@en,
         "Racial and ethnic disparities"@en,
-        "Sponsoring minister for the Social Mobility Commission and the Equality and Human Rights Commission"@en .
+        "Sponsoring minister for the Social Mobility Commission and the Equality and Human Rights Commission"@en ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;

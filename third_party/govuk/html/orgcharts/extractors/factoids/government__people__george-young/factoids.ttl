@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/george-young> .
 
-<https://www.gov.uk/government/people/george-young> a schema1:Person ;
+<https://www.gov.uk/government/ministers/leader-of-the-house-of-commons-and-lord-privy-seal> govuk:previouslyHeldBy <https://www.gov.uk/government/people/george-young> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/george-young> .
+
+<https://www.gov.uk/government/people/george-young> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2019-11-08T16:19:38+00:00" ;
     schema1:description "Sir George Young was appointed Chief Whip and Parliamentary Secretary to the Treasury in October 2012. He was elected Conservative MP for North West Hampshire on 1 May 1997."@en ;
     schema1:name "The Rt Hon Sir George Young Bt"@en ;
     schema1:url <https://www.gov.uk/government/people/george-young> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85293b85-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons-and-lord-privy-seal>,
+        <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/george-young> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2014-07-14"^^xsd:date ;
+    govuk:tenureStart "2012-10-19"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/george-young> ;
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons-and-lord-privy-seal> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

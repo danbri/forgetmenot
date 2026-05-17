@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/defence-infrastructure-organisation> govuk:hasMinister <https://www.gov.uk/government/people/mike-green> .
 
-<https://www.gov.uk/government/people/mike-green> a schema1:Person ;
+<https://www.gov.uk/government/people/mike-green> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-04-22T09:38:32+01:00" ;
     schema1:description "Mike Green was the Chief Operating Officer of the Department for Education and Director General of the Operations Directorate between 2012 and 2022."@en ;
     schema1:name "Mike Green"@en ;
     schema1:url <https://www.gov.uk/government/people/mike-green> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/defence-infrastructure-organisation> ;
-    govuk:currentRoleTitle "Chief Executive, DIO"@en .
+    govuk:contentId "853dd9b1-c0f1-11e4-8223-005056011aef" ;
+    govuk:currentRoleTitle "Chief Executive, DIO"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

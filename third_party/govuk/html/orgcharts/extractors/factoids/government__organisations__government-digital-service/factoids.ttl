@@ -5,13 +5,17 @@
 <https://www.gov.uk/government/organisations/government-digital-service> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-01-30T12:38:17+00:00" ;
     schema1:name "Government Digital Service"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "af07d5a5-df63-4ddc-9383-6a666845ebe9" ;
     govuk:hasManager <https://www.gov.uk/government/people/aimee-smith>,
         <https://www.gov.uk/government/people/christine-bellamy>,
         <https://www.gov.uk/government/people/david-knott--2>,
         <https://www.gov.uk/government/people/emily-middleton>,
-        <https://www.gov.uk/government/people/sarah-hodgetts> .
+        <https://www.gov.uk/government/people/sarah-hodgetts> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/aimee-smith> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69298bf3b3b9afff34e961f3/s465_aimee-smith-gov.uk.png> ;

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/sophie-dean> .
 
-<https://www.gov.uk/government/people/sophie-dean> a schema1:Person ;
+<https://www.gov.uk/government/people/sophie-dean> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-02T17:06:23+00:00" ;
     schema1:description "Sophie Dean was appointed Director General for Welfare and Pensions in September 2025. Before that, she was in a jobshare with Katherine Green as joint Directors General for DWP Policy."@en ;
     schema1:name "Sophie Dean CB"@en ;
     schema1:url <https://www.gov.uk/government/people/sophie-dean> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    govuk:currentRoleTitle "Director General for Welfare and Pensions"@en .
+    govuk:contentId "8bd707cc-5be9-421b-a14c-954fe5046115" ;
+    govuk:currentRoleTitle "Director General for Welfare and Pensions"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/government-property-function> govuk:hasMinister <https://www.gov.uk/government/people/mark-chivers> .
 
-<https://www.gov.uk/government/people/mark-chivers> a schema1:Person ;
+<https://www.gov.uk/government/people/mark-chivers> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-08-12T08:53:25+01:00" ;
     schema1:description "Mark joined the Cabinet Office as Government Chief Property Officer in January 2022."@en ;
     schema1:name "Mark Chivers"@en ;
     schema1:url <https://www.gov.uk/government/people/mark-chivers> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-property-function> ;
-    govuk:currentRoleTitle "Government Chief Property Officer"@en .
+    govuk:contentId "35481764-18b2-4bd1-9bc3-0436cfa6d449" ;
+    govuk:currentRoleTitle "Government Chief Property Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

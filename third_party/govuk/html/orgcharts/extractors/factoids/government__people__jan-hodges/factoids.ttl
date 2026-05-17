@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/jan-hodges> .
 
-<https://www.gov.uk/government/people/jan-hodges> a schema1:Person ;
+<https://www.gov.uk/government/people/jan-hodges> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-11-28T15:51:44+00:00" ;
     schema1:description "Jan is an experienced Transformation Director and Chief Information Officer, having worked for PZ Cussons (a multi-national FTSE 250 company) as a member of the executive leadership team."@en ;
     schema1:name "Jan Hodges"@en ;
     schema1:url <https://www.gov.uk/government/people/jan-hodges> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Non-Executive Director"@en .
+    govuk:contentId "76b8bcf3-dded-4f47-be5c-9dfbecf612f1" ;
+    govuk:currentRoleTitle "Non-Executive Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

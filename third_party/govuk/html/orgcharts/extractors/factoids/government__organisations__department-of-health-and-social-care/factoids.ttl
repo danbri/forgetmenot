@@ -137,8 +137,10 @@
 <https://www.gov.uk/government/organisations/department-of-health-and-social-care> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-08-03T08:33:01+01:00" ;
     schema1:name "Department of Health and Social Care"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    govuk:contentId "7cd6bf12-bbe9-4118-8523-f927b0442156" ;
     govuk:hasManager <https://www.gov.uk/government/people/alan-milburn>,
         <https://www.gov.uk/government/people/camilla-cavendish>,
         <https://www.gov.uk/government/people/catherine-frances>,
@@ -169,5 +171,7 @@
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--306>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--310>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> .
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

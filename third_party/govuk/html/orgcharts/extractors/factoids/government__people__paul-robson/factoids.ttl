@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/paul-robson> .
 
-<https://www.gov.uk/government/people/paul-robson> a schema1:Person ;
+<https://www.gov.uk/government/people/paul-robson> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-03-22T09:14:37+00:00" ;
     schema1:description "Paul joined Sellafield in 1979 and has held a wide variety of leadership roles, including the commissioning of the waste vitrification lines and operations within existing nuclear facilities."@en ;
     schema1:name "Paul Robson"@en ;
     schema1:url <https://www.gov.uk/government/people/paul-robson> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Interim Chief Nuclear Officer"@en .
+    govuk:contentId "4f628691-cee2-4fc0-8ec3-2ca15597e6ce" ;
+    govuk:currentRoleTitle "Interim Chief Nuclear Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/defence-and-security-accelerator> govuk:hasMinister <https://www.gov.uk/government/people/anita-friend> .
 
-<https://www.gov.uk/government/people/anita-friend> a schema1:Person ;
+<https://www.gov.uk/government/people/anita-friend> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-02-02T11:07:52+00:00" ;
     schema1:description "A naturally curious influencer who firmly believes in the benefits of having diversity of thought as well as a collaborative approach. Anita joined UK Defence Innovation (UKDI), previously known as the Defence and Security Accelerator (DASA) from Home Office where she was responsible for increasing the UK’s resilience to Chemical, Biological, Radiological, Nuclear and Explosive (CBRNE) attacks. This included collaborating with a wide range of partners to ensure that the UK could effectively respond to CBRNE attacks. Prior to this, her experience within Cabinet Office included providing strategic leadership for the assessment of national security risks and setting policy to ensure scientific advice is used effectively during emergencies. Before moving into the National Security field, Anita started her career in social research working in the private sector."@en ;
     schema1:name "Anita Friend"@en ;
     schema1:url <https://www.gov.uk/government/people/anita-friend> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/defence-and-security-accelerator> ;
-    govuk:currentRoleTitle "Deputy Director of UKDI (Find & Grow)"@en .
+    govuk:contentId "b3f98fe3-6377-4811-b56e-cda02872f505" ;
+    govuk:currentRoleTitle "Deputy Director of UKDI (Find & Grow)"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

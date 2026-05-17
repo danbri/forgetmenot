@@ -5,14 +5,18 @@
 <https://www.gov.uk/government/organisations/review-body-on-senior-salaries> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-11-14T14:13:33+00:00" ;
     schema1:name "Senior Salaries Review Body"@en ;
     schema1:url <https://www.gov.uk/government/organisations/review-body-on-senior-salaries> ;
+    govuk:contentId "e3115d57-8ee5-4bbf-96e0-f167c8729a6e" ;
     govuk:hasManager <https://www.gov.uk/government/people/ian-mccafferty>,
         <https://www.gov.uk/government/people/lea-paterson>,
         <https://www.gov.uk/government/people/mark-emerton>,
         <https://www.gov.uk/government/people/mark-polin>,
         <https://www.gov.uk/government/people/pippa-greenslade>,
-        <https://www.gov.uk/government/people/zoe-billingham> .
+        <https://www.gov.uk/government/people/zoe-billingham> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/ian-mccafferty> a schema1:Person ;
     schema1:name "Ian McCafferty CBE"@en .

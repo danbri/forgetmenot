@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/juliet-sotnick> .
 
-<https://www.gov.uk/government/people/juliet-sotnick> a schema1:Person ;
+<https://www.gov.uk/government/people/juliet-sotnick> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-03T13:46:14+01:00" ;
     schema1:description "Juliet Sotnick joined the NWS board in January 2024."@en ;
     schema1:name "Juliet Sotnick"@en ;
     schema1:url <https://www.gov.uk/government/people/juliet-sotnick> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:currentRoleTitle "Nuclear Waste Services Independent Non-Executive Director"@en .
+    govuk:contentId "7d2aa922-c9d0-47a4-a364-20b0c954c3f5" ;
+    govuk:currentRoleTitle "Nuclear Waste Services Independent Non-Executive Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

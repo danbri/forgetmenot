@@ -1,13 +1,136 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/elizabeth-truss> .
 
-<https://www.gov.uk/government/people/elizabeth-truss> a schema1:Person ;
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/first-lord-of-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/minister-for-the-civil-service> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/minister-for-the-union> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-education-and-childcare> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/ministers/prime-minister> govuk:previouslyHeldBy <https://www.gov.uk/government/people/elizabeth-truss> .
+
+<https://www.gov.uk/government/people/elizabeth-truss> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:01:00+01:00" ;
     schema1:description "Elizabeth Truss was Prime Minister from 6 September 2022 to 25 October 2022. She was previously Secretary of State for Foreign, Commonwealth and Development Affairs from 15 September 2021. She was appointed Minister for Women and Equalities on 10 September 2019. She was elected as the Conservative MP for south west Norfolk in 2010."@en ;
     schema1:name "The Rt Hon Elizabeth Truss"@en ;
     schema1:url <https://www.gov.uk/government/people/elizabeth-truss> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852c33a3-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/first-lord-of-the-treasury>,
+        <https://www.gov.uk/government/ministers/minister-for-the-civil-service>,
+        <https://www.gov.uk/government/ministers/minister-for-the-union>,
+        <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-education-and-childcare>,
+        <https://www.gov.uk/government/ministers/prime-minister>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2019-09-10"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:tenureEnd "2017-06-11"^^xsd:date ;
+    govuk:tenureStart "2016-07-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-education-and-childcare> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade> ;
+    govuk:tenureEnd "2021-09-14"^^xsd:date ;
+    govuk:tenureStart "2019-07-24"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2017-06-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-union> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-15"^^xsd:date .
 

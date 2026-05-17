@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> govuk:hasMinister <https://www.gov.uk/government/people/malcolm-joyce> .
 
-<https://www.gov.uk/government/people/malcolm-joyce> a schema1:Person ;
+<https://www.gov.uk/government/people/malcolm-joyce> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-08-06T13:17:48+01:00" ;
     schema1:description "Malcolm Joyce was appointed to the Committee on Radioactive Waste Management (CoRWM) in June 2023."@en ;
     schema1:name "Professor Malcolm Joyce"@en ;
     schema1:url <https://www.gov.uk/government/people/malcolm-joyce> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
-    govuk:currentRoleTitle "Member, CoRWM"@en .
+    govuk:contentId "f3fbe880-72a0-4bd8-94f5-c59997c40815" ;
+    govuk:currentRoleTitle "Member, CoRWM"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

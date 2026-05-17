@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/national-infrastructure-and-service-transformation-authority> govuk:hasMinister <https://www.gov.uk/government/people/alison-baptiste> .
 
-<https://www.gov.uk/government/people/alison-baptiste> a schema1:Person ;
+<https://www.gov.uk/government/people/alison-baptiste> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-03-31T16:25:41+01:00" ;
     schema1:description "Alison Baptiste is the Director of Public and Security Services at the National Infrastructure and Service Transformation Authority (NISTA)."@en ;
     schema1:name "Alison Baptiste CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/alison-baptiste> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/national-infrastructure-and-service-transformation-authority> ;
-    govuk:currentRoleTitle "Director of Public and Security Services"@en .
+    govuk:contentId "ce5af826-5944-40d3-8547-76d6200a6cf8" ;
+    govuk:currentRoleTitle "Director of Public and Security Services"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

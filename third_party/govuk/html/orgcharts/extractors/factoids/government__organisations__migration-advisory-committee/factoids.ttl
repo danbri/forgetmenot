@@ -5,12 +5,16 @@
 <https://www.gov.uk/government/organisations/migration-advisory-committee> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-08-01T15:15:21+01:00" ;
     schema1:name "Migration Advisory Committee"@en ;
     schema1:url <https://www.gov.uk/government/organisations/migration-advisory-committee> ;
+    govuk:contentId "141baba8-f1c1-404d-9e3d-13db046e7b39" ;
     govuk:hasManager <https://www.gov.uk/government/people/dina-kiwan>,
         <https://www.gov.uk/government/people/jo-swaffield>,
         <https://www.gov.uk/government/people/madeleine-sumption>,
-        <https://www.gov.uk/government/people/sergi-pardos-prado> .
+        <https://www.gov.uk/government/people/sergi-pardos-prado> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/dina-kiwan> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67f79d2c45705eb1a1513eb0/s465_Prof+Dina+Kiwan+GOV.UK.jpg> ;

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/shirley-cooper> .
 
-<https://www.gov.uk/government/people/shirley-cooper> a schema1:Person ;
+<https://www.gov.uk/government/people/shirley-cooper> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-02-15T12:30:04+00:00" ;
     schema1:description "Shirley is a successful business leader and entrepreneur with extensive experience gained in delivering first-class financial, commercial, and operational leadership across the Private and Public Sectors. She is a former Chair and President of the Chartered Institute of Procurement and Supply (CIPS), her legacy as President was to create The Fellowship as it is today with over 1000 Fellows globally and is the first Chair of Fellows."@en ;
     schema1:name "Shirley Cooper OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/shirley-cooper> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:currentRoleTitle "Small Business Crown Representative"@en .
+    govuk:contentId "dafa503f-ba84-4e5b-a73c-907442d3e8d0" ;
+    govuk:currentRoleTitle "Small Business Crown Representative"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

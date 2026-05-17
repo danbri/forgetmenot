@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-defence-innovation> govuk:hasMinister <https://www.gov.uk/government/people/james-gavin> .
 
-<https://www.gov.uk/government/people/james-gavin> a schema1:Person ;
+<https://www.gov.uk/government/people/james-gavin> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-05-11T14:21:00+01:00" ;
     schema1:description "James Gavin is the Head of MoD Technology Transition, as Deputy Director UKDI"@en ;
     schema1:name "James Gavin"@en ;
     schema1:url <https://www.gov.uk/government/people/james-gavin> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-defence-innovation> ;
-    govuk:currentRoleTitle "Deputy Director of UKDI (Prove and Exploit)"@en .
+    govuk:contentId "4ebcc2f5-53a3-4f18-a612-658152e4c738" ;
+    govuk:currentRoleTitle "Deputy Director of UKDI (Prove and Exploit)"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/cat-little> .
 
-<https://www.gov.uk/government/people/cat-little> a schema1:Person ;
+<https://www.gov.uk/government/people/cat-little> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-09-16T09:06:09+01:00" ;
     schema1:description "Cat started her career at the accountancy firm PwC, joining the Civil Service in 2013 first at the Legal Aid Agency moving on to become the Group Finance Director at the Ministry of Justice overseeing all aspects of financial management and supporting prison reform, courts reform and transformation programmes. In 2017, Cat joined the Board of the Ministry of Defence as Director General Finance. In this role she was the primary financial advisor to ministers, the Defence Board and Accounting Officer and led the finance, commercial and analytical functions across Defence. During this time, Cat led the reform of Defence Acquisition and Procurement as part of the Modernising Defence Programme and instigated the Financial Improvement Programme. Cat led the oversight of the Defence portfolio, and was the Race Champion for the Department."@en ;
     schema1:name "Catherine Little CB"@en ;
     schema1:url <https://www.gov.uk/government/people/cat-little> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:currentRoleTitle "Chief Operating Officer for the Civil Service and Permanent Secretary to the Cabinet Office"@en .
+    govuk:contentId "854010c5-c0f1-11e4-8223-005056011aef" ;
+    govuk:currentRoleTitle "Chief Operating Officer for the Civil Service and Permanent Secretary to the Cabinet Office"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

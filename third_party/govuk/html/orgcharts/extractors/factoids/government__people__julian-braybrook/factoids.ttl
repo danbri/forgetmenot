@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/government-chemist> govuk:hasMinister <https://www.gov.uk/government/people/julian-braybrook> .
 
-<https://www.gov.uk/government/people/julian-braybrook> a schema1:Person ;
+<https://www.gov.uk/government/people/julian-braybrook> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2018-06-01T14:13:21+01:00" ;
     schema1:description "Dr Julian Braybrook became the Government Chemist in June 2018. He is currently Director of Measurement Science for the National Measurement Laboratory at LGC, a life sciences research and testing company, where he is responsible for the science strategy and partnership development of metrology (measurement science) and regulatory analysis programmes, in support of the UK National Measurement System ."@en ;
     schema1:name "Dr Julian Braybrook DSc, CChem FRSC"@en ;
     schema1:url <https://www.gov.uk/government/people/julian-braybrook> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-chemist> ;
-    govuk:currentRoleTitle "Government Chemist"@en .
+    govuk:contentId "e7887f5f-5a02-4a8d-acb4-2b5a4fe80c9e" ;
+    govuk:currentRoleTitle "Government Chemist"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

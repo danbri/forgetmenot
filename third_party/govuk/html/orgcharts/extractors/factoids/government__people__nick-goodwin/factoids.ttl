@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> govuk:hasMinister <https://www.gov.uk/government/people/nick-goodwin> .
 
-<https://www.gov.uk/government/people/nick-goodwin> a schema1:Person ;
+<https://www.gov.uk/government/people/nick-goodwin> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-07-12T10:21:41+01:00" ;
     schema1:description "Nick Goodwin was appointed Chief Executive of HM Courts and Tribunals Service (HMCTS) in March 2022."@en ;
     schema1:name "Nick Goodwin"@en ;
     schema1:url <https://www.gov.uk/government/people/nick-goodwin> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
-    govuk:currentRoleTitle "Chief Executive and Board Member, HM Courts & Tribunals Service"@en .
+    govuk:contentId "693e9499-fc1c-44e2-9b3e-68af6a78253f" ;
+    govuk:currentRoleTitle "Chief Executive and Board Member, HM Courts & Tribunals Service"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

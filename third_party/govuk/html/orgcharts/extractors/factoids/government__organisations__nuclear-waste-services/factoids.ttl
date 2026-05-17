@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/nuclear-waste-services> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-07T12:34:34+01:00" ;
     schema1:name "Nuclear Waste Services"@en ;
     schema1:url <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    govuk:contentId "87ad1f5a-f535-433c-8dde-eae033c593ec" ;
     govuk:hasManager <https://www.gov.uk/government/people/alex-de-keyser>,
         <https://www.gov.uk/government/people/chris-sly>,
         <https://www.gov.uk/government/people/john-corderoy>,
@@ -17,7 +19,9 @@
         <https://www.gov.uk/government/people/seth-kybird>,
         <https://www.gov.uk/government/people/shameem-akhtar>,
         <https://www.gov.uk/government/people/simon-hughes--2>,
-        <https://www.gov.uk/government/people/steve-glasson> .
+        <https://www.gov.uk/government/people/steve-glasson> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alex-de-keyser> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69bd0df0f7b1c24d8e23cec4/s465_Alex_DK__1_.png> ;

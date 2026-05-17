@@ -149,8 +149,10 @@
 <https://www.gov.uk/government/organisations/cabinet-office> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-06-09T14:54:07+01:00" ;
     schema1:name "Cabinet Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:contentId "96ae61d6-c2a1-48cb-8e67-da9d105ae381" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-forzani>,
         <https://www.gov.uk/government/people/antonia-romeo>,
         <https://www.gov.uk/government/people/caroline-patterson>,
@@ -182,5 +184,7 @@
         <https://www.gov.uk/government/ministers/parliamentary-secretary--16>,
         <https://www.gov.uk/government/ministers/parliamentary-secretary--17>,
         <https://www.gov.uk/government/ministers/paymaster-general>,
-        <https://www.gov.uk/government/ministers/prime-minister> .
+        <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

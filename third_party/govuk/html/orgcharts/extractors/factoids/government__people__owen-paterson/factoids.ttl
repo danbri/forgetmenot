@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/owen-paterson> .
 
-<https://www.gov.uk/government/people/owen-paterson> a schema1:Person ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/owen-paterson> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> govuk:previouslyHeldBy <https://www.gov.uk/government/people/owen-paterson> .
+
+<https://www.gov.uk/government/people/owen-paterson> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:00:55+01:00" ;
     schema1:description "Owen Paterson was appointed Secretary of State for Environment, Food and Rural Affairs in September 2012. He was elected Conservative MP for North Shropshire on 1 May 1997."@en ;
     schema1:name "The Rt Hon Owen Paterson"@en ;
     schema1:url <https://www.gov.uk/government/people/owen-paterson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8529278b-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/owen-paterson> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2014-07-14"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/owen-paterson> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

@@ -1,20 +1,48 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasMinister <https://www.gov.uk/government/people/jacqui-smith> .
+
+<https://www.gov.uk/government/ministers/government-spokesperson-for-equalities> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jacqui-smith> .
 
 <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
 
 <https://www.gov.uk/government/ministers/minister-of-state--175> govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
 
-<https://www.gov.uk/government/organisations/department-for-education> govuk:hasMinister <https://www.gov.uk/government/people/jacqui-smith> .
-
-<https://www.gov.uk/government/people/jacqui-smith> a schema1:Person ;
+<https://www.gov.uk/government/people/jacqui-smith> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-12-05T16:50:06+00:00" ;
     schema1:description "The Rt Hon Baroness Smith of Malvern was appointed Minister of State (Minister for Skills) in the Department for Education on 6 July 2024. This role also became part of the Department for Work and Pensions on 6 September 2025."@en ;
     schema1:name "The Rt Hon Baroness Smith of Malvern"@en ;
     schema1:url <https://www.gov.uk/government/people/jacqui-smith> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:contentId "8d7c6906-f1dd-4a7d-ba70-ecd1a08aefe6" ;
     govuk:currentRoleTitle "Minister of State (Minister for Skills) and Minister of State (Minister for Women and Equalities)"@en ;
     govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4>,
-        <https://www.gov.uk/government/ministers/minister-of-state--175> .
+        <https://www.gov.uk/government/ministers/minister-of-state--175> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/government-spokesperson-for-equalities> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jacqui-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--175> ;
+    govuk:tenureStart "2024-07-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jacqui-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-spokesperson-for-equalities> ;
+    govuk:tenureEnd "2025-03-04"^^xsd:date ;
+    govuk:tenureStart "2024-10-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jacqui-smith> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> ;
+    govuk:tenureStart "2025-03-04"^^xsd:date .
 

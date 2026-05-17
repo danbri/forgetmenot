@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/peter-shipley> .
 
-<https://www.gov.uk/government/people/peter-shipley> a schema1:Person ;
+<https://www.gov.uk/government/people/peter-shipley> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-06-05T16:31:01+01:00" ;
     schema1:description "Peter has a long career managing and leading major projects and programmes including:"@en ;
     schema1:name "Peter Shipley"@en ;
     schema1:url <https://www.gov.uk/government/people/peter-shipley> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Non-Executive Director"@en .
+    govuk:contentId "418272f0-bd77-45de-b949-9ef333de115e" ;
+    govuk:currentRoleTitle "Non-Executive Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

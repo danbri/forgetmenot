@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/civil-nuclear-constabulary> govuk:hasMinister <https://www.gov.uk/government/people/kerry-smith> .
 
-<https://www.gov.uk/government/people/kerry-smith> a schema1:Person ;
+<https://www.gov.uk/government/people/kerry-smith> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-12-18T13:50:46+00:00" ;
     schema1:description "Kerry Smith joined the Civil Nuclear Constabulary ( CNC ) on 8 April 2024 as an Assistant Chief Constable ( ACC )."@en ;
     schema1:name "Kerry Smith"@en ;
     schema1:url <https://www.gov.uk/government/people/kerry-smith> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/civil-nuclear-constabulary> ;
-    govuk:currentRoleTitle "Assistant Chief Constable, Professionalism"@en .
+    govuk:contentId "b9d86a69-5777-418a-bcfc-ee159b4c2e09" ;
+    govuk:currentRoleTitle "Assistant Chief Constable, Professionalism"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -5,14 +5,18 @@
 <https://www.gov.uk/government/organisations/nhs-pay-review-body> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-12-20T13:53:43+00:00" ;
     schema1:name "NHS Pay Review Body"@en ;
     schema1:url <https://www.gov.uk/government/organisations/nhs-pay-review-body> ;
+    govuk:contentId "0c9b6c77-7e98-4a39-98a2-8e56b201217c" ;
     govuk:hasManager <https://www.gov.uk/government/people/kate-nowicki>,
         <https://www.gov.uk/government/people/mark-pennifold>,
         <https://www.gov.uk/government/people/paul>,
         <https://www.gov.uk/government/people/stephanie-marston>,
         <https://www.gov.uk/government/people/stephen-bach>,
-        <https://www.gov.uk/government/people/stephen-boyle> .
+        <https://www.gov.uk/government/people/stephen-boyle> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/kate-nowicki> a schema1:Person ;
     schema1:name "Kate Nowicki"@en .

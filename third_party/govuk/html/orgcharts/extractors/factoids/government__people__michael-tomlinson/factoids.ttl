@@ -1,13 +1,59 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/michael-tomlinson> .
 
-<https://www.gov.uk/government/people/michael-tomlinson> a schema1:Person ;
+<https://www.gov.uk/government/ministers/government-whip--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-tomlinson> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--10> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-tomlinson> .
+
+<https://www.gov.uk/government/ministers/minister-for-illegal-migration> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-tomlinson> .
+
+<https://www.gov.uk/government/ministers/solicitor-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-tomlinson> .
+
+<https://www.gov.uk/government/people/michael-tomlinson> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:16:21+01:00" ;
     schema1:description "Michael Tomlinson was Minister of State at the Home Office between 7 December 2023 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Michael Tomlinson KC"@en ;
     schema1:url <https://www.gov.uk/government/people/michael-tomlinson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "4c5462c7-4f70-4821-a35b-96c2ed71c60d" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/government-whip--2>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--10>,
+        <https://www.gov.uk/government/ministers/minister-for-illegal-migration>,
+        <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-illegal-migration> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-12-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2022-09-07"^^xsd:date ;
+    govuk:tenureStart "2022-07-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2023-12-07"^^xsd:date ;
+    govuk:tenureStart "2022-09-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--10> ;
+    govuk:tenureEnd "2022-07-08"^^xsd:date ;
+    govuk:tenureStart "2020-02-14"^^xsd:date .
 

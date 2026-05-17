@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/cheryl-gillan> .
 
-<https://www.gov.uk/government/people/cheryl-gillan> a schema1:Person ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-wales> govuk:previouslyHeldBy <https://www.gov.uk/government/people/cheryl-gillan> .
+
+<https://www.gov.uk/government/people/cheryl-gillan> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-15T13:04:58+01:00" ;
     schema1:description "Cheryl Gillan served as Secretary of State for Wales from May 2010 to September 2012. She was elected Conservative MP for Chesham and Amersham on 9 April 1992."@en ;
     schema1:name "The Rt Hon Cheryl Gillan"@en ;
     schema1:url <https://www.gov.uk/government/people/cheryl-gillan> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85292822-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/cheryl-gillan> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

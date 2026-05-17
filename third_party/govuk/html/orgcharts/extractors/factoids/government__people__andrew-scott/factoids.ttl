@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> govuk:hasMinister <https://www.gov.uk/government/people/andrew-scott> .
 
-<https://www.gov.uk/government/people/andrew-scott> a schema1:Person ;
+<https://www.gov.uk/government/people/andrew-scott> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-11T16:15:51+00:00" ;
     schema1:description "Andrew is a member of the senior leadership team in the Office of the Parliamentary Counsel (OPC) and is also the Second Parliamentary Counsel. Andrew is in charge of a team that delivers legislation for HMRC (eg, the Finance Bill following the budget) and the Treasury (eg, financial services) as well as DWP."@en ;
     schema1:name "Andrew Scott"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-scott> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> ;
-    govuk:currentRoleTitle "Second Parliamentary Counsel, Director General"@en .
+    govuk:contentId "8759dedc-2e06-49e0-98aa-94c0d4a90f33" ;
+    govuk:currentRoleTitle "Second Parliamentary Counsel, Director General"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

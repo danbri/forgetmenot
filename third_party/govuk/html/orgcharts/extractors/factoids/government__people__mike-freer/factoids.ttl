@@ -1,13 +1,79 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/mike-freer> .
 
-<https://www.gov.uk/government/people/mike-freer> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--8> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mike-freer> .
+
+<https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mike-freer> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mike-freer> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--181> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mike-freer> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mike-freer> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mike-freer> .
+
+<https://www.gov.uk/government/people/mike-freer> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:27:48+01:00" ;
     schema1:description "Mike Freer was Parliamentary Under Secretary of State for the Ministry of Justice between 20 September 2022 and 5 July 2024."@en ;
     schema1:name "Mike Freer"@en ;
     schema1:url <https://www.gov.uk/government/people/mike-freer> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "4202c431-908f-4029-a26c-b5fa267231eb" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--8>,
+        <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--181>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mike-freer> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities> ;
+    govuk:tenureEnd "2022-07-08"^^xsd:date ;
+    govuk:tenureStart "2021-09-21"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mike-freer> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--8> ;
+    govuk:tenureEnd "2018-07-25"^^xsd:date ;
+    govuk:tenureStart "2017-06-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mike-freer> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--181> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-09-20"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mike-freer> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury> ;
+    govuk:tenureEnd "2019-12-17"^^xsd:date ;
+    govuk:tenureStart "2018-07-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mike-freer> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> ;
+    govuk:tenureEnd "2022-07-08"^^xsd:date ;
+    govuk:tenureStart "2021-09-17"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mike-freer> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2021-09-17"^^xsd:date ;
+    govuk:tenureStart "2019-12-17"^^xsd:date .
 

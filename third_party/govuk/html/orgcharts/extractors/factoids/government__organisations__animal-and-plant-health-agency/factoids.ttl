@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/animal-and-plant-health-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-20T12:52:34+01:00" ;
     schema1:name "Animal and Plant Health Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/animal-and-plant-health-agency> ;
+    govuk:contentId "4ad67f14-6f9c-4fa4-80ab-687b6d81ea6f" ;
     govuk:hasManager <https://www.gov.uk/government/people/anna-jenkins>,
         <https://www.gov.uk/government/people/dan-horton>,
         <https://www.gov.uk/government/people/irene-cristofaro>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/nicola-hirst>,
         <https://www.gov.uk/government/people/richard-knight>,
         <https://www.gov.uk/government/people/richard-lewis>,
-        <https://www.gov.uk/government/people/richard-mccart> .
+        <https://www.gov.uk/government/people/richard-mccart> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/anna-jenkins> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/688a377d647852567573906f/s465_Anna_Jenkins__1___1_.jpg> ;

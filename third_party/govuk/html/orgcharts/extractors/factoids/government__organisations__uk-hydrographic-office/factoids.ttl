@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/uk-hydrographic-office> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-15T12:18:42+01:00" ;
     schema1:name "UK Hydrographic Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-hydrographic-office> ;
+    govuk:contentId "27ed5a13-e8e3-4dc1-9775-902d351e9ef4" ;
     govuk:hasManager <https://www.gov.uk/government/people/alex-bowen>,
         <https://www.gov.uk/government/people/amy-carrillo>,
         <https://www.gov.uk/government/people/angus-essenhigh>,
@@ -18,7 +20,9 @@
         <https://www.gov.uk/government/people/paul-boyle--2>,
         <https://www.gov.uk/government/people/tara-usher>,
         <https://www.gov.uk/government/people/tom-betts>,
-        <https://www.gov.uk/government/people/vanessa-blake> .
+        <https://www.gov.uk/government/people/vanessa-blake> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alex-bowen> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6901d7afab5cc9c893799515/s465_2025_UKHOTaunton_Alex_Bowen_-_Gov.uk_website_images.jpg> ;

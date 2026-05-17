@@ -1,13 +1,135 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/matthew-hancock> .
 
-<https://www.gov.uk/government/people/matthew-hancock> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-for-portsmouth> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--13> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--22> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-business-and-enterprise> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-for-skills-and-enterprise> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-skills> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/paymaster-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> govuk:previouslyHeldBy <https://www.gov.uk/government/people/matthew-hancock> .
+
+<https://www.gov.uk/government/people/matthew-hancock> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:00:59+01:00" ;
     schema1:description "Matt Hancock served as Secretary of State for Health and Social Care from 9 July 2018 to 26 June 2021."@en ;
     schema1:name "The Rt Hon Matt Hancock"@en ;
     schema1:url <https://www.gov.uk/government/people/matthew-hancock> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852c2f06-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-for-portsmouth>,
+        <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office>,
+        <https://www.gov.uk/government/ministers/minister-of-state--13>,
+        <https://www.gov.uk/government/ministers/minister-of-state--22>,
+        <https://www.gov.uk/government/ministers/minister-of-state-business-and-enterprise>,
+        <https://www.gov.uk/government/ministers/minister-of-state-for-skills-and-enterprise>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-skills>,
+        <https://www.gov.uk/government/ministers/paymaster-general>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-portsmouth> ;
+    govuk:tenureEnd "2015-05-11"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2015-05-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport> ;
+    govuk:tenureEnd "2018-07-09"^^xsd:date ;
+    govuk:tenureStart "2018-01-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-for-skills-and-enterprise> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2013-10-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--22> ;
+    govuk:tenureEnd "2018-01-08"^^xsd:date ;
+    govuk:tenureStart "2016-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport> .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--13> ;
+    govuk:tenureEnd "2015-05-11"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2015-05-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2021-06-26"^^xsd:date ;
+    govuk:tenureStart "2018-07-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-skills> ;
+    govuk:tenureEnd "2013-10-07"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-business-and-enterprise> ;
+    govuk:tenureEnd "2015-05-11"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/matthew-hancock> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport> .
 

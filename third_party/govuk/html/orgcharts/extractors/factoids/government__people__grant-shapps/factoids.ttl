@@ -1,13 +1,119 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/grant-shapps> .
 
-<https://www.gov.uk/government/people/grant-shapps> a schema1:Person ;
+<https://www.gov.uk/government/ministers/defence-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--11> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--31> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/ministers/minister-without-portfolio> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--23> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-business-energy-and-industrial-strategy> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-defence> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/grant-shapps> .
+
+<https://www.gov.uk/government/people/grant-shapps> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T10:42:21+01:00" ;
     schema1:description "The Rt Hon Grant Shapps was Secretary of State for Defence between 31 August 2023 and 5 July 2024. Previously he was Secretary of State for Energy Security and Net Zero from 7 February 2023 to 31 August 2023."@en ;
     schema1:name "The Rt Hon Grant Shapps"@en ;
     schema1:url <https://www.gov.uk/government/people/grant-shapps> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85292d6e-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/defence-secretary>,
+        <https://www.gov.uk/government/ministers/minister-of-state--11>,
+        <https://www.gov.uk/government/ministers/minister-of-state--31>,
+        <https://www.gov.uk/government/ministers/minister-without-portfolio>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--23>,
+        <https://www.gov.uk/government/ministers/secretary-of-state>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-business-energy-and-industrial-strategy>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-defence>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-without-portfolio> ;
+    govuk:tenureEnd "2015-05-11"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--31> ;
+    govuk:tenureEnd "2015-11-28"^^xsd:date ;
+    govuk:tenureStart "2015-05-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2019-07-24"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--11> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--23> ;
+    govuk:tenureEnd "2015-10-26"^^xsd:date ;
+    govuk:tenureStart "2015-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/defence-secretary> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state> ;
+    govuk:tenureEnd "2023-08-31"^^xsd:date ;
+    govuk:tenureStart "2023-02-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-business-energy-and-industrial-strategy> ;
+    govuk:tenureEnd "2023-02-07"^^xsd:date ;
+    govuk:tenureStart "2022-10-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-08-31"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-10-19"^^xsd:date .
 

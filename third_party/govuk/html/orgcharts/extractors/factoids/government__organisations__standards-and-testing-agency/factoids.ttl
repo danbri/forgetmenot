@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/standards-and-testing-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-01-22T13:08:33+00:00" ;
     schema1:name "Standards and Testing Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/standards-and-testing-agency> ;
-    govuk:hasManager <https://www.gov.uk/government/people/gillian-hillier> .
+    govuk:contentId "863ffacd-d313-49c1-b856-58fe0799fd41" ;
+    govuk:hasManager <https://www.gov.uk/government/people/gillian-hillier> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/gillian-hillier> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/624708b2e90e075f08be423a/s465_Gillian_GOV.UK_pic.jpg> ;

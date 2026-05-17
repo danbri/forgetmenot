@@ -1,13 +1,69 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/mark-harper> .
 
-<https://www.gov.uk/government/people/mark-harper> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state-for-disabled-people> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mark-harper> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-immigration> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mark-harper> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-political-and-constitutional-reform> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mark-harper> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mark-harper> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/mark-harper> .
+
+<https://www.gov.uk/government/people/mark-harper> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T10:59:11+01:00" ;
     schema1:description "Mark Harper was Secretary of State for Transport between 25 October 2022 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Mark Harper"@en ;
     schema1:url <https://www.gov.uk/government/people/mark-harper> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85292c8e-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state-for-disabled-people>,
+        <https://www.gov.uk/government/ministers/minister-of-state-immigration>,
+        <https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-political-and-constitutional-reform>,
+        <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mark-harper> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-for-disabled-people> ;
+    govuk:tenureEnd "2015-05-10"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mark-harper> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-political-and-constitutional-reform> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mark-harper> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2015-05-10"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mark-harper> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-10-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/mark-harper> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-immigration> ;
+    govuk:tenureEnd "2014-02-08"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
 

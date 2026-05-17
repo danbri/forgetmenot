@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/marine-accident-investigation-branch> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-09-19T10:07:04+01:00" ;
     schema1:name "Marine Accident Investigation Branch"@en ;
     schema1:url <https://www.gov.uk/government/organisations/marine-accident-investigation-branch> ;
-    govuk:hasManager <https://www.gov.uk/government/people/andrew-moll> .
+    govuk:contentId "9c66b9a3-1e6a-48e8-974d-2a5635f84679" ;
+    govuk:hasManager <https://www.gov.uk/government/people/andrew-moll> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrew-moll> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69a803c7622103d52c1a9b58/s465_RobLoder-ChiefInspectorMAIB.png> ;

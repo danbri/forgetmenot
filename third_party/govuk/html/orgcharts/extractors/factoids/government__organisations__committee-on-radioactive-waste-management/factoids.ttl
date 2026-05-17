@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-30T15:58:34+00:00" ;
     schema1:name "Committee on Radioactive Waste Management"@en ;
     schema1:url <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
+    govuk:contentId "5a99eabd-85c8-401a-9179-f2c11a928e98" ;
     govuk:hasManager <https://www.gov.uk/government/people/barry-lennox>,
         <https://www.gov.uk/government/people/claire-corkhill>,
         <https://www.gov.uk/government/people/clare-bond>,
@@ -18,7 +20,9 @@
         <https://www.gov.uk/government/people/peter-bryant>,
         <https://www.gov.uk/government/people/ray-kemp>,
         <https://www.gov.uk/government/people/simon-webb>,
-        <https://www.gov.uk/government/people/stephen-tromans> .
+        <https://www.gov.uk/government/people/stephen-tromans> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/barry-lennox> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/64e5abe84002ee000d57b52d/s465_barry-lennox.jpg> ;

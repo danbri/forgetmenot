@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/border-force> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-12-15T16:27:38+00:00" ;
     schema1:name "Border Force"@en ;
     schema1:url <https://www.gov.uk/government/organisations/border-force> ;
-    govuk:hasManager <https://www.gov.uk/government/people/phil-douglas> .
+    govuk:contentId "3808b369-f1d6-44d3-a5b2-a7b7ac931106" ;
+    govuk:hasManager <https://www.gov.uk/government/people/phil-douglas> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/phil-douglas> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6748893424108edc3c8cebc0/s465_BF_DG_PD_outside_suit_medium_close_up+_1_+_1_960-640.png> ;

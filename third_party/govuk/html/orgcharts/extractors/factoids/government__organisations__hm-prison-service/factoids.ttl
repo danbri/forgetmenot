@@ -5,12 +5,16 @@
 <https://www.gov.uk/government/organisations/hm-prison-service> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-06-16T13:51:15+01:00" ;
     schema1:name "HM Prison Service"@en ;
     schema1:url <https://www.gov.uk/government/organisations/hm-prison-service> ;
+    govuk:contentId "05b3ff92-52c9-4577-b08e-7514b40c98ff" ;
     govuk:hasManager <https://www.gov.uk/government/people/ed-cornmell>,
         <https://www.gov.uk/government/people/michelle-jarman-howe>,
         <https://www.gov.uk/government/people/neil-richards>,
-        <https://www.gov.uk/government/people/sarah-coccia> .
+        <https://www.gov.uk/government/people/sarah-coccia> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/ed-cornmell> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/635909a7e90e0777a8f7e0dd/s465_ed-cornmell_960x640.jpg> ;

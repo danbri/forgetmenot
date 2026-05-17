@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/claude-jaouen> .
 
-<https://www.gov.uk/government/people/claude-jaouen> a schema1:Person ;
+<https://www.gov.uk/government/people/claude-jaouen> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-03T11:46:18+01:00" ;
     schema1:description "Claude Jaouen, is an alumnus of the Ecole Centrale de Paris and a Doctor in engineering."@en ;
     schema1:name "Claude Jaouen"@en ;
     schema1:url <https://www.gov.uk/government/people/claude-jaouen> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Non-Executive Director"@en .
+    govuk:contentId "7bb2efaa-b38d-46ea-a497-3e81e8856d21" ;
+    govuk:currentRoleTitle "Non-Executive Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

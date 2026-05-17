@@ -1,0 +1,25 @@
+# Everyone who has ever held one of the great offices of state, with
+# tenure. Useful for historical org-chart reconstruction and for
+# cross-checking gov.uk's "Previous holders" lists on role pages.
+#
+# Position QIDs (verified against Wikidata labels):
+#   Q14211   Prime Minister of the United Kingdom
+#   Q531471  Chancellor of the Exchequer
+#   Q2484309 Home Secretary
+#   Q1371091 Secretary of State for Foreign and Commonwealth Affairs
+#   Q217217  Lord Chancellor
+
+SELECT ?person ?personLabel ?position ?positionLabel ?start ?end
+       ?parliamentId ?govukSlug WHERE {
+  VALUES ?position {
+    wd:Q14211 wd:Q531471 wd:Q2484309 wd:Q1371091 wd:Q217217
+  }
+  ?person p:P39 ?stmt .
+  ?stmt   ps:P39 ?position .
+  OPTIONAL { ?stmt pq:P580 ?start }
+  OPTIONAL { ?stmt pq:P582 ?end   }
+  OPTIONAL { ?person wdt:P10428 ?parliamentId }
+  OPTIONAL { ?person wdt:P10874 ?govukSlug    }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+ORDER BY ?positionLabel DESC(?start)

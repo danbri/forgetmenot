@@ -1,17 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> govuk:roleHolder <https://www.gov.uk/government/people/nesil-caliskan> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasMinister <https://www.gov.uk/government/people/nesil-caliskan> .
 
-<https://www.gov.uk/government/people/nesil-caliskan> a schema1:Person ;
+<https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nesil-caliskan> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> govuk:roleHolder <https://www.gov.uk/government/people/nesil-caliskan> .
+
+<https://www.gov.uk/government/people/nesil-caliskan> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-05-12T21:23:23+01:00" ;
     schema1:description "Nesil Caliskan was appointed Parliamentary Under-Secretary of State in the Ministry of Housing, Communities and Local Government on 12 May 2026."@en ;
     schema1:name "Nesil Caliskan MP"@en ;
     schema1:url <https://www.gov.uk/government/people/nesil-caliskan> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:contentId "c00b421d-de49-42e9-826f-3c5f15a7d4c5" ;
     govuk:currentRoleTitle "Parliamentary Under-Secretary of State"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/nesil-caliskan> ;
+    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    govuk:tenureEnd "2026-05-12"^^xsd:date ;
+    govuk:tenureStart "2025-09-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/nesil-caliskan> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--307> ;
+    govuk:tenureStart "2026-05-12"^^xsd:date .
 

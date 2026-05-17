@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> govuk:hasMinister <https://www.gov.uk/government/people/james-mcewen> .
 
-<https://www.gov.uk/government/people/james-mcewen> a schema1:Person ;
+<https://www.gov.uk/government/people/james-mcewen> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-16T14:58:43+01:00" ;
     schema1:description "James McEwen joined the Ministry of Justice in 2016."@en ;
     schema1:name "James McEwen"@en ;
     schema1:url <https://www.gov.uk/government/people/james-mcewen> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> ;
-    govuk:currentRoleTitle "Director General Chief Executive Officer HMPPS"@en .
+    govuk:contentId "eb34d7b3-b392-43d9-b41d-a0a42150d46c" ;
+    govuk:currentRoleTitle "Director General Chief Executive Officer HMPPS"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

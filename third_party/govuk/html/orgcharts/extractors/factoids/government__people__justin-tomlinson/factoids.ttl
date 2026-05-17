@@ -1,13 +1,59 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/justin-tomlinson> .
 
-<https://www.gov.uk/government/people/justin-tomlinson> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state-disabled-people> govuk:previouslyHeldBy <https://www.gov.uk/government/people/justin-tomlinson> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> govuk:previouslyHeldBy <https://www.gov.uk/government/people/justin-tomlinson> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--89> govuk:previouslyHeldBy <https://www.gov.uk/government/people/justin-tomlinson> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-disabled-people> govuk:previouslyHeldBy <https://www.gov.uk/government/people/justin-tomlinson> .
+
+<https://www.gov.uk/government/people/justin-tomlinson> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:42:49+01:00" ;
     schema1:description "Justin Tomlinson was a Minister of State in the Department for Energy Security and Net Zero from 12 April 2024 to 5 July 2024."@en ;
     schema1:name "Justin Tomlinson"@en ;
     schema1:url <https://www.gov.uk/government/people/justin-tomlinson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "110c4fb5-0779-45d3-8e8b-9ec9e94be49b" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state-disabled-people>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--89>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-disabled-people> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/justin-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2024-04-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/justin-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-disabled-people> ;
+    govuk:tenureEnd "2021-09-15"^^xsd:date ;
+    govuk:tenureStart "2019-04-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/justin-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-disabled-people> ;
+    govuk:tenureEnd "2016-07-17"^^xsd:date ;
+    govuk:tenureStart "2015-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/justin-tomlinson> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--89> ;
+    govuk:tenureEnd "2019-04-04"^^xsd:date ;
+    govuk:tenureStart "2018-07-09"^^xsd:date .
 

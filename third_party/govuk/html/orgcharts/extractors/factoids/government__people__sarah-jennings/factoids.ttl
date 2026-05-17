@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/wales-office> govuk:hasMinister <https://www.gov.uk/government/people/sarah-jennings> .
 
-<https://www.gov.uk/government/people/sarah-jennings> a schema1:Person ;
+<https://www.gov.uk/government/people/sarah-jennings> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-05-20T17:57:18+01:00" ;
     schema1:description "Sarah joined UK Government in Wales in September 2020 as the Principal Private Secretary to the Secretary of State. She previously worked for the Department for Business, Energy & Industrial Strategy where she was the Deputy Director for Strategic Communication, and prior to that led stakeholder and business engagement at the Department for Work and Pensions. Sarah’s career has spanned public, private and third sector, holding senior communications roles in local and regional government as well as at national science and educational institutions."@en ;
     schema1:name "Sarah Jennings"@en ;
     schema1:url <https://www.gov.uk/government/people/sarah-jennings> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/wales-office> ;
-    govuk:currentRoleTitle "Principal Private Secretary to the Secretary of State"@en .
+    govuk:contentId "c93c80e4-bcbe-4227-b6d7-35fd4c4b7962" ;
+    govuk:currentRoleTitle "Principal Private Secretary to the Secretary of State"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

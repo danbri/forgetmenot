@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/office-for-life-sciences> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-07-17T12:55:35+01:00" ;
     schema1:name "Office for Life Sciences"@en ;
     schema1:url <https://www.gov.uk/government/organisations/office-for-life-sciences> ;
-    govuk:hasManager <https://www.gov.uk/government/people/kenan-poleo> .
+    govuk:contentId "e54fd95b-b175-48f5-a406-bd36396f38a3" ;
+    govuk:hasManager <https://www.gov.uk/government/people/kenan-poleo> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/kenan-poleo> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/674ee1fa26364a399a991a7f/s465_Kenan_Pic_2.jpg> ;

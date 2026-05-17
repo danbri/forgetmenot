@@ -9,9 +9,12 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-16T14:21:36+01:00" ;
     schema1:name "Minister of State for Prisons, Probation and Reducing Reoffending"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> ;
+    govuk:contentId "1c617a67-4e7c-48c4-bcbb-131c1c133fc5" ;
     govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Counter Terrorism"@en,
         "Cross-cutting Artificial Intelligence, Digital, Data and transformation"@en,
         "Electronic Monitoring (EM)"@en,
@@ -25,5 +28,6 @@
         "Probation policy, operations, industrial relations, and transparency"@en,
         "Reducing Reoffending"@en,
         "Sustainability"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/james-timpson> .
+    govuk:roleHolder <https://www.gov.uk/government/people/james-timpson> ;
+    govuk:schemaName "role" .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/probation-service> govuk:hasMinister <https://www.gov.uk/government/people/chris-jennings> .
 
-<https://www.gov.uk/government/people/chris-jennings> a schema1:Person ;
+<https://www.gov.uk/government/people/chris-jennings> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-09T10:09:53+01:00" ;
     schema1:description "Chris is the Executive Director for HM Prison and Probation in South West, South Central and Public Protection, and took up post in October 2023."@en ;
     schema1:name "Chris Jennings"@en ;
     schema1:url <https://www.gov.uk/government/people/chris-jennings> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/probation-service> ;
-    govuk:currentRoleTitle "Executive Director, HMPPS South West, South Central and Public Protection"@en .
+    govuk:contentId "fe7a1c05-4d67-4d29-8f9d-1b7642b6c59a" ;
+    govuk:currentRoleTitle "Executive Director, HMPPS South West, South Central and Public Protection"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/independent-case-examiner> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-07-30T08:33:03+01:00" ;
     schema1:name "Independent Case Examiner"@en ;
     schema1:url <https://www.gov.uk/government/organisations/independent-case-examiner> ;
-    govuk:hasManager <https://www.gov.uk/government/people/joanna-wallace> .
+    govuk:contentId "98fe93e5-1c17-49cb-97bd-01bdc822f9db" ;
+    govuk:hasManager <https://www.gov.uk/government/people/joanna-wallace> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/joanna-wallace> a schema1:Person ;
     schema1:name "Joanna Wallace"@en .

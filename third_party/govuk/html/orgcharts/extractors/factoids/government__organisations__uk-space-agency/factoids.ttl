@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/uk-space-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-01T11:28:12+01:00" ;
     schema1:name "UK Space Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-space-agency> ;
+    govuk:contentId "1a22a221-513b-4a8d-ae97-e3668b6d5568" ;
     govuk:hasManager <https://www.gov.uk/government/people/anu-ojha>,
         <https://www.gov.uk/government/people/craig-brown--2>,
         <https://www.gov.uk/government/people/emily-dineley>,
@@ -16,7 +18,9 @@
         <https://www.gov.uk/government/people/matt-archer>,
         <https://www.gov.uk/government/people/miriam-grigg>,
         <https://www.gov.uk/government/people/rebecca-evernden>,
-        <https://www.gov.uk/government/people/tania-celani> .
+        <https://www.gov.uk/government/people/tania-celani> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/anu-ojha> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6581b862fc07f3000d8d44f1/s465_anu-ojha.jpg> ;

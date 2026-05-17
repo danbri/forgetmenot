@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/bethany-shinkins> .
 
-<https://www.gov.uk/government/people/bethany-shinkins> a schema1:Person ;
+<https://www.gov.uk/government/people/bethany-shinkins> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-03-27T11:34:42+01:00" ;
     schema1:description "Professor Bethany Shinkins is a Professor of Health Economics at Warwick Medical School at the University of Warwick."@en ;
     schema1:name "Prof Bethany Shinkins"@en ;
     schema1:url <https://www.gov.uk/government/people/bethany-shinkins> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
-    govuk:currentRoleTitle "Member"@en .
+    govuk:contentId "b431cbc0-6772-48dd-8574-fadc4a490f6a" ;
+    govuk:currentRoleTitle "Member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/national-security> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-03-11T14:03:52+00:00" ;
     schema1:name "National Security and Intelligence"@en ;
     schema1:url <https://www.gov.uk/government/organisations/national-security> ;
+    govuk:contentId "354bc716-9654-4b5e-b24d-172588e24ca3" ;
     govuk:hasManager <https://www.gov.uk/government/people/jonathan-powell>,
-        <https://www.gov.uk/government/people/madeleine-alessandri> .
+        <https://www.gov.uk/government/people/madeleine-alessandri> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/jonathan-powell> a schema1:Person ;
     schema1:name "Jonathan Powell"@en .

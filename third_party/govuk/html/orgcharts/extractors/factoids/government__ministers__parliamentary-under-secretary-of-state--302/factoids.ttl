@@ -11,10 +11,13 @@
 
 <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-17T16:06:30+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Digital Economy)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> ;
+    govuk:contentId "fc3423db-4bc8-4460-b1cc-3cf33a7d5b4c" ;
     govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade>,
         <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "COVID loan recovery"@en,
         "DBT digital government"@en,
         "One Login for business"@en,
@@ -33,5 +36,6 @@
         "talent – entrepreneurial and investor"@en,
         "tech adoption and skills"@en,
         "telecoms"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
+    govuk:roleHolder <https://www.gov.uk/government/people/liz-lloyd> ;
+    govuk:schemaName "role" .
 

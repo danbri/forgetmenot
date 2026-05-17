@@ -18,12 +18,16 @@
 <https://www.gov.uk/government/organisations/disability-unit> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-12-16T12:07:24+00:00" ;
     schema1:name "Disability Unit"@en ;
     schema1:url <https://www.gov.uk/government/organisations/disability-unit> ;
+    govuk:contentId "0f97b85f-190d-42c9-8e3a-716f7a7033ff" ;
     govuk:hasManager <https://www.gov.uk/government/people/alexandra-gowlland>,
         <https://www.gov.uk/government/people/marcus-bell> ;
     govuk:hasMinister <https://www.gov.uk/government/people/stephen-timms> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/stephen-timms> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6773ddda02c3076590308cbd/s465_Stephen_Timms.jpg> ;

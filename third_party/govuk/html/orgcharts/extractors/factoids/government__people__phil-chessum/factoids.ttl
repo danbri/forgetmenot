@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> govuk:hasMinister <https://www.gov.uk/government/people/phil-chessum> .
 
-<https://www.gov.uk/government/people/phil-chessum> a schema1:Person ;
+<https://www.gov.uk/government/people/phil-chessum> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-11T16:16:24+00:00" ;
     schema1:description "Phil Chessum is a Director General in the Office of the Parliamentary Counsel (OPC), appointed in June 2022."@en ;
     schema1:name "Phil Chessum"@en ;
     schema1:url <https://www.gov.uk/government/people/phil-chessum> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> ;
-    govuk:currentRoleTitle "Parliamentary Counsel, Director General"@en .
+    govuk:contentId "1c9f230c-b214-4e97-9518-504fdfdb7ec5" ;
+    govuk:currentRoleTitle "Parliamentary Counsel, Director General"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

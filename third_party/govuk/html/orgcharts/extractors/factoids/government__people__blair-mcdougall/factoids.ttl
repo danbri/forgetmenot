@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> govuk:roleHolder <https://www.gov.uk/government/people/blair-mcdougall> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasMinister <https://www.gov.uk/government/people/blair-mcdougall> .
 
-<https://www.gov.uk/government/people/blair-mcdougall> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> govuk:roleHolder <https://www.gov.uk/government/people/blair-mcdougall> .
+
+<https://www.gov.uk/government/people/blair-mcdougall> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-07T15:45:24+01:00" ;
     schema1:description "Blair McDougall was appointed Parliamentary Under-Secretary of State in the Department for Business and Trade on 7 September 2025. He was elected as the MP for East Renfrewshire in July 2024."@en ;
     schema1:name "Blair McDougall MP"@en ;
     schema1:url <https://www.gov.uk/government/people/blair-mcdougall> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:contentId "9a1fb1e7-7e96-4b76-9ca6-f9966211db61" ;
     govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Small Business and Economic Transformation)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/blair-mcdougall> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> ;
+    govuk:tenureStart "2025-09-07"^^xsd:date .
 

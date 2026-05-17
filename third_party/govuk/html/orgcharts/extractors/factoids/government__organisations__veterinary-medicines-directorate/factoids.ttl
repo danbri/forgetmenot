@@ -5,14 +5,18 @@
 <https://www.gov.uk/government/organisations/veterinary-medicines-directorate> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-01-29T12:59:43+00:00" ;
     schema1:name "Veterinary Medicines Directorate"@en ;
     schema1:url <https://www.gov.uk/government/organisations/veterinary-medicines-directorate> ;
+    govuk:contentId "da332ae4-d021-4800-aa53-826058a46923" ;
     govuk:hasManager <https://www.gov.uk/government/people/alison-white>,
         <https://www.gov.uk/government/people/david-catlow>,
         <https://www.gov.uk/government/people/gavin-hall>,
         <https://www.gov.uk/government/people/laura-catterick>,
         <https://www.gov.uk/government/people/mike-venables>,
-        <https://www.gov.uk/government/people/peter-borriello> .
+        <https://www.gov.uk/government/people/peter-borriello> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alison-white> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68e66999ef1c2f72bc1e4f1d/s465_Alison_White.png> ;

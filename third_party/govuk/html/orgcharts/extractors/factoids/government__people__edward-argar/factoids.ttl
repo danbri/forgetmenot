@@ -1,13 +1,79 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/edward-argar> .
 
-<https://www.gov.uk/government/people/edward-argar> a schema1:Person ;
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/edward-argar> .
+
+<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/edward-argar> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--147> govuk:previouslyHeldBy <https://www.gov.uk/government/people/edward-argar> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--59> govuk:previouslyHeldBy <https://www.gov.uk/government/people/edward-argar> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--102> govuk:previouslyHeldBy <https://www.gov.uk/government/people/edward-argar> .
+
+<https://www.gov.uk/government/ministers/paymaster-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/edward-argar> .
+
+<https://www.gov.uk/government/people/edward-argar> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:27:37+01:00" ;
     schema1:description "Edward Argar was Minister of State at the Ministry of Justice between 27 October 2022 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Edward Argar MP"@en ;
     schema1:url <https://www.gov.uk/government/people/edward-argar> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "d2e96f52-b32f-4d1d-bc97-afe1e1e6ffae" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office>,
+        <https://www.gov.uk/government/ministers/minister-of-state--147>,
+        <https://www.gov.uk/government/ministers/minister-of-state--59>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--102>,
+        <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/edward-argar> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-10-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/edward-argar> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--102> ;
+    govuk:tenureEnd "2019-09-10"^^xsd:date ;
+    govuk:tenureStart "2018-06-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/edward-argar> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2022-10-14"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/edward-argar> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
+    govuk:tenureEnd "2022-10-14"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/edward-argar> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--147> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-10-27"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/edward-argar> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--59> ;
+    govuk:tenureEnd "2022-07-06"^^xsd:date ;
+    govuk:tenureStart "2019-09-10"^^xsd:date .
 

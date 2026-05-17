@@ -4,11 +4,15 @@
 
 <https://www.gov.uk/government/organisations/uk-space-agency> govuk:hasMinister <https://www.gov.uk/government/people/miriam-grigg> .
 
-<https://www.gov.uk/government/people/miriam-grigg> a schema1:Person ;
+<https://www.gov.uk/government/people/miriam-grigg> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    schema1:description "UK Space Agency"@en ;
+    dcterms:modified "2026-03-31T16:33:33+01:00" ;
     schema1:name "Miriam Grigg"@en ;
     schema1:url <https://www.gov.uk/government/people/miriam-grigg> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-space-agency> ;
-    govuk:currentRoleTitle "Deputy Director, International & Resilience (job share)"@en .
+    govuk:contentId "57c7a668-0399-4a01-be9f-0005f75537a8" ;
+    govuk:currentRoleTitle "Deputy Director, International & Resilience (job share)"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

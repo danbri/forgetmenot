@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-defence-innovation> govuk:hasMinister <https://www.gov.uk/government/people/natasha-fox> .
 
-<https://www.gov.uk/government/people/natasha-fox> a schema1:Person ;
+<https://www.gov.uk/government/people/natasha-fox> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-02-18T15:18:35+00:00" ;
     schema1:description "After completing a PhD in laser physics, Natasha started work in Dstl as an operational analyst. In this role she learnt a range of and eventually developed her own techniques to improve decision-making in Defence primarily in the C4ISTAR domain. Following this Natasha led the C4 Systems Integration team, a multidisciplinary team researching generation after next science and technology for how we should move information around the battlespace. Most recently, Natasha has been the Deputy Head of Digital Strategy, leading the team that produce the Digital Strategy for Defence."@en ;
     schema1:name "Natasha Fox"@en ;
     schema1:url <https://www.gov.uk/government/people/natasha-fox> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-defence-innovation> ;
-    govuk:currentRoleTitle "Deputy Director of UKDI (Strategy and Assurance)"@en .
+    govuk:contentId "cdabd73f-3f2b-43a2-a6b3-b084cae0eba9" ;
+    govuk:currentRoleTitle "Deputy Director of UKDI (Strategy and Assurance)"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

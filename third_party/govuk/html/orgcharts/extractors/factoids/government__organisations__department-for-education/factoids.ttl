@@ -131,8 +131,10 @@
 <https://www.gov.uk/government/organisations/department-for-education> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-14T12:23:39+01:00" ;
     schema1:name "Department for Education"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:contentId "ebd15ade-73b2-4eaf-b1c3-43034a42eb37" ;
     govuk:hasManager <https://www.gov.uk/government/people/gila-sacks>,
         <https://www.gov.uk/government/people/ian-knowles>,
         <https://www.gov.uk/government/people/julia-kinniburgh>,
@@ -160,5 +162,7 @@
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-education> .
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

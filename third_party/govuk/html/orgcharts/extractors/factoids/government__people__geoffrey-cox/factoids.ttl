@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/geoffrey-cox> .
 
-<https://www.gov.uk/government/people/geoffrey-cox> a schema1:Person ;
+<https://www.gov.uk/government/ministers/attorney-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/geoffrey-cox> .
+
+<https://www.gov.uk/government/people/geoffrey-cox> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-15T16:45:04+01:00" ;
     schema1:description "Geoffrey Cox was Attorney General from 9 July 2018 to 13 February 2020."@en ;
     schema1:name "The Rt Hon Geoffrey Cox KC MP"@en ;
     schema1:url <https://www.gov.uk/government/people/geoffrey-cox> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "fa13d8f8-162c-4bbe-bd80-7f5676276a0d" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/geoffrey-cox> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2018-07-09"^^xsd:date .
 

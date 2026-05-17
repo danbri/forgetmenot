@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/fair-work-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-10T15:48:55+01:00" ;
     schema1:name "Fair Work Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/fair-work-agency> ;
+    govuk:contentId "41462bd8-0630-476b-97de-52985a96fbd1" ;
     govuk:hasManager <https://www.gov.uk/government/people/lisa-pinney>,
-        <https://www.gov.uk/government/people/matthew-taylor> .
+        <https://www.gov.uk/government/people/matthew-taylor> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/lisa-pinney> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67726f6dddfe4b5a1ea85d1f/s465_Lisa_Pinney_2025.jpg> ;

@@ -5,13 +5,17 @@
 <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-04-15T10:01:02+01:00" ;
     schema1:name "Office of the Parliamentary Counsel"@en ;
     schema1:url <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> ;
+    govuk:contentId "9f80fe62-b229-4517-9e32-f560b5c518ce" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-scott>,
         <https://www.gov.uk/government/people/ingrid-meldal-johnsen>,
         <https://www.gov.uk/government/people/jessica-de-mounteney>,
         <https://www.gov.uk/government/people/phil-chessum>,
-        <https://www.gov.uk/government/people/richard-spitz> .
+        <https://www.gov.uk/government/people/richard-spitz> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrew-scott> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69b1951658d4ef5adaf0e4fb/s465_Andrew_Scott.jpg> ;

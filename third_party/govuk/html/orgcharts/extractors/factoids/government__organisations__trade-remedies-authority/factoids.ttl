@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/trade-remedies-authority> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-27T10:16:36+00:00" ;
     schema1:name "Trade Remedies Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/trade-remedies-authority> ;
+    govuk:contentId "649fc487-7d9d-4c44-828e-bfb5abea94f7" ;
     govuk:hasManager <https://www.gov.uk/government/people/adam-marshall>,
         <https://www.gov.uk/government/people/clare-brodie>,
         <https://www.gov.uk/government/people/guita-blake>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/john-c-hughes>,
         <https://www.gov.uk/government/people/nick-baird>,
         <https://www.gov.uk/government/people/steven-odonoghue>,
-        <https://www.gov.uk/government/people/suarez-carmen--2> .
+        <https://www.gov.uk/government/people/suarez-carmen--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/adam-marshall> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67c596a172e83aab48866d0d/s465_2.png> ;

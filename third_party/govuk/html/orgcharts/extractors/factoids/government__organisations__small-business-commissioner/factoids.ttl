@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/small-business-commissioner> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-09-12T10:27:59+01:00" ;
     schema1:name "Small Business Commissioner"@en ;
     schema1:url <https://www.gov.uk/government/organisations/small-business-commissioner> ;
-    govuk:hasManager <https://www.gov.uk/government/people/emma-jones> .
+    govuk:contentId "2104dd53-cf67-4768-a588-a41407a9a374" ;
+    govuk:hasManager <https://www.gov.uk/government/people/emma-jones> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/emma-jones> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6858f9bbb328f1ba50f3cea6/s465_emma-jones-cbe.jpg> ;

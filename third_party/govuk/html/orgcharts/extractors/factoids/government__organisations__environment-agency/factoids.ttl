@@ -5,14 +5,18 @@
 <https://www.gov.uk/government/organisations/environment-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-05-14T10:47:37+01:00" ;
     schema1:name "Environment Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/environment-agency> ;
+    govuk:contentId "16628142-57b2-4611-bc03-5912785acee3" ;
     govuk:hasManager <https://www.gov.uk/government/people/alan-lovell>,
         <https://www.gov.uk/government/people/caroline-douglass>,
         <https://www.gov.uk/government/people/john-leyland>,
         <https://www.gov.uk/government/people/philip-duffy>,
         <https://www.gov.uk/government/people/sarah-chare>,
-        <https://www.gov.uk/government/people/tamara-bruck> .
+        <https://www.gov.uk/government/people/tamara-bruck> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alan-lovell> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69170585eba5bda2026fc982/s465_alan-lovell-960x640.png> ;

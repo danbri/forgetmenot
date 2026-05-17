@@ -69,8 +69,10 @@
 <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-07T09:59:10+01:00" ;
     schema1:name "Department for Culture, Media and Sport"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
+    govuk:contentId "ae9ef2e1-9de0-4ff8-b560-e6ac28a6205c" ;
     govuk:hasManager <https://www.gov.uk/government/people/claudia-arney>,
         <https://www.gov.uk/government/people/emma-ward>,
         <https://www.gov.uk/government/people/polly-payne>,
@@ -84,5 +86,7 @@
     govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--210>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-museums-heritage-and-gambling-and-lords-minister>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport--3> .
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport--3> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

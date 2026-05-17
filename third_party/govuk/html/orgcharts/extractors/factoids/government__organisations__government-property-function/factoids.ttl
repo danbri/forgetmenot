@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/government-property-function> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-04-15T10:05:11+01:00" ;
     schema1:name "Government Property Function"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-property-function> ;
+    govuk:contentId "68c7612a-31d5-4717-83ed-2ff1bba164ff" ;
     govuk:hasManager <https://www.gov.uk/government/people/lynda-rawsthorne>,
-        <https://www.gov.uk/government/people/mark-chivers> .
+        <https://www.gov.uk/government/people/mark-chivers> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/lynda-rawsthorne> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/667184ded427ab249955cd85/s465_Lynda.jpg> ;

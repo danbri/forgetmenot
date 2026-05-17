@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/office-for-the-pay-review-bodies> govuk:hasMinister <https://www.gov.uk/government/people/david-fry> .
 
-<https://www.gov.uk/government/people/david-fry> a schema1:Person ;
+<https://www.gov.uk/government/people/david-fry> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-10-03T10:57:39+01:00" ;
     schema1:description "David was appointed as the Director of the Office for the Pay Review Bodies (OPRB) in August 2020. Previously, he was the Head of Profession for Statistics at Department for Business, Energy and Industrial Strategy (BEIS) where he led the Data Analytics and Business Statistics team. He has also supported policy development on troubled families, homelessness and local government finance at the Department for Communities and Local Government. Earlier in his career David helped implement the first National Minimum Wage and worked on public sector pay policy."@en ;
     schema1:name "David Fry"@en ;
     schema1:url <https://www.gov.uk/government/people/david-fry> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-for-the-pay-review-bodies> ;
-    govuk:currentRoleTitle "Director, Office for the Pay Review Bodies"@en .
+    govuk:contentId "e381e7e1-67c9-4444-92fb-546c5def1491" ;
+    govuk:currentRoleTitle "Director, Office for the Pay Review Bodies"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

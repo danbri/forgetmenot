@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/alyson-armett> .
 
-<https://www.gov.uk/government/people/alyson-armett> a schema1:Person ;
+<https://www.gov.uk/government/people/alyson-armett> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-02-14T16:05:22+00:00" ;
     schema1:description "Alyson has brought more than 20 years’ experience of working in both public and private sectors, managing high risk, complex programmes in highly regulated environments."@en ;
     schema1:name "Alyson Armett"@en ;
     schema1:url <https://www.gov.uk/government/people/alyson-armett> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Strategy and Business Planning Director"@en .
+    govuk:contentId "89ff77cb-5e79-4968-a71d-a9e041cc2f32" ;
+    govuk:currentRoleTitle "Strategy and Business Planning Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

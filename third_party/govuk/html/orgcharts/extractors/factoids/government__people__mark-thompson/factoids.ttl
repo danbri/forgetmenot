@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/mark-thompson> .
 
-<https://www.gov.uk/government/people/mark-thompson> a schema1:Person ;
+<https://www.gov.uk/government/people/mark-thompson> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-08-29T13:05:06+01:00" ;
     schema1:description "Mark Thompson joined the Ministry of Justice in April 2025 as Chief Digital and Information Officer (CDIO), bringing with him over 25 years of leadership experience in digital and data transformation programmes. His arrival marks a pivotal moment in Justice Digital’s journey, as he leads the mission to build modern, user-focused digital services and harness data more effectively across the justice system."@en ;
     schema1:name "Mark Thompson"@en ;
     schema1:url <https://www.gov.uk/government/people/mark-thompson> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    govuk:currentRoleTitle "Chief Digital and Information Officer"@en .
+    govuk:contentId "b69f26e4-4b62-4d89-bece-8a8ee7a6a687" ;
+    govuk:currentRoleTitle "Chief Digital and Information Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

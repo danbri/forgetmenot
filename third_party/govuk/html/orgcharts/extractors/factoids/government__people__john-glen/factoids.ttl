@@ -1,13 +1,79 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/john-glen> .
 
-<https://www.gov.uk/government/people/john-glen> a schema1:Person ;
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/john-glen> .
+
+<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/john-glen> .
+
+<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/john-glen> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-economic-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/john-glen> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--81> govuk:previouslyHeldBy <https://www.gov.uk/government/people/john-glen> .
+
+<https://www.gov.uk/government/ministers/paymaster-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/john-glen> .
+
+<https://www.gov.uk/government/people/john-glen> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:14:10+01:00" ;
     schema1:description "John Glen was Paymaster General and Minister for the Cabinet Office between 13 November 2023 and 5 July 2024."@en ;
     schema1:name "The Rt Hon John Glen MP"@en ;
     schema1:url <https://www.gov.uk/government/people/john-glen> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "bd1b94ef-9392-4ca4-aed8-0135bcd9ec46" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office>,
+        <https://www.gov.uk/government/ministers/minister-of-state-economic-secretary>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--81>,
+        <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/john-glen> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-economic-secretary> ;
+    govuk:tenureEnd "2022-07-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-17"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/john-glen> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--81> ;
+    govuk:tenureEnd "2018-01-08"^^xsd:date ;
+    govuk:tenureStart "2017-06-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/john-glen> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2021-09-16"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/john-glen> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-11-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/john-glen> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2023-11-13"^^xsd:date ;
+    govuk:tenureStart "2022-10-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/john-glen> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-11-13"^^xsd:date .
 

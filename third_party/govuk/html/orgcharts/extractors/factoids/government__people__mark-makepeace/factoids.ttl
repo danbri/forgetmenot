@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/dormant-assets-commission> govuk:hasMinister <https://www.gov.uk/government/people/mark-makepeace> .
 
-<https://www.gov.uk/government/people/mark-makepeace> a schema1:Person ;
+<https://www.gov.uk/government/people/mark-makepeace> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2016-03-10T12:51:18+00:00" ;
     schema1:description "Mark Makepeace is Group Director of Information Services of London Stock Exchange Group (LSEG) and Chief Executive of FTSE Russell, the global index provider. He is a member of LSEG’s Executive Committee."@en ;
     schema1:name "Mark Makepeace"@en ;
     schema1:url <https://www.gov.uk/government/people/mark-makepeace> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
-    govuk:currentRoleTitle "Dormant Assets Commissioner"@en .
+    govuk:contentId "6e19e19b-7dc9-427a-8341-1f107df93653" ;
+    govuk:currentRoleTitle "Dormant Assets Commissioner"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 
