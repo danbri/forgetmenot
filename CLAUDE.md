@@ -76,6 +76,9 @@ verbatim API response, `--out path` for binary downloads).
 | `ico` | [`skills/ico`](skills/ico/SKILL.md) | Tier-3: Information Commissioner's Office — data-protection / FOI / EIR regulator; enforcement notices, MPNs, decision notices, reprimands. HTML-only. |
 | `gov-data` | [`skills/gov-data`](skills/gov-data/SKILL.md) | Tier-3: data.gov.uk CKAN — ~58,000 datasets from every central department, ~4,275 councils, statutory bodies. Operator: GDS / Cabinet Office. |
 | `sp` | [`skills/sp`](skills/sp/SKILL.md) | Tier-3: Scottish Parliament Open Data — MSPs, parties, committees, constituencies, regions. JSON (requires Accept: application/json). |
+| `gov-content` | [`skills/gov-content`](skills/gov-content/SKILL.md) | Tier-3: gov.uk Content + Search API — every page on www.gov.uk as structured JSON; ~1,900 lookup-shaped pages (local_transaction, smart_answer, place, transaction, …) plus bank-holidays.json. |
+| `flood` | [`skills/ea-flood`](skills/ea-flood/SKILL.md) | Tier-3: Environment Agency Real-Time Flood Monitoring — active flood warnings + ~5,000 monitoring stations (England only). |
+| `fsa` | [`skills/fsa`](skills/fsa/SKILL.md) | Tier-3: Food Standards Agency Hygiene Rating Scheme — every food business in E/W/NI scored 0-5, Scotland Pass/Improvement. ~660,000 records. |
 
 The CLI itself is documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill

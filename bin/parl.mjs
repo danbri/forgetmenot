@@ -81,6 +81,10 @@ const FACILITIES = {
   'ico':                           F.ico,
   'gov-data':                      F.govData,
   'sp':                            F.sp,
+  'gov-content':                   F.govContent,
+  'ea-flood':                      F.eaFlood,
+  'flood':                         F.eaFlood,
+  'fsa':                           F.fsa,
 };
 
 // Per-facility command map. Each entry is:
@@ -499,6 +503,36 @@ const COMMANDS = {
     'regions':         { fn: 'regions',         args: [],         help: 'Scottish electoral regions.' },
     'member-parties':  { fn: 'memberParties',   args: [],         help: 'MSP party-membership records.' },
     'probe':           { fn: 'probeResources', args: ['names'],  help: 'Probe a comma-separated list of resource names for 200/404.' },
+  },
+  'gov-content': {
+    'content':         { fn: 'content',         args: ['path'],   help: 'Full Content API record for any gov.uk path.' },
+    'search':          { fn: 'search',          args: [],         help: '--query --filter-document-type --filter-organisations --count --start --order-by.' },
+    'lookup-types':    { fn: 'lookupTypes',     args: [],         help: 'Aggregate count of every "feels like an API" document type.' },
+    'list-type':       { fn: 'listType',        args: ['documentType'], help: 'Enumerate pages of one document type (local_transaction, smart_answer, place, …).' },
+    'bank-holidays':   { fn: 'bankHolidays',    args: [],         help: 'UK bank holidays JSON (the canonical hidden gov.uk API).' },
+  },
+  'flood': {
+    'warnings':        { fn: 'floods',          args: [],         help: 'Active flood warnings + alerts. --min-severity 1-4 --county --lat --lon --dist (km).' },
+    'areas':           { fn: 'floodAreas',      args: [],         help: 'Defined warning / alert polygons. --lat --lon --dist --county.' },
+    'area':            { fn: 'floodArea',       args: ['id'],     help: 'One flood-area by id.' },
+    'stations':        { fn: 'stations',        args: [],         help: '--parameter level|flow|rainfall|wind|temperature --town --river-name --lat --lon --dist.' },
+    'station':         { fn: 'station',         args: ['stationRef'], help: 'One station by reference id.' },
+    'station-readings':{ fn: 'stationReadings', args: ['stationRef'], help: 'Latest readings from one station. --latest --since YYYY-MM-DDTHH:MM:SSZ --today --sorted.' },
+    'readings':        { fn: 'readings',        args: [],         help: 'Cross-station readings — big; use filters. --parameter --latest --today --since --station-reference.' },
+    'archive':         { fn: 'archive',         args: [],         help: 'Archived historic-readings dataset listing.' },
+  },
+  'fsa': {
+    'establishments':  { fn: 'establishments',  args: [],         help: 'Food businesses + hygiene ratings. --name --address --lat --lon --max-distance-km --local-authority-id --business-type-id --scheme-type-key FHRS|FHIS --rating-key fhrs_5_en --page --take.' },
+    'establishment':   { fn: 'establishment',   args: ['id'],     help: 'One establishment by id.' },
+    'authorities':     { fn: 'authorities',     args: [],         help: '363 inspecting authorities. --region-id --country-id --take.' },
+    'authority':       { fn: 'authority',       args: ['id'],     help: 'One inspecting authority.' },
+    'regions':         { fn: 'regions',         args: [],         help: 'Reference: regions.' },
+    'countries':       { fn: 'countries',       args: [],         help: 'Reference: countries (E/W/S/NI).' },
+    'business-types':  { fn: 'businessTypes',   args: [],         help: 'Reference: business types.' },
+    'ratings':         { fn: 'ratings',         args: [],         help: 'Reference: possible rating values.' },
+    'rating-operators':{ fn: 'ratingOperators', args: [],         help: 'Reference: rating range operators.' },
+    'scheme-types':    { fn: 'schemeTypes',     args: [],         help: 'Reference: scheme types (FHRS / FHIS).' },
+    'sort-options':    { fn: 'sortOptions',     args: [],         help: 'Reference: sort options.' },
   },
 };
 
