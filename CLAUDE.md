@@ -81,6 +81,9 @@ verbatim API response, `--out path` for binary downloads).
 | `fsa` | [`skills/fsa`](skills/fsa/SKILL.md) | Tier-3: Food Standards Agency Hygiene Rating Scheme — every food business in E/W/NI scored 0-5, Scotland Pass/Improvement. ~660,000 records. |
 | `scotstats` | [`skills/scotgov-stats`](skills/scotgov-stats/SKILL.md) | Tier-3: statistics.gov.scot SPARQL — Scottish Government statistics as RDF DataCube. Pairs with `sp`. |
 | `eurlex` | [`skills/eur-lex`](skills/eur-lex/SKILL.md) | Tier-3: EUR-Lex CELLAR SPARQL — EU law as Linked Data. Cross-references via CELEX number, useful for Retained EU Law Act 2023 research. |
+| `nia` | [`skills/nia`](skills/nia/SKILL.md) | Tier-3: NI Assembly Open Data — MLAs, parties, NI constituencies, Hansard, questions, plenary divisions. JSON across 6 ASMX services. |
+| `fms` | [`skills/mysoc-fms`](skills/mysoc-fms/SKILL.md) | Tier-3: FixMyStreet (mySociety) — RSS feeds of street-level issue reports per area / postcode. |
+| `senedd` | [`skills/senedd`](skills/senedd/SKILL.md) | Tier-3 STUB: Senedd Cymru — Welsh Parliament SOAP service. WSDL discovery only; full SOAP client deferred. |
 
 The CLI itself is documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill

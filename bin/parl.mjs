@@ -89,6 +89,10 @@ const FACILITIES = {
   'scotstats':                     F.scotgovStats,
   'eur-lex':                       F.eurLex,
   'eurlex':                        F.eurLex,
+  'nia':                           F.nia,
+  'mysoc-fms':                     F.mysocFms,
+  'fms':                           F.mysocFms,
+  'senedd':                        F.senedd,
 };
 
 // Per-facility command map. Each entry is:
@@ -533,6 +537,49 @@ const COMMANDS = {
   'eur-lex': {
     'query':           { fn: 'query',           args: ['sparql'], help: 'SPARQL 1.1 against EUR-Lex CELLAR. --format json|xml|csv|tsv. The CDM vocabulary is large; consult the published ontology rather than guessing predicate names.' },
   },
+  'nia': {
+    'members':         { fn: 'members',         args: [],         help: 'All MLAs (current + historical).' },
+    'current-members': { fn: 'currentMembers',  args: [],         help: 'Current MLAs only.' },
+    'members-by-date': { fn: 'membersByDate',   args: ['date'],   help: 'MLAs serving on a date (YYYY-MM-DD).' },
+    'members-by-constituency': { fn: 'membersByConstituency', args: ['constituencyId'], help: 'MLAs for a constituency.' },
+    'members-by-party':{ fn: 'membersByParty',  args: ['partyId'], help: 'MLAs for a party.' },
+    'members-by-surname':{ fn: 'membersBySurname', args: ['surname'], help: 'MLAs by surname substring.' },
+    'contact-details': { fn: 'memberContactDetails', args: [],    help: 'Contact details for all MLAs.' },
+    'contact-by-id':   { fn: 'memberContactByPersonId', args: ['personId'], help: 'Contact details for one MLA.' },
+    'roles':           { fn: 'memberRoles',     args: [],         help: 'All member-role records.' },
+    'roles-by-id':     { fn: 'memberRolesByPersonId', args: ['personId'], help: 'Roles held by one MLA.' },
+    'constituencies':  { fn: 'constituencies',  args: [],         help: 'NI Assembly constituencies.' },
+    'hansard-reports': { fn: 'hansardReports',  args: [],         help: 'All Hansard reports.' },
+    'hansard-by-date': { fn: 'hansardComponentsByDate', args: ['date'], help: 'Hansard components for a plenary date.' },
+    'hansard-by-report':{ fn: 'hansardComponentsByReport', args: ['reportId'], help: 'Components in one report.' },
+    'hansard-by-person':{ fn: 'hansardComponentsByReportAndPerson', args: ['reportId','personId'], help: 'Components by one MLA in one report.' },
+    'question':        { fn: 'questionDetails', args: ['questionId'], help: 'One question.' },
+    'questions-by-dept':{ fn: 'questionsByDepartment', args: ['departmentId'], help: 'Questions to a department.' },
+    'questions-by-member':{ fn: 'questionsByMember', args: ['personId'], help: 'Questions by an MLA.' },
+    'questions-search':{ fn: 'questionsBySearch', args: ['searchText'], help: 'Free-text search across questions.' },
+    'party-groups':    { fn: 'partyGroups',     args: [],         help: 'Current party groups (formal blocs).' },
+    'departments':     { fn: 'departments',     args: [],         help: 'Current NI departments.' },
+    'organisations':   { fn: 'organisations',   args: [],         help: 'Current organisations.' },
+    'parties':         { fn: 'parties',         args: [],         help: 'Current registered parties.' },
+    'diary':           { fn: 'businessDiary',   args: ['fromDate','toDate'], help: 'Plenary business diary in a date range.' },
+    'division':        { fn: 'divisionResult', args: ['divisionId'], help: 'Division result.' },
+    'division-votes':  { fn: 'divisionMemberVoting', args: ['divisionId'], help: 'Per-MLA votes on a division.' },
+    'motion-amendments':{ fn: 'motionAmendments', args: ['motionId'], help: 'Amendments tabled on a motion.' },
+    'motion-petition': { fn: 'motionPetitionOfConcern', args: ['motionId'], help: 'Petition of Concern on a motion.' },
+    'no-day-named-motions':{ fn: 'noDayNamedMotions', args: [],   help: 'Tabled motions with no day named.' },
+    'plenary-addressees':{ fn: 'plenaryAddressees', args: ['plenaryDate'], help: 'Addressees on a plenary date.' },
+  },
+  'fms': {
+    'feed':            { fn: 'feed',            args: [],         help: 'All-reports RSS feed.' },
+    'feed-area':       { fn: 'feedByArea',      args: ['area'],   help: 'RSS for one council/area (e.g. London, Bristol).' },
+    'feed-around':     { fn: 'feedAround',      args: [],         help: 'RSS by postcode/lat-lon. --postcode SW1P3JA | --lat --lon. --distance km --state open|fixed|all --category X.' },
+    'around-html':     { fn: 'aroundHtml',      args: [],         help: 'HTML page for an area (no JSON alternate).' },
+    'url':             { fn: 'reportUrl',       args: ['reportId'], help: 'Permanent URL for a report.' },
+  },
+  'senedd': {
+    'wsdl':            { fn: 'wsdl',            args: [],         help: 'Fetch the WSDL — discovery only; full SOAP client is a stub.' },
+    'wsdl-url':        { fn: 'wsdlUrl',         args: [],         help: 'WSDL URL string.' },
+  },
   'fsa': {
     'establishments':  { fn: 'establishments',  args: [],         help: 'Food businesses + hygiene ratings. --name --address --lat --lon --max-distance-km --local-authority-id --business-type-id --scheme-type-key FHRS|FHIS --rating-key fhrs_5_en --page --take.' },
     'establishment':   { fn: 'establishment',   args: ['id'],     help: 'One establishment by id.' },
@@ -558,6 +605,7 @@ COMMANDS['wd']            = COMMANDS.wikidata;
 COMMANDS['tna-discovery'] = COMMANDS.discovery;
 COMMANDS['scotstats']     = COMMANDS['scotgov-stats'];
 COMMANDS['eurlex']        = COMMANDS['eur-lex'];
+COMMANDS['mysoc-fms']     = COMMANDS.fms;
 
 // ---------- main ----------
 
