@@ -55,6 +55,9 @@ const FACILITIES = {
   'bill-papers':                   F.billPapers,
   'library':                       F.libraryFeeds,
   'library-feeds':                 F.libraryFeeds,
+  'mapit':                         F.mysocMapit,
+  'mysoc-mapit':                   F.mysocMapit,
+  'ons-geo':                       F.onsGeo,
 };
 
 // Per-facility command map. Each entry is:
@@ -335,6 +338,26 @@ const COMMANDS = {
     'publishers-url':   { fn: 'publishersHtmlUrl',     args: [],            help: 'HTML index URL for publishers.' },
     'publications-url': { fn: 'publicationsHtmlUrl',   args: [],            help: 'HTML index URL for publications.' },
   },
+  'mapit': {
+    'postcode':         { fn: 'postcode',              args: ['postcode'],  help: 'Postcode → constituency / council / ward / parish / GLA areas.' },
+    'partial':          { fn: 'partialPostcode',       args: ['partial'],   help: 'Partial postcode (e.g. SW1P) → centroid areas.' },
+    'search-postcode':  { fn: 'postcodeSearch',        args: ['q'],         help: 'Autocomplete postcode search.' },
+    'point':            { fn: 'point',                 args: ['srid', 'x', 'y'], help: 'lat/lon (srid=4326) or OSGB (srid=27700) → areas. Pass --type WMC for Westminster constituency only.' },
+    'area':             { fn: 'area',                  args: ['id'],        help: 'Area detail by MapIt id.' },
+    'geometry':         { fn: 'geometry',              args: ['id'],        help: 'Area boundary polygon. --simplify-tolerance N for smaller payload.' },
+    'children':         { fn: 'children',              args: ['id'],        help: 'Child areas. --type WMC.' },
+    'example-postcode': { fn: 'examplePostcode',       args: ['id'],        help: 'A real postcode inside the area.' },
+    'areas':            { fn: 'areasOfType',           args: ['type'],      help: 'List every area of a type (WMC, LBO, UTA, COI…). --generation N.' },
+    'by-code':          { fn: 'byCode',                args: ['scheme', 'code'], help: 'Lookup by external code: scheme=ons|gss|unit_id|nuts.' },
+    'generations':      { fn: 'generations',           args: [],            help: 'List MapIt boundary generations.' },
+  },
+  'ons-geo': {
+    'service-info':     { fn: 'serviceInfo',           args: ['service'],   help: 'Service / layer metadata (fields, geometry type, extent). --layer N (default 0).' },
+    'list-services':    { fn: 'listServices',          args: [],            help: '--filter <substring> (e.g. "Westminster_Parliamentary").' },
+    'query':            { fn: 'query',                 args: [],            help: '--service <name> --where "1=1" --out-fields "PCON24CD,PCON24NM" --return-geometry --take N. --format json|geojson|pjson.' },
+    'find-by-code':     { fn: 'findByCode',            args: ['service', 'codeField', 'code'], help: 'One feature by code. e.g. find-by-code Westminster_Parliamentary_Constituencies_July_2024_Boundaries_UK_BUC PCON24CD E14001063.' },
+    'layer-count':      { fn: 'layerCount',            args: ['service'],   help: 'Number of layers in a FeatureServer.' },
+  },
 };
 
 // ---------- main ----------
@@ -519,6 +542,8 @@ Facilities (canonical names; aliases in parens):
   guide-to-procedure  (alias: gtp)
   bill-papers          (alias: bp)
   library-feeds        (alias: library) — Commons Library / POST RSS
+  mysoc-mapit          (alias: mapit) — mySociety MapIt: postcode/lat-lon → areas
+  ons-geo                      ONS Open Geography Portal: constituency boundaries
 
 Run 'parl <facility>' to list its commands.
 Run 'parl <facility> <command> --help' for command help.

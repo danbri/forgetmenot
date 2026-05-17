@@ -59,6 +59,8 @@ verbatim API response, `--out path` for binary downloads).
 | `gtp` | [`skills/guide-to-procedure`](skills/guide-to-procedure/SKILL.md) | MPs' Guide to Procedure — plain-English procedural explainers, distinct from Erskine May. |
 | `bp` | [`skills/bill-papers`](skills/bill-papers/SKILL.md) | Bill Papers CSV catalogue + per-bill RSS at api.parliament.uk/bill-papers. |
 | `library` | [`skills/library-feeds`](skills/library-feeds/SKILL.md) | RSS aggregator for Commons Library / Lords Library / POST research briefings. |
+| `mapit` | [`skills/mysoc-mapit`](skills/mysoc-mapit/SKILL.md) | Tier-3: mySociety MapIt — postcode / lat-lon → Westminster constituency + every other administrative area. |
+| `ons-geo` | [`skills/ons-geo`](skills/ons-geo/SKILL.md) | Tier-3: ONS Open Geography Portal — authoritative constituency / ward / LAD boundary polygons. |
 
 The CLI itself is documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
