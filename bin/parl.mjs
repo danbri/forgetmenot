@@ -75,6 +75,12 @@ const FACILITIES = {
   'wd':                            F.wikidata,
   'tna-discovery':                 F.tnaDiscovery,
   'discovery':                     F.tnaDiscovery,
+  'nao':                           F.nao,
+  'obr':                           F.obr,
+  'osr':                           F.osr,
+  'ico':                           F.ico,
+  'gov-data':                      F.govData,
+  'sp':                            F.sp,
 };
 
 // Per-facility command map. Each entry is:
@@ -452,6 +458,47 @@ const COMMANDS = {
     'repositories':    { fn: 'searchRepositories', args: [],      help: '--query <text> --take N. Search the partner-archives directory.' },
     'repository':      { fn: 'repository',      args: ['archonCode'], help: 'One repository by Archon code (A13530000 = TNA).' },
     'url':             { fn: 'recordUrl',       args: ['id'],     help: 'Stable Discovery website URL for a record.' },
+  },
+  'nao': {
+    'reports':         { fn: 'reports',         args: [],         help: 'WP REST search. --search "defence" --take --page --after --before.' },
+    'report':          { fn: 'report',          args: ['id'],     help: 'One report by WP id.' },
+    'feed':            { fn: 'feed',            args: [],         help: 'Reports RSS feed.' },
+    'categories':      { fn: 'categories',      args: [],         help: 'WP categories (topics like "Defence", "Health").' },
+  },
+  'obr': {
+    'feed':            { fn: 'feed',            args: [],         help: 'All-publications RSS feed.' },
+    'topic-feed':      { fn: 'topicFeed',       args: ['slug'],   help: 'Topic RSS feed (efo, fsr, wmar, policy-costing, …).' },
+    'reports':         { fn: 'reports',         args: [],         help: 'WP REST search if exposed. --search --take --page.' },
+    'page':            { fn: 'page',            args: ['path'],   help: 'Fetch one HTML page by relative path.' },
+  },
+  'osr': {
+    'feed':            { fn: 'feed',            args: [],         help: 'OSR RSS feed (censures, case studies, reports, guidance).' },
+    'page':            { fn: 'page',            args: ['path'],   help: 'Fetch one OSR HTML page.' },
+  },
+  'ico': {
+    'actions':         { fn: 'actions',         args: [],         help: 'HTML index of "Action we\'ve taken".' },
+    'by-category':     { fn: 'actionsByCategory', args: ['category'], help: 'enforcement | decision-notices | audits | reprimands | undertakings.' },
+    'page':            { fn: 'page',            args: ['path'],   help: 'Fetch any ICO HTML page.' },
+    'action-url':      { fn: 'actionUrl',       args: ['slug'],   help: 'Construct an enforcement-action URL from slug.' },
+  },
+  'gov-data': {
+    'search':          { fn: 'search',          args: [],         help: 'CKAN search. --query --fq "organization:hm-revenue-customs" --rows --start --sort.' },
+    'dataset':         { fn: 'dataset',         args: ['idOrSlug'], help: 'One dataset detail.' },
+    'organisations':   { fn: 'organisations',   args: [],         help: 'Publishing organisations. --all-fields true --take.' },
+    'organisation':    { fn: 'organisation',    args: ['slug'],   help: 'One org. --include-datasets true.' },
+    'tags':            { fn: 'tags',            args: [],         help: 'CKAN tags. --query --all-fields.' },
+    'groups':          { fn: 'groups',          args: [],         help: 'CKAN groups (topic categories).' },
+    'recent':          { fn: 'recentlyModified', args: [],        help: 'Recently-modified datasets.' },
+  },
+  'sp': {
+    'members':         { fn: 'members',         args: [],         help: 'MSPs (current + historical).' },
+    'parties':         { fn: 'parties',         args: [],         help: 'Scottish Parliament parties.' },
+    'committees':      { fn: 'committees',      args: [],         help: 'Committees.' },
+    'committee-members':{ fn: 'committeeMembers', args: [],       help: 'Committee membership records.' },
+    'constituencies':  { fn: 'constituencies',  args: [],         help: 'Scottish constituencies.' },
+    'regions':         { fn: 'regions',         args: [],         help: 'Scottish electoral regions.' },
+    'member-parties':  { fn: 'memberParties',   args: [],         help: 'MSP party-membership records.' },
+    'probe':           { fn: 'probeResources', args: ['names'],  help: 'Probe a comma-separated list of resource names for 200/404.' },
   },
 };
 
