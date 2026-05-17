@@ -69,6 +69,7 @@ verbatim API response, `--out path` for binary downloads).
 | `elections` | [`skills/dc-elections`](skills/dc-elections/SKILL.md) | Tier-3: DemocracyClub EveryElection — every UK election (Westminster, devolved, mayoral, local, PCCs, parishes) with canonical IDs. |
 | `ec` | [`skills/ec-donations`](skills/ec-donations/SKILL.md) | Tier-3: Electoral Commission — donations, spending, loans, registers of regulated parties and campaigners. |
 | `wd` | [`skills/wikidata`](skills/wikidata/SKILL.md) | Tier-3: Wikidata SPARQL + label search — cross-ID glue across every UK politician identifier ecosystem. |
+| `discovery` | [`skills/tna-discovery`](skills/tna-discovery/SKILL.md) | Tier-3: TNA Discovery — ~37M record-description catalogue across TNA + 2,500 partner UK archives (FO 94 treaty ratifications, CAB, PREM, etc.). |
 
 The CLI itself is documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
