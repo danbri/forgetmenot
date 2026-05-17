@@ -30,6 +30,7 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+import urllib.parse
 from datetime import date, datetime
 from pathlib import Path
 from typing import Iterable
@@ -411,9 +412,19 @@ def lift_one(record: dict) -> tuple[rdflib.URIRef, rdflib.Graph, dict]:
         if qid:
             g.add((node, FCDO.countryQid, WD[qid]))
 
-    # Provenance qualifier: the upstream record URL.
-    g.add((uri, DCT.source,
-           URIRef(record.get("document_url") or str(uri))))
+    # Provenance qualifier: the upstream record URL. FCDO's
+    # document_url field stores unencoded paths -- some contain spaces
+    # (e.g. ".../TS 1.1973 Cm5179 pt2.pdf"). Percent-encode the path
+    # so the URI is RDF-serialisable.
+    src = (record.get("document_url") or str(uri)).replace("\\", "/")
+    if " " in src or any(c in src for c in "<>\"{}|^`"):
+        sp = urllib.parse.urlsplit(src)
+        src = urllib.parse.urlunsplit((
+            sp.scheme, sp.netloc,
+            urllib.parse.quote(sp.path, safe="/"),
+            sp.query, sp.fragment,
+        ))
+    g.add((uri, DCT.source, URIRef(src)))
     g.add((uri, FCDO.capturedAt,
            Literal(record.get("captured_at") or
                    date.today().isoformat(),

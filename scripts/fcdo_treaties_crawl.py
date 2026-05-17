@@ -112,13 +112,23 @@ def search_page(opener, page: int, page_size: int = 100,
 
 
 def fetch_detail_html(opener, url: str) -> bytes | None:
-    # The search-result URLs use a Windows path separator.
+    # The search-result URLs use a Windows path separator, and some
+    # contain spaces / other unsafe characters (e.g. PDF paths like
+    # ".../TS 1.1973 Cm5179 pt2.pdf"). Normalise both.
     url = url.replace("\\", "/")
+    # Percent-encode the path component without touching the scheme/host.
+    sp = urllib.parse.urlsplit(url)
+    quoted_path = urllib.parse.quote(sp.path, safe="/")
+    url = urllib.parse.urlunsplit(
+        (sp.scheme, sp.netloc, quoted_path, sp.query, sp.fragment)
+    )
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     try:
         with opener.open(req, timeout=30) as r:
             return r.read()
     except urllib.error.HTTPError:
+        return None
+    except (urllib.error.URLError, ValueError):
         return None
 
 

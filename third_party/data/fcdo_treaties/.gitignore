@@ -5,7 +5,9 @@ crawl.log
 
 # Per-treaty Turtle is the per-record output of the RDF lift. It's
 # strictly redundant with extractors/factoids/all.nq (every triple is
-# in the rollup, named by the treaty URI). Keep all.nq committed; let
-# the per-treaty files re-materialise on extract.
+# in the rollup, named by the treaty URI). The rollup is committed
+# in gzipped form (all.nq.gz fits under GitHub's 100 MB limit while
+# the raw all.nq does not).
 extractors/factoids/*.ttl
 !extractors/factoids/parliament-bridge.ttl
+extractors/factoids/all.nq

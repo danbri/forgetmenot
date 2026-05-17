@@ -61,6 +61,18 @@ const FACILITIES = {
   'nomis':                         F.onsNomis,
   'ons-nomis':                     F.onsNomis,
   'os':                            F.os,
+  'twfy':                          F.mysocTwfy,
+  'mysoc-twfy':                    F.mysocTwfy,
+  'caselaw':                       F.tnaCaselaw,
+  'tna-caselaw':                   F.tnaCaselaw,
+  'dc-candidates':                 F.dcCandidates,
+  'candidates':                    F.dcCandidates,
+  'dc-elections':                  F.dcElections,
+  'elections':                     F.dcElections,
+  'ec-donations':                  F.ecDonations,
+  'ec':                            F.ecDonations,
+  'wikidata':                      F.wikidata,
+  'wd':                            F.wikidata,
 };
 
 // Per-facility command map. Each entry is:
@@ -375,7 +387,70 @@ const COMMANDS = {
     'download-url':     { fn: 'downloadUrl',           args: ['id', 'fileName'], help: 'Direct-download URL string (no fetch).' },
     'download':         { fn: 'download',              args: ['id', 'fileName'], help: 'Download a file (can be hundreds of MB — use --out PATH).' },
   },
+  'twfy': {
+    'mps':             { fn: 'getMPs',          args: [],         help: '--date YYYY-MM-DD --search --party. Requires --api-key or TWFY_API_KEY.' },
+    'mp':              { fn: 'getMP',           args: [],         help: '--id <person> | --postcode | --constituency.' },
+    'mp-info':         { fn: 'getMPInfo',       args: ['personId'], help: '--fields (comma-separated).' },
+    'mps-info':        { fn: 'getMPInfoBatch', args: ['ids'],    help: 'Batch — comma-separated TWFY ids.' },
+    'lords':           { fn: 'getLords',        args: [],         help: '--date --party.' },
+    'lord':            { fn: 'getLord',         args: [],         help: '--id | --search.' },
+    'constituencies':  { fn: 'getConstituencies', args: [],       help: '--date.' },
+    'constituency':    { fn: 'getConstituency', args: [],         help: '--postcode | --name.' },
+    'debates':         { fn: 'getDebates',      args: [],         help: '--type commons|lords|… --date --search --person --gid --page --num.' },
+    'wrans':           { fn: 'getWrans',        args: [],         help: 'Written answers. Same params as debates.' },
+    'wms':             { fn: 'getWMS',          args: [],         help: 'Written ministerial statements.' },
+    'comments':        { fn: 'getComments',    args: [],         help: 'TWFY user comments. --start-date --end-date --search --pid.' },
+    'geometry':        { fn: 'getGeometry',     args: [],         help: '--name <constituency>.' },
+    'boundary':        { fn: 'getBoundary',     args: [],         help: '--name <constituency>.' },
+  },
+  'caselaw': {
+    'atom':            { fn: 'atomAll',         args: [],         help: 'Site-wide Atom feed of newest judgments.' },
+    'atom-court':      { fn: 'atomByCourt',     args: ['court'],  help: 'Atom feed for one court (e.g. uksc, ewca/civ, ewhc/admin, ukut/aac).' },
+    'search':          { fn: 'search',          args: [],         help: '--query --court --judge --party --from-day --from-month --from-year --to-day --to-month --to-year --order --page --take --format html|atom.' },
+    'judgment':        { fn: 'judgment',        args: ['uriSegment'], help: 'e.g. judgment ewhc/admin/2024/2042 --format xml|pdf|html (default xml = Akoma Ntoso).' },
+    'url':             { fn: 'judgmentUrl',     args: ['uriSegment'], help: 'Canonical URL string. --format html|xml|pdf.' },
+    'browse-court':    { fn: 'browseCourt',     args: ['court'],  help: 'Court index page (HTML).' },
+  },
+  'candidates': {
+    'ballots':         { fn: 'ballots',         args: [],         help: 'DC ballots (election × electoral area). --election-id --election-date --post-id --page --take.' },
+    'ballot':          { fn: 'ballot',          args: ['ballotPaperId'], help: 'One ballot detail.' },
+    'persons':         { fn: 'persons',         args: [],         help: '--name --page --take.' },
+    'person':          { fn: 'person',          args: ['id'],     help: 'One candidate.' },
+    'elections':       { fn: 'elections',       args: [],         help: 'DC elections list. --election-id --election-date.' },
+    'election':        { fn: 'election',        args: ['id'],     help: 'One election.' },
+    'posts':           { fn: 'posts',           args: [],         help: 'Electoral areas.' },
+    'post':            { fn: 'post',            args: ['id'],     help: 'One post.' },
+    'parties':         { fn: 'parties',         args: [],         help: 'Registered parties on DC.' },
+  },
+  'elections': {
+    'list':            { fn: 'elections',       args: [],         help: '--election-id --date --group parl|local|mayor|pcc|sp|naw|nia --organisation --current --take --skip.' },
+    'get':             { fn: 'election',        args: ['id'],     help: 'One election by canonical id.' },
+    'organisations':   { fn: 'organisations',   args: [],         help: '--organisation-type.' },
+    'org-divisions':   { fn: 'organisationDivisions', args: [],   help: '--organisation --division-type.' },
+    'types':           { fn: 'electionTypes',   args: [],         help: 'Reference: election types.' },
+    'sub-types':       { fn: 'electionSubTypes', args: [],        help: 'Reference: election sub-types.' },
+  },
+  'ec': {
+    'donations':       { fn: 'donations',       args: [],         help: '--start --rows --query --recipient --donor-name --donor-type --date-from --date-to --min-value --max-value --accepted.' },
+    'spending':        { fn: 'spending',        args: [],         help: '--start --rows --spender-name --election --date-from --date-to --category.' },
+    'loans':           { fn: 'loans',           args: [],         help: '--start --rows --recipient --lender-name --date-from --date-to.' },
+    'campaigners':     { fn: 'campaigners',     args: [],         help: 'Referendum / election campaigners. --referendum --election.' },
+    'registers':       { fn: 'registers',       args: [],         help: 'Registered parties + non-party campaigners. --register-type --status.' },
+  },
+  'wikidata': {
+    'query':           { fn: 'query',           args: ['sparql'], help: 'Run a SPARQL 1.1 query against query.wikidata.org. --format json|xml|csv|tsv. POST used automatically for long queries.' },
+    'entity':          { fn: 'entity',          args: ['qid'],    help: 'Linked-Data JSON for one Wikidata QID (every claim, label, sitelink).' },
+    'search':          { fn: 'searchEntities',  args: ['label'],  help: 'Label → matching QIDs. --language en --type item --take 10.' },
+  },
 };
+
+// Long-form facility aliases share the same command set as their short form.
+COMMANDS['mysoc-twfy']    = COMMANDS.twfy;
+COMMANDS['tna-caselaw']   = COMMANDS.caselaw;
+COMMANDS['dc-candidates'] = COMMANDS.candidates;
+COMMANDS['dc-elections']  = COMMANDS.elections;
+COMMANDS['ec-donations']  = COMMANDS.ec;
+COMMANDS['wd']            = COMMANDS.wikidata;
 
 // ---------- main ----------
 
