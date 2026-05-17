@@ -70,6 +70,12 @@ verbatim API response, `--out path` for binary downloads).
 | `ec` | [`skills/ec-donations`](skills/ec-donations/SKILL.md) | Tier-3: Electoral Commission — donations, spending, loans, registers of regulated parties and campaigners. |
 | `wd` | [`skills/wikidata`](skills/wikidata/SKILL.md) | Tier-3: Wikidata SPARQL + label search — cross-ID glue across every UK politician identifier ecosystem. |
 | `discovery` | [`skills/tna-discovery`](skills/tna-discovery/SKILL.md) | Tier-3: TNA Discovery — ~37M record-description catalogue across TNA + 2,500 partner UK archives (FO 94 treaty ratifications, CAB, PREM, etc.). |
+| `nao` | [`skills/nao`](skills/nao/SKILL.md) | Tier-3: National Audit Office — Parliament's external auditor; Value-for-Money reports that feed the Public Accounts Committee. WP REST + RSS. |
+| `obr` | [`skills/obr`](skills/obr/SKILL.md) | Tier-3: Office for Budget Responsibility — independent fiscal watchdog; EFO / FSR / policy costings that underpin every Budget. HTML + RSS. |
+| `osr` | [`skills/osr`](skills/osr/SKILL.md) | Tier-3: Office for Statistics Regulation — polices misuse of official statistics by Ministers and MPs; censures + case studies. RSS + HTML. |
+| `ico` | [`skills/ico`](skills/ico/SKILL.md) | Tier-3: Information Commissioner's Office — data-protection / FOI / EIR regulator; enforcement notices, MPNs, decision notices, reprimands. HTML-only. |
+| `gov-data` | [`skills/gov-data`](skills/gov-data/SKILL.md) | Tier-3: data.gov.uk CKAN — ~58,000 datasets from every central department, ~4,275 councils, statutory bodies. Operator: GDS / Cabinet Office. |
+| `sp` | [`skills/sp`](skills/sp/SKILL.md) | Tier-3: Scottish Parliament Open Data — MSPs, parties, committees, constituencies, regions. JSON (requires Accept: application/json). |
 
 The CLI itself is documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
