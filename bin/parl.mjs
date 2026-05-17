@@ -85,6 +85,10 @@ const FACILITIES = {
   'ea-flood':                      F.eaFlood,
   'flood':                         F.eaFlood,
   'fsa':                           F.fsa,
+  'scotgov-stats':                 F.scotgovStats,
+  'scotstats':                     F.scotgovStats,
+  'eur-lex':                       F.eurLex,
+  'eurlex':                        F.eurLex,
 };
 
 // Per-facility command map. Each entry is:
@@ -521,6 +525,14 @@ const COMMANDS = {
     'readings':        { fn: 'readings',        args: [],         help: 'Cross-station readings — big; use filters. --parameter --latest --today --since --station-reference.' },
     'archive':         { fn: 'archive',         args: [],         help: 'Archived historic-readings dataset listing.' },
   },
+  'scotgov-stats': {
+    'query':           { fn: 'query',           args: ['sparql'], help: 'SPARQL 1.1 against statistics.gov.scot. --format json|xml|csv|tsv.' },
+    'datasets':        { fn: 'datasets',        args: [],         help: 'List published DataCubes (datasets).' },
+    'dimensions':      { fn: 'dimensions',      args: ['datasetUri'], help: 'Dimensions defined on one dataset (its measure + filter axes).' },
+  },
+  'eur-lex': {
+    'query':           { fn: 'query',           args: ['sparql'], help: 'SPARQL 1.1 against EUR-Lex CELLAR. --format json|xml|csv|tsv. The CDM vocabulary is large; consult the published ontology rather than guessing predicate names.' },
+  },
   'fsa': {
     'establishments':  { fn: 'establishments',  args: [],         help: 'Food businesses + hygiene ratings. --name --address --lat --lon --max-distance-km --local-authority-id --business-type-id --scheme-type-key FHRS|FHIS --rating-key fhrs_5_en --page --take.' },
     'establishment':   { fn: 'establishment',   args: ['id'],     help: 'One establishment by id.' },
@@ -544,6 +556,8 @@ COMMANDS['dc-elections']  = COMMANDS.elections;
 COMMANDS['ec-donations']  = COMMANDS.ec;
 COMMANDS['wd']            = COMMANDS.wikidata;
 COMMANDS['tna-discovery'] = COMMANDS.discovery;
+COMMANDS['scotstats']     = COMMANDS['scotgov-stats'];
+COMMANDS['eurlex']        = COMMANDS['eur-lex'];
 
 // ---------- main ----------
 
