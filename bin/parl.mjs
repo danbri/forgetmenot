@@ -58,6 +58,9 @@ const FACILITIES = {
   'mapit':                         F.mysocMapit,
   'mysoc-mapit':                   F.mysocMapit,
   'ons-geo':                       F.onsGeo,
+  'nomis':                         F.onsNomis,
+  'ons-nomis':                     F.onsNomis,
+  'os':                            F.os,
 };
 
 // Per-facility command map. Each entry is:
@@ -358,6 +361,20 @@ const COMMANDS = {
     'find-by-code':     { fn: 'findByCode',            args: ['service', 'codeField', 'code'], help: 'One feature by code. e.g. find-by-code Westminster_Parliamentary_Constituencies_July_2024_Boundaries_UK_BUC PCON24CD E14001063.' },
     'layer-count':      { fn: 'layerCount',            args: ['service'],   help: 'Number of layers in a FeatureServer.' },
   },
+  'nomis': {
+    'datasets':         { fn: 'listDatasets',          args: [],            help: 'List every Nomis dataset (~1,600).' },
+    'dataset-def':      { fn: 'datasetDef',            args: ['id'],        help: 'Dataset definition (dimensions / codelists). e.g. nomis dataset-def NM_2021_1' },
+    'codelist':         { fn: 'codelist',              args: ['datasetId', 'dimension'], help: 'Codelist for one dimension. e.g. nomis codelist NM_2021_1 geography' },
+    'geography-types':  { fn: 'geographyTypes',        args: ['datasetId'], help: 'List the Nomis geography TYPEs the dataset is indexed by (needed to pick the right TYPE<n> for a query).' },
+    'data':             { fn: 'data',                  args: ['datasetId'], help: 'Pull observations. Pass --geography <code> --measures 20100 --date latest etc. as filters. See skill notes on geography filters.' },
+  },
+  'os': {
+    'products':         { fn: 'products',              args: [],            help: 'List every OS OpenData product. --filter Boundary' },
+    'product':          { fn: 'product',               args: ['id'],        help: 'One product detail. e.g. os product BoundaryLine' },
+    'downloads':        { fn: 'downloads',             args: ['id'],        help: 'List available downloads (format/area/size) for a product.' },
+    'download-url':     { fn: 'downloadUrl',           args: ['id', 'fileName'], help: 'Direct-download URL string (no fetch).' },
+    'download':         { fn: 'download',              args: ['id', 'fileName'], help: 'Download a file (can be hundreds of MB — use --out PATH).' },
+  },
 };
 
 // ---------- main ----------
@@ -544,6 +561,8 @@ Facilities (canonical names; aliases in parens):
   library-feeds        (alias: library) — Commons Library / POST RSS
   mysoc-mapit          (alias: mapit) — mySociety MapIt: postcode/lat-lon → areas
   ons-geo                      ONS Open Geography Portal: constituency boundaries
+  ons-nomis            (alias: nomis) — ONS Census + labour-market data per constituency
+  os                           Ordnance Survey OpenData: Boundary-Line, Code-Point Open, OpenNames…
 
 Run 'parl <facility>' to list its commands.
 Run 'parl <facility> <command> --help' for command help.

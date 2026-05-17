@@ -61,6 +61,8 @@ verbatim API response, `--out path` for binary downloads).
 | `library` | [`skills/library-feeds`](skills/library-feeds/SKILL.md) | RSS aggregator for Commons Library / Lords Library / POST research briefings. |
 | `mapit` | [`skills/mysoc-mapit`](skills/mysoc-mapit/SKILL.md) | Tier-3: mySociety MapIt — postcode / lat-lon → Westminster constituency + every other administrative area. |
 | `ons-geo` | [`skills/ons-geo`](skills/ons-geo/SKILL.md) | Tier-3: ONS Open Geography Portal — authoritative constituency / ward / LAD boundary polygons. |
+| `nomis` | [`skills/ons-nomis`](skills/ons-nomis/SKILL.md) | Tier-3: Nomis — Census 2021 + labour-market data per constituency / LAD / MSOA / LSOA / OA. ~1,600 datasets. |
+| `os` | [`skills/os`](skills/os/SKILL.md) | Tier-3: Ordnance Survey OpenData catalogue + downloads — Boundary-Line, Code-Point Open, OpenNames, OpenUPRN, OpenRoads, … |
 
 The CLI itself is documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
