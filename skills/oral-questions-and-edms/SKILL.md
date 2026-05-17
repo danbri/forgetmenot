@@ -1,6 +1,15 @@
 ---
 name: oral-questions-and-edms
 description: Query tabled oral questions and Early Day Motions (EDMs) for the UK House of Commons. Oral questions are scheduled question-time slots (PMQs, departmental questions) that may not all be reached. EDMs are a way for backbench MPs to express opinions and gather signatures without expecting a debate. Use when the question is about an oral question scheduled for a specific date or about an EDM by number, sponsor, or topic.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: oralquestionsandmotions-api.parliament.uk
+    citation-short: "via oralquestionsandmotions-api.parliament.uk"
+    citation-formal: "UK Parliament Oral Questions and EDMs API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # Oral Questions & Early Day Motions API
@@ -111,3 +120,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via oralquestionsandmotions-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

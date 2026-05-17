@@ -1,6 +1,15 @@
 ---
 name: treaties
 description: Query treaties laid before the UK Parliament under the Constitutional Reform and Governance Act 2010 (CRaG) — treaty title, command paper number, lead government department, parliamentary timeline (laid, scrutiny period, ratification), and the series each treaty belongs to. Use when the question is about a specific treaty, ratification timeline, or treaties laid by a particular government department.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: treaties-api.parliament.uk
+    citation-short: "via treaties-api.parliament.uk"
+    citation-formal: "UK Parliament Treaties API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Treaties API
@@ -115,3 +124,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via treaties-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

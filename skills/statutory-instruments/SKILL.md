@@ -1,6 +1,15 @@
 ---
 name: statutory-instruments
 description: Query statutory instruments (SIs), proposed negatives, draft instruments, their procedures (negative, affirmative, super-affirmative, etc.), the parent Acts they are made under, and the laying bodies that lay them before Parliament. Use whenever the question is about secondary legislation in progress through Parliament, its procedure type, or the timeline of a specific SI.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: statutoryinstruments-api.parliament.uk
+    citation-short: "via statutoryinstruments-api.parliament.uk"
+    citation-formal: "UK Parliament Statutory Instruments API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Statutory Instruments API
@@ -124,3 +133,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via statutoryinstruments-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

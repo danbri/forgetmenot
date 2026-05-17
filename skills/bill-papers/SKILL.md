@@ -6,6 +6,13 @@ metadata:
   facility: bill-papers
   cli-alias: bp
   base-url: https://api.parliament.uk/bill-papers
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: api.parliament.uk/bill-papers
+    citation-short: "via api.parliament.uk/bill-papers"
+    citation-formal: "UK Parliament Bill Papers, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Bill Papers
@@ -53,3 +60,13 @@ const rows = bp.parseCsv(csv);   // [{ "Bill system ID": "6", Label: "Act of Par
 - Use **`bill-papers`** for bulk CSV exports (e.g. mapping every bill id → publication count) and for RSS-driven tracking of new documents on a specific bill.
 
 See [`../parl/SKILL.md`](../parl/SKILL.md) for global CLI usage.
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via api.parliament.uk/bill-papers)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

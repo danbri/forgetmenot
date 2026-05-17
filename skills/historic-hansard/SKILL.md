@@ -1,6 +1,15 @@
 ---
 name: historic-hansard
 description: Browse the historic UK Hansard (1803–2005) website at api.parliament.uk/historic-hansard. There is no documented JSON API; the site is HTML that follows a stable URL convention organising material by year, month, day, House, person, constituency, office, Act, Bill, and division. Use when the question is about pre-1988 parliamentary debates that the modern Hansard API does not cover.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: api.parliament.uk/historic-hansard
+    citation-short: "via api.parliament.uk/historic-hansard (HTML)"
+    citation-formal: "UK Parliament Historic Hansard (HTML, 1803–2005), retrieved {date}"
+    confidence: authoritative
 ---
 
 # Historic Hansard (1803–2005)
@@ -135,3 +144,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via api.parliament.uk/historic-hansard (HTML))"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

@@ -1,6 +1,15 @@
 ---
 name: members-data-platform
 description: Query the legacy MNIS (Members' Names Information Service / Members Data Platform) at data.parliament.uk/membersdataplatform. Older than the modern Members API, with a different filter syntax (pipe-separated key=value pairs in the URL path) and richer historical detail in some places. Default response is XML; JSON is available via ?format=json on supported routes. Use when a question needs MNIS-flavoured data the modern Members API does not surface, or when an existing MNIS-using script must be kept working.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: data.parliament.uk/membersdataplatform
+    citation-short: "via data.parliament.uk MNIS"
+    citation-formal: "UK Parliament Members Data Platform (MNIS), retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Members Data Platform (MNIS)
@@ -138,3 +147,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via data.parliament.uk MNIS)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

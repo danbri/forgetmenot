@@ -1,6 +1,15 @@
 ---
 name: petitions
 description: Query e-petitions submitted to the UK Parliament petitions service — petition text, signatures (total, by constituency, by country), state (open, closed, awaiting moderation, rejected, debated), government and committee responses, scheduled debates, and signature counts over time. Use when the question is about a specific petition, petitions on a topic, signatures by constituency, or which petitions have crossed the 10,000 / 100,000 thresholds.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: petition.parliament.uk
+    citation-short: "via petition.parliament.uk"
+    citation-formal: "UK Parliament e-Petitions, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament e-Petitions API
@@ -122,3 +131,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via petition.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

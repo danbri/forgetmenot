@@ -7,6 +7,13 @@ metadata:
   cli-alias: whatson
   base-url: https://whatson-api.parliament.uk
   spec: _specs/whatson.json
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: whatson-api.parliament.uk
+    citation-short: "via whatson-api.parliament.uk"
+    citation-formal: "UK Parliament What's On / Calendar API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament What's On (Calendar) API
@@ -67,3 +74,13 @@ await whatson.annulmentDate({ dateLaid: '2026-04-23', daysInFuture: 40 });
 - `Session 50/2` is 1988-89; the list goes back to the start of the modern Parliament number scheme. For the current session, the highest `EndDate` wins.
 - Annulment date is the same calculation the Joint Committee on Statutory Instruments uses for the 40-day praying period (with `isTreaty=true` it switches to the 21 sitting-day CRaG window).
 - This API replaces the now-retired `services.orderpaper.parliament.uk` for calendar / future-business lookups.
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via whatson-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

@@ -1,6 +1,15 @@
 ---
 name: odata
 description: Query the UK Parliament OData v4 endpoint at api.parliament.uk/odata. The same underlying graph as the SPARQL endpoint, but exposed as 183 entity sets (Person, Member, Constituency, Party, House, Committee, FormalBodyMembership, Government, etc.) navigable with $filter / $expand / $select / $orderby / $top. Use when SPARQL feels heavy and a typed OData query suits — especially from C#, Power BI, Excel, or any client with native OData support.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: api.parliament.uk/odata
+    citation-short: "via api.parliament.uk/odata"
+    citation-formal: "UK Parliament OData v4 endpoint, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament OData endpoint
@@ -126,3 +135,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via api.parliament.uk/odata)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

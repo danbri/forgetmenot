@@ -1,6 +1,15 @@
 ---
 name: lords-votes
 description: Query House of Lords divisions — division metadata, content/not-content totals, every individual peer's vote, and grouped-by-party tallies. Use whenever the question is "how did peers vote on X" or "what was the result of the Lords division on Y". Lords vote with "Content" / "Not Content" rather than "Aye" / "No".
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: lordsvotes-api.parliament.uk
+    citation-short: "via lordsvotes-api.parliament.uk"
+    citation-formal: "UK Parliament Lords Divisions API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Lords Votes API
@@ -98,3 +107,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via lordsvotes-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

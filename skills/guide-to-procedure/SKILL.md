@@ -7,6 +7,13 @@ metadata:
   cli-alias: gtp
   base-url: https://guidetoprocedure-api.parliament.uk
   spec: _specs/guide-to-procedure.json
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: guidetoprocedure-api.parliament.uk
+    citation-short: "via guidetoprocedure-api.parliament.uk"
+    citation-formal: "UK Parliament MPs' Guide to Procedure API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament MPs' Guide to Procedure API
@@ -50,3 +57,13 @@ await gtp.contentPage('https://guidetoprocedure.parliament.uk/...');
 - For the **canonical, citable** procedural rules → [Erskine May](../erskine-may/SKILL.md). The treatise is exhaustive but dense.
 - For **what's happening today** → [whatson](../whatson/SKILL.md).
 - For the underlying **rules of the House** → [standing-orders](../standing-orders/SKILL.md) (HTML-only).
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via guidetoprocedure-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

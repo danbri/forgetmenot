@@ -6,6 +6,13 @@ metadata:
   facility: library-feeds
   cli-alias: library
   base-url: https://api.parliament.uk/library-feeds
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: api.parliament.uk/library-feeds
+    citation-short: "via api.parliament.uk/library-feeds"
+    citation-formal: "UK Parliament Library Feeds (Commons / Lords Library / POST), retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Library Feeds
@@ -49,3 +56,13 @@ const rss = await lf.publicationsRss();    // raw RSS XML string
 - For the full set of historical briefings as structured data → see [linked-data-api](../linked-data-api/SKILL.md) `briefingpapers` / `researchbriefings` datasets, indexed at [data-parliament-uk-datasets](../data-parliament-uk-datasets/SKILL.md).
 
 See [`../parl/SKILL.md`](../parl/SKILL.md) for global CLI usage.
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via api.parliament.uk/library-feeds)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

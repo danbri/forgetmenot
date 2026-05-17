@@ -1,6 +1,15 @@
 ---
 name: interests
 description: Query the UK Register of Members' Financial Interests — categories of registrable interests, individual interest entries (with values, dates, descriptions, donors, and any rectification history), and historical published versions of the Register as PDF or CSV. Use when the question is about MPs' or peers' declared earnings, donations, gifts, employment, shareholdings, or other registrable interests.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: interests-api.parliament.uk
+    citation-short: "via interests-api.parliament.uk"
+    citation-formal: "UK Parliament Register of Members' Financial Interests API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # Register of Members' Financial Interests API
@@ -111,3 +120,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via interests-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

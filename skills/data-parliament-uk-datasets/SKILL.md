@@ -1,6 +1,15 @@
 ---
 name: data-parliament-uk-datasets
 description: Catalogue and pointer to the 19 datasets surfaced by explore.data.parliament.uk — the older parliamentary "Open Data" portal. Each dataset is served by the Linked Data API at lda.data.parliament.uk; this skill is the index that maps dataset name to LDA path and to the modern API equivalent (where one exists). Use when a question references the data.parliament.uk portal or a dataset by its portal name (e.g. "Briefing Papers", "Research Briefings", "Thesaurus", "Election Results").
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: explore.data.parliament.uk
+    citation-short: "via explore.data.parliament.uk"
+    citation-formal: "UK Parliament data.parliament.uk dataset catalogue, retrieved {date}"
+    confidence: authoritative
 ---
 
 # data.parliament.uk dataset family
@@ -129,3 +138,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via explore.data.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

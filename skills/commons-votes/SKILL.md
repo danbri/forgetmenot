@@ -1,6 +1,15 @@
 ---
 name: commons-votes
 description: Query Commons divisions (recorded votes in the House of Commons) — division metadata, aye/no totals, tellers, every individual member's vote, and grouped-by-party tallies. Use whenever the question is "how did MPs vote on X" or "what was the result of division N". Covers contemporary divisions; historic Commons votes before this API's coverage live in the SPARQL store.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: commonsvotes-api.parliament.uk
+    citation-short: "via commonsvotes-api.parliament.uk"
+    citation-formal: "UK Parliament Commons Divisions API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Commons Votes API
@@ -114,3 +123,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via commonsvotes-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.
