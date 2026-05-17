@@ -60,6 +60,22 @@ python3 scripts/govuk_qa.py --probe-live     # distinguishes crawl-miss
 python3 scripts/govuk_report.py
 ```
 
+## MCP integration
+
+A `govuk-sparql` MCP server is declared in `.mcp.json` and points at
+`scripts/govuk_mcp_sparql.py`. It wraps the local rdflib-endpoint and
+exposes two tools to Claude Code sessions:
+
+- `mcp__govuk-sparql__sparql_query(query)` -- SPARQL SELECT/ASK
+  against the org-chart corpus, common prefixes auto-prepended
+- `mcp__govuk-sparql__sparql_describe(uri)` -- everything we know
+  about a given gov.uk URI
+
+Start the endpoint first (`./scripts/govuk_sparql_serve.sh`) so the
+MCP server has something to talk to. Requires `pip install mcp`. As
+with every MCP server in the repo, it activates on the *next* session
+start -- a running session cannot self-load.
+
 ## What's in the RDF
 
 | Prefix | URI |
