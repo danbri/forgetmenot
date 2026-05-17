@@ -7,6 +7,7 @@ metadata:
   cli-binary: bin/parl.mjs
   library-entry: lib/facilities/index.mjs
   spec-cache: _specs/
+  provenance-policy: docs/provenance.md
 ---
 
 # `parl` — UK Parliament CLI
@@ -90,6 +91,41 @@ const r = await F.members.search({ name: 'Cooper', take: 5 });
 ```
 
 The library uses only `fetch` / `URL` / `AbortController` so the same source runs in Node 18+ and in modern browsers.
+
+## Provenance and naming (read this once)
+
+The repo's focus is **UK Parliament** material — both Houses, the
+Commons / Lords Libraries, POST, the official Parliament APIs and
+RDF / SPARQL / OData stores. Anything else is third-party.
+
+Skill names encode provenance tier ([`docs/provenance.md`](../../docs/provenance.md)
+has the full convention):
+
+| Naming | What it means |
+|---|---|
+| **No prefix** (`members`, `bills`, `hansard`, `treaties`, `si`, …) | **Tier 1**: first-party Parliament. Authoritative. |
+| **`scraped-<name>`** | **Tier 2**: data Parliament publishes only as HTML/PDF, processed by *our* heuristic scrapers. Authoritative upstream, heuristic interpretation. |
+| **`<producer>-<name>`** (`mysoc-twfy`, `tna-legislation`, `ec-donations`, `wikidata`, …) | **Tier 3**: third-party service. Operator named by the prefix. |
+
+When you use this skill or any facility skill in an answer:
+
+- Cite the source briefly **once per paragraph** — e.g. "(via
+  `bills-api.parliament.uk`)" or "(per TheyWorkForYou)". Don't
+  repeat for every clause; don't write a long formal citation
+  unless the user asks for one.
+- If you **combine** facilities, attribute each fact to its
+  source. Prefer "per `members`: X; per `mysoc-twfy`: Y" over a
+  merged sentence.
+- **Never up-rate confidence.** Tier-2 (scraped) and tier-3
+  (third-party) facts must not be presented as if they came
+  straight from Parliament's authoritative graph. Say "likely",
+  "according to", "per …" where appropriate.
+- If a record carries `_field_sources` (mixed-source facility),
+  treat each field's provenance independently.
+
+The `--raw` flag prints the actual URL the CLI hit; that's the
+canonical machine-readable source if the user asks "where did
+this come from".
 
 ## Cross-cutting notes
 

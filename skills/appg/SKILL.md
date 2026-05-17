@@ -1,6 +1,18 @@
 ---
 name: appg
 description: All-Party Parliamentary Groups (APPGs) — informal cross-party groups of MPs and peers organised around a country or subject. Use when the question is about who chairs/co-chairs/officers an APPG, which MPs sit on a particular group together, what financial benefits a group has received and from whom, contact and secretariat details, or AGM compliance dates. There is NO official JSON API for APPGs; this facility scrapes the Register of All-Party Parliamentary Groups, which is published as static HTML on publications.parliament.uk roughly every six weeks.
+license: Open Parliament Licence v3.0 (upstream Register text); MIT (this skill's extraction methods)
+metadata:
+  provenance:
+    tier: 2
+    operator: "forgetmenot (heuristic HTML extraction)"
+    service: publications.parliament.uk Register of All-Party Parliamentary Groups
+    upstream-data: UK Parliament Register of APPGs (HTML, ~6-weekly)
+    citation-short: "Register of APPGs (Parliament); officer→Member resolution by forgetmenot heuristics"
+    citation-formal: "Register of All-Party Parliamentary Groups, Parliament of the United Kingdom; officer-to-Member resolution by forgetmenot heuristics, accessed {date}"
+    confidence: heuristic
+    confidence-notes: "Group metadata (title, purpose, secretariat, AGM dates, benefits) high-confidence — Parliament-published HTML. Officer name → Member API id auto-resolved at ~99%; ambiguous cases land in judgment_needed.jsonl and need human review."
+    canonical-rename: scraped-appg     # planned; deferred until a single-sweep migration
 ---
 
 # All-Party Parliamentary Groups (APPGs)
@@ -113,3 +125,21 @@ jq -r '
   <https://www.parliament.uk/mps-lords-and-offices/standards-and-financial-interests/parliamentary-commissioner-for-standards/registers-of-interests/register-of-all-party-party-parliamentary-groups/>
 - Latest editions, e.g.:
   <https://publications.parliament.uk/pa/cm/cmallparty/260413/contents.htm>
+
+## Provenance to cite
+
+**Tier 2 — heuristic extraction from Parliament HTML.** Upstream
+data is Parliament's published Register of APPGs (authoritative);
+the parsing and the officer-name → Member-ID resolution are this
+repo's heuristics (NOT authoritative). Do not present resolved
+member IDs as if they came from Parliament.
+
+- Inline cite: **"(Register of APPGs, Parliament; officer
+  resolution by `forgetmenot`)"** — once per paragraph.
+- For an individual officer-→-Member match, prefer hedged phrasing
+  ("likely <Member name>") unless the match is high-confidence.
+  Confidence info is in `judgment_needed.jsonl` when ambiguous.
+- On request, give the edition slug (`YYMMDD`) and the
+  `publications.parliament.uk` URL of the specific group page.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules and the planned rename to `scraped-appg`.

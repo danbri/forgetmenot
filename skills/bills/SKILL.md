@@ -1,6 +1,15 @@
 ---
 name: bills
 description: Track UK Parliament Bills (public, private, hybrid) through their stages — first reading, committee, report, third reading, Lords amendments, ping-pong, royal assent. Use whenever the question is about a piece of UK legislation in progress, its sponsors, current stage, amendments, or publications. Also exposes RSS feeds for real-time tracking.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated API)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: bills-api.parliament.uk
+    citation-short: via bills-api.parliament.uk
+    citation-formal: "UK Parliament Bills API (bills-api.parliament.uk), retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Bills API
@@ -131,3 +140,14 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via `bills-api.parliament.uk`)"** — once per
+  paragraph in user-facing answers.
+- On request, give the URL `--raw` printed; the formal form is
+  *"UK Parliament Bills API, retrieved {date}"*.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

@@ -112,6 +112,28 @@ Parliament runs **three** RDF triple stores; **two are public**.
   failures. If you see HTTP 000 / SSL errors, retry once before
   reporting failure.
 
+## Provenance and naming
+
+Repo focus is **UK Parliament** material. Skills are tagged by
+provenance tier — see [`docs/provenance.md`](docs/provenance.md):
+
+| Naming | Tier |
+|---|---|
+| No prefix (`bills`, `members`, `hansard`, `si`, …) | **1 — first-party Parliament.** Authoritative. |
+| `scraped-<name>` | **2 — Parliament HTML + our heuristics.** Authoritative upstream, heuristic interpretation. |
+| `<producer>-<name>` (`mysoc-twfy`, `tna-legislation`, `ec-donations`, `wikidata`, …) | **3 — third-party.** Operator named by the prefix. |
+
+When using any skill in an answer:
+
+- Cite **once per paragraph** with the short form (e.g.
+  "(via `bills-api.parliament.uk`)"), not every clause.
+- If combining facilities, attribute each fact to its source.
+- Never up-rate confidence — tier-2 / tier-3 facts must NOT be
+  presented as if they came straight from Parliament's
+  authoritative graph.
+- For mixed-source records carrying `_field_sources`, treat each
+  field's provenance independently.
+
 ## Skills format
 
 Each `skills/<facility>/SKILL.md` has YAML frontmatter (`name`,
