@@ -73,6 +73,8 @@ const FACILITIES = {
   'ec':                            F.ecDonations,
   'wikidata':                      F.wikidata,
   'wd':                            F.wikidata,
+  'tna-discovery':                 F.tnaDiscovery,
+  'discovery':                     F.tnaDiscovery,
 };
 
 // Per-facility command map. Each entry is:
@@ -442,6 +444,15 @@ const COMMANDS = {
     'entity':          { fn: 'entity',          args: ['qid'],    help: 'Linked-Data JSON for one Wikidata QID (every claim, label, sitelink).' },
     'search':          { fn: 'searchEntities',  args: ['label'],  help: 'Label → matching QIDs. --language en --type item --take 10.' },
   },
+  'discovery': {
+    'search':          { fn: 'searchRecords',   args: [],         help: '--query --record-series "FO 94" --held-by-code TNA|OTH --date-from --date-to --catalogue-levels --take --batch-start-mark --style v1|sps' },
+    'record':          { fn: 'record',          args: ['id'],     help: 'One record by Discovery id (e.g. C2840649). --include-children true' },
+    'children':        { fn: 'children',        args: ['id'],     help: 'Children of a record (series → pieces).' },
+    'in-series':       { fn: 'inSeries',        args: ['series'], help: 'Records in a named series (e.g. "FO 94", "PREM 19"). Pass --query to narrow.' },
+    'repositories':    { fn: 'searchRepositories', args: [],      help: '--query <text> --take N. Search the partner-archives directory.' },
+    'repository':      { fn: 'repository',      args: ['archonCode'], help: 'One repository by Archon code (A13530000 = TNA).' },
+    'url':             { fn: 'recordUrl',       args: ['id'],     help: 'Stable Discovery website URL for a record.' },
+  },
 };
 
 // Long-form facility aliases share the same command set as their short form.
@@ -451,6 +462,7 @@ COMMANDS['dc-candidates'] = COMMANDS.candidates;
 COMMANDS['dc-elections']  = COMMANDS.elections;
 COMMANDS['ec-donations']  = COMMANDS.ec;
 COMMANDS['wd']            = COMMANDS.wikidata;
+COMMANDS['tna-discovery'] = COMMANDS.discovery;
 
 // ---------- main ----------
 
