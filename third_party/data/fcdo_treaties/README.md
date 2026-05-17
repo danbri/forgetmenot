@@ -215,8 +215,46 @@ For comparison and triangulation:
 ## Status
 
 - 2026-05-16: Folder + this design doc created.
-- TODO: Stage 0 endpoint discovery (manual).
-- TODO: Stage 1 crawler (`scripts/crawl-fcdo-treaties.mjs`).
-- TODO: Member-resolution pass.
-- TODO: Optional `parl fcdo-treaties` facility wrapping the crawled
-  JSONL.
+- 2026-05-17: **Stage 0 done** via Playwright (see
+  `scripts/fcdo_treaties_stage0_discover.py`). Endpoint discovery
+  output committed at `endpoints.json`. Key finding: the data plane is
+  an OGC CSW service at `POST /awweb/awfp/search/1`, anonymous
+  session, JSESSIONID cookie. No headless browser needed for the
+  crawl proper.
+- 2026-05-17: **Stage 1 done** via pure-HTTP Python
+  (`scripts/fcdo_treaties_crawl.py`). Smoke-tested on the first 30
+  records (1815 onward); 21,957 records total.
+- 2026-05-17: **Signatory-names claim corrected.** The original draft
+  of this README asserted UKTO records signatories. The
+  public-anonymous surface does **not**: detail HTML fragments
+  contain a country / action / action-date / effective-date table,
+  no person names. Logged-in views may differ; we have no
+  credentials to test. See "What we actually capture" below.
+- TODO: Run the full crawl (will produce ~22 MB of JSON across
+  21,957 files).
+- TODO: RDF lift (Dublin Core + small `fcdo:` namespace).
+- TODO: SHACL shape for the Parliament-API ↔ UKTO join.
+
+## What we actually capture (post-stage-0)
+
+Per record, in `records/<id>.json`:
+
+| Field | From | Notes |
+|---|---|---|
+| `id`, `uuid` | CSW search response | UKTO's internal record number + a UUID |
+| `title` | search | always present |
+| `parties` | `country_name` (semicolon-split) | always present |
+| `signed_date` | `signed_event_date` | DD/MM/YYYY in source |
+| `signed_place` | `signed_event_location` | mostly present, city name |
+| `definitive_eif_date` | `definative_eif_event_date` | sic; FCDO's typo |
+| `references` | semicolon-split refs | Treaty Series, Command Paper, BSP, etc. |
+| `subject` | search | FCDO classification (e.g. TRADE, FRIENDSHIP) |
+| `bilateral_or_multilateral` | `field3` | `BI` / `MU` |
+| `parties_detail` | detail HTML fragment | per-country `action` + dates |
+
+What is **not** captured (because not present anonymously):
+signatory names, full text of the treaty, ratification status by
+person, declarations/reservations text. Some of these may be in the
+PDF when a treaty has been published as a command paper -- the PDFs
+themselves are not in UKTO either, they're at `assets.publishing.
+service.gov.uk` and reached via gov.uk's content API.

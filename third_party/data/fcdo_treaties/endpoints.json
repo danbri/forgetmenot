@@ -1,0 +1,288 @@
+{
+  "discovered_at": "2026-05-17T13:00:58Z",
+  "spa_url": "https://treaties.fcdo.gov.uk/responsive/app/consolidatedSearch/",
+  "total_requests": 29,
+  "distinct_paths": 28,
+  "endpoints": [
+    {
+      "path": "/awweb/awfp/search/1",
+      "method": "POST",
+      "n_calls": 2,
+      "example_url": "https://treaties.fcdo.gov.uk/awweb/awfp/search/1",
+      "post_data": "{\"type\":\"SavedSearch\",\"id\":null,\"name\":\"Search at Sun May 17 2026 13:00:50 GMT+0000 (Coordinated Universal Time)\",\"searchDetails\":{\"bounds\":null,\"queryStr\":\"*\",\"sortBy\":[{\"isAscending\":false,\"fieldName\":\"signed_event_date\",\"keyType\":1,\"sequence\":0}],\"queryType\":\"64\",\"fieldsValue\":{},\"isRecurrent\":false,\"pageNumber\":1,\"restrictedFieldsValue\":{},\"GeoType\":\"\",\"GeoRadius\":0,\"GeoRadiusMetrics\":\"kilometers\",\"searchMode\":{\"mode\":\"SEARCH\"},\"offset\":1,\"pageSize\":1},\"searchLibraryList\":[\"library2_lib\"],\"isCacheQuery\":false,\"ftpDetailsList\":[],\"deliveryOptions\":{\"isMetadata\":false,\"isBase\":true,\"isOverview\":false,\"isImportPackage\":false,\"format\":\"none\"},\"email\":\"fcouktreatiesonline@koha-ptfs.co.uk\",\"showBrowse\":false,\"browseFolderSort\":null,\"browseFolderStructure\":null,\"isReturnFacets\":true}",
+      "response_status": 200,
+      "response_content_type": "application/json;charset=UTF-8",
+      "response_preview": "{\"csw:GetRecordsResponse\":{\"xmlns:gml\":\"http://www.opengis.net/gml\",\"xmlns:csw\":\"http://www.opengis.net/cat/csw/2.0.2\",\"csw:SearchResults\":{\"expires\":\"2026-05-17T13:00:50Z\",\"elementSet\":\"summary\",\"iStoreRecord\":{\"signed_event_location\":\"Rabat\",\"references\":\"Country Series 001/2026: CP 1547\",\"signed_event_date\":\"16/03/2026\",\"subject\":\"TRADE\",\"aw_rank\":1000,\"product_size\":\"1 KB\",\"aw_library_id\":\"lib"
+    },
+    {
+      "path": "/awweb/federated/clipboard/folder/user/public",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/awweb/federated/clipboard/folder/user/public",
+      "post_data": null,
+      "response_status": 500,
+      "response_content_type": "application/json;charset=UTF-8",
+      "response_preview": "{\"httpStatusCode\":500,\"source\":\"Knowvation Clipboard Service Request\",\"message\":\"Failed to find clipboard folders.\"}"
+    },
+    {
+      "path": "/awweb/federated/sessionObjects/clipboardables",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/awweb/federated/sessionObjects/clipboardables?_=1779022849966",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "application/json;charset=UTF-8",
+      "response_preview": "[]"
+    },
+    {
+      "path": "/awweb/federated/sessionObjects/clipboardables/",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/awweb/federated/sessionObjects/clipboardables/?_=1779022847799",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "application/json;charset=UTF-8",
+      "response_preview": "[]"
+    },
+    {
+      "path": "/awweb/federated/sessionObjects/savedSearches",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/awweb/federated/sessionObjects/savedSearches?_=1779022847800",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "application/json;charset=UTF-8",
+      "response_preview": "[]"
+    },
+    {
+      "path": "/awweb/federated/users/json",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/awweb/federated/users/json?_=1779022847795",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "application/json;charset=UTF-8",
+      "response_preview": "{\"fieldOrder_isAvailable\":null,\"fieldOrder_isSearch\":null,\"fieldOrder_isResult\":null}"
+    },
+    {
+      "path": "/awweb/federated/users/op/customConfig",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/awweb/federated/users/op/customConfig?context=responsive",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "application/json;charset=UTF-8",
+      "response_preview": "{\"browse_config\":\"config_browse.xml\",\"dashboard_config\":\"config_dashboard.xml\"}"
+    },
+    {
+      "path": "/awweb/federated/users/op/login",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/awweb/federated/users/op/login?_=1779022847787",
+      "post_data": null,
+      "response_status": 409,
+      "response_content_type": "application/json;charset=UTF-8",
+      "response_preview": "{\"httpStatusCode\":409,\"source\":\"Knowvation User Service Request\",\"message\":\"Invalid user session.\"}"
+    },
+    {
+      "path": "/awweb/federated/users/op/login/anonymous",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/awweb/federated/users/op/login/anonymous?_=1779022847788",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "application/json;charset=UTF-8",
+      "response_preview": "{\"username\":\"public\",\"password\":\"\",\"firstName\":\"Treaties User\",\"lastName\":\"Guest\",\"email\":\"fcouktreatiesonline@koha-ptfs.co.uk\",\"phoneNumber\":\"\",\"isActive\":true,\"isForcePasswordChange\":false,\"isPasswordNeverExpires\":true,\"expirePasswordInDays\":0,\"minPasswordLength\":6,\"isSuspended\":false,\"prefsId\":3,\"userGroupId\":3,\"userGroupName\":\"public_group\",\"role\":\"READ\",\"isAnonymousUser\":true,\"isX509User\":fal"
+    },
+    {
+      "path": "/g/collect",
+      "method": "POST",
+      "n_calls": 1,
+      "example_url": "https://www.google-analytics.com/g/collect?v=2&tid=G-MV3C5F5310&gtm=45je65d0v9125176593za20g&_p=1779022846583&gcd=13l3l3l3l1l1&npa=0&dma=0&_eu=AAAI&are=1&cid=806552401.1779022847&frm=0&pscdl=noapi&rcb=4&sr=1280x720&uaa=x86&uab=64&uafvl=HeadlessChrome%3B147.0.7727.15%7CNot.A%252FBrand%3B8.0.0.0%7CChromium%3B147.0.7727.15&uam=&uamb=0&uap=Windows&uapv=&uaw=0&ul=en-us&_s=1&tag_exp=0~115616985~115938466~115938468&sid=1779022846&sct=1&seg=0&dl=https%3A%2F%2Ftreaties.fcdo.gov.uk%2Fresponsive%2Fapp%2FconsolidatedSearch%2F&dt=&en=page_view&_fv=1&_ss=1&tfd=1211",
+      "post_data": null,
+      "response_status": 204,
+      "response_content_type": "text/plain",
+      "response_preview": ""
+    },
+    {
+      "path": "/responsive/load/config_dashboard.xml",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/load/config_dashboard.xml",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "application/xml",
+      "response_preview": "<?xml version='1.0' encoding='UTF-8'?> \r\n<settings>  \t\r\n\t<!-- \r\n    Dashboard options:\r\n    globals: Configures global settings for dashboard functionality.\r\n        maxTilesPerRow  - The maximum number of content tiles displayed in a row. Valid values are in the range of 1-4. Default is 3.\r\n        \r\n         \t\r\n                      \r\n    contentBlocks: Configures content tiles to display in the"
+    },
+    {
+      "path": "/responsive/load/config_excludables.json",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/load/config_excludables.json",
+      "post_data": null,
+      "response_status": 404,
+      "response_content_type": "text/html;charset=utf-8",
+      "response_preview": "<html><head><title>JBoss Web/2.1.3.GA - Error report</title><style><!--H1 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:22px;} H2 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:16px;} H3 {font-family:Tahoma,Arial,sans-serif;color:white;background-color:#525D76;font-size:14px;} BODY {font-family:Tahoma,Arial,sans-serif;color"
+    },
+    {
+      "path": "/responsive/load/localization_en.xml",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/load/localization_en.xml",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "application/xml",
+      "response_preview": "<?xml version='1.0' encoding='UTF-8'?>\r\n<!-- English language localization configuration.\r\nThis file is the master language configuration file.  If a setting is not found\r\nin the non-English configuration file currently in use, the setting from this file is used.\r\n -->\r\n<settings>\r\n    <abort>Abort</abort>\r\n    <aborted>Aborted</aborted>\r\n    <about>About</about>\r\n    <accept>Accept</accept>\r\n    "
+    },
+    {
+      "path": "/responsive/templates/Dashboard.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/Dashboard.html?_=1779022847804",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<div id=\"dashboardTileContent\" class=\"<%= showContentBlocks ? '' : 'hide' %>\"></div>\r\n<div id=\"dashboardWelcomeText\" class=\"<%= showWelcomeText ? '' : 'hide' %>\">\r\n\t<%= welcomeText %>\r\n</div>\r\n"
+    },
+    {
+      "path": "/responsive/templates/Home-FCO.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/Home-FCO.html?_=1779022847790",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<%\r\nvar blacklisted = utils.getBlacklistedUI();\r\n%>\r\n<div id=\"homeContainer\" class=\"fco-home-container\">\r\n    <div id=\"search\">\r\n\t<div>\r\n\t\t<div id=\"home-fco-title-container\">\r\n\t\t\t<div class=\"fco-home-title-text-container\">\r\n\t\t\t\t<div class=\"fco-home-text\">UK Treaties Online (UKTO) provides an official record of the UK's treaty obligations under international law and is sourced by Treaty Unit of the"
+    },
+    {
+      "path": "/responsive/templates/MainView.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/MainView.html?_=1779022847789",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<!-- Wrap all page content here -->\r\n        <div id=\"modalAccount\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-label=\"Modal Window\" aria-hidden=\"true\" style=\"display: none;\"></div>\r\n        <div id=\"modalDXPopupContainer\" class=\"modal fade\" tabindex=\"-1\" role=\"dialog\" aria-label=\"Modal Window\" aria-hidden=\"true\" style=\"display: none;\"></div>\r\n\t\t<div id=\"modalDXPrefsContainer\" class=\"modal"
+    },
+    {
+      "path": "/responsive/templates/Navigation.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/Navigation.html?_=1779022847791",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<%\r\nvar blacklisted = utils.getBlacklistedUI();\r\n%>\r\n<div class='main-div'>\r\n<% if (\"FCO\" == CONFIG.BRANCH) { %>\r\n    <div id=\"fco-nav-container\">\r\n    <div class=\"fco-organisation-logo-container\">\r\n        <a id=\"navHome\" class=\"brand <%= CONFIG.PRODUCT_TYPE %>\" title=\"<%= LOCALIZATION.homeTooltip %>\"></a>\r\n        <span class=\"organisation-logo\">Foreign, Commonwealth & Development Office</span>\r"
+    },
+    {
+      "path": "/responsive/templates/ResultControl.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/ResultControl.html?_=1779022847801",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<div id='controls'>\r\n\t<div class='btn-group' id='selectControl'>\r\n\t\t<div class='selectControls' id='selectAllCtrl'>\r\n\t\t\t<i id='selectAll' class=\"fa fa-check-square advancedSearchPanelIcons selectionIcons\" title='Select all on this page'></i>\r\n\t\t</div>\r\n\t\t<div class='selectControls hide' id='selectNoneCtrl'>\r\n            <span id=\"selectNone\" class=\"selected-count advancedSearchPanelIcons selection"
+    },
+    {
+      "path": "/responsive/templates/SearchView.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/SearchView.html?_=1779022847793",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<div>\r\n\t<div id=\"flashpan\"></div>\r\n\t<div id ='searchViewSecondRow' class='span12' style='margin-left:0px;'>\r\n\t\t<div id='filterPanel' class='span8'></div>\r\n\t</div>\r\n    <div id='browsePanelContainer'></div>\r\n\t<div id=\"totalContent\">\r\n\t\t<div id='leftSide'>\r\n\t\t\t<div id='viewer_holder' style=\"position: relative; height: 100%; width: 100%; overflow-x: hidden; overflow-y: hidden; display: block;\">\r\n\t\t\t\t"
+    },
+    {
+      "path": "/responsive/templates/Welcome.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/Welcome.html?_=1779022847794",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<div class=\"welcomeContainer\">\n\t<!-- <div class=\"span12\" style=\"text-align:center;\">\n        <strong>Feedback Survey: </strong><span>Please submit your feedback by completing our <a href=\"http://www.smartsurvey.co.uk/s/CXVRW\" title=\"Survey Link\">survey </a></span>\n\t</div> -->\n\t<table>\n\t\t<tbody>\n\t\t\t<tr valign=\"top\">\n\t\t\t\t<td>\n                    <!-- FIXME: use different welcome.html for branches --"
+    },
+    {
+      "path": "/responsive/templates/declass/DXNavigation.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/declass/DXNavigation.html?_=1779022847792",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<% if(dxcc_hasRoles()) { %>\r\n<div id=\"awdxNavContainer\">\r\n\t<i class=\"fa fa-eye-slash viewerSelectionPanelItem dropdown-toggle\" data-toggle=\"dropdown\" title=\"<%= LOCALIZATION.awdx %>\"></i>\r\n\t<ul id=\"awdxNavMenu\" class=\"dropdown-menu pull-right\" role=\"menu\" aria-labelledby=\"dropdownMenu\">\r\n    <% if(\"AWDX\" == CONFIG.PRODUCT_TYPE) { %>\r\n\t\t<li class=\"dropdown-submenu\">\r\n\t\t\t<a><%=LOCALIZATION.batches %"
+    },
+    {
+      "path": "/responsive/templates/filters/DateFilter.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/filters/DateFilter.html?_=1779022847803",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<div class=\"span8\">\n    <input name=\"dp_date\" class=\"dp_date aw-filter-input aw-filter-searcharea span12\" placeholder=\"<%= placeholder %>\" type=\"text\" aria-label=\"<%= label %>\"/>\n</div>"
+    },
+    {
+      "path": "/responsive/templates/filters/StringFilter.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/filters/StringFilter.html?_=1779022847802",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<div class=\"span8 aw-filter-input-container\"></div>"
+    },
+    {
+      "path": "/responsive/templates/myWareViews/MyWareTaskControls.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/myWareViews/MyWareTaskControls.html?_=1779022847806",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<% if (!cc_isAnonymous() && cc_hasMyWareAccount()) { %>\r\n<i id=\"editFavoriteFolder\" class=\"taskItem fa fa-edit\" title=\"Rename folder\"></i>\r\n<i id=\"removeFavoriteFolder\" class=\"taskItem fa fa-trash\" title=\"Delete folder\"></i>\r\n<i id=\"addFavoriteFolder\" class=\"taskItem fa fa-plus\" title=\"Add subfolder\"></i>\r\n<% } %>\r\n<i id=\"filterFavorites\" class=\"taskItem fa fa-filter\" title=\"Show folder in search "
+    },
+    {
+      "path": "/responsive/templates/myWareViews/SavedHistory.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/myWareViews/SavedHistory.html?_=1779022847796",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<% if (!cc_isAnonymous() && cc_hasMyWareAccount()) { %>\n<div id=\"savedHistorySplitter\" style=\"height:100%;\">\n\t<div class=\"row-fluid span12 mCustomScrollbar\" style='overflow:auto;'>\n\t\t\t<div class='advanced-panel-fixed-control-bar'>\n\t\t\t\t<%= LOCALIZATION.savedSearches %>\n\t\t\t\t<a href=\"../../load/help/<%= CONFIG.language %>/help.html#savedSearches\" target=\"_blank\" class=\"aw-help\" style=\"float:right;\" t"
+    },
+    {
+      "path": "/responsive/templates/myWareViews/TaskControls.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/myWareViews/TaskControls.html?_=1779022847797",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<a href=\"../../load/help/<%= CONFIG.language %>/help.html#<%= taskType %>\" target=\"_blank\" class=\"aw-help\" title=\"<%= LOCALIZATION.help %>\"><i class=\"aw-help-icon\"></i></a>"
+    },
+    {
+      "path": "/responsive/templates/panels/AdvancedSearchPanel.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/panels/AdvancedSearchPanel.html?_=1779022847798",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<%\r\nvar blacklisted = utils.getBlacklistedUI();\r\n%>\r\n<div id='advancedSearchWell' class=\"well\">\r\n\t<div id='advPanel'>\r\n\t\t<div><%=LOCALIZATION.search %></div>\r\n\t\t<div id='searchTabPanel' style=\"padding:0px;overflow-x:hidden;height:auto;\">\r\n\t\t\t<ul>\r\n\t\t\t\t<li><%=LOCALIZATION.filters %></li>\r\n\t\t\t\t<li><%=LOCALIZATION.fields %></li>\r\n\t\t\t\t<li><span style=\"padding-right:10px;\"><%=LOCALIZATION.libraries %><"
+    },
+    {
+      "path": "/responsive/templates/utilityViews/Flash.html",
+      "method": "GET",
+      "n_calls": 1,
+      "example_url": "https://treaties.fcdo.gov.uk/responsive/templates/utilityViews/Flash.html?_=1779022847805",
+      "post_data": null,
+      "response_status": 200,
+      "response_content_type": "text/html",
+      "response_preview": "<div class=\"alert <%= alertType %>\">\r\n\t<a class=\"close\" data-dismiss=\"alert\"></a><span> <%= message %> </span>\r\n</div>"
+    }
+  ]
+}

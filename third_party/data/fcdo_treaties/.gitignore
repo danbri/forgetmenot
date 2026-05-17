@@ -1,0 +1,11 @@
+# Per-record detail HTML fragments and the run log are bulky and
+# re-creatable from records/*.json (which carry document_url).
+html/
+crawl.log
+
+# Per-treaty Turtle is the per-record output of the RDF lift. It's
+# strictly redundant with extractors/factoids/all.nq (every triple is
+# in the rollup, named by the treaty URI). Keep all.nq committed; let
+# the per-treaty files re-materialise on extract.
+extractors/factoids/*.ttl
+!extractors/factoids/parliament-bridge.ttl
