@@ -65,8 +65,11 @@ python3 scripts/fcdo_treaties_crawl.py --resume --delay 0.5   # slower
 python3 scripts/fcdo_treaties_crawl.py --resume --max 21957   # full
 
 # 3. Lift to RDF (N-Quads, one named graph per treaty). Idempotent;
-#    re-running is safe.
+#    re-running is safe. Writes extractors/factoids/all.nq locally;
+#    a gzipped copy `all.nq.gz` is committed (the raw .nq exceeds
+#    GitHub's 100 MB file-size cap, so it is gitignored).
 python3 scripts/fcdo_treaties_extract.py
+gzip -k -f third_party/data/fcdo_treaties/extractors/factoids/all.nq
 
 # 4. Reconcile to Parliament Treaties API by Command Paper number.
 #    Hits the public API politely; writes parliament-bridge.ttl
