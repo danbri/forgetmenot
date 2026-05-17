@@ -1,6 +1,15 @@
 ---
-name: uk-parliament-statutory-instruments
+name: statutory-instruments
 description: Query statutory instruments (SIs), proposed negatives, draft instruments, their procedures (negative, affirmative, super-affirmative, etc.), the parent Acts they are made under, and the laying bodies that lay them before Parliament. Use whenever the question is about secondary legislation in progress through Parliament, its procedure type, or the timeline of a specific SI.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: statutoryinstruments-api.parliament.uk
+    citation-short: "via statutoryinstruments-api.parliament.uk"
+    citation-formal: "UK Parliament Statutory Instruments API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Statutory Instruments API
@@ -27,11 +36,12 @@ OpenAPI 3 spec: `https://statutoryinstruments-api.parliament.uk/swagger/v2/swagg
 
 | Use case | Endpoint |
 |---|---|
-| List/search SIs | `GET /StatutoryInstrument?searchTerm=...&procedure=...&layingBodyId=...&take=20` |
+| List/search SIs | `GET /StatutoryInstrument?Name=...&Procedure=...&LayingBodyId=...&Take=20` |
+| Flags (boolean) | `ScheduledDebate`, `MotionToStop`, `ConcernsRaisedByCommittee`, `ParliamentaryProcessConcluded`, `RecommendedForProcedureChange` |
 | One SI in detail | `GET /StatutoryInstrument/{instrumentId}` |
 | Timeline / business items for an SI | `GET /StatutoryInstrument/{instrumentId}/BusinessItems` |
 | Same business items by timeline ID | `GET /Timeline/{timelineId}/BusinessItems` |
-| Search Acts of Parliament | `GET /ActOfParliament?searchTerm=...` |
+| Search Acts of Parliament | `GET /ActOfParliament?Name=...` (min 3 chars) |
 | One Act | `GET /ActOfParliament/{id}` |
 | List laying bodies | `GET /LayingBody` |
 | List procedures | `GET /Procedure` |
@@ -43,14 +53,27 @@ OpenAPI 3 spec: `https://statutoryinstruments-api.parliament.uk/swagger/v2/swagg
   `Prayer`, `Approved`, etc. The current status is in the
   `currentBusinessItem` field; the full chain is via
   `BusinessItems`.
-- IDs are guids in some places (`timelineId`) and ints in others
-  (`instrumentId`, `layingBodyId`); check the spec when in doubt.
+- IDs are 8-char alphanumeric strings for `instrumentId`,
+  `procedureId`, `layingBodyId`, `timelineId`; `departmentId` is an
+  int.
 - The closely related [Treaties](../treaties/SKILL.md) API uses an
   identical "business item" timeline pattern.
+- **Date filter is client-side.** The underlying API does **not**
+  accept `laidDateFrom`, `madeDateFrom`, or any date-range parameter,
+  so the library implements `laid-date-from / --laid-date-to` and
+  `--made-date-from / --made-date-to` itself: it auto-pages through
+  the default most-recent-first sort and short-circuits once results
+  fall below the cutoff (capped at `--max-fetch`, default 2000
+  records). The response gains `_unfilteredTotal`, `_fetched`, and
+  `_exhausted` keys so callers can see how aggressive the scan was.
+  `comingIntoForceDate` is only in the per-instrument detail record,
+  so no client filter for it.
 
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
@@ -110,3 +133,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via statutoryinstruments-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

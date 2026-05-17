@@ -1,6 +1,15 @@
 ---
-name: uk-parliament-linked-data-api
+name: linked-data-api
 description: Query the legacy Parliament Linked Data API (Elda) at lda.data.parliament.uk — older but still-running JSON-over-HTTP endpoints for individual datasets like commonsdivisions, lordsdivisions, briefingpapers, researchbriefings, etc. Each dataset has its own URL pattern and supports filter parameters, pagination via `_pageSize` and `_page`, and content negotiation. Use when a question is about a dataset listed on explore.data.parliament.uk for which there is no modern REST API equivalent (briefing papers, research briefings, election results, the Parliament Thesaurus).
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: lda.data.parliament.uk
+    citation-short: "via lda.data.parliament.uk"
+    citation-formal: "UK Parliament Linked Data API (Elda), retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Linked Data API (Elda)
@@ -86,6 +95,8 @@ curl -s 'https://lda.data.parliament.uk/commonsdivisions.json?_pageSize=5&_sort=
 
 ## Using the CLI
 
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
+
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
 
@@ -139,3 +150,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via lda.data.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

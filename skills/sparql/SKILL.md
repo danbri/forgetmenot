@@ -1,6 +1,15 @@
 ---
-name: uk-parliament-sparql
+name: sparql
 description: Query the UK Parliament public SPARQL 1.1 endpoint at api.parliament.uk/sparql. The triple store holds the integrated parliament.uk graph (people, parties, governments, houses, constituencies, periods, incumbencies, divisions, contributions, formal-body memberships) under namespaces id.parliament.uk and similar. Use whenever a question needs to join data across more than one of the REST APIs — SPARQL is the only place where everything is linked by URI.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: api.parliament.uk/sparql
+    citation-short: "via api.parliament.uk/sparql (DDP store)"
+    citation-formal: "UK Parliament SPARQL endpoint (DDP store), retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament SPARQL endpoint
@@ -117,6 +126,8 @@ For Members, the integer `id` returned by the Members API
 
 ## Using the CLI
 
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
+
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
 
@@ -175,3 +186,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via api.parliament.uk/sparql (DDP store))"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

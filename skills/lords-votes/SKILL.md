@@ -1,6 +1,15 @@
 ---
-name: uk-parliament-lords-votes
+name: lords-votes
 description: Query House of Lords divisions — division metadata, content/not-content totals, every individual peer's vote, and grouped-by-party tallies. Use whenever the question is "how did peers vote on X" or "what was the result of the Lords division on Y". Lords vote with "Content" / "Not Content" rather than "Aye" / "No".
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: lordsvotes-api.parliament.uk
+    citation-short: "via lordsvotes-api.parliament.uk"
+    citation-formal: "UK Parliament Lords Divisions API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Lords Votes API
@@ -47,6 +56,8 @@ curl -s 'https://lordsvotes-api.parliament.uk/data/Divisions/search?take=1' \
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
@@ -96,3 +107,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via lordsvotes-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

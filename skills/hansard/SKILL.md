@@ -1,6 +1,15 @@
 ---
-name: uk-parliament-hansard
+name: hansard
 description: Search and retrieve the modern UK Hansard — the official transcript of debates and proceedings of both Houses since 1988. Covers debate text, speaker lists, divisions linked to debates, contributions by Member, sitting day calendars, PDFs, and full-text search across debates, members, committees, divisions, petitions, and statements. Use whenever the question is about what was said in Parliament, who spoke, when a debate happened, or how an MP voted in context.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: hansard-api.parliament.uk
+    citation-short: "via hansard-api.parliament.uk"
+    citation-formal: "UK Parliament Hansard API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Hansard API (modern, 1988→)
@@ -79,6 +88,8 @@ curl -s 'https://hansard-api.parliament.uk/debates/debate/<debateSectionExtId>.j
 
 ## Using the CLI
 
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
+
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
 
@@ -147,3 +158,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via hansard-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

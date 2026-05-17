@@ -1,6 +1,15 @@
 ---
-name: uk-parliament-committees
+name: committees
 description: Query UK Parliament Select and Joint Committees — membership, inquiries, evidence (oral and written), publications (reports, government responses), meetings, broadcasts, and Bill petitions. Use whenever the question is about a committee inquiry, a witness who gave evidence, a published committee report, or a meeting that has been or will be held.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: committees-api.parliament.uk
+    citation-short: "via committees-api.parliament.uk"
+    citation-formal: "UK Parliament Committees API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Committees API
@@ -66,6 +75,8 @@ curl -s 'https://committees-api.parliament.uk/api/Committees/158/Members' \
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
@@ -135,3 +146,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via committees-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

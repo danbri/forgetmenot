@@ -2,6 +2,17 @@
 name: govuk-orgchart
 description: Crawl, extract and query the GOV.UK government org chart -- ministerial roles, the people who hold them, the organisations they serve, and past office-holders. Use whenever a question is about who holds which UK ministerial role, which department they sit in, past holders of an office, or cross-joining with the Parliament Members API or Wikidata. Loads its query capability via a bundled script (no MCP server, no boot-time tokens).
 allowed-tools: Bash(python3 ${CLAUDE_SKILL_DIR}/scripts/query.py *) Bash(./scripts/govuk_sparql_serve.sh *) Bash(python3 scripts/govuk_*.py *)
+license: Open Government Licence v3.0 (upstream gov.uk content); MIT (this skill's crawler / extractors / query layer)
+metadata:
+  provenance:
+    tier: 3
+    operator: "forgetmenot (crawl + extraction)"
+    service: gov.uk (Government Digital Service / Cabinet Office)
+    upstream-data: "GOV.UK /government/ pages (HTML + parallel /api/content/ JSON), Crown copyright under OGL v3.0"
+    citation-short: "GOV.UK (via forgetmenot govuk-orgchart extraction)"
+    citation-formal: "GOV.UK org-chart pages (Government Digital Service / Cabinet Office); crawl + heuristic extraction by forgetmenot, retrieved {date}"
+    confidence: derived
+    confidence-notes: "Triples from upstream JSON-LD / RDFa / microdata = derived (confidence ≈ gov.uk's own structured data); factoids = heuristic (BeautifulSoup templates over gov.uk markup; QA harness in third_party/govuk/html/orgcharts/extractors/factoids/qa.json reports per-template accuracy)."
 ---
 
 # GOV.UK org-chart skill
@@ -173,3 +184,31 @@ Before either path: the rdflib HTTP endpoint must be running --
 ```sh
 ./scripts/govuk_sparql_serve.sh   # 127.0.0.1:8765/
 ```
+
+## Provenance to cite
+
+**Tier 3 — third-party.** GOV.UK is operated by the Government
+Digital Service (Cabinet Office). The crawl, extraction and query
+layer are *ours*. Upstream content is under OGL v3.0; our
+heuristics can be wrong.
+
+- Inline cite: **"(GOV.UK, via `govuk-orgchart` extraction)"** —
+  once per paragraph in user-facing answers.
+- When stating a factoid (role-holder, office, start/end date),
+  prefer hedged phrasing ("per GOV.UK as of {date}"). QA results
+  for the extractor live at
+  `third_party/govuk/html/orgcharts/extractors/factoids/qa.json`.
+- When the data is a triple lifted from gov.uk's own JSON-LD /
+  RDFa / microdata, cite it as such — that's gov.uk's structured
+  data, not our parsing. Triples / factoids are tagged
+  differently in the extractor output.
+- **Cross-corpus joins** (gov.uk content_id ↔ parliament.uk member
+  id ↔ Wikidata QID) flow through the bridge files at
+  `third_party/data/wikidata/data/people-bridge.{jsonl,ttl}`.
+  Cite both endpoints when joining: e.g. "Yvette Cooper
+  (parliament.uk member 4514; gov.uk
+  /government/people/yvette-cooper; Wikidata Q333062), via the
+  forgetmenot bridge".
+- Never present heuristic factoids as authoritative.
+- See [`../../docs/provenance.md`](../../docs/provenance.md) for
+  the cross-skill rules.

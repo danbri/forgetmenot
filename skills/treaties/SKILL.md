@@ -1,6 +1,15 @@
 ---
-name: uk-parliament-treaties
+name: treaties
 description: Query treaties laid before the UK Parliament under the Constitutional Reform and Governance Act 2010 (CRaG) — treaty title, command paper number, lead government department, parliamentary timeline (laid, scrutiny period, ratification), and the series each treaty belongs to. Use when the question is about a specific treaty, ratification timeline, or treaties laid by a particular government department.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: treaties-api.parliament.uk
+    citation-short: "via treaties-api.parliament.uk"
+    citation-formal: "UK Parliament Treaties API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Treaties API
@@ -23,12 +32,21 @@ treaties by their organisation (UN, OECD, etc.).
 
 | Use case | Endpoint |
 |---|---|
-| List/search treaties | `GET /Treaty?SearchText=...&Country=...&TreatyTypeId=...&SubjectId=...&LayingBodyId=...&take=20` |
+| List/search treaties | `GET /Treaty?SearchText=...&GovernmentOrganisationId=...&Series=...&ParliamentaryProcess=...&DebateScheduled=...&take=20` |
 | One treaty | `GET /Treaty/{id}` |
 | Treaty timeline | `GET /Treaty/{id}/BusinessItems` |
 | One business item | `GET /BusinessItem/{id}` |
 | Government organisations | `GET /GovernmentOrganisation` |
 | Treaty series memberships | `GET /SeriesMembership` |
+
+The spec accepts only the parameters listed above plus `Skip` /
+`Take`. **There is no server-side date or laying-body filter** —
+the library implements `laidDateFrom` / `laidDateTo`,
+`signedDateFrom` / `signedDateTo`, `layingBodyId` and
+`leadDepartmentId` client-side by auto-paging and stopping once
+results fall below the cutoff (default cap 2000 records). The
+returned object gains `_unfilteredTotal`, `_fetched`, and
+`_exhausted` keys when a client filter is active.
 
 ## Worked example
 
@@ -50,6 +68,8 @@ curl -s 'https://treaties-api.parliament.uk/api/Treaty?take=1' \
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
@@ -104,3 +124,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via treaties-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

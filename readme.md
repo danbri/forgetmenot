@@ -76,14 +76,30 @@ forgetmenot/
 | [`historic-hansard`](skills/historic-hansard/SKILL.md) | `https://api.parliament.uk/historic-hansard/` (HTML; pre-1988) |
 | [`members-data-platform`](skills/members-data-platform/SKILL.md) | `https://data.parliament.uk/membersdataplatform/` (legacy MNIS) |
 | [`data-parliament-uk-datasets`](skills/data-parliament-uk-datasets/SKILL.md) | catalogue mapping the explore.data.parliament.uk dataset names to LDA paths and to modern API equivalents |
+| [`whatson`](skills/whatson/SKILL.md) | `https://whatson-api.parliament.uk` — calendar, sittings, sessions, procedural dates |
+| [`guide-to-procedure`](skills/guide-to-procedure/SKILL.md) | `https://guidetoprocedure-api.parliament.uk` — MPs' Guide to Procedure |
+| [`bill-papers`](skills/bill-papers/SKILL.md) | `https://api.parliament.uk/bill-papers` — Bill Papers CSV catalogue + per-bill RSS |
+| [`library-feeds`](skills/library-feeds/SKILL.md) | `https://api.parliament.uk/library-feeds` — Library / POST research-briefing RSS aggregator |
+
+CLI conventions are documented as a top-level skill at
+[`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
+references it.
 
 ## How to use
 
-The short answer is: clone the repo and point your Claude (Desktop /
-Code / SDK) at `skills/`.
+```sh
+git clone https://github.com/danbri/forgetmenot
+cd forgetmenot
+bash scripts/install-skills.sh     # wires skills/ into .claude/skills/
+                                    # via relative symlinks (gitignored)
+```
 
-The long answer, including non-Claude options, is in
-[`docs/installation.md`](docs/installation.md).
+Then open the repo with Claude Code — all 28 skills auto-discover.
+Use `--user` to install personally (available in every project),
+`--copy` for Windows / restricted filesystems, `--uninstall` to undo.
+
+The long answer (Anthropic Agent SDK, Claude API, claude.ai, other
+LLM platforms) is in [`docs/installation.md`](docs/installation.md).
 
 A no-LLM use also works: the cached OpenAPI specs in `_specs/` are
 self-contained and the discovery scripts let you re-run the cataloguing

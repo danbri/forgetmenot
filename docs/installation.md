@@ -1,6 +1,6 @@
 # Installing and using these skills
 
-The repo contains 21 skills, one per UK Parliament-operated API or
+The repo contains 28 skills, one per UK Parliament-operated API or
 dataset family, under `skills/<facility>/`. Each skill is two files:
 
 ```
@@ -9,11 +9,12 @@ skills/<facility>/
 └── reference.md   # full endpoint listing — loaded only when SKILL.md says so
 ```
 
-The frontmatter follows the Anthropic Skills convention:
+The frontmatter follows the [Agent Skills](https://agentskills.io)
+open standard:
 
 ```markdown
 ---
-name: uk-parliament-<facility>
+name: <facility>
 description: <one paragraph; this is what the LLM matches against>
 ---
 ```
@@ -21,53 +22,80 @@ description: <one paragraph; this is what the LLM matches against>
 The skills do **not** ship code. They ship documentation that is
 small enough to load into the LLM's context, contains the exact base
 URLs, parameter conventions and worked examples, and tells the LLM
-where the cached OpenAPI spec lives if it needs more detail.
+where the cached OpenAPI spec lives if it needs more detail. The
+actual HTTP work is done by the `parl` Node CLI in `bin/parl.mjs` and
+the JS library in `lib/facilities/` — documented as its own skill at
+[`skills/parl/`](../skills/parl/SKILL.md).
 
-## Wiring the skills up
+## Wiring the skills into Claude
 
-### Claude Desktop on macOS (or Windows/Linux)
+[Claude Code](https://code.claude.com/docs/en/skills) auto-discovers
+skills from three filesystem locations:
 
-Claude Desktop loads skills from the `~/.claude/skills/` directory.
+| Scope    | Path                                      |
+|----------|-------------------------------------------|
+| Project  | `<repo>/.claude/skills/<name>/SKILL.md`   |
+| Personal | `~/.claude/skills/<name>/SKILL.md`        |
+| Plugin   | `<plugin>/skills/<name>/SKILL.md`         |
 
-```sh
-# from the repo root
-mkdir -p ~/.claude/skills
-for s in skills/*; do
-  ln -snf "$(pwd)/$s" "~/.claude/skills/$(basename "$s")"
-done
-```
+We keep the canonical skill files under `skills/<name>/` (so the repo
+is browseable on GitHub and the relative cross-references between
+skills resolve), and use `scripts/install-skills.sh` to wire them
+into `.claude/skills/` via relative symlinks.
 
-Or if you do not want to symlink the whole repo:
+### Project install (default)
 
-```sh
-git clone https://github.com/danbri/forgetmenot.git ~/code/forgetmenot
-mkdir -p ~/.claude/skills
-ln -snf ~/code/forgetmenot/skills/* ~/.claude/skills/
-```
-
-Restart Claude Desktop. The skills are loaded lazily — the
-description is consulted on every turn, and the body of `SKILL.md` is
-only included in the prompt when the description matches the user's
-request.
-
-### Claude Code (CLI)
-
-Claude Code uses the same `~/.claude/skills/` directory, plus
-project-local `.claude/skills/` if present.
+From the repo root:
 
 ```sh
-# project-local install
-mkdir -p .claude/skills
-ln -snf ~/code/forgetmenot/skills/* .claude/skills/
+bash scripts/install-skills.sh
 ```
 
-Project-local skills only activate when Claude Code is run from that
-directory tree.
+Creates `.claude/skills/<name>` symlinks pointing at the matching
+`skills/<name>/` folder in this repo (absolute paths — no `..` in
+the target). Idempotent, re-runnable, and gitignored — `git status`
+stays clean. Claude Code picks the skills up automatically when run
+in this repo or any subdirectory.
+
+To verify, ask Claude "What skills are available?".
+
+### Personal install (one repo, every project)
+
+```sh
+bash scripts/install-skills.sh --user
+```
+
+Creates `~/.claude/skills/<name>` symlinks pointing back into this
+clone. The skills become available in **every** project Claude Code
+opens. The downside: the links point at this specific clone — if you
+move or delete the directory, the links break.
+
+### Windows / restricted-filesystem install
+
+```sh
+bash scripts/install-skills.sh --copy
+```
+
+Copies the skill folders instead of symlinking them. Use when
+`core.symlinks` is off (the default on many Windows setups) or when
+you can't create symlinks. The downside: updates to the source files
+require re-running the script.
+
+### Uninstalling
+
+```sh
+bash scripts/install-skills.sh --uninstall
+```
+
+Removes the symlinks (or, with `--copy`, the copied directories) it
+created. Combine with `--user` to remove the personal install.
+
+## Other surfaces
 
 ### Anthropic Agent SDK (Python or TypeScript)
 
-The Anthropic Agent SDK ships skills as part of the prompt. Point
-the SDK at the same `skills/` directory:
+The Agent SDK ships skills as part of the prompt. Point the SDK at
+the same `skills/` directory:
 
 ```python
 from anthropic_agent import Agent
@@ -82,32 +110,45 @@ agent = Agent(
 The principle is the same: the SDK reads the per-skill folder, uses
 the description for triggering, and includes the body when triggered.)
 
+### Claude API (programmatic, beta)
+
+The Claude API supports custom skills via `/v1/skills` endpoints.
+Each skill is uploaded as a zip; the description is used the same
+way Claude Code uses it. See the
+[Anthropic skills guide](https://platform.claude.com/docs/en/build-with-claude/skills-guide)
+for the upload + beta-header dance.
+
+Custom skills uploaded to one surface (API / claude.ai / Claude
+Code) do **not** sync — they have to be uploaded separately for
+each. The skill format is identical.
+
+### claude.ai
+
+Pro/Max/Team/Enterprise plans can upload custom skills as zip files
+via Settings → Features. The same SKILL.md format works.
+
 ### Other LLM platforms
 
 The skills are plain Markdown with YAML frontmatter, which is widely
-supported. To use them with a non-Anthropic platform:
+supported (Gemini CLI, OpenCode, Cursor, Goose, etc. all listed on
+[agentskills.io](https://agentskills.io)). To use them with a
+non-Anthropic platform:
 
-1. Pre-load every `SKILL.md` body into a system prompt (small, ~250
-   lines total across all 21 facilities).
+1. Pre-load every `SKILL.md` body into a system prompt (~250 lines
+   total across all 28 facilities).
 2. On user input, *or* via a retrieval step, decide which
    `reference.md` files to also include based on the description
    match.
 3. The LLM then has enough context to construct the right HTTP
-   request to the right Parliament endpoint.
+   request to the right Parliament endpoint — or to call the `parl`
+   CLI / library.
 
-There is no MCP server in the repo. If you want one — e.g. so a
-non-Claude client can call into these APIs over JSON-RPC rather
-than constructing HTTP themselves — the skill folders give you the
-endpoint inventory you need to write one. Each skill could be an MCP
-tool name; the `reference.md` is essentially the tool schema. This is
-on the deferred list in [`docs/todo.md`](todo.md).
-
-### From CI / scripts (no LLM at all)
+## From CI / scripts (no LLM at all)
 
 The repo is also useful without Claude. The cached OpenAPI specs in
 `_specs/` and the discovery scripts in `scripts/` give you a
-self-contained reference for any program that wants to integrate with
-UK Parliament APIs.
+self-contained reference for any program that wants to integrate
+with UK Parliament APIs.
 
 ```sh
 # Generate a fresh local copy of every spec

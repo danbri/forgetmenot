@@ -55,6 +55,15 @@ verbatim API response, `--out path` for binary downloads).
 | `mnis` | [`skills/members-data-platform`](skills/members-data-platform/SKILL.md) | Legacy Members Data Platform. |
 | `ddpd` | [`skills/data-parliament-uk-datasets`](skills/data-parliament-uk-datasets/SKILL.md) | Catalogue of the 19 explore.data.parliament.uk datasets. |
 | `appg` | [`skills/appg`](skills/appg/SKILL.md) | All-Party Parliamentary Groups — scraped from the Register on publications.parliament.uk; no JSON API. |
+| `whatson` | [`skills/whatson`](skills/whatson/SKILL.md) | Calendar, sittings, recess, parliamentary sessions, procedural dates (sitting / answer / tabling / annulment). |
+| `gtp` | [`skills/guide-to-procedure`](skills/guide-to-procedure/SKILL.md) | MPs' Guide to Procedure — plain-English procedural explainers, distinct from Erskine May. |
+| `bp` | [`skills/bill-papers`](skills/bill-papers/SKILL.md) | Bill Papers CSV catalogue + per-bill RSS at api.parliament.uk/bill-papers. |
+| `library` | [`skills/library-feeds`](skills/library-feeds/SKILL.md) | RSS aggregator for Commons Library / Lords Library / POST research briefings. |
+
+The CLI itself is documented as a top-level skill at
+[`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
+references it for CLI-wide conventions (output modes, flag rules,
+idiomatic chains).
 
 ## Idiomatic chains
 
@@ -102,6 +111,28 @@ Parliament runs **three** RDF triple stores; **two are public**.
 - Connectivity flakes happen; the CLI retries 5xx but not network
   failures. If you see HTTP 000 / SSL errors, retry once before
   reporting failure.
+
+## Provenance and naming
+
+Repo focus is **UK Parliament** material. Skills are tagged by
+provenance tier — see [`docs/provenance.md`](docs/provenance.md):
+
+| Naming | Tier |
+|---|---|
+| No prefix (`bills`, `members`, `hansard`, `si`, …) | **1 — first-party Parliament.** Authoritative. |
+| `scraped-<name>` | **2 — Parliament HTML + our heuristics.** Authoritative upstream, heuristic interpretation. |
+| `<producer>-<name>` (`mysoc-twfy`, `tna-legislation`, `ec-donations`, `wikidata`, …) | **3 — third-party.** Operator named by the prefix. |
+
+When using any skill in an answer:
+
+- Cite **once per paragraph** with the short form (e.g.
+  "(via `bills-api.parliament.uk`)"), not every clause.
+- If combining facilities, attribute each fact to its source.
+- Never up-rate confidence — tier-2 / tier-3 facts must NOT be
+  presented as if they came straight from Parliament's
+  authoritative graph.
+- For mixed-source records carrying `_field_sources`, treat each
+  field's provenance independently.
 
 ## Skills format
 

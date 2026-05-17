@@ -1,6 +1,13 @@
 ---
 name: data-quality
 description: Data-quality discipline for the corpora in this repo. Use whenever building a new crawler/extractor, when an extraction "feels done", when a question hits the data and would benefit from explicit confidence, or when you find yourself reaching for a hybrid query that papers over a single-source gap. Prescribes anchor cases, cross-extractor checks, upstream-bug reporting, and identifier hygiene (Wikidata QIDs, gov.uk content-id, parliament.uk member id) rather than URLs or names.
+metadata:
+  provenance:
+    tier: methodology         # not a data skill — discipline / policy
+    operator: forgetmenot
+    citation-short: "data-quality discipline (forgetmenot)"
+    citation-formal: "forgetmenot data-quality discipline"
+    confidence: n/a
 ---
 
 # Data quality skill

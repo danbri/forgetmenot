@@ -1,6 +1,15 @@
 ---
-name: uk-parliament-members
+name: members
 description: Look up Members of the UK House of Commons or House of Lords (current and historical), their constituencies, biographies, voting records, EDMs, written questions, registered interests, party state, government and opposition post-holders, and Commons constituency geometry. Use whenever the question is about an MP, peer, constituency, party composition, or who held a Cabinet / Shadow Cabinet post.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: members-api.parliament.uk
+    citation-short: "via members-api.parliament.uk"
+    citation-formal: "UK Parliament Members API, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament Members API
@@ -57,6 +66,8 @@ curl -s 'https://members-api.parliament.uk/api/Members/Search?Name=Smith&House=1
 <!-- parl-cli-start -->
 
 ## Using the CLI
+
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
@@ -147,3 +158,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via members-api.parliament.uk)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.

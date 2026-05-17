@@ -7,12 +7,31 @@ Base URL: `https://statutoryinstruments-api.parliament.uk/api/v2`
 
 ## Endpoints
 
+Parameter names below are taken verbatim from the OpenAPI spec; the API
+itself is case-insensitive on query keys.
+
 ### Statutory Instruments
-- `GET /StatutoryInstrument` — query params include `searchTerm`,
-  `instrumentTypeId`, `procedureId`, `layingBodyId`, `actId`,
-  `madeDateFrom`, `madeDateTo`, `laidDateFrom`, `laidDateTo`,
-  `comingIntoForceDateFrom`, `comingIntoForceDateTo`, `procedureStep`,
-  `skip`, `take`, `sortOrder`.
+- `GET /StatutoryInstrument` — query params per spec:
+  - `Name` (string) — instrument name substring.
+  - `Procedure` (8-char id) — restrict to one procedure.
+  - `ScheduledDebate`, `MotionToStop`, `ConcernsRaisedByCommittee`,
+    `ParliamentaryProcessConcluded`,
+    `RecommendedForProcedureChange` (boolean flags).
+  - `DepartmentId` (int).
+  - `LayingBodyId` (8-char id).
+  - `ActOfParliamentId` (repeatable string).
+  - `House` (enum: Commons / Lords / Both).
+  - `Skip`, `Take` (paging).
+
+  **No server-side date-range filter** — the library wraps the
+  endpoint with a client-side implementation. Pass `laidDateFrom` /
+  `laidDateTo` (matched against `commonsLayingDate` / falling back to
+  `lordsLayingDate`) or `madeDateFrom` / `madeDateTo` (matched
+  against `paperMadeDate`) and the library auto-pages the API in
+  most-recent-first order, stopping once results fall below the
+  cutoff. The response carries `_unfilteredTotal`, `_fetched` and
+  `_exhausted` keys so you can see whether the scan hit
+  `--max-fetch` (default 2000) before exhausting the date range.
 - `GET /StatutoryInstrument/{instrumentId}` — full record incl.
   `currentBusinessItem`, parent Act reference, procedure, laying body,
   associated documents.
@@ -25,13 +44,14 @@ Base URL: `https://statutoryinstruments-api.parliament.uk/api/v2`
   laid more than once — e.g. proposed negative followed by laid SI).
 
 ### Acts of Parliament
-- `GET /ActOfParliament` — `searchTerm`, `chapter`, `year`, `skip`,
-  `take`.
+- `GET /ActOfParliament` — only `Id` (repeatable) and `Name` (min 3
+  chars). No `chapter`, `year`, `searchTerm`, `skip`, or `take`
+  parameter exists in the API — earlier docs claimed otherwise.
 - `GET /ActOfParliament/{id}` — full record.
 
 ### Reference data
-- `GET /LayingBody` — departments and other laying bodies.
-- `GET /Procedure` — list of all procedures.
+- `GET /LayingBody` — departments and other laying bodies. No params.
+- `GET /Procedure` — list of all procedures. No params.
 - `GET /Procedure/{id}` — one procedure with its steps.
 
 ## Notes

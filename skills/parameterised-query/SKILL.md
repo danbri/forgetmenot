@@ -1,6 +1,15 @@
 ---
-name: uk-parliament-parameterised-query
+name: parameterised-query
 description: Use the UK Parliament parameterised query browser (api.parliament.uk/query/) — a catalogue of pre-canned SPARQL queries that return JSON without you having to write the SPARQL yourself. Each template has a fixed name and a fixed parameter signature, e.g. person_by_id?person_id=… or constituency_lookup_by_postcode?postcode=…. Use when you want a specific, pre-vetted answer about a Parliament resource and do not want to author SPARQL.
+license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
+metadata:
+  provenance:
+    tier: 1
+    operator: UK Parliament
+    service: api.parliament.uk/query
+    citation-short: "via api.parliament.uk/query"
+    citation-formal: "UK Parliament parameterised-query browser, retrieved {date}"
+    confidence: authoritative
 ---
 
 # UK Parliament parameterised query browser
@@ -71,6 +80,8 @@ curl -s 'https://api.parliament.uk/query/constituency_lookup_by_postcode?postcod
 
 ## Using the CLI
 
+> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
+
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
 
@@ -124,3 +135,13 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
+
+## Provenance to cite
+
+**Tier 1 — first-party UK Parliament.** Authoritative.
+
+- Inline cite: **"(via api.parliament.uk/query)"** — once per paragraph in
+  user-facing answers.
+- On request, give the URL `--raw` printed.
+- See [`docs/provenance.md`](../../docs/provenance.md) for the
+  cross-skill rules.
