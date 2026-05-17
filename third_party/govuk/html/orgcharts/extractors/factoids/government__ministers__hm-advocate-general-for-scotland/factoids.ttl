@@ -32,16 +32,16 @@
     govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/lord-wallace-of-tankerness> ;
-    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
-    govuk:tenureEnd "2015"^^xsd:gYear ;
-    govuk:tenureStart "2010"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/keith-stewart> ;
     govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
     govuk:tenureEnd "2024"^^xsd:gYear ;
     govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lord-wallace-of-tankerness> ;
+    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    govuk:tenureEnd "2015"^^xsd:gYear ;
+    govuk:tenureStart "2010"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/richard-keen> ;

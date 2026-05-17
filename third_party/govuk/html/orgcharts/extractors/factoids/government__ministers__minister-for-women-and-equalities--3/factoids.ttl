@@ -65,8 +65,20 @@
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
     govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
     govuk:tenureEnd "2018"^^xsd:gYear ;
     govuk:tenureStart "2018"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nicky-morgan> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    govuk:tenureEnd "2016"^^xsd:gYear ;
+    govuk:tenureStart "2014"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
@@ -79,16 +91,4 @@
     govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
     govuk:tenureEnd "2018"^^xsd:gYear ;
     govuk:tenureStart "2016"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/nicky-morgan> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2014"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
 

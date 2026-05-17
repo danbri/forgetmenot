@@ -38,21 +38,7 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2023-04-21"^^xsd:date .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2023"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--135> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--20> ;
     govuk:tenureEnd "2021-09-15"^^xsd:date ;
     govuk:tenureStart "2020-02-14"^^xsd:date .
 
@@ -64,11 +50,11 @@
     govuk:tenureStart "2022-10-26"^^xsd:date .
 
 [] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
-    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2022-07-05"^^xsd:date ;
-    govuk:tenureStart "2021-09-16"^^xsd:date .
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
@@ -80,7 +66,21 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
-    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--20> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2022-07-05"^^xsd:date ;
+    govuk:tenureStart "2021-09-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--135> ;
     govuk:tenureEnd "2021-09-15"^^xsd:date ;
     govuk:tenureStart "2020-02-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-04-21"^^xsd:date .
 

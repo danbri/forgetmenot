@@ -31,6 +31,13 @@
     govuk:schemaName "person" .
 
 [] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;
     govuk:proseExtracted true ;
     govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
@@ -42,13 +49,6 @@
     govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
     govuk:tenureStart "2025-09-05"^^xsd:date .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2025-09-05"^^xsd:date ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;

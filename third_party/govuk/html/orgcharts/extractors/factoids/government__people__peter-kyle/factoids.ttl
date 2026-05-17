@@ -30,6 +30,13 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/peter-kyle> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/peter-kyle> ;
     govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
     govuk:tenureStart "2025-09-05"^^xsd:date .
 
@@ -38,11 +45,4 @@
     govuk:holder <https://www.gov.uk/government/people/peter-kyle> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
     govuk:tenureStart "2025-09-05"^^xsd:date .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/peter-kyle> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
-    govuk:tenureEnd "2025-09-05"^^xsd:date ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
 

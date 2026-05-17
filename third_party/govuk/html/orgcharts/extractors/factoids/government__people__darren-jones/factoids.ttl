@@ -33,6 +33,12 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/darren-jones> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:tenureStart "2025-09-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/darren-jones> ;
     govuk:role <https://www.gov.uk/government/ministers/minister-of-state--197> ;
     govuk:tenureStart "2025-09-01"^^xsd:date .
 
@@ -42,12 +48,6 @@
     govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
     govuk:tenureEnd "2025-09-01"^^xsd:date ;
     govuk:tenureStart "2024-07-05"^^xsd:date .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/darren-jones> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
-    govuk:tenureStart "2025-09-05"^^xsd:date .
 
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;

@@ -46,20 +46,6 @@
     govuk:tenureStart "2014-07-15"^^xsd:date .
 
 [] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2019-09-07"^^xsd:date ;
-    govuk:tenureStart "2019-07-24"^^xsd:date .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2019-09-07"^^xsd:date ;
-    govuk:tenureStart "2018-11-16"^^xsd:date .
-
-[] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
     govuk:proseExtracted true ;
     govuk:role <https://www.gov.uk/government/ministers/home-secretary> ;
@@ -76,9 +62,23 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    govuk:tenureEnd "2019-09-07"^^xsd:date ;
+    govuk:tenureStart "2018-11-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
     govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--7> ;
     govuk:tenureEnd "2014-07-15"^^xsd:date ;
     govuk:tenureStart "2013-10-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    govuk:tenureEnd "2019-09-07"^^xsd:date ;
+    govuk:tenureStart "2019-07-24"^^xsd:date .
 
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;

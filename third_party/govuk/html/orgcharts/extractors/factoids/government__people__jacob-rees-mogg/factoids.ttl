@@ -32,7 +32,14 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/jacob-rees-mogg> ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-brexit-opportunities-and-government-efficiency> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2022-02-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jacob-rees-mogg> ;
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> ;
     govuk:tenureEnd "2022-02-08"^^xsd:date ;
     govuk:tenureStart "2019-07-24"^^xsd:date .
 
@@ -46,14 +53,7 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/jacob-rees-mogg> ;
-    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
     govuk:tenureEnd "2022-02-08"^^xsd:date ;
     govuk:tenureStart "2019-07-24"^^xsd:date .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/jacob-rees-mogg> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-brexit-opportunities-and-government-efficiency> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2022-02-08"^^xsd:date .
 

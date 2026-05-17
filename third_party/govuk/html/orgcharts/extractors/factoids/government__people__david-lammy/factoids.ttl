@@ -40,44 +40,9 @@
     govuk:schemaName "person" .
 
 [] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
-    govuk:tenureEnd "2025-09-05"^^xsd:date ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
-
-[] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
     govuk:proseExtracted true ;
     govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
-    govuk:tenureEnd "2010"^^xsd:gYear ;
-    govuk:tenureStart "2001"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-prime-minister> ;
     govuk:tenureEnd "2025"^^xsd:gYear ;
     govuk:tenureStart "2024"^^xsd:gYear .
 
@@ -91,9 +56,23 @@
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
     govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
     govuk:tenureEnd "2010"^^xsd:gYear ;
     govuk:tenureStart "2001"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-prime-minister> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
 
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
@@ -109,8 +88,29 @@
     govuk:tenureStart "2001"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2010"^^xsd:gYear ;
+    govuk:tenureStart "2001"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
     govuk:role <https://www.gov.uk/government/ministers/deputy-prime-minister--4> ;
     govuk:tenureStart "2025-09-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
 

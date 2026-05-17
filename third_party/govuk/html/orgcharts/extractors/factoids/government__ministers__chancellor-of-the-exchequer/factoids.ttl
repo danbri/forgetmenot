@@ -51,16 +51,34 @@
     govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/sajid-javid> ;
+    govuk:holder <https://www.gov.uk/government/people/kwasi-kwarteng> ;
     govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
-    govuk:tenureEnd "2020"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/philip-hammond> ;
     govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
     govuk:tenureEnd "2019"^^xsd:gYear ;
     govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jeremy-hunt> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/sajid-javid> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/george-osborne> ;
@@ -73,22 +91,4 @@
     govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
     govuk:tenureEnd "2022"^^xsd:gYear ;
     govuk:tenureStart "2020"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/jeremy-hunt> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/kwasi-kwarteng> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
 

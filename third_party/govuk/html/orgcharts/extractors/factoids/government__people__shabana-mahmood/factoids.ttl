@@ -31,18 +31,11 @@
     govuk:schemaName "person" .
 
 [] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
@@ -52,15 +45,22 @@
     govuk:tenureStart "2024"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2025-09-05"^^xsd:date ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
     govuk:tenureStart "2025-09-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
 

@@ -39,11 +39,18 @@
     govuk:schemaName "person" .
 
 [] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/david-lidington> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2017"^^xsd:gYear .
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2018-01-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-lidington> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
+    govuk:tenureEnd "2017-06-11"^^xsd:date ;
+    govuk:tenureStart "2016-07-14"^^xsd:date .
 
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
@@ -53,18 +60,11 @@
     govuk:tenureStart "2018-01-08"^^xsd:date .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-lidington> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2017"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/david-lidington> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
-    govuk:tenureEnd "2019-07-24"^^xsd:date ;
-    govuk:tenureStart "2018-01-08"^^xsd:date .
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> ;
+    govuk:tenureEnd "2017-06-11"^^xsd:date ;
+    govuk:tenureStart "2016-07-14"^^xsd:date .
 
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
@@ -81,16 +81,16 @@
     govuk:tenureStart "2010-05-12"^^xsd:date .
 
 [] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/david-lidington> ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
-    govuk:tenureEnd "2017-06-11"^^xsd:date ;
-    govuk:tenureStart "2016-07-14"^^xsd:date .
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/david-lidington> ;
-    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> ;
-    govuk:tenureEnd "2017-06-11"^^xsd:date ;
-    govuk:tenureStart "2016-07-14"^^xsd:date .
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2017"^^xsd:gYear .
 

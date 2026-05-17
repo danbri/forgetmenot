@@ -29,14 +29,14 @@
     govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/jonathan-reynolds> ;
-    govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
     govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
     govuk:tenureEnd "2024"^^xsd:gYear ;
     govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/jonathan-reynolds> ;
+    govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
 

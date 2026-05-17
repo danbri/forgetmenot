@@ -30,6 +30,13 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/baroness-twycross> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--280> ;
+    govuk:tenureEnd "2025-09-10"^^xsd:date ;
+    govuk:tenureStart "2024-07-23"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-twycross> ;
     govuk:role <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--10> ;
     govuk:tenureStart "2024-07-11"^^xsd:date .
 
@@ -38,11 +45,4 @@
     govuk:holder <https://www.gov.uk/government/people/baroness-twycross> ;
     govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-museums-heritage-and-gambling-and-lords-minister> ;
     govuk:tenureStart "2025-09-11"^^xsd:date .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/baroness-twycross> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--280> ;
-    govuk:tenureEnd "2025-09-10"^^xsd:date ;
-    govuk:tenureStart "2024-07-23"^^xsd:date .
 

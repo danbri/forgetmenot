@@ -42,20 +42,6 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2019-07-24"^^xsd:date .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
     govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
     govuk:tenureEnd "2022-09-06"^^xsd:date ;
     govuk:tenureStart "2019-07-24"^^xsd:date .
@@ -68,6 +54,13 @@
     govuk:tenureStart "2016-07-13"^^xsd:date .
 
 [] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
     govuk:role <https://www.gov.uk/government/ministers/minister-for-the-union> ;
@@ -75,9 +68,16 @@
     govuk:tenureStart "2019-07-26"^^xsd:date .
 
 [] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2019-07-24"^^xsd:date .
+
+[] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
     govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
 

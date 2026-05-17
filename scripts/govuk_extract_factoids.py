@@ -527,6 +527,16 @@ def extract_organisation(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dic
 # --- past PM index + individual ---------------------------------------
 
 def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
+    """Extract past PMs from the index page's anchored cards.
+
+    The page also lists recently-departed PMs who don't yet have a
+    dedicated /government/history/past-prime-ministers/<slug>
+    biography URL (e.g. Johnson, Truss, Sunak as of 2026); those
+    appear as unlinked cards in HTML and are exposed structurally as
+    `details.appointments_without_historical_accounts` in the parallel
+    /api/content/ JSON. extract_from_api() below picks those up, so
+    here we only need to handle the linked cohort.
+    """
     counts = {"past_pm": 0}
     for a in soup.find_all("a", href=lambda h: h and "/government/history/past-prime-ministers/" in h):
         href = a["href"]
@@ -539,9 +549,6 @@ def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
         name = text_of(a)
         if name:
             g.add((pm, SCHEMA.name, Literal(name, lang="en")))
-        # The list item with the party + year-range sits inside the same
-        # text-wrapper as the anchor. (`class_=lambda` doesn't work with
-        # `find_parent` in our BS4 version, so use a tag-level predicate.)
         def _is_image_card(tag: Tag) -> bool:
             c = tag.get("class") or []
             return tag.name == "div" and any("gem-c-image-card" in cc for cc in c)
@@ -555,7 +562,6 @@ def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
             )
             if li:
                 li_text = text_of(li)
-            # "Conservative 2016 to 2019" or two ranges for Wilson
             for m in _YEAR_RANGE_RE.finditer(li_text):
                 tenure = rdflib.BNode()
                 g.add((tenure, RDF.type, GOVUK.RoleTenure))
@@ -573,6 +579,51 @@ def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
                 g.add((pm, GOVUK.party, Literal(pm_party.group(1), lang="en")))
             counts["past_pm"] += 1
     return counts
+
+
+# Map "The Rt Hon X" / "X" titles from the appointments_without_accounts
+# list to gov.uk person slugs. Conservative -- only the small set of
+# recent PMs the index currently lacks dedicated bios for. If gov.uk
+# later issues bios for them this code is harmless (the linked cohort
+# will populate the same triples).
+_PM_TITLE_TO_PEOPLE_SLUG = {
+    "The Rt Hon Rishi Sunak MP":   "rishi-sunak",
+    "The Rt Hon Elizabeth Truss":  "elizabeth-truss",
+    "The Rt Hon Boris Johnson":    "boris-johnson",
+    "The Rt Hon Sir Keir Starmer KCB KC MP": "keir-starmer",
+}
+
+
+def _extract_pms_index_from_api(data: dict, g: rdflib.Graph) -> int:
+    """For PMs that gov.uk lists on the past-PMs index without a
+    dedicated history-bio URL, mark their /government/people/<slug>
+    page as a PastPrimeMinister and emit a year-range RoleTenure.
+    """
+    n = 0
+    rec_role = URIRef("https://www.gov.uk/government/ministers/prime-minister")
+    for a in data.get("details", {}).get(
+            "appointments_without_historical_accounts", []) or []:
+        title = (a.get("title") or "").strip()
+        slug = _PM_TITLE_TO_PEOPLE_SLUG.get(title)
+        if not slug:
+            continue
+        pm = URIRef(f"https://www.gov.uk/government/people/{slug}")
+        g.add((pm, RDF.type, GOVUK.PastPrimeMinister))
+        g.add((pm, SCHEMA.name, Literal(title, lang="en")))
+        for dio in a.get("dates_in_office", []) or []:
+            tenure = rdflib.BNode()
+            g.add((tenure, RDF.type, GOVUK.RoleTenure))
+            g.add((tenure, GOVUK.holder, pm))
+            g.add((tenure, GOVUK.role, rec_role))
+            g.add((tenure, GOVUK.apiSourced, Literal(True)))
+            if dio.get("start_year"):
+                g.add((tenure, GOVUK.tenureStart,
+                       Literal(str(dio["start_year"]), datatype=XSD.gYear)))
+            if dio.get("end_year"):
+                g.add((tenure, GOVUK.tenureEnd,
+                       Literal(str(dio["end_year"]), datatype=XSD.gYear)))
+        n += 1
+    return n
 
 
 # --- API-driven extraction (preferred over HTML scraping) -------------
@@ -594,6 +645,13 @@ def extract_from_api(api_path: Path, page: str, kind: str,
     except (OSError, json.JSONDecodeError):
         return counts
     if data.get("_forgetmenot_status") == 404:
+        return counts
+    if kind == "pms-index":
+        # The past-PMs index page exposes recently-departed PMs without
+        # a dedicated /history/ biography URL in this collection -- the
+        # HTML version renders them as unlinked cards, easy for an HTML
+        # scraper to miss. The API names the collection explicitly.
+        counts["past_pms_without_account"] = _extract_pms_index_from_api(data, g)
         return counts
     if kind != "person":
         # Org/role pages also have rich API data but we already template

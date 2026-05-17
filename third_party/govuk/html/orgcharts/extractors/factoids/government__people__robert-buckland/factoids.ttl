@@ -33,11 +33,11 @@
     govuk:schemaName "person" .
 
 [] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/robert-buckland> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
-    govuk:tenureEnd "2022-10-25"^^xsd:date ;
-    govuk:tenureStart "2022-07-07"^^xsd:date .
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
@@ -47,11 +47,18 @@
     govuk:tenureStart "2014-07-15"^^xsd:date .
 
 [] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/robert-buckland> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
-    govuk:tenureEnd "2021"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-07-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/robert-buckland> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--61> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2019-05-09"^^xsd:date .
 
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
@@ -66,11 +73,4 @@
     govuk:role <https://www.gov.uk/government/ministers/lord-chancellor> ;
     govuk:tenureEnd "2021"^^xsd:gYear ;
     govuk:tenureStart "2019"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/robert-buckland> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--61> ;
-    govuk:tenureEnd "2019-07-24"^^xsd:date ;
-    govuk:tenureStart "2019-05-09"^^xsd:date .
 

@@ -29,6 +29,13 @@
 [] a govuk:RoleTenure ;
     govuk:apiSourced true ;
     govuk:holder <https://www.gov.uk/government/people/rebecca-harris> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--4> ;
+    govuk:tenureEnd "2022-07-07"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/rebecca-harris> ;
     govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
     govuk:tenureEnd "2024-07-05"^^xsd:date ;
     govuk:tenureStart "2022-07-07"^^xsd:date .
@@ -39,11 +46,4 @@
     govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--11> ;
     govuk:tenureEnd "2018-01-09"^^xsd:date ;
     govuk:tenureStart "2017-06-15"^^xsd:date .
-
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/rebecca-harris> ;
-    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--4> ;
-    govuk:tenureEnd "2022-07-07"^^xsd:date ;
-    govuk:tenureStart "2018-01-09"^^xsd:date .
 

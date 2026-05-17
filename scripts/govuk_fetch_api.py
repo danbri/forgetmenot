@@ -94,7 +94,11 @@ def main(argv: list[str] | None = None) -> int:
         "--kinds", nargs="*",
         default=["government__people__", "government__organisations__",
                  "government__ministers__",
-                 "government__history__past-prime-ministers__"],
+                 "government__history__past-prime-ministers__",
+                 # The index page itself (no trailing __): exposes
+                 # appointments_without_historical_accounts that the HTML
+                 # version renders as unlinked cards.
+                 "government__history__past-prime-ministers"],
         help="page-dir prefixes to fetch (default: people/orgs/ministers/history)",
     )
     args = parser.parse_args(argv)
