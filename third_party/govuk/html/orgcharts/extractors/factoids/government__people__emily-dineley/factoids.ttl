@@ -4,11 +4,15 @@
 
 <https://www.gov.uk/government/organisations/uk-space-agency> govuk:hasMinister <https://www.gov.uk/government/people/emily-dineley> .
 
-<https://www.gov.uk/government/people/emily-dineley> a schema1:Person ;
+<https://www.gov.uk/government/people/emily-dineley> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    schema1:description "UK Space Agency"@en ;
+    dcterms:modified "2026-03-31T16:45:33+01:00" ;
     schema1:name "Emily Dineley"@en ;
     schema1:url <https://www.gov.uk/government/people/emily-dineley> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-space-agency> ;
-    govuk:currentRoleTitle "Deputy Director, Portfolio Management"@en .
+    govuk:contentId "d8f90681-524e-471b-91db-99e663697acf" ;
+    govuk:currentRoleTitle "Deputy Director, Portfolio Management"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

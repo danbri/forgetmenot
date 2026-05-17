@@ -4,10 +4,15 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/adrian-hannell> .
 
-<https://www.gov.uk/government/people/adrian-hannell> a schema1:Person ;
+<https://www.gov.uk/government/people/adrian-hannell> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2017-10-16T13:45:35+01:00" ;
     schema1:description "Adrian Hannell was appointed Interim Director of Finance and Digital at the Legal Aid Agency in September 2017."@en ;
     schema1:name "Adrian Hannell"@en ;
     schema1:url <https://www.gov.uk/government/people/adrian-hannell> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "44583fd2-793c-4393-aea0-13590f0f114c" ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

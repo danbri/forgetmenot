@@ -1,13 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/david-laws> .
 
-<https://www.gov.uk/government/people/david-laws> a schema1:Person ;
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-laws> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-for-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-laws> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-for-schools> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-laws> .
+
+<https://www.gov.uk/government/people/david-laws> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2015-03-30T17:26:54+01:00" ;
     schema1:description "David Laws became Minister of State for Schools in the Department for Education and Minister of State in the Cabinet Office in September 2012. He was elected the Liberal Democrat MP for Yeovil, Somerset in 2001."@en ;
     schema1:name "The Rt Hon David Laws"@en ;
     schema1:url <https://www.gov.uk/government/people/david-laws> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852c32fe-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/minister-of-state-for-cabinet-office>,
+        <https://www.gov.uk/government/ministers/minister-of-state-for-schools> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-laws> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-for-schools> ;
+    govuk:tenureEnd "2015-05-08"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-laws> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-for-cabinet-office> ;
+    govuk:tenureEnd "2015-05-08"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-laws> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2010-05-29"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

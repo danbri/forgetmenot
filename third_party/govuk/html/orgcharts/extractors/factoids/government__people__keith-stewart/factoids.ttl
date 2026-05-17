@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/keith-stewart> .
 
-<https://www.gov.uk/government/people/keith-stewart> a schema1:Person ;
+<https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> govuk:previouslyHeldBy <https://www.gov.uk/government/people/keith-stewart> .
+
+<https://www.gov.uk/government/people/keith-stewart> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-10-23T16:45:27+01:00" ;
     schema1:description "Keith Stewart KC was Advocate General for Scotland from October 2020 to July 2024."@en ;
     schema1:name "Lord Stewart of Dirleton KC"@en ;
     schema1:url <https://www.gov.uk/government/people/keith-stewart> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "63ab38b6-0a26-461f-9e6b-469deb7d538f" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/keith-stewart> ;
+    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2020-10-15"^^xsd:date .
 

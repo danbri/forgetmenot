@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/edward-garnier> .
 
-<https://www.gov.uk/government/people/edward-garnier> a schema1:Person ;
+<https://www.gov.uk/government/ministers/solicitor-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/edward-garnier> .
+
+<https://www.gov.uk/government/people/edward-garnier> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-09-28T14:12:53+01:00" ;
     schema1:description "Sir Edward Garnier was Solicitor General from May 2010 to September 2012. He was elected Conservative MP for Harborough on 9 April 1992."@en ;
     schema1:name "Sir Edward Garnier KC"@en ;
     schema1:url <https://www.gov.uk/government/people/edward-garnier> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85292acc-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/edward-garnier> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

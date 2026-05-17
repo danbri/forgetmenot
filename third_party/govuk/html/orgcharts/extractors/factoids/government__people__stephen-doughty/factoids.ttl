@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/minister-of-state--178> govuk:roleHolder <https://www.gov.uk/government/people/stephen-doughty> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> govuk:hasMinister <https://www.gov.uk/government/people/stephen-doughty> .
 
-<https://www.gov.uk/government/people/stephen-doughty> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state--178> govuk:roleHolder <https://www.gov.uk/government/people/stephen-doughty> .
+
+<https://www.gov.uk/government/people/stephen-doughty> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-30T12:45:57+01:00" ;
     schema1:description "Stephen Doughty was appointed Minister of State for Europe, North America and Overseas Territories in the Foreign, Commonwealth & Development Office on 8 July 2024. Stephen was first elected as Welsh Labour and Co-operative Member of Parliament for Cardiff South and Penarth in November 2012."@en ;
     schema1:name "Stephen Doughty MP"@en ;
     schema1:url <https://www.gov.uk/government/people/stephen-doughty> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    govuk:contentId "956b4454-bc77-4145-8c00-760140501574" ;
     govuk:currentRoleTitle "Minister of State (Europe, North America and Overseas Territories)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--178> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--178> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stephen-doughty> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--178> ;
+    govuk:tenureStart "2024-07-08"^^xsd:date .
 

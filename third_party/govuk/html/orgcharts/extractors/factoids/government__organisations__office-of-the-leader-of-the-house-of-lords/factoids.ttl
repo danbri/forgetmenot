@@ -25,10 +25,14 @@
 <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-11-03T12:30:15+00:00" ;
     schema1:name "Office of the Leader of the House of Lords"@en ;
     schema1:url <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
+    govuk:contentId "7f6b788d-1e91-4f87-b315-8a44fb773182" ;
     govuk:hasMinister <https://www.gov.uk/government/people/baroness-smith-of-basildon>,
         <https://www.gov.uk/government/people/lord-collins-of-highbury> ;
     govuk:hasRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2>,
-        <https://www.gov.uk/government/ministers/lord-privy-seal> .
+        <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

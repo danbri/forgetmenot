@@ -9,9 +9,12 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state--205> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-31T14:28:15+00:00" ;
     schema1:name "Minister of State (Minister for Border Security and Asylum)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--205> ;
+    govuk:contentId "e07a3246-c542-4496-89f2-c0803e3a0856" ;
     govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Border Security Command: reducing small boat arrivals and organised immigration crime"@en,
         "European Entry Exit System"@en,
         "Immigration Enforcement: Increasing returns (including FNOs), immigration detention estate expansion, illegal working"@en,
@@ -22,5 +25,6 @@
         "reducing net migration: legal migration policy"@en,
         "reducing the asylum caseload, exiting hotels and reducing the supported population"@en,
         "tackling visa abuse"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/alex-norris> .
+    govuk:roleHolder <https://www.gov.uk/government/people/alex-norris> ;
+    govuk:schemaName "role" .
 

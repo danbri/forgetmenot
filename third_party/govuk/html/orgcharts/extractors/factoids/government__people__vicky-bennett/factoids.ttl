@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/vicky-bennett> .
 
-<https://www.gov.uk/government/people/vicky-bennett> a schema1:Person ;
+<https://www.gov.uk/government/people/vicky-bennett> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-12T15:53:23+00:00" ;
     schema1:description "Vicky Bennett is General Counsel at Sellafield Ltd."@en ;
     schema1:name "Vicky Bennett"@en ;
     schema1:url <https://www.gov.uk/government/people/vicky-bennett> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "General Counsel"@en .
+    govuk:contentId "9c71fffb-c8a7-4ce6-b4c1-8fc1d9bfcb98" ;
+    govuk:currentRoleTitle "General Counsel"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

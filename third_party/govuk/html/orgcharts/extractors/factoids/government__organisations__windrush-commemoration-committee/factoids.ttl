@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/windrush-commemoration-committee> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-22T12:22:41+01:00" ;
     schema1:name "Windrush Commemoration Committee"@en ;
     schema1:url <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    govuk:contentId "5ee63249-c7a9-406a-b3e0-bcdc7e21437d" ;
     govuk:hasManager <https://www.gov.uk/government/people/ansel-wong>,
         <https://www.gov.uk/government/people/floella-benjamin>,
         <https://www.gov.uk/government/people/geoff-thompson>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/paulette-simpson>,
         <https://www.gov.uk/government/people/rose-hudson-wilkin>,
         <https://www.gov.uk/government/people/simon-frederick>,
-        <https://www.gov.uk/government/people/tim-campbell> .
+        <https://www.gov.uk/government/people/tim-campbell> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/ansel-wong> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5d0bbf2340f0b62006e1f4d3/s465_Ansel_Wong_960x640.png> ;

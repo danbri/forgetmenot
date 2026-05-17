@@ -1,13 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/ben-gummer> .
 
-<https://www.gov.uk/government/people/ben-gummer> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ben-gummer> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-health> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ben-gummer> .
+
+<https://www.gov.uk/government/ministers/paymaster-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ben-gummer> .
+
+<https://www.gov.uk/government/people/ben-gummer> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2017-06-09T18:05:13+01:00" ;
     schema1:description "Ben Gummer served as Minister for the Cabinet Office and Paymaster General from July 2016 until June 2017."@en ;
     schema1:name "The Rt Hon Ben Gummer"@en ;
     schema1:url <https://www.gov.uk/government/people/ben-gummer> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "82470e96-b8a6-4d3c-83ba-95594d0805a1" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-health>,
+        <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/ben-gummer> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2017-06-09"^^xsd:date ;
+    govuk:tenureStart "2016-07-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/ben-gummer> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
+    govuk:tenureEnd "2017-06-09"^^xsd:date ;
+    govuk:tenureStart "2016-07-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/ben-gummer> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-health> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2015-05-12"^^xsd:date .
 

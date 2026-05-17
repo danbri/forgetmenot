@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/border-security-command> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-07-11T11:11:52+01:00" ;
     schema1:name "Border Security Command"@en ;
     schema1:url <https://www.gov.uk/government/organisations/border-security-command> ;
-    govuk:hasManager <https://www.gov.uk/government/people/duncan-capps> .
+    govuk:contentId "c0034ab8-2d0f-45df-a371-52fc430372d7" ;
+    govuk:hasManager <https://www.gov.uk/government/people/duncan-capps> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/duncan-capps> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69cbef0f8017673ffec0f381/s465_Capps-640.jpg> ;

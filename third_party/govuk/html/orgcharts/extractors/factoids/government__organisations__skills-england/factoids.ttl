@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/skills-england> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-12-10T10:58:05+00:00" ;
     schema1:name "Skills England"@en ;
     schema1:url <https://www.gov.uk/government/organisations/skills-england> ;
+    govuk:contentId "1b5d2d26-9f1e-4ac5-8335-12061d09ca8e" ;
     govuk:hasManager <https://www.gov.uk/government/people/andy-westwood>,
         <https://www.gov.uk/government/people/anthony-impey>,
         <https://www.gov.uk/government/people/brian-holliday>,
@@ -22,7 +24,9 @@
         <https://www.gov.uk/government/people/sarah-maclean>,
         <https://www.gov.uk/government/people/sian-elliott>,
         <https://www.gov.uk/government/people/tessa-griffiths>,
-        <https://www.gov.uk/government/people/zoe-lewis> .
+        <https://www.gov.uk/government/people/zoe-lewis> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andy-westwood> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6835893cd6d2692c9bdb02e1/s465_Andy_Westwood.png> ;

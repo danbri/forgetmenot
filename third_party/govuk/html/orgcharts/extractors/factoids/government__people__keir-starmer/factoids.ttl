@@ -1,6 +1,9 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/keir-starmer> .
 
 <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> govuk:roleHolder <https://www.gov.uk/government/people/keir-starmer> .
 
@@ -10,17 +13,44 @@
 
 <https://www.gov.uk/government/ministers/prime-minister> govuk:roleHolder <https://www.gov.uk/government/people/keir-starmer> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/keir-starmer> .
-
-<https://www.gov.uk/government/people/keir-starmer> a schema1:Person ;
+<https://www.gov.uk/government/people/keir-starmer> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-19T13:37:47+01:00" ;
     schema1:description "Sir Keir Starmer became Prime Minister on 5 July 2024."@en ;
     schema1:name "The Rt Hon Sir Keir Starmer KCB KC MP"@en ;
     schema1:url <https://www.gov.uk/government/people/keir-starmer> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    govuk:contentId "86d507f5-c34e-466b-b622-4d4585b75916" ;
     govuk:currentRoleTitle "Prime Minister, First Lord of the Treasury, Minister for the Civil Service, and Minister for the Union"@en ;
     govuk:holdsRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury>,
         <https://www.gov.uk/government/ministers/minister-for-the-civil-service>,
         <https://www.gov.uk/government/ministers/minister-for-the-union>,
-        <https://www.gov.uk/government/ministers/prime-minister> .
+        <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/keir-starmer> ;
+    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/keir-starmer> ;
+    govuk:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/keir-starmer> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-union> ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/keir-starmer> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
 

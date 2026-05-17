@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/government-people-group> govuk:hasMinister <https://www.gov.uk/government/people/simon-claydon> .
 
-<https://www.gov.uk/government/people/simon-claydon> a schema1:Person ;
+<https://www.gov.uk/government/people/simon-claydon> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-06-12T09:54:57+01:00" ;
     schema1:description "Simon Claydon is the Director of Civil Service Pay, Policy and Pensions at the Cabinet Office."@en ;
     schema1:name "Simon Claydon"@en ;
     schema1:url <https://www.gov.uk/government/people/simon-claydon> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
-    govuk:currentRoleTitle "Director of Civil Service Pay, Policy and Pensions"@en .
+    govuk:contentId "56372067-8200-449d-b152-03621b6876f0" ;
+    govuk:currentRoleTitle "Director of Civil Service Pay, Policy and Pensions"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

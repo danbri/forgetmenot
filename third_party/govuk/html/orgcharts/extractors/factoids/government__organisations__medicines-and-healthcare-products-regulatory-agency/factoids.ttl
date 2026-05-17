@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-06-25T12:21:52+01:00" ;
     schema1:name "Medicines and Healthcare products Regulatory Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/medicines-and-healthcare-products-regulatory-agency> ;
+    govuk:contentId "240f72bd-9a4d-4f39-94d9-77235cadde8e" ;
     govuk:hasManager <https://www.gov.uk/government/people/alison-cave>,
         <https://www.gov.uk/government/people/anthony-harnden>,
         <https://www.gov.uk/government/people/dr-ed-middleton>,
@@ -17,7 +19,9 @@
         <https://www.gov.uk/government/people/nicola-rose>,
         <https://www.gov.uk/government/people/rachel-boswoth>,
         <https://www.gov.uk/government/people/rose-braithwaite>,
-        <https://www.gov.uk/government/people/tasneem-blondin> .
+        <https://www.gov.uk/government/people/tasneem-blondin> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alison-cave> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/658197aeed3c34000d3bfb8a/s465_Alison-C-edited.png> ;

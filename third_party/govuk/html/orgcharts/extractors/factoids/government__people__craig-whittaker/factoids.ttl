@@ -1,13 +1,79 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/craig-whittaker> .
 
-<https://www.gov.uk/government/people/craig-whittaker> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--16> govuk:previouslyHeldBy <https://www.gov.uk/government/people/craig-whittaker> .
+
+<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/craig-whittaker> .
+
+<https://www.gov.uk/government/ministers/government-whip--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/craig-whittaker> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--12> govuk:previouslyHeldBy <https://www.gov.uk/government/people/craig-whittaker> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--13> govuk:previouslyHeldBy <https://www.gov.uk/government/people/craig-whittaker> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/craig-whittaker> .
+
+<https://www.gov.uk/government/people/craig-whittaker> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T15:16:51+01:00" ;
     schema1:description "Craig Whittaker was Treasurer of HM Household (Deputy Chief Whip) between 7 September 2022 and 27 October 2022."@en ;
     schema1:name "The Rt Hon Craig Whittaker"@en ;
     schema1:url <https://www.gov.uk/government/people/craig-whittaker> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "c995716e-82a6-42ef-af34-cb3882ffc967" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--16>,
+        <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2>,
+        <https://www.gov.uk/government/ministers/government-whip--2>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--12>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--13>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/craig-whittaker> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3> ;
+    govuk:tenureEnd "2019-04-16"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/craig-whittaker> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--16> ;
+    govuk:tenureEnd "2018-01-09"^^xsd:date ;
+    govuk:tenureStart "2017-06-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/craig-whittaker> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--13> ;
+    govuk:tenureEnd "2022-02-09"^^xsd:date ;
+    govuk:tenureStart "2021-09-17"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/craig-whittaker> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--12> ;
+    govuk:tenureEnd "2022-09-07"^^xsd:date ;
+    govuk:tenureStart "2022-07-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/craig-whittaker> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2019-07-28"^^xsd:date ;
+    govuk:tenureStart "2019-04-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/craig-whittaker> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2022-10-27"^^xsd:date ;
+    govuk:tenureStart "2022-09-07"^^xsd:date .
 

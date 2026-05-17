@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/social-security-advisory-committee> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-02-06T14:15:51+00:00" ;
     schema1:name "Social Security Advisory Committee"@en ;
     schema1:url <https://www.gov.uk/government/organisations/social-security-advisory-committee> ;
+    govuk:contentId "882bef25-6922-4fbb-9049-7bc2575646f6" ;
     govuk:hasManager <https://www.gov.uk/government/people/bruce-calderrwood>,
         <https://www.gov.uk/government/people/daphne-hall>,
         <https://www.gov.uk/government/people/fran-bennett>,
@@ -20,7 +22,9 @@
         <https://www.gov.uk/government/people/sharon-wright>,
         <https://www.gov.uk/government/people/stephen-brien>,
         <https://www.gov.uk/government/people/suzy-walton--2>,
-        <https://www.gov.uk/government/people/tom-clark> .
+        <https://www.gov.uk/government/people/tom-clark> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/bruce-calderrwood> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/63d7aaded3bf7f25251182cb/s465_bruce-calderwood-960.jpg> ;

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> govuk:hasMinister <https://www.gov.uk/government/people/daniel-bateman> .
 
-<https://www.gov.uk/government/people/daniel-bateman> a schema1:Person ;
+<https://www.gov.uk/government/people/daniel-bateman> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-05-07T12:19:57+01:00" ;
     schema1:description "Daniel Bateman is the Director of Human Resources (HR) at His Majesty’s Courts and Tribunals Service (HMCTS). He has responsibility for workforce matters across HMCTS and is accountable to the Chief Executive Officer."@en ;
     schema1:name "Daniel Bateman"@en ;
     schema1:url <https://www.gov.uk/government/people/daniel-bateman> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
-    govuk:currentRoleTitle "Human Resources Director"@en .
+    govuk:contentId "de952395-3aed-4cd3-bfac-d996aa6c0610" ;
+    govuk:currentRoleTitle "Human Resources Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -1,13 +1,59 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/simon-clarke> .
 
-<https://www.gov.uk/government/people/simon-clarke> a schema1:Person ;
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/simon-clarke> .
+
+<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/simon-clarke> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--95> govuk:previouslyHeldBy <https://www.gov.uk/government/people/simon-clarke> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> govuk:previouslyHeldBy <https://www.gov.uk/government/people/simon-clarke> .
+
+<https://www.gov.uk/government/people/simon-clarke> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:01:17+01:00" ;
     schema1:description "Simon Clarke was Secretary of State for Levelling Up, Housing and Communities between 6 September 2022 and 25 October 2022."@en ;
     schema1:name "The Rt Hon Simon Clarke"@en ;
     schema1:url <https://www.gov.uk/government/people/simon-clarke> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "e63a76aa-77b2-4527-b9ab-7776c3c04b8c" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/minister-of-state--95>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/simon-clarke> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--95> ;
+    govuk:tenureEnd "2020-09-08"^^xsd:date ;
+    govuk:tenureStart "2020-02-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/simon-clarke> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/simon-clarke> ;
+    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/simon-clarke> ;
+    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2019-07-27"^^xsd:date .
 

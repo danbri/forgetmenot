@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/government-people-group> govuk:hasMinister <https://www.gov.uk/government/people/henry-watson> .
 
-<https://www.gov.uk/government/people/henry-watson> a schema1:Person ;
+<https://www.gov.uk/government/people/henry-watson> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-03-28T16:42:09+00:00" ;
     schema1:description "After a period in the publishing industry, Henry joined the Ministry of Defence in 2000 where he undertook a range of policy, finance and HR roles. He completed an MBA in 2005 at Imperial College London before being appointed as Head of HR Policy at HM Prison Service."@en ;
     schema1:name "Henry Watson"@en ;
     schema1:url <https://www.gov.uk/government/people/henry-watson> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
-    govuk:currentRoleTitle "Director of Functional Strategy, Performance and Capability"@en .
+    govuk:contentId "9fb42bac-eca1-42dd-bf0e-3e824e3e73f6" ;
+    govuk:currentRoleTitle "Director of Functional Strategy, Performance and Capability"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

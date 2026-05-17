@@ -5,14 +5,18 @@
 <https://www.gov.uk/government/organisations/advisory-committee-on-business-appointments> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-06-08T21:45:56+01:00" ;
     schema1:name "Advisory Committee on Business Appointments"@en ;
     schema1:url <https://www.gov.uk/government/organisations/advisory-committee-on-business-appointments> ;
+    govuk:contentId "6e414d7c-61af-4113-b039-435e461ddaf2" ;
     govuk:hasManager <https://www.gov.uk/government/people/dawid-konotey-ahulu>,
         <https://www.gov.uk/government/people/hedley-finn>,
         <https://www.gov.uk/government/people/isabel-doverty>,
         <https://www.gov.uk/government/people/michael-prescott>,
         <https://www.gov.uk/government/people/sarah-de-gay>,
-        <https://www.gov.uk/government/people/the-baroness-thornton> .
+        <https://www.gov.uk/government/people/the-baroness-thornton> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/dawid-konotey-ahulu> a schema1:Person ;
     schema1:name "Mr Dawid Konotey-Ahulu CBE"@en .

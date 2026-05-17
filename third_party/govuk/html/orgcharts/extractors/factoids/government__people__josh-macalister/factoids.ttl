@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> govuk:roleHolder <https://www.gov.uk/government/people/josh-macalister> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/department-for-education> govuk:hasMinister <https://www.gov.uk/government/people/josh-macalister> .
 
-<https://www.gov.uk/government/people/josh-macalister> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> govuk:roleHolder <https://www.gov.uk/government/people/josh-macalister> .
+
+<https://www.gov.uk/government/people/josh-macalister> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-22T13:01:07+01:00" ;
     schema1:description "Josh MacAlister was appointed Parliamentary Under-Secretary of State State (Minister for Children and Families) at the Department for Education on 7 September 2025."@en ;
     schema1:name "Josh MacAlister OBE MP"@en ;
     schema1:url <https://www.gov.uk/government/people/josh-macalister> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:contentId "6fb7ff38-1468-4bc7-8b41-40348cbdf4c0" ;
     govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Children and Families)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/josh-macalister> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--257> ;
+    govuk:tenureStart "2025-09-07"^^xsd:date .
 

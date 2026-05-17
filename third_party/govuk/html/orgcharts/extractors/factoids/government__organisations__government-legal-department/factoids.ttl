@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/government-legal-department> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-11-01T16:42:26+00:00" ;
     schema1:name "Government Legal Department"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-legal-department> ;
+    govuk:contentId "bac52ec5-df89-42b3-a034-2de01107f1d3" ;
     govuk:hasManager <https://www.gov.uk/government/people/carmel-thornton>,
         <https://www.gov.uk/government/people/caroline-croft>,
         <https://www.gov.uk/government/people/damian-paterson>,
@@ -16,7 +18,9 @@
         <https://www.gov.uk/government/people/mike-green--2>,
         <https://www.gov.uk/government/people/richard-cornish>,
         <https://www.gov.uk/government/people/sarah-goom>,
-        <https://www.gov.uk/government/people/tim-fallowfield> .
+        <https://www.gov.uk/government/people/tim-fallowfield> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/carmel-thornton> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68248b45b9226dd8e81ab861/s465_Carmel_Thornton_GOV.UK.jpg> ;

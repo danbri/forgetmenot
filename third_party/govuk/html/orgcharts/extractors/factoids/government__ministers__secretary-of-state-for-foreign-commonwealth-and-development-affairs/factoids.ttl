@@ -20,27 +20,31 @@
 
 <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-26T12:59:29+01:00" ;
     schema1:name "Secretary of State for Foreign, Commonwealth and Development Affairs"@en ;
     schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
+    govuk:contentId "6cdc189e-191e-4cab-bcc1-350478e77c78" ;
     govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-cameron>,
         <https://www.gov.uk/government/people/david-lammy>,
         <https://www.gov.uk/government/people/dominic-raab>,
         <https://www.gov.uk/government/people/elizabeth-truss>,
         <https://www.gov.uk/government/people/james-cleverly> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "National Security Council"@en,
         "growth"@en,
         "honours"@en,
         "intelligence policy"@en,
         "migration"@en,
         "overarching responsibility for FCDO and Ministerial team"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/yvette-cooper> .
+    govuk:roleHolder <https://www.gov.uk/government/people/yvette-cooper> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
+    govuk:holder <https://www.gov.uk/government/people/james-cleverly> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/david-cameron> ;
@@ -49,20 +53,20 @@
     govuk:tenureStart "2023"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
-    govuk:tenureEnd "2021"^^xsd:gYear ;
-    govuk:tenureStart "2020"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
     govuk:tenureEnd "2022"^^xsd:gYear ;
     govuk:tenureStart "2021"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/james-cleverly> ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
     govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
-    govuk:tenureEnd "2023"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2020"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-lammy> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
 

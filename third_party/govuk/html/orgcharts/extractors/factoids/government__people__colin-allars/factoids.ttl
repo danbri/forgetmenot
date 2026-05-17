@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/gov-facility-services-limited> govuk:hasMinister <https://www.gov.uk/government/people/colin-allars> .
 
-<https://www.gov.uk/government/people/colin-allars> a schema1:Person ;
+<https://www.gov.uk/government/people/colin-allars> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-10-31T09:45:38+00:00" ;
     schema1:description "Colin Allars is Chair of Gov Facility Services Ltd."@en ;
     schema1:name "Colin Allars"@en ;
     schema1:url <https://www.gov.uk/government/people/colin-allars> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/gov-facility-services-limited> ;
-    govuk:currentRoleTitle "Chair"@en .
+    govuk:contentId "853ddf4f-c0f1-11e4-8223-005056011aef" ;
+    govuk:currentRoleTitle "Chair"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

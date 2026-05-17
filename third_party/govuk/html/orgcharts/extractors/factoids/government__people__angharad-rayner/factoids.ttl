@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/angharad-rayner> .
 
-<https://www.gov.uk/government/people/angharad-rayner> a schema1:Person ;
+<https://www.gov.uk/government/people/angharad-rayner> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-01T09:59:05+01:00" ;
     schema1:description "Angharad joined Nuclear Restoration Services (NRS) in 2006 as a trainee health physicist. She spent eight years in radiation protection, including four years leading the department. Angharad then joined the Trawsfynydd lead team as EHSS&Q manager before becoming waste operations manager."@en ;
     schema1:name "Angharad Rayner"@en ;
     schema1:url <https://www.gov.uk/government/people/angharad-rayner> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
-    govuk:currentRoleTitle "EHSS&Q Director"@en .
+    govuk:contentId "0c722881-5c14-4b08-a86a-f3c04893e606" ;
+    govuk:currentRoleTitle "EHSS&Q Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

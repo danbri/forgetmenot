@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/security-industry-authority> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-02-11T11:32:23+00:00" ;
     schema1:name "Security Industry Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/security-industry-authority> ;
+    govuk:contentId "5a0dd987-eea3-470c-97fa-e346c5cff682" ;
     govuk:hasManager <https://www.gov.uk/government/people/caroline-corby>,
         <https://www.gov.uk/government/people/debbie-bartlett>,
         <https://www.gov.uk/government/people/duncan-worsell>,
@@ -19,7 +21,9 @@
         <https://www.gov.uk/government/people/philip-urquhart>,
         <https://www.gov.uk/government/people/sarah-pumfrett>,
         <https://www.gov.uk/government/people/stephen-grainger>,
-        <https://www.gov.uk/government/people/tim-archer> .
+        <https://www.gov.uk/government/people/tim-archer> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/caroline-corby> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/687a313d3f4bde279ef45279/s465_CC_photo.png> ;

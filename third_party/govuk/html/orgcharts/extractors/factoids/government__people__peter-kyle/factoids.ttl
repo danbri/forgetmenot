@@ -1,20 +1,48 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasMinister <https://www.gov.uk/government/people/peter-kyle> .
 
 <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
 
 <https://www.gov.uk/government/ministers/secretary-of-state--2> govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
 
-<https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasMinister <https://www.gov.uk/government/people/peter-kyle> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> govuk:previouslyHeldBy <https://www.gov.uk/government/people/peter-kyle> .
 
-<https://www.gov.uk/government/people/peter-kyle> a schema1:Person ;
+<https://www.gov.uk/government/people/peter-kyle> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-05T17:52:02+01:00" ;
     schema1:description "Peter Kyle was appointed Secretary of State for Business and Trade and President of the Board of Trade on 5 September 2025. He was previously Secretary of State for Science, Innovation and Technology from 5 July 2024 to 5 September 2025."@en ;
     schema1:name "The Rt Hon Peter Kyle MP"@en ;
     schema1:url <https://www.gov.uk/government/people/peter-kyle> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    govuk:contentId "97ce3a97-57b6-4421-9ab6-e2eced6601cf" ;
     govuk:currentRoleTitle "Secretary of State for Business and Trade and President of the Board of Trade"@en ;
     govuk:holdsRole <https://www.gov.uk/government/ministers/president-of-the-board-of-trade>,
-        <https://www.gov.uk/government/ministers/secretary-of-state--2> .
+        <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/peter-kyle> ;
+    govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:tenureStart "2025-09-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/peter-kyle> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
+    govuk:tenureStart "2025-09-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/peter-kyle> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
 

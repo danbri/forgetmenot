@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/export-guarantees-advisory-council> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-04-06T16:29:42+01:00" ;
     schema1:name "Export Guarantees Advisory Council"@en ;
     schema1:url <https://www.gov.uk/government/organisations/export-guarantees-advisory-council> ;
+    govuk:contentId "724a1175-b20d-4de9-bbbc-c2c6f2ac2863" ;
     govuk:hasManager <https://www.gov.uk/government/people/alex-ocinneide>,
         <https://www.gov.uk/government/people/belinda-howell>,
         <https://www.gov.uk/government/people/ben-caldecott>,
@@ -14,7 +16,9 @@
         <https://www.gov.uk/government/people/jonathan-samuel>,
         <https://www.gov.uk/government/people/sarah-steele>,
         <https://www.gov.uk/government/people/tracey-mcdermott>,
-        <https://www.gov.uk/government/people/vanessa-havard-williams> .
+        <https://www.gov.uk/government/people/vanessa-havard-williams> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alex-ocinneide> a schema1:Person ;
     schema1:name "Dr Alex O’Cinneide"@en .

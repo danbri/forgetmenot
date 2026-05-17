@@ -1,13 +1,59 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/michael-fallon> .
 
-<https://www.gov.uk/government/people/michael-fallon> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-for-portsmouth> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-fallon> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--13> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-fallon> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-business-and-enterprise> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-fallon> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-defence> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-fallon> .
+
+<https://www.gov.uk/government/people/michael-fallon> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2019-11-06T00:10:41+00:00" ;
     schema1:description "Sir Michael Fallon was elected Conservative MP for Sevenoaks, Kent in 1997."@en ;
     schema1:name "The Rt Hon Sir Michael Fallon"@en ;
     schema1:url <https://www.gov.uk/government/people/michael-fallon> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852c2782-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-for-portsmouth>,
+        <https://www.gov.uk/government/ministers/minister-of-state--13>,
+        <https://www.gov.uk/government/ministers/minister-of-state-business-and-enterprise>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-fallon> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> ;
+    govuk:tenureEnd "2017-11-01"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-fallon> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-business-and-enterprise> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-fallon> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-portsmouth> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2014-01-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-fallon> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--13> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2013-03-28"^^xsd:date .
 

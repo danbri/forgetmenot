@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/anneke-lucassen> .
 
-<https://www.gov.uk/government/people/anneke-lucassen> a schema1:Person ;
+<https://www.gov.uk/government/people/anneke-lucassen> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-11-27T07:19:49+00:00" ;
     schema1:description "Anneke is a physician who specialised in clinical genetics and is professor of genomic medicine and consultant in clinical genetics at the University of Oxford (since 2021). She leads a research group extending across universities of Oxford and Southampton that explores the clinical ethical, legal and societal issues (CELS) involved in developments in genomics and big data within medicine."@en ;
     schema1:name "Professor Anneke Lucassen"@en ;
     schema1:url <https://www.gov.uk/government/people/anneke-lucassen> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
-    govuk:currentRoleTitle "Member"@en .
+    govuk:contentId "8b6638fe-7f53-426a-aa42-7e28f0241fc0" ;
+    govuk:currentRoleTitle "Member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -29,11 +29,15 @@
 <https://www.gov.uk/government/organisations/attorney-generals-office> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-08-15T13:26:16+01:00" ;
     schema1:name "Attorney General's Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/attorney-generals-office> ;
+    govuk:contentId "25aacd68-dc0c-4041-9c3a-df59a5357c23" ;
     govuk:hasManager <https://www.gov.uk/government/people/michael-padfield--2> ;
     govuk:hasMinister <https://www.gov.uk/government/people/ellie-reeves>,
         <https://www.gov.uk/government/people/richard-hermer> ;
     govuk:hasRole <https://www.gov.uk/government/ministers/attorney-general>,
-        <https://www.gov.uk/government/ministers/solicitor-general> .
+        <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

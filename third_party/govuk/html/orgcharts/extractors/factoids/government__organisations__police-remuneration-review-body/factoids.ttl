@@ -5,15 +5,19 @@
 <https://www.gov.uk/government/organisations/police-remuneration-review-body> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-01-30T12:26:22+00:00" ;
     schema1:name "Police Remuneration Review Body"@en ;
     schema1:url <https://www.gov.uk/government/organisations/police-remuneration-review-body> ;
+    govuk:contentId "1956ab4a-7cb3-438d-b3ba-8c087cc1eba7" ;
     govuk:hasManager <https://www.gov.uk/government/people/andy-bliss>,
         <https://www.gov.uk/government/people/frances-hill>,
         <https://www.gov.uk/government/people/jacqui-siggers>,
         <https://www.gov.uk/government/people/pamela-kelly>,
         <https://www.gov.uk/government/people/rebecca-driver--2>,
         <https://www.gov.uk/government/people/stephen-white>,
-        <https://www.gov.uk/government/people/zoe-billingham> .
+        <https://www.gov.uk/government/people/zoe-billingham> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andy-bliss> a schema1:Person ;
     schema1:name "Andy Bliss QPM"@en .

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/border-force> govuk:hasMinister <https://www.gov.uk/government/people/phil-douglas> .
 
-<https://www.gov.uk/government/people/phil-douglas> a schema1:Person ;
+<https://www.gov.uk/government/people/phil-douglas> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-06-25T16:35:53+01:00" ;
     schema1:description "Phil Douglas is the Director General of Border Force at the Home Office. He is also the statutory Director of Border Revenue, reporting to ministers at HM Treasury."@en ;
     schema1:name "Phil Douglas CB"@en ;
     schema1:url <https://www.gov.uk/government/people/phil-douglas> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/border-force> ;
-    govuk:currentRoleTitle "Director General, Border Force"@en .
+    govuk:contentId "427d6fc4-e485-4d12-89f7-56aef9fdccd2" ;
+    govuk:currentRoleTitle "Director General, Border Force"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/school-teachers-review-body> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-06-20T10:44:18+01:00" ;
     schema1:name "School Teachers' Review Body"@en ;
     schema1:url <https://www.gov.uk/government/organisations/school-teachers-review-body> ;
+    govuk:contentId "ab9a4afd-4e0f-4e76-8b9c-4c2afe955ac1" ;
     govuk:hasManager <https://www.gov.uk/government/people/alison-macleod>,
         <https://www.gov.uk/government/people/claire-tunbridge>,
         <https://www.gov.uk/government/people/jo-grunwell>,
@@ -14,7 +16,9 @@
         <https://www.gov.uk/government/people/lena-levy>,
         <https://www.gov.uk/government/people/mark-cornelius>,
         <https://www.gov.uk/government/people/mike-aldred>,
-        <https://www.gov.uk/government/people/tim-gilson> .
+        <https://www.gov.uk/government/people/tim-gilson> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alison-macleod> a schema1:Person ;
     schema1:name "Alison Macleod"@en .

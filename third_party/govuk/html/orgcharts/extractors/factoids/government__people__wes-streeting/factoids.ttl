@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/wes-streeting> .
 
-<https://www.gov.uk/government/people/wes-streeting> a schema1:Person ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> govuk:previouslyHeldBy <https://www.gov.uk/government/people/wes-streeting> .
+
+<https://www.gov.uk/government/people/wes-streeting> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-05-14T13:30:10+01:00" ;
     schema1:description "Wes Streeting was Secretary of State for Health and Social Care from 5 July 2024 to 14 May 2026. He was elected as the MP for Ilford North in July 2024."@en ;
     schema1:name "The Rt Hon Wes Streeting MP"@en ;
     schema1:url <https://www.gov.uk/government/people/wes-streeting> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "4e204b10-26bd-4865-bb74-dd530152a006" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/wes-streeting> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:tenureEnd "2026-05-14"^^xsd:date ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
 

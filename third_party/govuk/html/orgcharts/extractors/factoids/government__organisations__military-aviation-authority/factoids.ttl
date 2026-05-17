@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/military-aviation-authority> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-04-15T10:03:43+01:00" ;
     schema1:name "Military Aviation Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/military-aviation-authority> ;
-    govuk:hasManager <https://www.gov.uk/government/people/peter-squires> .
+    govuk:contentId "b9f31e72-291a-4cfd-927e-667a46279465" ;
+    govuk:hasManager <https://www.gov.uk/government/people/peter-squires> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/peter-squires> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6870c2142cfe301b5fb67a6b/s465_Peter_Squires_960x640.jpg> ;

@@ -12,11 +12,15 @@
 
 <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport--3> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-26T08:40:50+01:00" ;
     schema1:name "Secretary of State for Culture, Media and Sport"@en ;
     schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport--3> ;
+    govuk:contentId "678d77ba-5a37-4b93-9588-4a003efa8dbf" ;
     govuk:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/lucy-frazer> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/lisa-nandy> .
+    govuk:publishingApp "whitehall" ;
+    govuk:roleHolder <https://www.gov.uk/government/people/lisa-nandy> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/lucy-frazer> ;

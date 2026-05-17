@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-08-06T10:38:22+01:00" ;
     schema1:name "Industrial Strategy Advisory Council"@en ;
     schema1:url <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    govuk:contentId "d6c82fb0-78ce-4c46-9e40-4fa5b29c2d0a" ;
     govuk:hasManager <https://www.gov.uk/government/people/aislinn-rice>,
         <https://www.gov.uk/government/people/amelia-gould>,
         <https://www.gov.uk/government/people/chris-grigg>,
@@ -22,7 +24,9 @@
         <https://www.gov.uk/government/people/nancy-jane-rothwell>,
         <https://www.gov.uk/government/people/phil-smith>,
         <https://www.gov.uk/government/people/roy-rickhuss>,
-        <https://www.gov.uk/government/people/tunde-olanrewaju> .
+        <https://www.gov.uk/government/people/tunde-olanrewaju> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/aislinn-rice> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67c1a29ea0f0c95a498d2113/s465_aislinn-rice-resized-image.jpg> ;

@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/forestry-commission> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-10T15:25:44+01:00" ;
     schema1:name "Forestry Commission"@en ;
     schema1:url <https://www.gov.uk/government/organisations/forestry-commission> ;
+    govuk:contentId "8bf5624b-dec2-44fa-9b6c-daed166333a5" ;
     govuk:hasManager <https://www.gov.uk/government/people/barbara-young>,
         <https://www.gov.uk/government/people/jennie-price>,
         <https://www.gov.uk/government/people/jo-bradwell>,
@@ -17,7 +19,9 @@
         <https://www.gov.uk/government/people/pamela-abbott>,
         <https://www.gov.uk/government/people/paul-brannen>,
         <https://www.gov.uk/government/people/rebecca-heaton>,
-        <https://www.gov.uk/government/people/richard-stanford> .
+        <https://www.gov.uk/government/people/richard-stanford> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/barbara-young> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6998778da58a315dbe72c0b7/s465_Portrait_Sept_2025_Julia_Lovell_960x640.jpg> ;

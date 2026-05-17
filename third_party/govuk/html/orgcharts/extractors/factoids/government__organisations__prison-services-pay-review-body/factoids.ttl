@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/prison-services-pay-review-body> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-12-20T13:54:08+00:00" ;
     schema1:name "Prison Service Pay Review Body"@en ;
     schema1:url <https://www.gov.uk/government/organisations/prison-services-pay-review-body> ;
+    govuk:contentId "3b5c4f57-19c0-4501-8818-f1da500e8495" ;
     govuk:hasManager <https://www.gov.uk/government/people/ken-mayhew--2>,
         <https://www.gov.uk/government/people/luke-corkhill>,
         <https://www.gov.uk/government/people/mark-hamilton>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/raj-jethwa>,
         <https://www.gov.uk/government/people/rehana-azam>,
         <https://www.gov.uk/government/people/roy-grant>,
-        <https://www.gov.uk/government/people/tijs-broeke> .
+        <https://www.gov.uk/government/people/tijs-broeke> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/ken-mayhew--2> a schema1:Person ;
     schema1:name "Professor Ken Mayhew"@en .

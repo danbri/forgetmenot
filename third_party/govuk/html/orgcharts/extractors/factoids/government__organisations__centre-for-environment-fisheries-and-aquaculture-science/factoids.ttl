@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/centre-for-environment-fisheries-and-aquaculture-science> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-07-16T13:16:29+01:00" ;
     schema1:name "Centre for Environment, Fisheries and Aquaculture Science"@en ;
     schema1:url <https://www.gov.uk/government/organisations/centre-for-environment-fisheries-and-aquaculture-science> ;
+    govuk:contentId "fd6cee28-ac4c-4fb5-9f46-54d24a500818" ;
     govuk:hasManager <https://www.gov.uk/government/people/grant-stentiford>,
         <https://www.gov.uk/government/people/mark-pendlington>,
         <https://www.gov.uk/government/people/melanie-siggs>,
@@ -17,7 +19,9 @@
         <https://www.gov.uk/government/people/sian-limpenny>,
         <https://www.gov.uk/government/people/simon-reeve>,
         <https://www.gov.uk/government/people/steve-addison>,
-        <https://www.gov.uk/government/people/tim-green> .
+        <https://www.gov.uk/government/people/tim-green> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/grant-stentiford> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/64a6a47bc531eb000c64ff9a/s465_Untitled_design__2_.png> ;

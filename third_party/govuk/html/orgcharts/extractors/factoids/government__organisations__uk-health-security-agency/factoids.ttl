@@ -5,14 +5,18 @@
 <https://www.gov.uk/government/organisations/uk-health-security-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-07-17T13:57:45+01:00" ;
     schema1:name "UK Health Security Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-health-security-agency> ;
+    govuk:contentId "80091cd8-7a8f-41ef-8faf-8af91fce4fdb" ;
     govuk:hasManager <https://www.gov.uk/government/people/dyfed-alsop>,
         <https://www.gov.uk/government/people/ian-peters--2>,
         <https://www.gov.uk/government/people/robin-may>,
         <https://www.gov.uk/government/people/shona-arora>,
         <https://www.gov.uk/government/people/steven-riley>,
-        <https://www.gov.uk/government/people/susan-hopkins> .
+        <https://www.gov.uk/government/people/susan-hopkins> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/dyfed-alsop> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69949a54899b683e69aaf129/s465_Dyfed_A.jpg> ;

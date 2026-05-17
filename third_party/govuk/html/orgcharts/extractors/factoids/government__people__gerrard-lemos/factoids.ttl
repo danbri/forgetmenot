@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--11> govuk:roleHolder <https://www.gov.uk/government/people/gerrard-lemos> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/gerrard-lemos> .
 
-<https://www.gov.uk/government/people/gerrard-lemos> a schema1:Person ;
+<https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--11> govuk:roleHolder <https://www.gov.uk/government/people/gerrard-lemos> .
+
+<https://www.gov.uk/government/people/gerrard-lemos> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-08-04T13:04:55+01:00" ;
     schema1:description "Lord Lemos CMG CBE was appointed as Lord in Waiting (Government Whip) on 22 July 2025."@en ;
     schema1:name "Lord Lemos CMG CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/gerrard-lemos> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "e11d0005-ef9f-45d9-a809-a0fe05aa2fcf" ;
     govuk:currentRoleTitle "Lord in Waiting (Government Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--11> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--11> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/gerrard-lemos> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--11> ;
+    govuk:tenureStart "2025-07-22"^^xsd:date .
 

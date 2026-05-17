@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/tulip-siddiq> .
 
-<https://www.gov.uk/government/people/tulip-siddiq> a schema1:Person ;
+<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/tulip-siddiq> .
+
+<https://www.gov.uk/government/people/tulip-siddiq> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-01-14T16:12:34+00:00" ;
     schema1:description "Tulip Siddiq was Parliamentary Secretary (Economic Secretary to the Treasury and City Minister) at HM Treasury from 9 July 2024 to 14 January 2025."@en ;
     schema1:name "Tulip Siddiq MP"@en ;
     schema1:url <https://www.gov.uk/government/people/tulip-siddiq> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "2f327edc-b73f-4471-b404-558171a13920" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/tulip-siddiq> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:tenureEnd "2025-01-14"^^xsd:date ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
 

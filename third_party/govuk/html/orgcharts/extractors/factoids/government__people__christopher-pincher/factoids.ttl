@@ -1,13 +1,86 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/christopher-pincher> .
 
-<https://www.gov.uk/government/people/christopher-pincher> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--13> govuk:previouslyHeldBy <https://www.gov.uk/government/people/christopher-pincher> .
+
+<https://www.gov.uk/government/ministers/government-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/christopher-pincher> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--14> govuk:previouslyHeldBy <https://www.gov.uk/government/people/christopher-pincher> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--63> govuk:previouslyHeldBy <https://www.gov.uk/government/people/christopher-pincher> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/christopher-pincher> .
+
+<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/christopher-pincher> .
+
+<https://www.gov.uk/government/people/christopher-pincher> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:01:10+01:00" ;
     schema1:description "Christopher Pincher was appointed Treasurer of HM Household (Deputy Chief Whip) on 8 February 2022."@en ;
     schema1:name "The Rt Hon Christopher Pincher"@en ;
     schema1:url <https://www.gov.uk/government/people/christopher-pincher> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "e823d3c2-2529-49e2-acfe-81d4ccb4eb56" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--13>,
+        <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2>,
+        <https://www.gov.uk/government/ministers/government-whip>,
+        <https://www.gov.uk/government/ministers/minister-of-state--14>,
+        <https://www.gov.uk/government/ministers/minister-of-state--63>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/christopher-pincher> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--63> ;
+    govuk:tenureEnd "2021-09-19"^^xsd:date ;
+    govuk:tenureStart "2020-02-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/christopher-pincher> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2019-07-25"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/christopher-pincher> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing--2> ;
+    govuk:tenureEnd "2022-02-08"^^xsd:date ;
+    govuk:tenureStart "2021-09-19"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/christopher-pincher> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip> ;
+    govuk:tenureEnd "2017-11-06"^^xsd:date ;
+    govuk:tenureStart "2017-06-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/christopher-pincher> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--13> ;
+    govuk:tenureEnd "2017-06-15"^^xsd:date ;
+    govuk:tenureStart "2016-07-17"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/christopher-pincher> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--14> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2019-07-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/christopher-pincher> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2022-07-01"^^xsd:date ;
+    govuk:tenureStart "2022-02-08"^^xsd:date .
 

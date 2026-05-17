@@ -129,8 +129,10 @@
 <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-08-22T14:12:15+01:00" ;
     schema1:name "Department for Science, Innovation and Technology"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:contentId "c352c234-8083-47ec-8a4b-0edd45c31263" ;
     govuk:hasManager <https://www.gov.uk/government/people/adam-tickell>,
         <https://www.gov.uk/government/people/alexandra-jones>,
         <https://www.gov.uk/government/people/angela-mclean>,
@@ -158,5 +160,7 @@
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> .
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

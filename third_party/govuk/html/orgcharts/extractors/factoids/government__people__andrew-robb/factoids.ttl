@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/andrew-robb> .
 
-<https://www.gov.uk/government/people/andrew-robb> a schema1:Person ;
+<https://www.gov.uk/government/people/andrew-robb> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-09-21T16:49:36+01:00" ;
     schema1:description "Andrew joined the Ministry of Justice as a Non-Executive Board Member on 21 August 2023."@en ;
     schema1:name "Andrew Robb"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-robb> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    govuk:currentRoleTitle "Non-executive board member"@en .
+    govuk:contentId "24616e7a-c2d1-4b31-b0bf-1a2990fb6856" ;
+    govuk:currentRoleTitle "Non-executive board member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

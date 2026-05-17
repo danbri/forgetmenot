@@ -1,13 +1,83 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/braverman> .
 
-<https://www.gov.uk/government/people/braverman> a schema1:Person ;
+<https://www.gov.uk/government/ministers/home-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/braverman> .
+
+<https://www.gov.uk/government/ministers/minister-on-leave-attorney-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/braverman> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--93> govuk:previouslyHeldBy <https://www.gov.uk/government/people/braverman> .
+
+<https://www.gov.uk/government/ministers/attorney-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/braverman> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> govuk:previouslyHeldBy <https://www.gov.uk/government/people/braverman> .
+
+<https://www.gov.uk/government/people/braverman> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-15T16:43:55+01:00" ;
     schema1:description "Suella Braverman was Secretary of State for the Home Department between 25 October 2022 and 13 November 2023. She previously held the same role between 6 September 2022 and 19 October 2022."@en ;
     schema1:name "The Rt Hon Suella Braverman KC MP"@en ;
     schema1:url <https://www.gov.uk/government/people/braverman> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "d00d3aaf-1654-4f39-8753-f65caa035aeb" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/attorney-general>,
+        <https://www.gov.uk/government/ministers/home-secretary>,
+        <https://www.gov.uk/government/ministers/minister-on-leave-attorney-general>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--93>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/braverman> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-10"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/braverman> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--93> ;
+    govuk:tenureEnd "2018-11-15"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/braverman> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/home-secretary> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/braverman> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    govuk:tenureEnd "2022-10-19"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/braverman> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-on-leave-attorney-general> ;
+    govuk:tenureEnd "2021-09-10"^^xsd:date ;
+    govuk:tenureStart "2021-03-02"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/braverman> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    govuk:tenureEnd "2023-11-13"^^xsd:date ;
+    govuk:tenureStart "2022-10-25"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/braverman> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2021-03-02"^^xsd:date ;
+    govuk:tenureStart "2020-02-13"^^xsd:date .
 

@@ -9,9 +9,12 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state--182> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-02T16:05:04+01:00" ;
     schema1:name "Minister of State for Care"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--182> ;
+    govuk:contentId "d80f7787-0357-4f2f-b08d-f1244296cf7c" ;
     govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "adult social care"@en,
         "community healthcare"@en,
         "dementia"@en,
@@ -22,5 +25,6 @@
         "neighbourhood health"@en,
         "pharmacy"@en,
         "primary care general practice dentistry pharmacy eyecare"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/stephen-kinnock> .
+    govuk:roleHolder <https://www.gov.uk/government/people/stephen-kinnock> ;
+    govuk:schemaName "role" .
 

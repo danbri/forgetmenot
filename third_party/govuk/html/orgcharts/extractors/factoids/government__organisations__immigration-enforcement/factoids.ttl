@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/immigration-enforcement> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-08-30T10:56:46+01:00" ;
     schema1:name "Immigration Enforcement"@en ;
     schema1:url <https://www.gov.uk/government/organisations/immigration-enforcement> ;
-    govuk:hasManager <https://www.gov.uk/government/people/bas-javid> .
+    govuk:contentId "9981b813-468f-414a-a468-28f5438811f4" ;
+    govuk:hasManager <https://www.gov.uk/government/people/bas-javid> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/bas-javid> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6572e93d049516000f49be91/s465_Bas_headshot_2.jpg> ;

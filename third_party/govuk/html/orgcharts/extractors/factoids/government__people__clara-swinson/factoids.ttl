@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/clara-swinson> .
 
-<https://www.gov.uk/government/people/clara-swinson> a schema1:Person ;
+<https://www.gov.uk/government/people/clara-swinson> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-13T09:10:19+01:00" ;
     schema1:description "As Second Permanent Secretary at the Ministry of Justice, Clara provides system leadership across the Criminal Justice System."@en ;
     schema1:name "Clara Swinson"@en ;
     schema1:url <https://www.gov.uk/government/people/clara-swinson> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    govuk:currentRoleTitle "Second Permanent Secretary"@en .
+    govuk:contentId "48a2d270-4c70-45d9-8144-7de15eae46ad" ;
+    govuk:currentRoleTitle "Second Permanent Secretary"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

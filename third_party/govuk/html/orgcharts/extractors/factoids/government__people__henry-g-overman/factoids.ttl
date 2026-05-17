@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/henry-g-overman> .
 
-<https://www.gov.uk/government/people/henry-g-overman> a schema1:Person ;
+<https://www.gov.uk/government/people/henry-g-overman> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-08T11:11:32+01:00" ;
     schema1:description "Professor Henry G Overman is a Professor of Economic Geography in the Department of Geography and Environment at the London School of Economics. He is also the Research Director of the Centre for Economic Performance and the Director of the What Works Centre for Local Economic Growth. His research on the causes and consequences of spatial disparities and the impact of urban and regional policy has been published in leading economics and geography journals. He has provided policy advice to The European Commission, HM Government and Greater Manchester, among others. Henry is also affiliated with the Centre for Economic Policy Research."@en ;
     schema1:name "Professor Henry G Overman OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/henry-g-overman> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
-    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en .
+    govuk:contentId "688e3868-0a57-4d4d-b49a-7aaaab33ac9d" ;
+    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

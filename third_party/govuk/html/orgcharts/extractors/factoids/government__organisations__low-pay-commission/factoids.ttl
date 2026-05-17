@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/low-pay-commission> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-03-17T14:31:45+00:00" ;
     schema1:name "Low Pay Commission"@en ;
     schema1:url <https://www.gov.uk/government/organisations/low-pay-commission> ;
+    govuk:contentId "56026645-0033-45ca-b988-8629a31a9882" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-goodacre>,
         <https://www.gov.uk/government/people/janet-williamson>,
         <https://www.gov.uk/government/people/jonathan-wadsworth>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/nigel-cotgrove>,
         <https://www.gov.uk/government/people/patricia-rice>,
         <https://www.gov.uk/government/people/philippa-stroud>,
-        <https://www.gov.uk/government/people/simon-sapper> .
+        <https://www.gov.uk/government/people/simon-sapper> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrew-goodacre> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67ed3ae453fa8521c3248be3/s465_Andrew_cropped.jpg> ;

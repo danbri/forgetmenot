@@ -1,13 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/alister-jack> .
 
-<https://www.gov.uk/government/people/alister-jack> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--17> govuk:previouslyHeldBy <https://www.gov.uk/government/people/alister-jack> .
+
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/alister-jack> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> govuk:previouslyHeldBy <https://www.gov.uk/government/people/alister-jack> .
+
+<https://www.gov.uk/government/people/alister-jack> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:01:13+01:00" ;
     schema1:description "Alister Jack was Secretary of State for Scotland between 24 July 2019 and 5 July 2024. He was previously Lord Commissioner of HM Treasury and a Government Whip."@en ;
     schema1:name "The Rt Hon Alister Jack"@en ;
     schema1:url <https://www.gov.uk/government/people/alister-jack> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "3d995664-764d-4253-909a-782b37d49339" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--17>,
+        <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/alister-jack> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2019-04-23"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/alister-jack> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--17> ;
+    govuk:tenureEnd "2019-04-23"^^xsd:date ;
+    govuk:tenureStart "2019-02-20"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/alister-jack> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2019-07-24"^^xsd:date .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/dormant-assets-commission> govuk:hasMinister <https://www.gov.uk/government/people/jackie-hunt> .
 
-<https://www.gov.uk/government/people/jackie-hunt> a schema1:Person ;
+<https://www.gov.uk/government/people/jackie-hunt> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2016-03-10T12:52:25+00:00" ;
     schema1:description "Jackie Hunt was an Executive Director of Prudential plc and the Chief Executive of Prudential UK, Europe and Africa until late 2015. She joined Prudential from Standard Life plc where she was Group Chief Financial Officer. Prior to this, Jackie held a number of senior management positions in companies including Norwich Union Insurance, Aviva, Hibernian Group, RSA Insurance and PricewaterhouseCoopers."@en ;
     schema1:name "Jackie Hunt"@en ;
     schema1:url <https://www.gov.uk/government/people/jackie-hunt> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
-    govuk:currentRoleTitle "Dormant Assets Commissioner"@en .
+    govuk:contentId "372c84cb-df6d-4f55-86de-82091e0358fc" ;
+    govuk:currentRoleTitle "Dormant Assets Commissioner"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

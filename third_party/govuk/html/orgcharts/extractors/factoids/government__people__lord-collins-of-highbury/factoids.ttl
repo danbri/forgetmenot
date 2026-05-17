@@ -1,20 +1,58 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> govuk:hasMinister <https://www.gov.uk/government/people/lord-collins-of-highbury> .
 
 <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> govuk:roleHolder <https://www.gov.uk/government/people/lord-collins-of-highbury> .
 
 <https://www.gov.uk/government/ministers/government-spokesperson-for-equalities--2> govuk:roleHolder <https://www.gov.uk/government/people/lord-collins-of-highbury> .
 
-<https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> govuk:hasMinister <https://www.gov.uk/government/people/lord-collins-of-highbury> .
+<https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--7> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-collins-of-highbury> .
 
-<https://www.gov.uk/government/people/lord-collins-of-highbury> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-africa--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-collins-of-highbury> .
+
+<https://www.gov.uk/government/people/lord-collins-of-highbury> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-08T09:22:57+01:00" ;
     schema1:description "Lord Collins of Highbury was appointed as a Government spokesperson for Equalities on 8 October 2024, in addition to his roles as Deputy Leader of the House of Lords and Lord in Waiting (Government Whip)."@en ;
     schema1:name "Lord Collins of Highbury"@en ;
     schema1:url <https://www.gov.uk/government/people/lord-collins-of-highbury> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
+    govuk:contentId "f902adbe-ed6a-453a-9095-5a135105c9aa" ;
     govuk:currentRoleTitle "Deputy Leader of the House of Lords, Government spokesperson for Equalities, and Prime Minister’s Special Representative for Preventing Sexual Violence in Conflict"@en ;
     govuk:holdsRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2>,
-        <https://www.gov.uk/government/ministers/government-spokesperson-for-equalities--2> .
+        <https://www.gov.uk/government/ministers/government-spokesperson-for-equalities--2> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--7>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-africa--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-collins-of-highbury> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-africa--2> ;
+    govuk:tenureEnd "2025-09-07"^^xsd:date ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-collins-of-highbury> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-spokesperson-for-equalities--2> ;
+    govuk:tenureStart "2024-10-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-collins-of-highbury> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--7> ;
+    govuk:tenureEnd "2025-01-01"^^xsd:date ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-collins-of-highbury> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
 

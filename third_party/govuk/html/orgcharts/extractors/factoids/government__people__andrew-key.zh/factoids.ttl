@@ -4,10 +4,15 @@
 
 <https://www.gov.uk/government/organisations/government-people-group> govuk:hasMinister <https://www.gov.uk/government/people/andrew-key.zh> .
 
-<https://www.gov.uk/government/people/andrew-key.zh> a schema1:Person ;
+<https://www.gov.uk/government/people/andrew-key.zh> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-09T15:07:22+01:00" ;
     schema1:name "Andrew Key"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-key.zh> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
-    govuk:currentRoleTitle "Director of Government Skills"@en .
+    govuk:contentId "8534c70e-c0f1-11e4-8223-005056011aef" ;
+    govuk:currentRoleTitle "Director of Government Skills"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/companies-house> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-24T12:46:46+01:00" ;
     schema1:name "Companies House"@en ;
     schema1:url <https://www.gov.uk/government/organisations/companies-house> ;
+    govuk:contentId "c36bd301-d0c5-4492-86ad-ee7843b8383b" ;
     govuk:hasManager <https://www.gov.uk/government/people/andy-king>,
         <https://www.gov.uk/government/people/carol-shutkever>,
         <https://www.gov.uk/government/people/charlie-boundy>,
@@ -23,7 +25,9 @@
         <https://www.gov.uk/government/people/ros-rivaz>,
         <https://www.gov.uk/government/people/sarah-whitehead>,
         <https://www.gov.uk/government/people/stuart-drake>,
-        <https://www.gov.uk/government/people/tim-burt> .
+        <https://www.gov.uk/government/people/tim-burt> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andy-king> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68f74c752f0fc56403a3d144/s465_Andy-King-4-GOV.UK.jpg> ;

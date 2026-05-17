@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/gina-radford> .
 
-<https://www.gov.uk/government/people/gina-radford> a schema1:Person ;
+<https://www.gov.uk/government/people/gina-radford> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-04-21T15:41:01+01:00" ;
     schema1:description "Reverend Professor Gina Radford was appointed Deputy Chief Medical Officer ( DCMO ) for England on 5 January 2015. Gina has had a long-standing interest in health and work, and as DCMO worked closely with DWP and wider stakeholders on these issues."@en ;
     schema1:name "Reverend Professor Gina Radford"@en ;
     schema1:url <https://www.gov.uk/government/people/gina-radford> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    govuk:currentRoleTitle "Non-executive board member"@en .
+    govuk:contentId "854472fd-c0f1-11e4-8223-005056011aef" ;
+    govuk:currentRoleTitle "Non-executive board member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

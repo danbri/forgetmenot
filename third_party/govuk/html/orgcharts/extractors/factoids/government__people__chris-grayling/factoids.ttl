@@ -1,13 +1,69 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/chris-grayling> .
 
-<https://www.gov.uk/government/people/chris-grayling> a schema1:Person ;
+<https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-grayling> .
+
+<https://www.gov.uk/government/ministers/lord-president-of-the-council> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-grayling> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-employment> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-grayling> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-grayling> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-grayling> .
+
+<https://www.gov.uk/government/people/chris-grayling> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:00:58+01:00" ;
     schema1:description "Chris Grayling was Secretary of State for Transport from July 2016 to July 2019. He was elected Conservative MP for Epsom and Ewell in 2001."@en ;
     schema1:name "The Rt Hon Chris Grayling"@en ;
     schema1:url <https://www.gov.uk/government/people/chris-grayling> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8529413a-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons>,
+        <https://www.gov.uk/government/ministers/lord-president-of-the-council>,
+        <https://www.gov.uk/government/ministers/minister-of-state-employment>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-justice>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chris-grayling> ;
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-commons> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2015-05-10"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chris-grayling> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2016-07-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chris-grayling> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    govuk:tenureEnd "2015-05-10"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chris-grayling> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-employment> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/chris-grayling> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2015-05-10"^^xsd:date .
 

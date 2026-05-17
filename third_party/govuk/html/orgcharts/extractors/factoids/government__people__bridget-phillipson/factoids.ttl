@@ -1,20 +1,38 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasMinister <https://www.gov.uk/government/people/bridget-phillipson> .
 
 <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> govuk:roleHolder <https://www.gov.uk/government/people/bridget-phillipson> .
 
 <https://www.gov.uk/government/ministers/secretary-of-state-for-education> govuk:roleHolder <https://www.gov.uk/government/people/bridget-phillipson> .
 
-<https://www.gov.uk/government/organisations/department-for-education> govuk:hasMinister <https://www.gov.uk/government/people/bridget-phillipson> .
-
-<https://www.gov.uk/government/people/bridget-phillipson> a schema1:Person ;
+<https://www.gov.uk/government/people/bridget-phillipson> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-22T16:22:19+01:00" ;
     schema1:description "Bridget Phillipson was appointed Secretary of State for Education on 5 July 2024 and Minister for Women and Equalities on 8 July 2024."@en ;
     schema1:name "The Rt Hon Bridget Phillipson MP"@en ;
     schema1:url <https://www.gov.uk/government/people/bridget-phillipson> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-education> ;
+    govuk:contentId "a7dd7b5e-8729-4de4-9cab-90af6d8747f9" ;
     govuk:currentRoleTitle "Secretary of State for Education and Minister for Women and Equalities"@en ;
     govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-education> .
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/bridget-phillipson> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    govuk:tenureStart "2024-07-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/bridget-phillipson> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
 

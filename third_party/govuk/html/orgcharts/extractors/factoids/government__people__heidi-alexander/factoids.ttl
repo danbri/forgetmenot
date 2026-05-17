@@ -1,17 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:roleHolder <https://www.gov.uk/government/people/heidi-alexander> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/department-for-transport> govuk:hasMinister <https://www.gov.uk/government/people/heidi-alexander> .
 
-<https://www.gov.uk/government/people/heidi-alexander> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state--180> govuk:previouslyHeldBy <https://www.gov.uk/government/people/heidi-alexander> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:roleHolder <https://www.gov.uk/government/people/heidi-alexander> .
+
+<https://www.gov.uk/government/people/heidi-alexander> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-07-08T18:52:42+01:00" ;
     schema1:description "Heidi Alexander MP was appointed as the Secretary of State for Transport on 29 November 2024."@en ;
     schema1:name "The Rt Hon Heidi Alexander MP"@en ;
     schema1:url <https://www.gov.uk/government/people/heidi-alexander> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:contentId "7ed59a39-adef-4a91-901b-6b7cb35d0864" ;
     govuk:currentRoleTitle "Secretary of State for Transport"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state--180> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/heidi-alexander> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--180> ;
+    govuk:tenureEnd "2024-11-29"^^xsd:date ;
+    govuk:tenureStart "2024-07-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/heidi-alexander> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureStart "2024-11-29"^^xsd:date .
 

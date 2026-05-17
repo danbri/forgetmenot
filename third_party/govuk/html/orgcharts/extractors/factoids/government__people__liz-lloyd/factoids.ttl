@@ -1,20 +1,38 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasMinister <https://www.gov.uk/government/people/liz-lloyd> .
 
 <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--13> govuk:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
 
 <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> govuk:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
 
-<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasMinister <https://www.gov.uk/government/people/liz-lloyd> .
-
-<https://www.gov.uk/government/people/liz-lloyd> a schema1:Person ;
+<https://www.gov.uk/government/people/liz-lloyd> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-11-06T10:22:00+00:00" ;
     schema1:description "Baroness Lloyd of Effra CBE was appointed Parliamentary Under-Secretary of State in the Department for Science, Innovation and Technology and the Department for Business and Trade on 11 September 2025. She was also appointed Baroness in Waiting (Government Whip) on the same date."@en ;
     schema1:name "Baroness Lloyd of Effra CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/liz-lloyd> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:contentId "8ac3b305-7436-45f2-b3e5-d19115b65c11" ;
     govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Digital Economy) and Baroness in Waiting (Government Whip)"@en ;
     govuk:holdsRole <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--13>,
-        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/liz-lloyd> ;
+    govuk:role <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--13> ;
+    govuk:tenureStart "2025-09-11"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/liz-lloyd> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> ;
+    govuk:tenureStart "2025-09-11"^^xsd:date .
 

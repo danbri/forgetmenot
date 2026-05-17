@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/paul-vallance> .
 
-<https://www.gov.uk/government/people/paul-vallance> a schema1:Person ;
+<https://www.gov.uk/government/people/paul-vallance> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-09-01T08:03:46+01:00" ;
     schema1:description "Paul joined the Nuclear Decommissioning Authority in June 2016 from Rolls Royce, where he held a number of senior positions including Director of Communications and Marketing for the Land and Sea Division, which incorporated the Marine, Nuclear and Power Systems businesses."@en ;
     schema1:name "Paul Vallance"@en ;
     schema1:url <https://www.gov.uk/government/people/paul-vallance> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "NDA nominated Non-Executive Director and Group Chief Corporate Affairs Officer"@en .
+    govuk:contentId "65105a1e-5c3f-4c54-ab21-430e74acc305" ;
+    govuk:currentRoleTitle "NDA nominated Non-Executive Director and Group Chief Corporate Affairs Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

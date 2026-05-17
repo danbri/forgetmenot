@@ -1,17 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> govuk:roleHolder <https://www.gov.uk/government/people/stephen-morgan> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/stephen-morgan> .
 
-<https://www.gov.uk/government/people/stephen-morgan> a schema1:Person ;
+<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> govuk:roleHolder <https://www.gov.uk/government/people/stephen-morgan> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-morgan> .
+
+<https://www.gov.uk/government/people/stephen-morgan> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-08T08:39:58+01:00" ;
     schema1:description "Stephen Morgan was appointed Junior Lord of the Treasury (Government Whip) on 7 September 2025. He was previously Parliamentary Under-Secretary of State (Minister for Early Education) at the Department for Education between 9 July 2024 and 7 September 2025."@en ;
     schema1:name "Stephen Morgan MP"@en ;
     schema1:url <https://www.gov.uk/government/people/stephen-morgan> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "e2fd328b-5e60-47dc-99dc-091933cf1c4e" ;
     govuk:currentRoleTitle "Junior Lord of the Treasury (Government Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stephen-morgan> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--256> ;
+    govuk:tenureEnd "2025-09-07"^^xsd:date ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stephen-morgan> ;
+    govuk:role <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> ;
+    govuk:tenureStart "2025-09-07"^^xsd:date .
 

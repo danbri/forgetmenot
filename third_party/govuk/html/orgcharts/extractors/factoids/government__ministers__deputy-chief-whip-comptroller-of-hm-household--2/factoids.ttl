@@ -30,8 +30,10 @@
 
 <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2018-01-10T10:55:16+00:00" ;
     schema1:name "Treasurer of HM Household (Deputy Chief Whip)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:contentId "84619b8e-c0f1-11e4-8223-005056011aef" ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/amanda-milling>,
         <https://www.gov.uk/government/people/anne-milton>,
         <https://www.gov.uk/government/people/christopher-pincher>,
@@ -43,31 +45,9 @@
         <https://www.gov.uk/government/people/kelly-tolhurst>,
         <https://www.gov.uk/government/people/marcus-jones>,
         <https://www.gov.uk/government/people/stuart-andrew> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/mark-tami> .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/kelly-tolhurst> ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/craig-whittaker> ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/esther-mcvey> ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2017"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
-    govuk:tenureEnd "2015"^^xsd:gYear ;
-    govuk:tenureStart "2013"^^xsd:gYear .
+    govuk:publishingApp "whitehall" ;
+    govuk:roleHolder <https://www.gov.uk/government/people/mark-tami> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/christopher-pincher> ;
@@ -82,10 +62,22 @@
     govuk:tenureStart "2018"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/anne-milton> ;
+    govuk:holder <https://www.gov.uk/government/people/kelly-tolhurst> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
     govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
     govuk:tenureEnd "2017"^^xsd:gYear ;
-    govuk:tenureStart "2015"^^xsd:gYear .
+    govuk:tenureStart "2017"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/greg-hands> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2015"^^xsd:gYear ;
+    govuk:tenureStart "2013"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/marcus-jones> ;
@@ -100,10 +92,16 @@
     govuk:tenureStart "2020"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/amanda-milling> ;
+    govuk:holder <https://www.gov.uk/government/people/anne-milton> ;
     govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
-    govuk:tenureEnd "2020"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+    govuk:tenureEnd "2017"^^xsd:gYear ;
+    govuk:tenureStart "2015"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/craig-whittaker> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/john-randall> ;
@@ -112,8 +110,14 @@
     govuk:tenureStart "2010"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
+    govuk:holder <https://www.gov.uk/government/people/amanda-milling> ;
     govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
-    govuk:tenureEnd "2017"^^xsd:gYear ;
+    govuk:tenureEnd "2020"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/esther-mcvey> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2018"^^xsd:gYear ;
     govuk:tenureStart "2017"^^xsd:gYear .
 

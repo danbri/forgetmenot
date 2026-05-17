@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/further-education-commissioner> govuk:hasMinister <https://www.gov.uk/government/people/becky-edwards> .
 
-<https://www.gov.uk/government/people/becky-edwards> a schema1:Person ;
+<https://www.gov.uk/government/people/becky-edwards> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-21T12:32:32+01:00" ;
     schema1:description "Becky Edwards joined the Further Education (FE) Commissioner team in 2020 as an FE Adviser. She was appointed Deputy FE Commissioner in September 2023."@en ;
     schema1:name "Becky Edwards"@en ;
     schema1:url <https://www.gov.uk/government/people/becky-edwards> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/further-education-commissioner> ;
-    govuk:currentRoleTitle "Deputy Further Education Commissioner"@en .
+    govuk:contentId "d1d7bad2-5b7c-4030-b2f4-4363fa98f7c7" ;
+    govuk:currentRoleTitle "Deputy Further Education Commissioner"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

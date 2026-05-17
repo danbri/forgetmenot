@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/further-education-commissioner> govuk:hasMinister <https://www.gov.uk/government/people/ellen-thinnesen> .
 
-<https://www.gov.uk/government/people/ellen-thinnesen> a schema1:Person ;
+<https://www.gov.uk/government/people/ellen-thinnesen> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-21T12:29:53+01:00" ;
     schema1:description "Ellen Thinnesen OBE was appointed as Further Education Commissioner in January 2026."@en ;
     schema1:name "Ellen Thinnesen"@en ;
     schema1:url <https://www.gov.uk/government/people/ellen-thinnesen> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/further-education-commissioner> ;
-    govuk:currentRoleTitle "Further Education Commissioner"@en .
+    govuk:contentId "dc9579a7-ed6b-4393-a606-bb1e94956cf9" ;
+    govuk:currentRoleTitle "Further Education Commissioner"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

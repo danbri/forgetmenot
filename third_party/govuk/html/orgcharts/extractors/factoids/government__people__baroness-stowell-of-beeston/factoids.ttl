@@ -1,13 +1,59 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/baroness-stowell-of-beeston> .
 
-<https://www.gov.uk/government/people/baroness-stowell-of-beeston> a schema1:Person ;
+<https://www.gov.uk/government/ministers/government-whip-baroness-in-waiting--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/baroness-stowell-of-beeston> .
+
+<https://www.gov.uk/government/ministers/leader-of-the-house-of-lords> govuk:previouslyHeldBy <https://www.gov.uk/government/people/baroness-stowell-of-beeston> .
+
+<https://www.gov.uk/government/ministers/lord-privy-seal> govuk:previouslyHeldBy <https://www.gov.uk/government/people/baroness-stowell-of-beeston> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--19> govuk:previouslyHeldBy <https://www.gov.uk/government/people/baroness-stowell-of-beeston> .
+
+<https://www.gov.uk/government/people/baroness-stowell-of-beeston> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-03-01T08:12:21+00:00" ;
     schema1:description "Baroness Tina Stowell was Chair of the Charity Commission as Chair from February 2018 to February 2021."@en ;
     schema1:name "The Rt Hon Baroness Stowell of Beeston MBE"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-stowell-of-beeston> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852e89c1-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/government-whip-baroness-in-waiting--2>,
+        <https://www.gov.uk/government/ministers/leader-of-the-house-of-lords>,
+        <https://www.gov.uk/government/ministers/lord-privy-seal>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--19> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-stowell-of-beeston> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-stowell-of-beeston> ;
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-lords> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-stowell-of-beeston> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-baroness-in-waiting--2> ;
+    govuk:tenureEnd "2013-10-07"^^xsd:date ;
+    govuk:tenureStart "2011-01-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-stowell-of-beeston> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--19> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2013-10-07"^^xsd:date .
 

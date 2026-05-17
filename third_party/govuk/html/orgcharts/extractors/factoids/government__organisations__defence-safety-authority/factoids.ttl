@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/defence-safety-authority> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-10T14:03:20+01:00" ;
     schema1:name "Defence Safety Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/defence-safety-authority> ;
+    govuk:contentId "9b412fdd-ca63-4aee-8530-afd2d893e331" ;
     govuk:hasManager <https://www.gov.uk/government/people/alan-gillespie>,
-        <https://www.gov.uk/government/people/mark-hunt> .
+        <https://www.gov.uk/government/people/mark-hunt> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alan-gillespie> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/61d551e0d3bf7f1f76d00b7c/s465_Alan_Gillespie_960x640.jpg> ;

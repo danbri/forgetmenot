@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/natural-england> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-17T11:17:47+01:00" ;
     schema1:name "Natural England"@en ;
     schema1:url <https://www.gov.uk/government/organisations/natural-england> ;
+    govuk:contentId "d3ce4ba7-bc75-46b4-89d9-38cb3240376d" ;
     govuk:hasManager <https://www.gov.uk/government/people/alan-law>,
         <https://www.gov.uk/government/people/alastair-leake>,
         <https://www.gov.uk/government/people/clare-fitzsimmons>,
@@ -22,7 +24,9 @@
         <https://www.gov.uk/government/people/oliver-harmar>,
         <https://www.gov.uk/government/people/peter-unwin>,
         <https://www.gov.uk/government/people/sallie-bailey>,
-        <https://www.gov.uk/government/people/tony-juniper> .
+        <https://www.gov.uk/government/people/tony-juniper> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alan-law> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/65fd8dc8f1d3a0001d32ae17/s465_alan-law-960x640.jpg> ;

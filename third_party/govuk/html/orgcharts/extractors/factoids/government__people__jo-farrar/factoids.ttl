@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/jo-farrar> .
 
-<https://www.gov.uk/government/people/jo-farrar> a schema1:Person ;
+<https://www.gov.uk/government/people/jo-farrar> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-07-01T08:33:07+01:00" ;
     schema1:description "Dr Jo Farrar CB OBE became the Permanent Secretary of the Ministry of Justice in July 2025."@en ;
     schema1:name "Dr Jo Farrar CB OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/jo-farrar> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    govuk:currentRoleTitle "Permanent Secretary, Ministry of Justice"@en .
+    govuk:contentId "3f4b7c1c-377a-4152-b2d7-213048586900" ;
+    govuk:currentRoleTitle "Permanent Secretary, Ministry of Justice"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

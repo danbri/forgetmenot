@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/building-digital-uk> govuk:hasMinister <https://www.gov.uk/government/people/andy-murphy> .
 
-<https://www.gov.uk/government/people/andy-murphy> a schema1:Person ;
+<https://www.gov.uk/government/people/andy-murphy> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-02-05T12:09:18+00:00" ;
     schema1:description "Andy became Chief Digital Information Officer for Building Digital UK (BDUK), at the Department for Science, Innovation and Technology (DSIT) in January 2026."@en ;
     schema1:name "Andy Murphy"@en ;
     schema1:url <https://www.gov.uk/government/people/andy-murphy> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/building-digital-uk> ;
-    govuk:currentRoleTitle "Chief Digital Information Officer"@en .
+    govuk:contentId "7aed195d-5223-4e7f-b507-0e5e7de1b8db" ;
+    govuk:currentRoleTitle "Chief Digital Information Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

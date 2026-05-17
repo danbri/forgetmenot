@@ -1,13 +1,69 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jo-churchill> .
 
-<https://www.gov.uk/government/people/jo-churchill> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--11> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jo-churchill> .
+
+<https://www.gov.uk/government/ministers/government-whip--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jo-churchill> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--151> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jo-churchill> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--106> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jo-churchill> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--143> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jo-churchill> .
+
+<https://www.gov.uk/government/people/jo-churchill> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:39:46+01:00" ;
     schema1:description "Jo Churchill was Minister of State for the Department for Work and Pensions from 13 November 2023 to 5 July 2024."@en ;
     schema1:name "Jo Churchill"@en ;
     schema1:url <https://www.gov.uk/government/people/jo-churchill> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "d0b18658-4d92-4eb7-ad1e-9b6346fdb1a6" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--11>,
+        <https://www.gov.uk/government/ministers/government-whip--2>,
+        <https://www.gov.uk/government/ministers/minister-of-state--151>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--106>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--143> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jo-churchill> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--151> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-11-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jo-churchill> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2023-11-13"^^xsd:date ;
+    govuk:tenureStart "2022-09-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jo-churchill> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--11> ;
+    govuk:tenureEnd "2019-07-26"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jo-churchill> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--106> ;
+    govuk:tenureEnd "2021-09-16"^^xsd:date ;
+    govuk:tenureStart "2019-07-26"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jo-churchill> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--143> ;
+    govuk:tenureEnd "2022-07-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-17"^^xsd:date .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/katherine-green> .
 
-<https://www.gov.uk/government/people/katherine-green> a schema1:Person ;
+<https://www.gov.uk/government/people/katherine-green> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-02T17:05:51+00:00" ;
     schema1:description "Katherine Green was appointed Director General for Labour Market and Skills in September 2025. Before that, she was in a jobshare with Sophie Dean as joint Directors General for DWP Policy."@en ;
     schema1:name "Katherine Green CB"@en ;
     schema1:url <https://www.gov.uk/government/people/katherine-green> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    govuk:currentRoleTitle "Director General for Labour Market and Skills"@en .
+    govuk:contentId "cbb3a02e-0067-4411-9114-a2bae2c26195" ;
+    govuk:currentRoleTitle "Director General for Labour Market and Skills"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

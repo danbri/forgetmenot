@@ -1,17 +1,59 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> govuk:roleHolder <https://www.gov.uk/government/people/emma-reynolds--2> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> govuk:hasMinister <https://www.gov.uk/government/people/emma-reynolds--2> .
 
-<https://www.gov.uk/government/people/emma-reynolds--2> a schema1:Person ;
+<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/emma-reynolds--2> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary--13> govuk:previouslyHeldBy <https://www.gov.uk/government/people/emma-reynolds--2> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205> govuk:previouslyHeldBy <https://www.gov.uk/government/people/emma-reynolds--2> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> govuk:roleHolder <https://www.gov.uk/government/people/emma-reynolds--2> .
+
+<https://www.gov.uk/government/people/emma-reynolds--2> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-23T18:16:13+00:00" ;
     schema1:description "Emma Reynolds MP was appointed Secretary of State for Environment, Food and Rural Affairs on 5 September 2025."@en ;
     schema1:name "The Rt Hon Emma Reynolds MP"@en ;
     schema1:url <https://www.gov.uk/government/people/emma-reynolds--2> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    govuk:contentId "b2e4f332-b4f0-4ef2-9ebe-09ee356a1752" ;
     govuk:currentRoleTitle "Secretary of State for Environment, Food and Rural Affairs"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3>,
+        <https://www.gov.uk/government/ministers/parliamentary-secretary--13>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/emma-reynolds--2> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary--13> ;
+    govuk:tenureEnd "2025-01-14"^^xsd:date ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/emma-reynolds--2> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureStart "2025-09-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/emma-reynolds--2> ;
+    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    govuk:tenureEnd "2025-09-05"^^xsd:date ;
+    govuk:tenureStart "2025-01-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/emma-reynolds--2> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205> ;
+    govuk:tenureEnd "2025-01-14"^^xsd:date ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
 

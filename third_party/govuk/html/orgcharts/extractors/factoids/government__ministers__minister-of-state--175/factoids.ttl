@@ -11,10 +11,13 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state--175> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-05-15T18:15:41+01:00" ;
     schema1:name "Minister of State (Minister for Skills)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--175> ;
+    govuk:contentId "5dc89f34-86e1-4173-9980-0a525d4ef2f3" ;
     govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
         <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Skills England and Industry Training Boards"@en,
         "Youth Guarantee"@en,
         "access to higher education, participation and lifelong learning entitlement"@en,
@@ -35,5 +38,6 @@
         "support for young people aged 16 to 19 not in employment, education or training (NEET)"@en,
         "technical and vocational qualifications (level 3 and below), including T Levels"@en,
         "technical excellence colleges"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
+    govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> ;
+    govuk:schemaName "role" .
 

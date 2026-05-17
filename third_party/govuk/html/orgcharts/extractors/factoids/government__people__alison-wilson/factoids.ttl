@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> govuk:hasMinister <https://www.gov.uk/government/people/alison-wilson> .
 
-<https://www.gov.uk/government/people/alison-wilson> a schema1:Person ;
+<https://www.gov.uk/government/people/alison-wilson> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-03-21T09:42:11+00:00" ;
     schema1:description "Alison Wilson is Regional Director for Yorkshire and the Humber. She was previously at His Majesty’s Treasury where she was leading work to establish the Darlington Economic Campus. Prior to that, Alison was the head of DfE ’s Vulnerable Children Unit."@en ;
     schema1:name "Alison Wilson"@en ;
     schema1:url <https://www.gov.uk/government/people/alison-wilson> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
-    govuk:currentRoleTitle "Regional Director for Yorkshire and Humber"@en .
+    govuk:contentId "9fd853f4-fd57-4e90-97af-b35f961f3c4d" ;
+    govuk:currentRoleTitle "Regional Director for Yorkshire and Humber"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/the-infected-blood-memorial-committee> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-11-17T10:00:02+00:00" ;
     schema1:name "Infected Blood Memorial Committee"@en ;
     schema1:url <https://www.gov.uk/government/organisations/the-infected-blood-memorial-committee> ;
+    govuk:contentId "4505b7e2-9a91-40c5-846f-88b0e03a5d66" ;
     govuk:hasManager <https://www.gov.uk/government/people/bessie-woodhouse>,
         <https://www.gov.uk/government/people/clair-walton>,
         <https://www.gov.uk/government/people/clive-smith>,
@@ -18,7 +20,9 @@
         <https://www.gov.uk/government/people/nigel-hamilton>,
         <https://www.gov.uk/government/people/susan-harris>,
         <https://www.gov.uk/government/people/tom-koukoulis>,
-        <https://www.gov.uk/government/people/william-wright> .
+        <https://www.gov.uk/government/people/william-wright> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/bessie-woodhouse> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69273148345e31ab14ecf5ae/s465_Bessie.jpg> ;

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> govuk:hasMinister <https://www.gov.uk/government/people/barry-lennox> .
 
-<https://www.gov.uk/government/people/barry-lennox> a schema1:Person ;
+<https://www.gov.uk/government/people/barry-lennox> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-10-05T16:33:00+01:00" ;
     schema1:description "Barry is Fellow of the Royal Academy of Engineering and Professor of Applied Control and Nuclear Engineering Decommissioning at The University of Manchester."@en ;
     schema1:name "Professor Barry Lennox"@en ;
     schema1:url <https://www.gov.uk/government/people/barry-lennox> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
-    govuk:currentRoleTitle "Member, CoRWM"@en .
+    govuk:contentId "c5f218ea-de87-4ba1-8bbc-c0c5e8884793" ;
+    govuk:currentRoleTitle "Member, CoRWM"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

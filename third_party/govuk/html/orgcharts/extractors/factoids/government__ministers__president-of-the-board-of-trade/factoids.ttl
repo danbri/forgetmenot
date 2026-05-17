@@ -16,23 +16,27 @@
 
 <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-02-10T14:25:34+00:00" ;
     schema1:name "President of the Board of Trade"@en ;
     schema1:url <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:contentId "de3d5e37-ff1c-4111-b029-fc926da764e9" ;
     govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade>,
         <https://www.gov.uk/government/organisations/uk-export-finance> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/jonathan-reynolds>,
         <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2023"^^xsd:gYear .
+    govuk:publishingApp "whitehall" ;
+    govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/jonathan-reynolds> ;
     govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
     govuk:tenureEnd "2025"^^xsd:gYear ;
     govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
 

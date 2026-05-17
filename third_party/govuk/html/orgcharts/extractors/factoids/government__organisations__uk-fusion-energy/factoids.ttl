@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/uk-fusion-energy> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-17T10:07:34+00:00" ;
     schema1:name "UK Fusion Energy"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-fusion-energy> ;
+    govuk:contentId "e2193247-d27f-4509-b0ae-45abbc391cc1" ;
     govuk:hasManager <https://www.gov.uk/government/people/charlotte-valeur>,
         <https://www.gov.uk/government/people/david-gann>,
         <https://www.gov.uk/government/people/ian-chapman>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/kaveh-pourteymour>,
         <https://www.gov.uk/government/people/luc-bardin>,
         <https://www.gov.uk/government/people/paul-methven>,
-        <https://www.gov.uk/government/people/tim-bestwick> .
+        <https://www.gov.uk/government/people/tim-bestwick> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/charlotte-valeur> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68f2551228f6872f1663f044/s465_Prof-Charlotte-Valeur.jpg> ;

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/roddy-miller> .
 
-<https://www.gov.uk/government/people/roddy-miller> a schema1:Person ;
+<https://www.gov.uk/government/people/roddy-miller> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-02-05T09:20:50+00:00" ;
     schema1:description "Roddy joined Sellafield Ltd in March 2022 as head of retrievals value stream."@en ;
     schema1:name "Roddy Miller"@en ;
     schema1:url <https://www.gov.uk/government/people/roddy-miller> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Chief Operating Officer"@en .
+    govuk:contentId "0f056183-aaca-4555-89a1-2caed5a807b5" ;
+    govuk:currentRoleTitle "Chief Operating Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

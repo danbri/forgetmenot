@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/tracy-murray> .
 
-<https://www.gov.uk/government/people/tracy-murray> a schema1:Person ;
+<https://www.gov.uk/government/people/tracy-murray> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-01T17:07:47+01:00" ;
     schema1:description "Tracy joined NRS in November 2023 as General Counsel, moving from NDA where she was Head of Legal and Deputy General Counsel."@en ;
     schema1:name "Tracy Murray"@en ;
     schema1:url <https://www.gov.uk/government/people/tracy-murray> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
-    govuk:currentRoleTitle "General Counsel"@en .
+    govuk:contentId "e1fc055b-9b64-4832-9789-c6e25096f9b5" ;
+    govuk:currentRoleTitle "General Counsel"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

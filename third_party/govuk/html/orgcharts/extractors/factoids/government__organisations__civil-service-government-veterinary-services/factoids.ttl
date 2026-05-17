@@ -5,11 +5,15 @@
 <https://www.gov.uk/government/organisations/civil-service-government-veterinary-services> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-08-16T11:18:38+01:00" ;
     schema1:name "Government Veterinary Services"@en ;
     schema1:url <https://www.gov.uk/government/organisations/civil-service-government-veterinary-services> ;
+    govuk:contentId "5aa41748-a66e-4886-b47a-08a7d846370e" ;
     govuk:hasManager <https://www.gov.uk/government/people/christine-middlemiss>,
         <https://www.gov.uk/government/people/ele-brown>,
-        <https://www.gov.uk/government/people/jorge-martin-almagro> .
+        <https://www.gov.uk/government/people/jorge-martin-almagro> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/christine-middlemiss> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5a97fd4c40f0b67aa2725382/s465_ChristineMiddlemiss-960x640.jpg> ;

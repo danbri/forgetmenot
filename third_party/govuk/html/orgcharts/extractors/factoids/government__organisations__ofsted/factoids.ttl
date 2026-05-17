@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/ofsted> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-11-10T13:33:01+00:00" ;
     schema1:name "Ofsted"@en ;
     schema1:url <https://www.gov.uk/government/organisations/ofsted> ;
+    govuk:contentId "ad5f6169-ac7b-4382-9eb6-e58af71a2f00" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-cook>,
         <https://www.gov.uk/government/people/caroline-dulon>,
         <https://www.gov.uk/government/people/james-mcneillie>,
@@ -21,7 +23,9 @@
         <https://www.gov.uk/government/people/mike-sheridan>,
         <https://www.gov.uk/government/people/neil-greenwood>,
         <https://www.gov.uk/government/people/rory-gribbell>,
-        <https://www.gov.uk/government/people/yvette-stanley> .
+        <https://www.gov.uk/government/people/yvette-stanley> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andrew-cook> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67519c5e2086e98fae35115d/s465_Andrew-Cook-for-web.png> ;

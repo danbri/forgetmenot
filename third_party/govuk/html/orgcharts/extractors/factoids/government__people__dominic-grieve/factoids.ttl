@@ -1,13 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/dominic-grieve> .
 
-<https://www.gov.uk/government/people/dominic-grieve> a schema1:Person ;
+<https://www.gov.uk/government/ministers/attorney-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/dominic-grieve> .
+
+<https://www.gov.uk/government/people/dominic-grieve> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-15T15:16:27+01:00" ;
     schema1:description "Dominic Grieve was appointed Attorney General in May 2010. He was elected Conservative MP for Beaconsfield on 1 May 1997."@en ;
     schema1:name "The Rt Hon Dominic Grieve KC"@en ;
     schema1:url <https://www.gov.uk/government/people/dominic-grieve> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85292a81-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/dominic-grieve> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

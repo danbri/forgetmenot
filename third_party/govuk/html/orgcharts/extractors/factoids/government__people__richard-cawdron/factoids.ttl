@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/civil-nuclear-constabulary> govuk:hasMinister <https://www.gov.uk/government/people/richard-cawdron> .
 
-<https://www.gov.uk/government/people/richard-cawdron> a schema1:Person ;
+<https://www.gov.uk/government/people/richard-cawdron> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2020-07-31T17:13:45+01:00" ;
     schema1:description "Richard started his legal career by training in private practice and joined Gloucestershire County Council to complete his qualification and becoming the Assistant County Solicitor."@en ;
     schema1:name "Richard Cawdron"@en ;
     schema1:url <https://www.gov.uk/government/people/richard-cawdron> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/civil-nuclear-constabulary> ;
-    govuk:currentRoleTitle "Director of Governance, Compliance and Legal Services"@en .
+    govuk:contentId "4f5290ed-ab57-4e8f-8a22-986d35fc2311" ;
+    govuk:currentRoleTitle "Director of Governance, Compliance and Legal Services"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

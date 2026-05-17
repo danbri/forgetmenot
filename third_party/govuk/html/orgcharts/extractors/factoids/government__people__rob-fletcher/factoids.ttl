@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/rob-fletcher> .
 
-<https://www.gov.uk/government/people/rob-fletcher> a schema1:Person ;
+<https://www.gov.uk/government/people/rob-fletcher> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-01T09:55:47+01:00" ;
     schema1:description "Rob initially joined the Nuclear Restoration Services Ltd Board in April 2021 as an Independent Non-Executive Director."@en ;
     schema1:name "Rob Fletcher"@en ;
     schema1:url <https://www.gov.uk/government/people/rob-fletcher> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
-    govuk:currentRoleTitle "Chief Executive Officer and Chief Executive Officer & Board Member"@en .
+    govuk:contentId "e92bd3bf-289e-463c-a8b2-adc835f7efbf" ;
+    govuk:currentRoleTitle "Chief Executive Officer and Chief Executive Officer & Board Member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

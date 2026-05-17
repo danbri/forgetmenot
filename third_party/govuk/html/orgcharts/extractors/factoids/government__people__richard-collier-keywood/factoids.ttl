@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/dormant-assets-commission> govuk:hasMinister <https://www.gov.uk/government/people/richard-collier-keywood> .
 
-<https://www.gov.uk/government/people/richard-collier-keywood> a schema1:Person ;
+<https://www.gov.uk/government/people/richard-collier-keywood> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2018-12-03T14:05:02+00:00" ;
     schema1:description "Richard Collier-Keywood is the Chair of the School for Social Entrepreneurs, the Chair of Humentum, an NGO based in Washington DC focussed on supporting Operational Excellence in the NGO sector, the Chair of New Forest Care, a company that provides bespoke care and education to children with complex needs, and is Managing Partner of Nala, a venture capital business that supports social entrepreneurs to scale."@en ;
     schema1:name "Richard Collier-Keywood"@en ;
     schema1:url <https://www.gov.uk/government/people/richard-collier-keywood> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
-    govuk:currentRoleTitle "Dormant Assets Commissioner"@en .
+    govuk:contentId "ccc5dc71-8ae9-49c2-ae12-3fa90271578e" ;
+    govuk:currentRoleTitle "Dormant Assets Commissioner"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

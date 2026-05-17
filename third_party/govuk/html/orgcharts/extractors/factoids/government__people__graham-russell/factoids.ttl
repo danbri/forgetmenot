@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/office-for-product-safety-and-standards> govuk:hasMinister <https://www.gov.uk/government/people/graham-russell> .
 
-<https://www.gov.uk/government/people/graham-russell> a schema1:Person ;
+<https://www.gov.uk/government/people/graham-russell> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-09-27T10:25:42+01:00" ;
     schema1:description "2007 - Graham was appointed to create the Local Better Regulation Office (LBRO) as a government agency tasked with implementing the ideas put forward in the Hampton Report."@en ;
     schema1:name "Graham Russell MBE"@en ;
     schema1:url <https://www.gov.uk/government/people/graham-russell> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-for-product-safety-and-standards> ;
-    govuk:currentRoleTitle "CEO, Office for Product Safety and Standards"@en .
+    govuk:contentId "853b8187-c0f1-11e4-8223-005056011aef" ;
+    govuk:currentRoleTitle "CEO, Office for Product Safety and Standards"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -4,10 +4,15 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/allison-gerrard> .
 
-<https://www.gov.uk/government/people/allison-gerrard> a schema1:Person ;
+<https://www.gov.uk/government/people/allison-gerrard> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-29T09:55:36+01:00" ;
     schema1:description "Allison Gerrard is the Director for Strategy and Centre of Expertise in the Ministry of Justice’s People and Capability Group."@en ;
     schema1:name "Allison Gerrard"@en ;
     schema1:url <https://www.gov.uk/government/people/allison-gerrard> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "a95225d7-6447-439a-97f1-b3c68f2b7b04" ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

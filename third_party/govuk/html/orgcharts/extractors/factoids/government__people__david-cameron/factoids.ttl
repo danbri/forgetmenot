@@ -1,13 +1,76 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/david-cameron> .
 
-<https://www.gov.uk/government/people/david-cameron> a schema1:Person ;
+<https://www.gov.uk/government/ministers/first-lord-of-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-cameron> .
+
+<https://www.gov.uk/government/ministers/foreign-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-cameron> .
+
+<https://www.gov.uk/government/ministers/minister-for-the-civil-service> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-cameron> .
+
+<https://www.gov.uk/government/ministers/prime-minister> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-cameron> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-cameron> .
+
+<https://www.gov.uk/government/people/david-cameron> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T10:25:01+01:00" ;
     schema1:description "David Cameron was Secretary of State for Foreign, Commonwealth and Development Affairs between 13 November 2023 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Lord Cameron"@en ;
     schema1:url <https://www.gov.uk/government/people/david-cameron> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8529186b-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury>,
+        <https://www.gov.uk/government/ministers/foreign-secretary>,
+        <https://www.gov.uk/government/ministers/minister-for-the-civil-service>,
+        <https://www.gov.uk/government/ministers/prime-minister>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs>,
+        <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
+    govuk:tenureEnd "2016-07-13"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:role <https://www.gov.uk/government/people/david-cameron> .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:tenureEnd "2016-07-13"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    govuk:tenureEnd "2016-07-13"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/david-cameron> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-11-13"^^xsd:date .
 

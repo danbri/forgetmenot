@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/defence-equipment-and-support> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-04-01T08:58:14+01:00" ;
     schema1:name "Defence Equipment and Support"@en ;
     schema1:url <https://www.gov.uk/government/organisations/defence-equipment-and-support> ;
-    govuk:hasManager <https://www.gov.uk/government/people/andy-start> .
+    govuk:contentId "73833cda-22ca-4711-87f9-73a98814315d" ;
+    govuk:hasManager <https://www.gov.uk/government/people/andy-start> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/andy-start> a schema1:Person ;
     schema1:name "Andy Start"@en .

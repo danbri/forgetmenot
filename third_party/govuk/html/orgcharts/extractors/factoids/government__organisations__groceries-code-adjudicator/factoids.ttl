@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/groceries-code-adjudicator> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-03-02T09:45:04+00:00" ;
     schema1:name "Groceries Code Adjudicator"@en ;
     schema1:url <https://www.gov.uk/government/organisations/groceries-code-adjudicator> ;
-    govuk:hasManager <https://www.gov.uk/government/people/mark-white> .
+    govuk:contentId "c39170d6-85de-408e-87cf-37d0005bb791" ;
+    govuk:hasManager <https://www.gov.uk/government/people/mark-white> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/mark-white> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5f3a4471e90e0732e6fa405c/s465_Mark_-_colour.jpg> ;

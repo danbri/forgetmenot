@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/andrew-forzani> .
 
-<https://www.gov.uk/government/people/andrew-forzani> a schema1:Person ;
+<https://www.gov.uk/government/people/andrew-forzani> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-03-11T12:14:56+00:00" ;
     schema1:description "Andrew brings experience of over 30 years in commercial, procurement and supply chain management to the role of GCCO as he leads the cross-government commercial community to deliver the Plan for Change."@en ;
     schema1:name "Andrew Forzani"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-forzani> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:currentRoleTitle "Government Chief Commercial Officer and Non-Executive Chair, Government Commercial Agency"@en .
+    govuk:contentId "2248ccef-fec2-4f08-bad3-2b2b57ecb3e8" ;
+    govuk:currentRoleTitle "Government Chief Commercial Officer and Non-Executive Chair, Government Commercial Agency"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

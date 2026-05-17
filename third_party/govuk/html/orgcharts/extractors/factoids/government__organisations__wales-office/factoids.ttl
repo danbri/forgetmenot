@@ -63,8 +63,10 @@
 <https://www.gov.uk/government/organisations/wales-office> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-14T14:52:56+01:00" ;
     schema1:name "Wales Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/wales-office> ;
+    govuk:contentId "99a5828c-79dd-4533-ab18-18069be289cf" ;
     govuk:hasManager <https://www.gov.uk/government/people/ciaran-hayes>,
         <https://www.gov.uk/government/people/huw-bryer>,
         <https://www.gov.uk/government/people/kate-chamberlain>,
@@ -77,5 +79,7 @@
         <https://www.gov.uk/government/people/jo-stevens> ;
     govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--305>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> .
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

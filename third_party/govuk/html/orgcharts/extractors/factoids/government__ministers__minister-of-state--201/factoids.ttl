@@ -9,9 +9,12 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state--201> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-15T10:36:24+01:00" ;
     schema1:name "Minister of State (Minister for Local Government and Homelessness)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--201> ;
+    govuk:contentId "e4f33898-53fd-4329-94a7-796ae424ba5b" ;
     govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Homelessness and rough sleeping"@en,
         "Local government finance (including local taxation, business rates and local government pensions)"@en,
         "Local government policy (including stewardship, local audit, and governance reform)"@en,
@@ -19,5 +22,6 @@
         "Planning casework"@en,
         "Resettlement"@en,
         "Supported housing and domestic abuse"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/alison-mcgovern> .
+    govuk:roleHolder <https://www.gov.uk/government/people/alison-mcgovern> ;
+    govuk:schemaName "role" .
 

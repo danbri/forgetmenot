@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/ken-olisa> .
 
-<https://www.gov.uk/government/people/ken-olisa> a schema1:Person ;
+<https://www.gov.uk/government/people/ken-olisa> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2019-06-20T17:56:53+01:00" ;
     schema1:description "Born in Nottingham and educated in State schools and Cambridge University, Ken has worked at IBM and Wang after which he founded 2 technology merchant banks."@en ;
     schema1:name "Sir Ken Olisa OBE, CStJ, FRSA, FBCS"@en ;
     schema1:url <https://www.gov.uk/government/people/ken-olisa> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
-    govuk:currentRoleTitle "Member, Windrush Commemoration Committee"@en .
+    govuk:contentId "cd8d00b5-33e8-4b9a-ac12-c1226a2dfed5" ;
+    govuk:currentRoleTitle "Member, Windrush Commemoration Committee"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

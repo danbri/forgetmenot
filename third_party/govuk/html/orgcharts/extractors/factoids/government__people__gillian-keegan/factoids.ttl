@@ -1,13 +1,59 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/gillian-keegan> .
 
-<https://www.gov.uk/government/people/gillian-keegan> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state--60> govuk:previouslyHeldBy <https://www.gov.uk/government/people/gillian-keegan> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--133> govuk:previouslyHeldBy <https://www.gov.uk/government/people/gillian-keegan> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-africa--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/gillian-keegan> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-education> govuk:previouslyHeldBy <https://www.gov.uk/government/people/gillian-keegan> .
+
+<https://www.gov.uk/government/people/gillian-keegan> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T10:58:51+01:00" ;
     schema1:description "Gillian Keegan was Secretary of State for Education between 25 October 2022 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Gillian Keegan"@en ;
     schema1:url <https://www.gov.uk/government/people/gillian-keegan> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "fe1dde3c-c50f-4a36-85df-df5f6a11a702" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state--60>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--133>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-africa--2>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/gillian-keegan> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--60> ;
+    govuk:tenureEnd "2022-09-07"^^xsd:date ;
+    govuk:tenureStart "2021-09-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/gillian-keegan> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--133> ;
+    govuk:tenureEnd "2021-09-15"^^xsd:date ;
+    govuk:tenureStart "2020-02-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/gillian-keegan> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-africa--2> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/gillian-keegan> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-10-25"^^xsd:date .
 

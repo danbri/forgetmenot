@@ -5,15 +5,19 @@
 <https://www.gov.uk/government/organisations/national-housing-bank> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-15T17:17:11+01:00" ;
     schema1:name "National Housing Bank"@en ;
     schema1:url <https://www.gov.uk/government/organisations/national-housing-bank> ;
+    govuk:contentId "ff75095f-3643-46a9-a63e-c553b8e86eed" ;
     govuk:hasManager <https://www.gov.uk/government/people/amy-rees>,
         <https://www.gov.uk/government/people/chris-taylor>,
         <https://www.gov.uk/government/people/james-coppin>,
         <https://www.gov.uk/government/people/peter-vernon>,
         <https://www.gov.uk/government/people/ros-kerslake>,
         <https://www.gov.uk/government/people/simon-century>,
-        <https://www.gov.uk/government/people/simon-pistell> .
+        <https://www.gov.uk/government/people/simon-pistell> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/amy-rees> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69ce7621826d774e7b263dd7/s465_Amy.jpg> ;

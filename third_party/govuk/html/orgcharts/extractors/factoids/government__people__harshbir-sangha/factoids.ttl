@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-space-agency> govuk:hasMinister <https://www.gov.uk/government/people/harshbir-sangha> .
 
-<https://www.gov.uk/government/people/harshbir-sangha> a schema1:Person ;
+<https://www.gov.uk/government/people/harshbir-sangha> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-31T16:39:52+01:00" ;
     schema1:description "Harshbir has been the Deputy Director for Satcoms & PNT at the UK Space Agency since April 2026."@en ;
     schema1:name "Harshbir Sangha MBE FRSA"@en ;
     schema1:url <https://www.gov.uk/government/people/harshbir-sangha> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-space-agency> ;
-    govuk:currentRoleTitle "Deputy Director, Satcoms & PNT"@en .
+    govuk:contentId "65687e44-5ee9-47fa-a4c0-25c3315d7279" ;
+    govuk:currentRoleTitle "Deputy Director, Satcoms & PNT"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

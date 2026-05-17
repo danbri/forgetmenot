@@ -14,11 +14,15 @@
 <https://www.gov.uk/government/organisations/office-for-investment> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-17T10:42:08+01:00" ;
     schema1:name "Office for Investment"@en ;
     schema1:url <https://www.gov.uk/government/organisations/office-for-investment> ;
+    govuk:contentId "a3a3a8c8-18a2-4fb2-aa4c-31e06201e69b" ;
     govuk:hasManager <https://www.gov.uk/government/people/ceri-smith> ;
     govuk:hasMinister <https://www.gov.uk/government/people/jason-stockwood> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/jason-stockwood> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68e92b6d187483de54d7677f/s465_jason-stockwood.jpg> ;

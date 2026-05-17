@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> govuk:hasMinister <https://www.gov.uk/government/people/david-gann> .
 
-<https://www.gov.uk/government/people/david-gann> a schema1:Person ;
+<https://www.gov.uk/government/people/david-gann> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-06-25T10:57:22+01:00" ;
     schema1:description "David is a university and business leader, Chair and Non-Executive Director with a reputation for creating and supporting innovation and growth, and mentoring science-based start-ups. He is a leader in the development of fusion energy and was previously Chair of UK Atomic Energy Authority. He is Emeritus Professor, Innovation and Technology Management, at Imperial College London."@en ;
     schema1:name "Professor David Gann CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/david-gann> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
-    govuk:currentRoleTitle "Chair"@en .
+    govuk:contentId "be025e01-acd6-4a73-9aa6-388150f7843d" ;
+    govuk:currentRoleTitle "Chair"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

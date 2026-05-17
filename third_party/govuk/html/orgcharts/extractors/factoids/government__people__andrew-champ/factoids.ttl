@@ -4,10 +4,15 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/andrew-champ> .
 
-<https://www.gov.uk/government/people/andrew-champ> a schema1:Person ;
+<https://www.gov.uk/government/people/andrew-champ> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-05-26T13:20:41+01:00" ;
     schema1:description "Andrew Champ has 30 years of international major project development and delivery experience including successful delivery of Barakah Nuclear Power plant in the UAE. Having worked in the supply chain and as a Client Andrew is a big advocate for sustainable procurement and building collaborative relationships."@en ;
     schema1:name "Andrew Champ"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-champ> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "cdecb7a0-b77d-47ba-8211-73b77755d7c8" ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

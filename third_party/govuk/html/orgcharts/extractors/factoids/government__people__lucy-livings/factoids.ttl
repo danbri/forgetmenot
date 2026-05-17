@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> govuk:hasMinister <https://www.gov.uk/government/people/lucy-livings> .
 
-<https://www.gov.uk/government/people/lucy-livings> a schema1:Person ;
+<https://www.gov.uk/government/people/lucy-livings> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-04-09T10:13:51+01:00" ;
     schema1:description "Lucy Livings started her role as Regional Director for South-West in January 2024."@en ;
     schema1:name "Lucy Livings"@en ;
     schema1:url <https://www.gov.uk/government/people/lucy-livings> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
-    govuk:currentRoleTitle "Regional Director for South West"@en .
+    govuk:contentId "418479c2-a37a-4e79-ac9f-dd02a8d6cbdf" ;
+    govuk:currentRoleTitle "Regional Director for South West"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -9,9 +9,12 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy--2> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-17T12:51:27+01:00" ;
     schema1:name "Minister of State (Minister for Energy)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy--2> ;
+    govuk:contentId "96a50a0a-8cf7-4e14-8a29-f94b4ee0e6c9" ;
     govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Clean Power 2030"@en,
         "Energy Independence Bill"@en,
         "Great British Energy"@en,
@@ -25,5 +28,6 @@
         "hydrogen"@en,
         "oil and gas refineries"@en,
         "renewables and biomass"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/michael-shanks> .
+    govuk:roleHolder <https://www.gov.uk/government/people/michael-shanks> ;
+    govuk:schemaName "role" .
 

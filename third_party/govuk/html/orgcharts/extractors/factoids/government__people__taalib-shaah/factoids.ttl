@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/taalib-shaah> .
 
-<https://www.gov.uk/government/people/taalib-shaah> a schema1:Person ;
+<https://www.gov.uk/government/people/taalib-shaah> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-10-04T12:16:31+01:00" ;
     schema1:description "Taalib Shaah is Group Chief Risk Officer for Barclays, based in London. He is responsible for helping to define, set and manage the risk profile of the bank and leads the risk management organisation across the group. He is a member of the Group Executive Committee."@en ;
     schema1:name "Taalib Shaah"@en ;
     schema1:url <https://www.gov.uk/government/people/taalib-shaah> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    govuk:currentRoleTitle "Non-executive board member"@en .
+    govuk:contentId "f68c4771-c319-4f31-b12f-558408639995" ;
+    govuk:currentRoleTitle "Non-executive board member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

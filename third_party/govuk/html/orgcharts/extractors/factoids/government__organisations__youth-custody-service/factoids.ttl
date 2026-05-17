@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/youth-custody-service> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-08-29T11:31:14+01:00" ;
     schema1:name "Youth Custody Service"@en ;
     schema1:url <https://www.gov.uk/government/organisations/youth-custody-service> ;
-    govuk:hasManager <https://www.gov.uk/government/people/alison-clarke> .
+    govuk:contentId "9c0a6ad4-0212-4fbe-a42b-8b338881ff06" ;
+    govuk:hasManager <https://www.gov.uk/government/people/alison-clarke> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alison-clarke> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/690e1d2147ad122f854627e8/s465_alison_clarke_960x640.jpg> ;

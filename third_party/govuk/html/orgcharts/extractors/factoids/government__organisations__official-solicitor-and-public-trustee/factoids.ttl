@@ -5,11 +5,15 @@
 <https://www.gov.uk/government/organisations/official-solicitor-and-public-trustee> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-03-28T12:18:27+01:00" ;
     schema1:name "Official Solicitor and Public Trustee"@en ;
     schema1:url <https://www.gov.uk/government/organisations/official-solicitor-and-public-trustee> ;
+    govuk:contentId "0fac336b-7685-4b1b-bdf1-37e4e964bf67" ;
     govuk:hasManager <https://www.gov.uk/government/people/helen-clift>,
         <https://www.gov.uk/government/people/julie-taylor--2>,
-        <https://www.gov.uk/government/people/sarah-castle> .
+        <https://www.gov.uk/government/people/sarah-castle> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/helen-clift> a schema1:Person ;
     schema1:name "Helen Clift"@en .

@@ -14,11 +14,15 @@
 <https://www.gov.uk/government/organisations/cabinet-office-board> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-01-04T11:35:24+00:00" ;
     schema1:name "Cabinet Office Board"@en ;
     schema1:url <https://www.gov.uk/government/organisations/cabinet-office-board> ;
+    govuk:contentId "746822e7-8fe8-4a6f-89fc-2b3bd3e0dab8" ;
     govuk:hasManager <https://www.gov.uk/government/people/cat-little> ;
     govuk:hasMinister <https://www.gov.uk/government/people/darren-jones> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> .
+    govuk:hasRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/darren-jones> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668843eb4a94d44125d9cdbf/s465_darren-jones.jpg> ;

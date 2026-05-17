@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/geoff-thompson> .
 
-<https://www.gov.uk/government/people/geoff-thompson> a schema1:Person ;
+<https://www.gov.uk/government/people/geoff-thompson> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2019-06-21T17:29:10+01:00" ;
     schema1:description "Stanley Beresford Thompson and Violet Adriana Thompson migrated from Barbados and Guyana respectively as part of the post-war rebuilding of the mother country. My father fought in the second world war and distinguished himself with medals of valour. My mother came over as a nurse as so many who were encouraged to improve their life chances and one day return back home."@en ;
     schema1:name "Geoff Thompson MBE DL"@en ;
     schema1:url <https://www.gov.uk/government/people/geoff-thompson> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
-    govuk:currentRoleTitle "Member, Windrush Commemoration Committee"@en .
+    govuk:contentId "b6e33c2e-2c36-4b91-bdbb-7383778ba402" ;
+    govuk:currentRoleTitle "Member, Windrush Commemoration Committee"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

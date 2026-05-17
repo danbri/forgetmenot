@@ -1,13 +1,139 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/stuart-andrew> .
 
-<https://www.gov.uk/government/people/stuart-andrew> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--15> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/government-whip--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/minister-for-defence-procurement> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-at-the-ministry-of-justice> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--189> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--207> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--220> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--221> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--94> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stuart-andrew> .
+
+<https://www.gov.uk/government/people/stuart-andrew> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:23:30+01:00" ;
     schema1:description "The Rt Hon Stuart Andrew was Parliamentary Under Secretary of State at the Department for Digital, Culture, Media and Sport, and Parliamentary Under Secretary of State (Minister for Equalities) for the Equality Hub from 27 October 2022 to 5 July 2024."@en ;
     schema1:name "The Rt Hon Stuart Andrew MP"@en ;
     schema1:url <https://www.gov.uk/government/people/stuart-andrew> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "9d5d1fbe-b0b8-4c9a-8fab-95a1a2f26a91" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--15>,
+        <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2>,
+        <https://www.gov.uk/government/ministers/government-whip--2>,
+        <https://www.gov.uk/government/ministers/minister-for-defence-procurement>,
+        <https://www.gov.uk/government/ministers/minister-of-state-at-the-ministry-of-justice>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing--2>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--189>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--207>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--220>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--221>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--94>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-at-the-ministry-of-justice> ;
+    govuk:tenureEnd "2022-09-07"^^xsd:date ;
+    govuk:tenureStart "2022-07-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--2> ;
+    govuk:tenureEnd "2023-02-07"^^xsd:date ;
+    govuk:tenureStart "2022-10-27"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2019-07-28"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-defence-procurement> ;
+    govuk:tenureEnd "2019-07-27"^^xsd:date ;
+    govuk:tenureStart "2018-07-19"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--221> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-10-27"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--220> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-02-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    govuk:tenureEnd "2022-02-08"^^xsd:date ;
+    govuk:tenureStart "2020-02-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--207> ;
+    govuk:tenureEnd "2023-02-07"^^xsd:date ;
+    govuk:tenureStart "2022-10-27"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-housing--2> ;
+    govuk:tenureEnd "2022-07-06"^^xsd:date ;
+    govuk:tenureStart "2022-02-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--189> ;
+    govuk:tenureEnd "2022-10-27"^^xsd:date ;
+    govuk:tenureStart "2022-09-20"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--15> ;
+    govuk:tenureEnd "2018-07-19"^^xsd:date ;
+    govuk:tenureStart "2017-06-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/stuart-andrew> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--94> ;
+    govuk:tenureEnd "2018-07-19"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
 

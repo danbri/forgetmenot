@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/megan-lee-devlin> .
 
-<https://www.gov.uk/government/people/megan-lee-devlin> a schema1:Person ;
+<https://www.gov.uk/government/people/megan-lee-devlin> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-04-11T14:53:27+01:00" ;
     schema1:description "Megan Lee Devlin was appointed as Director General in the Ministry of Justice in March 2024. Megan is responsible for leading on service transformation across the Ministry of Justice and its agencies. This includes oversight of the Legal Aid Agency, Office of the Public Guardian and the Criminal Injuries Compensation Authority, and responsibility for the digital services and technology underpinning prisons, probation and other critical services across the justice system."@en ;
     schema1:name "Megan Lee Devlin"@en ;
     schema1:url <https://www.gov.uk/government/people/megan-lee-devlin> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    govuk:currentRoleTitle "Director General, Service Transformation"@en .
+    govuk:contentId "8c62f143-a467-4a8b-92b9-c8441be72289" ;
+    govuk:currentRoleTitle "Director General, Service Transformation"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

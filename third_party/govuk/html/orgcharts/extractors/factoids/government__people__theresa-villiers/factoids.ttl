@@ -1,13 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/theresa-villiers> .
 
-<https://www.gov.uk/government/people/theresa-villiers> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state--20> govuk:previouslyHeldBy <https://www.gov.uk/government/people/theresa-villiers> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/theresa-villiers> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> govuk:previouslyHeldBy <https://www.gov.uk/government/people/theresa-villiers> .
+
+<https://www.gov.uk/government/people/theresa-villiers> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T15:35:49+01:00" ;
     schema1:description "Theresa Villiers was Secretary of State for Environment, Food and Rural Affairs from 24 July 2019 to 13 February 2020. She was also Secretary of State for Northern Ireland from September 2012 until July 2016 and served as Minister of State for Transport from May 2010 until September 2012."@en ;
     schema1:name "The Rt Hon Theresa Villiers"@en ;
     schema1:url <https://www.gov.uk/government/people/theresa-villiers> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85293e7e-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state--20>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/theresa-villiers> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2019-07-24"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/theresa-villiers> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:tenureEnd "2016-07-14"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/theresa-villiers> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--20> ;
+    govuk:tenureEnd "2012-09-04"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

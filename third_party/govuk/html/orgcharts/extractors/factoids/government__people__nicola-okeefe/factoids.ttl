@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/nicola-okeefe> .
 
-<https://www.gov.uk/government/people/nicola-okeefe> a schema1:Person ;
+<https://www.gov.uk/government/people/nicola-okeefe> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-11-25T10:48:39+00:00" ;
     schema1:description "Nicola is a commercially focused financial director and a chartered accountant with extensive knowledge and experience of leading and transforming finance teams."@en ;
     schema1:name "Nicola O'Keeffe"@en ;
     schema1:url <https://www.gov.uk/government/people/nicola-okeefe> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Chief Financial Officer"@en .
+    govuk:contentId "af192dd5-68e6-4912-8b66-ac05fa54cad7" ;
+    govuk:currentRoleTitle "Chief Financial Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

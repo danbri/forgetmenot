@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/great-british-energy-nuclear> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-06-10T09:30:34+01:00" ;
     schema1:name "Great British Energy – Nuclear"@en ;
     schema1:url <https://www.gov.uk/government/organisations/great-british-energy-nuclear> ;
+    govuk:contentId "1c2df800-ce5f-453d-861b-fb6e46b0ae49" ;
     govuk:hasManager <https://www.gov.uk/government/people/simon-bowen>,
-        <https://www.gov.uk/government/people/simon-roddy> .
+        <https://www.gov.uk/government/people/simon-roddy> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/simon-bowen> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/646f4bfd7dd6e70012a9b3b2/s465_simon-bowen-gov-uk.jpg> ;

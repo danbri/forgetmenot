@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/catherine-vaughan> .
 
-<https://www.gov.uk/government/people/catherine-vaughan> a schema1:Person ;
+<https://www.gov.uk/government/people/catherine-vaughan> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-01-02T14:27:57+00:00" ;
     schema1:description "Catherine Vaughan CB was appointed as Finance Director General for the Department for Work and Pensions ( DWP ) in October 2022."@en ;
     schema1:name "Catherine Vaughan CB"@en ;
     schema1:url <https://www.gov.uk/government/people/catherine-vaughan> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    govuk:currentRoleTitle "Director General, Finance"@en .
+    govuk:contentId "85447fff-c0f1-11e4-8223-005056011aef" ;
+    govuk:currentRoleTitle "Director General, Finance"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

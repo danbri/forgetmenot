@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/government-actuarys-department> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-11-26T11:49:21+00:00" ;
     schema1:name "Government Actuary's Department"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-actuarys-department> ;
+    govuk:contentId "02e01dc9-a4c4-46d9-b496-a618c89afe62" ;
     govuk:hasManager <https://www.gov.uk/government/people/bal-kaur>,
         <https://www.gov.uk/government/people/dave-johnston>,
         <https://www.gov.uk/government/people/fiona-dunsire>,
@@ -15,7 +17,9 @@
         <https://www.gov.uk/government/people/les-philpott>,
         <https://www.gov.uk/government/people/liz-thornhill>,
         <https://www.gov.uk/government/people/matt-gurden>,
-        <https://www.gov.uk/government/people/matt-wood> .
+        <https://www.gov.uk/government/people/matt-wood> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/bal-kaur> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67f624d8b7e44efc70acc3a7/s465_Bal_Kaur_-_960x640.jpg> ;

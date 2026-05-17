@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/sharon-hillier> .
 
-<https://www.gov.uk/government/people/sharon-hillier> a schema1:Person ;
+<https://www.gov.uk/government/people/sharon-hillier> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-06-23T13:37:49+01:00" ;
     schema1:description "Dr Sharon Hillier is Director of the Screening Division, Public Health Wales."@en ;
     schema1:name "Dr Sharon Hillier PhD FFPH"@en ;
     schema1:url <https://www.gov.uk/government/people/sharon-hillier> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
-    govuk:currentRoleTitle "Member"@en .
+    govuk:contentId "8988c39d-7cee-4416-a3bb-47f0e7bc6546" ;
+    govuk:currentRoleTitle "Member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -4,11 +4,15 @@
 
 <https://www.gov.uk/government/organisations/hm-prison-service> govuk:hasMinister <https://www.gov.uk/government/people/sarah-coccia> .
 
-<https://www.gov.uk/government/people/sarah-coccia> a schema1:Person ;
+<https://www.gov.uk/government/people/sarah-coccia> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    schema1:description "HM Prison Service and HM Prison and Probation Service"@en ;
+    dcterms:modified "2025-11-07T17:38:49+00:00" ;
     schema1:name "Sarah Coccia"@en ;
     schema1:url <https://www.gov.uk/government/people/sarah-coccia> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-prison-service> ;
-    govuk:currentRoleTitle "Chief Operating Officer Prisons"@en .
+    govuk:contentId "79f77ecf-913c-44b6-84b2-eac948bc4a73" ;
+    govuk:currentRoleTitle "Chief Operating Officer Prisons"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

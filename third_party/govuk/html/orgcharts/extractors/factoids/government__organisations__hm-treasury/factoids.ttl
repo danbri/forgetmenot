@@ -131,8 +131,10 @@
 <https://www.gov.uk/government/organisations/hm-treasury> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-11-26T14:37:58+00:00" ;
     schema1:name "HM Treasury"@en ;
     schema1:url <https://www.gov.uk/government/organisations/hm-treasury> ;
+    govuk:contentId "1994e0e4-bd19-4966-bbd7-f293d6e90a6b" ;
     govuk:hasManager <https://www.gov.uk/government/people/beth-russell>,
         <https://www.gov.uk/government/people/brian-bell>,
         <https://www.gov.uk/government/people/charlie-mayfield>,
@@ -160,5 +162,7 @@
         <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2>,
-        <https://www.gov.uk/government/ministers/parliamentary-secretary--13> .
+        <https://www.gov.uk/government/ministers/parliamentary-secretary--13> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

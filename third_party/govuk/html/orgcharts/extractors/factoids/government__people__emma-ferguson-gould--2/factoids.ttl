@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/emma-ferguson-gould--2> .
 
-<https://www.gov.uk/government/people/emma-ferguson-gould--2> a schema1:Person ;
+<https://www.gov.uk/government/people/emma-ferguson-gould--2> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-12-12T08:56:43+00:00" ;
     schema1:description "Emma joined the Nuclear Restoration Services Ltd Board in November 2023 as a NDA Nominated Non-Executive Director."@en ;
     schema1:name "Emma Ferguson-Gould"@en ;
     schema1:url <https://www.gov.uk/government/people/emma-ferguson-gould--2> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
-    govuk:currentRoleTitle "Non-Executive Director"@en .
+    govuk:contentId "226672d2-18c4-4233-b1d6-b47f074240cc" ;
+    govuk:currentRoleTitle "Non-Executive Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

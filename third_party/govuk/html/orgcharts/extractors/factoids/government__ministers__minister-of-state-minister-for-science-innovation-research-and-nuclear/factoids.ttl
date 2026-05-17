@@ -11,10 +11,13 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-23T17:12:25+01:00" ;
     schema1:name "Minister of State (Minister for Science, Innovation, Research and Nuclear)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> ;
+    govuk:contentId "590b09e0-5b7f-4bd7-8e0d-ea440aafaa6e" ;
     govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero>,
         <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "AI in the energy sector"@en,
         "Horizon Europe"@en,
         "Oxford – Cambridge Growth Corridor Champion"@en,
@@ -28,5 +31,6 @@
         "research and development"@en,
         "science and innovation for climate and energy"@en,
         "tech and innovation across the missions"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/patrick-vallance> .
+    govuk:roleHolder <https://www.gov.uk/government/people/patrick-vallance> ;
+    govuk:schemaName "role" .
 

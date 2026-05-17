@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> govuk:hasMinister <https://www.gov.uk/government/people/catherine-blair> .
 
-<https://www.gov.uk/government/people/catherine-blair> a schema1:Person ;
+<https://www.gov.uk/government/people/catherine-blair> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-09-06T16:47:52+01:00" ;
     schema1:description "Catherine joined HM Courts and Tribunals Service (HMCTS) as Chief Financial Officer in June 2024. Prior to that Catherine was Finance and Business Director for Transformation/Change in HMRC."@en ;
     schema1:name "Catherine Blair"@en ;
     schema1:url <https://www.gov.uk/government/people/catherine-blair> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
-    govuk:currentRoleTitle "Chief Finance Officer and Board Member"@en .
+    govuk:contentId "4a226e6a-03ce-4ff6-a334-6e36e941d000" ;
+    govuk:currentRoleTitle "Chief Finance Officer and Board Member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

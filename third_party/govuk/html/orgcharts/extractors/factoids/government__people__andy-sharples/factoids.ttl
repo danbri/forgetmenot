@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/andy-sharples> .
 
-<https://www.gov.uk/government/people/andy-sharples> a schema1:Person ;
+<https://www.gov.uk/government/people/andy-sharples> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-11-08T16:16:20+00:00" ;
     schema1:description "Andy has brought more than 30 years’ experience of working on major programmes when he joined Sellafield Ltd in June 2021."@en ;
     schema1:name "Andy Sharples"@en ;
     schema1:url <https://www.gov.uk/government/people/andy-sharples> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
-    govuk:currentRoleTitle "Project Director"@en .
+    govuk:contentId "d82d6054-9ec1-43b6-b4f4-2e157064b328" ;
+    govuk:currentRoleTitle "Project Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

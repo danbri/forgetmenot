@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/skills-england> govuk:hasMinister <https://www.gov.uk/government/people/phil-smith> .
 
-<https://www.gov.uk/government/people/phil-smith> a schema1:Person ;
+<https://www.gov.uk/government/people/phil-smith> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-27T10:34:44+01:00" ;
     schema1:description "Phil Smith CBE is Chair of Skills England, bringing extensive leadership in technology, innovation and skills development."@en ;
     schema1:name "Phil Smith CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/phil-smith> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/skills-england> ;
-    govuk:currentRoleTitle "Chair and Industrial Strategy Advisory Council member"@en .
+    govuk:contentId "8d299d5a-330e-4f42-b8eb-9db7a2469c2f" ;
+    govuk:currentRoleTitle "Chair and Industrial Strategy Advisory Council member"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

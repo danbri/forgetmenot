@@ -344,6 +344,24 @@ class Crawler:
     ) -> list[str]:
         soup = BeautifulSoup(html, "lxml")
 
+        # GOV.UK keeps PM biographies in two parallel URL spaces:
+        # /government/history/past-prime-ministers/<slug> (the historical
+        # write-up) and /government/people/<slug> (their current "person"
+        # page). They are not always cross-linked, so a politician known
+        # to one space may not be reachable to the other. Force the
+        # reciprocal enqueue whenever we land in either space, so the
+        # crawler can't lose one half of the pair.
+        path = urllib.parse.urlsplit(base_url).path
+        m = re.match(r"^/government/history/past-prime-ministers/([^/]+)$", path)
+        if m:
+            self.enqueue(f"{ROOT}/government/people/{m.group(1)}", depth + 1)
+        m = re.match(r"^/government/people/([^/]+)$", path)
+        if m:
+            self.enqueue(
+                f"{ROOT}/government/history/past-prime-ministers/{m.group(1)}",
+                depth + 1,
+            )
+
         # Feeds (atom/rss/sitemap) -- record but don't crawl as pages.
         for link in soup.find_all("link", rel=True):
             rels = [r.lower() for r in link.get("rel", [])]
@@ -501,10 +519,32 @@ def main(argv: Iterable[str] | None = None) -> int:
         "--resume", action="store_true",
         help="resume from prior state.json (frontier + visited)",
     )
+    parser.add_argument(
+        "--wikidata-seeds",
+        default=None,
+        help="Optional path to a JSONL with 'govukSlug' field (e.g. "
+             "third_party/data/wikidata/data/people-bridge.jsonl). Each "
+             "slug becomes a seed at /government/people/<slug>. Use this "
+             "to close known gaps the natural link-graph doesn't reach.",
+    )
     args = parser.parse_args(list(argv) if argv is not None else None)
 
     out_dir = Path(args.out)
-    seeds = args.seed if args.seed else DEFAULT_SEEDS
+    seeds = list(args.seed) if args.seed else list(DEFAULT_SEEDS)
+    if args.wikidata_seeds:
+        wd_path = Path(args.wikidata_seeds)
+        if not wd_path.exists():
+            parser.error(f"--wikidata-seeds: {wd_path} not found")
+        added = 0
+        for line in wd_path.open():
+            try:
+                slug = json.loads(line).get("govukSlug")
+            except json.JSONDecodeError:
+                continue
+            if slug:
+                seeds.append(f"{ROOT}/government/people/{slug}")
+                added += 1
+        print(f"loaded {added} extra seeds from {wd_path}", file=sys.stderr)
     crawler = Crawler(
         out_dir=out_dir,
         seeds=seeds,

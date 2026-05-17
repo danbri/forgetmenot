@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/public-sector-fraud-authority> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-02-06T10:28:05+00:00" ;
     schema1:name "Public Sector Fraud Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/public-sector-fraud-authority> ;
+    govuk:contentId "1c03c968-5c22-498a-8db0-22d2515fccba" ;
     govuk:hasManager <https://www.gov.uk/government/people/mark-cheeseman>,
-        <https://www.gov.uk/government/people/rich-wentel> .
+        <https://www.gov.uk/government/people/rich-wentel> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/mark-cheeseman> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6499a833831311001329639a/s465_Untitled.jpg> ;

@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-wallace-of-tankerness> .
 
-<https://www.gov.uk/government/people/lord-wallace-of-tankerness> a schema1:Person ;
+<https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-wallace-of-tankerness> .
+
+<https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-wallace-of-tankerness> .
+
+<https://www.gov.uk/government/people/lord-wallace-of-tankerness> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-01-24T09:50:19+00:00" ;
     schema1:description "The Rt Hon Lord Wallace of Tankerness KC was HM Advocate General for Scotland from 12 May 2010 to 08 May 2015."@en ;
     schema1:name "The Rt Hon Lord Wallace of Tankerness KC"@en ;
     schema1:url <https://www.gov.uk/government/people/lord-wallace-of-tankerness> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85293b38-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords>,
+        <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-wallace-of-tankerness> ;
+    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    govuk:tenureEnd "2015-05-08"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-wallace-of-tankerness> ;
+    govuk:role <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords> ;
+    govuk:tenureEnd "2015-05-08"^^xsd:date ;
+    govuk:tenureStart "2013-10-15"^^xsd:date .
 

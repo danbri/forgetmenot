@@ -115,8 +115,10 @@
 <https://www.gov.uk/government/organisations/department-for-transport> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-11-27T13:58:13+00:00" ;
     schema1:name "Department for Transport"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-transport> ;
+    govuk:contentId "4c717efc-f47b-478e-a76d-ce1ae0af1946" ;
     govuk:hasManager <https://www.gov.uk/government/people/antonia-williams>,
         <https://www.gov.uk/government/people/ashley-ibbett>,
         <https://www.gov.uk/government/people/conrad-bailey>,
@@ -141,5 +143,7 @@
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--266>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--304>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> .
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

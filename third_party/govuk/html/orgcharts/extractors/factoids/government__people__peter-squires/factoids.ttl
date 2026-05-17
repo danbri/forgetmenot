@@ -4,11 +4,15 @@
 
 <https://www.gov.uk/government/organisations/military-aviation-authority> govuk:hasMinister <https://www.gov.uk/government/people/peter-squires> .
 
-<https://www.gov.uk/government/people/peter-squires> a schema1:Person ;
+<https://www.gov.uk/government/people/peter-squires> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    schema1:description "Director MAA responsibilities include:"@en ;
+    dcterms:modified "2025-07-11T08:49:39+01:00" ;
     schema1:name "Air Vice-Marshal Peter Squires OBE MA BEng(Hons)"@en ;
     schema1:url <https://www.gov.uk/government/people/peter-squires> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/military-aviation-authority> ;
-    govuk:currentRoleTitle "Director Military Aviation Authority"@en .
+    govuk:contentId "a8bffaa3-8a4f-4d64-b936-eff3072dc56b" ;
+    govuk:currentRoleTitle "Director Military Aviation Authority"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

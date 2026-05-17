@@ -1,20 +1,38 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> govuk:hasMinister <https://www.gov.uk/government/people/baroness-smith-of-basildon> .
 
 <https://www.gov.uk/government/ministers/leader-of-the-house-of-lords> govuk:roleHolder <https://www.gov.uk/government/people/baroness-smith-of-basildon> .
 
 <https://www.gov.uk/government/ministers/lord-privy-seal> govuk:roleHolder <https://www.gov.uk/government/people/baroness-smith-of-basildon> .
 
-<https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> govuk:hasMinister <https://www.gov.uk/government/people/baroness-smith-of-basildon> .
-
-<https://www.gov.uk/government/people/baroness-smith-of-basildon> a schema1:Person ;
+<https://www.gov.uk/government/people/baroness-smith-of-basildon> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-05T18:39:23+01:00" ;
     schema1:description "Baroness Smith was appointed Lord Privy Seal and Leader of the House of Lords on 5 July 2024."@en ;
     schema1:name "The Rt Hon Baroness Smith of Basildon"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-smith-of-basildon> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
+    govuk:contentId "b15cc39b-fd48-4a2b-82a4-3648542f96be" ;
     govuk:currentRoleTitle "Lord Privy Seal and Leader of the House of Lords"@en ;
     govuk:holdsRole <https://www.gov.uk/government/ministers/leader-of-the-house-of-lords>,
-        <https://www.gov.uk/government/ministers/lord-privy-seal> .
+        <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-smith-of-basildon> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-smith-of-basildon> ;
+    govuk:role <https://www.gov.uk/government/ministers/leader-of-the-house-of-lords> ;
+    govuk:tenureStart "2024-07-05"^^xsd:date .
 

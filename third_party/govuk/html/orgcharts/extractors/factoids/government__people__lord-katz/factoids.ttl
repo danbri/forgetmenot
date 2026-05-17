@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--13> govuk:roleHolder <https://www.gov.uk/government/people/lord-katz> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-katz> .
 
-<https://www.gov.uk/government/people/lord-katz> a schema1:Person ;
+<https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--13> govuk:roleHolder <https://www.gov.uk/government/people/lord-katz> .
+
+<https://www.gov.uk/government/people/lord-katz> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-04-11T14:49:08+01:00" ;
     schema1:description "The Lord Katz MBE was appointed as a Lord in Waiting (Government Whip) on 11 April 2025."@en ;
     schema1:name "Lord Katz MBE"@en ;
     schema1:url <https://www.gov.uk/government/people/lord-katz> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "e824d657-b5a7-47ac-8fc7-1bd0b63428ff" ;
     govuk:currentRoleTitle "Lord in Waiting (Government Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--13> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--13> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-katz> ;
+    govuk:role <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--13> ;
+    govuk:tenureStart "2025-04-11"^^xsd:date .
 

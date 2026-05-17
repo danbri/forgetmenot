@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> govuk:roleHolder <https://www.gov.uk/government/people/jade-botterill> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jade-botterill> .
 
-<https://www.gov.uk/government/people/jade-botterill> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> govuk:roleHolder <https://www.gov.uk/government/people/jade-botterill> .
+
+<https://www.gov.uk/government/people/jade-botterill> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-08T09:03:19+01:00" ;
     schema1:description "Jade Botterill was appointed Assistant Whip, House of Commons on 7 September 2025. She was elected as the MP for Ossett and Denby Dale in July 2024."@en ;
     schema1:name "Jade Botterill MP"@en ;
     schema1:url <https://www.gov.uk/government/people/jade-botterill> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "5b49b251-b564-41df-9495-566d42cb03d0" ;
     govuk:currentRoleTitle "Assistant Whip, House of Commons"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jade-botterill> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> ;
+    govuk:tenureStart "2025-09-07"^^xsd:date .
 

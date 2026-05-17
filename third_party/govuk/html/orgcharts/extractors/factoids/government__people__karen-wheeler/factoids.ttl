@@ -4,10 +4,15 @@
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/karen-wheeler> .
 
-<https://www.gov.uk/government/people/karen-wheeler> a schema1:Person ;
+<https://www.gov.uk/government/people/karen-wheeler> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-05-26T13:16:19+01:00" ;
     schema1:description "Karen Wheeler CBE joined the Board of RWM as an Independent Non-Executive Director in September 2018 before being appointed as RWM CEO from 1 February 2020."@en ;
     schema1:name "Karen Wheeler CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/karen-wheeler> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8534b468-c0f1-11e4-8223-005056011aef" ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

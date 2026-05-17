@@ -5,12 +5,16 @@
 <https://www.gov.uk/government/organisations/uk-defence-innovation> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-02-16T16:13:23+00:00" ;
     schema1:name "UK Defence Innovation"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-defence-innovation> ;
+    govuk:contentId "3f9cb840-473f-493a-ad28-ff48b8a22fac" ;
     govuk:hasManager <https://www.gov.uk/government/people/anita-friend>,
         <https://www.gov.uk/government/people/james-gavin>,
         <https://www.gov.uk/government/people/john-cunningham>,
-        <https://www.gov.uk/government/people/natasha-fox> .
+        <https://www.gov.uk/government/people/natasha-fox> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/anita-friend> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5d6d0219e5274a1714045bc5/s465_Official_photo.jpg> ;

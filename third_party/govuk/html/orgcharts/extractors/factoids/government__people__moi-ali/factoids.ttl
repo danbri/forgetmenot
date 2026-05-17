@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/office-for-the-independent-examiner-of-complaints> govuk:hasMinister <https://www.gov.uk/government/people/moi-ali> .
 
-<https://www.gov.uk/government/people/moi-ali> a schema1:Person ;
+<https://www.gov.uk/government/people/moi-ali> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-09-21T15:49:11+01:00" ;
     schema1:description "The Independent Examiner of Complaints is Moi Ali. Moi has a background in independent complaints review. Previously she served as:"@en ;
     schema1:name "Moi Ali"@en ;
     schema1:url <https://www.gov.uk/government/people/moi-ali> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-for-the-independent-examiner-of-complaints> ;
-    govuk:currentRoleTitle "Independent Examiner of Complaints"@en .
+    govuk:contentId "d9b0b704-eb89-4e08-9ba4-6850d40fb888" ;
+    govuk:currentRoleTitle "Independent Examiner of Complaints"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

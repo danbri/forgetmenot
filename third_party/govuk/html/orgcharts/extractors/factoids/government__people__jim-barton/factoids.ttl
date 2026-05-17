@@ -4,11 +4,15 @@
 
 <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> govuk:hasMinister <https://www.gov.uk/government/people/jim-barton> .
 
-<https://www.gov.uk/government/people/jim-barton> a schema1:Person ;
+<https://www.gov.uk/government/people/jim-barton> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    schema1:description "HM Prison and Probation Service"@en ;
+    dcterms:modified "2020-06-12T16:18:03+01:00" ;
     schema1:name "Jim Barton"@en ;
     schema1:url <https://www.gov.uk/government/people/jim-barton> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> ;
-    govuk:currentRoleTitle "Executive Director HMPPS Change"@en .
+    govuk:contentId "9e5e46ad-bbbe-414b-80c9-2c63b83d73bc" ;
+    govuk:currentRoleTitle "Executive Director HMPPS Change"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

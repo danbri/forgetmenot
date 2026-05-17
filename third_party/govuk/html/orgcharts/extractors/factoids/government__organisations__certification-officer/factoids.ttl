@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/certification-officer> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-02-29T12:35:11+00:00" ;
     schema1:name "Certification Officer"@en ;
     schema1:url <https://www.gov.uk/government/organisations/certification-officer> ;
-    govuk:hasManager <https://www.gov.uk/government/people/stephen-hardy> .
+    govuk:contentId "3c16fddc-350e-4b2f-abfe-1a7c1821bd28" ;
+    govuk:hasManager <https://www.gov.uk/government/people/stephen-hardy> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/stephen-hardy> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/65c0d679704282000d7521fa/s465_stephen-hardy.png> ;

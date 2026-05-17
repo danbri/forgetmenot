@@ -4,11 +4,15 @@
 
 <https://www.gov.uk/government/organisations/uk-space-agency> govuk:hasMinister <https://www.gov.uk/government/people/mark-bacon> .
 
-<https://www.gov.uk/government/people/mark-bacon> a schema1:Person ;
+<https://www.gov.uk/government/people/mark-bacon> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    schema1:description "UK Space Agency"@en ;
+    dcterms:modified "2022-11-30T11:57:24+00:00" ;
     schema1:name "Mark Bacon"@en ;
     schema1:url <https://www.gov.uk/government/people/mark-bacon> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-space-agency> ;
-    govuk:currentRoleTitle "Deputy Director, Strategy"@en .
+    govuk:contentId "475e50a8-cc30-46a2-b740-b9789a705b79" ;
+    govuk:currentRoleTitle "Deputy Director, Strategy"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

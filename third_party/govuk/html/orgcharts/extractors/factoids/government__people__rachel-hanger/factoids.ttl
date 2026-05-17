@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/dormant-assets-commission> govuk:hasMinister <https://www.gov.uk/government/people/rachel-hanger> .
 
-<https://www.gov.uk/government/people/rachel-hanger> a schema1:Person ;
+<https://www.gov.uk/government/people/rachel-hanger> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2016-03-10T12:57:05+00:00" ;
     schema1:description "Rachel Hanger is a Partner and UK Head of Investment Management & Funds Tax at KPMG London. Rachel advises traditional, hedge fund managers and pension funds on corporate/partnership, product and operational tax issues. Prior to joining KPMG Rachel was Head of Tax at M&G for over 10 years. She was responsible for providing pro-active tax advice to all parts of M&G’s business particularly focusing on product development, risk and operational tax matters."@en ;
     schema1:name "Rachel Hanger"@en ;
     schema1:url <https://www.gov.uk/government/people/rachel-hanger> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
-    govuk:currentRoleTitle "Dormant Assets Commissioner"@en .
+    govuk:contentId "b1082cbc-a8d1-45e2-9bec-b0b2f117839a" ;
+    govuk:currentRoleTitle "Dormant Assets Commissioner"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

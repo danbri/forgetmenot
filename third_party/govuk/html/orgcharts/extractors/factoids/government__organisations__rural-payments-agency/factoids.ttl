@@ -5,12 +5,16 @@
 <https://www.gov.uk/government/organisations/rural-payments-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-04-24T10:56:46+01:00" ;
     schema1:name "Rural Payments Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/rural-payments-agency> ;
+    govuk:contentId "e8fae147-6232-4163-a3f1-1c15b755a8a4" ;
     govuk:hasManager <https://www.gov.uk/government/people/ali-johnson>,
         <https://www.gov.uk/government/people/mark-ashenden>,
         <https://www.gov.uk/government/people/oliver-munn>,
-        <https://www.gov.uk/government/people/tom-foster> .
+        <https://www.gov.uk/government/people/tom-foster> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/ali-johnson> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67488b4a24108edc3c8cebc7/s465_Ali_Johnson.jpg> ;

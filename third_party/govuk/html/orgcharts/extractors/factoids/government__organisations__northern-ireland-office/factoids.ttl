@@ -49,8 +49,10 @@
 <https://www.gov.uk/government/organisations/northern-ireland-office> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-10-11T11:17:00+01:00" ;
     schema1:name "Northern Ireland Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/northern-ireland-office> ;
+    govuk:contentId "234148b2-66d6-457c-9d06-2bf2b98533ca" ;
     govuk:hasManager <https://www.gov.uk/government/people/fiona-ross>,
         <https://www.gov.uk/government/people/gillian-morton>,
         <https://www.gov.uk/government/people/holly-clark>,
@@ -60,5 +62,7 @@
     govuk:hasMinister <https://www.gov.uk/government/people/hilary-benn>,
         <https://www.gov.uk/government/people/matthew-patrick> ;
     govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> .
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

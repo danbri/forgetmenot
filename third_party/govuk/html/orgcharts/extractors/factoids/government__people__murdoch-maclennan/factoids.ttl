@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/office-for-the-internal-market> govuk:hasMinister <https://www.gov.uk/government/people/murdoch-maclennan> .
 
-<https://www.gov.uk/government/people/murdoch-maclennan> a schema1:Person ;
+<https://www.gov.uk/government/people/murdoch-maclennan> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-08-30T12:31:35+01:00" ;
     schema1:description "Murdoch MacLennan was appointed as Chair of the Office for the Internal Market and Non-Executive Director of the Competition and Markets Authority (CMA) Board on 1 April 2022. He is a member of the Remuneration Committee."@en ;
     schema1:name "Murdoch MacLennan"@en ;
     schema1:url <https://www.gov.uk/government/people/murdoch-maclennan> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-for-the-internal-market> ;
-    govuk:currentRoleTitle "Chair of the Office for the Internal Market Panel"@en .
+    govuk:contentId "49d7280d-39cd-48fa-ba73-9c61ae8c838f" ;
+    govuk:currentRoleTitle "Chair of the Office for the Internal Market Panel"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

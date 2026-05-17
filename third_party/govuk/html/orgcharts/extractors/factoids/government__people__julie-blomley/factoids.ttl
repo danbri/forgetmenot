@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/julie-blomley> .
 
-<https://www.gov.uk/government/people/julie-blomley> a schema1:Person ;
+<https://www.gov.uk/government/people/julie-blomley> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-04-09T16:59:59+01:00" ;
     schema1:description "Julie joined the Department of Work and Pensions in April 2024 as the Director General for People and Capability, having previously held the position of Chief People Officer at the Home Office since December 2021."@en ;
     schema1:name "Julie Blomley"@en ;
     schema1:url <https://www.gov.uk/government/people/julie-blomley> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    govuk:currentRoleTitle "Director General, People and Capability"@en .
+    govuk:contentId "c08b14f4-4fa7-43c4-b0f0-214c695e672e" ;
+    govuk:currentRoleTitle "Director General, People and Capability"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

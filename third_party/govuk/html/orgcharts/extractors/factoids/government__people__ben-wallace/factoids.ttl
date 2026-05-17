@@ -1,13 +1,69 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/ben-wallace> .
 
-<https://www.gov.uk/government/people/ben-wallace> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-whip--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ben-wallace> .
+
+<https://www.gov.uk/government/ministers/defence-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ben-wallace> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-security> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ben-wallace> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-at-the-northern-ireland-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ben-wallace> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-defence> govuk:previouslyHeldBy <https://www.gov.uk/government/people/ben-wallace> .
+
+<https://www.gov.uk/government/people/ben-wallace> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T00:01:05+01:00" ;
     schema1:description "Ben Wallace was Secretary of State for Defence from 24 July 2019 to 31 August 2023."@en ;
     schema1:name "The Rt Hon Ben Wallace"@en ;
     schema1:url <https://www.gov.uk/government/people/ben-wallace> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85402165-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-whip--2>,
+        <https://www.gov.uk/government/ministers/defence-secretary>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-security>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-at-the-northern-ireland-office>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/ben-wallace> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-at-the-northern-ireland-office> ;
+    govuk:tenureEnd "2016-07-17"^^xsd:date ;
+    govuk:tenureStart "2015-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/ben-wallace> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> ;
+    govuk:tenureEnd "2023-08-31"^^xsd:date ;
+    govuk:tenureStart "2019-07-24"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/ben-wallace> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-security> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2016-07-17"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/ben-wallace> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/defence-secretary> ;
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/ben-wallace> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-whip--2> ;
+    govuk:tenureEnd "2015-05-12"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
 

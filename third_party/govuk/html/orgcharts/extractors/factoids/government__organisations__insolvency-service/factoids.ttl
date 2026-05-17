@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/insolvency-service> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-24T14:13:51+00:00" ;
     schema1:name "The Insolvency Service"@en ;
     schema1:url <https://www.gov.uk/government/organisations/insolvency-service> ;
+    govuk:contentId "c8406408-8376-45e0-95b4-7e74cef2c260" ;
     govuk:hasManager <https://www.gov.uk/government/people/alec-pybus>,
         <https://www.gov.uk/government/people/angela-crossley>,
         <https://www.gov.uk/government/people/chantel-kelly>,
@@ -22,7 +24,9 @@
         <https://www.gov.uk/government/people/mark-austen>,
         <https://www.gov.uk/government/people/matt-ray>,
         <https://www.gov.uk/government/people/melissa-quignonfinch>,
-        <https://www.gov.uk/government/people/samantha-durrant--2> .
+        <https://www.gov.uk/government/people/samantha-durrant--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alec-pybus> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6863dbdcb466cce1bb121ace/s465_alec_upscaled_960x640.jpg> ;

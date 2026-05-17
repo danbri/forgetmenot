@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> govuk:hasMinister <https://www.gov.uk/government/people/jonathan-flory> .
 
-<https://www.gov.uk/government/people/jonathan-flory> a schema1:Person ;
+<https://www.gov.uk/government/people/jonathan-flory> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-12-01T14:20:55+00:00" ;
     schema1:description "Jonathan Flory is a Senior Adviser at Social Finance Limited and formerly head of its UK advisory practice. Social Finance is a non-profit enterprise seeking to design, fund and scale better solutions to challenging social problems in the UK and globally."@en ;
     schema1:name "Jonathan Flory"@en ;
     schema1:url <https://www.gov.uk/government/people/jonathan-flory> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-prison-and-probation-service> ;
-    govuk:currentRoleTitle "Non-Executive Director"@en .
+    govuk:contentId "6a7fd4d4-1cee-4d2d-85f2-65319b90b90f" ;
+    govuk:currentRoleTitle "Non-Executive Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/gurpreet-dehal> .
 
-<https://www.gov.uk/government/people/gurpreet-dehal> a schema1:Person ;
+<https://www.gov.uk/government/people/gurpreet-dehal> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-04-14T10:52:05+01:00" ;
     schema1:description "Gurpreet Dehal is currently Chair and Pro Chancellor at the University of Derby (since Aug 2023) and a member of Governing Council at the Royal Institute of Chartered Surveyors (since Jan 2024)."@en ;
     schema1:name "Gurpreet Dehal"@en ;
     schema1:url <https://www.gov.uk/government/people/gurpreet-dehal> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    govuk:currentRoleTitle "Non-executive Director to the Departmental Board of Ministry of Justice and Chair of the Audit and Risk Assurance Committee"@en .
+    govuk:contentId "5bb1d26f-3323-4bd2-a7ca-0d78d5dda94f" ;
+    govuk:currentRoleTitle "Non-executive Director to the Departmental Board of Ministry of Justice and Chair of the Audit and Risk Assurance Committee"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

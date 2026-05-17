@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/parole-board> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-07-23T17:15:41+01:00" ;
     schema1:name "Parole Board"@en ;
     schema1:url <https://www.gov.uk/government/organisations/parole-board> ;
+    govuk:contentId "6c16969d-d8df-4580-aa3b-6e6982f62cd5" ;
     govuk:hasManager <https://www.gov.uk/government/people/alexandra-marks-cbe>,
-        <https://www.gov.uk/government/people/martin-jones> .
+        <https://www.gov.uk/government/people/martin-jones> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/alexandra-marks-cbe> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/687a2e383f4bde279ef45270/s465_Untitled_design.jpg> ;

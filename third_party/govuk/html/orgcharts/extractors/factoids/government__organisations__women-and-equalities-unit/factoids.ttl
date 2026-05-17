@@ -49,8 +49,10 @@
 <https://www.gov.uk/government/organisations/women-and-equalities-unit> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-10-11T09:57:55+01:00" ;
     schema1:name "Women and Equalities Unit"@en ;
     schema1:url <https://www.gov.uk/government/organisations/women-and-equalities-unit> ;
+    govuk:contentId "bd4499bc-c385-4f5a-903f-6c5207e19240" ;
     govuk:hasManager <https://www.gov.uk/government/people/marcus-bell> ;
     govuk:hasMinister <https://www.gov.uk/government/people/bridget-phillipson>,
         <https://www.gov.uk/government/people/jacqui-smith>,
@@ -59,5 +61,7 @@
     govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3>,
         <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293>,
-        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

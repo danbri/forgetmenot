@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jane-ellison> .
 
-<https://www.gov.uk/government/people/jane-ellison> a schema1:Person ;
+<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jane-ellison> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-public-health> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jane-ellison> .
+
+<https://www.gov.uk/government/people/jane-ellison> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2017-06-09T18:09:59+01:00" ;
     schema1:description "Jane Ellison served as Financial Secretary to the Treasury from July 2016 until June 2017. Previously she was Parliamentary Under Secretary of State for Public Health at the Department of Health from October 2013 until July 2016."@en ;
     schema1:name "Jane Ellison"@en ;
     schema1:url <https://www.gov.uk/government/people/jane-ellison> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "85396417-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-public-health> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jane-ellison> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-public-health> ;
+    govuk:tenureEnd "2016-07-15"^^xsd:date ;
+    govuk:tenureStart "2013-10-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/jane-ellison> ;
+    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    govuk:tenureEnd "2017-06-09"^^xsd:date ;
+    govuk:tenureStart "2016-07-15"^^xsd:date .
 

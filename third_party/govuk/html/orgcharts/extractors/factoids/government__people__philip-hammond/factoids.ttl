@@ -1,13 +1,66 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/philip-hammond> .
 
-<https://www.gov.uk/government/people/philip-hammond> a schema1:Person ;
+<https://www.gov.uk/government/ministers/foreign-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/philip-hammond> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-defence> govuk:previouslyHeldBy <https://www.gov.uk/government/people/philip-hammond> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/philip-hammond> .
+
+<https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> govuk:previouslyHeldBy <https://www.gov.uk/government/people/philip-hammond> .
+
+<https://www.gov.uk/government/people/philip-hammond> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2019-11-06T00:10:09+00:00" ;
     schema1:description "The Rt Hon Philip Hammond was Chancellor of the Exchequer between 13 July 2016 and 24 July 2019. He was elected Conservative MP for Runnymede and Weybridge in 1997."@en ;
     schema1:name "The Rt Hon Philip Hammond"@en ;
     schema1:url <https://www.gov.uk/government/people/philip-hammond> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8529264b-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer>,
+        <https://www.gov.uk/government/ministers/foreign-secretary>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-defence>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/philip-hammond> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2011-10-14"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/philip-hammond> ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2019-07-24"^^xsd:date ;
+    govuk:tenureStart "2016-07-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/philip-hammond> ;
+    govuk:proseExtracted true ;
+    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2016"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/philip-hammond> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2011-10-14"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/philip-hammond> ;
+    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
+    govuk:tenureEnd "2016-07-13"^^xsd:date ;
+    govuk:tenureStart "2014-07-15"^^xsd:date .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> govuk:hasMinister <https://www.gov.uk/government/people/ingrid-meldal-johnsen> .
 
-<https://www.gov.uk/government/people/ingrid-meldal-johnsen> a schema1:Person ;
+<https://www.gov.uk/government/people/ingrid-meldal-johnsen> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-11T16:17:10+00:00" ;
     schema1:description "Ingrid was appointed as a Director General in the Office of Parliamentary Counsel in June 2024. She leads the team of drafters responsible for delivering the primary legislation of the Home Office, Ministry of Justice, Ministry of Defence, Cabinet Office, DCMS and the Territorial Offices. Ingrid joined OPC in 2003 after 5 years at Clifford Chance LLP where she qualified as a solicitor and practised in the corporate finance department. During her career at OPC she has drafted legislation across a broad range of subjects including terrorism, crime, sentencing, immigration, education, healthcare, business and nuclear safety. Ingrid was seconded to the SI Hub (the Government Legal Department’s centre of excellence for drafting secondary legislation) from 2016 to 2019, where she played a key role in coordinating the cross-Whitehall delivery of the EU Exit SI programme. She also enjoyed a two year secondment as the drafter in charge at the Law Commission of England and Wales from 2022 to 2024."@en ;
     schema1:name "Ingrid Meldal-Johnsen"@en ;
     schema1:url <https://www.gov.uk/government/people/ingrid-meldal-johnsen> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> ;
-    govuk:currentRoleTitle "Parliamentary Counsel, Director General"@en .
+    govuk:contentId "0f2e5a6e-2a26-4942-8876-d7b057671f53" ;
+    govuk:currentRoleTitle "Parliamentary Counsel, Director General"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

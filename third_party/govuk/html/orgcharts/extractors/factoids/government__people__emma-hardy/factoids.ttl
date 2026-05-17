@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--270> govuk:roleHolder <https://www.gov.uk/government/people/emma-hardy> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> govuk:hasMinister <https://www.gov.uk/government/people/emma-hardy> .
 
-<https://www.gov.uk/government/people/emma-hardy> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--270> govuk:roleHolder <https://www.gov.uk/government/people/emma-hardy> .
+
+<https://www.gov.uk/government/people/emma-hardy> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-09T20:17:32+01:00" ;
     schema1:description "Emma Hardy was appointed Parliamentary Under-Secretary of State at the Department for Environment, Food and Rural Affairs on 9 July 2024. She was elected as the MP for Kingston upon Hull West and Haltemprice in July 2024."@en ;
     schema1:name "Emma Hardy MP"@en ;
     schema1:url <https://www.gov.uk/government/people/emma-hardy> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    govuk:contentId "d0d49672-5b29-4b82-9e2e-2b50ecd3d232" ;
     govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Water and Flooding)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--270> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--270> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/emma-hardy> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--270> ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
 

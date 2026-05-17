@@ -113,8 +113,10 @@
 <https://www.gov.uk/government/organisations/ministry-of-justice> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-19T10:13:00+00:00" ;
     schema1:name "Ministry of Justice"@en ;
     schema1:url <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:contentId "dcc907d6-433c-42df-9ffb-d9c68be5dc4d" ;
     govuk:hasManager <https://www.gov.uk/government/people/andrew-robb>,
         <https://www.gov.uk/government/people/clara-swinson>,
         <https://www.gov.uk/government/people/gurpreet-dehal>,
@@ -138,5 +140,7 @@
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284>,
-        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> .
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

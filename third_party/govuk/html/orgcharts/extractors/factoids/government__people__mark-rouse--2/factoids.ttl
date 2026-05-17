@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/magnox-ltd> govuk:hasMinister <https://www.gov.uk/government/people/mark-rouse--2> .
 
-<https://www.gov.uk/government/people/mark-rouse--2> a schema1:Person ;
+<https://www.gov.uk/government/people/mark-rouse--2> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-01T09:57:51+01:00" ;
     schema1:description "John Grierson began his nuclear industry career as an apprentice electrician at Chapelcross site, where he later became site director."@en ;
     schema1:name "John Grierson"@en ;
     schema1:url <https://www.gov.uk/government/people/mark-rouse--2> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/magnox-ltd> ;
-    govuk:currentRoleTitle "Managing Director, Managing Director NRS Solo Sites, and Managing Director"@en .
+    govuk:contentId "a7e8702b-348f-4efb-be9a-97de2b820065" ;
+    govuk:currentRoleTitle "Managing Director, Managing Director NRS Solo Sites, and Managing Director"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

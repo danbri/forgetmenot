@@ -1,17 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/minister-of-state--205> govuk:roleHolder <https://www.gov.uk/government/people/alex-norris> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/home-office> govuk:hasMinister <https://www.gov.uk/government/people/alex-norris> .
 
-<https://www.gov.uk/government/people/alex-norris> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state--205> govuk:roleHolder <https://www.gov.uk/government/people/alex-norris> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--248> govuk:previouslyHeldBy <https://www.gov.uk/government/people/alex-norris> .
+
+<https://www.gov.uk/government/people/alex-norris> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-06T17:00:26+01:00" ;
     schema1:description "Alex Norris was apppointed Minister of State at the Home Office on 6 September 2025."@en ;
     schema1:name "Alex Norris MP"@en ;
     schema1:url <https://www.gov.uk/government/people/alex-norris> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:contentId "f6147149-a5e7-40e5-8e49-727f563e3e41" ;
     govuk:currentRoleTitle "Minister of State (Minister for Border Security and Asylum)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--205> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--205> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--248> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/alex-norris> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--205> ;
+    govuk:tenureStart "2025-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/alex-norris> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--248> ;
+    govuk:tenureEnd "2025-09-06"^^xsd:date ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
 

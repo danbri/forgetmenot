@@ -1,17 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> govuk:roleHolder <https://www.gov.uk/government/people/samantha-dixon> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasMinister <https://www.gov.uk/government/people/samantha-dixon> .
 
-<https://www.gov.uk/government/people/samantha-dixon> a schema1:Person ;
+<https://www.gov.uk/government/ministers/government-whip--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/samantha-dixon> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> govuk:roleHolder <https://www.gov.uk/government/people/samantha-dixon> .
+
+<https://www.gov.uk/government/people/samantha-dixon> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-16T07:17:10+01:00" ;
     schema1:description "Samantha Dixon was appointed Parliamentary Under-Secretary of State in the Ministry of Housing, Communities and Local Government on 6 September 2025."@en ;
     schema1:name "Samantha Dixon MBE MP"@en ;
     schema1:url <https://www.gov.uk/government/people/samantha-dixon> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:contentId "2f60a86b-1ccd-49e7-b991-5517e4c9bbe3" ;
     govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Building Safety, Fire and Democracy)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/samantha-dixon> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    govuk:tenureEnd "2025-09-06"^^xsd:date ;
+    govuk:tenureStart "2024-07-10"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/samantha-dixon> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> ;
+    govuk:tenureStart "2025-09-06"^^xsd:date .
 

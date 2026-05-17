@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-30T11:30:03+01:00" ;
     schema1:name "Driver and Vehicle Standards Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency> ;
+    govuk:contentId "d39237a5-678b-4bb5-a372-eb2cb036933d" ;
     govuk:hasManager <https://www.gov.uk/government/people/beverley-warmington>,
         <https://www.gov.uk/government/people/carrie-dolan>,
         <https://www.gov.uk/government/people/clare-nichols>,
@@ -19,7 +21,9 @@
         <https://www.gov.uk/government/people/pauline-reeves>,
         <https://www.gov.uk/government/people/peter-hearn>,
         <https://www.gov.uk/government/people/richard-hennessy>,
-        <https://www.gov.uk/government/people/tina-churcher> .
+        <https://www.gov.uk/government/people/tina-churcher> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/beverley-warmington> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69527587f828b4d60df50626/s465_beverley-warmington.jpg> ;

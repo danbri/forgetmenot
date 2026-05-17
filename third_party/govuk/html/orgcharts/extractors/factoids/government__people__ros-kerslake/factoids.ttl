@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/national-housing-bank> govuk:hasMinister <https://www.gov.uk/government/people/ros-kerslake> .
 
-<https://www.gov.uk/government/people/ros-kerslake> a schema1:Person ;
+<https://www.gov.uk/government/people/ros-kerslake> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-29T17:27:56+01:00" ;
     schema1:description "Ros Kerslake CBE has more than 20 years’ board level experience in the property and regeneration sectors, serving as chief executive, non-executive director and chair for a number of public and private sector organisations."@en ;
     schema1:name "Ros Kerslake CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/ros-kerslake> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/national-housing-bank> ;
-    govuk:currentRoleTitle "Non-Executive Director, National Housing Bank"@en .
+    govuk:contentId "c2b0ab21-4d0b-4359-80d9-f08e0de35fda" ;
+    govuk:currentRoleTitle "Non-Executive Director, National Housing Bank"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

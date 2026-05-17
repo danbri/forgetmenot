@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/wales-office> govuk:hasMinister <https://www.gov.uk/government/people/kate-chamberlain> .
 
-<https://www.gov.uk/government/people/kate-chamberlain> a schema1:Person ;
+<https://www.gov.uk/government/people/kate-chamberlain> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-02-11T15:36:16+00:00" ;
     schema1:description "Kathryn (Kate) Chamberlain was the first Chief Executive of the Independent Monitoring Authority for the Citizens’ Rights Agreements (the IMA). During 2020 she led a programme to create this new organisation in response to commitments set out in the Withdrawal Agreements following the United Kingdom’s exit from the European Union."@en ;
     schema1:name "Dr Kathryn Chamberlain OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/kate-chamberlain> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/wales-office> ;
-    govuk:currentRoleTitle "Lead Non-Executive Director for the Wales Office"@en .
+    govuk:contentId "0df345ad-e86d-430c-af90-28bc7cb70e74" ;
+    govuk:currentRoleTitle "Lead Non-Executive Director for the Wales Office"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

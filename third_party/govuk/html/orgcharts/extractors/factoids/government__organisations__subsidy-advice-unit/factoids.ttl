@@ -5,10 +5,14 @@
 <https://www.gov.uk/government/organisations/subsidy-advice-unit> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-11-25T13:54:19+00:00" ;
     schema1:name "Subsidy Advice Unit"@en ;
     schema1:url <https://www.gov.uk/government/organisations/subsidy-advice-unit> ;
+    govuk:contentId "b716dd3f-9aec-427b-9926-270322b03a9a" ;
     govuk:hasManager <https://www.gov.uk/government/people/adam-land>,
-        <https://www.gov.uk/government/people/joel-bamford> .
+        <https://www.gov.uk/government/people/joel-bamford> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/adam-land> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668d56674a94d44125d9cfd2/s465_Adam_Land__.png> ;

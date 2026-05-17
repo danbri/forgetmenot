@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/independent-adviser-on-ministers-interests> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-10-13T09:32:05+01:00" ;
     schema1:name "Independent Adviser on Ministerial Standards"@en ;
     schema1:url <https://www.gov.uk/government/organisations/independent-adviser-on-ministers-interests> ;
-    govuk:hasManager <https://www.gov.uk/government/people/laurie-magnus> .
+    govuk:contentId "8e677682-1c88-446c-9c6b-440ce0ea57c6" ;
+    govuk:hasManager <https://www.gov.uk/government/people/laurie-magnus> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/laurie-magnus> a schema1:Person ;
     schema1:name "Sir Laurie Magnus CBE"@en .

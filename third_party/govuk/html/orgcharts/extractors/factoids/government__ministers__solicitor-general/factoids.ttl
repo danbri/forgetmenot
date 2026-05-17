@@ -32,8 +32,10 @@
 
 <https://www.gov.uk/government/ministers/solicitor-general> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-01-21T12:06:44+00:00" ;
     schema1:name "Solicitor General"@en ;
     schema1:url <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:contentId "845e6af3-c0f1-11e4-8223-005056011aef" ;
     govuk:partOf <https://www.gov.uk/government/organisations/attorney-generals-office> ;
     govuk:previouslyHeldBy <https://www.gov.uk/government/people/alex-chalk>,
         <https://www.gov.uk/government/people/edward-garnier>,
@@ -46,11 +48,13 @@
         <https://www.gov.uk/government/people/robert-buckland>,
         <https://www.gov.uk/government/people/robert-courts>,
         <https://www.gov.uk/government/people/sarah-sackman> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Promoting the rule of law at home and internationally"@en,
         "Providing support to the Attorney General in his superintendence of the Government Legal Department, the Crown Prosecution Service, HM Crown Prosecution Service Inspectorate and the Serious Fraud Office"@en,
         "Responsibility for matters delegated by the Attorney General, including deputising for the Attorney at the Parliamentary Business and Legislation Cabinet Committee"@en,
         "Supporting the Attorney General in his public interest functions"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/ellie-reeves> .
+    govuk:roleHolder <https://www.gov.uk/government/people/ellie-reeves> ;
+    govuk:schemaName "role" .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/edward-garnier> ;
@@ -59,40 +63,10 @@
     govuk:tenureStart "2010"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/lucy-frazer> ;
+    govuk:holder <https://www.gov.uk/government/people/lucy-rigby> ;
     govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
-    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2021"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/oliver-heald> ;
-    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2014"^^xsd:gYear ;
-    govuk:tenureStart "2012"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/michael-tomlinson> ;
-    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2023"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/sarah-sackman> ;
-    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
     govuk:tenureStart "2024"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/robert-courts> ;
-    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2023"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/edward-timpson> ;
@@ -101,22 +75,10 @@
     govuk:tenureStart "2022"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/lucy-rigby> ;
+    govuk:holder <https://www.gov.uk/government/people/michael-tomlinson> ;
     govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
-    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2021"^^xsd:gYear .
-
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/lucy-frazer> ;
-    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
-    govuk:tenureEnd "2021"^^xsd:gYear ;
-    govuk:tenureStart "2021"^^xsd:gYear .
+    govuk:tenureEnd "2023"^^xsd:gYear ;
+    govuk:tenureStart "2022"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/robert-buckland> ;
@@ -125,8 +87,50 @@
     govuk:tenureStart "2014"^^xsd:gYear .
 
 [] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lucy-frazer> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2019"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
     govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
     govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
     govuk:tenureEnd "2021"^^xsd:gYear ;
     govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2022"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/robert-courts> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2023"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2019"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/sarah-sackman> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2024"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/lucy-frazer> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2021"^^xsd:gYear ;
+    govuk:tenureStart "2021"^^xsd:gYear .
+
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/oliver-heald> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2014"^^xsd:gYear ;
+    govuk:tenureStart "2012"^^xsd:gYear .
 

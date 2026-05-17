@@ -1,13 +1,99 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
 
-<https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> a schema1:Person ;
+<https://www.gov.uk/government/ministers/government-whip-lord-in-waiting> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
+
+<https://www.gov.uk/government/ministers/minister-for-countering-extremism> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-at-the-foreign-commonwealth-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-middle-east-and-united-nations> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-south-asia-and-the-commonwealth> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-middle-east-south-asia-and-the-united-nations> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--19> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--52> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> .
+
+<https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-15T14:41:56+01:00" ;
     schema1:description "Lord Ahmad was Special Representative on Preventing Sexual Violence in Conflict and Minister of State for the Commonwealth and the United Nations between June 2017 and July 2024."@en ;
     schema1:name "Lord (Tariq) Ahmad of Wimbledon KCMG"@en ;
     schema1:url <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852e8a1e-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/government-whip-lord-in-waiting>,
+        <https://www.gov.uk/government/ministers/minister-for-countering-extremism>,
+        <https://www.gov.uk/government/ministers/minister-of-state-at-the-foreign-commonwealth-office>,
+        <https://www.gov.uk/government/ministers/minister-of-state-middle-east-and-united-nations>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-south-asia-and-the-commonwealth>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-middle-east-south-asia-and-the-united-nations>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--19>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--52> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-middle-east-and-united-nations> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-10-28"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--52> ;
+    govuk:tenureEnd "2017-06-13"^^xsd:date ;
+    govuk:tenureStart "2015-05-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-countering-extremism> ;
+    govuk:tenureEnd "2016-07-16"^^xsd:date ;
+    govuk:tenureStart "2015-05-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
+    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-in-waiting> ;
+    govuk:tenureEnd "2014-07-16"^^xsd:date ;
+    govuk:tenureStart "2012-06-12"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-middle-east-south-asia-and-the-united-nations> ;
+    govuk:tenureEnd "2022-10-30"^^xsd:date ;
+    govuk:tenureStart "2022-09-21"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--19> ;
+    govuk:tenureEnd "2015-05-13"^^xsd:date ;
+    govuk:tenureStart "2014-07-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-at-the-foreign-commonwealth-office> ;
+    govuk:tenureEnd "2020-09-01"^^xsd:date ;
+    govuk:tenureStart "2017-06-13"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-ahmad-of-wimbledon> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-south-asia-and-the-commonwealth> ;
+    govuk:tenureEnd "2022-09-21"^^xsd:date ;
+    govuk:tenureStart "2020-09-02"^^xsd:date .
 

@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260> govuk:roleHolder <https://www.gov.uk/government/people/andrew-western> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/andrew-western> .
 
-<https://www.gov.uk/government/people/andrew-western> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260> govuk:roleHolder <https://www.gov.uk/government/people/andrew-western> .
+
+<https://www.gov.uk/government/people/andrew-western> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-22T10:05:59+01:00" ;
     schema1:description "Andrew Western was appointed Parliamentary Under-Secretary of State at the Department of Work and Pensions on 9 July 2024. He was elected as the MP for Stretford and Urmston in July 2024."@en ;
     schema1:name "Andrew Western MP"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-western> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:contentId "3450d42b-0ef1-4511-b18e-da5f75d0f0af" ;
     govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Transformation)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/andrew-western> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260> ;
+    govuk:tenureStart "2024-07-09"^^xsd:date .
 

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/government-office-for-technology-transfer> govuk:hasMinister <https://www.gov.uk/government/people/alison-campbell> .
 
-<https://www.gov.uk/government/people/alison-campbell> a schema1:Person ;
+<https://www.gov.uk/government/people/alison-campbell> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2022-10-04T15:45:24+01:00" ;
     schema1:description "Dr Alison Campbell OBE was appointed as Chief Executive of the Government Office for Technology Transfer (GOTT) in April 2022."@en ;
     schema1:name "Dr Alison Campbell OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/alison-campbell> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-office-for-technology-transfer> ;
-    govuk:currentRoleTitle "Chief Executive, Government Office for Technology Transfer"@en .
+    govuk:contentId "f5fac2c9-a76f-4960-ac55-a0b2c3766666" ;
+    govuk:currentRoleTitle "Chief Executive, Government Office for Technology Transfer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

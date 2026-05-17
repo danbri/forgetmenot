@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/john-vickerman> .
 
-<https://www.gov.uk/government/people/john-vickerman> a schema1:Person ;
+<https://www.gov.uk/government/people/john-vickerman> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-01T10:00:56+01:00" ;
     schema1:description "John Vickerman is a global HR leader with over 30 years of senior director experience in the UK and internationally. He has spearheaded numerous high-profile projects at prestigious organisations, including the BBC, BP Plc, C&W, and the MOD Navy."@en ;
     schema1:name "John Vickerman"@en ;
     schema1:url <https://www.gov.uk/government/people/john-vickerman> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
-    govuk:currentRoleTitle "Chief People Officer and Chief People Officer"@en .
+    govuk:contentId "3e325840-cbae-4cd0-855d-e9fde5100548" ;
+    govuk:currentRoleTitle "Chief People Officer and Chief People Officer"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

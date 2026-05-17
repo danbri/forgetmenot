@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-space-agency> govuk:hasMinister <https://www.gov.uk/government/people/matt-archer> .
 
-<https://www.gov.uk/government/people/matt-archer> a schema1:Person ;
+<https://www.gov.uk/government/people/matt-archer> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-31T16:39:07+01:00" ;
     schema1:description "Matthew has been the Deputy Director for Launch, SDA & ISAM at the UK Space Agency since April 2026."@en ;
     schema1:name "Matthew Archer"@en ;
     schema1:url <https://www.gov.uk/government/people/matt-archer> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-space-agency> ;
-    govuk:currentRoleTitle "Deputy Director, Launch, SDA & ISAM"@en .
+    govuk:contentId "86d4f8de-5706-4536-96de-1fc0e3ead4f0" ;
+    govuk:currentRoleTitle "Deputy Director, Launch, SDA & ISAM"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

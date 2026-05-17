@@ -13,11 +13,15 @@
 <https://www.gov.uk/government/organisations/uk-defence-and-security-exports> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2023-08-21T15:59:49+01:00" ;
     schema1:name "UK Defence and Security Exports"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-defence-and-security-exports> ;
+    govuk:contentId "e021a52f-bb12-4800-89f3-c524a698bfbc" ;
     govuk:hasManager <https://www.gov.uk/government/people/oliver-harry> ;
     govuk:hasMinister <https://www.gov.uk/government/people/peter-kyle> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state--2> .
+    govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/peter-kyle> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66881a3e4a94d44125d9cda2/s465_Peter_Kyle.jpg> ;

@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-hill-of-oareford> .
 
-<https://www.gov.uk/government/people/lord-hill-of-oareford> a schema1:Person ;
+<https://www.gov.uk/government/ministers/office-of-the-leader-of-the-house-of-lords> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-hill-of-oareford> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-schools> govuk:previouslyHeldBy <https://www.gov.uk/government/people/lord-hill-of-oareford> .
+
+<https://www.gov.uk/government/people/lord-hill-of-oareford> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2013-09-18T13:32:00+01:00" ;
     schema1:description "Lord Hill was appointed Leader of the House of Lords in January 2013. He is a Conservative member of the House of Lords."@en ;
     schema1:name "The Rt Hon Lord Hill of Oareford CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/lord-hill-of-oareford> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "8529317c-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/office-of-the-leader-of-the-house-of-lords>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-schools> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-hill-of-oareford> ;
+    govuk:role <https://www.gov.uk/government/ministers/office-of-the-leader-of-the-house-of-lords> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2013-01-07"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/lord-hill-of-oareford> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-schools> ;
+    govuk:tenureEnd "2013-01-07"^^xsd:date ;
+    govuk:tenureStart "2010-05-12"^^xsd:date .
 

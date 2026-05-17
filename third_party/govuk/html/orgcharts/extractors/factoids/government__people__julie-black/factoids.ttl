@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/uk-space-agency> govuk:hasMinister <https://www.gov.uk/government/people/julie-black> .
 
-<https://www.gov.uk/government/people/julie-black> a schema1:Person ;
+<https://www.gov.uk/government/people/julie-black> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-03-31T16:38:12+01:00" ;
     schema1:description "Julie has been the Deputy Director for EO & Discovery at the UK Space Agency since April 2026."@en ;
     schema1:name "Julie Black"@en ;
     schema1:url <https://www.gov.uk/government/people/julie-black> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-space-agency> ;
-    govuk:currentRoleTitle "Deputy Director, EO & Discovery"@en .
+    govuk:contentId "595369f8-fcf6-4233-98fc-8fabf680cdae" ;
+    govuk:currentRoleTitle "Deputy Director, EO & Discovery"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

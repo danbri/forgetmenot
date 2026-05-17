@@ -1,13 +1,89 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/anne-marie-trevelyan> .
 
-<https://www.gov.uk/government/people/anne-marie-trevelyan> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-for-defence-procurement> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-marie-trevelyan> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--75> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-marie-trevelyan> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-indo-pacific> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-marie-trevelyan> .
+
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-armed-forces> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-marie-trevelyan> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-international-development> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-marie-trevelyan> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-marie-trevelyan> .
+
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-marie-trevelyan> .
+
+<https://www.gov.uk/government/people/anne-marie-trevelyan> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:22:00+01:00" ;
     schema1:description "Anne-Marie Trevelyan was a Minister of State in the Foreign, Commonwealth & Development Office between 26 October 2022 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Anne-Marie Trevelyan"@en ;
     schema1:url <https://www.gov.uk/government/people/anne-marie-trevelyan> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "b81b821b-e382-4b9b-8606-3b7f64d2d402" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-for-defence-procurement>,
+        <https://www.gov.uk/government/ministers/minister-of-state--75>,
+        <https://www.gov.uk/government/ministers/minister-of-state-indo-pacific>,
+        <https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-armed-forces>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-international-development>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/anne-marie-trevelyan> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-indo-pacific> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2022-10-26"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/anne-marie-trevelyan> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-armed-forces> ;
+    govuk:tenureEnd "2020-02-13"^^xsd:date ;
+    govuk:tenureStart "2019-12-17"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/anne-marie-trevelyan> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--75> ;
+    govuk:tenureEnd "2021-09-14"^^xsd:date ;
+    govuk:tenureStart "2021-01-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/anne-marie-trevelyan> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-15"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/anne-marie-trevelyan> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-defence-procurement> ;
+    govuk:tenureEnd "2019-12-16"^^xsd:date ;
+    govuk:tenureStart "2019-07-27"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/anne-marie-trevelyan> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/anne-marie-trevelyan> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-international-development> ;
+    govuk:tenureEnd "2020-09-01"^^xsd:date ;
+    govuk:tenureStart "2020-02-13"^^xsd:date .
 

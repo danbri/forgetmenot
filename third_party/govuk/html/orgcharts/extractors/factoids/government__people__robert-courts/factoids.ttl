@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/robert-courts> .
 
-<https://www.gov.uk/government/people/robert-courts> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--123> govuk:previouslyHeldBy <https://www.gov.uk/government/people/robert-courts> .
+
+<https://www.gov.uk/government/ministers/solicitor-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/robert-courts> .
+
+<https://www.gov.uk/government/people/robert-courts> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-18T11:19:31+01:00" ;
     schema1:description "Robert Courts was Solicitor General from 7 December 2023 to 5 July 2024."@en ;
     schema1:name "Robert Courts KC"@en ;
     schema1:url <https://www.gov.uk/government/people/robert-courts> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "adf65304-edab-45d5-9536-93194490fd3c" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--123>,
+        <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/robert-courts> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--123> ;
+    govuk:tenureEnd "2022-09-20"^^xsd:date ;
+    govuk:tenureStart "2020-09-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/robert-courts> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2024-07-05"^^xsd:date ;
+    govuk:tenureStart "2023-12-07"^^xsd:date .
 

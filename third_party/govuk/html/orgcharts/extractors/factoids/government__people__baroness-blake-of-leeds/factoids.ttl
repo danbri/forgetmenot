@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> govuk:roleHolder <https://www.gov.uk/government/people/baroness-blake-of-leeds> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/baroness-blake-of-leeds> .
 
-<https://www.gov.uk/government/people/baroness-blake-of-leeds> a schema1:Person ;
+<https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> govuk:roleHolder <https://www.gov.uk/government/people/baroness-blake-of-leeds> .
+
+<https://www.gov.uk/government/people/baroness-blake-of-leeds> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-07-11T10:26:13+01:00" ;
     schema1:description "Baroness Blake of Leeds was appointed Baroness in Waiting (Government Whip) on 11 July 2024."@en ;
     schema1:name "Baroness Blake of Leeds"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-blake-of-leeds> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "9e6ed04f-4f1a-4eb7-b245-68644700cafa" ;
     govuk:currentRoleTitle "Baroness in Waiting (Government Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/baroness-blake-of-leeds> ;
+    govuk:role <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> ;
+    govuk:tenureStart "2024-07-11"^^xsd:date .
 

@@ -1,13 +1,113 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/michael-ellis> .
 
-<https://www.gov.uk/government/people/michael-ellis> a schema1:Person ;
+<https://www.gov.uk/government/ministers/assistant-government-whip--7> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-ellis> .
+
+<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-ellis> .
+
+<https://www.gov.uk/government/ministers/minister-of-state--57> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-ellis> .
+
+<https://www.gov.uk/government/ministers/parliamentary-secretary-deputy-leader-of-the-house-of-commons> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-ellis> .
+
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--99> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-ellis> .
+
+<https://www.gov.uk/government/ministers/paymaster-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-ellis> .
+
+<https://www.gov.uk/government/ministers/attorney-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-ellis> .
+
+<https://www.gov.uk/government/ministers/solicitor-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-ellis> .
+
+<https://www.gov.uk/government/people/michael-ellis> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T14:04:24+01:00" ;
     schema1:description "The Rt Hon Michael Ellis KC was Attorney General between 6 September and 25 October 2022."@en ;
     schema1:name "The Rt Hon Michael Ellis KC"@en ;
     schema1:url <https://www.gov.uk/government/people/michael-ellis> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "5f0540df-1651-44b8-9032-54eee7692867" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--7>,
+        <https://www.gov.uk/government/ministers/attorney-general>,
+        <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office>,
+        <https://www.gov.uk/government/ministers/minister-of-state--57>,
+        <https://www.gov.uk/government/ministers/parliamentary-secretary-deputy-leader-of-the-house-of-commons>,
+        <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--99>,
+        <https://www.gov.uk/government/ministers/paymaster-general>,
+        <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--7> ;
+    govuk:tenureEnd "2017-06-14"^^xsd:date ;
+    govuk:tenureStart "2016-07-17"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2021-09-15"^^xsd:date ;
+    govuk:tenureStart "2021-09-10"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2021-03-02"^^xsd:date ;
+    govuk:tenureStart "2019-07-26"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2022-02-08"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--57> ;
+    govuk:tenureEnd "2019-07-25"^^xsd:date ;
+    govuk:tenureStart "2019-05-23"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:tenureEnd "2022-09-06"^^xsd:date ;
+    govuk:tenureStart "2021-09-16"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2021-09-10"^^xsd:date ;
+    govuk:tenureStart "2021-03-02"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--99> ;
+    govuk:tenureEnd "2019-05-23"^^xsd:date ;
+    govuk:tenureStart "2018-01-09"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    govuk:tenureEnd "2022-10-25"^^xsd:date ;
+    govuk:tenureStart "2022-09-06"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/michael-ellis> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-deputy-leader-of-the-house-of-commons> ;
+    govuk:tenureEnd "2018-01-08"^^xsd:date ;
+    govuk:tenureStart "2016-07-17"^^xsd:date .
 

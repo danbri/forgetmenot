@@ -1,13 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/oliver-heald> .
 
-<https://www.gov.uk/government/people/oliver-heald> a schema1:Person ;
+<https://www.gov.uk/government/ministers/minister-of-state--42> govuk:previouslyHeldBy <https://www.gov.uk/government/people/oliver-heald> .
+
+<https://www.gov.uk/government/ministers/solicitor-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/oliver-heald> .
+
+<https://www.gov.uk/government/people/oliver-heald> a schema1:Person,
+        govuk:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2024-05-30T15:13:16+01:00" ;
     schema1:description "Sir Oliver Heald was appointed Minister of State at the Ministry of Justice on 16 July 2016. He was elected the Conservative MP for North East Hertfordshire in 1992."@en ;
     schema1:name "The Rt Hon Sir Oliver Heald KC"@en ;
     schema1:url <https://www.gov.uk/government/people/oliver-heald> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> .
+    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    govuk:contentId "852c26dd-c0f1-11e4-8223-005056011aef" ;
+    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state--42>,
+        <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/oliver-heald> ;
+    govuk:role <https://www.gov.uk/government/ministers/solicitor-general> ;
+    govuk:tenureEnd "2014-07-15"^^xsd:date ;
+    govuk:tenureStart "2012-09-04"^^xsd:date .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/oliver-heald> ;
+    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--42> ;
+    govuk:tenureEnd "2017-06-12"^^xsd:date ;
+    govuk:tenureStart "2016-07-16"^^xsd:date .
 

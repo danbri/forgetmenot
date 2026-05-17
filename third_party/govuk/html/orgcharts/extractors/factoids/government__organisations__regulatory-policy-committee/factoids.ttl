@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/regulatory-policy-committee> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-02-20T15:06:41+00:00" ;
     schema1:name "Regulatory Policy Committee"@en ;
     schema1:url <https://www.gov.uk/government/organisations/regulatory-policy-committee> ;
+    govuk:contentId "855e9471-8f8e-49cb-b613-28058188ced7" ;
     govuk:hasManager <https://www.gov.uk/government/people/allan-little>,
         <https://www.gov.uk/government/people/caroline-elliott>,
         <https://www.gov.uk/government/people/caroline-turnbull-hall>,
@@ -14,7 +16,9 @@
         <https://www.gov.uk/government/people/hilary-jennings>,
         <https://www.gov.uk/government/people/john-davies>,
         <https://www.gov.uk/government/people/ryan-williams>,
-        <https://www.gov.uk/government/people/stephen-gibson> .
+        <https://www.gov.uk/government/people/stephen-gibson> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/allan-little> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67ed27019eae202448299bab/s465_Allan_Little_small.jpg> ;

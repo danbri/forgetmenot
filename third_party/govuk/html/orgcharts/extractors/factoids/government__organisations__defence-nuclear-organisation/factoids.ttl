@@ -5,9 +5,13 @@
 <https://www.gov.uk/government/organisations/defence-nuclear-organisation> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2021-11-24T18:46:01+00:00" ;
     schema1:name "Defence Nuclear Organisation"@en ;
     schema1:url <https://www.gov.uk/government/organisations/defence-nuclear-organisation> ;
-    govuk:hasManager <https://www.gov.uk/government/people/madelaine-mcternan> .
+    govuk:contentId "de8d73a1-cdd1-49ec-9733-7ed1e7976be3" ;
+    govuk:hasManager <https://www.gov.uk/government/people/madelaine-mcternan> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/madelaine-mcternan> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6194058b8fa8f503780c1af0/s465_maddy-mcternan.jpg> ;

@@ -4,11 +4,16 @@
 
 <https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/colin-reid--2> .
 
-<https://www.gov.uk/government/people/colin-reid--2> a schema1:Person ;
+<https://www.gov.uk/government/people/colin-reid--2> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-05-01T10:10:51+01:00" ;
     schema1:description "Colin brings over 40 years of expertise in corporate governance, company secretarial duties, and company law to Nuclear Restoration Services (NRS). He joined NRS as Deputy Company Secretary in January 2022 and was promoted to Company Secretary in 2023."@en ;
     schema1:name "Colin Reid"@en ;
     schema1:url <https://www.gov.uk/government/people/colin-reid--2> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
-    govuk:currentRoleTitle "Company Secretary"@en .
+    govuk:contentId "5c3396d8-4efb-40cb-a1f7-af040d8abe8c" ;
+    govuk:currentRoleTitle "Company Secretary"@en ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
 

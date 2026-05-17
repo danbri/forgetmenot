@@ -5,8 +5,10 @@
 <https://www.gov.uk/government/organisations/marine-management-organisation> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-01-14T13:02:45+00:00" ;
     schema1:name "Marine Management Organisation"@en ;
     schema1:url <https://www.gov.uk/government/organisations/marine-management-organisation> ;
+    govuk:contentId "8d56bb52-2f79-4b6d-9fc6-6d7dcc4f7586" ;
     govuk:hasManager <https://www.gov.uk/government/people/elysia-mccaffrey>,
         <https://www.gov.uk/government/people/judith-petts>,
         <https://www.gov.uk/government/people/laura-dance>,
@@ -21,7 +23,9 @@
         <https://www.gov.uk/government/people/rob-wilson>,
         <https://www.gov.uk/government/people/terry-jones>,
         <https://www.gov.uk/government/people/tony-delahunty>,
-        <https://www.gov.uk/government/people/trudi-wakelin> .
+        <https://www.gov.uk/government/people/trudi-wakelin> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/elysia-mccaffrey> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69e200c0748e5b3e949a1b62/s465_Untitled_design_-_2026-04-01T161949.036.png> ;

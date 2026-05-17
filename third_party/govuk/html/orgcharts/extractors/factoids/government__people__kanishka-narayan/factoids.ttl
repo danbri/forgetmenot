@@ -1,17 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
-
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> govuk:roleHolder <https://www.gov.uk/government/people/kanishka-narayan> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasMinister <https://www.gov.uk/government/people/kanishka-narayan> .
 
-<https://www.gov.uk/government/people/kanishka-narayan> a schema1:Person ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> govuk:roleHolder <https://www.gov.uk/government/people/kanishka-narayan> .
+
+<https://www.gov.uk/government/people/kanishka-narayan> a schema1:Person,
+        govuk:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-07T15:54:47+01:00" ;
     schema1:description "Kanishka Narayan was appointed Parliamentary Under-Secretary of State in the Department for Science, Innovation and Technology on 7 September 2025. He was elected as the MP for Vale of Glamorgan in July 2024."@en ;
     schema1:name "Kanishka Narayan MP"@en ;
     schema1:url <https://www.gov.uk/government/people/kanishka-narayan> ;
     govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    govuk:contentId "6079b7bd-8482-4a6a-9c82-7701945eadba" ;
     govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for AI and Online Safety)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "person" .
+
+[] a govuk:RoleTenure ;
+    govuk:apiSourced true ;
+    govuk:holder <https://www.gov.uk/government/people/kanishka-narayan> ;
+    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> ;
+    govuk:tenureStart "2025-09-07"^^xsd:date .
 

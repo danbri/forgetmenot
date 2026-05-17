@@ -119,8 +119,10 @@
 <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> a schema1:GovernmentOrganization,
         govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2026-02-16T13:06:39+00:00" ;
     schema1:name "Department for Energy Security and Net Zero"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    govuk:contentId "6315817c-ef11-4905-bb4d-b6dca8e9052c" ;
     govuk:hasManager <https://www.gov.uk/government/people/clive-maxwell>,
         <https://www.gov.uk/government/people/david-thomas--3>,
         <https://www.gov.uk/government/people/emily-shuckburgh>,
@@ -145,5 +147,7 @@
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry>,
-        <https://www.gov.uk/government/ministers/secretary-of-state> .
+        <https://www.gov.uk/government/ministers/secretary-of-state> ;
+    govuk:publishingApp "whitehall" ;
+    govuk:schemaName "organisation" .
 

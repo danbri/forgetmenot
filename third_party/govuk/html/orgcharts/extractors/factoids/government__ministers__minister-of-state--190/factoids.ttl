@@ -9,9 +9,12 @@
 
 <https://www.gov.uk/government/ministers/minister-of-state--190> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
+    dcterms:modified "2025-09-10T11:02:15+01:00" ;
     schema1:name "Minister of State (Minister for the House of Lords)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--190> ;
+    govuk:contentId "9269a463-ba4c-4adc-98db-4a25307cc687" ;
     govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    govuk:publishingApp "whitehall" ;
     govuk:responsibility "Defence Fire and Rescue"@en,
         "Defence Medical Services"@en,
         "Ministry of Defence Police"@en,
@@ -27,5 +30,6 @@
         "professional military education"@en,
         "security and resilience"@en,
         "service records and legacy inquiries including Mull of Kintyre, Sir Galahad"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/lord-coaker> .
+    govuk:roleHolder <https://www.gov.uk/government/people/lord-coaker> ;
+    govuk:schemaName "role" .
 
