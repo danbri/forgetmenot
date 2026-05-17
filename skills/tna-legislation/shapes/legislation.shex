@@ -1,0 +1,119 @@
+# ShEx shapes for legislation.gov.uk RDF.
+#
+# Derived from inspecting the RDF served at canonical legislation URIs
+# (e.g. https://www.legislation.gov.uk/ukpga/2024/22) plus TNA's
+# documentation. Validates the FRBR Work/Expression/Manifestation/Item
+# tree TNA exposes via content negotiation.
+#
+# Validate with:
+#   pyshex --schema legislation.shex --shape :Act \
+#          --infile <act.ttl> --focus <work-uri>
+#
+# Cardinality conventions: ? = 0..1, * = 0..n, + = 1..n, unannotated = exactly 1.
+
+PREFIX :        <http://www.legislation.gov.uk/shape/>
+PREFIX leg:     <http://www.legislation.gov.uk/def/legislation/>
+PREFIX frbr:    <http://purl.org/vocab/frbr/core#>
+PREFIX metalex: <http://www.metalex.eu/metalex/2008-05-02#>
+PREFIX dct:     <http://purl.org/dc/terms/>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:     <http://www.w3.org/2002/07/owl#>
+PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+
+
+# --- Top-level: the Act / SI / regulation as a FRBR Work --------------
+
+:Act {
+  a [ frbr:Work ] ;
+  a [ metalex:BibliographicWork ] ;
+
+  rdfs:label              xsd:string + ;
+  dct:title               xsd:string ? ;
+  dct:identifier          xsd:string ? ;
+  dct:type                IRI ? ;             # e.g. UnitedKingdomPublicGeneralAct
+  owl:sameAs              IRI * ;
+
+  # Bibliographic chain (FRBR + Metalex twin predicates).
+  frbr:realization        @:Expression + ;
+  metalex:realizedBy      @:Expression + ;
+}
+
+
+# --- Expression: a versioned text (each amendment makes a new one) ----
+
+:Expression {
+  a [ frbr:Expression ] ;
+  a [ metalex:BibliographicExpression ] ;
+
+  rdfs:label              xsd:string * ;
+  dct:title               xsd:string ? ;
+  dct:hasVersion          xsd:string ? ;       # e.g. "2024-05-24"
+  dct:isPartOf            IRI ? ;              # parent Work
+
+  # Down to one or more concrete Manifestations.
+  frbr:embodiment         @:Manifestation + ;
+  metalex:embodies        @:Manifestation + ;
+}
+
+
+# --- Manifestation: a serialised form (RDF/XML, CLML XML, HTML, PDF) --
+
+:Manifestation {
+  a [ frbr:Manifestation ] ;
+  a [ metalex:BibliographicManifestation ] ;
+
+  dct:format              @:MediaType ;        # IMT block, see below
+  dct:hasFormat           IRI * ;
+  dct:isFormatOf          IRI ? ;
+  frbr:embodimentOf       IRI ;                # back to the Expression
+  metalex:embodiedBy      IRI ;
+  frbr:exemplar           @:Item * ;
+}
+
+
+# --- Item: a specific file we serve you -------------------------------
+
+:Item {
+  a [ frbr:Item ] ? ;
+  rdf:value               xsd:anyURI ;         # the actual file URL
+}
+
+
+# --- MediaType block: dct:IMT instance representing a MIME type -------
+
+:MediaType {
+  a [ dct:IMT ] ;
+  rdf:value               xsd:string ;         # e.g. "application/rdf+xml"
+  rdfs:label              xsd:string * ;
+}
+
+
+# --- Amendment / cross-reference triples ------------------------------
+
+:LegislativeModification {
+  a [ metalex:LegislativeModification ] ;
+
+  rdfs:label              xsd:string * ;
+  # Source and target are both legislation URIs. Modelled as plain
+  # IRIs because the same predicate can point at either an Act or
+  # an Expression.
+  metalex:source          IRI * ;
+  metalex:target          IRI * ;
+}
+
+
+:LegislativeCompetenceGround {
+  a [ metalex:LegislativeCompetenceGround ] ;
+
+  rdfs:label              xsd:string * ;
+  metalex:ground          IRI * ;
+}
+
+
+# --- Anchor shape for "this URI behaves like an Act" ------------------
+#
+# Useful as a smoke test for a fetched RDF blob: focus a node at the
+# Act's URI, validate against :Act, and you'll catch missing FRBR
+# pieces, missing dct:type, etc.

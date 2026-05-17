@@ -1,0 +1,21 @@
+# Statutory instruments made in (roughly) the last year, with their
+# titles. Uses the SI number embedded in the URI (.../uksi/<year>/<n>)
+# as the recency proxy because dct:dateAccepted isn't consistently
+# present.
+
+PREFIX frbr:    <http://purl.org/vocab/frbr/core#>
+PREFIX metalex: <http://www.metalex.eu/metalex/2008-05-02#>
+PREFIX dct:     <http://purl.org/dc/terms/>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?si ?title ?year ?number WHERE {
+  ?si a frbr:Work ;
+      a metalex:BibliographicWork ;
+      dct:title ?title .
+  FILTER( REGEX( STR(?si), "/id/uksi/" ) )
+  BIND( xsd:integer( REPLACE( STR(?si), ".*/uksi/([0-9]{4})/.*", "$1" ) ) AS ?year )
+  BIND( xsd:integer( REPLACE( STR(?si), ".*/uksi/[0-9]{4}/([0-9]+)$", "$1" ) ) AS ?number )
+  FILTER( ?year >= ( YEAR(NOW()) - 1 ) )
+}
+ORDER BY DESC(?year) DESC(?number)
+LIMIT 50

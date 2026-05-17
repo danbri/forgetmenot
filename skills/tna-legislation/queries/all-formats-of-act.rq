@@ -1,0 +1,27 @@
+# Every serialised manifestation (XML, RDF/XML, HTML, PDF, ...) of one
+# Act, with its IANA media type and the file URL.
+#
+# Substitute the Act URI in the VALUES block (default: Leasehold and
+# Freehold Reform Act 2024).
+
+PREFIX frbr:    <http://purl.org/vocab/frbr/core#>
+PREFIX metalex: <http://www.metalex.eu/metalex/2008-05-02#>
+PREFIX dct:     <http://purl.org/dc/terms/>
+PREFIX rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?expression ?expressionLabel ?manifestation ?mimeType ?fileUrl WHERE {
+  VALUES ?act { <http://www.legislation.gov.uk/id/ukpga/2024/22> }
+
+  ?act frbr:realization|metalex:realizedBy ?expression .
+  ?expression frbr:embodiment|metalex:embodies ?manifestation .
+  OPTIONAL { ?expression rdfs:label ?expressionLabel }
+
+  ?manifestation dct:format ?formatIMT .
+  ?formatIMT rdf:value ?mimeType .
+
+  OPTIONAL {
+    ?manifestation frbr:exemplar ?item .
+    ?item rdf:value ?fileUrl .
+  }
+}
+ORDER BY ?expression ?mimeType

@@ -1,0 +1,28 @@
+# Acts whose title matches a keyword (case-insensitive).
+#
+# Returns the Act URI, title, year, and type (UK Public General Act,
+# Local Act, Scottish Parliament Act, etc.).
+#
+# Bind ?keyword via initial-binding or substitute inline. Default in
+# this example is "leasehold".
+
+PREFIX leg:     <http://www.legislation.gov.uk/def/legislation/>
+PREFIX frbr:    <http://purl.org/vocab/frbr/core#>
+PREFIX metalex: <http://www.metalex.eu/metalex/2008-05-02#>
+PREFIX dct:     <http://purl.org/dc/terms/>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?act ?title ?year ?actType WHERE {
+  ?act a frbr:Work ;
+       a metalex:BibliographicWork ;
+       dct:title ?title ;
+       dct:type  ?actType .
+  FILTER(REGEX(?title, "leasehold", "i"))
+  # Extract the year segment from the URI (canonical pattern: .../<type>/<year>/<number>)
+  BIND( STRBEFORE( STRAFTER( STR(?act),
+                              "http://www.legislation.gov.uk/id/" ),
+                  "/" ) AS ?typeSlug )
+  BIND( REPLACE( STR(?act), ".*/([0-9]{4})/[0-9]+$", "$1" ) AS ?year )
+}
+ORDER BY DESC(?year) ?title
+LIMIT 25

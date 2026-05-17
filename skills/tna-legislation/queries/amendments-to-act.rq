@@ -1,0 +1,26 @@
+# Every legislative modification that touches a given Act -- either as
+# source (this Act amends X) or as target (X amends this Act).
+# Metalex models amendments as :LegislativeModification nodes with
+# :source and :target IRIs pointing into legislation URIs (often at
+# the section / paragraph level rather than the whole-Act level).
+
+PREFIX metalex: <http://www.metalex.eu/metalex/2008-05-02#>
+PREFIX rdfs:    <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?modification ?label ?role ?other WHERE {
+  VALUES ?act { <http://www.legislation.gov.uk/id/ukpga/2024/22> }
+
+  ?modification a metalex:LegislativeModification .
+  OPTIONAL { ?modification rdfs:label ?label }
+
+  {
+    ?modification metalex:source ?act .
+    ?modification metalex:target ?other .
+    BIND ("amends" AS ?role)
+  } UNION {
+    ?modification metalex:target ?act .
+    ?modification metalex:source ?other .
+    BIND ("amended-by" AS ?role)
+  }
+}
+ORDER BY ?role ?modification
