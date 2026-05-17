@@ -38,7 +38,8 @@
     "test:smoke": "bash tests/test_endpoints.sh",
     "test:cli": "bash tests/test_cli.sh",
     "refetch": "bash scripts/refetch-specs.sh && bash scripts/refetch-discovered.sh",
-    "probe": "bash scripts/probe-endpoints.sh"
+    "probe": "bash scripts/probe-endpoints.sh",
+    "report:pdf": "node scripts/render-report-pdf.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
