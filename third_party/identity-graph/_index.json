@@ -1,0 +1,41 @@
+{
+  "generatedAt": "2026-05-18T09:40:32.749Z",
+  "output": "third_party/identity-graph/identity.nq",
+  "totals": {
+    "quads": 55975,
+    "members_local": 1426,
+    "members_bridged_to_ddp": 1425,
+    "members_with_scraped_site": 436,
+    "appg_officerships_attached": 2170,
+    "govuk_people_matched": 14,
+    "ddp_only_persons": 4000
+  },
+  "namedGraphs": {
+    "members": "https://forgetmenot.local/graph/identity/members-api",
+    "ddp": "https://forgetmenot.local/graph/identity/ddp-sparql",
+    "scraped": "https://forgetmenot.local/graph/identity/scraped",
+    "appg": "https://forgetmenot.local/graph/identity/appg",
+    "govuk": "https://forgetmenot.local/graph/identity/govuk"
+  },
+  "namespaces": {
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "schema": "http://schema.org/",
+    "dcterms": "http://purl.org/dc/terms/",
+    "fmn": "https://forgetmenot.local/identity#",
+    "parl": "https://id.parliament.uk/schema/"
+  },
+  "sample": [
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#membersApiId> \"100\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#mnisId> \"100\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <http://schema.org/name> \"Lord Hamilton of Epsom\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#nameListAs> \"Hamilton of Epsom, L.\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#party> \"Conservative\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#house> \"Lords\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#constituency> \"Life peer\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <http://schema.org/gender> \"M\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#membershipStart> \"2005-06-17\"^^<http://www.w3.org/2001/XMLSchema#date> <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <https://forgetmenot.local/graph/identity/members-api> ."
+  ]
+}

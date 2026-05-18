@@ -40,7 +40,8 @@
     "refetch": "bash scripts/refetch-specs.sh && bash scripts/refetch-discovered.sh",
     "probe": "bash scripts/probe-endpoints.sh",
     "report:pdf": "node scripts/render-report-pdf.mjs",
-    "report:traverse": "node scripts/run-traverse.mjs"
+    "report:traverse": "node scripts/run-traverse.mjs",
+    "identity-graph": "node scripts/build-identity-graph.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
