@@ -12,3 +12,9 @@ node_modules/
 third_party/data/fcdo_treaties/html/
 third_party/data/fcdo_treaties/pdfs/
 third_party/data/fcdo_treaties/crawl.log
+# Per-record TTLs and uncompressed N-Quads are intermediates; we only
+# commit the gzipped roll-ups + the JSON index.
+third_party/data/fcdo_treaties/extractors/factoids/*.ttl
+!third_party/data/fcdo_treaties/extractors/factoids/parliament-bridge.ttl
+third_party/data/fcdo_treaties/extractors/factoids/all.nq
+third_party/data/fcdo_treaties/extractors/factoids/_provenance.nq
