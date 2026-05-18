@@ -93,6 +93,10 @@ function rule(width = 0.5, color = C.rule, gap = 8) {
 // Inline parsing
 // ---------------------------------------------------------------
 // Tokens: { kind: 'text'|'bold'|'italic'|'code'|'link', text, href? }
+//
+// In addition to the explicit Markdown link syntax `[text](url)`,
+// we also auto-detect bare http(s) URLs in plain text and turn
+// them into link tokens so they're clickable in the rendered PDF.
 function parseInline(s) {
   const out = [];
   let i = 0;
@@ -123,9 +127,19 @@ function parseInline(s) {
         out.push({ kind: 'italic', text: s.slice(i + 1, end) }); i = end + 1; continue;
       }
     }
+    // bare http(s) URL — terminates on whitespace or sentence-end punct
+    if (s.startsWith('http://', i) || s.startsWith('https://', i)) {
+      let j = i;
+      while (j < s.length && !/[\s)>\]]/.test(s[j])) j++;
+      // strip trailing punctuation that's more likely sentence than URL
+      while (j > i && /[.,;:]/.test(s[j - 1])) j--;
+      out.push({ kind: 'link', text: s.slice(i, j), href: s.slice(i, j) });
+      i = j; continue;
+    }
     // accumulate plain text up to next special
     let j = i;
-    while (j < s.length && s[j] !== '`' && s[j] !== '*' && s[j] !== '[') j++;
+    while (j < s.length && s[j] !== '`' && s[j] !== '*' && s[j] !== '[' &&
+           !(s.startsWith('http://', j) || s.startsWith('https://', j))) j++;
     if (j === i) { out.push({ kind: 'text', text: s[i] }); i++; }
     else { out.push({ kind: 'text', text: s.slice(i, j) }); i = j; }
   }
@@ -292,6 +306,22 @@ function splitRow(line) {
 // ---------------------------------------------------------------
 // Rendering blocks
 // ---------------------------------------------------------------
+// Headings record themselves into `toc` so we can render a
+// table of contents on the reserved TOC page after the body is
+// laid out. `currentPage()` reads the PDFKit-internal page index
+// — 0-based — which lines up with what doc.bufferedPageRange()
+// returns. We translate to 1-based "body page" numbers when
+// rendering, treating the cover and TOC pages as p.0.
+const toc = []; // [{ level, text, pageIndex }]
+function currentPage() {
+  const r = doc.bufferedPageRange();
+  return r.start + r.count - 1;
+}
+
+const outlineRoot = doc.outline;
+let outlinePartA = null;
+let outlinePartB = null;
+
 function drawH1(text) {
   // Always start a fresh page for a chapter — but if the current
   // page is effectively empty (we're at the top margin), reuse it.
@@ -304,6 +334,11 @@ function drawH1(text) {
   flow();
   doc.font(F.sansB).fontSize(22).fillColor(C.ink).text(decodeText(text), { width: W, paragraphGap: 6 });
   doc.moveDown(0.4);
+  toc.push({ level: 1, text: decodeText(text), pageIndex: currentPage() });
+  // PDF outline (sidebar) — top-level chapter.
+  const item = outlineRoot.addItem(decodeText(text));
+  if (/Part B/i.test(text)) outlinePartB = item;
+  else outlinePartA = item;
 }
 
 function drawH2(text) {
@@ -319,6 +354,10 @@ function drawH2(text) {
   doc.font(F.sansB).fontSize(13).fillColor(C.ink).text(decodeText(text), { width: W - 10, paragraphGap: 3 });
   flow();
   doc.moveDown(0.2);
+  toc.push({ level: 2, text: decodeText(text), pageIndex: currentPage() });
+  // Add to outline under the matching chapter (defaulting to Part A).
+  const parent = outlinePartB || outlinePartA || outlineRoot;
+  parent.addItem(decodeText(text));
 }
 
 function drawH3(text) {
@@ -327,6 +366,7 @@ function drawH3(text) {
   flow();
   doc.font(F.sansB).fontSize(11).fillColor(C.ink).text(decodeText(text), { width: W, paragraphGap: 2 });
   doc.moveDown(0.2);
+  toc.push({ level: 3, text: decodeText(text), pageIndex: currentPage() });
 }
 
 function drawP(text) {
@@ -341,7 +381,9 @@ function drawQuote(text) {
   const top = doc.y;
   flow();
   doc.x = M.left + 14;
-  doc.font(F.sansI).fontSize(10).fillColor(C.quote);
+  // Blockquotes in the source frequently contain a bare URL as
+  // "evidence of source"; parseInline auto-detects http(s) URLs
+  // and emits link tokens, so they render clickable.
   renderInline(parseInline(text), { fontSize: 10, lineGap: 2.5, indent: 14, color: C.quote });
   const bottom = doc.y;
   // left rule
@@ -576,7 +618,12 @@ if (firstH1 >= 0 && /Tracing AI regulation/i.test(blocks[firstH1].text)) {
 // the first real content so we don't start the body on an empty page.
 while (blocks.length && blocks[0].kind === 'hr') blocks.shift();
 
-// Start the body on a fresh page after the cover.
+// Reserve a TOC page right after the cover. We come back and
+// populate it once we know each heading's final page number.
+doc.addPage();
+const TOC_PAGE_INDEX = currentPage();
+
+// Start the body on a fresh page after the TOC.
 doc.addPage();
 
 // ---------------------------------------------------------------
@@ -599,23 +646,91 @@ for (const b of blocks) {
 }
 
 // ---------------------------------------------------------------
+// Add named destinations at the top of each section's page FIRST,
+// so that the TOC's `goTo` links can resolve them at write time.
+// ---------------------------------------------------------------
+{
+  const seen = new Set();
+  for (const e of toc) {
+    if (seen.has(e.pageIndex)) continue;
+    seen.add(e.pageIndex);
+    doc.switchToPage(e.pageIndex);
+    doc.x = M.left;
+    doc.y = M.top;
+    doc.addNamedDestination(`sec_${e.pageIndex}`);
+  }
+}
+
+// ---------------------------------------------------------------
+// Populate the reserved TOC page.
+// ---------------------------------------------------------------
+doc.switchToPage(TOC_PAGE_INDEX);
+doc.x = M.left;
+doc.y = M.top;
+doc.font(F.sansB).fontSize(20).fillColor(C.ink)
+   .text('Contents', M.left, M.top, { lineBreak: false });
+doc.moveTo(M.left, M.top + 28).lineTo(M.left + 60, M.top + 28)
+   .lineWidth(2).strokeColor(C.warm).stroke();
+doc.y = M.top + 42;
+
+// Render TOC entries. We translate PDF page index → "body page"
+// (TOC = i, body starts at i+1) for display. Internal links use
+// PDFKit's `goTo` option which jumps to a named destination —
+// we add the destination at each heading's page top in a second
+// step below.
+for (const entry of toc) {
+  ensure(16);
+  const bodyPageLabel = `${entry.pageIndex}`;
+  const fontSize = entry.level === 1 ? 13 : entry.level === 2 ? 10 : 9;
+  const font = entry.level === 1 ? F.sansB : entry.level === 2 ? F.sansB : F.sans;
+  const color = entry.level === 1 ? C.ink : entry.level === 2 ? C.body : C.muted;
+  const indent = entry.level === 1 ? 0 : entry.level === 2 ? 14 : 28;
+  const lineY = doc.y;
+  // Title (left)
+  doc.font(font).fontSize(fontSize).fillColor(color);
+  const title = entry.text;
+  const titleX = M.left + indent;
+  const numW = doc.widthOfString(bodyPageLabel);
+  const titleMaxW = W - indent - numW - 16;
+  const titleW = Math.min(doc.widthOfString(title), titleMaxW);
+  doc.text(title, titleX, lineY, {
+    width: titleMaxW, lineBreak: false, ellipsis: true,
+    goTo: `sec_${entry.pageIndex}`,
+  });
+  // Dotted leader for level 1/2 entries (skip on level 3 to reduce noise)
+  if (entry.level <= 2) {
+    const leaderX1 = titleX + titleW + 6;
+    const leaderX2 = M.left + W - numW - 6;
+    if (leaderX2 > leaderX1 + 6) {
+      doc.save();
+      doc.dash(1, { space: 3 });
+      doc.moveTo(leaderX1, lineY + fontSize - 2).lineTo(leaderX2, lineY + fontSize - 2)
+         .lineWidth(0.4).strokeColor(C.rule).stroke();
+      doc.undash();
+      doc.restore();
+    }
+  }
+  // Page number (right)
+  doc.font(F.sans).fontSize(fontSize).fillColor(C.muted)
+     .text(bodyPageLabel, M.left + W - numW, lineY, {
+       width: numW + 2, lineBreak: false, goTo: `sec_${entry.pageIndex}`,
+     });
+  doc.y = lineY + fontSize + (entry.level === 1 ? 8 : 4);
+  flow();
+}
+
+// ---------------------------------------------------------------
 // Chrome: running header + footer on every page except the cover.
-// We use the PDF coordinate API directly (no text() wrapping)
-// because PDFKit's text() with width+align can trigger extra
-// page additions on the buffered page range pass.
 // ---------------------------------------------------------------
 const range = doc.bufferedPageRange();
 for (let p = range.start; p < range.start + range.count; p++) {
   doc.switchToPage(p);
   if (p === 0) continue; // cover stays clean
-  // Header
   doc.save();
   doc.font(F.sans).fontSize(8).fillColor(C.muted);
   doc.text(RUNNING_TITLE, M.left, 32, { lineBreak: false });
   doc.moveTo(M.left, 48).lineTo(M.left + W, 48).lineWidth(0.4).strokeColor(C.rule).stroke();
-  // Footer — left label
   doc.text('forgetmenot · 2026-05-17', M.left, PAGE_H - 40, { lineBreak: false });
-  // Footer — right page number, manually right-aligned via widthOfString.
   const num = `${p}`;
   doc.font(F.sansB).fontSize(8);
   const numW = doc.widthOfString(num);
