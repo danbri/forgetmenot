@@ -251,22 +251,111 @@ process.stderr.write(`APPG officerships attached to members: ${appgHits}\n`);
 
 // ---------------------------------------------------------------
 // 5. GOV.UK person factoids → govuk graph (best-effort)
-//    Match by case-insensitive Given Family name. Ministers and
-//    senior officials match cleanly; backbench MPs usually don't.
+//    Match by:
+//      (a) slug match: gov.uk slug `rachel-reeves` ↔ DDP
+//          `given-family` lowercased.
+//      (b) name match: GOV.UK schema:name string cleaned of
+//          honorifics + post-nominals ↔ DDP given+family.
+//    Only commit a match when EXACTLY one DDP person matches.
 // ---------------------------------------------------------------
 const govukDir = resolve(repoRoot, 'third_party/govuk/html/orgcharts/extractors/factoids');
-let govukHits = 0;
+let govukHits = 0, govukAmbig = 0, govukNoMatch = 0;
+
+// Honorifics that may prefix a GOV.UK name. Order matters: try
+// longer ones first so e.g. "The Rt Hon Sir" peels off cleanly.
+const HONORIFICS = [
+  'The Rt Hon Dame', 'The Rt Hon Sir', 'The Right Hon', 'The Rt Hon',
+  'The Most Hon', 'The Hon', 'Dame', 'Sir', 'Lord', 'Lady', 'Baroness',
+  'Viscount', 'Earl', 'Dr', 'Professor', 'Prof', 'Mr', 'Mrs', 'Ms', 'Miss', 'Mx',
+  'Rev', 'Revd', 'The', 'His Excellency', 'Her Excellency',
+  // military / clergy / civil
+  'Air Marshal', 'Air Vice-Marshal', 'General', 'Lieutenant General',
+  'Major General', 'Brigadier', 'Colonel', 'Lieutenant Colonel',
+  'Vice Admiral', 'Rear Admiral', 'Admiral', 'Wing Commander',
+];
+// Post-nominals to strip from the trailing end. Iterated repeatedly
+// so "MP CBE QC" all peel off.
+const POSTNOMS = new Set([
+  'MP', 'MEP', 'MSP', 'MLA', 'AM',
+  'KC', 'QC', 'PC',
+  'MBE', 'OBE', 'CBE', 'DBE', 'KBE', 'GBE',
+  'KCB', 'KCMG', 'GCB', 'GCMG', 'GCVO', 'KCVO', 'CMG', 'CVO',
+  'FRS', 'FRSE', 'FRSA', 'FBA', 'FREng', 'FInstP',
+  'BA', 'BSc', 'MA', 'MSc', 'PhD', 'DPhil', 'LLB', 'LLM',
+  'RAF', 'RN', 'JP', 'TD', 'VC', 'DSO', 'MC', 'AFC',
+  'KCSI', 'GCSI', 'CB', 'GBE',
+]);
+
+// Strip trailing post-nominals greedily (e.g. "KC OBE MP" all peel off).
+function stripPostnoms(s) {
+  let changed = true;
+  while (changed) {
+    changed = false;
+    const m = /\s+([A-Z][A-Za-z]{1,5})$/.exec(s);
+    if (m && POSTNOMS.has(m[1].toUpperCase())) { s = s.slice(0, m.index); changed = true; }
+  }
+  return s.replace(/\s+/g, ' ').trim();
+}
+// Strip leading honorifics greedily (e.g. "The Rt Hon Sir" all peel off).
+function stripHonorifics(s) {
+  let changed = true;
+  while (changed) {
+    changed = false;
+    for (const h of HONORIFICS) {
+      const re = new RegExp(`^${h.replace(/[.*+?^${}()|[\\]\\\\]/g, '\\$&')}\\s+`, 'i');
+      if (re.test(s)) { s = s.replace(re, ''); changed = true; break; }
+    }
+  }
+  return s.replace(/\s+/g, ' ').trim();
+}
+// MP-style: strip both ends, leaving "Given Family".
+function cleanGovukName(raw) {
+  return stripPostnoms(stripHonorifics(raw.trim()));
+}
+// Peer-style: keep the honorific (Baroness/Lord/Viscount/...) — that
+// IS part of the name in the per-member dump — but strip post-noms.
+function cleanGovukPeerName(raw) {
+  return stripPostnoms(raw.trim());
+}
+
 if (existsSync(govukDir)) {
-  // Build a name → memberId map from DDP bindings (more reliable
-  // than the per-member dumps, which use `nameDisplayAs` strings
-  // like "Lord Holmes of Richmond" that don't split cleanly).
-  const byName = new Map();
+  // Build several indices into DDP persons + local member dumps:
+  //   (a) bySlug   → memberId[]  — DDP lowercase `given-family`
+  //   (b) byFull   → memberId[]  — DDP lowercase `given family`
+  //   (c) byPeer   → memberId[]  — per-MP dump nameDisplayAs
+  //                                lowercased (e.g.
+  //                                "baroness anderson of stoke-on-trent")
+  // For ambiguous cases we prefer candidates that have a local
+  // per-member dump — those are MPs and peers active enough to
+  // appear in our local corpus, i.e. the politicians GOV.UK is
+  // most likely talking about.
+  const bySlug = new Map();
+  const byFull = new Map();
+  const byPeer = new Map();
   for (const [mnis, d] of ddpByMnis) {
     if (!d.given || !d.family) continue;
-    const key = `${d.given} ${d.family}`.toLowerCase();
-    if (!byName.has(key)) byName.set(key, []);
-    byName.get(key).push(mnis);
+    const slug = `${d.given} ${d.family}`.toLowerCase().replace(/\s+/g, '-');
+    const full = `${d.given} ${d.family}`.toLowerCase();
+    if (!bySlug.has(slug)) bySlug.set(slug, []);
+    bySlug.get(slug).push(mnis);
+    if (!byFull.has(full)) byFull.set(full, []);
+    byFull.get(full).push(mnis);
   }
+  // Peer-style name index from the per-member dumps.
+  for (const [id, dump] of members) {
+    for (const v of [dump.name, dump.nameListAs, dump.nameDisplayAs]) {
+      if (!v) continue;
+      const k = v.toLowerCase().trim();
+      if (!byPeer.has(k)) byPeer.set(k, []);
+      if (!byPeer.get(k).includes(id)) byPeer.get(k).push(id);
+    }
+  }
+
+  const preferLocal = (ids) => {
+    const local = ids.filter(id => members.has(id));
+    return local.length === 1 ? local[0] : null;
+  };
+
   for (const slug of readdirSync(govukDir)) {
     if (!slug.startsWith('government__people__')) continue;
     const ttlPath = resolve(govukDir, slug, 'factoids.ttl');
@@ -275,18 +364,47 @@ if (existsSync(govukDir)) {
     const nameMatch = /schema1:name\s+"([^"]+)"@en/.exec(ttl);
     const urlMatch  = /^<(https:\/\/www\.gov\.uk\/government\/people\/[^>]+)>/m.exec(ttl);
     if (!nameMatch || !urlMatch) continue;
-    const name = nameMatch[1].toLowerCase();
+    const rawName = nameMatch[1];
     const govukUri = urlMatch[1];
-    const matches = byName.get(name);
-    if (!matches || matches.length !== 1) continue; // skip ambiguous / unmatched
-    const memberId = matches[0];
+    const govukSlug = slug.replace(/^government__people__/, '').replace(/\.cy$/, '');
+
+    const cleaned = cleanGovukName(rawName).toLowerCase();
+    const candidates = new Set();
+    for (const id of bySlug.get(govukSlug) || []) candidates.add(id);
+    for (const id of byFull.get(cleaned) || []) candidates.add(id);
+    for (const id of bySlug.get(cleaned.replace(/\s+/g, '-')) || []) candidates.add(id);
+    // Peer match — keep honorifics ("Baroness Sherlock"), strip
+    // only post-noms ("OBE", "KC"). Also try the absolutely raw name.
+    const peerCleaned = cleanGovukPeerName(rawName).toLowerCase();
+    for (const id of byPeer.get(rawName.toLowerCase().trim()) || []) candidates.add(id);
+    for (const id of byPeer.get(peerCleaned) || []) candidates.add(id);
+    for (const id of byPeer.get(cleaned) || []) candidates.add(id);
+
+    let memberId = null;
+    if (candidates.size === 1) {
+      memberId = [...candidates][0];
+    } else if (candidates.size > 1) {
+      memberId = preferLocal([...candidates]);
+    }
+
+    if (!memberId) {
+      if (candidates.size === 0) govukNoMatch++;
+      else                       govukAmbig++;
+      continue;
+    }
     govukHits++;
     const s = memberIri(memberId);
     addIri(s, NS.owl + 'sameAs', govukUri, G.govuk);
-    addLit(s, NS.fmn + 'govukFactoidFile', `third_party/govuk/html/orgcharts/extractors/factoids/${slug}/factoids.ttl`, G.govuk);
+    addLit(s, NS.fmn + 'govukFactoidFile',
+           `third_party/govuk/html/orgcharts/extractors/factoids/${slug}/factoids.ttl`,
+           G.govuk);
+    addLit(s, NS.fmn + 'govukCleanName', cleanGovukName(rawName), G.govuk);
   }
 }
-process.stderr.write(`Members cross-linked to GOV.UK people: ${govukHits}\n`);
+process.stderr.write(
+  `Members cross-linked to GOV.UK people: ${govukHits} ` +
+  `(${govukAmbig} ambiguous, ${govukNoMatch} no match)\n`
+);
 
 // ---------------------------------------------------------------
 // Emit N-Quads
