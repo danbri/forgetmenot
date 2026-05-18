@@ -15,8 +15,8 @@
     "status": 503,
     "message": "HTTP 503 https://mattturmainemp.org/"
   },
-  "startedAt": "2026-05-03T08:42:37.760Z",
-  "finishedAt": "2026-05-03T08:42:49.954Z",
+  "startedAt": "2026-05-18T09:36:17.693Z",
+  "finishedAt": "2026-05-18T09:36:41.503Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,30 @@
       "http": 503
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 503
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 503
+    },
+    {
+      "step": "wayback",
+      "url": "https://mattturmainemp.org/",
+      "status": "lookup-failed",
+      "message": "HTTP 403 https://web.archive.org/cdx/search/cdx?url=https%3A%2F%2Fmattturmainemp.org%2F&output=json&limit=-1&filter=statuscode%3A200&filter=%21mimetype%3Awarc%2Frevisit"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 503,
-      "message": "HTTP 503 https://mattturmainemp.org/"
+      "message": "HTTP 503 https://mattturmainemp.org/",
+      "waf": null,
+      "waf_evidence": null
     }
   ]
 }

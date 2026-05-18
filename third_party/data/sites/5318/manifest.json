@@ -15,8 +15,8 @@
     "status": 503,
     "message": "HTTP 503 https://ollyglover.co.uk/"
   },
-  "startedAt": "2026-05-03T08:45:22.153Z",
-  "finishedAt": "2026-05-03T08:45:33.854Z",
+  "startedAt": "2026-05-18T09:36:27.089Z",
+  "finishedAt": "2026-05-18T09:36:50.738Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,30 @@
       "http": 503
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 503
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 503
+    },
+    {
+      "step": "wayback",
+      "url": "https://ollyglover.co.uk/",
+      "status": "lookup-failed",
+      "message": "HTTP 403 https://web.archive.org/cdx/search/cdx?url=https%3A%2F%2Follyglover.co.uk%2F&output=json&limit=-1&filter=statuscode%3A200&filter=%21mimetype%3Awarc%2Frevisit"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 503,
-      "message": "HTTP 503 https://ollyglover.co.uk/"
+      "message": "HTTP 503 https://ollyglover.co.uk/",
+      "waf": null,
+      "waf_evidence": null
     }
   ]
 }

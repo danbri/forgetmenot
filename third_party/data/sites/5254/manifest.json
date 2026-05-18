@@ -15,8 +15,8 @@
     "status": 403,
     "message": "HTTP 403 https://www.alisonhume.com/"
   },
-  "startedAt": "2026-05-03T08:44:19.134Z",
-  "finishedAt": "2026-05-03T08:44:20.685Z",
+  "startedAt": "2026-05-18T09:36:23.597Z",
+  "finishedAt": "2026-05-18T09:36:28.589Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,31 @@
       "http": 403
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "wayback",
+      "url": "https://www.alisonhume.com/",
+      "status": "memento-failed",
+      "http": 403,
+      "ts": "20230921113829"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 403,
-      "message": "HTTP 403 https://www.alisonhume.com/"
+      "message": "HTTP 403 https://www.alisonhume.com/",
+      "waf": "cloudflare",
+      "waf_evidence": "header signature: cf-ray=9fd9e0afef44c48f-ORD; server=cloudflare"
     }
   ]
 }

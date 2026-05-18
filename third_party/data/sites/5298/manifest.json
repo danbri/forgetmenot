@@ -15,8 +15,8 @@
     "status": 403,
     "message": "HTTP 403 https://www.laurenedwards.uk/"
   },
-  "startedAt": "2026-05-03T08:45:02.425Z",
-  "finishedAt": "2026-05-03T08:45:05.280Z",
+  "startedAt": "2026-05-18T09:36:25.098Z",
+  "finishedAt": "2026-05-18T09:36:32.052Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,31 @@
       "disallow": 1
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "wayback",
+      "url": "https://www.laurenedwards.uk/",
+      "status": "memento-failed",
+      "http": 403,
+      "ts": "20241212200021"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 403,
-      "message": "HTTP 403 https://www.laurenedwards.uk/"
+      "message": "HTTP 403 https://www.laurenedwards.uk/",
+      "waf": "cloudflare",
+      "waf_evidence": "header signature: cf-ray=9fd9e0ba0fa1a700-ORD; server=cloudflare"
     }
   ]
 }

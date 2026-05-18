@@ -15,8 +15,8 @@
     "status": 503,
     "message": "HTTP 503 https://lordmarkprice.com/"
   },
-  "startedAt": "2026-05-03T08:36:12.699Z",
-  "finishedAt": "2026-05-03T08:36:24.648Z",
+  "startedAt": "2026-05-18T09:35:56.564Z",
+  "finishedAt": "2026-05-18T09:36:23.597Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,31 @@
       "http": 503
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 503
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 503
+    },
+    {
+      "step": "wayback",
+      "url": "https://lordmarkprice.com/",
+      "status": "memento-failed",
+      "http": 403,
+      "ts": "20251015145727"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 503,
-      "message": "HTTP 503 https://lordmarkprice.com/"
+      "message": "HTTP 503 https://lordmarkprice.com/",
+      "waf": null,
+      "waf_evidence": null
     }
   ]
 }

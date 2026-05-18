@@ -15,8 +15,8 @@
     "status": 410,
     "message": "HTTP 410 https://www.imranhussain.org/"
   },
-  "startedAt": "2026-05-03T08:34:08.446Z",
-  "finishedAt": "2026-05-03T08:34:11.534Z",
+  "startedAt": "2026-05-18T09:35:52.511Z",
+  "finishedAt": "2026-05-18T09:36:02.355Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,31 @@
       "disallow": 0
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 410
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 410
+    },
+    {
+      "step": "wayback",
+      "url": "https://www.imranhussain.org/",
+      "status": "memento-failed",
+      "http": 403,
+      "ts": "20251207062929"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 410,
-      "message": "HTTP 410 https://www.imranhussain.org/"
+      "message": "HTTP 410 https://www.imranhussain.org/",
+      "waf": "cloudflare",
+      "waf_evidence": "header signature: cf-ray=9fd9dff48f1c0128-ORD; server=cloudflare; cf-cache-status=DYNAMIC"
     }
   ]
 }

@@ -15,8 +15,8 @@
     "status": 403,
     "message": "HTTP 403 http://www.debbieabrahams.org.uk/"
   },
-  "startedAt": "2026-05-03T08:32:50.924Z",
-  "finishedAt": "2026-05-03T08:32:52.527Z",
+  "startedAt": "2026-05-18T09:35:42.643Z",
+  "finishedAt": "2026-05-18T09:35:52.511Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,30 @@
       "http": 403
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "wayback",
+      "url": "http://www.debbieabrahams.org.uk/",
+      "status": "lookup-failed",
+      "message": "HTTP 403 https://web.archive.org/cdx/search/cdx?url=http%3A%2F%2Fwww.debbieabrahams.org.uk%2F&output=json&limit=-1&filter=statuscode%3A200&filter=%21mimetype%3Awarc%2Frevisit"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 403,
-      "message": "HTTP 403 http://www.debbieabrahams.org.uk/"
+      "message": "HTTP 403 http://www.debbieabrahams.org.uk/",
+      "waf": "cloudflare",
+      "waf_evidence": "header signature: cf-ray=9fd9dfb00e3975e4-ORD; server=cloudflare"
     }
   ]
 }

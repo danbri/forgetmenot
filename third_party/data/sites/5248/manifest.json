@@ -15,8 +15,8 @@
     "status": 403,
     "message": "HTTP 403 https://www.lukemurphy.org.uk/"
   },
-  "startedAt": "2026-05-03T08:44:12.723Z",
-  "finishedAt": "2026-05-03T08:44:14.277Z",
+  "startedAt": "2026-05-18T09:36:22.097Z",
+  "finishedAt": "2026-05-18T09:36:27.088Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,31 @@
       "http": 403
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "wayback",
+      "url": "https://www.lukemurphy.org.uk/",
+      "status": "memento-failed",
+      "http": 403,
+      "ts": "20240523002503"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 403,
-      "message": "HTTP 403 https://www.lukemurphy.org.uk/"
+      "message": "HTTP 403 https://www.lukemurphy.org.uk/",
+      "waf": "cloudflare",
+      "waf_evidence": "header signature: cf-ray=9fd9e0a7de4798c3-ORD; server=cloudflare"
     }
   ]
 }

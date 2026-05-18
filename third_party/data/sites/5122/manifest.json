@@ -15,8 +15,8 @@
     "status": 404,
     "message": "HTTP 404 https://www.stratfordlibdems.org.uk/meet-manuela"
   },
-  "startedAt": "2026-05-03T08:42:32.757Z",
-  "finishedAt": "2026-05-03T08:42:34.824Z",
+  "startedAt": "2026-05-18T09:36:07.228Z",
+  "finishedAt": "2026-05-18T09:36:17.693Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,30 @@
       "http": 404
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 404
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 404
+    },
+    {
+      "step": "wayback",
+      "url": "https://www.stratfordlibdems.org.uk/meet-manuela",
+      "status": "lookup-failed",
+      "message": "HTTP 403 https://web.archive.org/cdx/search/cdx?url=https%3A%2F%2Fwww.stratfordlibdems.org.uk%2Fmeet-manuela&output=json&limit=-1&filter=statuscode%3A200&filter=%21mimetype%3Awarc%2Frevisit"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 404,
-      "message": "HTTP 404 https://www.stratfordlibdems.org.uk/meet-manuela"
+      "message": "HTTP 404 https://www.stratfordlibdems.org.uk/meet-manuela",
+      "waf": null,
+      "waf_evidence": null
     }
   ]
 }

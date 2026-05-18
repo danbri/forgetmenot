@@ -15,8 +15,8 @@
     "status": 403,
     "message": "HTTP 403 https://www.allianceparty.org/our_mp"
   },
-  "startedAt": "2026-05-03T08:42:34.824Z",
-  "finishedAt": "2026-05-03T08:42:36.855Z",
+  "startedAt": "2026-05-18T09:36:13.702Z",
+  "finishedAt": "2026-05-18T09:36:19.541Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -33,13 +33,34 @@
     {
       "step": "robots",
       "status": "fetched",
-      "disallow": 0
+      "disallow": 5
+    },
+    {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "wayback",
+      "url": "https://www.allianceparty.org/our_mp",
+      "status": "memento-failed",
+      "http": 403,
+      "ts": "20260511164722"
     },
     {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 403,
-      "message": "HTTP 403 https://www.allianceparty.org/our_mp"
+      "message": "HTTP 403 https://www.allianceparty.org/our_mp",
+      "waf": "cloudflare",
+      "waf_evidence": "header signature: cf-ray=9fd9e0782f6161c0-ORD; server=cloudflare"
     }
   ]
 }

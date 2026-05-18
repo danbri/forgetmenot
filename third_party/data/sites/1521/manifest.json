@@ -15,8 +15,8 @@
     "status": 403,
     "message": "HTTP 403 http://www.sharonhodgson.org/"
   },
-  "startedAt": "2026-05-03T08:26:09.924Z",
-  "finishedAt": "2026-05-03T08:26:11.498Z",
+  "startedAt": "2026-05-18T09:35:27.324Z",
+  "finishedAt": "2026-05-18T09:35:35.956Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -33,13 +33,34 @@
     {
       "step": "robots",
       "status": "fetched",
-      "disallow": 0
+      "disallow": 5
+    },
+    {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "wayback",
+      "url": "http://www.sharonhodgson.org/",
+      "status": "memento-failed",
+      "http": 403,
+      "ts": "20260314194353"
     },
     {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 403,
-      "message": "HTTP 403 http://www.sharonhodgson.org/"
+      "message": "HTTP 403 http://www.sharonhodgson.org/",
+      "waf": "cloudflare",
+      "waf_evidence": "header signature: cf-ray=9fd9df5dfb3f0006-ORD; server=cloudflare"
     }
   ]
 }

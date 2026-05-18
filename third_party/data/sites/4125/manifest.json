@@ -15,8 +15,8 @@
     "status": 403,
     "message": "HTTP 403 http://www.catherinemckinnellmp.co.uk/"
   },
-  "startedAt": "2026-05-03T08:32:18.276Z",
-  "finishedAt": "2026-05-03T08:32:19.841Z",
+  "startedAt": "2026-05-18T09:35:37.458Z",
+  "finishedAt": "2026-05-18T09:35:42.643Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,31 @@
       "http": 403
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 403
+    },
+    {
+      "step": "wayback",
+      "url": "http://www.catherinemckinnellmp.co.uk/",
+      "status": "memento-failed",
+      "http": 403,
+      "ts": "20250701030801"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 403,
-      "message": "HTTP 403 http://www.catherinemckinnellmp.co.uk/"
+      "message": "HTTP 403 http://www.catherinemckinnellmp.co.uk/",
+      "waf": "cloudflare",
+      "waf_evidence": "header signature: cf-ray=9fd9df8f8dca7d03-ORD; server=cloudflare"
     }
   ]
 }

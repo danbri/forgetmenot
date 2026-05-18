@@ -9,37 +9,62 @@
   },
   "homepageUrl": "https://www.davidfrost.org.uk/about-me",
   "origin": "https://www.davidfrost.org.uk",
-  "ok": false,
+  "ok": true,
   "blocked": false,
-  "homepage_error": {
-    "status": 503,
-    "message": "HTTP 503 https://www.davidfrost.org.uk/about-me"
-  },
-  "startedAt": "2026-05-03T08:39:30.385Z",
-  "finishedAt": "2026-05-03T08:39:42.480Z",
+  "homepage_error": null,
+  "startedAt": "2026-05-18T09:36:00.852Z",
+  "finishedAt": "2026-05-18T09:36:06.896Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
   "robots": {
-    "allow": [],
+    "allow": [
+      "/"
+    ],
     "disallow": []
   },
   "feeds": [],
-  "sitemap_file": null,
-  "homepage": null,
+  "sitemap_file": "sitemap.xml",
+  "homepage": {
+    "url": "https://www.davidfrost.org.uk/about-me",
+    "type": "homepage",
+    "title": "",
+    "h1": "",
+    "meta_description": "",
+    "headings": [],
+    "text_excerpt": "",
+    "text_length": 0,
+    "raw_html_file": "homepage.html"
+  },
   "pages": [],
   "decisions": [],
   "log": [
     {
       "step": "robots",
-      "status": "unavailable",
-      "http": 503
+      "status": "fetched",
+      "disallow": 0
+    },
+    {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "fetched",
+      "bytes": 68
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "fetched",
+      "bytes": 114
     },
     {
       "step": "homepage",
-      "status": "fetch-failed",
-      "http": 503,
-      "message": "HTTP 503 https://www.davidfrost.org.uk/about-me"
+      "status": "ok",
+      "bytes": 114
+    },
+    {
+      "step": "sitemap",
+      "status": "ok",
+      "bytes": 165
     }
   ]
 }

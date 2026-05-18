@@ -15,8 +15,8 @@
     "status": 404,
     "message": "HTTP 404 https://www.rachelreevesmp.co.uk/"
   },
-  "startedAt": "2026-05-03T08:31:14.098Z",
-  "finishedAt": "2026-05-03T08:31:16.289Z",
+  "startedAt": "2026-05-18T09:35:35.956Z",
+  "finishedAt": "2026-05-18T09:35:41.189Z",
   "platform": null,
   "newsletter_provider": null,
   "social": [],
@@ -36,10 +36,31 @@
       "disallow": 1
     },
     {
+      "step": "ai-optout",
+      "file": "/llms.txt",
+      "status": "absent",
+      "http": 404
+    },
+    {
+      "step": "ai-optout",
+      "file": "/ai.txt",
+      "status": "absent",
+      "http": 404
+    },
+    {
+      "step": "wayback",
+      "url": "https://www.rachelreevesmp.co.uk/",
+      "status": "memento-failed",
+      "http": 403,
+      "ts": "20240415180219"
+    },
+    {
       "step": "homepage",
       "status": "fetch-failed",
       "http": 404,
-      "message": "HTTP 404 https://www.rachelreevesmp.co.uk/"
+      "message": "HTTP 404 https://www.rachelreevesmp.co.uk/",
+      "waf": null,
+      "waf_evidence": null
     }
   ]
 }
