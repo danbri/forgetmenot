@@ -408,6 +408,61 @@ PARTY_TO_QID: dict[str, str] = {
     "INTERNATIONAL COURT OF JUSTICE": "Q1148",
     "WORLD METEOROLOGICAL ORGANIZATION": "Q170196",
     "ORGANIZATION FOR ECONOMIC CO-OPERATION AND DEVELOPMENT": "Q7159",
+
+    # Historical UK colonial territories and protectorates surfaced by
+    # the first full corpus run (each label appeared 40+ times). For
+    # entities that became modern sovereign states we map to the
+    # historical QID where Wikidata has one; otherwise we fall back to
+    # the modern successor so treaty graphs still connect.
+    "LAND BERLIN":                    "Q64",        # Berlin (incl. former Land West-Berlin)
+    "BERLIN WEST":                    "Q56036",     # West Berlin
+    "CEYLON":                         "Q854",       # Dominion of Ceylon → Sri Lanka
+    "THE GAMBIA":                     "Q1005",
+    "SOUTHERN RHODESIA":              "Q217169",    # Self-Governing Colony of Southern Rhodesia
+    "SALVADOR":                       "Q792",       # = El Salvador
+    "GILBERT AND ELLICE ISLANDS":     "Q1075092",
+    "GOLD COAST":                     "Q235011",    # Gold Coast (British colony) → Ghana
+    "SARAWAK":                        "Q133816",
+    "LEEWARD ISLANDS":                "Q513847",    # British Leeward Islands
+    "NORTHERN RHODESIA":              "Q198463",    # → Zambia
+    "BRITISH SOLOMON ISLANDS":        "Q1335149",
+    "SOLOMON ISLANDS PROTECTORATE":   "Q1335149",
+    "MALAY STATES, FEDERATED":        "Q509981",    # Federated Malay States
+    "MALAY STATES, UNFEDERATED":      "Q738337",    # Unfederated Malay States
+    "MALAGASY REPUBLIC":              "Q1019",      # = modern Madagascar (1958 republic)
+    "NYASALAND":                      "Q207464",    # Nyasaland Protectorate → Malawi
+    "ARGENTINE REPUBLIC":             "Q414",       # = Argentina
+    "SURINAM":                        "Q730",       # = Suriname
+    "BASUTOLAND":                     "Q230169",    # → Lesotho
+    "NEWFOUNDLAND (UK)":              "Q258293",    # Dominion of Newfoundland
+    "WINDWARD ISLANDS":               "Q1413408",   # British Windward Islands
+    "PALESTINE":                      "Q23792",     # Mandatory Palestine
+    "STRAITS SETTLEMENTS":            "Q1186660",
+    "BELGIAN CONGO":                  "Q170471",
+    "PAPUA":                          "Q1366298",   # Territory of Papua
+    "SOMALILAND PROTECTORATE":        "Q269949",    # British Somaliland
+    "SOMALILAND":                     "Q269949",    # treaty-era usage = British Somaliland
+    "ADEN COLONY":                    "Q484058",
+    "SERB-CROAT-SLOVENE STATE":       "Q151624",    # Kingdom of SCS
+    "DAHOMEY":                        "Q962",       # Republic of Dahomey → Benin
+    "HAYTI":                          "Q790",       # = Haiti
+    "NORFOLK ISLAND":                 "Q31057",
+    "DANZIG":                         "Q156199",    # Free City of Danzig
+    "RUANDA URUNDI":                  "Q221254",    # Belgian mandate
+    "CURACAO":                        "Q25279",
+    "UNITED ARAB REPUBLIC":           "Q207401",    # Egypt + Syria, 1958-71
+    "YEMEN, PEOPLES'S DEMOCRATIC REPUBLIC OF": "Q26013",  # South Yemen
+    "HONG KONG SAR":                  "Q8646",
+    "TUNIS":                          "Q948",       # = Tunisia
+    "YEMEN ARAB REPUBLIC":            "Q83036",     # North Yemen
+    "MUSCAT":                         "Q1147053",   # Muscat and Oman → Oman
+    "UKRAINE S S R":                  "Q133356",    # Ukrainian SSR
+    "BRITISH EMPIRE":                 "Q8680",
+    "ST CHRISTOPHER, NEVIS AND ANGUILLA": "Q1132381",
+    "ST KITTS NEVIS ANGUILLA":        "Q1132381",
+    "RHODESIA AND NYASALAND":         "Q221050",    # Federation
+    "KOREA":                          "Q42286",     # Korean Empire (treaty-era usage)
+    "NEW GUINEA":                     "Q40904",     # Territory of New Guinea
 }
 
 # Action vocabulary observed in the corpus (59 distinct values), with
