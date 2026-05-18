@@ -21,10 +21,32 @@ statement carries a named-graph IRI naming its origin:
 | `…/graph/identity/scraped` | `third_party/data/sites/<id>/` polite website crawl |
 | `…/graph/identity/appg` | `third_party/data/appg/resolved.json` officer resolutions |
 | `…/graph/identity/govuk` | `third_party/govuk/.../factoids/…/factoids.ttl` |
+| `…/graph/identity/provenance` | self-describes the other five (see below) |
 
 That way a downstream query like *"which people in our graph
 have an `owl:sameAs` from DDP **and** an `owl:sameAs` to GOV.UK?"*
 is a one-liner.
+
+## Provenance graph
+
+The sixth named graph is **`https://forgetmenot.local/graph/identity/provenance`**,
+which describes the other five using **PROV-O** and **VoID**:
+
+- Each source graph is typed `void:Dataset` + `prov:Entity` and
+  carries `dcterms:title`, `dcterms:description`, `dcterms:source`
+  (one or more — the local file path and/or the remote URL it was
+  fetched from), `void:triples` (its quad count), and
+  `prov:wasDerivedFrom` for every source URL.
+- One `prov:Activity` represents the build run, with
+  `prov:startedAtTime` / `prov:endedAtTime` and
+  `prov:wasAssociatedWith` pointing at the `prov:SoftwareAgent`
+  for `scripts/build-identity-graph.mjs`. When the build is run
+  inside a git checkout the activity also carries
+  `fmn:gitRevision`.
+- Every source graph is connected back to that activity by
+  `prov:wasGeneratedBy`, so given a quad, three hops gets you to
+  "what command produced this, at what git revision, against
+  which upstream source".
 
 ## Identifiers
 

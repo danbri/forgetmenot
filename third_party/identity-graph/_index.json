@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-18T11:45:46.110Z",
+  "generatedAt": "2026-05-18T16:05:46.930Z",
   "output": "third_party/identity-graph/identity.nq",
   "totals": {
-    "quads": 56766,
+    "quads": 56832,
     "members_local": 1426,
     "members_bridged_to_ddp": 1425,
     "members_with_scraped_site": 436,
@@ -15,7 +15,8 @@
     "ddp": "https://forgetmenot.local/graph/identity/ddp-sparql",
     "scraped": "https://forgetmenot.local/graph/identity/scraped",
     "appg": "https://forgetmenot.local/graph/identity/appg",
-    "govuk": "https://forgetmenot.local/graph/identity/govuk"
+    "govuk": "https://forgetmenot.local/graph/identity/govuk",
+    "prov": "https://forgetmenot.local/graph/identity/provenance"
   },
   "namespaces": {
     "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
@@ -23,6 +24,9 @@
     "owl": "http://www.w3.org/2002/07/owl#",
     "schema": "http://schema.org/",
     "dcterms": "http://purl.org/dc/terms/",
+    "prov": "http://www.w3.org/ns/prov#",
+    "void": "http://rdfs.org/ns/void#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
     "fmn": "https://forgetmenot.local/identity#",
     "parl": "https://id.parliament.uk/schema/"
   },

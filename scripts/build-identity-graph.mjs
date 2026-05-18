@@ -46,17 +46,23 @@ const NS = {
   owl:    'http://www.w3.org/2002/07/owl#',
   schema: 'http://schema.org/',
   dcterms:'http://purl.org/dc/terms/',
+  prov:   'http://www.w3.org/ns/prov#',
+  void:   'http://rdfs.org/ns/void#',
+  xsd:    'http://www.w3.org/2001/XMLSchema#',
   fmn:    'https://forgetmenot.local/identity#',
   parl:   'https://id.parliament.uk/schema/',
 };
 
-// Per-source named graphs
+// Per-source named graphs. Each is described in the `prov` graph
+// below with PROV-O / VoID metadata so a downstream consumer can
+// see — without leaving the .nq file — where every quad came from.
 const G = {
   members:  'https://forgetmenot.local/graph/identity/members-api',
   ddp:      'https://forgetmenot.local/graph/identity/ddp-sparql',
   scraped:  'https://forgetmenot.local/graph/identity/scraped',
   appg:     'https://forgetmenot.local/graph/identity/appg',
   govuk:    'https://forgetmenot.local/graph/identity/govuk',
+  prov:     'https://forgetmenot.local/graph/identity/provenance',
 };
 
 // N-Quads escaping for string literals.
@@ -404,6 +410,135 @@ if (existsSync(govukDir)) {
 process.stderr.write(
   `Members cross-linked to GOV.UK people: ${govukHits} ` +
   `(${govukAmbig} ambiguous, ${govukNoMatch} no match)\n`
+);
+
+// ---------------------------------------------------------------
+// 6. Provenance graph
+//
+// Every quad above belongs to one of five named graphs. This
+// graph (a sixth) DESCRIBES the other five with PROV-O + VoID:
+//
+//   - what each graph is (void:Dataset + dcterms:title/description)
+//   - the source artefact it derives from (dcterms:source +
+//     prov:wasDerivedFrom — a remote URL or a local file path)
+//   - how many quads it contains (void:triples)
+//   - which build activity produced it (prov:wasGeneratedBy)
+//   - when (prov:generatedAtTime)
+//
+// One prov:Activity describes the build run itself, tying back to
+// the script (`prov:wasAssociatedWith`) and the git revision when
+// available. Downstream consumers can therefore answer "where did
+// this quad come from, when, and using what source?" by
+// dereferencing the named graph the quad appears in.
+// ---------------------------------------------------------------
+
+const now = new Date().toISOString();
+const buildIri = `https://forgetmenot.local/identity/build/${now.replace(/[:.]/g, '-')}`;
+const scriptIri = `https://forgetmenot.local/identity/agent/build-identity-graph`;
+
+// Try to capture the current git HEAD so provenance is reproducible.
+let gitRev = null;
+try {
+  const { stdout } = await exec('git', ['rev-parse', '--short=12', 'HEAD'], { timeoutMs: 5000 });
+  gitRev = stdout.trim();
+} catch { /* not in a git checkout; skip */ }
+
+// Build activity
+add(iri(buildIri), iri(NS.rdf + 'type'), iri(NS.prov + 'Activity'), iri(G.prov));
+addLit(buildIri, NS.prov + 'startedAtTime', now, G.prov, NS.xsd + 'dateTime');
+addLit(buildIri, NS.prov + 'endedAtTime',   now, G.prov, NS.xsd + 'dateTime');
+add(iri(buildIri), iri(NS.prov + 'wasAssociatedWith'), iri(scriptIri), iri(G.prov));
+addLit(buildIri, NS.rdfs + 'label', 'forgetmenot identity-graph build', G.prov);
+if (gitRev) addLit(buildIri, NS.fmn + 'gitRevision', gitRev, G.prov);
+
+// The script as a SoftwareAgent
+add(iri(scriptIri), iri(NS.rdf + 'type'), iri(NS.prov + 'SoftwareAgent'), iri(G.prov));
+addLit(scriptIri, NS.rdfs + 'label', 'scripts/build-identity-graph.mjs', G.prov);
+addLit(scriptIri, NS.dcterms + 'source', 'scripts/build-identity-graph.mjs', G.prov);
+
+// Description per source graph.
+const graphMeta = [
+  {
+    iri: G.members,
+    title: 'Members API per-MP dumps',
+    description: 'Flattened per-MP JSON dumps written by `parl members crawl`. ' +
+                 'Captures Members API id, MNIS id, name, party, house, constituency, ' +
+                 'and contact metadata.',
+    sources: ['third_party/data/members/', 'https://members-api.parliament.uk/'],
+  },
+  {
+    iri: G.ddp,
+    title: 'DDP (data.parliament) public SPARQL graph',
+    description: 'DDP person IRIs (LocalIds), given/family names, and the owl:sameAs ' +
+                 'bridge from Members API id. Sourced by a single bulk SPARQL query ' +
+                 'over the public DDP store.',
+    sources: ['https://api.parliament.uk/sparql'],
+  },
+  {
+    iri: G.scraped,
+    title: 'Per-MP polite website crawl',
+    description: 'Presence of a polite scrape of each MP\'s public political website — ' +
+                 'platform, homepage URL, RSS/Atom feeds, and declared social profiles.',
+    sources: ['third_party/data/sites/'],
+  },
+  {
+    iri: G.appg,
+    title: 'APPG officer roles',
+    description: 'All-Party Parliamentary Group officerships, resolved from the ' +
+                 'official Register publication to Members API ids by `parl appg resolve`.',
+    sources: ['third_party/data/appg/resolved.json',
+              'https://publications.parliament.uk/pa/cm/cmallparty/'],
+  },
+  {
+    iri: G.govuk,
+    title: 'GOV.UK people factoids',
+    description: 'Cross-links from Members API id to GOV.UK ministerial / official ' +
+                 'people pages, where a confident name match exists.',
+    sources: ['third_party/govuk/html/orgcharts/extractors/factoids/',
+              'https://www.gov.uk/government/people/'],
+  },
+];
+
+// Count quads per graph so we can emit void:triples.
+const quadsPerGraph = new Map();
+for (const q of quads) {
+  const g = q[3].replace(/^<|>$/g, '');
+  quadsPerGraph.set(g, (quadsPerGraph.get(g) || 0) + 1);
+}
+
+for (const m of graphMeta) {
+  const s = m.iri;
+  add(iri(s), iri(NS.rdf + 'type'), iri(NS.void + 'Dataset'), iri(G.prov));
+  add(iri(s), iri(NS.rdf + 'type'), iri(NS.prov + 'Entity'),  iri(G.prov));
+  addLit(s, NS.dcterms + 'title',       m.title,       G.prov);
+  addLit(s, NS.dcterms + 'description', m.description, G.prov);
+  addLit(s, NS.dcterms + 'created',     now,           G.prov, NS.xsd + 'dateTime');
+  addLit(s, NS.prov    + 'generatedAtTime', now,       G.prov, NS.xsd + 'dateTime');
+  add(iri(s), iri(NS.prov + 'wasGeneratedBy'), iri(buildIri), iri(G.prov));
+  for (const src of m.sources) {
+    if (/^https?:\/\//.test(src)) {
+      add(iri(s), iri(NS.dcterms + 'source'),       iri(src), iri(G.prov));
+      add(iri(s), iri(NS.prov   + 'wasDerivedFrom'), iri(src), iri(G.prov));
+    } else {
+      addLit(s, NS.dcterms + 'source', src, G.prov);
+    }
+  }
+  const tcount = quadsPerGraph.get(m.iri) || 0;
+  addLit(s, NS.void + 'triples', String(tcount), G.prov, NS.xsd + 'integer');
+}
+
+// The provenance graph itself: self-describing.
+add(iri(G.prov), iri(NS.rdf + 'type'), iri(NS.void + 'Dataset'), iri(G.prov));
+addLit(G.prov, NS.dcterms + 'title', 'Provenance graph for forgetmenot identity-graph', G.prov);
+addLit(G.prov, NS.dcterms + 'description',
+       'PROV-O + VoID descriptions of the other five named graphs in identity.nq.',
+       G.prov);
+addLit(G.prov, NS.prov + 'generatedAtTime', now, G.prov, NS.xsd + 'dateTime');
+add(iri(G.prov), iri(NS.prov + 'wasGeneratedBy'), iri(buildIri), iri(G.prov));
+
+process.stderr.write(
+  `Provenance: 1 prov:Activity + ${graphMeta.length} void:Dataset descriptions ` +
+  `(git rev ${gitRev || 'unknown'})\n`
 );
 
 // ---------------------------------------------------------------
