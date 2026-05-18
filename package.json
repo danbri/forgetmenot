@@ -39,7 +39,8 @@
     "test:cli": "bash tests/test_cli.sh",
     "refetch": "bash scripts/refetch-specs.sh && bash scripts/refetch-discovered.sh",
     "probe": "bash scripts/probe-endpoints.sh",
-    "report:pdf": "node scripts/render-report-pdf.mjs"
+    "report:pdf": "node scripts/render-report-pdf.mjs",
+    "report:traverse": "node scripts/run-traverse.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
