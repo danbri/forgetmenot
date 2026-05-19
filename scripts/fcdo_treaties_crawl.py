@@ -164,12 +164,21 @@ def crawl(max_records: int | None, resume: bool,
     html_dir.mkdir(parents=True, exist_ok=True)
 
     already_done: set[str] = set()
-    if resume and index_path.exists():
-        for line in index_path.open():
-            try:
-                already_done.add(json.loads(line)["id"])
-            except (json.JSONDecodeError, KeyError):
-                pass
+    if resume:
+        # The records/ directory is ground truth. index.jsonl can fall out
+        # of sync with disk (a rebase can roll it back while keeping the
+        # tracked records/*.json files), and we don't want to re-fetch
+        # records we already have on disk. Walk the directory once.
+        for p in records_dir.glob("*.json"):
+            already_done.add(p.stem)
+        # Also union in any ids the index knows about (in case records/
+        # got cleaned but index didn't).
+        if index_path.exists():
+            for line in index_path.open():
+                try:
+                    already_done.add(json.loads(line)["id"])
+                except (json.JSONDecodeError, KeyError):
+                    pass
 
     opener = make_opener()
     user = login(opener)
