@@ -140,12 +140,31 @@ jq -s 'map(select(.bilateral_or_multilateral=="BI"
    third_party/data/fcdo_treaties/records/*.json
 ```
 
-An RDF lift script is planned (Dublin Core + a small `fcdo:` namespace
-for the action / signed-place / treaty-series predicates). When written
-it will materialise a local SPARQL endpoint alongside the gov.uk
-one, with the same `data-quality` discipline (anchor cases against the
-~10 most-cited treaties, cross-checks against the Parliament Treaties
-API for the post-2010 subset).
+## RDF lift
+
+Records are lifted to N-Quads + per-record Turtle by
+`scripts/fcdo_treaties_extract.py`. Outputs land in
+`third_party/data/fcdo_treaties/extractors/factoids/` — the directory
+is self-documenting:
+
+- [`README.md`](../../third_party/data/fcdo_treaties/extractors/factoids/README.md) — what each file is, schema overview, named-graph convention, SPARQL examples, known gaps
+- [`fcdo-vocab.ttl`](../../third_party/data/fcdo_treaties/extractors/factoids/fcdo-vocab.ttl) — hand-curated declaration of every `fcdo:` class and property
+- [`_dataset.ttl`](../../third_party/data/fcdo_treaties/extractors/factoids/_dataset.ttl) — `void:Dataset` self-description with coverage stats as SPARQL-queryable data + readable gap notes
+- [`all.nq.gz`](../../third_party/data/fcdo_treaties/extractors/factoids/all.nq.gz) — the corpus (one named graph per treaty, IRI = upstream UKTO URL)
+- [`_provenance.nq`](../../third_party/data/fcdo_treaties/extractors/factoids/_provenance.nq) — `prov:generatedAtTime` / `prov:wasDerivedFrom` per named graph
+- [`_index.json`](../../third_party/data/fcdo_treaties/extractors/factoids/_index.json) — per-run summary (counts, coverage rates, top-50 unmapped party labels)
+- [`_unmapped_party_labels.json`](../../third_party/data/fcdo_treaties/extractors/factoids/_unmapped_party_labels.json) — full tail of party labels we couldn't map to Wikidata
+- [`parliament-bridge.ttl`](../../third_party/data/fcdo_treaties/extractors/factoids/parliament-bridge.ttl) — `owl:sameAs` map joining UKTO record URIs to Parliament Treaties API URIs by command-paper number
+
+Re-run after new records land under `records/`:
+
+```sh
+python3 scripts/fcdo_treaties_extract.py --refresh --workers 8 --gzip
+```
+
+The same `data-quality` discipline applies: anchor cases against the
+~10 most-cited treaties, cross-check against the Parliament Treaties
+API for the post-2010 subset (via `parliament-bridge.ttl`).
 
 ## Upstream gaps
 

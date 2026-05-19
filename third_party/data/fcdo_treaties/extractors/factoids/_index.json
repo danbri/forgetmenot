@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-18",
+  "generated_at": "2026-05-19",
   "records_seen": 15452,
   "records_lifted": 15452,
   "records_reused": 0,
@@ -9,6 +9,10 @@
   "provenance_quads": 46356,
   "nquads_path": "third_party/data/fcdo_treaties/extractors/factoids/all.nq",
   "provenance_path": "third_party/data/fcdo_treaties/extractors/factoids/_provenance.nq",
+  "dataset_path": "third_party/data/fcdo_treaties/extractors/factoids/_dataset.ttl",
+  "vocab_path": "third_party/data/fcdo_treaties/extractors/factoids/fcdo-vocab.ttl",
+  "unmapped_party_labels_path": "third_party/data/fcdo_treaties/extractors/factoids/_unmapped_party_labels.json",
+  "unmapped_party_labels_total": 319,
   "party_qid_map_size": 352,
   "unmapped_party_labels": [
     [
@@ -211,5 +215,28 @@
       "Caribbean part of the Netherlands",
       20
     ]
-  ]
+  ],
+  "coverage": {
+    "records_with_subject": 8427,
+    "records_with_biorm": 8437,
+    "signed_date_present": 7882,
+    "signed_date_parsed": 7882,
+    "signed_date_parse_pct": 100.0,
+    "eif_date_present": 4334,
+    "eif_date_parsed": 4334,
+    "eif_date_parse_pct": 100.0,
+    "parties_total": 82939,
+    "parties_resolved": 79343,
+    "parties_resolved_pct": 95.66,
+    "party_actions_total": 113744,
+    "party_actions_null": 10969,
+    "party_actions_null_pct": 9.64,
+    "references_total": 19791,
+    "references_with_url": 5733,
+    "references_with_url_pct": 28.97,
+    "references_with_command_paper": 5937,
+    "references_with_command_paper_pct": 30.0,
+    "references_with_series": 17314,
+    "references_with_series_pct": 87.48
+  }
 }

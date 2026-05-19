@@ -549,6 +549,10 @@ _BAD_URI_CHARS = re.compile(r"[\s<>\"{}|\\^`]")
 _TITLE_ALT_RE = re.compile(r"\s*\[([^\[\]]{1,80})\]\s*$")
 
 
+def pct(n: int, d: int) -> float | None:
+    return round(n / d * 100, 2) if d else None
+
+
 def parse_dmy(s: str | None) -> str | None:
     """UKTO uses DD/MM/YYYY; lift to ISO, drop placeholders."""
     if not s or not _DATE_RE.match(s):
@@ -697,9 +701,11 @@ def lift_one(record: dict) -> tuple[URIRef, rdflib.Graph, dict]:
                Literal(eif_iso, datatype=XSD.date)))
 
     # References -------------------------------------------------------
+    ref_stats = {"total": 0, "with_url": 0, "with_cmd": 0, "with_series": 0}
     for raw in (record.get("references") or []):
         if not raw:
             continue
+        ref_stats["total"] += 1
         parsed = parse_reference(raw)
         ref_node = rdflib.BNode()
         g.add((treaty, FCDO.reference, ref_node))
@@ -709,25 +715,33 @@ def lift_one(record: dict) -> tuple[URIRef, rdflib.Graph, dict]:
         g.add((treaty, FCDO.referenceText, Literal(raw)))
         if "series" in parsed:
             g.add((ref_node, FCDO.series, Literal(parsed["series"])))
+            ref_stats["with_series"] += 1
         if "command_paper" in parsed:
             cp = parsed["command_paper"]
             g.add((ref_node, FCDO.commandPaper, Literal(cp)))
             g.add((treaty, FCDO.commandPaper, Literal(cp)))
+            ref_stats["with_cmd"] += 1
         if "pdf_url" in parsed:
             url = safe_uri(parsed["pdf_url"])
             try:
                 g.add((ref_node, DCT.hasFormat, URIRef(url)))
                 g.add((ref_node, SCHEMA.url, URIRef(url)))
+                ref_stats["with_url"] += 1
             except Exception:  # noqa: BLE001
                 pass
 
     # Parties (the simple label list, used as a fast index) ------------
     unmapped: list[str] = []
+    party_stats = {"total": 0, "resolved": 0}
     seen_parties: set[str] = set()
     for label in (record.get("parties") or []):
         if not label:
             continue
+        party_stats["total"] += 1
         key = label.strip().upper()
+        qid = PARTY_TO_QID.get(key)
+        if qid:
+            party_stats["resolved"] += 1
         if key in seen_parties:
             continue
         seen_parties.add(key)
@@ -738,7 +752,6 @@ def lift_one(record: dict) -> tuple[URIRef, rdflib.Graph, dict]:
         # overseas territory) round-trip.
         g.add((c_uri, RDF.type, FCDO.Country))
         g.add((c_uri, RDFS.label, Literal(label, lang="en")))
-        qid = PARTY_TO_QID.get(key)
         if qid:
             g.add((c_uri, OWL.sameAs, WD[qid]))
             g.add((c_uri, SCHEMA.sameAs, WD[qid]))
@@ -750,10 +763,12 @@ def lift_one(record: dict) -> tuple[URIRef, rdflib.Graph, dict]:
     # accession / etc. event. Action can be null on older treaties; we
     # still surface the country relationship in that case (with a
     # qualified action node) so SPARQL can find the party.
+    action_stats = {"total": 0, "null": 0}
     for pd in (record.get("parties_detail") or []):
         country_label = pd.get("country")
         if not country_label:
             continue
+        action_stats["total"] += 1
         c_uri = country_uri(country_label)
         # Make sure the country is typed even if it wasn't in parties.
         if country_label.strip().upper() not in seen_parties:
@@ -780,6 +795,8 @@ def lift_one(record: dict) -> tuple[URIRef, rdflib.Graph, dict]:
             g.add((a_uri, SKOS.prefLabel, Literal(action)))
             g.add((a_uri, SKOS.inScheme,
                    URIRef("https://forgetmenot.local/fcdo/action/")))
+        else:
+            action_stats["null"] += 1
 
         ad = parse_dmy(pd.get("action_date"))
         if ad:
@@ -803,6 +820,14 @@ def lift_one(record: dict) -> tuple[URIRef, rdflib.Graph, dict]:
         g.add((treaty, FCDO.capturedAt,
                Literal(record["captured_at"], datatype=XSD.dateTime)))
 
+    # Date parse rates --------------------------------------------------
+    date_stats = {
+        "signed_present": 1 if record.get("signed_date") else 0,
+        "signed_parsed":  1 if signed_iso else 0,
+        "eif_present":    1 if record.get("definitive_eif_date") else 0,
+        "eif_parsed":     1 if eif_iso else 0,
+    }
+
     return treaty, g, {
         "unmapped_parties": unmapped,
         "triples": len(g),
@@ -811,6 +836,12 @@ def lift_one(record: dict) -> tuple[URIRef, rdflib.Graph, dict]:
             and not record.get("parties_detail")
             and not record.get("subject")
         ),
+        "ref_stats":    ref_stats,
+        "party_stats":  party_stats,
+        "action_stats": action_stats,
+        "date_stats":   date_stats,
+        "has_subject":  bool(record.get("subject")),
+        "has_biorm":    bool(record.get("bilateral_or_multilateral")),
     }
 
 
@@ -844,6 +875,12 @@ def lift_to_files(path: Path, refresh: bool) -> dict:
         "captured_at": rec.get("captured_at"),
         "document_url": rec.get("document_url"),
         "graph_uri": str(treaty),
+        "ref_stats":    stat["ref_stats"],
+        "party_stats":  stat["party_stats"],
+        "action_stats": stat["action_stats"],
+        "date_stats":   stat["date_stats"],
+        "has_subject":  stat["has_subject"],
+        "has_biorm":    stat["has_biorm"],
     }
 
 
@@ -1004,6 +1041,13 @@ def main(argv: Iterable[str] | None = None) -> int:
     errors = 0
     reused = 0
     thin = 0
+    has_subject = 0
+    has_biorm = 0
+    ref_total = ref_url = ref_cmd = ref_series = 0
+    party_total = party_resolved = 0
+    action_total = action_null = 0
+    signed_present = signed_parsed = 0
+    eif_present = eif_parsed = 0
     for s in summaries:
         if not s:
             continue
@@ -1014,13 +1058,67 @@ def main(argv: Iterable[str] | None = None) -> int:
             reused += 1
         if s.get("thin"):
             thin += 1
+        if s.get("has_subject"):
+            has_subject += 1
+        if s.get("has_biorm"):
+            has_biorm += 1
         for label in (s.get("unmapped_parties") or []):
             unmapped[label] = unmapped.get(label, 0) + 1
+        rs = s.get("ref_stats") or {}
+        ref_total  += rs.get("total", 0)
+        ref_url    += rs.get("with_url", 0)
+        ref_cmd    += rs.get("with_cmd", 0)
+        ref_series += rs.get("with_series", 0)
+        ps = s.get("party_stats") or {}
+        party_total    += ps.get("total", 0)
+        party_resolved += ps.get("resolved", 0)
+        as_ = s.get("action_stats") or {}
+        action_total += as_.get("total", 0)
+        action_null  += as_.get("null", 0)
+        ds = s.get("date_stats") or {}
+        signed_present += ds.get("signed_present", 0)
+        signed_parsed  += ds.get("signed_parsed", 0)
+        eif_present    += ds.get("eif_present", 0)
+        eif_parsed     += ds.get("eif_parsed", 0)
+
+    lifted = sum(1 for s in summaries if s and "error" not in s)
+    coverage = {
+        "records_with_subject":  has_subject,
+        "records_with_biorm":    has_biorm,
+        "signed_date_present":   signed_present,
+        "signed_date_parsed":    signed_parsed,
+        "signed_date_parse_pct": pct(signed_parsed, signed_present),
+        "eif_date_present":      eif_present,
+        "eif_date_parsed":       eif_parsed,
+        "eif_date_parse_pct":    pct(eif_parsed, eif_present),
+        "parties_total":         party_total,
+        "parties_resolved":      party_resolved,
+        "parties_resolved_pct":  pct(party_resolved, party_total),
+        "party_actions_total":   action_total,
+        "party_actions_null":    action_null,
+        "party_actions_null_pct": pct(action_null, action_total),
+        "references_total":      ref_total,
+        "references_with_url":   ref_url,
+        "references_with_url_pct": pct(ref_url, ref_total),
+        "references_with_command_paper": ref_cmd,
+        "references_with_command_paper_pct": pct(ref_cmd, ref_total),
+        "references_with_series": ref_series,
+        "references_with_series_pct": pct(ref_series, ref_total),
+    }
+
+    # Persist the full unmapped tail to a side file (top 50 still
+    # surfaced in _index.json for at-a-glance triage).
+    unmapped_path = OUT_DIR / "_unmapped_party_labels.json"
+    unmapped_sorted = sorted(unmapped.items(), key=lambda kv: -kv[1])
+    unmapped_path.write_text(json.dumps(
+        [{"label": k, "count": n} for k, n in unmapped_sorted],
+        indent=2,
+    ))
 
     summary = {
         "generated_at": date.today().isoformat(),
         "records_seen": len(records),
-        "records_lifted": sum(1 for s in summaries if s and "error" not in s),
+        "records_lifted": lifted,
         "records_reused": reused,
         "records_thin": thin,
         "records_failed": errors,
@@ -1028,24 +1126,108 @@ def main(argv: Iterable[str] | None = None) -> int:
         "provenance_quads": prov_quads,
         "nquads_path": str(nq_path),
         "provenance_path": str(prov_path),
+        "dataset_path": str(OUT_DIR / "_dataset.ttl"),
+        "vocab_path": str(OUT_DIR / "fcdo-vocab.ttl"),
+        "unmapped_party_labels_path": str(unmapped_path),
+        "unmapped_party_labels_total": len(unmapped),
         "party_qid_map_size": len(PARTY_TO_QID),
-        "unmapped_party_labels": sorted(
-            unmapped.items(), key=lambda kv: -kv[1]
-        )[:50],
+        "unmapped_party_labels": [
+            [k, n] for k, n in unmapped_sorted[:50]
+        ],
+        "coverage": coverage,
     }
     (OUT_DIR / "_index.json").write_text(json.dumps(summary, indent=2))
+
+    # void:Dataset self-description --------------------------------
+    write_dataset_descriptor(OUT_DIR / "_dataset.ttl", summary,
+                             nq_path, prov_path)
+
     print(
-        f"lifted {summary['records_lifted']}/{len(records)} records "
-        f"({summary['records_reused']} reused, {thin} thin); "
+        f"lifted {lifted}/{len(records)} records "
+        f"({reused} reused, {thin} thin); "
         f"{total_quads} content quads + {prov_quads} prov quads -> {nq_path}"
     )
     if unmapped:
-        print("top unmapped party labels (extend PARTY_TO_QID to reconcile):",
+        print(f"unmapped party labels: {len(unmapped)} distinct "
+              f"(full list in {unmapped_path.name}); top:",
               file=sys.stderr)
-        for label, n in sorted(unmapped.items(),
-                               key=lambda kv: -kv[1])[:12]:
+        for label, n in unmapped_sorted[:12]:
             print(f"  {n:5d}  {label}", file=sys.stderr)
     return 0
+
+
+def write_dataset_descriptor(path: Path, summary: dict,
+                              nq_path: Path, prov_path: Path) -> None:
+    """Emit a tiny void:Dataset Turtle file describing what's in this
+    directory: how many quads, how many records, what the named-graph
+    convention is, where to find the vocab and the provenance side
+    file. Intended as the first thing a downstream consumer should
+    read."""
+    g = rdflib.Graph()
+    bind_prefixes(g)
+    VOID = Namespace("http://rdfs.org/ns/void#")
+    COV = Namespace("https://forgetmenot.local/fcdo/coverage/")
+    g.bind("void", VOID)
+    g.bind("fcdo-cov", COV)
+
+    ds = URIRef("https://forgetmenot.local/fcdo/dataset/factoids")
+    g.add((ds, RDF.type, VOID.Dataset))
+    g.add((ds, RDFS.label,
+           Literal("FCDO UK Treaties Online — factoids", lang="en")))
+    g.add((ds, DCT.title,
+           Literal("FCDO UK Treaties Online — RDF lift of the public-anonymous catalogue", lang="en")))
+    g.add((ds, DCT.description, Literal(
+        "RDF lift of the FCDO UK Treaties Online catalogue (treaties.fcdo.gov.uk). "
+        "One named graph per treaty record; graph IRI is the upstream UKTO record URL. "
+        "Covers catalogue metadata only: title, parties, signed date / place, "
+        "definitive entry-into-force, treaty-series + command-paper references, "
+        "FCDO subject classification, bilateral / multilateral kind, per-party "
+        "action sequence (Signature / Ratification / Accession / etc.). "
+        "Does NOT include signatory NAMES -- those are not in FCDO's public-anonymous surface.",
+        lang="en")))
+    g.add((ds, DCT.creator, Literal("forgetmenot project", lang="en")))
+    g.add((ds, DCT.publisher,
+           Literal("Foreign, Commonwealth & Development Office (upstream source)", lang="en")))
+    g.add((ds, DCT.license,
+           URIRef("http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/")))
+    g.add((ds, DCT.modified,
+           Literal(summary["generated_at"], datatype=XSD.date)))
+    # void:dataDump should point at a repo-relative location; emit the
+    # filenames as IRIs against a stable repository-content base so
+    # downstream consumers can resolve them however they obtained the
+    # corpus (git clone, tarball, etc).
+    DATA_BASE = "https://forgetmenot.local/fcdo/dataset/"
+    g.add((ds, VOID.dataDump, URIRef(DATA_BASE + nq_path.name)))
+    g.add((ds, VOID.dataDump, URIRef(DATA_BASE + prov_path.name)))
+    g.add((ds, VOID.triples,
+           Literal(summary["approximate_triples"], datatype=XSD.integer)))
+    g.add((ds, VOID.entities,
+           Literal(summary["records_lifted"], datatype=XSD.integer)))
+    g.add((ds, VOID.vocabulary,
+           URIRef("https://forgetmenot.local/fcdo")))
+    g.add((ds, VOID.exampleResource,
+           URIRef("https://treaties.fcdo.gov.uk/awweb/awfp/recno/72835")))
+
+    # Coverage-as-data so a SPARQL query can answer "how complete?"
+    cov = summary["coverage"]
+    for k, v in cov.items():
+        if v is None:
+            continue
+        prop = URIRef(f"https://forgetmenot.local/fcdo/coverage/{k}")
+        dtype = XSD.decimal if isinstance(v, float) else XSD.integer
+        g.add((ds, prop, Literal(v, datatype=dtype)))
+
+    # Documented gaps as plain-text statements so a reader sees them
+    # before discovering them empirically.
+    for note in [
+        "Signatory NAMES (the persons who actually signed) are NOT present. FCDO's public-anonymous surface does not expose them; the lift can therefore not answer 'which UK treaties were signed by which Minister'. The 'parties' field is countries, not people.",
+        f"Crawl is partial: {summary['records_lifted']} records of FCDO's ~21,957 total. A leisurely crawler is filling in the remainder; re-run scripts/fcdo_treaties_extract.py --refresh after new records land.",
+        f"{summary['records_thin']} of {summary['records_lifted']} lifted records ({pct(summary['records_thin'], summary['records_lifted'])}%) are 'thin' -- catalogue stubs with title + uktoId only, no parties / subject / dates. These are emitted as bare fcdo:Treaty resources.",
+        f"Each per-treaty named graph independently asserts the rdf:type, rdfs:label, owl:sameAs of every country it mentions. This means e.g. <fcdo-c:UNITED_KINGDOM rdf:type fcdo:Country> appears in thousands of graphs. Defensible (per-graph closure) but downstream consumers should account for it when computing distinct-resource counts.",
+    ]:
+        g.add((ds, RDFS.comment, Literal(note, lang="en")))
+
+    g.serialize(destination=str(path), format="turtle")
 
 
 if __name__ == "__main__":
