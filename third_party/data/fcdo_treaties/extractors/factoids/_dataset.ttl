@@ -1,0 +1,47 @@
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix fm-cov: <https://forgetmenot.local/vocab/coverage/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix void: <http://rdfs.org/ns/void#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://forgetmenot.local/vocab/dataset/fcdo-factoids> a void:Dataset ;
+    rdfs:label "FCDO UK Treaties Online — factoids"@en ;
+    dct:creator "forgetmenot project"@en ;
+    dct:description "RDF lift of the FCDO UK Treaties Online catalogue (treaties.fcdo.gov.uk). One named graph per treaty record; graph IRI is the upstream UKTO record URL. Covers catalogue metadata only: title, parties, signed date / place, definitive entry-into-force, treaty-series + command-paper references, FCDO subject classification, bilateral / multilateral kind, per-party action sequence (Signature / Ratification / Accession / etc.). Does NOT include signatory NAMES -- those are not in FCDO's public-anonymous surface."@en ;
+    dct:license <http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/> ;
+    dct:modified "2026-05-19"^^xsd:date ;
+    dct:publisher "Foreign, Commonwealth & Development Office (upstream source)"@en ;
+    dct:title "FCDO UK Treaties Online — RDF lift of the public-anonymous catalogue"@en ;
+    void:dataDump <https://forgetmenot.local/vocab/dataset/_provenance.nq>,
+        <https://forgetmenot.local/vocab/dataset/all.nq> ;
+    void:entities 17218 ;
+    void:exampleResource <https://treaties.fcdo.gov.uk/awweb/awfp/recno/72835> ;
+    void:triples 1739984 ;
+    void:vocabulary fm: ;
+    rdfs:comment "7179 of 17218 lifted records (41.69%) are 'thin' -- catalogue stubs with title + uktoId only, no parties / subject / dates. These are emitted as bare fm:Treaty resources."@en,
+        "Crawl is partial: 17218 records of FCDO's ~21,957 total. A leisurely crawler is filling in the remainder; re-run scripts/fcdo_treaties_extract.py --refresh after new records land."@en,
+        "Each per-treaty named graph independently asserts the rdf:type, rdfs:label, owl:sameAs of every country it mentions. This means e.g. <fm:country/UNITED_KINGDOM rdf:type fm:Country> appears in thousands of graphs. Defensible (per-graph closure) but downstream consumers should account for it when computing distinct-resource counts."@en,
+        "Signatory NAMES (the persons who actually signed) are NOT present. FCDO's public-anonymous surface does not expose them; the lift can therefore not answer 'which UK treaties were signed by which Minister'. The 'parties' field is countries, not people."@en ;
+    fm-cov:eif_date_parse_pct 100.0 ;
+    fm-cov:eif_date_parsed 5626 ;
+    fm-cov:eif_date_present 5626 ;
+    fm-cov:parties_resolved 95163 ;
+    fm-cov:parties_resolved_pct 96.75 ;
+    fm-cov:parties_total 98361 ;
+    fm-cov:party_actions_null 13344 ;
+    fm-cov:party_actions_null_pct 9.7 ;
+    fm-cov:party_actions_total 137552 ;
+    fm-cov:records_with_biorm 10038 ;
+    fm-cov:records_with_subject 10028 ;
+    fm-cov:references_total 24075 ;
+    fm-cov:references_with_command_paper 7993 ;
+    fm-cov:references_with_command_paper_pct 33.2 ;
+    fm-cov:references_with_series 21220 ;
+    fm-cov:references_with_series_pct 88.14 ;
+    fm-cov:references_with_url 7106 ;
+    fm-cov:references_with_url_pct 29.52 ;
+    fm-cov:signed_date_parse_pct 100.0 ;
+    fm-cov:signed_date_parsed 9352 ;
+    fm-cov:signed_date_present 9352 .
+
