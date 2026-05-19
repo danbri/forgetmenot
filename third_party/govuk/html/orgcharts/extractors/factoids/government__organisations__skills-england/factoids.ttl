@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/skills-england> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-12-10T10:58:05+00:00" ;
     schema1:name "Skills England"@en ;
     schema1:url <https://www.gov.uk/government/organisations/skills-england> ;
-    govuk:contentId "1b5d2d26-9f1e-4ac5-8335-12061d09ca8e" ;
-    govuk:hasManager <https://www.gov.uk/government/people/andy-westwood>,
+    fm:hasManager <https://www.gov.uk/government/people/andy-westwood>,
         <https://www.gov.uk/government/people/anthony-impey>,
         <https://www.gov.uk/government/people/brian-holliday>,
         <https://www.gov.uk/government/people/david-bell--2>,
@@ -25,6 +25,7 @@
         <https://www.gov.uk/government/people/sian-elliott>,
         <https://www.gov.uk/government/people/tessa-griffiths>,
         <https://www.gov.uk/government/people/zoe-lewis> ;
+    govuk:contentId "1b5d2d26-9f1e-4ac5-8335-12061d09ca8e" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

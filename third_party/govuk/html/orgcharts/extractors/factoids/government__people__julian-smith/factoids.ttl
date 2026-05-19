@@ -1,69 +1,70 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/julian-smith> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/julian-smith> .
 
-<https://www.gov.uk/government/ministers/assistant-government-whip--9> govuk:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
+<https://www.gov.uk/government/ministers/assistant-government-whip--9> fm:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
 
-<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
+<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> fm:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
 
-<https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household> govuk:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
+<https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household> fm:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
+<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> fm:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> govuk:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> fm:previouslyHeldBy <https://www.gov.uk/government/people/julian-smith> .
 
 <https://www.gov.uk/government/people/julian-smith> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-15T16:35:50+01:00" ;
     schema1:description "The Rt Hon Julian Smith was Secretary of State for Northern Ireland from 24 July 2019 to 13 February 2020."@en ;
     schema1:name "The Rt Hon Julian Smith MP"@en ;
     schema1:url <https://www.gov.uk/government/people/julian-smith> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "77b1855f-b812-49c8-a732-24b67cd1b60e" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--9>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--9>,
         <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2>,
         <https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household>,
         <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:contentId "77b1855f-b812-49c8-a732-24b67cd1b60e" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
-    govuk:tenureEnd "2017-11-02"^^xsd:date ;
-    govuk:tenureStart "2017-06-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/julian-smith> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    fm:tenureEnd "2020-02-13"^^xsd:date ;
+    fm:tenureStart "2019-07-24"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
-    govuk:tenureEnd "2019-07-24"^^xsd:date ;
-    govuk:tenureStart "2017-11-02"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/julian-smith> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    fm:tenureEnd "2019-07-24"^^xsd:date ;
+    fm:tenureStart "2017-11-02"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
-    govuk:role <https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household> ;
-    govuk:tenureEnd "2017-06-13"^^xsd:date ;
-    govuk:tenureStart "2016-07-17"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/julian-smith> ;
+    fm:role <https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household> ;
+    fm:tenureEnd "2017-06-13"^^xsd:date ;
+    fm:tenureStart "2016-07-17"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
-    govuk:tenureEnd "2020-02-13"^^xsd:date ;
-    govuk:tenureStart "2019-07-24"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/julian-smith> ;
+    fm:role <https://www.gov.uk/government/ministers/assistant-government-whip--9> ;
+    fm:tenureEnd "2016-07-17"^^xsd:date ;
+    fm:tenureStart "2015-05-13"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/julian-smith> ;
-    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--9> ;
-    govuk:tenureEnd "2016-07-17"^^xsd:date ;
-    govuk:tenureStart "2015-05-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/julian-smith> ;
+    fm:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    fm:tenureEnd "2017-11-02"^^xsd:date ;
+    fm:tenureStart "2017-06-13"^^xsd:date .
 

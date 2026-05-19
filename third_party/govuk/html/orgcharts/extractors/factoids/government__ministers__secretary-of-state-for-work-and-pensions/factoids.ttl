@@ -1,12 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> .
+<https://www.gov.uk/government/organisations/department-for-work-pensions> fm:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> .
 
 <https://www.gov.uk/government/people/pat-mcfadden> schema1:name "The Rt Hon Pat McFadden MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> .
 
 <https://www.gov.uk/government/people/amber-rudd> schema1:name "The Rt Hon Amber Rudd"@en .
 
@@ -28,14 +29,13 @@
 
 <https://www.gov.uk/government/people/therese-coffey> schema1:name "The Rt Hon Thérèse Coffey"@en .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2022-11-14T08:51:13+00:00" ;
     schema1:name "Secretary of State for Work and Pensions"@en ;
     schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:contentId "845e6272-c0f1-11e4-8223-005056011aef" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/amber-rudd>,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/amber-rudd>,
         <https://www.gov.uk/government/people/chloe-smith>,
         <https://www.gov.uk/government/people/damian-green>,
         <https://www.gov.uk/government/people/david-gauke>,
@@ -45,72 +45,73 @@
         <https://www.gov.uk/government/people/mel-stride>,
         <https://www.gov.uk/government/people/stephen-crabb>,
         <https://www.gov.uk/government/people/therese-coffey> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "disabled people"@en,
+    fm:responsibility "disabled people"@en,
         "employers"@en,
         "families and children"@en,
         "pensioners"@en,
         "people of working age"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/pat-mcfadden> ;
+    fm:roleHolder <https://www.gov.uk/government/people/pat-mcfadden> ;
+    govuk:contentId "845e6272-c0f1-11e4-8223-005056011aef" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-crabb> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/mel-stride> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2024"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/therese-coffey> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/damian-green> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2017"^^xsd:gYear ;
+    fm:tenureStart "2016"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/iain-duncan-smith> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2010"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/amber-rudd> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2019"^^xsd:gYear ;
+    fm:tenureStart "2018"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/esther-mcvey> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2018"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/david-gauke> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2018"^^xsd:gYear ;
+    fm:tenureStart "2017"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/liz-kendall> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/liz-kendall> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2025"^^xsd:gYear ;
+    fm:tenureStart "2024"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2018"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/stephen-crabb> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2016"^^xsd:gYear ;
+    fm:tenureStart "2016"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/mel-stride> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/esther-mcvey> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2018"^^xsd:gYear ;
+    fm:tenureStart "2018"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/damian-green> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2017"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/chloe-smith> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2017"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/iain-duncan-smith> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2016"^^xsd:gYear ;
+    fm:tenureStart "2010"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/chloe-smith> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/therese-coffey> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2019"^^xsd:gYear .
 

@@ -1,79 +1,80 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/graham-stuart> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/graham-stuart> .
 
-<https://www.gov.uk/government/ministers/assistant-government-whip--10> govuk:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
+<https://www.gov.uk/government/ministers/assistant-government-whip--10> fm:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-climate> govuk:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-climate> fm:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> govuk:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> fm:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-europe> govuk:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-europe> fm:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--95> govuk:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--95> fm:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> govuk:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> fm:previouslyHeldBy <https://www.gov.uk/government/people/graham-stuart> .
 
 <https://www.gov.uk/government/people/graham-stuart> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-15T16:40:01+01:00" ;
     schema1:description "Graham Stuart was Minister of State for Energy Security and Net Zero in the Department for Energy Security and Net Zero from 7 February 2023 to 12 April 2024."@en ;
     schema1:name "The Rt Hon Graham Stuart MP"@en ;
     schema1:url <https://www.gov.uk/government/people/graham-stuart> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "2f8eec08-cbeb-4ffc-8610-fcaf98cf6742" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--10>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--10>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-climate>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-europe>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--95>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> ;
+    govuk:contentId "2f8eec08-cbeb-4ffc-8610-fcaf98cf6742" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/graham-stuart> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--95> ;
-    govuk:tenureEnd "2020-02-12"^^xsd:date ;
-    govuk:tenureStart "2018-01-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/graham-stuart> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-climate> ;
+    fm:tenureEnd "2023-02-07"^^xsd:date ;
+    fm:tenureStart "2022-09-06"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/graham-stuart> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-climate> ;
-    govuk:tenureEnd "2023-02-07"^^xsd:date ;
-    govuk:tenureStart "2022-09-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/graham-stuart> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-europe> ;
+    fm:tenureEnd "2022-09-06"^^xsd:date ;
+    fm:tenureStart "2022-07-07"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/graham-stuart> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
-    govuk:tenureEnd "2024-04-12"^^xsd:date ;
-    govuk:tenureStart "2023-02-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/graham-stuart> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> ;
+    fm:tenureEnd "2021-09-15"^^xsd:date ;
+    fm:tenureStart "2020-02-13"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/graham-stuart> ;
-    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--10> ;
-    govuk:tenureEnd "2018-01-08"^^xsd:date ;
-    govuk:tenureStart "2016-07-17"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/graham-stuart> ;
+    fm:role <https://www.gov.uk/government/ministers/assistant-government-whip--10> ;
+    fm:tenureEnd "2018-01-08"^^xsd:date ;
+    fm:tenureStart "2016-07-17"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/graham-stuart> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> ;
-    govuk:tenureEnd "2021-09-15"^^xsd:date ;
-    govuk:tenureStart "2020-02-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/graham-stuart> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--95> ;
+    fm:tenureEnd "2020-02-12"^^xsd:date ;
+    fm:tenureStart "2018-01-09"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/graham-stuart> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-europe> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2022-07-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/graham-stuart> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    fm:tenureEnd "2024-04-12"^^xsd:date ;
+    fm:tenureStart "2023-02-07"^^xsd:date .
 

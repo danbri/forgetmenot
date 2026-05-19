@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/planning-inspectorate> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-01-06T13:16:05+00:00" ;
     schema1:name "Planning Inspectorate"@en ;
     schema1:url <https://www.gov.uk/government/organisations/planning-inspectorate> ;
-    govuk:contentId "5e946baf-6dde-4916-a55e-8d44e0cdfe58" ;
-    govuk:hasManager <https://www.gov.uk/government/people/adrian-penfold>,
+    fm:hasManager <https://www.gov.uk/government/people/adrian-penfold>,
         <https://www.gov.uk/government/people/emir-feisal>,
         <https://www.gov.uk/government/people/graham-stallwood>,
         <https://www.gov.uk/government/people/hayley-kelly>,
@@ -19,6 +19,7 @@
         <https://www.gov.uk/government/people/rebecca-phillips>,
         <https://www.gov.uk/government/people/tom-warth>,
         <https://www.gov.uk/government/people/trudi-elliott> ;
+    govuk:contentId "5e946baf-6dde-4916-a55e-8d44e0cdfe58" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

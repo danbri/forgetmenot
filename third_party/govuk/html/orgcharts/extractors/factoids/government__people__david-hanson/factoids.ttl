@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/home-office> govuk:hasMinister <https://www.gov.uk/government/people/david-hanson> .
+<https://www.gov.uk/government/organisations/home-office> fm:hasMinister <https://www.gov.uk/government/people/david-hanson> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--195> govuk:roleHolder <https://www.gov.uk/government/people/david-hanson> .
+<https://www.gov.uk/government/ministers/minister-of-state--195> fm:roleHolder <https://www.gov.uk/government/people/david-hanson> .
 
 <https://www.gov.uk/government/people/david-hanson> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-08-08T16:17:07+01:00" ;
     schema1:description "The Rt Hon Sir David Hanson was appointed Minister of State at the Home Office on 9 July 2024."@en ;
     schema1:name "The Rt Hon Lord Hanson of Flint"@en ;
     schema1:url <https://www.gov.uk/government/people/david-hanson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    fm:currentRoleTitle "Minister of State (Lords Minister)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--195> ;
     govuk:contentId "37748e31-106f-4d5d-a796-3a7c7a0f6c6c" ;
-    govuk:currentRoleTitle "Minister of State (Lords Minister)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--195> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/david-hanson> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--195> ;
-    govuk:tenureStart "2024-07-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/david-hanson> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--195> ;
+    fm:tenureStart "2024-07-09"^^xsd:date .
 

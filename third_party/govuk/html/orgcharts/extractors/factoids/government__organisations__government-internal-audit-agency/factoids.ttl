@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/government-internal-audit-agency> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-05-26T14:56:34+01:00" ;
     schema1:name "Government Internal Audit Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/government-internal-audit-agency> ;
-    govuk:contentId "bad7475f-f594-4c59-8e69-e1865d778678" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alison-hamer>,
+    fm:hasManager <https://www.gov.uk/government/people/alison-hamer>,
         <https://www.gov.uk/government/people/andrew-cartner>,
         <https://www.gov.uk/government/people/chris-westwood>,
         <https://www.gov.uk/government/people/clare-minchington>,
@@ -20,6 +20,7 @@
         <https://www.gov.uk/government/people/joanne-bryson>,
         <https://www.gov.uk/government/people/jonathan-chapman>,
         <https://www.gov.uk/government/people/liam-orme> ;
+    govuk:contentId "bad7475f-f594-4c59-8e69-e1865d778678" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

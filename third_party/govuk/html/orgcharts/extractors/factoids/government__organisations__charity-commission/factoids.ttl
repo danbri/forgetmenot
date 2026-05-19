@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/charity-commission> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-05-13T15:33:28+01:00" ;
     schema1:name "The Charity Commission"@en ;
     schema1:url <https://www.gov.uk/government/organisations/charity-commission> ;
-    govuk:contentId "489e651f-34c8-4b34-bdd7-e13c2324cde3" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alan-mather>,
+    fm:hasManager <https://www.gov.uk/government/people/alan-mather>,
         <https://www.gov.uk/government/people/ann-phillips>,
         <https://www.gov.uk/government/people/david-holdsworth>,
         <https://www.gov.uk/government/people/helen-earner>,
@@ -23,6 +23,7 @@
         <https://www.gov.uk/government/people/rory-brooks>,
         <https://www.gov.uk/government/people/shrenik-davda>,
         <https://www.gov.uk/government/people/tasnim-khalid> ;
+    govuk:contentId "489e651f-34c8-4b34-bdd7-e13c2324cde3" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

@@ -1,20 +1,21 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-03-12T18:30:54+00:00" ;
     schema1:name "HM Courts & Tribunals Service"@en ;
     schema1:url <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
-    govuk:contentId "6f757605-ab8f-4b62-84e4-99f79cf085c2" ;
-    govuk:hasManager <https://www.gov.uk/government/people/annabel-burns>,
+    fm:hasManager <https://www.gov.uk/government/people/annabel-burns>,
         <https://www.gov.uk/government/people/catherine-blair>,
         <https://www.gov.uk/government/people/daniel-bateman>,
         <https://www.gov.uk/government/people/daniel-flury>,
         <https://www.gov.uk/government/people/john-laverick>,
         <https://www.gov.uk/government/people/nick-goodwin> ;
+    govuk:contentId "6f757605-ab8f-4b62-84e4-99f79cf085c2" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

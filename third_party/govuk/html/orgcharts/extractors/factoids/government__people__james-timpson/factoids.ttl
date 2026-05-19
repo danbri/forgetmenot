@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/james-timpson> .
+<https://www.gov.uk/government/organisations/ministry-of-justice> fm:hasMinister <https://www.gov.uk/government/people/james-timpson> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> govuk:roleHolder <https://www.gov.uk/government/people/james-timpson> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> fm:roleHolder <https://www.gov.uk/government/people/james-timpson> .
 
 <https://www.gov.uk/government/people/james-timpson> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-01-24T10:56:00+00:00" ;
     schema1:description "Lord Timpson (OBE) was appointed Minister of State for Prisons, Probation and Reducing Reoffending on 5 July 2024. Prior to his appointment he held the position of chief executive of the Timpson Group, from 2002 to July 2024, a company which is known for advocating for the employment of former prisoners."@en ;
     schema1:name "Lord Timpson OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/james-timpson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    fm:currentRoleTitle "Minister of State for Prisons, Probation and Reducing Reoffending"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> ;
     govuk:contentId "e04ec36e-4c73-4f03-a265-aa9eaf251601" ;
-    govuk:currentRoleTitle "Minister of State for Prisons, Probation and Reducing Reoffending"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/james-timpson> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/james-timpson> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-prisons> ;
+    fm:tenureStart "2024-07-05"^^xsd:date .
 

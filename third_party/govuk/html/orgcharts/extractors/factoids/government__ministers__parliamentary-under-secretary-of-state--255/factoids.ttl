@@ -1,25 +1,26 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-of-health-and-social-care> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> .
+<https://www.gov.uk/government/organisations/department-of-health-and-social-care> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> .
 
 <https://www.gov.uk/government/people/baroness-merron> schema1:name "Baroness Merron"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-02T16:01:15+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State for Women's Health and Mental Health"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> ;
-    govuk:contentId "7cca4965-262d-4afc-8b84-fa16110033d6" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "COVID-19 Inquiry"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    fm:responsibility "COVID-19 Inquiry"@en,
         "gender identity services"@en,
         "maternity"@en,
         "mental health"@en,
         "women’s health"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/baroness-merron> ;
+    fm:roleHolder <https://www.gov.uk/government/people/baroness-merron> ;
+    govuk:contentId "7cca4965-262d-4afc-8b84-fa16110033d6" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

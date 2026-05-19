@@ -1,18 +1,19 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/further-education-commissioner> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2021-04-15T10:04:56+01:00" ;
     schema1:name "Further Education Commissioner"@en ;
     schema1:url <https://www.gov.uk/government/organisations/further-education-commissioner> ;
-    govuk:contentId "7c4a25e0-8672-4036-8245-0a2f330fbdfa" ;
-    govuk:hasManager <https://www.gov.uk/government/people/becky-edwards>,
+    fm:hasManager <https://www.gov.uk/government/people/becky-edwards>,
         <https://www.gov.uk/government/people/ellen-thinnesen>,
         <https://www.gov.uk/government/people/esme-winch>,
         <https://www.gov.uk/government/people/graham-razey> ;
+    govuk:contentId "7c4a25e0-8672-4036-8245-0a2f330fbdfa" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

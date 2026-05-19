@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/liz-peace> .
+<https://www.gov.uk/government/organisations/nuclear-waste-services> fm:hasMinister <https://www.gov.uk/government/people/liz-peace> .
 
 <https://www.gov.uk/government/people/liz-peace> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-03-05T09:45:35+00:00" ;
     schema1:description "Liz Peace CBE is the Chair of Nuclear Waste Services (NWS)."@en ;
     schema1:name "Liz Peace CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/liz-peace> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    fm:currentRoleTitle "Chair of the Board"@en ;
     govuk:contentId "e119b7d8-7a0d-4354-97a7-932137963ea2" ;
-    govuk:currentRoleTitle "Chair of the Board"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

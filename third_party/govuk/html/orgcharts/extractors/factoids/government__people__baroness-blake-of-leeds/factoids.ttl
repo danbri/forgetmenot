@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/baroness-blake-of-leeds> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/baroness-blake-of-leeds> .
 
-<https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> govuk:roleHolder <https://www.gov.uk/government/people/baroness-blake-of-leeds> .
+<https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> fm:roleHolder <https://www.gov.uk/government/people/baroness-blake-of-leeds> .
 
 <https://www.gov.uk/government/people/baroness-blake-of-leeds> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-11T10:26:13+01:00" ;
     schema1:description "Baroness Blake of Leeds was appointed Baroness in Waiting (Government Whip) on 11 July 2024."@en ;
     schema1:name "Baroness Blake of Leeds"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-blake-of-leeds> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:currentRoleTitle "Baroness in Waiting (Government Whip)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> ;
     govuk:contentId "9e6ed04f-4f1a-4eb7-b245-68644700cafa" ;
-    govuk:currentRoleTitle "Baroness in Waiting (Government Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/baroness-blake-of-leeds> ;
-    govuk:role <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> ;
-    govuk:tenureStart "2024-07-11"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/baroness-blake-of-leeds> ;
+    fm:role <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--11> ;
+    fm:tenureStart "2024-07-11"^^xsd:date .
 

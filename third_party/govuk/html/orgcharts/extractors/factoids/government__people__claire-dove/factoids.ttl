@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/claire-dove> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/claire-dove> .
 
 <https://www.gov.uk/government/people/claire-dove> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-01-13T10:43:30+00:00" ;
     schema1:description "As VCSE Representative, Claire acts as an intermediary between the Government and the voluntary and social enterprise sectors to champion the Social Value Act and an improvement in commissioning practices. Claire was appointed as VCSE Crown Representative in February 2018. As a key player in the social enterprise movement for over 40 years she brings a wealth of experience to the role."@en ;
     schema1:name "Claire Dove CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/claire-dove> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:currentRoleTitle "Voluntary, Community and Social Enterprise (VCSE) Representative"@en ;
     govuk:contentId "5352b9fc-a7a3-4655-9c62-b42b7ba15c36" ;
-    govuk:currentRoleTitle "Voluntary, Community and Social Enterprise (VCSE) Representative"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

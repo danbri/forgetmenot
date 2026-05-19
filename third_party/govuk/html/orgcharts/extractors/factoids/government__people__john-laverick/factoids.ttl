@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> govuk:hasMinister <https://www.gov.uk/government/people/john-laverick> .
+<https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> fm:hasMinister <https://www.gov.uk/government/people/john-laverick> .
 
 <https://www.gov.uk/government/people/john-laverick> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2020-11-09T15:02:40+00:00" ;
     schema1:description "John joined HMCTS as Chief Digital and Information Officer (CDIO) in March 2020. Previously, he was interim CIO for the Government of Jersey overseeing the development of a £100m digital transformation programme."@en ;
     schema1:name "John Laverick"@en ;
     schema1:url <https://www.gov.uk/government/people/john-laverick> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
+    fm:currentRoleTitle "Chief Digital and Information Officer"@en ;
     govuk:contentId "b1227c81-3bd1-49fd-bbf1-536e1e734c65" ;
-    govuk:currentRoleTitle "Chief Digital and Information Officer"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

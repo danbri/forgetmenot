@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/barbara-woodward> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/barbara-woodward> .
 
 <https://www.gov.uk/government/people/barbara-woodward> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-02-12T15:36:35+00:00" ;
     schema1:description "Dame Barbara Woodward, took up the role of Deputy National Security Adviser (International) at the Cabinet Office on 01 December 2025. Dame Barbara was the UK’s Permanent Representative to the United Nations in New York from 2020 to 2025. She led the UK Mission’s work at the UN to protect and advance UK security and prosperity, and drive progress on global peace and development."@en ;
     schema1:name "Dame Barbara Woodward GCMG OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/barbara-woodward> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
     govuk:contentId "852c1419-c0f1-11e4-8223-005056011aef" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .

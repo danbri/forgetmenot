@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/ansel-wong> .
+<https://www.gov.uk/government/organisations/windrush-commemoration-committee> fm:hasMinister <https://www.gov.uk/government/people/ansel-wong> .
 
 <https://www.gov.uk/government/people/ansel-wong> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2019-06-20T18:15:14+01:00" ;
     schema1:description "Ansel Wong is a Trinidadian cultural and political activist, who has been influential in many organisations particularly in the black community in the UK, where he has been based since the 1960s."@en ;
     schema1:name "Ansel Wong"@en ;
     schema1:url <https://www.gov.uk/government/people/ansel-wong> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    fm:currentRoleTitle "Member, Windrush Commemoration Committee"@en ;
     govuk:contentId "f1d59ec5-7336-4493-9a76-f9518c4b7a9e" ;
-    govuk:currentRoleTitle "Member, Windrush Commemoration Committee"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

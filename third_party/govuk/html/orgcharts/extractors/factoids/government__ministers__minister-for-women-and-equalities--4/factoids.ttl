@@ -1,46 +1,47 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
+<https://www.gov.uk/government/organisations/department-for-education> fm:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
 
-<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> fm:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
 
-<https://www.gov.uk/government/organisations/race-equality-unit> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
+<https://www.gov.uk/government/organisations/race-equality-unit> fm:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
 
-<https://www.gov.uk/government/organisations/women-and-equalities-unit> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
+<https://www.gov.uk/government/organisations/women-and-equalities-unit> fm:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
 
 <https://www.gov.uk/government/people/jacqui-smith> schema1:name "The Rt Hon Baroness Smith of Malvern"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> .
 
 <https://www.gov.uk/government/people/anneliese-dodds> schema1:name "The Rt Hon Anneliese Dodds MP"@en .
 
-<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-12-05T16:50:56+00:00" ;
     schema1:name "Minister of State (Minister for Women and Equalities)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> ;
-    govuk:contentId "7cf56213-ff28-40f2-91f0-d224f643b06d" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-education>,
         <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity>,
         <https://www.gov.uk/government/organisations/race-equality-unit>,
         <https://www.gov.uk/government/organisations/women-and-equalities-unit> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/anneliese-dodds> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Employment Rights Bill (Department for Business and Trade lead)"@en,
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/anneliese-dodds> ;
+    fm:responsibility "Employment Rights Bill (Department for Business and Trade lead)"@en,
         "UK equality framework (including the Equality Act)"@en,
         "equality data and analysis"@en,
         "lead policy responsibility for gender equality and women’s rights"@en,
         "race and ethnicity policy"@en,
         "socioeconomic opportunity"@en,
         "sponsorship of the Equality and Human Rights Commission (EHRC) and Social Mobility Commission (SMC)"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> ;
+    fm:roleHolder <https://www.gov.uk/government/people/jacqui-smith> ;
+    govuk:contentId "7cf56213-ff28-40f2-91f0-d224f643b06d" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/anneliese-dodds> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/anneliese-dodds> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--4> ;
+    fm:tenureEnd "2025"^^xsd:gYear ;
+    fm:tenureStart "2024"^^xsd:gYear .
 

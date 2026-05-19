@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> govuk:hasMinister <https://www.gov.uk/government/people/julie-nerney> .
+<https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> fm:hasMinister <https://www.gov.uk/government/people/julie-nerney> .
 
 <https://www.gov.uk/government/people/julie-nerney> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-01-29T12:30:59+00:00" ;
     schema1:description "Julie has been delivering impactful and sustainable change in organisations for over 30 years in roles that span c-suite and board level, experiencing every stage of the organisational life cycle. She has delivered high profile and complex programmes, including a leadership role in the transport operation for the London 2012 Olympic and Paralympic Games and was appointed as a Non-Executive Director of the Supreme Court in February 2023."@en ;
     schema1:name "Julie Nerney"@en ;
     schema1:url <https://www.gov.uk/government/people/julie-nerney> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
+    fm:currentRoleTitle "Non-executive Director"@en ;
     govuk:contentId "17e9b73d-85c2-445f-95ac-b1a2fdd1860b" ;
-    govuk:currentRoleTitle "Non-executive Director"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/mike-pigott> .
+<https://www.gov.uk/government/organisations/nuclear-waste-services> fm:hasMinister <https://www.gov.uk/government/people/mike-pigott> .
 
 <https://www.gov.uk/government/people/mike-pigott> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-30T09:48:51+01:00" ;
     schema1:description "Mike is duty holder for the Low Level Waste Repository nuclear licensed site, responsible for operating safely, securely, with environmental compliance, and retaining its social license to operate. He holds key leadership roles in environmental and nuclear safety; security governance; and strategic waste management. He also represents NWS in regional and local stakeholder groups."@en ;
     schema1:name "Mike Pigott"@en ;
     schema1:url <https://www.gov.uk/government/people/mike-pigott> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    fm:currentRoleTitle "Director of Sites and Operations"@en ;
     govuk:contentId "48b08b26-d40c-4032-8fb7-a0f6ac0831f1" ;
-    govuk:currentRoleTitle "Director of Sites and Operations"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

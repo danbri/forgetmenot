@@ -1,15 +1,16 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/teaching-regulation-agency> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-03-31T16:17:09+01:00" ;
     schema1:name "Teaching Regulation Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/teaching-regulation-agency> ;
+    fm:hasManager <https://www.gov.uk/government/people/marc-cavey> ;
     govuk:contentId "2344a5fc-281e-4f49-aaac-3f3a0755638b" ;
-    govuk:hasManager <https://www.gov.uk/government/people/marc-cavey> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

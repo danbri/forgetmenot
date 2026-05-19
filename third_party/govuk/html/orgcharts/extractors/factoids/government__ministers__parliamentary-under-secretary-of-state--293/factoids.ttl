@@ -1,28 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
+<https://www.gov.uk/government/organisations/department-for-education> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
 
-<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
 
-<https://www.gov.uk/government/organisations/women-and-equalities-unit> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
+<https://www.gov.uk/government/organisations/women-and-equalities-unit> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
 
 <https://www.gov.uk/government/people/olivia-bailey> schema1:name "Olivia Bailey MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-08T10:51:01+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Equalities)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--293> ;
-    govuk:contentId "d47ba37d-1237-4093-be59-66c9f781b593" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-education>,
         <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity>,
         <https://www.gov.uk/government/organisations/women-and-equalities-unit> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "LGBT+ legislation including on conversion practices"@en,
+    fm:responsibility "LGBT+ legislation including on conversion practices"@en,
         "LGBT+ policy"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/olivia-bailey> ;
+    fm:roleHolder <https://www.gov.uk/government/people/olivia-bailey> ;
+    govuk:contentId "d47ba37d-1237-4093-be59-66c9f781b593" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

@@ -228,7 +228,14 @@ def crawl(max_records: int | None, resume: bool,
 
             html = fetch_detail_html(opener, row["document_url"])
             if html is not None:
-                html_path = html_dir / f"{rid}.html"
+                # Split commitable small HTML (country/action/date
+                # tables, < 50 KB) from large blobs (PDFs gov.uk serves
+                # at the same URL). Large ones go to html/large/ which
+                # is gitignored; small ones stay in html/ which is
+                # committable for LLM-verification audits.
+                target_dir = html_dir / "large" if len(html) >= 50_000 else html_dir
+                target_dir.mkdir(parents=True, exist_ok=True)
+                html_path = target_dir / f"{rid}.html"
                 html_path.write_bytes(html)
                 row["parties_detail"] = parties_from_html(html.decode("utf-8", "replace"))
                 row["html_path"] = str(html_path.relative_to(OUT))

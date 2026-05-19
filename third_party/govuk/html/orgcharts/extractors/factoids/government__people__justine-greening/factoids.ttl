@@ -1,69 +1,70 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/justine-greening> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/justine-greening> .
 
-<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
+<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury> fm:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
 
-<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
+<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> fm:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-education> govuk:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-education> fm:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-international-development> govuk:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-international-development> fm:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> fm:previouslyHeldBy <https://www.gov.uk/government/people/justine-greening> .
 
 <https://www.gov.uk/government/people/justine-greening> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2019-11-06T00:10:31+00:00" ;
     schema1:description "Justine Greening was Secretary of State for Education and Minister for Women and Equalities from July 2016 to January 2018. She was elected Conservative MP for Putney, Roehampton and Southfields on 5 May 2005."@en ;
     schema1:name "The Rt Hon Justine Greening"@en ;
     schema1:url <https://www.gov.uk/government/people/justine-greening> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "8529403e-c0f1-11e4-8223-005056011aef" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-education>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-international-development>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:contentId "8529403e-c0f1-11e4-8223-005056011aef" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/justine-greening> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2018-01-08"^^xsd:date ;
-    govuk:tenureStart "2016-07-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/justine-greening> ;
+    fm:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury> ;
+    fm:tenureEnd "2011-10-14"^^xsd:date ;
+    fm:tenureStart "2010-05-13"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/justine-greening> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-international-development> ;
-    govuk:tenureEnd "2016-07-14"^^xsd:date ;
-    govuk:tenureStart "2012-09-04"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/justine-greening> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    fm:tenureEnd "2012-09-04"^^xsd:date ;
+    fm:tenureStart "2011-10-14"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/justine-greening> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
-    govuk:tenureEnd "2012-09-04"^^xsd:date ;
-    govuk:tenureStart "2011-10-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/justine-greening> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    fm:tenureEnd "2018-01-08"^^xsd:date ;
+    fm:tenureStart "2016-07-14"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/justine-greening> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
-    govuk:tenureEnd "2018-01-08"^^xsd:date ;
-    govuk:tenureStart "2016-07-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/justine-greening> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-international-development> ;
+    fm:tenureEnd "2016-07-14"^^xsd:date ;
+    fm:tenureStart "2012-09-04"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/justine-greening> ;
-    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2011-10-14"^^xsd:date ;
-    govuk:tenureStart "2010-05-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/justine-greening> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    fm:tenureEnd "2018-01-08"^^xsd:date ;
+    fm:tenureStart "2016-07-14"^^xsd:date .
 

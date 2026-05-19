@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/fiona-ross> a schema1:Person ;
@@ -26,43 +27,43 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/69393f705cc812f50aa41ee2/s465_Linda_Hamilton_web.jpg> ;
     schema1:name "Linda Hamilton"@en .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/northern-ireland-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/matthew-patrick> .
+    fm:partOf <https://www.gov.uk/government/organisations/northern-ireland-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/matthew-patrick> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> a fm:MinisterialRole ;
     schema1:name "Secretary of State for Northern Ireland"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/northern-ireland-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/hilary-benn> .
+    fm:partOf <https://www.gov.uk/government/organisations/northern-ireland-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/hilary-benn> .
 
 <https://www.gov.uk/government/people/hilary-benn> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66e1898dc428f0f0a6cb2508/s465_SoS_gov.uk.JPG> ;
     schema1:name "The Rt Hon Hilary Benn MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> .
 
 <https://www.gov.uk/government/people/matthew-patrick> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68fa03ccc18f97edd2b636f2/s465_Minister_Patrick_gov.uk_2025.JPG> ;
     schema1:name "Matthew Patrick MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> .
 
 <https://www.gov.uk/government/organisations/northern-ireland-office> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-10-11T11:17:00+01:00" ;
     schema1:name "Northern Ireland Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/northern-ireland-office> ;
-    govuk:contentId "234148b2-66d6-457c-9d06-2bf2b98533ca" ;
-    govuk:hasManager <https://www.gov.uk/government/people/fiona-ross>,
+    fm:hasManager <https://www.gov.uk/government/people/fiona-ross>,
         <https://www.gov.uk/government/people/gillian-morton>,
         <https://www.gov.uk/government/people/holly-clark>,
         <https://www.gov.uk/government/people/julie-harrison>,
         <https://www.gov.uk/government/people/les-philpott>,
         <https://www.gov.uk/government/people/linda-hamilton> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/hilary-benn>,
+    fm:hasMinister <https://www.gov.uk/government/people/hilary-benn>,
         <https://www.gov.uk/government/people/matthew-patrick> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297>,
+    fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:contentId "234148b2-66d6-457c-9d06-2bf2b98533ca" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

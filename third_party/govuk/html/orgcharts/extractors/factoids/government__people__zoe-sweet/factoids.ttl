@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-people-group> govuk:hasMinister <https://www.gov.uk/government/people/zoe-sweet> .
+<https://www.gov.uk/government/organisations/government-people-group> fm:hasMinister <https://www.gov.uk/government/people/zoe-sweet> .
 
 <https://www.gov.uk/government/people/zoe-sweet> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-01-29T09:40:44+00:00" ;
     schema1:description "Zoe joined the Cabinet Office in December 2025 as Director of Employee Experience and People Performance within the Government People Group. This is her first role in the Cabinet Office, where she leads the Inclusive Practice team, oversees initiatives to shape Civil Service culture and People Insights, and directs the future shape of the Civil Service people Strategy and Workforce function."@en ;
     schema1:name "Zoe Sweet"@en ;
     schema1:url <https://www.gov.uk/government/people/zoe-sweet> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
+    fm:currentRoleTitle "Director of Employee Experience and People Performance"@en ;
     govuk:contentId "8eb06f07-7844-4f03-bb18-ae487f4b9cb6" ;
-    govuk:currentRoleTitle "Director of Employee Experience and People Performance"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

@@ -1,14 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> .
+<https://www.gov.uk/government/organisations/cabinet-office> fm:hasRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> .
 
-<https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> govuk:hasRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> .
+<https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> fm:hasRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> .
 
 <https://www.gov.uk/government/people/keir-starmer> schema1:name "The Rt Hon Sir Keir Starmer KCB KC MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> .
 
 <https://www.gov.uk/government/people/boris-johnson> schema1:name "The Rt Hon Boris Johnson"@en .
 
@@ -20,52 +21,52 @@
 
 <https://www.gov.uk/government/people/theresa-may> schema1:name "The Rt Hon Theresa May"@en .
 
-<https://www.gov.uk/government/ministers/first-lord-of-the-treasury> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/first-lord-of-the-treasury> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2022-10-05T08:44:10+01:00" ;
     schema1:name "First Lord of the Treasury"@en ;
     schema1:url <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
-    govuk:contentId "846a754c-c0f1-11e4-8223-005056011aef" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office>,
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office>,
         <https://www.gov.uk/government/organisations/prime-ministers-office-10-downing-street> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson>,
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson>,
         <https://www.gov.uk/government/people/david-cameron>,
         <https://www.gov.uk/government/people/elizabeth-truss>,
         <https://www.gov.uk/government/people/rishi-sunak>,
         <https://www.gov.uk/government/people/theresa-may> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Junior Lords Commissioners of the Treasury - other members of the government, usually government whips in the House of Commons"@en,
+    fm:responsibility "Junior Lords Commissioners of the Treasury - other members of the government, usually government whips in the House of Commons"@en,
         "the Second Lord of the Treasury - the Chancellor of the Exchequer , who has most of the functional financial responsibilities"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/keir-starmer> ;
+    fm:roleHolder <https://www.gov.uk/government/people/keir-starmer> ;
+    govuk:contentId "846a754c-c0f1-11e4-8223-005056011aef" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/theresa-may> ;
-    govuk:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    fm:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2019"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/rishi-sunak> ;
-    govuk:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/rishi-sunak> ;
+    fm:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
+    fm:tenureEnd "2024"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-cameron> ;
-    govuk:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2010"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/david-cameron> ;
+    fm:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
+    fm:tenureEnd "2016"^^xsd:gYear ;
+    fm:tenureStart "2010"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/theresa-may> ;
+    fm:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
+    fm:tenureEnd "2019"^^xsd:gYear ;
+    fm:tenureStart "2016"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
-    govuk:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    fm:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 

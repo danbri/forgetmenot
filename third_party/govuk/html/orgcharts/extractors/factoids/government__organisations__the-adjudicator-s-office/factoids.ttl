@@ -1,20 +1,21 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/the-adjudicator-s-office> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-11-05T12:57:40+00:00" ;
     schema1:name "The Adjudicator’s Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/the-adjudicator-s-office> ;
-    govuk:contentId "e7e47593-78d2-4f08-86bd-32a54bdbd766" ;
-    govuk:hasManager <https://www.gov.uk/government/people/andy-fowler>,
+    fm:hasManager <https://www.gov.uk/government/people/andy-fowler>,
         <https://www.gov.uk/government/people/clare-kirby>,
         <https://www.gov.uk/government/people/mandy-fields>,
         <https://www.gov.uk/government/people/mike-mcmahon>,
         <https://www.gov.uk/government/people/richard-fowler>,
         <https://www.gov.uk/government/people/sarah-doherty> ;
+    govuk:contentId "e7e47593-78d2-4f08-86bd-32a54bdbd766" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

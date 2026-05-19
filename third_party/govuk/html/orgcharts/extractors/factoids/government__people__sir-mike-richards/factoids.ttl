@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/sir-mike-richards> .
+<https://www.gov.uk/government/organisations/uk-national-screening-committee> fm:hasMinister <https://www.gov.uk/government/people/sir-mike-richards> .
 
 <https://www.gov.uk/government/people/sir-mike-richards> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2022-06-09T16:26:51+01:00" ;
     schema1:description "Professor Sir Mike Richards was a hospital physician for more than 20 years. After a variety of training posts, he was a consultant medical oncologist between 1986 and 1995, and Professor of Palliative Medicine at Guy’s and St Thomas’ Hospitals between 1995 and 1999."@en ;
     schema1:name "Professor Sir Mike Richards CBE MD FRCP; FRCR (Hon); FRCPath (Hon); FRCSE (Hon)"@en ;
     schema1:url <https://www.gov.uk/government/people/sir-mike-richards> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
+    fm:currentRoleTitle "Chair"@en ;
     govuk:contentId "2756291f-2131-4595-b9b1-3e9cccd32eb2" ;
-    govuk:currentRoleTitle "Chair"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

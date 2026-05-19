@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/race-equality-unit> govuk:hasMinister <https://www.gov.uk/government/people/marcus-bell> .
+<https://www.gov.uk/government/organisations/race-equality-unit> fm:hasMinister <https://www.gov.uk/government/people/marcus-bell> .
 
 <https://www.gov.uk/government/people/marcus-bell> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-10-09T14:23:26+01:00" ;
     schema1:description "Marcus Bell is Director of the Office for Equality and Opportunity in Cabinet Office, having been Director of the Race Disparity Unit since 2016."@en ;
     schema1:name "Marcus Bell OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/marcus-bell> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/race-equality-unit> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/race-equality-unit> ;
+    fm:currentRoleTitle "Director, Race Disparity Unit, Director, Government Equalities Office, Director, Disability Unit, and Director, Office for Equality and Opportunity"@en ;
     govuk:contentId "228279fb-e478-48cf-81d0-72d380ffb292" ;
-    govuk:currentRoleTitle "Director, Race Disparity Unit, Director, Government Equalities Office, Director, Disability Unit, and Director, Office for Equality and Opportunity"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

@@ -1,21 +1,22 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/homes-england> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-31T12:24:43+01:00" ;
     schema1:name "Homes England"@en ;
     schema1:url <https://www.gov.uk/government/organisations/homes-england> ;
-    govuk:contentId "ad6f059a-f36c-48eb-a07f-4a6856f08f7f" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alison-crofton>,
+    fm:hasManager <https://www.gov.uk/government/people/alison-crofton>,
         <https://www.gov.uk/government/people/amy-rees>,
         <https://www.gov.uk/government/people/ian-workman>,
         <https://www.gov.uk/government/people/kirsty-shaw>,
         <https://www.gov.uk/government/people/pat-ritchie>,
         <https://www.gov.uk/government/people/paul-murphy>,
         <https://www.gov.uk/government/people/simon-century> ;
+    govuk:contentId "ad6f059a-f36c-48eb-a07f-4a6856f08f7f" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

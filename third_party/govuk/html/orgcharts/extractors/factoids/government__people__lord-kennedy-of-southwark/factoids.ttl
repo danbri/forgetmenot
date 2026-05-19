@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-kennedy-of-southwark> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/lord-kennedy-of-southwark> .
 
-<https://www.gov.uk/government/ministers/captain-of-the-honourable-corps-of-gentleman-at-arms-lords-chief-whip--2> govuk:roleHolder <https://www.gov.uk/government/people/lord-kennedy-of-southwark> .
+<https://www.gov.uk/government/ministers/captain-of-the-honourable-corps-of-gentleman-at-arms-lords-chief-whip--2> fm:roleHolder <https://www.gov.uk/government/people/lord-kennedy-of-southwark> .
 
 <https://www.gov.uk/government/people/lord-kennedy-of-southwark> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-10T16:26:00+01:00" ;
     schema1:description "Lord Kennedy of Southwark was appointed Captain of the Honourable Corps of Gentleman at Arms (Lords Chief Whip) on 10 July 2024."@en ;
     schema1:name "The Rt Hon Lord Kennedy of Southwark"@en ;
     schema1:url <https://www.gov.uk/government/people/lord-kennedy-of-southwark> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:currentRoleTitle "Captain of the Honourable Corps of Gentleman at Arms (Lords Chief Whip)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/captain-of-the-honourable-corps-of-gentleman-at-arms-lords-chief-whip--2> ;
     govuk:contentId "4da2f819-8137-46b8-8428-e5f4baea8a06" ;
-    govuk:currentRoleTitle "Captain of the Honourable Corps of Gentleman at Arms (Lords Chief Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/captain-of-the-honourable-corps-of-gentleman-at-arms-lords-chief-whip--2> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/lord-kennedy-of-southwark> ;
-    govuk:role <https://www.gov.uk/government/ministers/captain-of-the-honourable-corps-of-gentleman-at-arms-lords-chief-whip--2> ;
-    govuk:tenureStart "2024-07-10"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/lord-kennedy-of-southwark> ;
+    fm:role <https://www.gov.uk/government/ministers/captain-of-the-honourable-corps-of-gentleman-at-arms-lords-chief-whip--2> ;
+    fm:tenureStart "2024-07-10"^^xsd:date .
 

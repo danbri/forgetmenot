@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/rose-hudson-wilkin> .
+<https://www.gov.uk/government/organisations/windrush-commemoration-committee> fm:hasMinister <https://www.gov.uk/government/people/rose-hudson-wilkin> .
 
 <https://www.gov.uk/government/people/rose-hudson-wilkin> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2019-06-21T17:21:39+01:00" ;
     schema1:description "Rev Rose Hudson-Wilkin was born and grew up in Montego Bay. She was ordained deacon in 1991 and priest in 1994."@en ;
     schema1:name "Rev Rose Hudson-Wilkin"@en ;
     schema1:url <https://www.gov.uk/government/people/rose-hudson-wilkin> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    fm:currentRoleTitle "Member, Windrush Commemoration Committee"@en ;
     govuk:contentId "261402ea-e819-4640-96af-a7e986a3152b" ;
-    govuk:currentRoleTitle "Member, Windrush Commemoration Committee"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/adam-tickell> a schema1:Person ;
@@ -66,74 +67,73 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/69d7abf62ea7bc150a394b62/s465_sarah-connolly-dg-govuk.png> ;
     schema1:name "Sarah Connolly"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-digital-government-and-data> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-digital-government-and-data> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Digital Government and Data)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/ian-murray> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:roleHolder <https://www.gov.uk/government/people/ian-murray> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Science, Innovation, Research and Nuclear)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/patrick-vallance> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:roleHolder <https://www.gov.uk/government/people/patrick-vallance> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/james-frith> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:roleHolder <https://www.gov.uk/government/people/james-frith> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Digital Economy)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for AI and Online Safety)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/kanishka-narayan> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:roleHolder <https://www.gov.uk/government/people/kanishka-narayan> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> a fm:MinisterialRole ;
     schema1:name "Secretary of State for Science, Innovation and Technology"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/liz-kendall> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:roleHolder <https://www.gov.uk/government/people/liz-kendall> .
 
 <https://www.gov.uk/government/people/ian-murray> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66882879ab5fc5929851ba87/s465_ian-murray.jpg> ;
     schema1:name "The Rt Hon Ian Murray MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-digital-government-and-data> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-digital-government-and-data> .
 
 <https://www.gov.uk/government/people/james-frith> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69a7158fa2495f2d259f13f9/s465_James_Frith_MP_Parliamentary_Secretary__960_x_640_.png> ;
     schema1:name "James Frith MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296> .
 
 <https://www.gov.uk/government/people/kanishka-narayan> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68bd9cb811b4ded2da19feef/s465_kanishka_narayan_960.jpeg> ;
     schema1:name "Kanishka Narayan MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety> .
 
 <https://www.gov.uk/government/people/liz-kendall> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6688185dab5fc5929851ba79/s465_liz-kendall.jpg> ;
     schema1:name "The Rt Hon Liz Kendall MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> .
 
 <https://www.gov.uk/government/people/liz-lloyd> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68d28ccee65dc716bfb1dc5f/s465_Liz_Llyod_960x640.png> ;
     schema1:name "Baroness Lloyd of Effra CBE"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
 
 <https://www.gov.uk/government/people/patrick-vallance> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6993399743eb912f2e15b4c7/s465_patrick-vallance-960.png> ;
     schema1:name "Lord Vallance"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> .
 
 <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-08-22T14:12:15+01:00" ;
     schema1:name "Department for Science, Innovation and Technology"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
-    govuk:contentId "c352c234-8083-47ec-8a4b-0edd45c31263" ;
-    govuk:hasManager <https://www.gov.uk/government/people/adam-tickell>,
+    fm:hasManager <https://www.gov.uk/government/people/adam-tickell>,
         <https://www.gov.uk/government/people/alexandra-jones>,
         <https://www.gov.uk/government/people/angela-mclean>,
         <https://www.gov.uk/government/people/christine-bellamy>,
@@ -149,18 +149,19 @@
         <https://www.gov.uk/government/people/ollie-ilott>,
         <https://www.gov.uk/government/people/paul-willmott>,
         <https://www.gov.uk/government/people/sarah-connolly> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/ian-murray>,
+    fm:hasMinister <https://www.gov.uk/government/people/ian-murray>,
         <https://www.gov.uk/government/people/james-frith>,
         <https://www.gov.uk/government/people/kanishka-narayan>,
         <https://www.gov.uk/government/people/liz-kendall>,
         <https://www.gov.uk/government/people/liz-lloyd>,
         <https://www.gov.uk/government/people/patrick-vallance> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-digital-government-and-data>,
+    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-digital-government-and-data>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--296>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-ai-and-online-safety>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
+    govuk:contentId "c352c234-8083-47ec-8a4b-0edd45c31263" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

@@ -19,8 +19,9 @@ Reconciliation:
     post-2010 CRaG subset); this lift focuses on the catalogue + party
     reconciliation.
 
-Provenance qualifiers on every triple: fcdo:source = the UKTO record
-URL.
+Provenance qualifiers on every triple: dct:source = the UKTO record
+URL. All extracted classes/relations sit in the forgetmenot vocabulary
+(`fm:`) -- we do not invent under the `fcdo:` or `gov.uk` namespaces.
 
     python3 scripts/fcdo_treaties_extract.py
     python3 scripts/fcdo_treaties_extract.py --refresh
@@ -41,7 +42,7 @@ from rdflib import RDF, RDFS, XSD, Literal, Namespace, URIRef
 RECORDS_DIR = Path("third_party/data/fcdo_treaties/records")
 OUT_DIR     = Path("third_party/data/fcdo_treaties/extractors/factoids")
 
-FCDO   = Namespace("https://forgetmenot.local/fcdo#")
+FM     = Namespace("https://forgetmenot.local/vocab#")
 SCHEMA = Namespace("http://schema.org/")
 DCT    = Namespace("http://purl.org/dc/terms/")
 WD     = Namespace("http://www.wikidata.org/entity/")
@@ -323,7 +324,7 @@ def parse_dmy(s: str | None) -> str | None:
 
 
 def bind_prefixes(g: rdflib.Graph) -> None:
-    g.bind("fcdo",   FCDO)
+    g.bind("fm",     FM)
     g.bind("schema", SCHEMA)
     g.bind("dct",    DCT)
     g.bind("wd",     WD)
@@ -337,41 +338,41 @@ def lift_one(record: dict) -> tuple[rdflib.URIRef, rdflib.Graph, dict]:
     g = rdflib.Graph()
     bind_prefixes(g)
 
-    g.add((uri, RDF.type, FCDO.Treaty))
+    g.add((uri, RDF.type, FM.Treaty))
     g.add((uri, RDF.type, SCHEMA.CreativeWork))
-    g.add((uri, FCDO.uktoId, Literal(rid)))
+    g.add((uri, FM.uktoId, Literal(rid)))
     if record.get("uuid"):
-        g.add((uri, FCDO.uktoUuid, Literal(record["uuid"])))
+        g.add((uri, FM.uktoUuid, Literal(record["uuid"])))
     if record.get("title"):
         g.add((uri, DCT.title, Literal(record["title"], lang="en")))
         g.add((uri, SCHEMA.name, Literal(record["title"], lang="en")))
     if record.get("subject"):
-        g.add((uri, FCDO.subject, Literal(record["subject"])))
+        g.add((uri, FM.subject, Literal(record["subject"])))
     if record.get("bilateral_or_multilateral"):
         kind = {"BI": "bilateral", "MU": "multilateral"}.get(
             record["bilateral_or_multilateral"],
             record["bilateral_or_multilateral"],
         )
-        g.add((uri, FCDO.kind, Literal(kind)))
+        g.add((uri, FM.kind, Literal(kind)))
 
     signed_iso = parse_dmy(record.get("signed_date"))
     if signed_iso:
-        g.add((uri, FCDO.signedDate, Literal(signed_iso, datatype=XSD.date)))
+        g.add((uri, FM.signedDate, Literal(signed_iso, datatype=XSD.date)))
     elif record.get("signed_date"):
         # keep the raw string when we can't parse (some entries are
         # "00/00/YYYY" placeholders)
-        g.add((uri, FCDO.signedDateText, Literal(record["signed_date"])))
+        g.add((uri, FM.signedDateText, Literal(record["signed_date"])))
     if record.get("signed_place"):
-        g.add((uri, FCDO.signedPlace, Literal(record["signed_place"])))
+        g.add((uri, FM.signedPlace, Literal(record["signed_place"])))
 
     eif_iso = parse_dmy(record.get("definitive_eif_date"))
     if eif_iso:
-        g.add((uri, FCDO.entryIntoForceDate,
+        g.add((uri, FM.entryIntoForceDate,
                Literal(eif_iso, datatype=XSD.date)))
 
     for ref in (record.get("references") or []):
         if ref:
-            g.add((uri, FCDO.reference, Literal(ref)))
+            g.add((uri, FM.reference, Literal(ref)))
 
     # Parties: cite the FCDO label always; add owl:sameAs to Wikidata
     # when a curated mapping exists. unmapped labels are surfaced in
@@ -380,13 +381,13 @@ def lift_one(record: dict) -> tuple[rdflib.URIRef, rdflib.Graph, dict]:
     for label in (record.get("parties") or []):
         norm = label.strip().upper()
         party_node = rdflib.BNode()
-        g.add((uri, FCDO.party, party_node))
+        g.add((uri, FM.party, party_node))
         g.add((party_node, RDFS.label, Literal(label, lang="en")))
         qid = PARTY_TO_QID.get(norm)
         if qid:
             wd = WD[qid]
             g.add((party_node, SCHEMA.sameAs, wd))
-            g.add((party_node, FCDO.partyOf, wd))
+            g.add((party_node, FM.partyOf, wd))
         else:
             unmapped.append(label)
 
@@ -397,20 +398,20 @@ def lift_one(record: dict) -> tuple[rdflib.URIRef, rdflib.Graph, dict]:
         if not country or not action:
             continue
         node = rdflib.BNode()
-        g.add((uri, FCDO.partyAction, node))
-        g.add((node, FCDO.country, Literal(country, lang="en")))
-        g.add((node, FCDO.action,  Literal(action)))
+        g.add((uri, FM.partyAction, node))
+        g.add((node, FM.country, Literal(country, lang="en")))
+        g.add((node, FM.action,  Literal(action)))
         ad = parse_dmy(pd.get("action_date"))
         if ad:
-            g.add((node, FCDO.actionDate,
+            g.add((node, FM.actionDate,
                    Literal(ad, datatype=XSD.date)))
         ed = parse_dmy(pd.get("effective_date"))
         if ed:
-            g.add((node, FCDO.effectiveDate,
+            g.add((node, FM.effectiveDate,
                    Literal(ed, datatype=XSD.date)))
         qid = PARTY_TO_QID.get(country.strip().upper())
         if qid:
-            g.add((node, FCDO.countryQid, WD[qid]))
+            g.add((node, FM.countryQid, WD[qid]))
 
     # Provenance qualifier: the upstream record URL. FCDO's
     # document_url field stores unencoded paths -- some contain spaces
@@ -425,7 +426,7 @@ def lift_one(record: dict) -> tuple[rdflib.URIRef, rdflib.Graph, dict]:
             sp.query, sp.fragment,
         ))
     g.add((uri, DCT.source, URIRef(src)))
-    g.add((uri, FCDO.capturedAt,
+    g.add((uri, FM.capturedAt,
            Literal(record.get("captured_at") or
                    date.today().isoformat(),
                    datatype=XSD.dateTime)))

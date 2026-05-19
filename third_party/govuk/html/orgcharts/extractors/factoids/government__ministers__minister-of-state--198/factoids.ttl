@@ -1,27 +1,28 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--198> .
+<https://www.gov.uk/government/organisations/cabinet-office> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--198> .
 
 <https://www.gov.uk/government/people/dan-jarvis> schema1:name "Dan Jarvis MBE MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--198> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--198> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--198> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--198> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-06T11:46:25+01:00" ;
     schema1:name "Minister of State"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--198> ;
-    govuk:contentId "bf5eae5d-1ae8-4032-bbb1-04d10146dfd0" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Civil contingencies"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:responsibility "Civil contingencies"@en,
         "Cyber security"@en,
         "Government security group, including UK security vetting"@en,
         "Integrated security fund"@en,
         "Investment security"@en,
         "Resilience"@en,
         "Supporting CDL with coordination of national security policy"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> ;
+    fm:roleHolder <https://www.gov.uk/government/people/dan-jarvis> ;
+    govuk:contentId "bf5eae5d-1ae8-4032-bbb1-04d10146dfd0" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

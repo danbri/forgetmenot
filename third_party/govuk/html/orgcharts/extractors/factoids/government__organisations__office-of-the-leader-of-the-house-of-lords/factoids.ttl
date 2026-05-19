@@ -1,38 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> a fm:MinisterialRole ;
     schema1:name "Deputy Leader of the House of Lords"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/lord-collins-of-highbury> .
+    fm:partOf <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
+    fm:roleHolder <https://www.gov.uk/government/people/lord-collins-of-highbury> .
 
-<https://www.gov.uk/government/ministers/lord-privy-seal> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/lord-privy-seal> a fm:MinisterialRole ;
     schema1:name "Lord Privy Seal"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/baroness-smith-of-basildon> .
+    fm:partOf <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
+    fm:roleHolder <https://www.gov.uk/government/people/baroness-smith-of-basildon> .
 
 <https://www.gov.uk/government/people/baroness-smith-of-basildon> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66882fcc899a6f92e5d9cddf/s465_baroness-smith.jpg> ;
     schema1:name "The Rt Hon Baroness Smith of Basildon"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-privy-seal> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/lord-privy-seal> .
 
 <https://www.gov.uk/government/people/lord-collins-of-highbury> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668eb1b1ab418ab055592357/s465_lord-collins.png> ;
     schema1:name "Lord Collins of Highbury"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> .
 
 <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2022-11-03T12:30:15+00:00" ;
     schema1:name "Office of the Leader of the House of Lords"@en ;
     schema1:url <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
-    govuk:contentId "7f6b788d-1e91-4f87-b315-8a44fb773182" ;
-    govuk:hasMinister <https://www.gov.uk/government/people/baroness-smith-of-basildon>,
+    fm:hasMinister <https://www.gov.uk/government/people/baroness-smith-of-basildon>,
         <https://www.gov.uk/government/people/lord-collins-of-highbury> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2>,
+    fm:hasRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2>,
         <https://www.gov.uk/government/ministers/lord-privy-seal> ;
+    govuk:contentId "7f6b788d-1e91-4f87-b315-8a44fb773182" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

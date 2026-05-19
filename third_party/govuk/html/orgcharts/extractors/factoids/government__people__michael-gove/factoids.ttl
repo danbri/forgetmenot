@@ -1,40 +1,40 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-education> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-education> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> govuk:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> fm:previouslyHeldBy <https://www.gov.uk/government/people/michael-gove> .
 
 <https://www.gov.uk/government/people/michael-gove> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-18T10:45:03+01:00" ;
     schema1:description "The Rt Hon Michael Gove was Secretary of State for Levelling Up, Housing and Communities and Minister for Intergovernmental Relations between 25 October 2022 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Michael Gove"@en ;
     schema1:url <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "8529257f-c0f1-11e4-8223-005056011aef" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster>,
         <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations>,
         <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2>,
         <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office>,
@@ -44,83 +44,84 @@
         <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-justice>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> ;
+    govuk:contentId "8529257f-c0f1-11e4-8223-005056011aef" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2016-07-14"^^xsd:date ;
-    govuk:tenureStart "2015-05-10"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    fm:tenureEnd "2021-09-14"^^xsd:date ;
+    fm:tenureStart "2019-07-24"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2022-10-25"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations> ;
+    fm:tenureEnd "2022-07-06"^^xsd:date ;
+    fm:tenureStart "2021-09-19"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
-    govuk:tenureEnd "2014-07-15"^^xsd:date ;
-    govuk:tenureStart "2010-05-12"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2022-10-25"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
-    govuk:tenureEnd "2015-05-10"^^xsd:date ;
-    govuk:tenureStart "2014-07-15"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    fm:tenureEnd "2019-07-24"^^xsd:date ;
+    fm:tenureStart "2017-06-11"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
-    govuk:tenureEnd "2019-07-24"^^xsd:date ;
-    govuk:tenureStart "2017-06-11"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government> ;
+    fm:tenureEnd "2021-09-19"^^xsd:date ;
+    fm:tenureStart "2021-09-15"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations> ;
-    govuk:tenureEnd "2022-07-06"^^xsd:date ;
-    govuk:tenureStart "2021-09-19"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    fm:tenureEnd "2015-05-10"^^xsd:date ;
+    fm:tenureStart "2014-07-15"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2022-10-25"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2022-10-25"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government> ;
-    govuk:tenureEnd "2021-09-19"^^xsd:date ;
-    govuk:tenureStart "2021-09-15"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    fm:tenureEnd "2014-07-15"^^xsd:date ;
+    fm:tenureStart "2010-05-12"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
-    govuk:tenureEnd "2021-09-15"^^xsd:date ;
-    govuk:tenureStart "2020-02-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
+    fm:tenureEnd "2021-09-15"^^xsd:date ;
+    fm:tenureStart "2020-02-13"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
-    govuk:tenureEnd "2021-09-14"^^xsd:date ;
-    govuk:tenureStart "2019-07-24"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> ;
+    fm:tenureEnd "2022-07-06"^^xsd:date ;
+    fm:tenureStart "2021-09-19"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-levelling-up-housing-and-communities> ;
-    govuk:tenureEnd "2022-07-06"^^xsd:date ;
-    govuk:tenureStart "2021-09-19"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2016-07-14"^^xsd:date ;
+    fm:tenureStart "2015-05-10"^^xsd:date .
 

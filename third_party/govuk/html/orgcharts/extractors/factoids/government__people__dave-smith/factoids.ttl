@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasMinister <https://www.gov.uk/government/people/dave-smith> .
+<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> fm:hasMinister <https://www.gov.uk/government/people/dave-smith> .
 
 <https://www.gov.uk/government/people/dave-smith> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-01T09:23:52+01:00" ;
     schema1:description "Dr Dave Smith FIET FRAeS is the National Technology Adviser ( NTA ) having taken up the role in September 2023."@en ;
     schema1:name "Dr Dave Smith"@en ;
     schema1:url <https://www.gov.uk/government/people/dave-smith> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:currentRoleTitle "National Technology Adviser"@en ;
     govuk:contentId "183e09f7-7939-4fa5-a885-bee53bcdea3d" ;
-    govuk:currentRoleTitle "National Technology Adviser"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

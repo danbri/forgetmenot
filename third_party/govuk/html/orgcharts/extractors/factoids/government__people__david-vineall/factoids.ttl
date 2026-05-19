@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/david-vineall> .
+<https://www.gov.uk/government/organisations/sellafield-ltd> fm:hasMinister <https://www.gov.uk/government/people/david-vineall> .
 
 <https://www.gov.uk/government/people/david-vineall> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-09-01T08:03:51+01:00" ;
     schema1:description "David Vineall was appointed as Human Resources Director in April 2014."@en ;
     schema1:name "David Vineall"@en ;
     schema1:url <https://www.gov.uk/government/people/david-vineall> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    fm:currentRoleTitle "NDA nominated Non-Executive Director and Group Chief People Officer"@en ;
     govuk:contentId "03606a36-7f81-43fa-8d95-b34011c7ddf8" ;
-    govuk:currentRoleTitle "NDA nominated Non-Executive Director and Group Chief People Officer"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--176> .
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--176> .
 
 <https://www.gov.uk/government/people/matthew-pennycook> schema1:name "Matthew Pennycook MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--176> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--176> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--176> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--176> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-15T10:31:41+01:00" ;
     schema1:name "Minister of State (Minister for Housing and Planning)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--176> ;
-    govuk:contentId "6edd9458-f4f8-4388-9fe0-c330422e47dd" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Brownfield Infrastructure Land and Housing Infrastructure Funds"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    fm:responsibility "Brownfield Infrastructure Land and Housing Infrastructure Funds"@en,
         "HM Land Registry and land transparency"@en,
         "Homes England and Planning Inspectorate sponsorship"@en,
         "Housing delivery including large-scale new settlements programme (New Towns)"@en,
@@ -27,6 +26,8 @@
         "Private rented sector and Renters’ Rights Bill"@en,
         "Social and Affordable Homes Programme"@en,
         "Social housing"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/matthew-pennycook> ;
+    fm:roleHolder <https://www.gov.uk/government/people/matthew-pennycook> ;
+    govuk:contentId "6edd9458-f4f8-4388-9fe0-c330422e47dd" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

@@ -1,16 +1,17 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/defence-safety-authority> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-10T14:03:20+01:00" ;
     schema1:name "Defence Safety Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/defence-safety-authority> ;
-    govuk:contentId "9b412fdd-ca63-4aee-8530-afd2d893e331" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alan-gillespie>,
+    fm:hasManager <https://www.gov.uk/government/people/alan-gillespie>,
         <https://www.gov.uk/government/people/mark-hunt> ;
+    govuk:contentId "9b412fdd-ca63-4aee-8530-afd2d893e331" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

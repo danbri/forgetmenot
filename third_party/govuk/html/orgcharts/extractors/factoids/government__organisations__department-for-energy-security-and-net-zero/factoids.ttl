@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/clive-maxwell> a schema1:Person ;
@@ -46,84 +47,83 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/65d8867c87005a001a80f8c8/s465_vikas-shah-960-640.jpg> ;
     schema1:name "Vikas Shah"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy--2> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy--2> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Energy)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/michael-shanks> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:roleHolder <https://www.gov.uk/government/people/michael-shanks> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Energy Security and Net Zero)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/alan-whitehead> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:roleHolder <https://www.gov.uk/government/people/alan-whitehead> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Science, Innovation, Research and Nuclear)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/patrick-vallance> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:roleHolder <https://www.gov.uk/government/people/patrick-vallance> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Climate)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/katie-white> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:roleHolder <https://www.gov.uk/government/people/katie-white> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Energy Consumers)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/martin-mccluskey> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:roleHolder <https://www.gov.uk/government/people/martin-mccluskey> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Industry)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/chris-mcdonald> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:roleHolder <https://www.gov.uk/government/people/chris-mcdonald> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state> a fm:MinisterialRole ;
     schema1:name "Secretary of State for Energy Security and Net Zero"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/ed-miliband> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:roleHolder <https://www.gov.uk/government/people/ed-miliband> .
 
 <https://www.gov.uk/government/people/alan-whitehead> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69933a3f43eb912f2e15b4d1/s465_alan-whitehead-960.png> ;
     schema1:name "Dr Alan Whitehead CBE"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> .
 
 <https://www.gov.uk/government/people/chris-mcdonald> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69933bb37da91680ad7f44c0/s465_chris-mcdonald-960.png> ;
     schema1:name "Chris McDonald MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> .
 
 <https://www.gov.uk/government/people/ed-miliband> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6993394d75466636847f6bc9/s465_ed-miliband-960.png> ;
     schema1:name "The Rt Hon Ed Miliband MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state> .
 
 <https://www.gov.uk/government/people/katie-white> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69933abf492ea446ea7f44ac/s465_katie-white-960.png> ;
     schema1:name "Katie White OBE MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> .
 
 <https://www.gov.uk/government/people/martin-mccluskey> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69933b5b492ea446ea7f44ae/s465_martin-mccluskey-960.png> ;
     schema1:name "Martin McCluskey MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers> .
 
 <https://www.gov.uk/government/people/michael-shanks> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69a6d8d2a2495f2d259f13ab/s465_michael-shanks-960.png> ;
     schema1:name "Michael Shanks MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy--2> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy--2> .
 
 <https://www.gov.uk/government/people/patrick-vallance> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6993399743eb912f2e15b4c7/s465_patrick-vallance-960.png> ;
     schema1:name "Lord Vallance"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear> .
 
 <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-02-16T13:06:39+00:00" ;
     schema1:name "Department for Energy Security and Net Zero"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
-    govuk:contentId "6315817c-ef11-4905-bb4d-b6dca8e9052c" ;
-    govuk:hasManager <https://www.gov.uk/government/people/clive-maxwell>,
+    fm:hasManager <https://www.gov.uk/government/people/clive-maxwell>,
         <https://www.gov.uk/government/people/david-thomas--3>,
         <https://www.gov.uk/government/people/emily-shuckburgh>,
         <https://www.gov.uk/government/people/jonathan-brearley>,
@@ -134,20 +134,21 @@
         <https://www.gov.uk/government/people/sarah-redwood>,
         <https://www.gov.uk/government/people/sue-ferns>,
         <https://www.gov.uk/government/people/vikas-shah> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/alan-whitehead>,
+    fm:hasMinister <https://www.gov.uk/government/people/alan-whitehead>,
         <https://www.gov.uk/government/people/chris-mcdonald>,
         <https://www.gov.uk/government/people/ed-miliband>,
         <https://www.gov.uk/government/people/katie-white>,
         <https://www.gov.uk/government/people/martin-mccluskey>,
         <https://www.gov.uk/government/people/michael-shanks>,
         <https://www.gov.uk/government/people/patrick-vallance> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy--2>,
+    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy--2>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-innovation-research-and-nuclear>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-energy-consumers>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry>,
         <https://www.gov.uk/government/ministers/secretary-of-state> ;
+    govuk:contentId "6315817c-ef11-4905-bb4d-b6dca8e9052c" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

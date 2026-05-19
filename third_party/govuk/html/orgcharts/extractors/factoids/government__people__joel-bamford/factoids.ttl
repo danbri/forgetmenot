@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/competition-and-markets-authority> govuk:hasMinister <https://www.gov.uk/government/people/joel-bamford> .
+<https://www.gov.uk/government/organisations/competition-and-markets-authority> fm:hasMinister <https://www.gov.uk/government/people/joel-bamford> .
 
 <https://www.gov.uk/government/people/joel-bamford> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-08-30T12:23:00+01:00" ;
     schema1:description "Joel Bamford was appointed Executive Director for Mergers at the Competition and Markets Authority (CMA) on 12 February 2024. On 1 July 2024 he became Executive Director for Mergers, Office for the Internal Market and Subsidy Advice Unit."@en ;
     schema1:name "Joel Bamford"@en ;
     schema1:url <https://www.gov.uk/government/people/joel-bamford> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/competition-and-markets-authority> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/competition-and-markets-authority> ;
+    fm:currentRoleTitle "Executive Director for Mergers, Office for the Internal Market and Subsidy Advice Unit, Executive Director, and Executive Director"@en ;
     govuk:contentId "04c48339-1d0a-44f8-9250-de7d95f77428" ;
-    govuk:currentRoleTitle "Executive Director for Mergers, Office for the Internal Market and Subsidy Advice Unit, Executive Director, and Executive Director"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

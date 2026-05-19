@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/jayne-scott--3> .
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> fm:hasMinister <https://www.gov.uk/government/people/jayne-scott--3> .
 
 <https://www.gov.uk/government/people/jayne-scott--3> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-05-01T10:04:11+01:00" ;
     schema1:description "Jayne joined the Nuclear Restoration Services Ltd Board on 1 October 2024 as an Independent Non-Executive Director."@en ;
     schema1:name "Jayne Scott"@en ;
     schema1:url <https://www.gov.uk/government/people/jayne-scott--3> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    fm:currentRoleTitle "Non-Executive Director"@en ;
     govuk:contentId "ba5e8a91-072f-4b68-9068-fa038374f207" ;
-    govuk:currentRoleTitle "Non-Executive Director"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

@@ -1,49 +1,50 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/scotland-office> govuk:hasMinister <https://www.gov.uk/government/people/douglas-alexander> .
+<https://www.gov.uk/government/organisations/scotland-office> fm:hasMinister <https://www.gov.uk/government/people/douglas-alexander> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--172> govuk:previouslyHeldBy <https://www.gov.uk/government/people/douglas-alexander> .
+<https://www.gov.uk/government/ministers/minister-of-state--172> fm:previouslyHeldBy <https://www.gov.uk/government/people/douglas-alexander> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--185> govuk:previouslyHeldBy <https://www.gov.uk/government/people/douglas-alexander> .
+<https://www.gov.uk/government/ministers/minister-of-state--185> fm:previouslyHeldBy <https://www.gov.uk/government/people/douglas-alexander> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> govuk:roleHolder <https://www.gov.uk/government/people/douglas-alexander> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> fm:roleHolder <https://www.gov.uk/government/people/douglas-alexander> .
 
 <https://www.gov.uk/government/people/douglas-alexander> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-05T20:03:52+01:00" ;
     schema1:description "Douglas Alexander was appointed Secretary of State for Scotland on 5 September 2025."@en ;
     schema1:name "The Rt Hon Douglas Alexander MP"@en ;
     schema1:url <https://www.gov.uk/government/people/douglas-alexander> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/scotland-office> ;
-    govuk:contentId "93f2d702-c240-4895-bbdd-bde1d2fbc16d" ;
-    govuk:currentRoleTitle "Secretary of State for Scotland"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state--172>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/scotland-office> ;
+    fm:currentRoleTitle "Secretary of State for Scotland"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state--172>,
         <https://www.gov.uk/government/ministers/minister-of-state--185> ;
+    govuk:contentId "93f2d702-c240-4895-bbdd-bde1d2fbc16d" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/douglas-alexander> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--172> ;
-    govuk:tenureEnd "2025-09-05"^^xsd:date ;
-    govuk:tenureStart "2024-07-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/douglas-alexander> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--185> ;
+    fm:tenureEnd "2025-09-05"^^xsd:date ;
+    fm:tenureStart "2025-02-10"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/douglas-alexander> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--185> ;
-    govuk:tenureEnd "2025-09-05"^^xsd:date ;
-    govuk:tenureStart "2025-02-10"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/douglas-alexander> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
+    fm:tenureStart "2025-09-05"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/douglas-alexander> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
-    govuk:tenureStart "2025-09-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/douglas-alexander> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--172> ;
+    fm:tenureEnd "2025-09-05"^^xsd:date ;
+    fm:tenureStart "2024-07-06"^^xsd:date .
 

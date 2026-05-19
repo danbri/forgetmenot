@@ -1,15 +1,16 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/judicial-appointments-and-conduct-ombudsman> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-02-16T10:47:15+00:00" ;
     schema1:name "Judicial Appointments and Conduct Ombudsman"@en ;
     schema1:url <https://www.gov.uk/government/organisations/judicial-appointments-and-conduct-ombudsman> ;
+    fm:hasManager <https://www.gov.uk/government/people/douglas-marshall> ;
     govuk:contentId "26e55584-4db9-4476-a527-a3c5cb1eb6d2" ;
-    govuk:hasManager <https://www.gov.uk/government/people/douglas-marshall> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

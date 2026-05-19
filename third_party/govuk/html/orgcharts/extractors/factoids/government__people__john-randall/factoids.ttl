@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/john-randall> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/john-randall> .
 
-<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/john-randall> .
+<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> fm:previouslyHeldBy <https://www.gov.uk/government/people/john-randall> .
 
 <https://www.gov.uk/government/people/john-randall> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2019-11-08T16:49:20+00:00" ;
     schema1:description "John Randall became Deputy Chief Whip, Comptroller of HM Household in May 2010. He was elected Conservative MP for Uxbridge and South Ruislip on 6 May 2010."@en ;
     schema1:name "The Rt Hon John Randall"@en ;
     schema1:url <https://www.gov.uk/government/people/john-randall> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
     govuk:contentId "852e833c-c0f1-11e4-8223-005056011aef" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/john-randall> ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
-    govuk:tenureEnd "2013-10-06"^^xsd:date ;
-    govuk:tenureStart "2010-01-01"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/john-randall> ;
+    fm:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    fm:tenureEnd "2013-10-06"^^xsd:date ;
+    fm:tenureStart "2010-01-01"^^xsd:date .
 

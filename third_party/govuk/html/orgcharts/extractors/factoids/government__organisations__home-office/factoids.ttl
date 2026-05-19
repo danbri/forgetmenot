@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/bas-javid> a schema1:Person ;
@@ -66,84 +67,83 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/6470d48180dffe001323ee6e/s465_Tara_Smith_Headshot.jpg> ;
     schema1:name "Tara Smith"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state--174> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--174> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Security)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> .
+    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/dan-jarvis> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--195> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--195> a fm:MinisterialRole ;
     schema1:name "Minister of State (Lords Minister)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/david-hanson> .
+    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/david-hanson> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--204> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--204> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Policing and Crime)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/sarah-jones> .
+    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/sarah-jones> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--205> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--205> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Border Security and Asylum)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/alex-norris> .
+    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/alex-norris> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Migration and Citizenship)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/mike-tapp> .
+    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/mike-tapp> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/natalie-fleet> .
+    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/natalie-fleet> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> a fm:MinisterialRole ;
     schema1:name "Secretary of State for the Home Department"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/shabana-mahmood> .
+    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/shabana-mahmood> .
 
 <https://www.gov.uk/government/people/alex-norris> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668d8242ab5fc5929851bcdc/s465_Alex_Norris_MP.jpeg> ;
     schema1:name "Alex Norris MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--205> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--205> .
 
 <https://www.gov.uk/government/people/dan-jarvis> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68fa280930c331c88be6f018/s465_dan_jarvis.jpg> ;
     schema1:name "Dan Jarvis MBE MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--174> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--174> .
 
 <https://www.gov.uk/government/people/david-hanson> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66977f14a3c2a28abb50d0d3/s465_sir-david-hanson-official-gov.uk.jpg> ;
     schema1:name "The Rt Hon Lord Hanson of Flint"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--195> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--195> .
 
 <https://www.gov.uk/government/people/mike-tapp> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68bd43be11b4ded2da19fee3/s465_mike-tapp.jpeg> ;
     schema1:name "Mike Tapp MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> .
 
 <https://www.gov.uk/government/people/natalie-fleet> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6a038deb2a6137e93226bab9/s465_natalie-fleet.jpeg> ;
     schema1:name "Natalie Fleet MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> .
 
 <https://www.gov.uk/government/people/sarah-jones> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66a9fec5fc8e12ac3edb07d3/s465_sarah-jones-1-960x640.jpg> ;
     schema1:name "Sarah Jones MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--204> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--204> .
 
 <https://www.gov.uk/government/people/shabana-mahmood> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668811534a94d44125d9cd8f/s465_Shabana_Mahmood.jpg> ;
     schema1:name "The Rt Hon Shabana Mahmood MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> .
 
 <https://www.gov.uk/government/organisations/home-office> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-23T13:54:13+01:00" ;
     schema1:name "Home Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:contentId "06056197-bc69-4147-aa28-070bca132178" ;
-    govuk:hasManager <https://www.gov.uk/government/people/bas-javid>,
+    fm:hasManager <https://www.gov.uk/government/people/bas-javid>,
         <https://www.gov.uk/government/people/dan-hobbs>,
         <https://www.gov.uk/government/people/duncan-capps>,
         <https://www.gov.uk/government/people/gareth-davies>,
@@ -159,20 +159,21 @@
         <https://www.gov.uk/government/people/richard-clarke>,
         <https://www.gov.uk/government/people/simon-ridley>,
         <https://www.gov.uk/government/people/tara-smith> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/alex-norris>,
+    fm:hasMinister <https://www.gov.uk/government/people/alex-norris>,
         <https://www.gov.uk/government/people/dan-jarvis>,
         <https://www.gov.uk/government/people/david-hanson>,
         <https://www.gov.uk/government/people/mike-tapp>,
         <https://www.gov.uk/government/people/natalie-fleet>,
         <https://www.gov.uk/government/people/sarah-jones>,
         <https://www.gov.uk/government/people/shabana-mahmood> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--174>,
+    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--174>,
         <https://www.gov.uk/government/ministers/minister-of-state--195>,
         <https://www.gov.uk/government/ministers/minister-of-state--204>,
         <https://www.gov.uk/government/ministers/minister-of-state--205>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    govuk:contentId "06056197-bc69-4147-aa28-070bca132178" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

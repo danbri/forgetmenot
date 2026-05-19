@@ -1,83 +1,84 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/boris-johnson> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/boris-johnson> .
 
-<https://www.gov.uk/government/ministers/first-lord-of-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
+<https://www.gov.uk/government/ministers/first-lord-of-the-treasury> fm:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
 
-<https://www.gov.uk/government/ministers/minister-for-the-civil-service> govuk:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
+<https://www.gov.uk/government/ministers/minister-for-the-civil-service> fm:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
 
-<https://www.gov.uk/government/ministers/minister-for-the-union> govuk:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
+<https://www.gov.uk/government/ministers/minister-for-the-union> fm:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
 
-<https://www.gov.uk/government/ministers/foreign-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
+<https://www.gov.uk/government/ministers/foreign-secretary> fm:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
 
-<https://www.gov.uk/government/ministers/prime-minister> govuk:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
+<https://www.gov.uk/government/ministers/prime-minister> fm:previouslyHeldBy <https://www.gov.uk/government/people/boris-johnson> .
 
 <https://www.gov.uk/government/people/boris-johnson> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-11-27T17:29:25+00:00" ;
     schema1:description "Boris Johnson was Prime Minister from 24 July 2019 to 6 September 2022. He was previously Foreign Secretary from 13 July 2016 to 9 July 2018."@en ;
     schema1:name "The Rt Hon Boris Johnson"@en ;
     schema1:url <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "ec7cb2ba-3c02-48c5-a918-1f4a211499ae" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/first-lord-of-the-treasury>,
         <https://www.gov.uk/government/ministers/foreign-secretary>,
         <https://www.gov.uk/government/ministers/minister-for-the-civil-service>,
         <https://www.gov.uk/government/ministers/minister-for-the-union>,
         <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:contentId "ec7cb2ba-3c02-48c5-a918-1f4a211499ae" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2019-07-24"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    fm:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
+    fm:tenureEnd "2018-07-09"^^xsd:date ;
+    fm:tenureStart "2016-07-13"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2019-07-24"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    fm:role <https://www.gov.uk/government/ministers/first-lord-of-the-treasury> ;
+    fm:tenureEnd "2022-09-06"^^xsd:date ;
+    fm:tenureStart "2019-07-24"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
-    govuk:tenureEnd "2018-07-09"^^xsd:date ;
-    govuk:tenureStart "2016-07-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    fm:proseExtracted true ;
+    fm:role <https://www.gov.uk/government/ministers/prime-minister> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2019"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    fm:role <https://www.gov.uk/government/ministers/prime-minister> ;
+    fm:tenureEnd "2022-09-06"^^xsd:date ;
+    fm:tenureStart "2019-07-24"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-union> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2019-07-26"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-the-civil-service> ;
+    fm:tenureEnd "2022-09-06"^^xsd:date ;
+    fm:tenureStart "2019-07-24"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:role <https://www.gov.uk/government/ministers/prime-minister> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2019-07-24"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-the-union> ;
+    fm:tenureEnd "2022-09-06"^^xsd:date ;
+    fm:tenureStart "2019-07-26"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/boris-johnson> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/boris-johnson> ;
+    fm:proseExtracted true ;
+    fm:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
+    fm:tenureEnd "2018"^^xsd:gYear ;
+    fm:tenureStart "2016"^^xsd:gYear .
 

@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> govuk:hasMinister <https://www.gov.uk/government/people/katie-white> .
+<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> fm:hasMinister <https://www.gov.uk/government/people/katie-white> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> govuk:roleHolder <https://www.gov.uk/government/people/katie-white> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> fm:roleHolder <https://www.gov.uk/government/people/katie-white> .
 
 <https://www.gov.uk/government/people/katie-white> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-10T16:23:44+01:00" ;
     schema1:description "Katie White was appointed Minister for Climate in the Department for Energy Security and Net Zero on 7 September 2025."@en ;
     schema1:name "Katie White OBE MP"@en ;
     schema1:url <https://www.gov.uk/government/people/katie-white> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Climate)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> ;
     govuk:contentId "e8ad0fb4-6dbd-413e-84ea-7fb1aab38f93" ;
-    govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Climate)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/katie-white> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> ;
-    govuk:tenureStart "2025-09-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/katie-white> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-climate> ;
+    fm:tenureStart "2025-09-07"^^xsd:date .
 

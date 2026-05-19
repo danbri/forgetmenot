@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/diane-coyle> .
+<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> fm:hasMinister <https://www.gov.uk/government/people/diane-coyle> .
 
 <https://www.gov.uk/government/people/diane-coyle> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-12-17T07:34:39+00:00" ;
     schema1:description "Professor Dame Diane Coyle is the Bennett Professor of Public Policy at the University of Cambridge where she co-directs the Bennett Institute, heading research under the themes of progress and productivity."@en ;
     schema1:name "Professor Dame Diane Coyle DBE"@en ;
     schema1:url <https://www.gov.uk/government/people/diane-coyle> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    fm:currentRoleTitle "Industrial Strategy Advisory Council member"@en ;
     govuk:contentId "301e657c-1669-4b1e-9861-7a6752ccfe1e" ;
-    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

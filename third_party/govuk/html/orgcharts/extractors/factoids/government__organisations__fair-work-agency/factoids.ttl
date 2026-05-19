@@ -1,16 +1,17 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/fair-work-agency> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-04-10T15:48:55+01:00" ;
     schema1:name "Fair Work Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/fair-work-agency> ;
-    govuk:contentId "41462bd8-0630-476b-97de-52985a96fbd1" ;
-    govuk:hasManager <https://www.gov.uk/government/people/lisa-pinney>,
+    fm:hasManager <https://www.gov.uk/government/people/lisa-pinney>,
         <https://www.gov.uk/government/people/matthew-taylor> ;
+    govuk:contentId "41462bd8-0630-476b-97de-52985a96fbd1" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

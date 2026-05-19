@@ -1,12 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/home-office> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> .
+<https://www.gov.uk/government/organisations/home-office> fm:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> .
 
 <https://www.gov.uk/government/people/shabana-mahmood> schema1:name "The Rt Hon Shabana Mahmood MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> .
 
 <https://www.gov.uk/government/people/amber-rudd> schema1:name "The Rt Hon Amber Rudd"@en .
 
@@ -24,14 +25,13 @@
 
 <https://www.gov.uk/government/people/braverman> schema1:name "The Rt Hon Suella Braverman KC MP"@en .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-15T12:48:27+01:00" ;
     schema1:name "Secretary of State for the Home Department"@en ;
     schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:contentId "845e5d77-c0f1-11e4-8223-005056011aef" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/amber-rudd>,
+    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/amber-rudd>,
         <https://www.gov.uk/government/people/braverman>,
         <https://www.gov.uk/government/people/grant-shapps>,
         <https://www.gov.uk/government/people/james-cleverly>,
@@ -39,67 +39,68 @@
         <https://www.gov.uk/government/people/sajid-javid>,
         <https://www.gov.uk/government/people/theresa-may>,
         <https://www.gov.uk/government/people/yvette-cooper> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Home Office business in Cabinet"@en,
+    fm:responsibility "Home Office business in Cabinet"@en,
         "membership of the National Security Council (NSC)"@en,
         "overarching responsibility for the departmental portfolio"@en,
         "oversight of the Security Service"@en,
         "oversight of the ministerial team"@en,
         "responsibility for public appointments relating to the work of the department"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/shabana-mahmood> ;
+    fm:roleHolder <https://www.gov.uk/government/people/shabana-mahmood> ;
+    govuk:contentId "845e5d77-c0f1-11e4-8223-005056011aef" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/sajid-javid> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2018"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/james-cleverly> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2024"^^xsd:gYear ;
+    fm:tenureStart "2023"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/braverman> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2023"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/braverman> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2023"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/priti-patel> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2019"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/priti-patel> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/yvette-cooper> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2025"^^xsd:gYear ;
+    fm:tenureStart "2024"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/braverman> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/theresa-may> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2016"^^xsd:gYear ;
+    fm:tenureStart "2010"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/theresa-may> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2010"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/amber-rudd> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2018"^^xsd:gYear ;
+    fm:tenureStart "2016"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/sajid-javid> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2019"^^xsd:gYear ;
+    fm:tenureStart "2018"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/grant-shapps> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/grant-shapps> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/james-cleverly> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2023"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/braverman> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 

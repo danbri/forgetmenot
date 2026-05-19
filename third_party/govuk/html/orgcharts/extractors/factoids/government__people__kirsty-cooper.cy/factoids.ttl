@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/dormant-assets-commission> govuk:hasMinister <https://www.gov.uk/government/people/kirsty-cooper.cy> .
+<https://www.gov.uk/government/organisations/dormant-assets-commission> fm:hasMinister <https://www.gov.uk/government/people/kirsty-cooper.cy> .
 
 <https://www.gov.uk/government/people/kirsty-cooper.cy> a schema1:Person ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2020-08-05T15:50:35+01:00" ;
     schema1:name "Kirsty Cooper"@en ;
     schema1:url <https://www.gov.uk/government/people/kirsty-cooper.cy> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
+    fm:currentRoleTitle "Dormant Assets Commissioner"@en ;
     govuk:contentId "eaaf4d2f-8a69-44dd-9d4f-343b571f3928" ;
-    govuk:currentRoleTitle "Dormant Assets Commissioner"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

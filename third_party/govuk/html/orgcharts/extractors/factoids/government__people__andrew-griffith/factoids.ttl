@@ -1,79 +1,80 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/andrew-griffith> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/andrew-griffith> .
 
-<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
+<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> fm:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
 
-<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
+<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> fm:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-research-and-innovation> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-research-and-innovation> fm:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-policy-and-head-of-the-prime-ministers-policy-unit> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
+<https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-policy-and-head-of-the-prime-ministers-policy-unit> fm:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--167> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--167> fm:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> fm:previouslyHeldBy <https://www.gov.uk/government/people/andrew-griffith> .
 
 <https://www.gov.uk/government/people/andrew-griffith> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-18T11:29:22+01:00" ;
     schema1:description "Andrew Griffith was Minister of State for the Department for Science, Innovation and Technology between 13 November 2023 and 5 July 2024."@en ;
     schema1:name "Andrew Griffith MP"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-griffith> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "aeeae075-b083-4bf3-a17b-576dfeb9c275" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3>,
         <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-research-and-innovation>,
         <https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-policy-and-head-of-the-prime-ministers-policy-unit>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--167>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> ;
+    govuk:contentId "aeeae075-b083-4bf3-a17b-576dfeb9c275" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> ;
-    govuk:tenureEnd "2022-09-07"^^xsd:date ;
-    govuk:tenureStart "2022-07-08"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    fm:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    fm:tenureEnd "2022-10-27"^^xsd:date ;
+    fm:tenureStart "2022-09-07"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-research-and-innovation> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2023-11-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-science-research-and-innovation> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2023-11-13"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--167> ;
-    govuk:tenureEnd "2022-07-08"^^xsd:date ;
-    govuk:tenureStart "2022-07-08"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-exports> ;
+    fm:tenureEnd "2022-09-07"^^xsd:date ;
+    fm:tenureStart "2022-07-08"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
-    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
-    govuk:tenureEnd "2023-11-13"^^xsd:date ;
-    govuk:tenureStart "2022-10-27"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--167> ;
+    fm:tenureEnd "2022-07-08"^^xsd:date ;
+    fm:tenureStart "2022-07-08"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-policy-and-head-of-the-prime-ministers-policy-unit> ;
-    govuk:tenureEnd "2022-07-08"^^xsd:date ;
-    govuk:tenureStart "2022-02-03"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-secretary-minister-for-policy-and-head-of-the-prime-ministers-policy-unit> ;
+    fm:tenureEnd "2022-07-08"^^xsd:date ;
+    fm:tenureStart "2022-02-03"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-griffith> ;
-    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2022-10-27"^^xsd:date ;
-    govuk:tenureStart "2022-09-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/andrew-griffith> ;
+    fm:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--3> ;
+    fm:tenureEnd "2023-11-13"^^xsd:date ;
+    fm:tenureStart "2022-10-27"^^xsd:date .
 

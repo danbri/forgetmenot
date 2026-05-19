@@ -1,15 +1,16 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lesley-cowley.cy> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/lesley-cowley.cy> .
 
 <https://www.gov.uk/government/people/lesley-cowley.cy> a schema1:Person ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-06-18T09:01:33+01:00" ;
     schema1:name "Lesley Cowley OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/lesley-cowley.cy> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
     govuk:contentId "8544083d-c0f1-11e4-8223-005056011aef" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .

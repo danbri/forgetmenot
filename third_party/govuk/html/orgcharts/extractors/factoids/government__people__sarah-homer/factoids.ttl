@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/sarah-homer> .
+<https://www.gov.uk/government/organisations/department-for-work-pensions> fm:hasMinister <https://www.gov.uk/government/people/sarah-homer> .
 
 <https://www.gov.uk/government/people/sarah-homer> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-02-05T13:43:06+00:00" ;
     schema1:description "Sarah was appointed as Director General, Corporate Transformation in February 2026, based in the Department for Work and Pensions ( DWP ). She has accountability for Estates and Major Change Programmes that are internally focused on corporate services."@en ;
     schema1:name "Sarah Homer"@en ;
     schema1:url <https://www.gov.uk/government/people/sarah-homer> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    fm:currentRoleTitle "Director General, Corporate Transformation"@en ;
     govuk:contentId "f625f574-2d96-4504-83bd-d5dd555c1f53" ;
-    govuk:currentRoleTitle "Director General, Corporate Transformation"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

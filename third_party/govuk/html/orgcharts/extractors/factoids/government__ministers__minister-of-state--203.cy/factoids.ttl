@@ -1,16 +1,17 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-work-pensions.cy> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--203.cy> .
+<https://www.gov.uk/government/organisations/department-for-work-pensions.cy> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--203.cy> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--203.cy> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--203.cy> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-11-18T10:12:45+00:00" ;
     schema1:name "Gweinidog Gwladol (Gweinidog dros Gyflogaeth)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--203.cy> ;
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions.cy> ;
     govuk:contentId "103f8f0c-0a67-41a8-ae89-f0aaf6db70fc" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions.cy> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

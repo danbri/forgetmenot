@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> govuk:hasMinister <https://www.gov.uk/government/people/jessica-de-mounteney> .
+<https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> fm:hasMinister <https://www.gov.uk/government/people/jessica-de-mounteney> .
 
 <https://www.gov.uk/government/people/jessica-de-mounteney> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-11T16:20:58+00:00" ;
     schema1:description "Jessica was called to the Bar in 1994, and undertook mainly criminal work until she joined the Office of the Parliamentary Counsel as a drafter in 1997. She has worked since then on a very wide range of legislative projects, and has been seconded twice to the Law Commission of England and Wales, and spent time in the Government Legal Department as Director General. Jessica became the First Parliamentary Counsel and Permanent Secretary, Government in Parliament Group, on the 1ST May 2024. She is Parliamentary Champion for the Cabinet Office."@en ;
     schema1:name "Jessica de Mounteney"@en ;
     schema1:url <https://www.gov.uk/government/people/jessica-de-mounteney> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/office-of-the-parliamentary-counsel> ;
+    fm:currentRoleTitle "First Parliamentary Counsel"@en ;
     govuk:contentId "c8bb5d69-6e6f-45ef-86b5-472d81a7c3a4" ;
-    govuk:currentRoleTitle "First Parliamentary Counsel"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

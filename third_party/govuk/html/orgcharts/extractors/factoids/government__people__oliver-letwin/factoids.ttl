@@ -1,39 +1,40 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/oliver-letwin> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/oliver-letwin> .
 
-<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> govuk:previouslyHeldBy <https://www.gov.uk/government/people/oliver-letwin> .
+<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> fm:previouslyHeldBy <https://www.gov.uk/government/people/oliver-letwin> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-cabinet-office-providing-policy-to-the-prime-minister-in-the-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/oliver-letwin> .
+<https://www.gov.uk/government/ministers/minister-of-state-cabinet-office-providing-policy-to-the-prime-minister-in-the-cabinet-office> fm:previouslyHeldBy <https://www.gov.uk/government/people/oliver-letwin> .
 
 <https://www.gov.uk/government/people/oliver-letwin> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2019-11-06T15:57:23+00:00" ;
     schema1:description "The Rt Hon Oliver Letwin served as Minister for Government Policy in the Cabinet Office from May 2010 until 14 July 2016. He also served as Chancellor of the Duchy of Lancaster from July 2014 until 14 July 2016. Oliver was elected Conservative MP for West Dorset in 1997."@en ;
     schema1:name "The Rt Hon Oliver Letwin"@en ;
     schema1:url <https://www.gov.uk/government/people/oliver-letwin> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "8529299e-c0f1-11e4-8223-005056011aef" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster>,
         <https://www.gov.uk/government/ministers/minister-of-state-cabinet-office-providing-policy-to-the-prime-minister-in-the-cabinet-office> ;
+    govuk:contentId "8529299e-c0f1-11e4-8223-005056011aef" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/oliver-letwin> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
-    govuk:tenureEnd "2016-07-14"^^xsd:date ;
-    govuk:tenureStart "2014-07-15"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/oliver-letwin> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-cabinet-office-providing-policy-to-the-prime-minister-in-the-cabinet-office> ;
+    fm:tenureEnd "2015-05-11"^^xsd:date ;
+    fm:tenureStart "2010-05-12"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/oliver-letwin> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-cabinet-office-providing-policy-to-the-prime-minister-in-the-cabinet-office> ;
-    govuk:tenureEnd "2015-05-11"^^xsd:date ;
-    govuk:tenureStart "2010-05-12"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/oliver-letwin> ;
+    fm:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    fm:tenureEnd "2016-07-14"^^xsd:date ;
+    fm:tenureStart "2014-07-15"^^xsd:date .
 

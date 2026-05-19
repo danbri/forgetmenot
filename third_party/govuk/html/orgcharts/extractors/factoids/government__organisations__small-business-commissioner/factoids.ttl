@@ -1,15 +1,16 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/small-business-commissioner> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-09-12T10:27:59+01:00" ;
     schema1:name "Small Business Commissioner"@en ;
     schema1:url <https://www.gov.uk/government/organisations/small-business-commissioner> ;
+    fm:hasManager <https://www.gov.uk/government/people/emma-jones> ;
     govuk:contentId "2104dd53-cf67-4768-a588-a41407a9a374" ;
-    govuk:hasManager <https://www.gov.uk/government/people/emma-jones> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

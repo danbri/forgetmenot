@@ -1,59 +1,60 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/victoria-prentis> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/victoria-prentis> .
 
-<https://www.gov.uk/government/ministers/attorney-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/victoria-prentis> .
+<https://www.gov.uk/government/ministers/attorney-general> fm:previouslyHeldBy <https://www.gov.uk/government/people/victoria-prentis> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--109> govuk:previouslyHeldBy <https://www.gov.uk/government/people/victoria-prentis> .
+<https://www.gov.uk/government/ministers/minister-of-state--109> fm:previouslyHeldBy <https://www.gov.uk/government/people/victoria-prentis> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--116> govuk:previouslyHeldBy <https://www.gov.uk/government/people/victoria-prentis> .
+<https://www.gov.uk/government/ministers/minister-of-state--116> fm:previouslyHeldBy <https://www.gov.uk/government/people/victoria-prentis> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--131> govuk:previouslyHeldBy <https://www.gov.uk/government/people/victoria-prentis> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--131> fm:previouslyHeldBy <https://www.gov.uk/government/people/victoria-prentis> .
 
 <https://www.gov.uk/government/people/victoria-prentis> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-18T11:19:08+01:00" ;
     schema1:description "Victoria Prentis was Attorney General from 25 October 2022 to 5 July 2024."@en ;
     schema1:name "The Rt Hon Victoria Prentis KC"@en ;
     schema1:url <https://www.gov.uk/government/people/victoria-prentis> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "c8147e68-5ede-44e1-a8eb-08261c68886e" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/attorney-general>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/attorney-general>,
         <https://www.gov.uk/government/ministers/minister-of-state--109>,
         <https://www.gov.uk/government/ministers/minister-of-state--116>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--131> ;
+    govuk:contentId "c8147e68-5ede-44e1-a8eb-08261c68886e" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/victoria-prentis> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--109> ;
-    govuk:tenureEnd "2022-09-07"^^xsd:date ;
-    govuk:tenureStart "2021-09-16"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/victoria-prentis> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--109> ;
+    fm:tenureEnd "2022-09-07"^^xsd:date ;
+    fm:tenureStart "2021-09-16"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/victoria-prentis> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--116> ;
-    govuk:tenureEnd "2022-10-25"^^xsd:date ;
-    govuk:tenureStart "2022-09-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/victoria-prentis> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--131> ;
+    fm:tenureEnd "2021-09-15"^^xsd:date ;
+    fm:tenureStart "2020-02-14"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/victoria-prentis> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--131> ;
-    govuk:tenureEnd "2021-09-15"^^xsd:date ;
-    govuk:tenureStart "2020-02-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/victoria-prentis> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--116> ;
+    fm:tenureEnd "2022-10-25"^^xsd:date ;
+    fm:tenureStart "2022-09-07"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/victoria-prentis> ;
-    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2022-10-25"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/victoria-prentis> ;
+    fm:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2022-10-25"^^xsd:date .
 

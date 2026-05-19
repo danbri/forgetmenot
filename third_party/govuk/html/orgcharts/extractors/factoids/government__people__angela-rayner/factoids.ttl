@@ -1,49 +1,50 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/angela-rayner> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/angela-rayner> .
 
-<https://www.gov.uk/government/ministers/deputy-prime-minister> govuk:previouslyHeldBy <https://www.gov.uk/government/people/angela-rayner> .
+<https://www.gov.uk/government/ministers/deputy-prime-minister> fm:previouslyHeldBy <https://www.gov.uk/government/people/angela-rayner> .
 
-<https://www.gov.uk/government/ministers/deputy-prime-minister--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/angela-rayner> .
+<https://www.gov.uk/government/ministers/deputy-prime-minister--3> fm:previouslyHeldBy <https://www.gov.uk/government/people/angela-rayner> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> govuk:previouslyHeldBy <https://www.gov.uk/government/people/angela-rayner> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> fm:previouslyHeldBy <https://www.gov.uk/government/people/angela-rayner> .
 
 <https://www.gov.uk/government/people/angela-rayner> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-05T12:49:41+01:00" ;
     schema1:description "Angela Rayner was Secretary of State for Housing, Communities and Local Government and Deputy Prime Minister from 5 July 2024 to 5 September 2025. She was elected as the MP for Ashton-under-Lyne in May 2015."@en ;
     schema1:name "The Rt Hon Angela Rayner MP"@en ;
     schema1:url <https://www.gov.uk/government/people/angela-rayner> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "0fc9ec9a-793a-458c-8904-c678df5f0a46" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-prime-minister>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-prime-minister>,
         <https://www.gov.uk/government/ministers/deputy-prime-minister--3>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> ;
+    govuk:contentId "0fc9ec9a-793a-458c-8904-c678df5f0a46" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/angela-rayner> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> ;
-    govuk:tenureEnd "2025-09-05"^^xsd:date ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/angela-rayner> ;
+    fm:proseExtracted true ;
+    fm:role <https://www.gov.uk/government/ministers/deputy-prime-minister> ;
+    fm:tenureEnd "2025"^^xsd:gYear ;
+    fm:tenureStart "2024"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/angela-rayner> ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-prime-minister--3> ;
-    govuk:tenureEnd "2025-09-05"^^xsd:date ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/angela-rayner> ;
+    fm:role <https://www.gov.uk/government/ministers/deputy-prime-minister--3> ;
+    fm:tenureEnd "2025-09-05"^^xsd:date ;
+    fm:tenureStart "2024-07-05"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/angela-rayner> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-prime-minister> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/angela-rayner> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> ;
+    fm:tenureEnd "2025-09-05"^^xsd:date ;
+    fm:tenureStart "2024-07-05"^^xsd:date .
 

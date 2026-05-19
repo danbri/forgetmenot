@@ -1,40 +1,40 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--112> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/minister-of-state--112> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--113> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/minister-of-state--113> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-for-equalities> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/minister-of-state-for-equalities> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-children-and-young-families> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-children-and-young-families> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/president-of-the-board-of-trade> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/president-of-the-board-of-trade> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/secretary-of-state--2> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade> fm:previouslyHeldBy <https://www.gov.uk/government/people/kemi-badenoch> .
 
 <https://www.gov.uk/government/people/kemi-badenoch> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-18T10:49:52+01:00" ;
     schema1:description "The Rt Hon Kemi Badenoch was Secretary of State for the Department for Business and Trade between 7 February 2023 and 5 July 2024. She was Secretary of State for International Trade and President of the Board of Trade between 6 September 2022 and 4 July 2024, and Minister for Women and Equalities for the Equality Hub between 25 October 2022 and 4 July 2024."@en ;
     schema1:name "The Rt Hon Kemi Badenoch MP"@en ;
     schema1:url <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "b775b0fb-4a6c-40db-abc5-d8724e5d8ce4" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3>,
         <https://www.gov.uk/government/ministers/minister-of-state--112>,
         <https://www.gov.uk/government/ministers/minister-of-state--113>,
@@ -44,76 +44,77 @@
         <https://www.gov.uk/government/ministers/president-of-the-board-of-trade>,
         <https://www.gov.uk/government/ministers/secretary-of-state--2>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade> ;
+    govuk:contentId "b775b0fb-4a6c-40db-abc5-d8724e5d8ce4" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--112> ;
-    govuk:tenureEnd "2021-09-19"^^xsd:date ;
-    govuk:tenureStart "2021-09-16"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> ;
+    fm:tenureEnd "2022-07-06"^^xsd:date ;
+    fm:tenureStart "2021-09-15"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2021-09-15"^^xsd:date ;
-    govuk:tenureStart "2020-02-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    fm:tenureEnd "2021-09-15"^^xsd:date ;
+    fm:tenureStart "2020-02-13"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2022-10-25"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-children-and-young-families> ;
+    fm:tenureEnd "2020-02-13"^^xsd:date ;
+    fm:tenureStart "2019-07-27"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade> ;
-    govuk:tenureEnd "2023-02-07"^^xsd:date ;
-    govuk:tenureStart "2022-09-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-international-trade> ;
+    fm:tenureEnd "2023-02-07"^^xsd:date ;
+    fm:tenureStart "2022-09-06"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-children-and-young-families> ;
-    govuk:tenureEnd "2020-02-13"^^xsd:date ;
-    govuk:tenureStart "2019-07-27"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2023-02-07"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2023-02-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--112> ;
+    fm:tenureEnd "2021-09-19"^^xsd:date ;
+    fm:tenureStart "2021-09-16"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--113> ;
-    govuk:tenureEnd "2022-07-06"^^xsd:date ;
-    govuk:tenureStart "2021-09-19"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2022-10-25"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2023-02-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--113> ;
+    fm:tenureEnd "2022-07-06"^^xsd:date ;
+    fm:tenureStart "2021-09-19"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-equalities> ;
-    govuk:tenureEnd "2022-07-06"^^xsd:date ;
-    govuk:tenureStart "2021-09-15"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-for-equalities> ;
+    fm:tenureEnd "2021-09-15"^^xsd:date ;
+    fm:tenureStart "2020-02-14"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-for-equalities> ;
-    govuk:tenureEnd "2021-09-15"^^xsd:date ;
-    govuk:tenureStart "2020-02-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2023-02-07"^^xsd:date .
 

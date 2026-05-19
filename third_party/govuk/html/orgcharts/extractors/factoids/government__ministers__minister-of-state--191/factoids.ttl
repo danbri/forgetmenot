@@ -1,23 +1,24 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-transport> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--191> .
+<https://www.gov.uk/government/organisations/department-for-transport> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--191> .
 
 <https://www.gov.uk/government/people/lord-hendy-of-richmond-hill> schema1:name "Lord Hendy of Richmond Hill CBE"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--191> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--191> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--191> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--191> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-25T09:47:37+01:00" ;
     schema1:name "Minister of State (Minister for Rail)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--191> ;
-    govuk:contentId "0aede7ee-acfa-4b1f-975b-c6cecd9ecce2" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "London and TfL"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
+    fm:responsibility "London and TfL"@en,
         "light rail"@en,
         "rail"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/lord-hendy-of-richmond-hill> ;
+    fm:roleHolder <https://www.gov.uk/government/people/lord-hendy-of-richmond-hill> ;
+    govuk:contentId "0aede7ee-acfa-4b1f-975b-c6cecd9ecce2" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

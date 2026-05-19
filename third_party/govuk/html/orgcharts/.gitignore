@@ -1,6 +1,14 @@
-# Crawler output - the raw HTML cache. Re-creatable by running
+# Crawler output. Re-creatable by running:
 #   python3 scripts/govuk_crawl.py --resume
-# Extracted triples (extractors/) and the feeds index ARE committed.
-pages/
+# Extracted triples (extractors/) are always committed.
+#
+# By default, the raw HTML cache (pages/<slug>/page.html, ~50 KB each
+# × ~1,700 = ~85 MB) is gitignored to keep the repo small. The smaller
+# api.json files (typically 5-15 KB; the gov.uk Content API JSON) ARE
+# committed so an LLM verifier can audit the extractor against the same
+# structured data the script reads, with no re-fetch.
+
+pages/*/page.html
+pages/*/headers.json
 crawl.log
 state.json

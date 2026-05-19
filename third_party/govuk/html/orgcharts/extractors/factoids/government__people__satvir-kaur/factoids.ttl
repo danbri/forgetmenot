@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/satvir-kaur> .
+<https://www.gov.uk/government/organisations/cabinet-office> fm:hasMinister <https://www.gov.uk/government/people/satvir-kaur> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary--15> govuk:roleHolder <https://www.gov.uk/government/people/satvir-kaur> .
+<https://www.gov.uk/government/ministers/parliamentary-secretary--15> fm:roleHolder <https://www.gov.uk/government/people/satvir-kaur> .
 
 <https://www.gov.uk/government/people/satvir-kaur> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-02-28T20:29:20+00:00" ;
     schema1:description "Satvir Kaur was appointed Parliamentary Secretary in the Cabinet Office on 7 September 2025. She was elected as the MP for Southampton Test in July 2024."@en ;
     schema1:name "Satvir Kaur MP"@en ;
     schema1:url <https://www.gov.uk/government/people/satvir-kaur> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:currentRoleTitle "Parliamentary Secretary"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--15> ;
     govuk:contentId "d09ace38-e265-4336-8b3e-19a4eb0bfa0e" ;
-    govuk:currentRoleTitle "Parliamentary Secretary"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--15> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/satvir-kaur> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary--15> ;
-    govuk:tenureStart "2025-09-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/satvir-kaur> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-secretary--15> ;
+    fm:tenureStart "2025-09-07"^^xsd:date .
 

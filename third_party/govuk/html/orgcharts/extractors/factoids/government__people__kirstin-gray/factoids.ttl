@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-chemist> govuk:hasMinister <https://www.gov.uk/government/people/kirstin-gray> .
+<https://www.gov.uk/government/organisations/government-chemist> fm:hasMinister <https://www.gov.uk/government/people/kirstin-gray> .
 
 <https://www.gov.uk/government/people/kirstin-gray> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2014-07-17T15:48:47+01:00" ;
     schema1:description "Kirstin Gray joined the Government Chemist in 2009. She worked at Leatherhead Food Research Association, before joining LGC, a life sciences research and testing company, in 1999. She has more than 20 years’ experience providing analytical services to private and public sector customers."@en ;
     schema1:name "Kirstin Gray"@en ;
     schema1:url <https://www.gov.uk/government/people/kirstin-gray> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-chemist> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-chemist> ;
+    fm:currentRoleTitle "Analysis Manager"@en ;
     govuk:contentId "85405082-c0f1-11e4-8223-005056011aef" ;
-    govuk:currentRoleTitle "Analysis Manager"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

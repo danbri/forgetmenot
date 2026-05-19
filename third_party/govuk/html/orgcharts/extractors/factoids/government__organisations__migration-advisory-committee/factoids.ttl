@@ -1,18 +1,19 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/migration-advisory-committee> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-08-01T15:15:21+01:00" ;
     schema1:name "Migration Advisory Committee"@en ;
     schema1:url <https://www.gov.uk/government/organisations/migration-advisory-committee> ;
-    govuk:contentId "141baba8-f1c1-404d-9e3d-13db046e7b39" ;
-    govuk:hasManager <https://www.gov.uk/government/people/dina-kiwan>,
+    fm:hasManager <https://www.gov.uk/government/people/dina-kiwan>,
         <https://www.gov.uk/government/people/jo-swaffield>,
         <https://www.gov.uk/government/people/madeleine-sumption>,
         <https://www.gov.uk/government/people/sergi-pardos-prado> ;
+    govuk:contentId "141baba8-f1c1-404d-9e3d-13db046e7b39" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

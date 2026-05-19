@@ -1,20 +1,21 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/northern-ireland-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> .
+<https://www.gov.uk/government/organisations/northern-ireland-office> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> .
 
 <https://www.gov.uk/government/people/matthew-patrick> schema1:name "Matthew Patrick MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-07T15:57:26+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--297> ;
+    fm:partOf <https://www.gov.uk/government/organisations/northern-ireland-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/matthew-patrick> ;
     govuk:contentId "b0705070-d25c-4043-9264-9dec83a79595" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/northern-ireland-office> ;
     govuk:publishingApp "whitehall" ;
-    govuk:roleHolder <https://www.gov.uk/government/people/matthew-patrick> ;
     govuk:schemaName "role" .
 

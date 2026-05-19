@@ -140,7 +140,7 @@ def main(argv: list[str] | None = None) -> int:
         "",
         "@prefix owl:    <http://www.w3.org/2002/07/owl#> .",
         "@prefix parl:   <https://id.parliament.uk/schema/> .",
-        "@prefix fcdo:   <https://forgetmenot.local/fcdo#> .",
+        "@prefix fm:     <https://forgetmenot.local/vocab#> .",
         "",
     ]
     for b in sorted(bridge, key=lambda x: x["ukto_id"]):
@@ -151,7 +151,7 @@ def main(argv: list[str] | None = None) -> int:
             lines.append(f"  owl:sameAs <{b['parl_uri']}> ;")
         if b.get("parl_id"):
             lines.append(f'  parl:treatyId "{b["parl_id"]}" ;')
-        lines.append(f'  fcdo:commandPaper "{b["command_paper"]}" .')
+        lines.append(f'  fm:commandPaper "{b["command_paper"]}" .')
         lines.append("")
     out_ttl.write_text("\n".join(lines))
 

@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/dormant-assets-commission> govuk:hasMinister <https://www.gov.uk/government/people/sean-donovan-smith> .
+<https://www.gov.uk/government/organisations/dormant-assets-commission> fm:hasMinister <https://www.gov.uk/government/people/sean-donovan-smith> .
 
 <https://www.gov.uk/government/people/sean-donovan-smith> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2016-06-07T16:29:58+01:00" ;
     schema1:description "Sean Donovan-Smith is Head of the Investment Management and Funds Group for the London office of international law firm K&L Gates LLP."@en ;
     schema1:name "Sean Donovan-Smith"@en ;
     schema1:url <https://www.gov.uk/government/people/sean-donovan-smith> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
+    fm:currentRoleTitle "Dormant Assets Commissioner"@en ;
     govuk:contentId "67155d96-0ab8-4ae5-82b7-e3c960b4cf83" ;
-    govuk:currentRoleTitle "Dormant Assets Commissioner"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

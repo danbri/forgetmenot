@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasMinister <https://www.gov.uk/government/people/kelby-harmes> .
+<https://www.gov.uk/government/organisations/ministry-of-justice> fm:hasMinister <https://www.gov.uk/government/people/kelby-harmes> .
 
 <https://www.gov.uk/government/people/kelby-harmes> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-03-17T11:41:26+00:00" ;
     schema1:description "Kelby Harmes is Legal Director for the Ministry of Justice and a member of the senior leadership of the Government Legal Department."@en ;
     schema1:name "Kelby Harmes"@en ;
     schema1:url <https://www.gov.uk/government/people/kelby-harmes> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    fm:currentRoleTitle "Director Ministry of Justice Legal Advisers"@en ;
     govuk:contentId "f29c591c-3af9-4905-9a9b-b0d64fd50335" ;
-    govuk:currentRoleTitle "Director Ministry of Justice Legal Advisers"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

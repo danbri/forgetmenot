@@ -1,79 +1,80 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/anne-milton> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/anne-milton> .
 
-<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
+<https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> fm:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
 
-<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3> fm:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
 
-<https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
+<https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household> fm:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
 
-<https://www.gov.uk/government/ministers/minister-for-women> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
+<https://www.gov.uk/government/ministers/minister-for-women> fm:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--44> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
+<https://www.gov.uk/government/ministers/minister-of-state--44> fm:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-public-health> govuk:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-public-health> fm:previouslyHeldBy <https://www.gov.uk/government/people/anne-milton> .
 
 <https://www.gov.uk/government/people/anne-milton> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2019-11-06T00:10:19+00:00" ;
     schema1:description "Anne Milton was Minister of State at the Department for Education from 12 June 2017 to 23 July 2019. She was elected as MP for Guildford (revised boundary) in 2010."@en ;
     schema1:name "The Rt Hon Anne Milton"@en ;
     schema1:url <https://www.gov.uk/government/people/anne-milton> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "85293671-c0f1-11e4-8223-005056011aef" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2>,
         <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3>,
         <https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household>,
         <https://www.gov.uk/government/ministers/minister-for-women>,
         <https://www.gov.uk/government/ministers/minister-of-state--44>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-public-health> ;
+    govuk:contentId "85293671-c0f1-11e4-8223-005056011aef" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/anne-milton> ;
-    govuk:role <https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household> ;
-    govuk:tenureEnd "2015-05-11"^^xsd:date ;
-    govuk:tenureStart "2014-07-16"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/anne-milton> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--44> ;
+    fm:tenureEnd "2019-07-23"^^xsd:date ;
+    fm:tenureStart "2017-06-12"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/anne-milton> ;
-    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3> ;
-    govuk:tenureEnd "2014-07-16"^^xsd:date ;
-    govuk:tenureStart "2012-01-01"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/anne-milton> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-public-health> ;
+    fm:tenureEnd "2012-09-04"^^xsd:date ;
+    fm:tenureStart "2010-05-12"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/anne-milton> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-public-health> ;
-    govuk:tenureEnd "2012-09-04"^^xsd:date ;
-    govuk:tenureStart "2010-05-12"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/anne-milton> ;
+    fm:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--3> ;
+    fm:tenureEnd "2014-07-16"^^xsd:date ;
+    fm:tenureStart "2012-01-01"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/anne-milton> ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
-    govuk:tenureEnd "2017-06-12"^^xsd:date ;
-    govuk:tenureStart "2015-05-11"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/anne-milton> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women> ;
+    fm:tenureEnd "2018-01-09"^^xsd:date ;
+    fm:tenureStart "2017-06-12"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/anne-milton> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women> ;
-    govuk:tenureEnd "2018-01-09"^^xsd:date ;
-    govuk:tenureStart "2017-06-12"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/anne-milton> ;
+    fm:role <https://www.gov.uk/government/ministers/government-whip-vice-chamberlain-of-hm-household> ;
+    fm:tenureEnd "2015-05-11"^^xsd:date ;
+    fm:tenureStart "2014-07-16"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/anne-milton> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--44> ;
-    govuk:tenureEnd "2019-07-23"^^xsd:date ;
-    govuk:tenureStart "2017-06-12"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/anne-milton> ;
+    fm:role <https://www.gov.uk/government/ministers/deputy-chief-whip-comptroller-of-hm-household--2> ;
+    fm:tenureEnd "2017-06-12"^^xsd:date ;
+    fm:tenureStart "2015-05-11"^^xsd:date .
 

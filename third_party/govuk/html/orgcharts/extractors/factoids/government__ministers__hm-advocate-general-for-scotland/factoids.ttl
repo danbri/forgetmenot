@@ -1,12 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> govuk:hasRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> .
+<https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> fm:hasRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> .
 
 <https://www.gov.uk/government/people/catherine-smith> schema1:name "Baroness Smith of Cluny KC"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> .
 
 <https://www.gov.uk/government/people/keith-stewart> schema1:name "Lord Stewart of Dirleton KC"@en .
 
@@ -14,38 +15,38 @@
 
 <https://www.gov.uk/government/people/richard-keen> schema1:name "The Rt Hon Lord Keen of Elie KC"@en .
 
-<https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-03-24T15:36:01+00:00" ;
     schema1:name "HM Advocate General for Scotland"@en ;
     schema1:url <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
-    govuk:contentId "845e8426-c0f1-11e4-8223-005056011aef" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/keith-stewart>,
+    fm:partOf <https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> ;
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/keith-stewart>,
         <https://www.gov.uk/government/people/lord-wallace-of-tankerness>,
         <https://www.gov.uk/government/people/richard-keen> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Oversight of Schedule 6 to the Scotland Act 1998 relating to ‘devolution issues’ raised before courts or tribunals in Scotland"@en,
+    fm:responsibility "Oversight of Schedule 6 to the Scotland Act 1998 relating to ‘devolution issues’ raised before courts or tribunals in Scotland"@en,
         "The Advocate General can choose to intervene, on behalf of the UK government, in proceedings in which devolution issues have been raised if they so decide"@en,
         "The Office of the Advocate General considers all Scottish Parliament Bills as they progress, in consultation with interested UK government departments, to assess their legislative competency. Under section 33 of the Scotland Act, the Advocate General has the power to refer Scottish Parliament Bills to the Supreme Court for decisions on their legislative competence"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/catherine-smith> ;
+    fm:roleHolder <https://www.gov.uk/government/people/catherine-smith> ;
+    govuk:contentId "845e8426-c0f1-11e4-8223-005056011aef" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/keith-stewart> ;
-    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2020"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/lord-wallace-of-tankerness> ;
+    fm:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    fm:tenureEnd "2015"^^xsd:gYear ;
+    fm:tenureStart "2010"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/lord-wallace-of-tankerness> ;
-    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
-    govuk:tenureEnd "2015"^^xsd:gYear ;
-    govuk:tenureStart "2010"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/richard-keen> ;
+    fm:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    fm:tenureEnd "2020"^^xsd:gYear ;
+    fm:tenureStart "2015"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/richard-keen> ;
-    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
-    govuk:tenureEnd "2020"^^xsd:gYear ;
-    govuk:tenureStart "2015"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/keith-stewart> ;
+    fm:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    fm:tenureEnd "2024"^^xsd:gYear ;
+    fm:tenureStart "2020"^^xsd:gYear .
 

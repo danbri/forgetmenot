@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/ministry-of-defence> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--190> .
+<https://www.gov.uk/government/organisations/ministry-of-defence> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--190> .
 
 <https://www.gov.uk/government/people/lord-coaker> schema1:name "Lord Coaker"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--190> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--190> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--190> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--190> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-10T11:02:15+01:00" ;
     schema1:name "Minister of State (Minister for the House of Lords)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--190> ;
-    govuk:contentId "9269a463-ba4c-4adc-98db-4a25307cc687" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Defence Fire and Rescue"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    fm:responsibility "Defence Fire and Rescue"@en,
         "Defence Medical Services"@en,
         "Ministry of Defence Police"@en,
         "Royal Hospital Chelsea"@en,
@@ -30,6 +29,8 @@
         "professional military education"@en,
         "security and resilience"@en,
         "service records and legacy inquiries including Mull of Kintyre, Sir Galahad"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/lord-coaker> ;
+    fm:roleHolder <https://www.gov.uk/government/people/lord-coaker> ;
+    govuk:contentId "9269a463-ba4c-4adc-98db-4a25307cc687" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

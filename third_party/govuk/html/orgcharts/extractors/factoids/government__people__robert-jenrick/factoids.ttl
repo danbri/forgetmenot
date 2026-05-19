@@ -1,59 +1,60 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/robert-jenrick> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/robert-jenrick> .
 
-<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/robert-jenrick> .
+<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> fm:previouslyHeldBy <https://www.gov.uk/government/people/robert-jenrick> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--118> govuk:previouslyHeldBy <https://www.gov.uk/government/people/robert-jenrick> .
+<https://www.gov.uk/government/ministers/minister-of-state--118> fm:previouslyHeldBy <https://www.gov.uk/government/people/robert-jenrick> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--121> govuk:previouslyHeldBy <https://www.gov.uk/government/people/robert-jenrick> .
+<https://www.gov.uk/government/ministers/minister-of-state--121> fm:previouslyHeldBy <https://www.gov.uk/government/people/robert-jenrick> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government> govuk:previouslyHeldBy <https://www.gov.uk/government/people/robert-jenrick> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government> fm:previouslyHeldBy <https://www.gov.uk/government/people/robert-jenrick> .
 
 <https://www.gov.uk/government/people/robert-jenrick> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-15T16:42:30+01:00" ;
     schema1:description "Robert Jenrick was Minister of State (Minister for Immigration) at the Home Office between 25 October 2022 and 6 December 2023."@en ;
     schema1:name "The Rt Hon Robert Jenrick MP"@en ;
     schema1:url <https://www.gov.uk/government/people/robert-jenrick> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "8de0c213-6276-44cf-bb51-aafbbb695a27" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/minister-of-state--118>,
         <https://www.gov.uk/government/ministers/minister-of-state--121>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government> ;
+    govuk:contentId "8de0c213-6276-44cf-bb51-aafbbb695a27" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/robert-jenrick> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--118> ;
-    govuk:tenureEnd "2022-10-25"^^xsd:date ;
-    govuk:tenureStart "2022-09-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/robert-jenrick> ;
+    fm:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    fm:tenureEnd "2019-07-24"^^xsd:date ;
+    fm:tenureStart "2018-01-09"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/robert-jenrick> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government> ;
-    govuk:tenureEnd "2021-09-15"^^xsd:date ;
-    govuk:tenureStart "2019-07-24"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/robert-jenrick> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--118> ;
+    fm:tenureEnd "2022-10-25"^^xsd:date ;
+    fm:tenureStart "2022-09-07"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/robert-jenrick> ;
-    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2019-07-24"^^xsd:date ;
-    govuk:tenureStart "2018-01-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/robert-jenrick> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-and-local-government> ;
+    fm:tenureEnd "2021-09-15"^^xsd:date ;
+    fm:tenureStart "2019-07-24"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/robert-jenrick> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--121> ;
-    govuk:tenureEnd "2023-12-06"^^xsd:date ;
-    govuk:tenureStart "2022-10-25"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/robert-jenrick> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--121> ;
+    fm:tenureEnd "2023-12-06"^^xsd:date ;
+    fm:tenureStart "2022-10-25"^^xsd:date .
 

@@ -1,21 +1,22 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/oil-and-pipelines-agency> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-26T10:26:54+00:00" ;
     schema1:name "The Oil and Pipelines Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/oil-and-pipelines-agency> ;
-    govuk:contentId "fae8eb44-b6ce-4795-82f9-fc9a9058265a" ;
-    govuk:hasManager <https://www.gov.uk/government/people/adrian-jackson>,
+    fm:hasManager <https://www.gov.uk/government/people/adrian-jackson>,
         <https://www.gov.uk/government/people/ian-lindsay>,
         <https://www.gov.uk/government/people/lisa-england>,
         <https://www.gov.uk/government/people/mark-jessop>,
         <https://www.gov.uk/government/people/paul-grange>,
         <https://www.gov.uk/government/people/sue-jemmett>,
         <https://www.gov.uk/government/people/tim-backhouse> ;
+    govuk:contentId "fae8eb44-b6ce-4795-82f9-fc9a9058265a" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

@@ -1,38 +1,38 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/nadhim-zahawi> .
 
-<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> fm:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
 
-<https://www.gov.uk/government/ministers/minister-for-equalities> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/ministers/minister-for-equalities> fm:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
 
-<https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2> fm:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
 
-<https://www.gov.uk/government/ministers/minister-without-portfolio--7> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/ministers/minister-without-portfolio--7> fm:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> fm:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-children-and-young-families> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-children-and-young-families> fm:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-covid-vaccine-deployment> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-covid-vaccine-deployment> fm:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-education> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-education> fm:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
 
-<https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
+<https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> fm:previouslyHeldBy <https://www.gov.uk/government/people/nadhim-zahawi> .
 
 <https://www.gov.uk/government/people/nadhim-zahawi> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-05-30T00:01:13+01:00" ;
     schema1:description "He was previously Minister without Portfolio in the Cabinet Office from 25 October 2022 to 29 January 2023"@en ;
     schema1:name "The Rt Hon Nadhim Zahawi"@en ;
     schema1:url <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "732bef6c-79fd-4375-8b30-3a75148d9029" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster>,
         <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer>,
         <https://www.gov.uk/government/ministers/minister-for-equalities>,
         <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2>,
@@ -41,76 +41,77 @@
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-children-and-young-families>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-covid-vaccine-deployment>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:contentId "732bef6c-79fd-4375-8b30-3a75148d9029" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-covid-vaccine-deployment> ;
-    govuk:tenureEnd "2021-09-14"^^xsd:date ;
-    govuk:tenureStart "2020-11-28"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    fm:tenureEnd "2022-07-05"^^xsd:date ;
+    fm:tenureStart "2021-09-15"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-equalities> ;
+    fm:tenureEnd "2022-10-25"^^xsd:date ;
+    fm:tenureStart "2022-09-06"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
-    govuk:tenureEnd "2022-10-25"^^xsd:date ;
-    govuk:tenureStart "2022-09-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2> ;
+    fm:tenureEnd "2022-10-25"^^xsd:date ;
+    fm:tenureStart "2022-09-06"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-children-and-young-families> ;
-    govuk:tenureEnd "2019-07-25"^^xsd:date ;
-    govuk:tenureStart "2018-01-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    fm:tenureEnd "2022-10-25"^^xsd:date ;
+    fm:tenureStart "2022-09-06"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2022-07-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-covid-vaccine-deployment> ;
+    fm:tenureEnd "2021-09-14"^^xsd:date ;
+    fm:tenureStart "2020-11-28"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-equalities> ;
-    govuk:tenureEnd "2022-10-25"^^xsd:date ;
-    govuk:tenureStart "2022-09-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-without-portfolio--7> ;
+    fm:tenureEnd "2023-01-29"^^xsd:date ;
+    fm:tenureStart "2022-10-25"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-intergovernmental-relations--2> ;
-    govuk:tenureEnd "2022-10-25"^^xsd:date ;
-    govuk:tenureStart "2022-09-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> ;
+    fm:tenureEnd "2021-09-14"^^xsd:date ;
+    fm:tenureStart "2019-07-26"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> ;
-    govuk:tenureEnd "2021-09-14"^^xsd:date ;
-    govuk:tenureStart "2019-07-26"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-children-and-young-families> ;
+    fm:tenureEnd "2019-07-25"^^xsd:date ;
+    fm:tenureStart "2018-01-09"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
-    govuk:tenureEnd "2022-07-05"^^xsd:date ;
-    govuk:tenureStart "2021-09-15"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:proseExtracted true ;
+    fm:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-without-portfolio--7> ;
-    govuk:tenureEnd "2023-01-29"^^xsd:date ;
-    govuk:tenureStart "2022-10-25"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nadhim-zahawi> ;
+    fm:role <https://www.gov.uk/government/ministers/chancellor-of-the-exchequer> ;
+    fm:tenureEnd "2022-09-06"^^xsd:date ;
+    fm:tenureStart "2022-07-05"^^xsd:date .
 

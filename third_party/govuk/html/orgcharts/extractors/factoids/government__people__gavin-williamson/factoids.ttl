@@ -1,69 +1,70 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/gavin-williamson> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/gavin-williamson> .
 
-<https://www.gov.uk/government/ministers/defence-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
+<https://www.gov.uk/government/ministers/defence-secretary> fm:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--2> fm:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
+<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> fm:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-defence> govuk:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-defence> fm:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-education> govuk:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-education> fm:previouslyHeldBy <https://www.gov.uk/government/people/gavin-williamson> .
 
 <https://www.gov.uk/government/people/gavin-williamson> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-15T16:36:56+01:00" ;
     schema1:description "The Rt Hon Sir Gavin Williamson CBE was previously appointed Minister of State (Minister without Portfolio) at the Cabinet Office from 25 October 2022 to 8 November 2022."@en ;
     schema1:name "The Rt Hon Sir Gavin Williamson CBE MP"@en ;
     schema1:url <https://www.gov.uk/government/people/gavin-williamson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "e44c6f3d-4d6e-47a7-8baf-aac4ebc3403d" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/defence-secretary>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/defence-secretary>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--2>,
         <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-defence>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    govuk:contentId "e44c6f3d-4d6e-47a7-8baf-aac4ebc3403d" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/gavin-williamson> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
-    govuk:tenureEnd "2017-11-02"^^xsd:date ;
-    govuk:tenureStart "2016-07-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/gavin-williamson> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
+    fm:tenureEnd "2021-09-15"^^xsd:date ;
+    fm:tenureStart "2019-07-24"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/gavin-williamson> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/defence-secretary> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2017"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/gavin-williamson> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> ;
+    fm:tenureEnd "2019-05-01"^^xsd:date ;
+    fm:tenureStart "2017-11-02"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/gavin-williamson> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> ;
-    govuk:tenureEnd "2019-05-01"^^xsd:date ;
-    govuk:tenureStart "2017-11-02"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/gavin-williamson> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    fm:tenureEnd "2017-11-02"^^xsd:date ;
+    fm:tenureStart "2016-07-14"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/gavin-williamson> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--2> ;
-    govuk:tenureEnd "2022-11-08"^^xsd:date ;
-    govuk:tenureStart "2022-10-25"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/gavin-williamson> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--2> ;
+    fm:tenureEnd "2022-11-08"^^xsd:date ;
+    fm:tenureStart "2022-10-25"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/gavin-williamson> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-education> ;
-    govuk:tenureEnd "2021-09-15"^^xsd:date ;
-    govuk:tenureStart "2019-07-24"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/gavin-williamson> ;
+    fm:proseExtracted true ;
+    fm:role <https://www.gov.uk/government/ministers/defence-secretary> ;
+    fm:tenureEnd "2019"^^xsd:gYear ;
+    fm:tenureStart "2017"^^xsd:gYear .
 

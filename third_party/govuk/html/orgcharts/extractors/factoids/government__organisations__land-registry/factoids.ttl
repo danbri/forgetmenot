@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/land-registry> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-09T10:13:08+00:00" ;
     schema1:name "HM Land Registry"@en ;
     schema1:url <https://www.gov.uk/government/organisations/land-registry> ;
-    govuk:contentId "5c54ae52-341b-499e-a6dd-67f04633b8cf" ;
-    govuk:hasManager <https://www.gov.uk/government/people/abi-howarth>,
+    fm:hasManager <https://www.gov.uk/government/people/abi-howarth>,
         <https://www.gov.uk/government/people/angie-clarkson>,
         <https://www.gov.uk/government/people/ann-henshaw>,
         <https://www.gov.uk/government/people/caroline-crowther-and-charlotte-spencer>,
@@ -22,6 +22,7 @@
         <https://www.gov.uk/government/people/neil-sachdev>,
         <https://www.gov.uk/government/people/rommel-pereira>,
         <https://www.gov.uk/government/people/stephen-aynsley-smith> ;
+    govuk:contentId "5c54ae52-341b-499e-a6dd-67f04633b8cf" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

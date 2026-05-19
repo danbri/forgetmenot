@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> .
 
-<https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--12> govuk:roleHolder <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> .
+<https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--12> fm:roleHolder <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> .
 
 <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-02-10T12:02:17+00:00" ;
     schema1:description "Lord Wilson of Sedgefield was appointed Lord in Waiting (Government Whip) on 10 February 2025."@en ;
     schema1:name "Lord Wilson of Sedgefield"@en ;
     schema1:url <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:currentRoleTitle "Lord in Waiting (Government Whip)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--12> ;
     govuk:contentId "4d996f78-02a0-4c81-8cab-aed74e34293c" ;
-    govuk:currentRoleTitle "Lord in Waiting (Government Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--12> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--12> ;
-    govuk:tenureStart "2025-02-10"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/lord-wilson-of-sedgefield> ;
+    fm:role <https://www.gov.uk/government/ministers/lord-in-waiting-government-whip--12> ;
+    fm:tenureStart "2025-02-10"^^xsd:date .
 

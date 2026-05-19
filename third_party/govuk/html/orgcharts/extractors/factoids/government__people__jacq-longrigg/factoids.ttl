@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jacq-longrigg> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/jacq-longrigg> .
 
 <https://www.gov.uk/government/people/jacq-longrigg> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-02-02T08:43:30+00:00" ;
     schema1:description "Jacq Longrigg, NDA group People Development Director, joined the Nuclear Decommissioning Authority (NDA) in 2018. Jacq is an experienced HR and skills leader, with extensive knowledge and experience in the education, skills and nuclear sectors."@en ;
     schema1:name "Jacq Longrigg"@en ;
     schema1:url <https://www.gov.uk/government/people/jacq-longrigg> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:currentRoleTitle "Nuclear Waste Services NDA Non-Executive Director"@en ;
     govuk:contentId "364d73ff-373e-4806-b93b-2dc1c5b98352" ;
-    govuk:currentRoleTitle "Nuclear Waste Services NDA Non-Executive Director"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

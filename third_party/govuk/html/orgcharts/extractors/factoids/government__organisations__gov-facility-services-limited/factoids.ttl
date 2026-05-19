@@ -1,15 +1,16 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/gov-facility-services-limited> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2021-11-10T09:56:52+00:00" ;
     schema1:name "Gov Facility Services Limited"@en ;
     schema1:url <https://www.gov.uk/government/organisations/gov-facility-services-limited> ;
+    fm:hasManager <https://www.gov.uk/government/people/colin-allars> ;
     govuk:contentId "af425099-515f-4dcb-b411-430e6d3d66a6" ;
-    govuk:hasManager <https://www.gov.uk/government/people/colin-allars> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

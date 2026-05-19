@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/civil-nuclear-police-authority> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-05-26T14:34:15+01:00" ;
     schema1:name "Civil Nuclear Police Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/civil-nuclear-police-authority> ;
-    govuk:contentId "b0f55845-c93e-44d3-bf04-56261181a845" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alexander-macgill--2>,
+    fm:hasManager <https://www.gov.uk/government/people/alexander-macgill--2>,
         <https://www.gov.uk/government/people/alyson-armett--2>,
         <https://www.gov.uk/government/people/andrew-harvey>,
         <https://www.gov.uk/government/people/chris-pilgrim>,
@@ -18,6 +18,7 @@
         <https://www.gov.uk/government/people/pam-duerden--2>,
         <https://www.gov.uk/government/people/susan-johnson--2>,
         <https://www.gov.uk/government/people/tamya-kerr> ;
+    govuk:contentId "b0f55845-c93e-44d3-bf04-56261181a845" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

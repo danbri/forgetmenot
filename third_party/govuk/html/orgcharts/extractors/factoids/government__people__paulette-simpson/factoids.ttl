@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/windrush-commemoration-committee> govuk:hasMinister <https://www.gov.uk/government/people/paulette-simpson> .
+<https://www.gov.uk/government/organisations/windrush-commemoration-committee> fm:hasMinister <https://www.gov.uk/government/people/paulette-simpson> .
 
 <https://www.gov.uk/government/people/paulette-simpson> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2019-06-20T16:26:15+01:00" ;
     schema1:description "Paulette Simpson is the executive, corporate affairs and public policy at Jamaica National’s (JN) representative office in the United Kingdom (UK), and executive director of The Voice - Britain’s top black newspaper that has served the black community in the UK for 35 years."@en ;
     schema1:name "Paulette Simpson"@en ;
     schema1:url <https://www.gov.uk/government/people/paulette-simpson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/windrush-commemoration-committee> ;
+    fm:currentRoleTitle "Deputy Chair, Windrush Commemoration Committee"@en ;
     govuk:contentId "04a2ece1-f95c-4214-9b20-416286bc18de" ;
-    govuk:currentRoleTitle "Deputy Chair, Windrush Commemoration Committee"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

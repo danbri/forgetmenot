@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/john-corderoy> .
+<https://www.gov.uk/government/organisations/nuclear-waste-services> fm:hasMinister <https://www.gov.uk/government/people/john-corderoy> .
 
 <https://www.gov.uk/government/people/john-corderoy> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-07-27T14:43:41+01:00" ;
     schema1:description "John has been an integral part of our Geological Disposal Facility (GDF) programme since 2016. Before joining the programme, John was in the Royal Navy with a 30 year nuclear engineering career as a submariner. In his last Defence role he was the UK’s Director of Nuclear Propulsion; responsible for all aspects of designing, delivering and supporting a fleet of submarine reactor plants."@en ;
     schema1:name "John Corderoy"@en ;
     schema1:url <https://www.gov.uk/government/people/john-corderoy> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    fm:currentRoleTitle "Chief Technical Officer"@en ;
     govuk:contentId "eab84eb0-6a02-4d50-9644-0900e7b8cee7" ;
-    govuk:currentRoleTitle "Chief Technical Officer"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

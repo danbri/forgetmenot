@@ -1,23 +1,24 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276> .
+<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276> .
 
 <https://www.gov.uk/government/people/hamish-falconer> schema1:name "Hamish Falconer MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-26T15:02:36+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Middle East, North Africa, Afghanistan and Pakistan)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--276> ;
-    govuk:contentId "52252e20-7cdf-46d2-af00-f32d9dfac8ad" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Afghanistan and Pakistan"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    fm:responsibility "Afghanistan and Pakistan"@en,
         "Middle East and North Africa"@en,
         "consular and crisis"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/hamish-falconer> ;
+    fm:roleHolder <https://www.gov.uk/government/people/hamish-falconer> ;
+    govuk:contentId "52252e20-7cdf-46d2-af00-f32d9dfac8ad" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

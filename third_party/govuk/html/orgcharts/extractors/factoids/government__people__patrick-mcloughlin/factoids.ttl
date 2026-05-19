@@ -1,49 +1,50 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/patrick-mcloughlin> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/patrick-mcloughlin> .
 
-<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> govuk:previouslyHeldBy <https://www.gov.uk/government/people/patrick-mcloughlin> .
+<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> fm:previouslyHeldBy <https://www.gov.uk/government/people/patrick-mcloughlin> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/patrick-mcloughlin> .
+<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> fm:previouslyHeldBy <https://www.gov.uk/government/people/patrick-mcloughlin> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/patrick-mcloughlin> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> fm:previouslyHeldBy <https://www.gov.uk/government/people/patrick-mcloughlin> .
 
 <https://www.gov.uk/government/people/patrick-mcloughlin> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2019-11-06T00:10:11+00:00" ;
     schema1:description "Sir Patrick McLoughlin was appointed Chancellor of the Duchy of Lancaster on 14 July 2016. He was elected the Conservative MP for Derbyshire Dales in 2010."@en ;
     schema1:name "The Rt Hon Sir Patrick McLoughlin"@en ;
     schema1:url <https://www.gov.uk/government/people/patrick-mcloughlin> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "85292a36-c0f1-11e4-8223-005056011aef" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster>,
         <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    govuk:contentId "85292a36-c0f1-11e4-8223-005056011aef" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/patrick-mcloughlin> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
-    govuk:tenureEnd "2016-07-14"^^xsd:date ;
-    govuk:tenureStart "2012-09-04"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/patrick-mcloughlin> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    fm:tenureEnd "2016-07-14"^^xsd:date ;
+    fm:tenureStart "2012-09-04"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/patrick-mcloughlin> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
-    govuk:tenureEnd "2012-09-04"^^xsd:date ;
-    govuk:tenureStart "2010-05-12"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/patrick-mcloughlin> ;
+    fm:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    fm:tenureEnd "2018-01-08"^^xsd:date ;
+    fm:tenureStart "2016-07-14"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/patrick-mcloughlin> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
-    govuk:tenureEnd "2018-01-08"^^xsd:date ;
-    govuk:tenureStart "2016-07-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/patrick-mcloughlin> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    fm:tenureEnd "2012-09-04"^^xsd:date ;
+    fm:tenureStart "2010-05-12"^^xsd:date .
 

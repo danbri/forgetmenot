@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> .
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> .
 
 <https://www.gov.uk/government/people/samantha-dixon> schema1:name "Samantha Dixon MBE MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-15T10:40:54+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Building Safety, Fire and Democracy)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--289> ;
-    govuk:contentId "a7b372be-2476-4a22-a87c-aca0513831a2" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Building safety, regulations, Building Safety Regulator and remediation"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    fm:responsibility "Building safety, regulations, Building Safety Regulator and remediation"@en,
         "Elections policy"@en,
         "Fire policy and operations"@en,
         "Grenfell Community, Tower and Memorial"@en,
@@ -23,6 +22,8 @@
         "Net Zero and energy efficiency"@en,
         "Planning casework"@en,
         "Resilience, recovery, and emergencies"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/samantha-dixon> ;
+    fm:roleHolder <https://www.gov.uk/government/people/samantha-dixon> ;
+    govuk:contentId "a7b372be-2476-4a22-a87c-aca0513831a2" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

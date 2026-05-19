@@ -1,48 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> .
+<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> fm:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> .
 
 <https://www.gov.uk/government/people/liz-kendall> schema1:name "The Rt Hon Liz Kendall MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> .
 
 <https://www.gov.uk/government/people/peter-kyle> schema1:name "The Rt Hon Peter Kyle MP"@en .
 
 <https://www.gov.uk/government/people/michelle-donelan> schema1:name "The Rt Hon Michelle Donelan"@en .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-08T12:01:11+01:00" ;
     schema1:name "Secretary of State for Science, Innovation and Technology"@en ;
     schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
-    govuk:contentId "ea18a87c-95fa-44c0-b769-e0056c2b03bc" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/michelle-donelan>,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/michelle-donelan>,
         <https://www.gov.uk/government/people/peter-kyle> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Minister of State"@en,
+    fm:responsibility "Minister of State"@en,
         "Minister of State for Science, Research and Innovation"@en,
         "Parliamentary Under Secretary of State"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/liz-kendall> ;
+    fm:roleHolder <https://www.gov.uk/government/people/liz-kendall> ;
+    govuk:contentId "ea18a87c-95fa-44c0-b769-e0056c2b03bc" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/michelle-donelan> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2023"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/michelle-donelan> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
+    fm:tenureEnd "2023"^^xsd:gYear ;
+    fm:tenureStart "2023"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/michelle-donelan> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
-    govuk:tenureEnd "2023"^^xsd:gYear ;
-    govuk:tenureStart "2023"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/michelle-donelan> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
+    fm:tenureEnd "2024"^^xsd:gYear ;
+    fm:tenureStart "2023"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/peter-kyle> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/peter-kyle> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-science-innovation-and-technology> ;
+    fm:tenureEnd "2025"^^xsd:gYear ;
+    fm:tenureStart "2024"^^xsd:gYear .
 

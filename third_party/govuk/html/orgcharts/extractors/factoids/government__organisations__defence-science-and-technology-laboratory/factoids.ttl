@@ -1,21 +1,22 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-02-12T14:19:29+00:00" ;
     schema1:name "Defence Science and Technology Laboratory"@en ;
     schema1:url <https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory> ;
-    govuk:contentId "43b6c342-c6b7-4ef1-93d2-98f0a9130ccc" ;
-    govuk:hasManager <https://www.gov.uk/government/people/adrian-belton>,
+    fm:hasManager <https://www.gov.uk/government/people/adrian-belton>,
         <https://www.gov.uk/government/people/andy-bell>,
         <https://www.gov.uk/government/people/paul-hollinshead>,
         <https://www.gov.uk/government/people/rob-cocks>,
         <https://www.gov.uk/government/people/simon-donnan>,
         <https://www.gov.uk/government/people/teresa-stanley>,
         <https://www.gov.uk/government/people/tim-sheldon> ;
+    govuk:contentId "43b6c342-c6b7-4ef1-93d2-98f0a9130ccc" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

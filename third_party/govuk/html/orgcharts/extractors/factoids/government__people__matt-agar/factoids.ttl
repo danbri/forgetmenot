@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/building-digital-uk> govuk:hasMinister <https://www.gov.uk/government/people/matt-agar> .
+<https://www.gov.uk/government/organisations/building-digital-uk> fm:hasMinister <https://www.gov.uk/government/people/matt-agar> .
 
 <https://www.gov.uk/government/people/matt-agar> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-01-28T14:49:35+00:00" ;
     schema1:description "Matt Agar is Building Digital UK’s (BDUK’s) Strategy Director and is responsible for the strategy and design of Government’s delivery programmes for broadband connectivity, including Project Gigabit."@en ;
     schema1:name "Matt Agar"@en ;
     schema1:url <https://www.gov.uk/government/people/matt-agar> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/building-digital-uk> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/building-digital-uk> ;
+    fm:currentRoleTitle "Director for Analysis, Evaluation & Strategy"@en ;
     govuk:contentId "738d333a-aa0f-4e84-878c-77b59d927fe7" ;
-    govuk:currentRoleTitle "Director for Analysis, Evaluation & Strategy"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

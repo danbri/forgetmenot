@@ -1,20 +1,21 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--197> .
+<https://www.gov.uk/government/organisations/cabinet-office> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--197> .
 
 <https://www.gov.uk/government/people/darren-jones> schema1:name "The Rt Hon Darren Jones MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--197> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--197> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--197> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--197> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-06T11:43:59+01:00" ;
     schema1:name "Chief Secretary to the Prime Minister"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--197> ;
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/darren-jones> ;
     govuk:contentId "f2c14625-b821-4e5d-97ca-d49f187ea617" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
     govuk:publishingApp "whitehall" ;
-    govuk:roleHolder <https://www.gov.uk/government/people/darren-jones> ;
     govuk:schemaName "role" .
 

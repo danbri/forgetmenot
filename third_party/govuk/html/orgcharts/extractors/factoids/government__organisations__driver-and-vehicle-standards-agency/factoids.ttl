@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-05-30T11:30:03+01:00" ;
     schema1:name "Driver and Vehicle Standards Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/driver-and-vehicle-standards-agency> ;
-    govuk:contentId "d39237a5-678b-4bb5-a372-eb2cb036933d" ;
-    govuk:hasManager <https://www.gov.uk/government/people/beverley-warmington>,
+    fm:hasManager <https://www.gov.uk/government/people/beverley-warmington>,
         <https://www.gov.uk/government/people/carrie-dolan>,
         <https://www.gov.uk/government/people/clare-nichols>,
         <https://www.gov.uk/government/people/helen-aston>,
@@ -22,6 +22,7 @@
         <https://www.gov.uk/government/people/peter-hearn>,
         <https://www.gov.uk/government/people/richard-hennessy>,
         <https://www.gov.uk/government/people/tina-churcher> ;
+    govuk:contentId "d39237a5-678b-4bb5-a372-eb2cb036933d" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

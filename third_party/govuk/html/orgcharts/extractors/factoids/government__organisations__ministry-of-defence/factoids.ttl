@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/aneen-blackmore> a schema1:Person ;
@@ -34,64 +35,63 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/68ef82c52adc28a81b4ad0e5/s465_Rupert-Pearce.jpg> ;
     schema1:name "Rupert Pearce"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state--190> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--190> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for the House of Lords)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/lord-coaker> .
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    fm:roleHolder <https://www.gov.uk/government/people/lord-coaker> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--207> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--207> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Defence Readiness and Industry)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/luke-pollard> .
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    fm:roleHolder <https://www.gov.uk/government/people/luke-pollard> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--245> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--245> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for the Armed Forces)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/alistair-carns> .
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    fm:roleHolder <https://www.gov.uk/government/people/alistair-carns> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Veterans and People)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/louise-sandher-jones> .
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    fm:roleHolder <https://www.gov.uk/government/people/louise-sandher-jones> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-defence> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-defence> a fm:MinisterialRole ;
     schema1:name "Secretary of State for Defence"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/john-healey> .
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    fm:roleHolder <https://www.gov.uk/government/people/john-healey> .
 
 <https://www.gov.uk/government/people/alistair-carns> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668e9fc949b9c0597fdafa80/s465_Al-Carns-MP.jpg> ;
     schema1:name "Alistair Carns DSO OBE MC MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--245> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--245> .
 
 <https://www.gov.uk/government/people/john-healey> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668814444a94d44125d9cd99/s465_john-healey.jpg> ;
     schema1:name "The Rt Hon John Healey MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> .
 
 <https://www.gov.uk/government/people/lord-coaker> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668d31f4d9d35187868f4721/s465_Lord_Coaker_GOV-UK.jpg> ;
     schema1:name "Lord Coaker"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--190> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--190> .
 
 <https://www.gov.uk/government/people/louise-sandher-jones> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6911cb6aece74c08fbaa6401/s465_Louise_Sandher-Jones.jpg> ;
     schema1:name "Louise Sandher-Jones MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> .
 
 <https://www.gov.uk/government/people/luke-pollard> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668e9f1c49b9c0597fdafa7e/s465_Luke-Pollard-MP.jpg> ;
     schema1:name "Luke Pollard MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--207> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--207> .
 
 <https://www.gov.uk/government/organisations/ministry-of-defence> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-10T14:29:24+01:00" ;
     schema1:name "Ministry of Defence"@en ;
     schema1:url <https://www.gov.uk/government/organisations/ministry-of-defence> ;
-    govuk:contentId "d994e55c-48c9-4795-b872-58d8ec98af12" ;
-    govuk:hasManager <https://www.gov.uk/government/people/aneen-blackmore>,
+    fm:hasManager <https://www.gov.uk/government/people/aneen-blackmore>,
         <https://www.gov.uk/government/people/brian-gilvary>,
         <https://www.gov.uk/government/people/charlie-forte>,
         <https://www.gov.uk/government/people/jeremy-pocklington>,
@@ -99,16 +99,17 @@
         <https://www.gov.uk/government/people/madelaine-mcternan>,
         <https://www.gov.uk/government/people/robin-marshall>,
         <https://www.gov.uk/government/people/rupert-pearce> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/alistair-carns>,
+    fm:hasMinister <https://www.gov.uk/government/people/alistair-carns>,
         <https://www.gov.uk/government/people/john-healey>,
         <https://www.gov.uk/government/people/lord-coaker>,
         <https://www.gov.uk/government/people/louise-sandher-jones>,
         <https://www.gov.uk/government/people/luke-pollard> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--190>,
+    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--190>,
         <https://www.gov.uk/government/ministers/minister-of-state--207>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--245>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-defence> ;
+    govuk:contentId "d994e55c-48c9-4795-b872-58d8ec98af12" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

@@ -1,59 +1,60 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/james-cartlidge> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/james-cartlidge> .
 
-<https://www.gov.uk/government/ministers/assistant-government-whip--21> govuk:previouslyHeldBy <https://www.gov.uk/government/people/james-cartlidge> .
+<https://www.gov.uk/government/ministers/assistant-government-whip--21> fm:previouslyHeldBy <https://www.gov.uk/government/people/james-cartlidge> .
 
-<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/james-cartlidge> .
+<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> fm:previouslyHeldBy <https://www.gov.uk/government/people/james-cartlidge> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--141> govuk:previouslyHeldBy <https://www.gov.uk/government/people/james-cartlidge> .
+<https://www.gov.uk/government/ministers/minister-of-state--141> fm:previouslyHeldBy <https://www.gov.uk/government/people/james-cartlidge> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--149> govuk:previouslyHeldBy <https://www.gov.uk/government/people/james-cartlidge> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--149> fm:previouslyHeldBy <https://www.gov.uk/government/people/james-cartlidge> .
 
 <https://www.gov.uk/government/people/james-cartlidge> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-18T11:26:16+01:00" ;
     schema1:description "James Cartlidge was a Minister of State in the Ministry of Defence between 21 April 2023 and 5 July 2024. He was previously Exchequer Secretary to the Treasury from 28 October 2022 to 21 April 2023."@en ;
     schema1:name "James Cartlidge MP"@en ;
     schema1:url <https://www.gov.uk/government/people/james-cartlidge> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "224798a1-fc30-424d-85a7-72fe8df4b02b" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--21>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--21>,
         <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/minister-of-state--141>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--149> ;
+    govuk:contentId "224798a1-fc30-424d-85a7-72fe8df4b02b" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/james-cartlidge> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--141> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2023-04-21"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/james-cartlidge> ;
+    fm:role <https://www.gov.uk/government/ministers/assistant-government-whip--21> ;
+    fm:tenureEnd "2022-07-07"^^xsd:date ;
+    fm:tenureStart "2021-09-17"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/james-cartlidge> ;
-    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--21> ;
-    govuk:tenureEnd "2022-07-07"^^xsd:date ;
-    govuk:tenureStart "2021-09-17"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/james-cartlidge> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--141> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2023-04-21"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/james-cartlidge> ;
-    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2023-04-21"^^xsd:date ;
-    govuk:tenureStart "2022-10-28"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/james-cartlidge> ;
+    fm:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    fm:tenureEnd "2023-04-21"^^xsd:date ;
+    fm:tenureStart "2022-10-28"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/james-cartlidge> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--149> ;
-    govuk:tenureEnd "2022-07-07"^^xsd:date ;
-    govuk:tenureStart "2021-09-17"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/james-cartlidge> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--149> ;
+    fm:tenureEnd "2022-07-07"^^xsd:date ;
+    fm:tenureStart "2021-09-17"^^xsd:date .
 

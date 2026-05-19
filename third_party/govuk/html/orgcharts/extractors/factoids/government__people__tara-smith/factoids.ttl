@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-finance-function> govuk:hasMinister <https://www.gov.uk/government/people/tara-smith> .
+<https://www.gov.uk/government/organisations/government-finance-function> fm:hasMinister <https://www.gov.uk/government/people/tara-smith> .
 
 <https://www.gov.uk/government/people/tara-smith> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-04-26T12:29:22+01:00" ;
     schema1:description "Tara Smith is the Chief Operating Officer at the Home Office."@en ;
     schema1:name "Tara Smith"@en ;
     schema1:url <https://www.gov.uk/government/people/tara-smith> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-finance-function> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-finance-function> ;
+    fm:currentRoleTitle "Joint-Head of the Government Finance Function and Chief Operating Officer, Chief Operating Officer Group"@en ;
     govuk:contentId "174b5455-9aca-4175-bd48-f5e7477d75a2" ;
-    govuk:currentRoleTitle "Joint-Head of the Government Finance Function and Chief Operating Officer, Chief Operating Officer Group"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

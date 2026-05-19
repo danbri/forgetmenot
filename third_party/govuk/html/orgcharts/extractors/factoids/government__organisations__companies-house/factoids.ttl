@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/companies-house> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-24T12:46:46+01:00" ;
     schema1:name "Companies House"@en ;
     schema1:url <https://www.gov.uk/government/organisations/companies-house> ;
-    govuk:contentId "c36bd301-d0c5-4492-86ad-ee7843b8383b" ;
-    govuk:hasManager <https://www.gov.uk/government/people/andy-king>,
+    fm:hasManager <https://www.gov.uk/government/people/andy-king>,
         <https://www.gov.uk/government/people/carol-shutkever>,
         <https://www.gov.uk/government/people/charlie-boundy>,
         <https://www.gov.uk/government/people/chris-loake>,
@@ -26,6 +26,7 @@
         <https://www.gov.uk/government/people/sarah-whitehead>,
         <https://www.gov.uk/government/people/stuart-drake>,
         <https://www.gov.uk/government/people/tim-burt> ;
+    govuk:contentId "c36bd301-d0c5-4492-86ad-ee7843b8383b" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

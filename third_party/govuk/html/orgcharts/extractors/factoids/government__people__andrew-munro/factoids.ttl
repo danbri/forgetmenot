@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/andrew-munro> .
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> fm:hasMinister <https://www.gov.uk/government/people/andrew-munro> .
 
 <https://www.gov.uk/government/people/andrew-munro> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-05-01T09:58:29+01:00" ;
     schema1:description "Andrew began his career as a graduate at Magnox in the late 1990s. After a period in the private sector, he rejoined in 2019 as the Site Director at Harwell and Winfrith. Prior to this, Andrew worked for Rolls-Royce, where he held senior positions including Executive Vice President – UK Civil Nuclear, Vice President – Small Modular Reactors (SMR), and Operations Director. In these roles, he led business strategy and support services related to the existing UK reactor fleet, new nuclear build, and the defence sector."@en ;
     schema1:name "Andy Munro"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-munro> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    fm:currentRoleTitle "Managing Director NRS AGR & Paired Sites"@en ;
     govuk:contentId "65f82e1a-9710-4d9b-be58-0987b8bd1c3f" ;
-    govuk:currentRoleTitle "Managing Director NRS AGR & Paired Sites"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

@@ -1,20 +1,21 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> govuk:hasRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> .
+<https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> fm:hasRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> .
 
 <https://www.gov.uk/government/people/lord-collins-of-highbury> schema1:name "Lord Collins of Highbury"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> .
 
-<https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-10T10:57:36+01:00" ;
     schema1:name "Deputy Leader of the House of Lords"@en ;
     schema1:url <https://www.gov.uk/government/ministers/deputy-leader-of-the-house-of-lords--2> ;
+    fm:partOf <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
+    fm:roleHolder <https://www.gov.uk/government/people/lord-collins-of-highbury> ;
     govuk:contentId "d643c002-308a-45cd-bd2d-c07b6f2da764" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/office-of-the-leader-of-the-house-of-lords> ;
     govuk:publishingApp "whitehall" ;
-    govuk:roleHolder <https://www.gov.uk/government/people/lord-collins-of-highbury> ;
     govuk:schemaName "role" .
 

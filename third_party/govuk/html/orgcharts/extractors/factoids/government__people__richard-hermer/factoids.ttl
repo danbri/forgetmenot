@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/attorney-generals-office> govuk:hasMinister <https://www.gov.uk/government/people/richard-hermer> .
+<https://www.gov.uk/government/organisations/attorney-generals-office> fm:hasMinister <https://www.gov.uk/government/people/richard-hermer> .
 
-<https://www.gov.uk/government/ministers/attorney-general> govuk:roleHolder <https://www.gov.uk/government/people/richard-hermer> .
+<https://www.gov.uk/government/ministers/attorney-general> fm:roleHolder <https://www.gov.uk/government/people/richard-hermer> .
 
 <https://www.gov.uk/government/people/richard-hermer> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-08-02T13:30:58+01:00" ;
     schema1:description "Richard Hermer was appointed Attorney General on 5 July 2024."@en ;
     schema1:name "The Rt Hon Lord Hermer KC"@en ;
     schema1:url <https://www.gov.uk/government/people/richard-hermer> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/attorney-generals-office> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/attorney-generals-office> ;
+    fm:currentRoleTitle "Attorney General"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/attorney-general> ;
     govuk:contentId "35188c07-5c67-4433-950c-636b27e044aa" ;
-    govuk:currentRoleTitle "Attorney General"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/attorney-general> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/richard-hermer> ;
-    govuk:role <https://www.gov.uk/government/ministers/attorney-general> ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/richard-hermer> ;
+    fm:role <https://www.gov.uk/government/ministers/attorney-general> ;
+    fm:tenureStart "2024-07-05"^^xsd:date .
 

@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/uk-atomic-energy-authority> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-05-14T15:12:37+01:00" ;
     schema1:name "UK Atomic Energy Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-atomic-energy-authority> ;
-    govuk:contentId "bb4afa19-6b2f-4bf7-9725-22a259c90c73" ;
-    govuk:hasManager <https://www.gov.uk/government/people/bernard-taylor>,
+    fm:hasManager <https://www.gov.uk/government/people/bernard-taylor>,
         <https://www.gov.uk/government/people/claire-flint>,
         <https://www.gov.uk/government/people/heather-lewtas>,
         <https://www.gov.uk/government/people/justin-kingsford>,
@@ -22,6 +22,7 @@
         <https://www.gov.uk/government/people/stephen-hillier>,
         <https://www.gov.uk/government/people/sue-gray--2>,
         <https://www.gov.uk/government/people/tim-bestwick> ;
+    govuk:contentId "bb4afa19-6b2f-4bf7-9725-22a259c90c73" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

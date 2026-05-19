@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> govuk:hasMinister <https://www.gov.uk/government/people/liz-kendall.cy> .
+<https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> fm:hasMinister <https://www.gov.uk/government/people/liz-kendall.cy> .
 
 <https://www.gov.uk/government/people/liz-kendall.cy> a schema1:Person ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-06T15:03:28+01:00" ;
     schema1:name "The Rt Hon Liz Kendall MP"@en ;
     schema1:url <https://www.gov.uk/government/people/liz-kendall.cy> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-science-innovation-and-technology> ;
+    fm:currentRoleTitle "Secretary of State for Science, Innovation and Technology"@en ;
     govuk:contentId "54fcf58c-1a33-4e1a-8312-7c396cbad1e5" ;
-    govuk:currentRoleTitle "Secretary of State for Science, Innovation and Technology"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

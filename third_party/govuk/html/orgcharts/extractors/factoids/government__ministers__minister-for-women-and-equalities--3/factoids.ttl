@@ -1,18 +1,19 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
+<https://www.gov.uk/government/organisations/department-for-education> fm:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
 
-<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> fm:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
 
-<https://www.gov.uk/government/organisations/race-equality-unit> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
+<https://www.gov.uk/government/organisations/race-equality-unit> fm:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
 
-<https://www.gov.uk/government/organisations/women-and-equalities-unit> govuk:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
+<https://www.gov.uk/government/organisations/women-and-equalities-unit> fm:hasRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
 
 <https://www.gov.uk/government/people/bridget-phillipson> schema1:name "The Rt Hon Bridget Phillipson MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> .
 
 <https://www.gov.uk/government/people/elizabeth-truss> schema1:name "The Rt Hon Elizabeth Truss"@en .
 
@@ -26,69 +27,69 @@
 
 <https://www.gov.uk/government/people/amber-rudd> schema1:name "The Rt Hon Amber Rudd"@en .
 
-<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-10-09T14:43:36+01:00" ;
     schema1:name "Minister for Women and Equalities"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:contentId "84753907-c0f1-11e4-8223-005056011aef" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-education>,
         <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity>,
         <https://www.gov.uk/government/organisations/race-equality-unit>,
         <https://www.gov.uk/government/organisations/women-and-equalities-unit> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/amber-rudd>,
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/amber-rudd>,
         <https://www.gov.uk/government/people/elizabeth-truss>,
         <https://www.gov.uk/government/people/justine-greening>,
         <https://www.gov.uk/government/people/kemi-badenoch>,
         <https://www.gov.uk/government/people/nicky-morgan>,
         <https://www.gov.uk/government/people/penny-mordaunt> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "overall sponsorship of the Social Mobility Commission and Equality and Human Rights Commission"@en,
+    fm:responsibility "overall sponsorship of the Social Mobility Commission and Equality and Human Rights Commission"@en,
         "overview of the overarching equalities legislative framework"@en,
         "promoting equality of opportunity for everyone, and reducing negative disparities"@en,
         "strategic oversight of the government’s equality policy, for women, ethnicity, disability and LGBT+"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/bridget-phillipson> ;
+    fm:roleHolder <https://www.gov.uk/government/people/bridget-phillipson> ;
+    govuk:contentId "84753907-c0f1-11e4-8223-005056011aef" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/penny-mordaunt> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2018"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/justine-greening> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    fm:tenureEnd "2018"^^xsd:gYear ;
+    fm:tenureStart "2016"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/nicky-morgan> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    fm:tenureEnd "2016"^^xsd:gYear ;
+    fm:tenureStart "2014"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2019"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/amber-rudd> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2018"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/kemi-badenoch> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    fm:tenureEnd "2024"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/nicky-morgan> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2014"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/amber-rudd> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    fm:tenureEnd "2018"^^xsd:gYear ;
+    fm:tenureStart "2018"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/penny-mordaunt> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    fm:tenureEnd "2019"^^xsd:gYear ;
+    fm:tenureStart "2018"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/justine-greening> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/amber-rudd> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-women-and-equalities--3> ;
+    fm:tenureEnd "2019"^^xsd:gYear ;
+    fm:tenureStart "2019"^^xsd:gYear .
 

@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> govuk:hasMinister <https://www.gov.uk/government/people/alan-whitehead> .
+<https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> fm:hasMinister <https://www.gov.uk/government/people/alan-whitehead> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> govuk:roleHolder <https://www.gov.uk/government/people/alan-whitehead> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> fm:roleHolder <https://www.gov.uk/government/people/alan-whitehead> .
 
 <https://www.gov.uk/government/people/alan-whitehead> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-12-05T17:07:09+00:00" ;
     schema1:description "Dr Alan Whitehead CBE was appointed as a Minister of State in the Department for Energy Security and Net Zero on 11 November 2025."@en ;
     schema1:name "Dr Alan Whitehead CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/alan-whitehead> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-energy-security-and-net-zero> ;
+    fm:currentRoleTitle "Minister of State (Minister for Energy Security and Net Zero)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
     govuk:contentId "134786ed-8489-4a5a-8323-d4453ccfb5e6" ;
-    govuk:currentRoleTitle "Minister of State (Minister for Energy Security and Net Zero)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/alan-whitehead> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
-    govuk:tenureStart "2025-11-11"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/alan-whitehead> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-energy-security-and-net-zero> ;
+    fm:tenureStart "2025-11-11"^^xsd:date .
 

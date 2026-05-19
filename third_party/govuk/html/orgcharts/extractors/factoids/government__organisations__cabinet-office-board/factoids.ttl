@@ -1,31 +1,32 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/cat-little> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66dac77ee87ad2f121826545/s465_Untitled.jpg> ;
     schema1:name "Catherine Little CB"@en .
 
-<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> a fm:MinisterialRole ;
     schema1:name "Chancellor of the Duchy of Lancaster"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office-board> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/darren-jones> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office-board> ;
+    fm:roleHolder <https://www.gov.uk/government/people/darren-jones> .
 
 <https://www.gov.uk/government/organisations/cabinet-office-board> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-01-04T11:35:24+00:00" ;
     schema1:name "Cabinet Office Board"@en ;
     schema1:url <https://www.gov.uk/government/organisations/cabinet-office-board> ;
+    fm:hasManager <https://www.gov.uk/government/people/cat-little> ;
+    fm:hasMinister <https://www.gov.uk/government/people/darren-jones> ;
+    fm:hasRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
     govuk:contentId "746822e7-8fe8-4a6f-89fc-2b3bd3e0dab8" ;
-    govuk:hasManager <https://www.gov.uk/government/people/cat-little> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/darren-jones> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 
 <https://www.gov.uk/government/people/darren-jones> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668843eb4a94d44125d9cdbf/s465_darren-jones.jpg> ;
     schema1:name "The Rt Hon Darren Jones MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> .
 

@@ -1,16 +1,17 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/parole-board> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-07-23T17:15:41+01:00" ;
     schema1:name "Parole Board"@en ;
     schema1:url <https://www.gov.uk/government/organisations/parole-board> ;
-    govuk:contentId "6c16969d-d8df-4580-aa3b-6e6982f62cd5" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alexandra-marks-cbe>,
+    fm:hasManager <https://www.gov.uk/government/people/alexandra-marks-cbe>,
         <https://www.gov.uk/government/people/martin-jones> ;
+    govuk:contentId "6c16969d-d8df-4580-aa3b-6e6982f62cd5" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

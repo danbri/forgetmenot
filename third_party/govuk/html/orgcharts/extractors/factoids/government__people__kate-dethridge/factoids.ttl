@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> govuk:hasMinister <https://www.gov.uk/government/people/kate-dethridge> .
+<https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> fm:hasMinister <https://www.gov.uk/government/people/kate-dethridge> .
 
 <https://www.gov.uk/government/people/kate-dethridge> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2022-09-05T18:21:29+01:00" ;
     schema1:description "Dame Kate Dethridge started in her role as Regional Director for South East in September 2022."@en ;
     schema1:name "Dame Kate Dethridge"@en ;
     schema1:url <https://www.gov.uk/government/people/kate-dethridge> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
+    fm:currentRoleTitle "Regional Director for South East"@en ;
     govuk:contentId "6df90660-62cf-4661-97b3-f2eb3e2d5690" ;
-    govuk:currentRoleTitle "Regional Director for South East"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

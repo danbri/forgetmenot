@@ -1,30 +1,31 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-secretary--16> .
+<https://www.gov.uk/government/organisations/cabinet-office> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-secretary--16> .
 
 <https://www.gov.uk/government/people/james-frith> schema1:name "James Frith MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--16> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--16> .
 
 <https://www.gov.uk/government/people/josh-simons> schema1:name "Josh Simons MP"@en .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary--16> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-secretary--16> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-04T15:54:32+00:00" ;
     schema1:name "Parliamentary Secretary"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-secretary--16> ;
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/josh-simons> ;
+    fm:roleHolder <https://www.gov.uk/government/people/james-frith> ;
     govuk:contentId "5c135334-1981-4890-835a-98622e19aa42" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/josh-simons> ;
     govuk:publishingApp "whitehall" ;
-    govuk:roleHolder <https://www.gov.uk/government/people/james-frith> ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/josh-simons> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary--16> ;
-    govuk:tenureEnd "2026"^^xsd:gYear ;
-    govuk:tenureStart "2025"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/josh-simons> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-secretary--16> ;
+    fm:tenureEnd "2026"^^xsd:gYear ;
+    fm:tenureStart "2025"^^xsd:gYear .
 

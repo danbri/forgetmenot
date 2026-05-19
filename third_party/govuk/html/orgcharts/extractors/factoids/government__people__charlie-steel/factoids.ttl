@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasMinister <https://www.gov.uk/government/people/charlie-steel> .
+<https://www.gov.uk/government/organisations/department-for-work-pensions> fm:hasMinister <https://www.gov.uk/government/people/charlie-steel> .
 
 <https://www.gov.uk/government/people/charlie-steel> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-07-01T12:52:28+01:00" ;
     schema1:description "Charlie is Group Chief Financial Officer and Board member of International Workplace Group Plc, the world’s largest office provider with its Regus and Spaces brands across 120 countries, employing 10,000+ people and a member of the UK’s FTSE 250 index. He is also a Non-Executive Board Member of AICPA-CIMA, the largest accounting body globally."@en ;
     schema1:name "Charlie Steel"@en ;
     schema1:url <https://www.gov.uk/government/people/charlie-steel> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    fm:currentRoleTitle "Non-executive board member"@en ;
     govuk:contentId "2e1a439d-2d52-4fca-b256-492341e4a52a" ;
-    govuk:currentRoleTitle "Non-executive board member"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

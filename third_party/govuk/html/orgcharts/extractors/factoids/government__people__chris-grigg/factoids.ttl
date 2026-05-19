@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/chris-grigg> .
+<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> fm:hasMinister <https://www.gov.uk/government/people/chris-grigg> .
 
 <https://www.gov.uk/government/people/chris-grigg> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-06-06T16:21:53+01:00" ;
     schema1:description "Chris Grigg is Chair of the National Wealth Fund and of Evelyn Partners, the wealth management company. He was also appointed non-executive Chair for Melrose plc, the aerospace company, in March 2025."@en ;
     schema1:name "Chris Grigg CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/chris-grigg> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    fm:currentRoleTitle "Industrial Strategy Advisory Council member"@en ;
     govuk:contentId "63a0a631-2cf2-43b0-b17b-cd059cd8ec4d" ;
-    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

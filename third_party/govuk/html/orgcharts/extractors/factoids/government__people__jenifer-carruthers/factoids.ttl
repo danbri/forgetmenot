@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/jenifer-carruthers> .
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> fm:hasMinister <https://www.gov.uk/government/people/jenifer-carruthers> .
 
 <https://www.gov.uk/government/people/jenifer-carruthers> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-05-01T09:56:06+01:00" ;
     schema1:description "Jennifer supports the strategic direction of the Nuclear Restoration Services (NRS) delivery business units. She is well-acquainted with NRS, having served as a non-executive director on the NRS Board and beginning her career at Berkeley. Jennifer joined Magnox Electric in the 1990s as Berkeley’s graduate structural and civil engineer, eventually working at each of the company’s nuclear power stations."@en ;
     schema1:name "Jenifer Carruthers"@en ;
     schema1:url <https://www.gov.uk/government/people/jenifer-carruthers> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    fm:currentRoleTitle "P3M & Strategy Director"@en ;
     govuk:contentId "985d7412-dbb7-45a5-a8f6-f739500dfc23" ;
-    govuk:currentRoleTitle "P3M & Strategy Director"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

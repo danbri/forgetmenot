@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> .
+<https://www.gov.uk/government/organisations/department-for-business-and-trade> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> .
 
 <https://www.gov.uk/government/people/blair-mcdougall> schema1:name "Blair McDougall MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-11-13T14:58:36+00:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Small Business and Economic Transformation)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> ;
-    govuk:contentId "a6523e99-ec11-494f-8804-e92a735dfddc" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "British Business Bank"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:responsibility "British Business Bank"@en,
         "Companies House"@en,
         "Financial Reporting Council"@en,
         "Industrial Strategy Council"@en,
@@ -33,6 +32,8 @@
         "postal services"@en,
         "regulation"@en,
         "scale-ups"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/blair-mcdougall> ;
+    fm:roleHolder <https://www.gov.uk/government/people/blair-mcdougall> ;
+    govuk:contentId "a6523e99-ec11-494f-8804-e92a735dfddc" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

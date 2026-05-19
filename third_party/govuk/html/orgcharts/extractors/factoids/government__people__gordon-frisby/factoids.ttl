@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/nuclear-restoration-services> govuk:hasMinister <https://www.gov.uk/government/people/gordon-frisby> .
+<https://www.gov.uk/government/organisations/nuclear-restoration-services> fm:hasMinister <https://www.gov.uk/government/people/gordon-frisby> .
 
 <https://www.gov.uk/government/people/gordon-frisby> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-05-01T09:57:02+01:00" ;
     schema1:description "Gordon Frisby is an accomplished global Finance Director with over 25 years of senior management experience."@en ;
     schema1:name "Gordon Frisby"@en ;
     schema1:url <https://www.gov.uk/government/people/gordon-frisby> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-restoration-services> ;
+    fm:currentRoleTitle "Chief Financial Officer and Chief Financial Officer & Board Member"@en ;
     govuk:contentId "c0f7f647-e4e6-436b-b7c6-193c277a1673" ;
-    govuk:currentRoleTitle "Chief Financial Officer and Chief Financial Officer & Board Member"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

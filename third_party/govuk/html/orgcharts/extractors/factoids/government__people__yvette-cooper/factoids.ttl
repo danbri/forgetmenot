@@ -1,59 +1,60 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> govuk:hasMinister <https://www.gov.uk/government/people/yvette-cooper> .
+<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> fm:hasMinister <https://www.gov.uk/government/people/yvette-cooper> .
 
-<https://www.gov.uk/government/ministers/foreign-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/yvette-cooper> .
+<https://www.gov.uk/government/ministers/foreign-secretary> fm:previouslyHeldBy <https://www.gov.uk/government/people/yvette-cooper> .
 
-<https://www.gov.uk/government/ministers/home-secretary> govuk:previouslyHeldBy <https://www.gov.uk/government/people/yvette-cooper> .
+<https://www.gov.uk/government/ministers/home-secretary> fm:previouslyHeldBy <https://www.gov.uk/government/people/yvette-cooper> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> govuk:roleHolder <https://www.gov.uk/government/people/yvette-cooper> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> fm:roleHolder <https://www.gov.uk/government/people/yvette-cooper> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> govuk:previouslyHeldBy <https://www.gov.uk/government/people/yvette-cooper> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> fm:previouslyHeldBy <https://www.gov.uk/government/people/yvette-cooper> .
 
 <https://www.gov.uk/government/people/yvette-cooper> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-05T17:44:53+01:00" ;
     schema1:description "Yvette Cooper was appointed Secretary of State for Foreign, Commonwealth and Development Affairs on 5 September 2025. She was previously Secretary of State for the Home Department from 5 July 2024 to 5 September 2025."@en ;
     schema1:name "The Rt Hon Yvette Cooper MP"@en ;
     schema1:url <https://www.gov.uk/government/people/yvette-cooper> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
-    govuk:contentId "e3145327-542d-43d8-9c4e-f6908f265478" ;
-    govuk:currentRoleTitle "Secretary of State for Foreign, Commonwealth and Development Affairs"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/foreign-secretary>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    fm:currentRoleTitle "Secretary of State for Foreign, Commonwealth and Development Affairs"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/foreign-secretary>,
         <https://www.gov.uk/government/ministers/home-secretary>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    govuk:contentId "e3145327-542d-43d8-9c4e-f6908f265478" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
-    govuk:tenureEnd "2025-09-05"^^xsd:date ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/yvette-cooper> ;
+    fm:proseExtracted true ;
+    fm:role <https://www.gov.uk/government/ministers/home-secretary> ;
+    fm:tenureEnd "2025"^^xsd:gYear ;
+    fm:tenureStart "2024"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/yvette-cooper> ;
+    fm:proseExtracted true ;
+    fm:role <https://www.gov.uk/government/ministers/foreign-secretary> ;
+    fm:tenureEnd "2025"^^xsd:gYear ;
+    fm:tenureStart "2024"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
-    govuk:tenureStart "2025-09-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/yvette-cooper> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-foreign-commonwealth-and-development-affairs> ;
+    fm:tenureStart "2025-09-05"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/yvette-cooper> ;
-    govuk:proseExtracted true ;
-    govuk:role <https://www.gov.uk/government/ministers/home-secretary> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/yvette-cooper> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-the-home-department> ;
+    fm:tenureEnd "2025-09-05"^^xsd:date ;
+    fm:tenureStart "2024-07-05"^^xsd:date .
 

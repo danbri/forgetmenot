@@ -1,16 +1,17 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/wales-office.cy> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295.cy> .
+<https://www.gov.uk/government/organisations/wales-office.cy> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295.cy> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295.cy> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295.cy> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-12T10:59:47+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295.cy> ;
+    fm:partOf <https://www.gov.uk/government/organisations/wales-office.cy> ;
     govuk:contentId "90eb5f8d-2165-4d9a-b33e-07da6318c3e7" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/wales-office.cy> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

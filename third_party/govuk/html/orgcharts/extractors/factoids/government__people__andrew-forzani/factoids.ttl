@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/andrew-forzani> .
+<https://www.gov.uk/government/organisations/cabinet-office> fm:hasMinister <https://www.gov.uk/government/people/andrew-forzani> .
 
 <https://www.gov.uk/government/people/andrew-forzani> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-03-11T12:14:56+00:00" ;
     schema1:description "Andrew brings experience of over 30 years in commercial, procurement and supply chain management to the role of GCCO as he leads the cross-government commercial community to deliver the Plan for Change."@en ;
     schema1:name "Andrew Forzani"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-forzani> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:currentRoleTitle "Government Chief Commercial Officer and Non-Executive Chair, Government Commercial Agency"@en ;
     govuk:contentId "2248ccef-fec2-4f08-bad3-2b2b57ecb3e8" ;
-    govuk:currentRoleTitle "Government Chief Commercial Officer and Non-Executive Chair, Government Commercial Agency"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

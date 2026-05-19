@@ -1,48 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/wales-office> govuk:hasMinister <https://www.gov.uk/government/people/claire-hughes--2> .
+<https://www.gov.uk/government/organisations/wales-office> fm:hasMinister <https://www.gov.uk/government/people/claire-hughes--2> .
 
-<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--15> govuk:roleHolder <https://www.gov.uk/government/people/claire-hughes--2> .
+<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--15> fm:roleHolder <https://www.gov.uk/government/people/claire-hughes--2> .
 
-<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--7> govuk:previouslyHeldBy <https://www.gov.uk/government/people/claire-hughes--2> .
+<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--7> fm:previouslyHeldBy <https://www.gov.uk/government/people/claire-hughes--2> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--305> govuk:roleHolder <https://www.gov.uk/government/people/claire-hughes--2> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--305> fm:roleHolder <https://www.gov.uk/government/people/claire-hughes--2> .
 
 <https://www.gov.uk/government/people/claire-hughes--2> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-17T13:59:38+01:00" ;
     schema1:description "Claire Hughes was appointed Parliamentary Under-Secretary of State in the Wales Office and Assistant Whip, House of Commons on 16 September 2025."@en ;
     schema1:name "Claire Hughes MP"@en ;
     schema1:url <https://www.gov.uk/government/people/claire-hughes--2> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/wales-office> ;
-    govuk:contentId "9edcf786-cb43-4b6c-8b75-fb67c12b95cb" ;
-    govuk:currentRoleTitle "Parliamentary Under-Secretary of State and Assistant Whip, House of Commons"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--15>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/wales-office> ;
+    fm:currentRoleTitle "Parliamentary Under-Secretary of State and Assistant Whip, House of Commons"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--15>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--305> ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--7> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--7> ;
+    govuk:contentId "9edcf786-cb43-4b6c-8b75-fb67c12b95cb" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/claire-hughes--2> ;
-    govuk:role <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--15> ;
-    govuk:tenureStart "2025-09-16"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/claire-hughes--2> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--305> ;
+    fm:tenureStart "2025-09-16"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/claire-hughes--2> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--305> ;
-    govuk:tenureStart "2025-09-16"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/claire-hughes--2> ;
+    fm:role <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--7> ;
+    fm:tenureEnd "2025-09-16"^^xsd:date ;
+    fm:tenureStart "2025-09-08"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/claire-hughes--2> ;
-    govuk:role <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--7> ;
-    govuk:tenureEnd "2025-09-16"^^xsd:date ;
-    govuk:tenureStart "2025-09-08"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/claire-hughes--2> ;
+    fm:role <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--15> ;
+    fm:tenureStart "2025-09-16"^^xsd:date .
 

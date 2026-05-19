@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272> .
+<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272> .
 
 <https://www.gov.uk/government/people/baroness-hayman-of-ullock> schema1:name "Baroness Hayman of Ullock"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-23T17:15:27+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Biosecurity, Borders and Animals)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--272> ;
-    govuk:contentId "72febf00-97a6-41d2-bde0-265e7de1c643" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Northern Ireland – Windsor Framework"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    fm:responsibility "Northern Ireland – Windsor Framework"@en,
         "One Health"@en,
         "access (including rights of way and coastal paths)"@en,
         "animal welfare"@en,
@@ -23,6 +22,8 @@
         "borders"@en,
         "lead for Animal and Plant Health Agency"@en,
         "lead for Veterinary Medicines Directorate"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/baroness-hayman-of-ullock> ;
+    fm:roleHolder <https://www.gov.uk/government/people/baroness-hayman-of-ullock> ;
+    govuk:contentId "72febf00-97a6-41d2-bde0-265e7de1c643" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

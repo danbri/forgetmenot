@@ -1,16 +1,17 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/great-british-energy-nuclear> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-06-10T09:30:34+01:00" ;
     schema1:name "Great British Energy – Nuclear"@en ;
     schema1:url <https://www.gov.uk/government/organisations/great-british-energy-nuclear> ;
-    govuk:contentId "1c2df800-ce5f-453d-861b-fb6e46b0ae49" ;
-    govuk:hasManager <https://www.gov.uk/government/people/simon-bowen>,
+    fm:hasManager <https://www.gov.uk/government/people/simon-bowen>,
         <https://www.gov.uk/government/people/simon-roddy> ;
+    govuk:contentId "1c2df800-ce5f-453d-861b-fb6e46b0ae49" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

@@ -1,89 +1,90 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/jesse-norman> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/jesse-norman> .
 
-<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
+<https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> fm:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--146> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
+<https://www.gov.uk/government/ministers/minister-of-state--146> fm:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--57> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
+<https://www.gov.uk/government/ministers/minister-of-state--57> fm:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-americas> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-americas> fm:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> fm:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport> fm:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
 
-<https://www.gov.uk/government/ministers/paymaster-general> govuk:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
+<https://www.gov.uk/government/ministers/paymaster-general> fm:previouslyHeldBy <https://www.gov.uk/government/people/jesse-norman> .
 
 <https://www.gov.uk/government/people/jesse-norman> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-15T16:41:21+01:00" ;
     schema1:description "Jesse Norman was Minister of State in the Department for Transport between 26 October 2022 and 13 November 2023."@en ;
     schema1:name "The Rt Hon Jesse Norman MP"@en ;
     schema1:url <https://www.gov.uk/government/people/jesse-norman> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "4f980ba2-436f-44fa-ad6f-15e6ac4d6c4b" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/minister-of-state--146>,
         <https://www.gov.uk/government/ministers/minister-of-state--57>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-americas>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport>,
         <https://www.gov.uk/government/ministers/paymaster-general> ;
+    govuk:contentId "4f980ba2-436f-44fa-ad6f-15e6ac4d6c4b" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport> ;
-    govuk:tenureEnd "2018-11-12"^^xsd:date ;
-    govuk:tenureStart "2017-06-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/jesse-norman> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-americas> ;
+    fm:tenureEnd "2022-10-26"^^xsd:date ;
+    fm:tenureStart "2022-09-07"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--57> ;
-    govuk:tenureEnd "2019-05-23"^^xsd:date ;
-    govuk:tenureStart "2018-11-12"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/jesse-norman> ;
+    fm:role <https://www.gov.uk/government/ministers/paymaster-general> ;
+    fm:tenureEnd "2019-07-24"^^xsd:date ;
+    fm:tenureStart "2019-05-23"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> ;
-    govuk:tenureEnd "2017-06-14"^^xsd:date ;
-    govuk:tenureStart "2016-07-18"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/jesse-norman> ;
+    fm:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
+    fm:tenureEnd "2021-09-15"^^xsd:date ;
+    fm:tenureStart "2019-05-23"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
-    govuk:role <https://www.gov.uk/government/ministers/financial-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2021-09-15"^^xsd:date ;
-    govuk:tenureStart "2019-05-23"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/jesse-norman> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--146> ;
+    fm:tenureEnd "2023-11-13"^^xsd:date ;
+    fm:tenureStart "2022-10-26"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--146> ;
-    govuk:tenureEnd "2023-11-13"^^xsd:date ;
-    govuk:tenureStart "2022-10-26"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/jesse-norman> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport> ;
+    fm:tenureEnd "2018-11-12"^^xsd:date ;
+    fm:tenureStart "2017-06-14"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-the-americas> ;
-    govuk:tenureEnd "2022-10-26"^^xsd:date ;
-    govuk:tenureStart "2022-09-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/jesse-norman> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--57> ;
+    fm:tenureEnd "2019-05-23"^^xsd:date ;
+    fm:tenureStart "2018-11-12"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/jesse-norman> ;
-    govuk:role <https://www.gov.uk/government/ministers/paymaster-general> ;
-    govuk:tenureEnd "2019-07-24"^^xsd:date ;
-    govuk:tenureStart "2019-05-23"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/jesse-norman> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--69> ;
+    fm:tenureEnd "2017-06-14"^^xsd:date ;
+    fm:tenureStart "2016-07-18"^^xsd:date .
 

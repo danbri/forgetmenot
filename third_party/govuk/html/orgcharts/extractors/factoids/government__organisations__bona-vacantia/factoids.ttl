@@ -1,16 +1,17 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/bona-vacantia> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2021-04-15T10:01:20+01:00" ;
     schema1:name "Bona Vacantia"@en ;
     schema1:url <https://www.gov.uk/government/organisations/bona-vacantia> ;
-    govuk:contentId "c9109663-0128-4db4-b513-a9cdfb691034" ;
-    govuk:hasManager <https://www.gov.uk/government/people/caroline-harold>,
+    fm:hasManager <https://www.gov.uk/government/people/caroline-harold>,
         <https://www.gov.uk/government/people/douglas-wilson> ;
+    govuk:contentId "c9109663-0128-4db4-b513-a9cdfb691034" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

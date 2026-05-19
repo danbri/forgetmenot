@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/animal-and-plant-health-agency> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-04-20T12:52:34+01:00" ;
     schema1:name "Animal and Plant Health Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/animal-and-plant-health-agency> ;
-    govuk:contentId "4ad67f14-6f9c-4fa4-80ab-687b6d81ea6f" ;
-    govuk:hasManager <https://www.gov.uk/government/people/anna-jenkins>,
+    fm:hasManager <https://www.gov.uk/government/people/anna-jenkins>,
         <https://www.gov.uk/government/people/dan-horton>,
         <https://www.gov.uk/government/people/irene-cristofaro>,
         <https://www.gov.uk/government/people/jason-field>,
@@ -18,6 +18,7 @@
         <https://www.gov.uk/government/people/richard-knight>,
         <https://www.gov.uk/government/people/richard-lewis>,
         <https://www.gov.uk/government/people/richard-mccart> ;
+    govuk:contentId "4ad67f14-6f9c-4fa4-80ab-687b6d81ea6f" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

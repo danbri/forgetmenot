@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/ofqual> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-08-14T10:04:29+01:00" ;
     schema1:name "Ofqual"@en ;
     schema1:url <https://www.gov.uk/government/organisations/ofqual> ;
-    govuk:contentId "83f6e93f-bb2c-46ab-9b02-394f972b7030" ;
-    govuk:hasManager <https://www.gov.uk/government/people/amanda-swann>,
+    fm:hasManager <https://www.gov.uk/government/people/amanda-swann>,
         <https://www.gov.uk/government/people/catherine-large>,
         <https://www.gov.uk/government/people/daniel-gutteridge>,
         <https://www.gov.uk/government/people/david-bowden>,
@@ -18,6 +18,7 @@
         <https://www.gov.uk/government/people/michael-hanton>,
         <https://www.gov.uk/government/people/susan-tranter>,
         <https://www.gov.uk/government/people/tom-bramley> ;
+    govuk:contentId "83f6e93f-bb2c-46ab-9b02-394f972b7030" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

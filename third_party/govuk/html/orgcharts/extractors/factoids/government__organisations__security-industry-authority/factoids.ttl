@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/security-industry-authority> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-02-11T11:32:23+00:00" ;
     schema1:name "Security Industry Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/security-industry-authority> ;
-    govuk:contentId "5a0dd987-eea3-470c-97fa-e346c5cff682" ;
-    govuk:hasManager <https://www.gov.uk/government/people/caroline-corby>,
+    fm:hasManager <https://www.gov.uk/government/people/caroline-corby>,
         <https://www.gov.uk/government/people/debbie-bartlett>,
         <https://www.gov.uk/government/people/duncan-worsell>,
         <https://www.gov.uk/government/people/hannah-wadey>,
@@ -22,6 +22,7 @@
         <https://www.gov.uk/government/people/sarah-pumfrett>,
         <https://www.gov.uk/government/people/stephen-grainger>,
         <https://www.gov.uk/government/people/tim-archer> ;
+    govuk:contentId "5a0dd987-eea3-470c-97fa-e346c5cff682" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

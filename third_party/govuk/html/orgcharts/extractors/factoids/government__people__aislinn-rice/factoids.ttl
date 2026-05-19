@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> govuk:hasMinister <https://www.gov.uk/government/people/aislinn-rice> .
+<https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> fm:hasMinister <https://www.gov.uk/government/people/aislinn-rice> .
 
 <https://www.gov.uk/government/people/aislinn-rice> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-06-17T11:36:18+01:00" ;
     schema1:description "Dr Aislinn Rice has over 25 years’ experience in leadership positions across small and medium-sized enterprises (SMEs) and global organisations in the technology sector. She was appointed to the Board of QUBIS from 2012 to 2018, the commercialisation arm of Queen’s University Belfast ( QUB ). Aislinn is currently Director of Software NI and Non-Executive Director at Analytics Engines. She holds a PhD in Chemistry from QUB ."@en ;
     schema1:name "Dr Aislinn Rice"@en ;
     schema1:url <https://www.gov.uk/government/people/aislinn-rice> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/industrial-strategy-advisory-council> ;
+    fm:currentRoleTitle "Industrial Strategy Advisory Council member"@en ;
     govuk:contentId "a54ec95e-ad39-4dcf-acfe-e509623de1e3" ;
-    govuk:currentRoleTitle "Industrial Strategy Advisory Council member"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

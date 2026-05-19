@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/peter-lock> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/peter-lock> .
 
 <https://www.gov.uk/government/people/peter-lock> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2021-11-05T10:40:58+00:00" ;
     schema1:description "Peter Lock has worked in the higher activity radioactive waste management field for 25 years. He has a chemistry degree and began his career as an environmental consultant."@en ;
     schema1:name "Peter Lock"@en ;
     schema1:url <https://www.gov.uk/government/people/peter-lock> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
     govuk:contentId "bc19bd06-1c88-425a-8fcd-1b8498bbcab0" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .

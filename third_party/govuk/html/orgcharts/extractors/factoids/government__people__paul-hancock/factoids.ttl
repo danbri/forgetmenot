@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-chemist> govuk:hasMinister <https://www.gov.uk/government/people/paul-hancock> .
+<https://www.gov.uk/government/organisations/government-chemist> fm:hasMinister <https://www.gov.uk/government/people/paul-hancock> .
 
 <https://www.gov.uk/government/people/paul-hancock> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2021-04-21T17:55:27+01:00" ;
     schema1:description "Paul Hancock joined the Government Chemist programme in July 2020 as Head of the Office of the Government Chemist, Referee Analyst and Nominated Officer."@en ;
     schema1:name "Paul Hancock BSc, MChemA, MRSC, FIFST"@en ;
     schema1:url <https://www.gov.uk/government/people/paul-hancock> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-chemist> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-chemist> ;
+    fm:currentRoleTitle "Referee Analyst and Nominated Officer and Head of the Office of the Government Chemist (OGC)"@en ;
     govuk:contentId "e33c5e11-6854-4f14-93c9-561c0c775ff3" ;
-    govuk:currentRoleTitle "Referee Analyst and Nominated Officer and Head of the Office of the Government Chemist (OGC)"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

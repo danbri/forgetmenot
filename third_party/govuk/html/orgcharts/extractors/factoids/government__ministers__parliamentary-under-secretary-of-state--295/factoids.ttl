@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/wales-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> .
+<https://www.gov.uk/government/organisations/wales-office> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> .
 
 <https://www.gov.uk/government/people/anna-mcmorrin> schema1:name "Anna McMorrin MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-12T10:59:47+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--295> ;
-    govuk:contentId "90eb5f8d-2165-4d9a-b33e-07da6318c3e7" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/wales-office> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Broadcasting"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/wales-office> ;
+    fm:responsibility "Broadcasting"@en,
         "Charities, Voluntary and Third Sectors"@en,
         "City and Regional Growth Deals"@en,
         "Digital Infrastructure and Connectivity"@en,
@@ -27,6 +26,8 @@
         "Sport"@en,
         "Tourism and Heritage"@en,
         "Welsh Language"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/anna-mcmorrin> ;
+    fm:roleHolder <https://www.gov.uk/government/people/anna-mcmorrin> ;
+    govuk:contentId "90eb5f8d-2165-4d9a-b33e-07da6318c3e7" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

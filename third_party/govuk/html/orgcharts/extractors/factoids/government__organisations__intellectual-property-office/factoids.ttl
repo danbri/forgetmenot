@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/intellectual-property-office> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-22T10:06:59+01:00" ;
     schema1:name "Intellectual Property Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/intellectual-property-office> ;
-    govuk:contentId "5d6f9583-991f-413d-ae83-be7274e5eae4" ;
-    govuk:hasManager <https://www.gov.uk/government/people/adam-williams>,
+    fm:hasManager <https://www.gov.uk/government/people/adam-williams>,
         <https://www.gov.uk/government/people/andrew-lawrence>,
         <https://www.gov.uk/government/people/andy-bartlett>,
         <https://www.gov.uk/government/people/catherine-salway>,
@@ -25,6 +25,7 @@
         <https://www.gov.uk/government/people/sian-nia-davies>,
         <https://www.gov.uk/government/people/steph-dales>,
         <https://www.gov.uk/government/people/timothy-render> ;
+    govuk:contentId "5d6f9583-991f-413d-ae83-be7274e5eae4" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

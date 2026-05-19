@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/andrew-gray> a schema1:Person ;
@@ -66,34 +67,33 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/6936a26070840a535475d3f0/s465_vanessa_6.png> ;
     schema1:name "Vanessa Havard-Williams OBE"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state--206> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--206> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Trade)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/uk-export-finance> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/chris-bryant> .
+    fm:partOf <https://www.gov.uk/government/organisations/uk-export-finance> ;
+    fm:roleHolder <https://www.gov.uk/government/people/chris-bryant> .
 
-<https://www.gov.uk/government/ministers/president-of-the-board-of-trade> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/president-of-the-board-of-trade> a fm:MinisterialRole ;
     schema1:name "President of the Board of Trade"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/uk-export-finance> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
+    fm:partOf <https://www.gov.uk/government/organisations/uk-export-finance> ;
+    fm:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
 
 <https://www.gov.uk/government/people/chris-bryant> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66a0cba1ab418ab055592c17/s465_minister_bryant_govuk.jpg> ;
     schema1:name "Sir Chris Bryant MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--206> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--206> .
 
 <https://www.gov.uk/government/people/peter-kyle> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66881a3e4a94d44125d9cda2/s465_Peter_Kyle.jpg> ;
     schema1:name "The Rt Hon Peter Kyle MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> .
 
 <https://www.gov.uk/government/organisations/uk-export-finance> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-08-28T10:43:10+01:00" ;
     schema1:name "UK Export Finance"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-export-finance> ;
-    govuk:contentId "c4e41647-ad69-4e96-843b-05fa7867bbc0" ;
-    govuk:hasManager <https://www.gov.uk/government/people/andrew-gray>,
+    fm:hasManager <https://www.gov.uk/government/people/andrew-gray>,
         <https://www.gov.uk/government/people/cameron-fox>,
         <https://www.gov.uk/government/people/carl-williamson>,
         <https://www.gov.uk/government/people/dan-bowden>,
@@ -109,10 +109,11 @@
         <https://www.gov.uk/government/people/tim-frost>,
         <https://www.gov.uk/government/people/tim-reid>,
         <https://www.gov.uk/government/people/vanessa-havard-williams> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/chris-bryant>,
+    fm:hasMinister <https://www.gov.uk/government/people/chris-bryant>,
         <https://www.gov.uk/government/people/peter-kyle> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--206>,
+    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--206>,
         <https://www.gov.uk/government/ministers/president-of-the-board-of-trade> ;
+    govuk:contentId "c4e41647-ad69-4e96-843b-05fa7867bbc0" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

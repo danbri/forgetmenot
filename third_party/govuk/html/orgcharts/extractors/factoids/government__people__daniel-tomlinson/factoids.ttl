@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasMinister <https://www.gov.uk/government/people/daniel-tomlinson> .
+<https://www.gov.uk/government/organisations/hm-treasury> fm:hasMinister <https://www.gov.uk/government/people/daniel-tomlinson> .
 
-<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> govuk:roleHolder <https://www.gov.uk/government/people/daniel-tomlinson> .
+<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> fm:roleHolder <https://www.gov.uk/government/people/daniel-tomlinson> .
 
 <https://www.gov.uk/government/people/daniel-tomlinson> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-01T09:47:57+01:00" ;
     schema1:description "Daniel Tomlinson MP was appointed as a Parliamentary Secretary (Exchequer Secretary to the Treasury) in His Majesty’s Treasury on 1 September 2025."@en ;
     schema1:name "Daniel Tomlinson MP"@en ;
     schema1:url <https://www.gov.uk/government/people/daniel-tomlinson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-treasury> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/hm-treasury> ;
+    fm:currentRoleTitle "Exchequer Secretary to the Treasury"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
     govuk:contentId "b01f1536-a74a-48f3-ab35-510837afb1b0" ;
-    govuk:currentRoleTitle "Exchequer Secretary to the Treasury"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/daniel-tomlinson> ;
-    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
-    govuk:tenureStart "2025-09-01"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/daniel-tomlinson> ;
+    fm:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    fm:tenureStart "2025-09-01"^^xsd:date .
 

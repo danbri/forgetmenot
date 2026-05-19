@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/jade-botterill> schema1:name "Jade Botterill MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> .
 
-<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-08T09:01:19+01:00" ;
     schema1:name "Assistant Whip, House of Commons"@en ;
     schema1:url <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--13> ;
+    fm:roleHolder <https://www.gov.uk/government/people/jade-botterill> ;
     govuk:contentId "3abf4c30-c726-471d-b406-09b61932df76" ;
     govuk:publishingApp "whitehall" ;
-    govuk:roleHolder <https://www.gov.uk/government/people/jade-botterill> ;
     govuk:schemaName "role" .
 

@@ -81,31 +81,35 @@ python3 scripts/govuk_report.py
 
 ## What's in the RDF
 
-| Prefix | URI |
-|---|---|
-| `govuk:` | `https://forgetmenot.local/govuk#` (project vocab) |
-| `schema:` | `http://schema.org/` |
-| `dcterms:` | `http://purl.org/dc/terms/` |
+| Prefix | URI | Role |
+|---|---|---|
+| `fm:` | `https://forgetmenot.local/vocab#` | This project's vocabulary -- everything we model ourselves |
+| `govuk:` | `https://www.gov.uk/vocab/meta#` | Reserved for `<meta name="govuk:*">` attributes gov.uk publishes directly. We do NOT invent under this namespace -- see [`docs/vocab.md`](../../docs/vocab.md). |
+| `schema:` | `http://schema.org/` | Standard |
+| `dcterms:` | `http://purl.org/dc/terms/` | Standard |
 
 Per-page Turtle holds:
 
-- `schema:Person`, `govuk:Organisation` / `schema:GovernmentOrganization`,
-  `govuk:MinisterialRole`, `govuk:RoleTenure`
-- `govuk:CurrentOfficeHolder` / `govuk:FormerOfficeHolder` (driven by
+- `schema:Person`, `fm:Organisation` / `schema:GovernmentOrganization`,
+  `fm:MinisterialRole`, `fm:RoleTenure`
+- `fm:CurrentOfficeHolder` / `fm:FormerOfficeHolder` (driven by
   the Content API's explicit `current=true|false` flag)
 - `govuk:contentId` (stable UUID), `govuk:schemaName`,
   `govuk:publishingApp`, `dcterms:modified` -- structural identifiers
-  lifted from `<meta name="govuk:*">` tags
-- Provenance qualifiers: `govuk:apiSourced true` (from `/api/content/`
-  JSON) vs `govuk:proseExtracted true` (from biography prose regexes).
+  literally lifted from `<meta name="govuk:*">` tags
+- Provenance qualifiers: `fm:apiSourced true` (from `/api/content/`
+  JSON) vs `fm:proseExtracted true` (from biography prose regexes).
   Two independent extractors run and their disagreements surface in QA.
-- Cross-page relations: `govuk:hasMinister`, `govuk:holdsRole`,
-  `govuk:roleHolder`, `govuk:previouslyHeldBy`, `govuk:previouslyHeldRole`,
-  `govuk:partOf`, `govuk:tenureStart`, `govuk:tenureEnd`
+- Cross-page relations: `fm:hasMinister`, `fm:holdsRole`,
+  `fm:roleHolder`, `fm:previouslyHeldBy`, `fm:previouslyHeldRole`,
+  `fm:partOf`, `fm:tenureStart`, `fm:tenureEnd`
 
 The rollup at `third_party/govuk/html/orgcharts/extractors/factoids/all.nq`
 puts every triple in a named graph equal to the gov.uk page URL it came
 from, so the file itself answers "which gov.uk page is this fact from?".
+If raw source text gets attached for LLM-verification, it lives in a
+**separate** named graph (`<page-url>#raw` convention) — never inline
+with the extracted triples. See [`docs/vocab.md`](../../docs/vocab.md).
 
 ## Cross-corpus joins
 

@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/alex-davies-jones> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/alex-davies-jones> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> govuk:previouslyHeldBy <https://www.gov.uk/government/people/alex-davies-jones> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> fm:previouslyHeldBy <https://www.gov.uk/government/people/alex-davies-jones> .
 
 <https://www.gov.uk/government/people/alex-davies-jones> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-05-12T13:58:26+01:00" ;
     schema1:description "Alex Davies-Jones was Parliamentary Under-Secretary of State at the Ministry of Justice from 9 July 2024 to 12 May 2026. She was elected as the MP for Pontypridd in July 2019."@en ;
     schema1:name "Alex Davies-Jones MP"@en ;
     schema1:url <https://www.gov.uk/government/people/alex-davies-jones> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> ;
     govuk:contentId "2f7b87d3-f096-4cfe-9c56-b6038b048241" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/alex-davies-jones> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> ;
-    govuk:tenureEnd "2026-05-12"^^xsd:date ;
-    govuk:tenureStart "2024-07-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/alex-davies-jones> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--246> ;
+    fm:tenureEnd "2026-05-12"^^xsd:date ;
+    fm:tenureStart "2024-07-09"^^xsd:date .
 

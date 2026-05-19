@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--202> .
+<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--202> .
 
 <https://www.gov.uk/government/people/angela-eagle> schema1:name "Dame Angela Eagle DBE MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--202> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--202> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--202> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--202> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-24T08:47:54+01:00" ;
     schema1:name "Minister of State (Minister for Food Security and Rural Affairs)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--202> ;
-    govuk:contentId "77601f43-dfe5-46e6-831f-28f20f99b9a1" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "budget (deputy to Secretary of State)"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    fm:responsibility "budget (deputy to Secretary of State)"@en,
         "farmed animal welfare including bovine TB"@en,
         "farming (including Environmental Land Management ( ELMS ))"@en,
         "fisheries"@en,
@@ -28,6 +27,8 @@
         "rural"@en,
         "science and innovation (including agri-science)"@en,
         "trade"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/angela-eagle> ;
+    fm:roleHolder <https://www.gov.uk/government/people/angela-eagle> ;
+    govuk:contentId "77601f43-dfe5-46e6-831f-28f20f99b9a1" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

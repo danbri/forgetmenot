@@ -1,39 +1,40 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> govuk:hasMinister <https://www.gov.uk/government/people/chris-elmore> .
+<https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> fm:hasMinister <https://www.gov.uk/government/people/chris-elmore> .
 
-<https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-elmore> .
+<https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> fm:previouslyHeldBy <https://www.gov.uk/government/people/chris-elmore> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> govuk:roleHolder <https://www.gov.uk/government/people/chris-elmore> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> fm:roleHolder <https://www.gov.uk/government/people/chris-elmore> .
 
 <https://www.gov.uk/government/people/chris-elmore> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-07T15:38:24+01:00" ;
     schema1:description "Chris Elmore was appointed Parliamentary Under-Secretary of State in the Foreign, Commonwealth and Development Office on 7 September 2025. He was previously Comptroller of HM Household (Government Whip) between 10 July 2024 and 7 September 2025. He was elected as the MP for Bridgend in July 2024."@en ;
     schema1:name "Chris Elmore MP"@en ;
     schema1:url <https://www.gov.uk/government/people/chris-elmore> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/foreign-commonwealth-development-office> ;
+    fm:currentRoleTitle "Parliamentary Under Secretary of State (Multilateral, Human Rights, Latin America and the Caribbean)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
     govuk:contentId "739e6ec2-1179-4596-8a39-9dc9459c9496" ;
-    govuk:currentRoleTitle "Parliamentary Under Secretary of State (Multilateral, Human Rights, Latin America and the Caribbean)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-elmore> ;
-    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
-    govuk:tenureEnd "2025-09-06"^^xsd:date ;
-    govuk:tenureStart "2024-07-10"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-elmore> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> ;
+    fm:tenureStart "2025-09-07"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-elmore> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--290> ;
-    govuk:tenureStart "2025-09-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-elmore> ;
+    fm:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    fm:tenureEnd "2025-09-06"^^xsd:date ;
+    fm:tenureStart "2024-07-10"^^xsd:date .
 

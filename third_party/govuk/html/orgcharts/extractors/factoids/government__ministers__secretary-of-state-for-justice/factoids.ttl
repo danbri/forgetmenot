@@ -1,12 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> .
+<https://www.gov.uk/government/organisations/ministry-of-justice> fm:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> .
 
 <https://www.gov.uk/government/people/david-lammy> schema1:name "The Rt Hon David Lammy MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> .
 
 <https://www.gov.uk/government/people/alex-chalk> schema1:name "The Rt Hon Alex Chalk KC"@en .
 
@@ -30,14 +31,13 @@
 
 <https://www.gov.uk/government/people/dominic-raab> schema1:name "The Rt Hon Dominic Raab"@en .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-justice> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-16T14:34:55+01:00" ;
     schema1:name "Lord Chancellor and Secretary of State for Justice"@en ;
     schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:contentId "845e5cf4-c0f1-11e4-8223-005056011aef" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/alex-chalk>,
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/alex-chalk>,
         <https://www.gov.uk/government/people/brandon-lewis>,
         <https://www.gov.uk/government/people/chris-grayling>,
         <https://www.gov.uk/government/people/david-gauke>,
@@ -48,86 +48,87 @@
         <https://www.gov.uk/government/people/michael-gove>,
         <https://www.gov.uk/government/people/robert-buckland>,
         <https://www.gov.uk/government/people/shabana-mahmood> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Functions of the Lord Chancellor"@en,
+    fm:responsibility "Functions of the Lord Chancellor"@en,
         "Judicial policy including pay, pensions and diversity (these and other operational decisions affecting the judiciary are reserved to the Lord Chancellor)"@en,
         "MOJ support for the Union"@en,
         "Oversight of all justice portfolios, policy, and Ministry of Justice strategy"@en,
         "Oversight of cross-cutting emergency issues, responses supported by other ministers according to portfolio"@en,
         "Oversight of international business and future relations with the EU"@en,
         "Resourcing of the department"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/david-lammy> ;
+    fm:roleHolder <https://www.gov.uk/government/people/david-lammy> ;
+    govuk:contentId "845e5cf4-c0f1-11e4-8223-005056011aef" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2017"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/michael-gove> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2016"^^xsd:gYear ;
+    fm:tenureStart "2015"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2023"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2021"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/brandon-lewis> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/david-lidington> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2018"^^xsd:gYear ;
+    fm:tenureStart "2017"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2025"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/alex-chalk> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2024"^^xsd:gYear ;
+    fm:tenureStart "2023"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/robert-buckland> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2021"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/david-gauke> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2019"^^xsd:gYear ;
+    fm:tenureStart "2018"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/chris-grayling> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2015"^^xsd:gYear ;
-    govuk:tenureStart "2012"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/kenneth-clarke> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2012"^^xsd:gYear ;
+    fm:tenureStart "2010"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-lidington> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2018"^^xsd:gYear ;
-    govuk:tenureStart "2017"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/elizabeth-truss> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2017"^^xsd:gYear ;
+    fm:tenureStart "2016"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/kenneth-clarke> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2012"^^xsd:gYear ;
-    govuk:tenureStart "2010"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/dominic-raab> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2023"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-gauke> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2018"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/brandon-lewis> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/dominic-raab> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2021"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/chris-grayling> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2015"^^xsd:gYear ;
+    fm:tenureStart "2012"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/michael-gove> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2015"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/shabana-mahmood> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2025"^^xsd:gYear ;
+    fm:tenureStart "2024"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/alex-chalk> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2023"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/robert-buckland> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-justice> ;
+    fm:tenureEnd "2021"^^xsd:gYear ;
+    fm:tenureStart "2019"^^xsd:gYear .
 

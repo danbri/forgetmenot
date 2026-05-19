@@ -1,26 +1,27 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-secretary--14> .
+<https://www.gov.uk/government/organisations/cabinet-office> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-secretary--14> .
 
 <https://www.gov.uk/government/people/chris-ward> schema1:name "Chris Ward MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--14> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--14> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary--14> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-secretary--14> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-06T11:47:14+01:00" ;
     schema1:name "Parliamentary Secretary"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-secretary--14> ;
-    govuk:contentId "ccc8a31f-91dd-446a-add2-543027c9de36" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "EU Reset and the Windsor Framework"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:responsibility "EU Reset and the Windsor Framework"@en,
         "Fiscal events and departmental business planning"@en,
         "Government commercial function"@en,
         "Infrastructure delivery"@en,
         "Transparency and freedom of information policy"@en,
         "Union and constitutional matters"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/chris-ward> ;
+    fm:roleHolder <https://www.gov.uk/government/people/chris-ward> ;
+    govuk:contentId "ccc8a31f-91dd-446a-add2-543027c9de36" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

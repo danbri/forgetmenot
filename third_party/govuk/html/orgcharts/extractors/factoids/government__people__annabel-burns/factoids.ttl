@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> govuk:hasMinister <https://www.gov.uk/government/people/annabel-burns> .
+<https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> fm:hasMinister <https://www.gov.uk/government/people/annabel-burns> .
 
 <https://www.gov.uk/government/people/annabel-burns> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-04T13:40:27+00:00" ;
     schema1:description "Annabel is currently the Director of Strategy, Development and Analysis in HMCTS. Previously she was Director of Judicial and Legal Services Policy at the Ministry of Justice and has worked at Cabinet Office, leading a review of childcare, and at the Department for Education in a variety of senior roles including leading policy on for school inspection and accountability, leading the spending review for the department, family justice reform and a range of children’s services policies."@en ;
     schema1:name "Annabel Burns"@en ;
     schema1:url <https://www.gov.uk/government/people/annabel-burns> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/hm-courts-and-tribunals-service> ;
+    fm:currentRoleTitle "Strategy, Development and Analysis Director and Ministry of Justice Representative Board Member"@en ;
     govuk:contentId "20694c8b-b4e9-406f-a174-de45c7b4d52a" ;
-    govuk:currentRoleTitle "Strategy, Development and Analysis Director and Ministry of Justice Representative Board Member"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

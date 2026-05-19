@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/ministry-of-defence> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> .
+<https://www.gov.uk/government/organisations/ministry-of-defence> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> .
 
 <https://www.gov.uk/government/people/louise-sandher-jones> schema1:name "Louise Sandher-Jones MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-10T11:01:00+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Veterans and People)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--287> ;
-    govuk:contentId "f6a289aa-d881-4b3f-9607-825dad929c79" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Armed Forces Commissioner"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-defence> ;
+    fm:responsibility "Armed Forces Commissioner"@en,
         "Armed Forces Covenant"@en,
         "Armed Forces Parliamentary Scheme"@en,
         "Armed Forces People and Families"@en,
@@ -31,6 +30,8 @@
         "implementation of relevant SDR Vision and Recommendations"@en,
         "recruitment and renewing the contract between the nation and those who serve"@en,
         "retention and incentivisation, including training skills and development"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/louise-sandher-jones> ;
+    fm:roleHolder <https://www.gov.uk/government/people/louise-sandher-jones> ;
+    govuk:contentId "f6a289aa-d881-4b3f-9607-825dad929c79" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

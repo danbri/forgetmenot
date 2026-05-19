@@ -1,30 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+<https://www.gov.uk/government/organisations/department-for-education> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
 
-<https://www.gov.uk/government/organisations/department-for-work-pensions> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+<https://www.gov.uk/government/organisations/department-for-work-pensions> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
 
-<https://www.gov.uk/government/organisations/disability-unit> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+<https://www.gov.uk/government/organisations/disability-unit> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
 
-<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
 
 <https://www.gov.uk/government/people/stephen-timms> schema1:name "The Rt Hon Sir Stephen Timms MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--192> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--192> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-11-18T10:18:27+00:00" ;
     schema1:name "Minister of State (Minister for Social Security and Disability)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--192> ;
-    govuk:contentId "86a981fd-00c3-487b-bf8c-fbf0205ce966" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-education>,
         <https://www.gov.uk/government/organisations/department-for-work-pensions>,
         <https://www.gov.uk/government/organisations/disability-unit>,
         <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "ALB: Health and Safety Executive"@en,
+    fm:responsibility "ALB: Health and Safety Executive"@en,
         "Access to Work"@en,
         "Carer’s Allowance (CA)"@en,
         "Contributory Benefits, Personal Independence Payment (PIP), Disability Living Allowance (DLA), and Employment and Support Allowance (ESA)"@en,
@@ -35,6 +34,8 @@
         "Serious Case Panel"@en,
         "Universal Credit and Legacy Benefits Delivery"@en,
         "Uprating and Benefit Cap"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/stephen-timms> ;
+    fm:roleHolder <https://www.gov.uk/government/people/stephen-timms> ;
+    govuk:contentId "86a981fd-00c3-487b-bf8c-fbf0205ce966" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

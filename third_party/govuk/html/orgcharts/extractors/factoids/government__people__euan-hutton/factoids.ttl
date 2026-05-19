@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/euan-hutton> .
+<https://www.gov.uk/government/organisations/sellafield-ltd> fm:hasMinister <https://www.gov.uk/government/people/euan-hutton> .
 
 <https://www.gov.uk/government/people/euan-hutton> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-10-31T16:28:33+00:00" ;
     schema1:description "Euan has enjoyed a 33-year career in the national and international nuclear industry, a career he started at Sellafield as a graduate."@en ;
     schema1:name "Euan Hutton"@en ;
     schema1:url <https://www.gov.uk/government/people/euan-hutton> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    fm:currentRoleTitle "Chief Executive Officer"@en ;
     govuk:contentId "ae59f6a0-3f8b-4c61-823f-c1326f27a947" ;
-    govuk:currentRoleTitle "Chief Executive Officer"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

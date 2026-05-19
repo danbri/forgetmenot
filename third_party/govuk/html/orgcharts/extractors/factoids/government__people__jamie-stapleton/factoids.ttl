@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> govuk:hasMinister <https://www.gov.uk/government/people/jamie-stapleton> .
+<https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> fm:hasMinister <https://www.gov.uk/government/people/jamie-stapleton> .
 
 <https://www.gov.uk/government/people/jamie-stapleton> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-01-29T09:14:11+00:00" ;
     schema1:description "Jamie is a passionate digital leader who likes to work with purpose, and inspire sustainable progress. A technology and innovation leader at heart who has spent the last 15 years driving digital transformation strategies to help customers navigate the sustainable energy transition. In his current role as a global Digital Strategy Leader for Hitachi Energy, Jamie has spent the last seven years focussing on spearheading and evangelising a new sustainable energy era, enabled through advanced technologies such as IoT, AI/ML, and Edge computing."@en ;
     schema1:name "Jamie Stapleton"@en ;
     schema1:url <https://www.gov.uk/government/people/jamie-stapleton> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/uk-industrial-fusion-solutions> ;
+    fm:currentRoleTitle "Board Advisor"@en ;
     govuk:contentId "2238aee6-ddfe-44ba-af2b-402bdd1af304" ;
-    govuk:currentRoleTitle "Board Advisor"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

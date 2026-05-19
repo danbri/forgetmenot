@@ -1,15 +1,16 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/air-accidents-investigation-branch> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-12-05T15:24:21+00:00" ;
     schema1:name "Air Accidents Investigation Branch"@en ;
     schema1:url <https://www.gov.uk/government/organisations/air-accidents-investigation-branch> ;
+    fm:hasManager <https://www.gov.uk/government/people/rob-balls> ;
     govuk:contentId "38eb5d8f-2d89-480c-8655-e2e7ac23f8f4" ;
-    govuk:hasManager <https://www.gov.uk/government/people/rob-balls> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

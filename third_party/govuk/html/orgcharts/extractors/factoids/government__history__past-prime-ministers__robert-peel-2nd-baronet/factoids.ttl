@@ -1,9 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/history/past-prime-ministers/robert-peel-2nd-baronet> a schema1:Person,
-        govuk:PastPrimeMinister ;
+        fm:PastPrimeMinister ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-01-19T17:38:31+00:00" ;
     schema1:description "Sir Robert Peel’s period in government – as prime minister and in other offices – was a milestone for social reform. Landmark legislation cut working hours for women and children, created cheap and regular rail services, and reorganised the policing of London, radically changing society."@en ;

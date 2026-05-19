@@ -1,18 +1,19 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/ian-barrow> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/ian-barrow> .
 
 <https://www.gov.uk/government/people/ian-barrow> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2022-08-31T17:57:02+01:00" ;
     schema1:name "Ian Barrow"@en ;
     schema1:url <https://www.gov.uk/government/people/ian-barrow> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:currentRoleTitle "Interim Executive Director Probation Workforce Programme"@en ;
     govuk:contentId "138a641a-82e5-4c98-8f4c-4f0e52c72bb3" ;
-    govuk:currentRoleTitle "Interim Executive Director Probation Workforce Programme"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

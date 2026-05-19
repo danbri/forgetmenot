@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/gregor-poynton> schema1:name "Gregor Poynton MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--12> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--12> .
 
-<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--12> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--12> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-08T09:00:52+01:00" ;
     schema1:name "Assistant Whip, House of Commons"@en ;
     schema1:url <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--12> ;
+    fm:roleHolder <https://www.gov.uk/government/people/gregor-poynton> ;
     govuk:contentId "eef71712-3884-459f-96bf-6bd96310622f" ;
     govuk:publishingApp "whitehall" ;
-    govuk:roleHolder <https://www.gov.uk/government/people/gregor-poynton> ;
     govuk:schemaName "role" .
 

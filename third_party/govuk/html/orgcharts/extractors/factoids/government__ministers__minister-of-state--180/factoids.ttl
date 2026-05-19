@@ -1,25 +1,24 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--180> .
+<https://www.gov.uk/government/organisations/ministry-of-justice> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--180> .
 
 <https://www.gov.uk/government/people/sarah-sackman> schema1:name "Sarah Sackman KC MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--180> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--180> .
 
 <https://www.gov.uk/government/people/heidi-alexander> schema1:name "The Rt Hon Heidi Alexander MP"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state--180> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--180> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-16T14:24:22+01:00" ;
     schema1:name "Minister of State for Courts and Legal Services"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--180> ;
-    govuk:contentId "1af9939d-222d-4541-a100-50889ffcdbc5" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/heidi-alexander> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Civil Justice"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/heidi-alexander> ;
+    fm:responsibility "Civil Justice"@en,
         "Criminal courts policy"@en,
         "His Majesty’s Courts and Tribunals Service administration"@en,
         "Irregular Migration"@en,
@@ -32,12 +31,14 @@
         "Magistrates Policy"@en,
         "Open Justice"@en,
         "Tribunals Policy (including fees)"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/sarah-sackman> ;
+    fm:roleHolder <https://www.gov.uk/government/people/sarah-sackman> ;
+    govuk:contentId "1af9939d-222d-4541-a100-50889ffcdbc5" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/heidi-alexander> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--180> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2024"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/heidi-alexander> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--180> ;
+    fm:tenureEnd "2024"^^xsd:gYear ;
+    fm:tenureStart "2024"^^xsd:gYear .
 

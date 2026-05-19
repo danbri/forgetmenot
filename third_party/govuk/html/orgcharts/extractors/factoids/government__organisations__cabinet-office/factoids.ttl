@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/andrew-forzani> a schema1:Person ;
@@ -56,104 +57,103 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/61e81d91d3bf7f054a1da1dc/s465_vincent-devine-photo-background.jpg> ;
     schema1:name "Vincent Devine"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state--197> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--197> a fm:MinisterialRole ;
     schema1:name "Chief Secretary to the Prime Minister"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/darren-jones> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/darren-jones> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--198> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--198> a fm:MinisterialRole ;
     schema1:name "Minister of State"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/dan-jarvis> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--3> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--3> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister without Portfolio)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/anna-turley> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/anna-turley> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary--14> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-secretary--14> a fm:MinisterialRole ;
     schema1:name "Parliamentary Secretary"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/chris-ward> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/chris-ward> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary--15> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-secretary--15> a fm:MinisterialRole ;
     schema1:name "Parliamentary Secretary"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/satvir-kaur> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/satvir-kaur> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary--16> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-secretary--16> a fm:MinisterialRole ;
     schema1:name "Parliamentary Secretary"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/james-frith> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/james-frith> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary--17> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-secretary--17> a fm:MinisterialRole ;
     schema1:name "Parliamentary Secretary"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> .
 
-<https://www.gov.uk/government/ministers/paymaster-general> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/paymaster-general> a fm:MinisterialRole ;
     schema1:name "Paymaster General"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/nick-thomas-symonds> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/nick-thomas-symonds> .
 
-<https://www.gov.uk/government/ministers/prime-minister> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/prime-minister> a fm:MinisterialRole ;
     schema1:name "Prime Minister"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/keir-starmer> .
+    fm:partOf <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/keir-starmer> .
 
 <https://www.gov.uk/government/people/anna-turley> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68be80c6536d629f9c82abb1/s465_Anna_Turley_MP_960_x_640.jpg> ;
     schema1:name "The Rt Hon Anna Turley MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--3> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--3> .
 
 <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69a715f2b9bd90e63a25224c/s465_Baroness_Anderson_of__Stoke-on-Trent_Parliamentary_Secretary__960_x_640_.png> ;
     schema1:name "Baroness Anderson of Stoke-on-Trent"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--17> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--17> .
 
 <https://www.gov.uk/government/people/chris-ward> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68bd411bb0a373a01819fee9/s465_chris-ward.jpeg> ;
     schema1:name "Chris Ward MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--14> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--14> .
 
 <https://www.gov.uk/government/people/dan-jarvis> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68fa280930c331c88be6f018/s465_dan_jarvis.jpg> ;
     schema1:name "Dan Jarvis MBE MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--198> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--198> .
 
 <https://www.gov.uk/government/people/darren-jones> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668843eb4a94d44125d9cdbf/s465_darren-jones.jpg> ;
     schema1:name "The Rt Hon Darren Jones MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--197> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--197> .
 
 <https://www.gov.uk/government/people/james-frith> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69a7158fa2495f2d259f13f9/s465_James_Frith_MP_Parliamentary_Secretary__960_x_640_.png> ;
     schema1:name "James Frith MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--16> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--16> .
 
 <https://www.gov.uk/government/people/keir-starmer> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66881349d9d35187868f454c/s465_53836009867_63fd6cdffe_b.jpg> ;
     schema1:name "The Rt Hon Sir Keir Starmer KCB KC MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/prime-minister> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/prime-minister> .
 
 <https://www.gov.uk/government/people/nick-thomas-symonds> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668bbc047541f54efe51bb34/s465_nick-thomas-symonds.jpeg> ;
     schema1:name "The Rt Hon Nick Thomas–Symonds MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/paymaster-general> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/paymaster-general> .
 
 <https://www.gov.uk/government/people/satvir-kaur> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68bda209536d629f9c82aba0/s465_satvir-kaur.jpeg> ;
     schema1:name "Satvir Kaur MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--15> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-secretary--15> .
 
 <https://www.gov.uk/government/organisations/cabinet-office> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-06-09T14:54:07+01:00" ;
     schema1:name "Cabinet Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/cabinet-office> ;
-    govuk:contentId "96ae61d6-c2a1-48cb-8e67-da9d105ae381" ;
-    govuk:hasManager <https://www.gov.uk/government/people/andrew-forzani>,
+    fm:hasManager <https://www.gov.uk/government/people/andrew-forzani>,
         <https://www.gov.uk/government/people/antonia-romeo>,
         <https://www.gov.uk/government/people/caroline-patterson>,
         <https://www.gov.uk/government/people/cat-little>,
@@ -167,7 +167,7 @@
         <https://www.gov.uk/government/people/maura-sullivan>,
         <https://www.gov.uk/government/people/ross-maude>,
         <https://www.gov.uk/government/people/vincent-devine> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/anna-turley>,
+    fm:hasMinister <https://www.gov.uk/government/people/anna-turley>,
         <https://www.gov.uk/government/people/baroness-anderson-of-stoke-on-trent>,
         <https://www.gov.uk/government/people/chris-ward>,
         <https://www.gov.uk/government/people/dan-jarvis>,
@@ -176,7 +176,7 @@
         <https://www.gov.uk/government/people/keir-starmer>,
         <https://www.gov.uk/government/people/nick-thomas-symonds>,
         <https://www.gov.uk/government/people/satvir-kaur> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--197>,
+    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--197>,
         <https://www.gov.uk/government/ministers/minister-of-state--198>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-without-portfolio--3>,
         <https://www.gov.uk/government/ministers/parliamentary-secretary--14>,
@@ -185,6 +185,7 @@
         <https://www.gov.uk/government/ministers/parliamentary-secretary--17>,
         <https://www.gov.uk/government/ministers/paymaster-general>,
         <https://www.gov.uk/government/ministers/prime-minister> ;
+    govuk:contentId "96ae61d6-c2a1-48cb-8e67-da9d105ae381" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

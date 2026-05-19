@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> govuk:hasMinister <https://www.gov.uk/government/people/vanessa-ogden> .
+<https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> fm:hasMinister <https://www.gov.uk/government/people/vanessa-ogden> .
 
 <https://www.gov.uk/government/people/vanessa-ogden> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-04-20T17:12:54+01:00" ;
     schema1:description "Dr Vanessa Ogden CBE is the Regional Director for London. She started the role in April 2026."@en ;
     schema1:name "Dr Vanessa Ogden CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/vanessa-ogden> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/regional-department-for-education-dfe-directors> ;
+    fm:currentRoleTitle "Regional Director for London"@en ;
     govuk:contentId "0153e5a5-6d57-4027-a8fc-14f1b7e20f0d" ;
-    govuk:currentRoleTitle "Regional Director for London"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

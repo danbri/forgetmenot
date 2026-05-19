@@ -1,15 +1,16 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/independent-chief-inspector-of-borders-and-immigration> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-05T11:33:29+00:00" ;
     schema1:name "Independent Chief Inspector of Borders and Immigration"@en ;
     schema1:url <https://www.gov.uk/government/organisations/independent-chief-inspector-of-borders-and-immigration> ;
+    fm:hasManager <https://www.gov.uk/government/people/john-tuckett> ;
     govuk:contentId "e71e4ae0-7b14-48f0-9cc9-8150ce5d0cd3" ;
-    govuk:hasManager <https://www.gov.uk/government/people/john-tuckett> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

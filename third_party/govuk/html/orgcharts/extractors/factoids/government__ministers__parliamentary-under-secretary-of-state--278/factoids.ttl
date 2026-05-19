@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278> .
+<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278> .
 
 <https://www.gov.uk/government/people/mary-creagh> schema1:name "Mary Creagh CBE MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-08T09:03:58+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Nature)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--278> ;
-    govuk:contentId "350c602b-9fc5-49c7-bdd3-3f7b0fd33363" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Official Development Assistance ( ODA ) programme"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    fm:responsibility "Official Development Assistance ( ODA ) programme"@en,
         "Protected Landscapes (National Landscapes and National Parks)"@en,
         "circular economy"@en,
         "domestic biodiversity"@en,
@@ -29,6 +28,8 @@
         "lead for Office for Environmental Protection"@en,
         "planning and land use framework"@en,
         "tree planting and forestry"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/mary-creagh> ;
+    fm:roleHolder <https://www.gov.uk/government/people/mary-creagh> ;
+    govuk:contentId "350c602b-9fc5-49c7-bdd3-3f7b0fd33363" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

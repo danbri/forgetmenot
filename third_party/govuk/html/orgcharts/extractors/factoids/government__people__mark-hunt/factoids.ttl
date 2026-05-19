@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/defence-safety-authority> govuk:hasMinister <https://www.gov.uk/government/people/mark-hunt> .
+<https://www.gov.uk/government/organisations/defence-safety-authority> fm:hasMinister <https://www.gov.uk/government/people/mark-hunt> .
 
 <https://www.gov.uk/government/people/mark-hunt> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-03-24T10:11:02+00:00" ;
     schema1:description "Air Vice-Marshal Mark Hunt was appointed Deputy Director General and Technical Director for the Defence Safety Authority on 18 December 2024."@en ;
     schema1:name "Air Vice-Marshal Mark Hunt OBE BEng(Hons) MSc MA MBA FCMI CEng FRAeS FIMechE RAF"@en ;
     schema1:url <https://www.gov.uk/government/people/mark-hunt> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/defence-safety-authority> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/defence-safety-authority> ;
+    fm:currentRoleTitle "Deputy Director General and Technical Director of the DSA"@en ;
     govuk:contentId "db15e808-c009-43f1-81e0-e182dafd5dca" ;
-    govuk:currentRoleTitle "Deputy Director General and Technical Director of the DSA"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

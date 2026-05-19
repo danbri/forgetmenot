@@ -1,13 +1,20 @@
-# Per-record detail HTML fragments and the run log are bulky and
-# re-creatable from records/*.json (which carry document_url).
-html/
-crawl.log
+# Crawler outputs. Re-creatable by running:
+#   python3 scripts/fcdo_treaties_crawl.py --resume
+#
+# The per-treaty JSON in records/ and the rolled-up all.nq.gz are
+# always committed. The html/ fragments are partially committed:
+# small fragments (the country/action/date tables, ~1 KB each) ARE
+# committed so an LLM verifier can audit the extractor against the
+# same source bytes; only files >= 1 MB (PDF-like blobs that gov.uk
+# serves at the same URL for some treaties) are excluded -- they
+# compress poorly and are not the source of any extracted triple.
+# A .gitattributes filter would be more elegant, but per-file size
+# filtering at the gitignore level isn't supported, so the rule lives
+# in fcdo_treaties_crawl.py instead: small files go to html/, large
+# ones go to html/large/ which is the path actually ignored.
 
-# Per-treaty Turtle is the per-record output of the RDF lift. It's
-# strictly redundant with extractors/factoids/all.nq (every triple is
-# in the rollup, named by the treaty URI). The rollup is committed
-# in gzipped form (all.nq.gz fits under GitHub's 100 MB limit while
-# the raw all.nq does not).
+html/large/
+crawl.log
 extractors/factoids/*.ttl
 !extractors/factoids/parliament-bridge.ttl
 extractors/factoids/all.nq

@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/ian-wood> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/ian-wood> .
 
 <https://www.gov.uk/government/people/ian-wood> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2022-09-22T11:51:50+01:00" ;
     schema1:description "Prior to becoming General Counsel at Sellafield Ltd, Ian was in-house counsel to the British Nuclear Fuels group, including Sellafield Ltd, Magnox, Westinghouse and Uranium Asset Management from 2000 until joining the law firm DLA as a partner in 2006, moving to King and Wood Mallesons in 2015 and Squire Patton Boggs in 2017."@en ;
     schema1:name "Ian Wood"@en ;
     schema1:url <https://www.gov.uk/government/people/ian-wood> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
     govuk:contentId "2aa914eb-199b-4197-803f-e2efa2a46adf" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .

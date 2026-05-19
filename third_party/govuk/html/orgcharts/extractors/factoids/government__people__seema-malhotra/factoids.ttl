@@ -1,48 +1,49 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasMinister <https://www.gov.uk/government/people/seema-malhotra> .
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> fm:hasMinister <https://www.gov.uk/government/people/seema-malhotra> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--243> govuk:previouslyHeldBy <https://www.gov.uk/government/people/seema-malhotra> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--243> fm:previouslyHeldBy <https://www.gov.uk/government/people/seema-malhotra> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--283> govuk:roleHolder <https://www.gov.uk/government/people/seema-malhotra> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--283> fm:roleHolder <https://www.gov.uk/government/people/seema-malhotra> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> govuk:roleHolder <https://www.gov.uk/government/people/seema-malhotra> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> fm:roleHolder <https://www.gov.uk/government/people/seema-malhotra> .
 
 <https://www.gov.uk/government/people/seema-malhotra> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-07T09:41:00+01:00" ;
     schema1:description "Seema Malhotra MP was appointed Parliamentary Under-Secretary of State (Minister for Equalities) in the Department for Education on 8 October 2024 and Parliamentary Under-Secretary of State in the Foreign, Commonwealth and Development Office on 6 September 2025."@en ;
     schema1:name "Seema Malhotra MP"@en ;
     schema1:url <https://www.gov.uk/government/people/seema-malhotra> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> ;
-    govuk:contentId "2acfec24-4aa3-4ab1-a44f-e3dd97df3da9" ;
-    govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Equalities) and Parliamentary Under-Secretary of State (Indo-Pacific)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--283>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> ;
+    fm:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Equalities) and Parliamentary Under-Secretary of State (Indo-Pacific)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--283>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--243> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--243> ;
+    govuk:contentId "2acfec24-4aa3-4ab1-a44f-e3dd97df3da9" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/seema-malhotra> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--283> ;
-    govuk:tenureStart "2025-09-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/seema-malhotra> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--243> ;
+    fm:tenureEnd "2025-09-06"^^xsd:date ;
+    fm:tenureStart "2024-07-09"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/seema-malhotra> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> ;
-    govuk:tenureStart "2024-10-08"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/seema-malhotra> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> ;
+    fm:tenureStart "2024-10-08"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/seema-malhotra> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--243> ;
-    govuk:tenureEnd "2025-09-06"^^xsd:date ;
-    govuk:tenureStart "2024-07-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/seema-malhotra> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--283> ;
+    fm:tenureStart "2025-09-06"^^xsd:date .
 

@@ -1,39 +1,40 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/nick-clegg> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/nick-clegg> .
 
-<https://www.gov.uk/government/ministers/deputy-prime-minister> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nick-clegg> .
+<https://www.gov.uk/government/ministers/deputy-prime-minister> fm:previouslyHeldBy <https://www.gov.uk/government/people/nick-clegg> .
 
-<https://www.gov.uk/government/ministers/lord-president-of-the-council> govuk:previouslyHeldBy <https://www.gov.uk/government/people/nick-clegg> .
+<https://www.gov.uk/government/ministers/lord-president-of-the-council> fm:previouslyHeldBy <https://www.gov.uk/government/people/nick-clegg> .
 
 <https://www.gov.uk/government/people/nick-clegg> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2017-05-03T08:52:03+01:00" ;
     schema1:description "Nick Clegg served as Deputy Prime Minister and Lord President of the Privy Council from May 2010 to May 2015. He was elected the Liberal Democrat MP for Sheffield Hallam in 2005."@en ;
     schema1:name "The Rt Hon Nick Clegg"@en ;
     schema1:url <https://www.gov.uk/government/people/nick-clegg> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "85291b62-c0f1-11e4-8223-005056011aef" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-prime-minister>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/deputy-prime-minister>,
         <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
+    govuk:contentId "85291b62-c0f1-11e4-8223-005056011aef" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nick-clegg> ;
-    govuk:role <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
-    govuk:tenureEnd "2015-05-08"^^xsd:date ;
-    govuk:tenureStart "2010-05-10"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nick-clegg> ;
+    fm:role <https://www.gov.uk/government/ministers/lord-president-of-the-council> ;
+    fm:tenureEnd "2015-05-08"^^xsd:date ;
+    fm:tenureStart "2010-05-10"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/nick-clegg> ;
-    govuk:role <https://www.gov.uk/government/ministers/deputy-prime-minister> ;
-    govuk:tenureEnd "2015-05-08"^^xsd:date ;
-    govuk:tenureStart "2010-05-10"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/nick-clegg> ;
+    fm:role <https://www.gov.uk/government/ministers/deputy-prime-minister> ;
+    fm:tenureEnd "2015-05-08"^^xsd:date ;
+    fm:tenureStart "2010-05-10"^^xsd:date .
 

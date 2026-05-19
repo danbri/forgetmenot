@@ -1,20 +1,21 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/home-office> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> .
+<https://www.gov.uk/government/organisations/home-office> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> .
 
 <https://www.gov.uk/government/people/natalie-fleet> schema1:name "Natalie Fleet MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-05-12T21:31:25+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--308> ;
+    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    fm:roleHolder <https://www.gov.uk/government/people/natalie-fleet> ;
     govuk:contentId "73f13714-3f3f-489c-929f-6935e178490a" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
     govuk:publishingApp "whitehall" ;
-    govuk:roleHolder <https://www.gov.uk/government/people/natalie-fleet> ;
     govuk:schemaName "role" .
 

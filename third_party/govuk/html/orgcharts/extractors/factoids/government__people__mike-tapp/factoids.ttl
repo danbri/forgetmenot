@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/home-office> govuk:hasMinister <https://www.gov.uk/government/people/mike-tapp> .
+<https://www.gov.uk/government/organisations/home-office> fm:hasMinister <https://www.gov.uk/government/people/mike-tapp> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> govuk:roleHolder <https://www.gov.uk/government/people/mike-tapp> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> fm:roleHolder <https://www.gov.uk/government/people/mike-tapp> .
 
 <https://www.gov.uk/government/people/mike-tapp> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-07T09:35:10+01:00" ;
     schema1:description "Mike Tapp was appointed Parliamentary Under-Secretary of State in the Home Office on 6 September 2025."@en ;
     schema1:name "Mike Tapp MP"@en ;
     schema1:url <https://www.gov.uk/government/people/mike-tapp> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    fm:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Migration and Citizenship)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> ;
     govuk:contentId "ffbd6eff-98c3-4875-b8ca-1146f0959d9d" ;
-    govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Migration and Citizenship)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/mike-tapp> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> ;
-    govuk:tenureStart "2025-09-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/mike-tapp> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--282> ;
+    fm:tenureStart "2025-09-06"^^xsd:date .
 

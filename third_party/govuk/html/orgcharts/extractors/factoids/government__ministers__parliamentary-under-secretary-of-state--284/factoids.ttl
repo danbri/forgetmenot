@@ -1,21 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> .
+<https://www.gov.uk/government/organisations/ministry-of-justice> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> .
 
 <https://www.gov.uk/government/people/baroness-levitt> schema1:name "Baroness Levitt KC"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-16T14:42:19+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State and Lords Minister"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--284> ;
-    govuk:contentId "9483fb6e-c93b-4f73-bc9d-1c5108ca4da2" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "All Lords Business (except prisons and probation)"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    fm:responsibility "All Lords Business (except prisons and probation)"@en,
         "Family Justice"@en,
         "Mental Capacity"@en,
         "Office for the Public Guardian administration"@en,
@@ -23,6 +22,8 @@
         "Probate (excluding fees)"@en,
         "SI Minister"@en,
         "Transparency and FOI"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/baroness-levitt> ;
+    fm:roleHolder <https://www.gov.uk/government/people/baroness-levitt> ;
+    govuk:contentId "9483fb6e-c93b-4f73-bc9d-1c5108ca4da2" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

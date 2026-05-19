@@ -1,9 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/history/past-prime-ministers/henry-campbell-bannerman> a schema1:Person,
-        govuk:PastPrimeMinister ;
+        fm:PastPrimeMinister ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-01-19T17:38:29+00:00" ;
     schema1:description "Sir Henry Campbell-Bannerman was the first man to be given official use of the title ‘Prime Minister’. Known as CB, he was a firm believer in free trade, Irish Home Rule and the improvement of social conditions."@en ;

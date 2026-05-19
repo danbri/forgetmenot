@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/review-body-on-doctors-and-dentists-remuneration> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-12-20T13:53:13+00:00" ;
     schema1:name "Review Body on Doctors' and Dentists' Remuneration"@en ;
     schema1:url <https://www.gov.uk/government/organisations/review-body-on-doctors-and-dentists-remuneration> ;
-    govuk:contentId "928b7987-72a2-485f-bf70-7d7c1238bc0c" ;
-    govuk:hasManager <https://www.gov.uk/government/people/craig-mackey>,
+    fm:hasManager <https://www.gov.uk/government/people/craig-mackey>,
         <https://www.gov.uk/government/people/jairaj-thakkar>,
         <https://www.gov.uk/government/people/janette-mccormick>,
         <https://www.gov.uk/government/people/lynn-collins>,
@@ -17,6 +17,7 @@
         <https://www.gov.uk/government/people/melanie-jones>,
         <https://www.gov.uk/government/people/raj-patel>,
         <https://www.gov.uk/government/people/suneil-kapadia> ;
+    govuk:contentId "928b7987-72a2-485f-bf70-7d7c1238bc0c" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

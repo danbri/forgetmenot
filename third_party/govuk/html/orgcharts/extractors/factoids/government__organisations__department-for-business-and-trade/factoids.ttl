@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/amanda-brooks> a schema1:Person ;
@@ -78,84 +79,83 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/642ea148ddf8ad000cac0efc/s465_Tim_resized_for_gov.jpg> ;
     schema1:name "Tim Reid"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state--206> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--206> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Trade)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/chris-bryant> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:roleHolder <https://www.gov.uk/government/people/chris-bryant> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Investment)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/jason-stockwood> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:roleHolder <https://www.gov.uk/government/people/jason-stockwood> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Small Business and Economic Transformation)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/blair-mcdougall> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:roleHolder <https://www.gov.uk/government/people/blair-mcdougall> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Employment Rights and Consumer Protection)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/kate-dearden> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:roleHolder <https://www.gov.uk/government/people/kate-dearden> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Digital Economy)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:roleHolder <https://www.gov.uk/government/people/liz-lloyd> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Industry)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/chris-mcdonald> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:roleHolder <https://www.gov.uk/government/people/chris-mcdonald> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state--2> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state--2> a fm:MinisterialRole ;
     schema1:name "Secretary of State for Business and Trade"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:roleHolder <https://www.gov.uk/government/people/peter-kyle> .
 
 <https://www.gov.uk/government/people/blair-mcdougall> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68d11b06e65dc716bfb1dbbe/s465_minister-blair-mcdougall.jpg> ;
     schema1:name "Blair McDougall MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292> .
 
 <https://www.gov.uk/government/people/chris-bryant> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66a0cba1ab418ab055592c17/s465_minister_bryant_govuk.jpg> ;
     schema1:name "Sir Chris Bryant MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--206> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--206> .
 
 <https://www.gov.uk/government/people/chris-mcdonald> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69933bb37da91680ad7f44c0/s465_chris-mcdonald-960.png> ;
     schema1:name "Chris McDonald MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry> .
 
 <https://www.gov.uk/government/people/jason-stockwood> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68e92b6d187483de54d7677f/s465_jason-stockwood.jpg> ;
     schema1:name "Lord Stockwood"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
 
 <https://www.gov.uk/government/people/kate-dearden> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68bd9b9311b4ded2da19feee/s465_kate-dearden.jpeg> ;
     schema1:name "Kate Dearden MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> .
 
 <https://www.gov.uk/government/people/liz-lloyd> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/68d28ccee65dc716bfb1dc5f/s465_Liz_Llyod_960x640.png> ;
     schema1:name "Baroness Lloyd of Effra CBE"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302> .
 
 <https://www.gov.uk/government/people/peter-kyle> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66881a3e4a94d44125d9cda2/s465_Peter_Kyle.jpg> ;
     schema1:name "The Rt Hon Peter Kyle MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state--2> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state--2> .
 
 <https://www.gov.uk/government/organisations/department-for-business-and-trade> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-02-19T09:32:17+00:00" ;
     schema1:name "Department for Business and Trade"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
-    govuk:contentId "aa750cdf-7925-429d-a2b3-0d9fa47d2c48" ;
-    govuk:hasManager <https://www.gov.uk/government/people/amanda-brooks>,
+    fm:hasManager <https://www.gov.uk/government/people/amanda-brooks>,
         <https://www.gov.uk/government/people/caleb-deeks>,
         <https://www.gov.uk/government/people/ceri-smith>,
         <https://www.gov.uk/government/people/david-bickerton>,
@@ -174,20 +174,21 @@
         <https://www.gov.uk/government/people/roni-savage>,
         <https://www.gov.uk/government/people/sam-lister>,
         <https://www.gov.uk/government/people/tim-reid> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/blair-mcdougall>,
+    fm:hasMinister <https://www.gov.uk/government/people/blair-mcdougall>,
         <https://www.gov.uk/government/people/chris-bryant>,
         <https://www.gov.uk/government/people/chris-mcdonald>,
         <https://www.gov.uk/government/people/jason-stockwood>,
         <https://www.gov.uk/government/people/kate-dearden>,
         <https://www.gov.uk/government/people/liz-lloyd>,
         <https://www.gov.uk/government/people/peter-kyle> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--206>,
+    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--206>,
         <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--292>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--302>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-industry>,
         <https://www.gov.uk/government/ministers/secretary-of-state--2> ;
+    govuk:contentId "aa750cdf-7925-429d-a2b3-0d9fa47d2c48" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

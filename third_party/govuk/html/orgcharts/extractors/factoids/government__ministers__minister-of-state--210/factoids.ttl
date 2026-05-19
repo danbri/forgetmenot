@@ -1,25 +1,26 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--210> .
+<https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--210> .
 
 <https://www.gov.uk/government/people/ian-murray> schema1:name "The Rt Hon Ian Murray MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--210> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--210> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--210> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--210> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-11T14:58:09+01:00" ;
     schema1:name "Minister of State (Minister for Creative Industries, Media and Arts)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--210> ;
-    govuk:contentId "2f2ffbec-3c7a-4ece-8ee7-6f9b405c6cdf" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Arts"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
+    fm:responsibility "Arts"@en,
         "Creative Industries"@en,
         "Cultural Diplomacy and Soft Power"@en,
         "Gambling, Heritage, Libraries and Museums (in the Commons)"@en,
         "Media"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/ian-murray> ;
+    fm:roleHolder <https://www.gov.uk/government/people/ian-murray> ;
+    govuk:contentId "2f2ffbec-3c7a-4ece-8ee7-6f9b405c6cdf" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/home-office> govuk:hasMinister <https://www.gov.uk/government/people/paul-morrison> .
+<https://www.gov.uk/government/organisations/home-office> fm:hasMinister <https://www.gov.uk/government/people/paul-morrison> .
 
 <https://www.gov.uk/government/people/paul-morrison> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-04-29T15:49:28+01:00" ;
     schema1:description "Paul Morrison is the Director General for Immigration and Citizenship Service at the Home Office."@en ;
     schema1:name "Paul Morrison CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/paul-morrison> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/home-office> ;
+    fm:currentRoleTitle "Director General, Immigration and Citizenship Service"@en ;
     govuk:contentId "caa9cdd9-93e0-4b96-aed5-fb281c780454" ;
-    govuk:currentRoleTitle "Director General, Immigration and Citizenship Service"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

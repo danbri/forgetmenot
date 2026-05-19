@@ -1,9 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/history/past-prime-ministers/spencer-perceval> a schema1:Person,
-        govuk:PastPrimeMinister ;
+        fm:PastPrimeMinister ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-01-19T17:38:33+00:00" ;
     schema1:description "Spencer Perceval enjoys the unfortunate distinction of being the only British Prime Minister to die at the hands of an assassin. His political career coincided with a period of upheaval created by the French Revolution. Having pursued a successful legal career, he was slowly drawn into politics."@en ;

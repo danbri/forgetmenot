@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/claudia-arney> a schema1:Person ;
@@ -26,67 +27,67 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/697225513f2908a349040544/s465_Prof_Tom_Crick_DCMS_v3.png> ;
     schema1:name "Professor Tom Crick MBE"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state--210> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--210> a fm:MinisterialRole ;
     schema1:name "Minister of State (Minister for Creative Industries, Media and Arts)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/ian-murray> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
+    fm:roleHolder <https://www.gov.uk/government/people/ian-murray> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-museums-heritage-and-gambling-and-lords-minister> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-museums-heritage-and-gambling-and-lords-minister> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Museums, Heritage and Gambling, and Lords Minister)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/baroness-twycross> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
+    fm:roleHolder <https://www.gov.uk/government/people/baroness-twycross> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Sport, Tourism, Civil Society and Youth)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/stephanie-peacock> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
+    fm:roleHolder <https://www.gov.uk/government/people/stephanie-peacock> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport--3> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport--3> a fm:MinisterialRole ;
     schema1:name "Secretary of State for Culture, Media and Sport"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/lisa-nandy> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
+    fm:roleHolder <https://www.gov.uk/government/people/lisa-nandy> .
 
 <https://www.gov.uk/government/people/baroness-twycross> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668fa339fc8e12ac3edafad1/s465_Baroness-Twycross.jpg> ;
     schema1:name "Baroness Twycross"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-museums-heritage-and-gambling-and-lords-minister> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-museums-heritage-and-gambling-and-lords-minister> .
 
 <https://www.gov.uk/government/people/ian-murray> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66882879ab5fc5929851ba87/s465_ian-murray.jpg> ;
     schema1:name "The Rt Hon Ian Murray MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--210> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--210> .
 
 <https://www.gov.uk/government/people/lisa-nandy> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668827cf4a94d44125d9cdaa/s465_lisa-nandy.jpg> ;
     schema1:name "The Rt Hon Lisa Nandy MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport--3> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport--3> .
 
 <https://www.gov.uk/government/people/stephanie-peacock> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668d8d827541f54efe51bced/s465_Portrait.jpeg> ;
     schema1:name "Stephanie Peacock MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth> .
 
 <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-04-07T09:59:10+01:00" ;
     schema1:name "Department for Culture, Media and Sport"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-culture-media-and-sport> ;
-    govuk:contentId "ae9ef2e1-9de0-4ff8-b560-e6ac28a6205c" ;
-    govuk:hasManager <https://www.gov.uk/government/people/claudia-arney>,
+    fm:hasManager <https://www.gov.uk/government/people/claudia-arney>,
         <https://www.gov.uk/government/people/emma-ward>,
         <https://www.gov.uk/government/people/polly-payne>,
         <https://www.gov.uk/government/people/ruth-hannant>,
         <https://www.gov.uk/government/people/susannah-storey>,
         <https://www.gov.uk/government/people/tom-crick> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/baroness-twycross>,
+    fm:hasMinister <https://www.gov.uk/government/people/baroness-twycross>,
         <https://www.gov.uk/government/people/ian-murray>,
         <https://www.gov.uk/government/people/lisa-nandy>,
         <https://www.gov.uk/government/people/stephanie-peacock> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--210>,
+    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--210>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-museums-heritage-and-gambling-and-lords-minister>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-sport-tourism-civil-society-and-youth>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport--3> ;
+    govuk:contentId "ae9ef2e1-9de0-4ff8-b560-e6ac28a6205c" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

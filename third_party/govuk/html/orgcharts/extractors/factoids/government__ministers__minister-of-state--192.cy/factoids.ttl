@@ -1,25 +1,26 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192.cy> .
+<https://www.gov.uk/government/organisations/department-for-education> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192.cy> .
 
-<https://www.gov.uk/government/organisations/department-for-work-pensions.cy> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192.cy> .
+<https://www.gov.uk/government/organisations/department-for-work-pensions.cy> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192.cy> .
 
-<https://www.gov.uk/government/organisations/disability-unit> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192.cy> .
+<https://www.gov.uk/government/organisations/disability-unit> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192.cy> .
 
-<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192.cy> .
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--192.cy> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--192.cy> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--192.cy> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-11-18T10:18:27+00:00" ;
     schema1:name "Gweinidog Gwladol (Gweinidog Nawdd Cymdeithasol ac Anabledd)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--192.cy> ;
-    govuk:contentId "86a981fd-00c3-487b-bf8c-fbf0205ce966" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-education>,
         <https://www.gov.uk/government/organisations/department-for-work-pensions.cy>,
         <https://www.gov.uk/government/organisations/disability-unit>,
         <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> ;
+    govuk:contentId "86a981fd-00c3-487b-bf8c-fbf0205ce966" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

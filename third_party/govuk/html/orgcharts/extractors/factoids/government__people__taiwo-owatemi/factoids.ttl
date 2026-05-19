@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/taiwo-owatemi> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/taiwo-owatemi> .
 
-<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip> govuk:roleHolder <https://www.gov.uk/government/people/taiwo-owatemi> .
+<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip> fm:roleHolder <https://www.gov.uk/government/people/taiwo-owatemi> .
 
 <https://www.gov.uk/government/people/taiwo-owatemi> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-10T17:43:30+01:00" ;
     schema1:description "Taiwo Owatemi was appointed Junior Lord of the Treasury (Government Whip) on 10 July 2024."@en ;
     schema1:name "Taiwo Owatemi MP"@en ;
     schema1:url <https://www.gov.uk/government/people/taiwo-owatemi> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:currentRoleTitle "Junior Lord of the Treasury (Government Whip)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip> ;
     govuk:contentId "004e0c08-c0ea-42a8-b4ca-bf931803d5c3" ;
-    govuk:currentRoleTitle "Junior Lord of the Treasury (Government Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/taiwo-owatemi> ;
-    govuk:role <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip> ;
-    govuk:tenureStart "2024-07-10"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/taiwo-owatemi> ;
+    fm:role <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip> ;
+    fm:tenureStart "2024-07-10"^^xsd:date .
 

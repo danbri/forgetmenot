@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/wales-office.cy> govuk:hasMinister <https://www.gov.uk/government/people/ciaran-hayes.cy> .
+<https://www.gov.uk/government/organisations/wales-office.cy> fm:hasMinister <https://www.gov.uk/government/people/ciaran-hayes.cy> .
 
 <https://www.gov.uk/government/people/ciaran-hayes.cy> a schema1:Person ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-01-08T16:44:03+00:00" ;
     schema1:name "Ciarán Hayes"@en ;
     schema1:url <https://www.gov.uk/government/people/ciaran-hayes.cy> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/wales-office.cy> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/wales-office.cy> ;
+    fm:currentRoleTitle "Cyfarwyddwr, Swyddfa Cymru"@en ;
     govuk:contentId "836876a7-220b-4bb2-a59c-f3149e6552a2" ;
-    govuk:currentRoleTitle "Cyfarwyddwr, Swyddfa Cymru"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

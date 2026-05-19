@@ -1,38 +1,39 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasMinister <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> fm:hasMinister <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
 
-<https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--8> govuk:roleHolder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
+<https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--8> fm:roleHolder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250> govuk:roleHolder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250> fm:roleHolder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> .
 
 <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-09T19:40:29+01:00" ;
     schema1:description "Baroness Taylor of Stevenage was appointed Parliamentary Under-Secretary of State at the Ministry of Housing, Communities and Local Government and as a Baroness in Waiting (Government Whip) on 9 July 2024."@en ;
     schema1:name "Baroness Taylor of Stevenage"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
-    govuk:contentId "1eeeed72-4a07-4187-96dd-18be20cc21a5" ;
-    govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Lords Minister for Housing and Local Government) and Baroness in Waiting (Government Whip)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--8>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    fm:currentRoleTitle "Parliamentary Under-Secretary of State (Lords Minister for Housing and Local Government) and Baroness in Waiting (Government Whip)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--8>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250> ;
+    govuk:contentId "1eeeed72-4a07-4187-96dd-18be20cc21a5" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250> ;
-    govuk:tenureStart "2024-07-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--250> ;
+    fm:tenureStart "2024-07-09"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> ;
-    govuk:role <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--8> ;
-    govuk:tenureStart "2024-07-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/baroness-taylor-of-stevenage> ;
+    fm:role <https://www.gov.uk/government/ministers/baroness-in-waiting-government-whip--8> ;
+    fm:tenureStart "2024-07-09"^^xsd:date .
 

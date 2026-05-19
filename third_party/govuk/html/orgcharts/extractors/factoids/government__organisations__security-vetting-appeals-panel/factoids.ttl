@@ -1,20 +1,21 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/security-vetting-appeals-panel> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-11-04T15:55:32+00:00" ;
     schema1:name "Security Vetting Appeals Panel"@en ;
     schema1:url <https://www.gov.uk/government/organisations/security-vetting-appeals-panel> ;
-    govuk:contentId "feb0ab2b-dc16-4fc7-abff-8668618d6987" ;
-    govuk:hasManager <https://www.gov.uk/government/people/adrian-fulford>,
+    fm:hasManager <https://www.gov.uk/government/people/adrian-fulford>,
         <https://www.gov.uk/government/people/antony-edwards-stuart>,
         <https://www.gov.uk/government/people/claire-stokes>,
         <https://www.gov.uk/government/people/james-barron>,
         <https://www.gov.uk/government/people/nicholas-griffin>,
         <https://www.gov.uk/government/people/sally-berlin> ;
+    govuk:contentId "feb0ab2b-dc16-4fc7-abff-8668618d6987" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

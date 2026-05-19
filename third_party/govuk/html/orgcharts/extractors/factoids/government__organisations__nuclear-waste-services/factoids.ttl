@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/nuclear-waste-services> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-07T12:34:34+01:00" ;
     schema1:name "Nuclear Waste Services"@en ;
     schema1:url <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
-    govuk:contentId "87ad1f5a-f535-433c-8dde-eae033c593ec" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alex-de-keyser>,
+    fm:hasManager <https://www.gov.uk/government/people/alex-de-keyser>,
         <https://www.gov.uk/government/people/chris-sly>,
         <https://www.gov.uk/government/people/john-corderoy>,
         <https://www.gov.uk/government/people/liz-peace>,
@@ -20,6 +20,7 @@
         <https://www.gov.uk/government/people/shameem-akhtar>,
         <https://www.gov.uk/government/people/simon-hughes--2>,
         <https://www.gov.uk/government/people/steve-glasson> ;
+    govuk:contentId "87ad1f5a-f535-433c-8dde-eae033c593ec" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

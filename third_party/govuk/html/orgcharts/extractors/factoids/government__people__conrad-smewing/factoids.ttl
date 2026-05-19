@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasMinister <https://www.gov.uk/government/people/conrad-smewing> .
+<https://www.gov.uk/government/organisations/hm-treasury> fm:hasMinister <https://www.gov.uk/government/people/conrad-smewing> .
 
 <https://www.gov.uk/government/people/conrad-smewing> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-03T09:52:05+01:00" ;
     schema1:description "Conrad is Director General of Public Spending in HMT. He joined the Treasury in 2003 and has held several roles including Press Secretary and then Principal Private Secretary to the Chancellor from 2014 to 2017, working for first George Osborne and then Philip Hammond; Director of Public Spending, where he was responsible for a number of Spending Reviews; Deputy Director for Fiscal Policy, where he advised on consolidation following the financial crisis; and Deputy Director for Corporate Finance, Business, Innovation and Skills, where he was involved in student finance reform and the sale of the Royal Mail. He has also worked at UK Government Investments, on the sale of assets left over from financial crisis rescue, and most recently at the Department for Levelling Up where he was the Director responsible for the planning system."@en ;
     schema1:name "Conrad Smewing"@en ;
     schema1:url <https://www.gov.uk/government/people/conrad-smewing> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/hm-treasury> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/hm-treasury> ;
+    fm:currentRoleTitle "Director General, Public Spending and Joint-Head of the Government Finance Function"@en ;
     govuk:contentId "873815c0-90e8-40cb-97c4-4cb67426cc7e" ;
-    govuk:currentRoleTitle "Director General, Public Spending and Joint-Head of the Government Finance Function"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

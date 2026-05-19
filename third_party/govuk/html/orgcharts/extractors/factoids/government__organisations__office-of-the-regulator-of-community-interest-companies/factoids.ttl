@@ -1,15 +1,16 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/office-of-the-regulator-of-community-interest-companies> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-11-01T10:01:32+00:00" ;
     schema1:name "Office of the Regulator of Community Interest Companies"@en ;
     schema1:url <https://www.gov.uk/government/organisations/office-of-the-regulator-of-community-interest-companies> ;
+    fm:hasManager <https://www.gov.uk/government/people/andy-king> ;
     govuk:contentId "518ea730-81db-4d3b-8080-50cd6e0784cd" ;
-    govuk:hasManager <https://www.gov.uk/government/people/andy-king> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

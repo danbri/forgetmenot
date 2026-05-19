@@ -1,49 +1,50 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/andrew-jones> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/andrew-jones> .
 
-<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-jones> .
+<https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> fm:previouslyHeldBy <https://www.gov.uk/government/people/andrew-jones> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--45> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-jones> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--45> fm:previouslyHeldBy <https://www.gov.uk/government/people/andrew-jones> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/andrew-jones> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport> fm:previouslyHeldBy <https://www.gov.uk/government/people/andrew-jones> .
 
 <https://www.gov.uk/government/people/andrew-jones> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-05-30T00:01:07+01:00" ;
     schema1:description "Andrew Jones was Parliamentary Under Secretary of State at the Department for Transport from November 2018 to July 2019. He was Exchequer Secretary to HM Treasury from 15 June 2017 to 8 January 2018."@en ;
     schema1:name "Andrew Jones"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-jones> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "eab0eef3-404e-4e65-9313-d5bfeffe03b1" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--45>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport> ;
+    govuk:contentId "eab0eef3-404e-4e65-9313-d5bfeffe03b1" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-jones> ;
-    govuk:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2018-01-08"^^xsd:date ;
-    govuk:tenureStart "2017-06-15"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/andrew-jones> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport> ;
+    fm:tenureEnd "2019-07-26"^^xsd:date ;
+    fm:tenureStart "2018-11-12"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-jones> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-for-the-department-for-transport> ;
-    govuk:tenureEnd "2019-07-26"^^xsd:date ;
-    govuk:tenureStart "2018-11-12"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/andrew-jones> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--45> ;
+    fm:tenureEnd "2017-06-15"^^xsd:date ;
+    fm:tenureStart "2015-05-12"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/andrew-jones> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--45> ;
-    govuk:tenureEnd "2017-06-15"^^xsd:date ;
-    govuk:tenureStart "2015-05-12"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/andrew-jones> ;
+    fm:role <https://www.gov.uk/government/ministers/exchequer-secretary-to-the-treasury> ;
+    fm:tenureEnd "2018-01-08"^^xsd:date ;
+    fm:tenureStart "2017-06-15"^^xsd:date .
 

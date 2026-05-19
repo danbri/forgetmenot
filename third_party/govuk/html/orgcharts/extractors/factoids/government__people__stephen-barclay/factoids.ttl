@@ -1,40 +1,40 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/assistant-government-whip--12> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/assistant-government-whip--12> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--2> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--8> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--8> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--59> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/minister-of-state--59> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-exiting-the-european-union> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-exiting-the-european-union> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> govuk:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> fm:previouslyHeldBy <https://www.gov.uk/government/people/stephen-barclay> .
 
 <https://www.gov.uk/government/people/stephen-barclay> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-18T10:48:11+01:00" ;
     schema1:description "Steve Barclay was Secretary of State for Environment, Food and Rural Affairs between 13 November 2023 and 5 July 2024. He was previously Secretary of State for Health and Social Care between 25 October 2022 and 13 November 2023. He held the same role between 5 July 2022 and 6 September 2022."@en ;
     schema1:name "The Rt Hon Steve Barclay MP"@en ;
     schema1:url <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "41777ed5-2188-4b9e-8fe4-a8948518941c" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--12>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--12>,
         <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster>,
         <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury>,
         <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--2>,
@@ -44,83 +44,84 @@
         <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-exiting-the-european-union>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:contentId "41777ed5-2188-4b9e-8fe4-a8948518941c" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2023-11-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--2> ;
+    fm:tenureEnd "2018-01-09"^^xsd:date ;
+    fm:tenureStart "2017-06-14"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
-    govuk:tenureEnd "2021-09-14"^^xsd:date ;
-    govuk:tenureStart "2020-02-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
+    fm:tenureEnd "2022-02-08"^^xsd:date ;
+    fm:tenureStart "2021-09-15"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/economic-secretary-to-the-treasury--2> ;
-    govuk:tenureEnd "2018-01-09"^^xsd:date ;
-    govuk:tenureStart "2017-06-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--8> ;
+    fm:tenureEnd "2017-06-14"^^xsd:date ;
+    fm:tenureStart "2016-07-17"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--59> ;
-    govuk:tenureEnd "2018-11-16"^^xsd:date ;
-    govuk:tenureStart "2018-01-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-environment-food-and-rural-affairs> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2023-11-13"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--8> ;
-    govuk:tenureEnd "2017-06-14"^^xsd:date ;
-    govuk:tenureStart "2016-07-17"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--59> ;
+    fm:tenureEnd "2018-11-16"^^xsd:date ;
+    fm:tenureStart "2018-01-09"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--12> ;
-    govuk:tenureEnd "2016-07-17"^^xsd:date ;
-    govuk:tenureStart "2015-05-13"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    fm:tenureEnd "2023-11-13"^^xsd:date ;
+    fm:tenureStart "2022-10-25"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
-    govuk:tenureEnd "2023-11-13"^^xsd:date ;
-    govuk:tenureStart "2022-10-25"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    fm:tenureEnd "2022-09-06"^^xsd:date ;
+    fm:tenureStart "2022-07-05"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
-    govuk:tenureEnd "2022-07-05"^^xsd:date ;
-    govuk:tenureStart "2021-09-15"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/assistant-government-whip--12> ;
+    fm:tenureEnd "2016-07-17"^^xsd:date ;
+    fm:tenureStart "2015-05-13"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2022-07-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/chancellor-of-the-duchy-of-lancaster> ;
+    fm:tenureEnd "2022-07-05"^^xsd:date ;
+    fm:tenureStart "2021-09-15"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-the-cabinet-office> ;
-    govuk:tenureEnd "2022-02-08"^^xsd:date ;
-    govuk:tenureStart "2021-09-15"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-exiting-the-european-union> ;
+    fm:tenureEnd "2020-01-31"^^xsd:date ;
+    fm:tenureStart "2018-11-16"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-barclay> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-exiting-the-european-union> ;
-    govuk:tenureEnd "2020-01-31"^^xsd:date ;
-    govuk:tenureStart "2018-11-16"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/stephen-barclay> ;
+    fm:role <https://www.gov.uk/government/ministers/chief-secretary-to-the-treasury> ;
+    fm:tenureEnd "2021-09-14"^^xsd:date ;
+    fm:tenureStart "2020-02-13"^^xsd:date .
 

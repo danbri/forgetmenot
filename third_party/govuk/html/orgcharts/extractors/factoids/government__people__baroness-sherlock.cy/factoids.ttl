@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-work-pensions.cy> govuk:hasMinister <https://www.gov.uk/government/people/baroness-sherlock.cy> .
+<https://www.gov.uk/government/organisations/department-for-work-pensions.cy> fm:hasMinister <https://www.gov.uk/government/people/baroness-sherlock.cy> .
 
 <https://www.gov.uk/government/people/baroness-sherlock.cy> a schema1:Person ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-12-17T17:01:38+00:00" ;
     schema1:name "Baroness Sherlock OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-sherlock.cy> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions.cy> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions.cy> ;
+    fm:currentRoleTitle "Gweinidog Gwladol (Gweinidog yn Nhŷ’r Arglwyddi)"@en ;
     govuk:contentId "5b4427ff-d318-49cc-b2f5-bb7ebd6d91b6" ;
-    govuk:currentRoleTitle "Gweinidog Gwladol (Gweinidog yn Nhŷ’r Arglwyddi)"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/uk-national-screening-committee> govuk:hasMinister <https://www.gov.uk/government/people/eleanor-cozens> .
+<https://www.gov.uk/government/organisations/uk-national-screening-committee> fm:hasMinister <https://www.gov.uk/government/people/eleanor-cozens> .
 
 <https://www.gov.uk/government/people/eleanor-cozens> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2021-05-13T12:01:45+01:00" ;
     schema1:description "Before retiring in 2020, Eleanor Cozens worked in market research and then in international development, where she led or supported programmes for international charities in the UK and abroad."@en ;
     schema1:name "Eleanor Cozens"@en ;
     schema1:url <https://www.gov.uk/government/people/eleanor-cozens> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/uk-national-screening-committee> ;
+    fm:currentRoleTitle "Member"@en ;
     govuk:contentId "290b5e01-a239-4738-adfc-0a8beadec85f" ;
-    govuk:currentRoleTitle "Member"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

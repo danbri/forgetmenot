@@ -1,26 +1,27 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-transport> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> .
+<https://www.gov.uk/government/organisations/department-for-transport> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> .
 
 <https://www.gov.uk/government/people/keir-mather> schema1:name "Keir Mather MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-20T13:18:22+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Aviation, Maritime and Decarbonisation)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--300> ;
-    govuk:contentId "f24f02f6-57a8-41f5-bf40-584fb798cad1" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "aviation and airport expansion"@en,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-transport> ;
+    fm:responsibility "aviation and airport expansion"@en,
         "decarbonisation and electric vehicles (EVs)"@en,
         "freight and borders"@en,
         "international"@en,
         "maritime"@en,
         "security"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/keir-mather> ;
+    fm:roleHolder <https://www.gov.uk/government/people/keir-mather> ;
+    govuk:contentId "f24f02f6-57a8-41f5-bf40-584fb798cad1" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

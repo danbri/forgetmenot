@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> govuk:hasMinister <https://www.gov.uk/government/people/catherine-smith> .
+<https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> fm:hasMinister <https://www.gov.uk/government/people/catherine-smith> .
 
-<https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> govuk:roleHolder <https://www.gov.uk/government/people/catherine-smith> .
+<https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> fm:roleHolder <https://www.gov.uk/government/people/catherine-smith> .
 
 <https://www.gov.uk/government/people/catherine-smith> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-09T11:18:23+00:00" ;
     schema1:description "Catherine Smith KC was appointed as Advocate General for Scotland in August 2024. She was appointed to the House of Lords in October 2024."@en ;
     schema1:name "Baroness Smith of Cluny KC"@en ;
     schema1:url <https://www.gov.uk/government/people/catherine-smith> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/office-of-the-advocate-general-for-scotland> ;
+    fm:currentRoleTitle "HM Advocate General for Scotland"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
     govuk:contentId "03e706f4-2d29-483f-a6bc-728f526920c3" ;
-    govuk:currentRoleTitle "HM Advocate General for Scotland"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/catherine-smith> ;
-    govuk:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
-    govuk:tenureStart "2024-08-29"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/catherine-smith> ;
+    fm:role <https://www.gov.uk/government/ministers/hm-advocate-general-for-scotland> ;
+    fm:tenureStart "2024-08-29"^^xsd:date .
 

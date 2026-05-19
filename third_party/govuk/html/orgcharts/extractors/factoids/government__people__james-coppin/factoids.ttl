@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/national-housing-bank> govuk:hasMinister <https://www.gov.uk/government/people/james-coppin> .
+<https://www.gov.uk/government/organisations/national-housing-bank> fm:hasMinister <https://www.gov.uk/government/people/james-coppin> .
 
 <https://www.gov.uk/government/people/james-coppin> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-30T15:24:16+01:00" ;
     schema1:description "James joined UK Government Investments (formerly the Shareholder Executive) in March 2014. He has worked on a variety of corporate finance and governance projects, including government investments into industry and government asset sales."@en ;
     schema1:name "James Coppin"@en ;
     schema1:url <https://www.gov.uk/government/people/james-coppin> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/national-housing-bank> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/national-housing-bank> ;
+    fm:currentRoleTitle "Non-Executive Director, National Housing Bank"@en ;
     govuk:contentId "5fd414d2-147a-4b95-aaff-b6f1c5a22c21" ;
-    govuk:currentRoleTitle "Non-Executive Director, National Housing Bank"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

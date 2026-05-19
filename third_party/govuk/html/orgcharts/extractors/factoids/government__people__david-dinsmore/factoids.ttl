@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/cabinet-office> govuk:hasMinister <https://www.gov.uk/government/people/david-dinsmore> .
+<https://www.gov.uk/government/organisations/cabinet-office> fm:hasMinister <https://www.gov.uk/government/people/david-dinsmore> .
 
 <https://www.gov.uk/government/people/david-dinsmore> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-11-03T16:02:04+00:00" ;
     schema1:description "David Dinsmore was appointed the Permanent Secretary Director for Government Communications at the Cabinet Office in November 2025. He leads Government Communications, the professional body overseeing and coordinating communications across all government departments and public bodies."@en ;
     schema1:name "David Dinsmore"@en ;
     schema1:url <https://www.gov.uk/government/people/david-dinsmore> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/cabinet-office> ;
+    fm:currentRoleTitle "Permanent Secretary Director of Communications"@en ;
     govuk:contentId "7f6d3f2d-b9dd-4151-a39a-b96938c16e60" ;
-    govuk:currentRoleTitle "Permanent Secretary Director of Communications"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

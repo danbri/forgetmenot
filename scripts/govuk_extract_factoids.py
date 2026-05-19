@@ -25,9 +25,15 @@ where every triple's named graph is the page URL it came from, so the
 nquad file itself answers "which gov.uk page is this factoid from?".
 
 Vocabulary used:
-    schema:                http://schema.org/
-    dcterms:               http://purl.org/dc/terms/
-    govuk: (this project)  https://forgetmenot.local/govuk#
+    schema:    http://schema.org/                       (external)
+    dcterms:   http://purl.org/dc/terms/                (external)
+    fm:        https://forgetmenot.local/vocab#         (this project's
+               vocabulary -- everything we invented: classes, relations,
+               provenance flags)
+    govuk:     https://www.gov.uk/vocab/meta#           (mirrors GOV.UK's
+               own <meta name="govuk:*"> publishing-app attributes:
+               govuk:contentId, govuk:schemaName, govuk:publishingApp.
+               We don't invent under this namespace.)
 """
 from __future__ import annotations
 
@@ -48,7 +54,13 @@ from rdflib import RDF, XSD, Literal, Namespace, URIRef
 
 SCHEMA = Namespace("http://schema.org/")
 DCTERMS = Namespace("http://purl.org/dc/terms/")
-GOVUK = Namespace("https://forgetmenot.local/govuk#")
+# fm: vocabulary for everything this project invents (classes, relations,
+# provenance flags). Reserves govuk: for things that genuinely come from
+# gov.uk's own publishing surfaces -- the <meta name="govuk:*"> attribute
+# names. Anything we modelled ourselves (Organisation, MinisterialRole,
+# RoleTenure, hasMinister, holdsRole, etc.) lives under fm:.
+FM    = Namespace("https://forgetmenot.local/vocab#")
+GOVUK = Namespace("https://www.gov.uk/vocab/meta#")
 
 
 # --- helpers ------------------------------------------------------------
@@ -182,7 +194,7 @@ def parse_tenure(text: str) -> tuple[str | None, str | None]:
 def extract_role(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
     counts: dict[str, int] = {"role": 0, "responsibility": 0, "previous_holder": 0}
     subj = URIRef(page)
-    g.add((subj, RDF.type, GOVUK.MinisterialRole))
+    g.add((subj, RDF.type, FM.MinisterialRole))
     g.add((subj, SCHEMA.url, subj))
     name = first_h1_text(soup)
     if name:
@@ -194,8 +206,8 @@ def extract_role(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
     if org_list:
         for a in org_list.find_all("a", href=True):
             org = abs_url(page, a["href"])
-            g.add((subj, GOVUK.partOf, URIRef(org)))
-            g.add((URIRef(org), GOVUK.hasRole, subj))
+            g.add((subj, FM.partOf, URIRef(org)))
+            g.add((URIRef(org), FM.hasRole, subj))
 
     # "Current role holder: <a>...</a>"
     for div in soup.find_all("div"):
@@ -204,8 +216,8 @@ def extract_role(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
             for a in div.find_all("a", href=True):
                 if "/government/people/" in a["href"]:
                     person = URIRef(abs_url(page, a["href"]))
-                    g.add((subj, GOVUK.roleHolder, person))
-                    g.add((person, GOVUK.holdsRole, subj))
+                    g.add((subj, FM.roleHolder, person))
+                    g.add((person, FM.holdsRole, subj))
                     g.add((person, SCHEMA.name, Literal(text_of(a), lang="en")))
             break
 
@@ -222,7 +234,7 @@ def extract_role(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
             if el.name == "li":
                 t = text_of(el)
                 if t:
-                    g.add((subj, GOVUK.responsibility, Literal(t, lang="en")))
+                    g.add((subj, FM.responsibility, Literal(t, lang="en")))
                     counts["responsibility"] += 1
 
     # Previous holders: each <li> after the "Previous holders of this role" h2
@@ -247,15 +259,15 @@ def extract_role(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
                     tenure_text = text_of(p)
                 start, end = parse_tenure(tenure_text)
                 tenure = rdflib.BNode()
-                g.add((tenure, RDF.type, GOVUK.RoleTenure))
-                g.add((tenure, GOVUK.role, subj))
-                g.add((tenure, GOVUK.holder, person))
-                g.add((subj, GOVUK.previouslyHeldBy, person))
+                g.add((tenure, RDF.type, FM.RoleTenure))
+                g.add((tenure, FM.role, subj))
+                g.add((tenure, FM.holder, person))
+                g.add((subj, FM.previouslyHeldBy, person))
                 g.add((person, SCHEMA.name, Literal(text_of(a), lang="en")))
                 if start:
-                    g.add((tenure, GOVUK.tenureStart, Literal(start, datatype=XSD.gYear)))
+                    g.add((tenure, FM.tenureStart, Literal(start, datatype=XSD.gYear)))
                 if end:
-                    g.add((tenure, GOVUK.tenureEnd, Literal(end, datatype=XSD.gYear)))
+                    g.add((tenure, FM.tenureEnd, Literal(end, datatype=XSD.gYear)))
                 counts["previous_holder"] += 1
     return counts
 
@@ -366,17 +378,17 @@ def mine_biography_prose(biography: str, person: rdflib.URIRef,
                 continue
             role_uri = URIRef(f"https://www.gov.uk/government/ministers/{role_slug}")
             tenure = rdflib.BNode()
-            g.add((tenure, RDF.type, GOVUK.RoleTenure))
-            g.add((tenure, GOVUK.role, role_uri))
-            g.add((tenure, GOVUK.holder, person))
-            g.add((tenure, GOVUK.proseExtracted, Literal(True)))
-            g.add((tenure, GOVUK.tenureStart,
+            g.add((tenure, RDF.type, FM.RoleTenure))
+            g.add((tenure, FM.role, role_uri))
+            g.add((tenure, FM.holder, person))
+            g.add((tenure, FM.proseExtracted, Literal(True)))
+            g.add((tenure, FM.tenureStart,
                    Literal(start_yr, datatype=XSD.gYear)))
             if end_yr:
-                g.add((tenure, GOVUK.tenureEnd,
+                g.add((tenure, FM.tenureEnd,
                        Literal(end_yr, datatype=XSD.gYear)))
-            g.add((person, GOVUK.previouslyHeldRole, role_uri))
-            g.add((role_uri, GOVUK.previouslyHeldBy, person))
+            g.add((person, FM.previouslyHeldRole, role_uri))
+            g.add((role_uri, FM.previouslyHeldBy, person))
             n += 1
     return n
 
@@ -395,7 +407,7 @@ def extract_person(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
         counts["person"] = 1
     caption = caption_above_h1(soup)
     if caption:
-        g.add((subj, GOVUK.currentRoleTitle, Literal(caption, lang="en")))
+        g.add((subj, FM.currentRoleTitle, Literal(caption, lang="en")))
     # Current vs former office-holder status is set by extract_from_api()
     # below using the structured `current` flag on each role appointment.
     # The previous HTML heuristic (empty caption-xl = former) was brittle:
@@ -411,16 +423,16 @@ def extract_person(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
             txt == "More about this role" or txt in caption
         ):
             role = URIRef(abs_url(page, href))
-            g.add((subj, GOVUK.holdsRole, role))
-            g.add((role, GOVUK.roleHolder, subj))
+            g.add((subj, FM.holdsRole, role))
+            g.add((role, FM.roleHolder, subj))
             counts["role_link"] += 1
 
     # Organisation anchor in the person's role section
     for a in soup.find_all("a", href=True):
         if a["href"].startswith("/government/organisations/"):
             org = URIRef(abs_url(page, a["href"]))
-            g.add((subj, GOVUK.affiliatedWith, org))
-            g.add((org, GOVUK.hasMinister, subj))
+            g.add((subj, FM.affiliatedWith, org))
+            g.add((org, FM.hasMinister, subj))
             counts["org_link"] += 1
             break  # first one is typically the primary affiliation
 
@@ -473,7 +485,7 @@ def _find_minister_cards(h2: Tag) -> list[Tag]:
 def extract_organisation(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
     counts: dict[str, int] = {"organisation": 0, "minister": 0, "manager": 0}
     subj = URIRef(page)
-    g.add((subj, RDF.type, GOVUK.Organisation))
+    g.add((subj, RDF.type, FM.Organisation))
     g.add((subj, RDF.type, SCHEMA.GovernmentOrganization))
     g.add((subj, SCHEMA.url, subj))
     name = first_h1_text(soup)
@@ -484,10 +496,10 @@ def extract_organisation(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dic
     for h2 in soup.find_all("h2"):
         t = clean(h2.get_text())
         if t == "Our ministers":
-            relation = GOVUK.hasMinister
+            relation = FM.hasMinister
             kind = "minister"
         elif t == "Our management":
-            relation = GOVUK.hasManager
+            relation = FM.hasManager
             kind = "manager"
         else:
             continue
@@ -511,12 +523,12 @@ def extract_organisation(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dic
             counts[kind] += 1
             if role_a and role_a["href"].startswith("/government/ministers/"):
                 role = URIRef(abs_url(page, role_a["href"]))
-                g.add((role, RDF.type, GOVUK.MinisterialRole))
+                g.add((role, RDF.type, FM.MinisterialRole))
                 g.add((role, SCHEMA.name, Literal(text_of(role_a), lang="en")))
-                g.add((subj, GOVUK.hasRole, role))
-                g.add((person, GOVUK.holdsRole, role))
-                g.add((role, GOVUK.roleHolder, person))
-                g.add((role, GOVUK.partOf, subj))
+                g.add((subj, FM.hasRole, role))
+                g.add((person, FM.holdsRole, role))
+                g.add((role, FM.roleHolder, person))
+                g.add((role, FM.partOf, subj))
             img = card.find("img")
             if img and img.get("src") and "s465_" in img["src"]:
                 g.add((person, SCHEMA.image, URIRef(img["src"])))
@@ -545,7 +557,7 @@ def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
             continue
         pm = URIRef(abs_url(page, href))
         g.add((pm, RDF.type, SCHEMA.Person))
-        g.add((pm, RDF.type, GOVUK.PastPrimeMinister))
+        g.add((pm, RDF.type, FM.PastPrimeMinister))
         name = text_of(a)
         if name:
             g.add((pm, SCHEMA.name, Literal(name, lang="en")))
@@ -564,19 +576,19 @@ def extract_pms_index(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
                 li_text = text_of(li)
             for m in _YEAR_RANGE_RE.finditer(li_text):
                 tenure = rdflib.BNode()
-                g.add((tenure, RDF.type, GOVUK.RoleTenure))
-                g.add((tenure, GOVUK.holder, pm))
-                g.add((tenure, GOVUK.role,
+                g.add((tenure, RDF.type, FM.RoleTenure))
+                g.add((tenure, FM.holder, pm))
+                g.add((tenure, FM.role,
                        URIRef("https://www.gov.uk/government/ministers/prime-minister")))
-                g.add((tenure, GOVUK.tenureStart,
+                g.add((tenure, FM.tenureStart,
                        Literal(m.group(1), datatype=XSD.gYear)))
                 end = m.group(2).lower()
                 if end != "present":
-                    g.add((tenure, GOVUK.tenureEnd,
+                    g.add((tenure, FM.tenureEnd,
                            Literal(m.group(2), datatype=XSD.gYear)))
             pm_party = _PARTY_RE.match(li_text)
             if pm_party:
-                g.add((pm, GOVUK.party, Literal(pm_party.group(1), lang="en")))
+                g.add((pm, FM.party, Literal(pm_party.group(1), lang="en")))
             counts["past_pm"] += 1
     return counts
 
@@ -608,19 +620,19 @@ def _extract_pms_index_from_api(data: dict, g: rdflib.Graph) -> int:
         if not slug:
             continue
         pm = URIRef(f"https://www.gov.uk/government/people/{slug}")
-        g.add((pm, RDF.type, GOVUK.PastPrimeMinister))
+        g.add((pm, RDF.type, FM.PastPrimeMinister))
         g.add((pm, SCHEMA.name, Literal(title, lang="en")))
         for dio in a.get("dates_in_office", []) or []:
             tenure = rdflib.BNode()
-            g.add((tenure, RDF.type, GOVUK.RoleTenure))
-            g.add((tenure, GOVUK.holder, pm))
-            g.add((tenure, GOVUK.role, rec_role))
-            g.add((tenure, GOVUK.apiSourced, Literal(True)))
+            g.add((tenure, RDF.type, FM.RoleTenure))
+            g.add((tenure, FM.holder, pm))
+            g.add((tenure, FM.role, rec_role))
+            g.add((tenure, FM.apiSourced, Literal(True)))
             if dio.get("start_year"):
-                g.add((tenure, GOVUK.tenureStart,
+                g.add((tenure, FM.tenureStart,
                        Literal(str(dio["start_year"]), datatype=XSD.gYear)))
             if dio.get("end_year"):
-                g.add((tenure, GOVUK.tenureEnd,
+                g.add((tenure, FM.tenureEnd,
                        Literal(str(dio["end_year"]), datatype=XSD.gYear)))
         n += 1
     return n
@@ -674,23 +686,23 @@ def extract_from_api(api_path: Path, page: str, kind: str,
         started = det.get("started_on")
         ended = det.get("ended_on")
         tenure = rdflib.BNode()
-        g.add((tenure, RDF.type, GOVUK.RoleTenure))
-        g.add((tenure, GOVUK.role, role_uri))
-        g.add((tenure, GOVUK.holder, subj))
-        g.add((tenure, GOVUK.apiSourced, Literal(True)))
+        g.add((tenure, RDF.type, FM.RoleTenure))
+        g.add((tenure, FM.role, role_uri))
+        g.add((tenure, FM.holder, subj))
+        g.add((tenure, FM.apiSourced, Literal(True)))
         if started:
             # Day-level precision: store as xsd:date.
-            g.add((tenure, GOVUK.tenureStart,
+            g.add((tenure, FM.tenureStart,
                    Literal(started[:10], datatype=XSD.date)))
         if ended:
-            g.add((tenure, GOVUK.tenureEnd,
+            g.add((tenure, FM.tenureEnd,
                    Literal(ended[:10], datatype=XSD.date)))
         if current:
-            g.add((subj, GOVUK.holdsRole, role_uri))
-            g.add((role_uri, GOVUK.roleHolder, subj))
+            g.add((subj, FM.holdsRole, role_uri))
+            g.add((role_uri, FM.roleHolder, subj))
         else:
-            g.add((subj, GOVUK.previouslyHeldRole, role_uri))
-            g.add((role_uri, GOVUK.previouslyHeldBy, subj))
+            g.add((subj, FM.previouslyHeldRole, role_uri))
+            g.add((role_uri, FM.previouslyHeldBy, subj))
         counts["api_tenures"] += 1
 
     # Replace the HTML-driven empty-caption guess with the API's truth:
@@ -699,10 +711,10 @@ def extract_from_api(api_path: Path, page: str, kind: str,
     # the HTML pass if the API says otherwise.
     if appointments:
         if any_current:
-            g.remove((subj, RDF.type, GOVUK.FormerOfficeHolder))
-            g.add((subj, RDF.type, GOVUK.CurrentOfficeHolder))
+            g.remove((subj, RDF.type, FM.FormerOfficeHolder))
+            g.add((subj, RDF.type, FM.CurrentOfficeHolder))
         else:
-            g.add((subj, RDF.type, GOVUK.FormerOfficeHolder))
+            g.add((subj, RDF.type, FM.FormerOfficeHolder))
         counts["api_status_marker"] = 1
     return counts
 
@@ -710,7 +722,7 @@ def extract_from_api(api_path: Path, page: str, kind: str,
 def extract_past_pm(soup: BeautifulSoup, page: str, g: rdflib.Graph) -> dict:
     subj = URIRef(page)
     g.add((subj, RDF.type, SCHEMA.Person))
-    g.add((subj, RDF.type, GOVUK.PastPrimeMinister))
+    g.add((subj, RDF.type, FM.PastPrimeMinister))
     g.add((subj, SCHEMA.url, subj))
     name = first_h1_text(soup)
     if name:
@@ -742,6 +754,7 @@ EXTRACTORS = {
 def bind_prefixes(g: rdflib.Graph) -> None:
     g.bind("schema", SCHEMA)
     g.bind("dcterms", DCTERMS)
+    g.bind("fm", FM)
     g.bind("govuk", GOVUK)
     g.bind("xsd", XSD)
 

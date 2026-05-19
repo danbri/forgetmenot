@@ -8,7 +8,8 @@ node_modules/
 # Claude-discoverable .claude/skills/ via relative symlinks.
 .claude/skills/
 
-# FCDO Treaties crawler output: keep records/, ignore bulk derivatives.
-third_party/data/fcdo_treaties/html/
+# FCDO Treaties crawler output: keep records/ and the small (<50 KB) HTML
+# fragments in html/. The large blobs (PDFs gov.uk serves at the same URL)
+# go to html/large/ which is gitignored from the per-dir .gitignore.
 third_party/data/fcdo_treaties/pdfs/
 third_party/data/fcdo_treaties/crawl.log

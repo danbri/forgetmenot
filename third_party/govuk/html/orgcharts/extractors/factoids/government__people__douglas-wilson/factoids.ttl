@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-legal-department> govuk:hasMinister <https://www.gov.uk/government/people/douglas-wilson> .
+<https://www.gov.uk/government/organisations/government-legal-department> fm:hasMinister <https://www.gov.uk/government/people/douglas-wilson> .
 
 <https://www.gov.uk/government/people/douglas-wilson> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-04-23T10:29:21+01:00" ;
     schema1:description "Douglas Wilson took up the role of Treasury Solicitor and Permanent Secretary of the Government Legal Department on Monday 13 April 2026."@en ;
     schema1:name "Douglas Wilson KC (Hon) OBE"@en ;
     schema1:url <https://www.gov.uk/government/people/douglas-wilson> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-legal-department> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-legal-department> ;
+    fm:currentRoleTitle "HM Procurator General, Treasury Solicitor and Head of the Government Legal Profession and Crown's Nominee"@en ;
     govuk:contentId "1986afe2-0e86-49a8-bbe5-7a522aeab09e" ;
-    govuk:currentRoleTitle "HM Procurator General, Treasury Solicitor and Head of the Government Legal Profession and Crown's Nominee"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

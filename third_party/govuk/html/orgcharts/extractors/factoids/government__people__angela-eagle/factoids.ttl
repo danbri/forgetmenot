@@ -1,39 +1,40 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> govuk:hasMinister <https://www.gov.uk/government/people/angela-eagle> .
+<https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> fm:hasMinister <https://www.gov.uk/government/people/angela-eagle> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--186> govuk:previouslyHeldBy <https://www.gov.uk/government/people/angela-eagle> .
+<https://www.gov.uk/government/ministers/minister-of-state--186> fm:previouslyHeldBy <https://www.gov.uk/government/people/angela-eagle> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--202> govuk:roleHolder <https://www.gov.uk/government/people/angela-eagle> .
+<https://www.gov.uk/government/ministers/minister-of-state--202> fm:roleHolder <https://www.gov.uk/government/people/angela-eagle> .
 
 <https://www.gov.uk/government/people/angela-eagle> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-06T15:52:09+01:00" ;
     schema1:description "Dame Angela Eagle DBE was appointed Minister of State in the Department for Environment, Food and Rural Affairs on 6 September 2025."@en ;
     schema1:name "Dame Angela Eagle DBE MP"@en ;
     schema1:url <https://www.gov.uk/government/people/angela-eagle> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-environment-food-rural-affairs> ;
+    fm:currentRoleTitle "Minister of State (Minister for Food Security and Rural Affairs)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--202> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state--186> ;
     govuk:contentId "4c88d84b-0787-4bb5-a458-014e9c4ba7e2" ;
-    govuk:currentRoleTitle "Minister of State (Minister for Food Security and Rural Affairs)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--202> ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/minister-of-state--186> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/angela-eagle> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--202> ;
-    govuk:tenureStart "2025-09-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/angela-eagle> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--202> ;
+    fm:tenureStart "2025-09-06"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/angela-eagle> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--186> ;
-    govuk:tenureEnd "2025-09-06"^^xsd:date ;
-    govuk:tenureStart "2024-07-08"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/angela-eagle> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--186> ;
+    fm:tenureEnd "2025-09-06"^^xsd:date ;
+    fm:tenureStart "2024-07-08"^^xsd:date .
 

@@ -1,15 +1,16 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/national-data-guardian> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2022-09-16T11:10:15+01:00" ;
     schema1:name "National Data Guardian"@en ;
     schema1:url <https://www.gov.uk/government/organisations/national-data-guardian> ;
+    fm:hasManager <https://www.gov.uk/government/people/nicola-byrne> ;
     govuk:contentId "c9fa14af-052d-451c-a003-5d03a13b92b2" ;
-    govuk:hasManager <https://www.gov.uk/government/people/nicola-byrne> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

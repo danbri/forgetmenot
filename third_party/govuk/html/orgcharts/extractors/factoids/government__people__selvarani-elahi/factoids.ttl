@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-chemist> govuk:hasMinister <https://www.gov.uk/government/people/selvarani-elahi> .
+<https://www.gov.uk/government/organisations/government-chemist> fm:hasMinister <https://www.gov.uk/government/people/selvarani-elahi> .
 
 <https://www.gov.uk/government/people/selvarani-elahi> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2021-05-11T17:45:52+01:00" ;
     schema1:description "Selvarani Elahi has worked for LGC , a life sciences research and testing company, since 1991. Her first role was as a scientific officer in the Food and Nutrition Group. Since then Selvarani has worked in a number of different roles in food and agricultural analysis. She joined the Government Chemist programme in 2011 as Deputy Government Chemist."@en ;
     schema1:name "Selvarani Elahi MBE, BSc, CChem FRSC, FIFST."@en ;
     schema1:url <https://www.gov.uk/government/people/selvarani-elahi> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-chemist> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-chemist> ;
+    fm:currentRoleTitle "Deputy Government Chemist, Nominated Officer, and Project Manager (advisory function)"@en ;
     govuk:contentId "85404fe5-c0f1-11e4-8223-005056011aef" ;
-    govuk:currentRoleTitle "Deputy Government Chemist, Nominated Officer, and Project Manager (advisory function)"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

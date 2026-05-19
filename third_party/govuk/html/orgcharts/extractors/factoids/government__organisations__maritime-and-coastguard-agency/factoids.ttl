@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/maritime-and-coastguard-agency> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-02-14T12:43:27+00:00" ;
     schema1:name "Maritime and Coastguard Agency"@en ;
     schema1:url <https://www.gov.uk/government/organisations/maritime-and-coastguard-agency> ;
-    govuk:contentId "23a24aa8-1711-42b6-bf6b-47af0f230295" ;
-    govuk:hasManager <https://www.gov.uk/government/people/claire-hughes>,
+    fm:hasManager <https://www.gov.uk/government/people/claire-hughes>,
         <https://www.gov.uk/government/people/lars-lippuner>,
         <https://www.gov.uk/government/people/virginia-mcvea> ;
+    govuk:contentId "23a24aa8-1711-42b6-bf6b-47af0f230295" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

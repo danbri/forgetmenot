@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/stephen-morgan> schema1:name "Stephen Morgan MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> .
 
-<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-08T08:44:38+01:00" ;
     schema1:name "Junior Lord of the Treasury (Government Whip)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/junior-lord-of-the-treasury-government-whip--8> ;
+    fm:roleHolder <https://www.gov.uk/government/people/stephen-morgan> ;
     govuk:contentId "38fb43bd-3f8c-4850-b3a4-7c76c648d350" ;
     govuk:publishingApp "whitehall" ;
-    govuk:roleHolder <https://www.gov.uk/government/people/stephen-morgan> ;
     govuk:schemaName "role" .
 

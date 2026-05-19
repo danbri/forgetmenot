@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/shaun-robarts> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/shaun-robarts> .
 
 <https://www.gov.uk/government/people/shaun-robarts> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2021-11-05T10:42:05+00:00" ;
     schema1:description "Shaun Robarts has worked in the nuclear industry since 1994 when he started his career in radiation protection on operating Nuclear Licensed Site. In his role as Waste Management Director, Shaun leads for RWM on the provision of advice to industry, supporting those who plan to dispose of radioactive to GDF in the future and development of the GDF."@en ;
     schema1:name "Shaun Robarts"@en ;
     schema1:url <https://www.gov.uk/government/people/shaun-robarts> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
     govuk:contentId "1e0422b2-445d-4c2d-8d81-11fb2cd40754" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .

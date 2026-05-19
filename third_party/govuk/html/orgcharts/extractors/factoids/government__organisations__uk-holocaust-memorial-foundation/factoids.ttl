@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/uk-holocaust-memorial-foundation> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-16T14:00:11+01:00" ;
     schema1:name "UK Holocaust Memorial Foundation"@en ;
     schema1:url <https://www.gov.uk/government/organisations/uk-holocaust-memorial-foundation> ;
-    govuk:contentId "0183a2d3-ce7b-47cf-966d-1323b74865bc" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alice-m-greenwald>,
+    fm:hasManager <https://www.gov.uk/government/people/alice-m-greenwald>,
         <https://www.gov.uk/government/people/dido-harding>,
         <https://www.gov.uk/government/people/ed-balls>,
         <https://www.gov.uk/government/people/ephraim-mirvis>,
@@ -22,6 +22,7 @@
         <https://www.gov.uk/government/people/mona-siddiqui>,
         <https://www.gov.uk/government/people/natasha-kaplinsky>,
         <https://www.gov.uk/government/people/peter-freeman--2> ;
+    govuk:contentId "0183a2d3-ce7b-47cf-966d-1323b74865bc" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

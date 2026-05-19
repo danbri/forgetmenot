@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/disclosure-and-barring-service> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-16T14:22:49+01:00" ;
     schema1:name "Disclosure and Barring Service"@en ;
     schema1:url <https://www.gov.uk/government/organisations/disclosure-and-barring-service> ;
-    govuk:contentId "77311cfc-4947-4a94-8b96-5412b1a359ab" ;
-    govuk:hasManager <https://www.gov.uk/government/people/amanda-arrowsmith>,
+    fm:hasManager <https://www.gov.uk/government/people/amanda-arrowsmith>,
         <https://www.gov.uk/government/people/colin-reid>,
         <https://www.gov.uk/government/people/emir-feisal--2>,
         <https://www.gov.uk/government/people/gillian-fairfield>,
@@ -24,6 +24,7 @@
         <https://www.gov.uk/government/people/rob-eason>,
         <https://www.gov.uk/government/people/sarah-clifford>,
         <https://www.gov.uk/government/people/steve-gardner> ;
+    govuk:contentId "77311cfc-4947-4a94-8b96-5412b1a359ab" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

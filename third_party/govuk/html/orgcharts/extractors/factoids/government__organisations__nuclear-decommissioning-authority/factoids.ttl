@@ -1,15 +1,15 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/nuclear-decommissioning-authority> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-10-07T11:37:15+01:00" ;
     schema1:name "Nuclear Decommissioning Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/nuclear-decommissioning-authority> ;
-    govuk:contentId "bd692b3d-2d4c-43d9-aa85-32c465e1984a" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alan-cumming>,
+    fm:hasManager <https://www.gov.uk/government/people/alan-cumming>,
         <https://www.gov.uk/government/people/alex-reeves>,
         <https://www.gov.uk/government/people/catriona-schmolke>,
         <https://www.gov.uk/government/people/clive-nixon>,
@@ -24,6 +24,7 @@
         <https://www.gov.uk/government/people/matt-shaw>,
         <https://www.gov.uk/government/people/neil-bruce>,
         <https://www.gov.uk/government/people/paul-vallance> ;
+    govuk:contentId "bd692b3d-2d4c-43d9-aa85-32c465e1984a" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

@@ -1,39 +1,40 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasMinister <https://www.gov.uk/government/people/kate-dearden> .
+<https://www.gov.uk/government/organisations/department-for-business-and-trade> fm:hasMinister <https://www.gov.uk/government/people/kate-dearden> .
 
-<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--9> govuk:previouslyHeldBy <https://www.gov.uk/government/people/kate-dearden> .
+<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--9> fm:previouslyHeldBy <https://www.gov.uk/government/people/kate-dearden> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> govuk:roleHolder <https://www.gov.uk/government/people/kate-dearden> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> fm:roleHolder <https://www.gov.uk/government/people/kate-dearden> .
 
 <https://www.gov.uk/government/people/kate-dearden> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-10-06T11:36:12+01:00" ;
     schema1:description "Kate Dearden was appointed Parliamentary Under-Secretary of State in the Department for Business and Trade on 7 September 2025."@en ;
     schema1:name "Kate Dearden MP"@en ;
     schema1:url <https://www.gov.uk/government/people/kate-dearden> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-business-and-trade> ;
+    fm:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Employment Rights and Consumer Protection)"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--9> ;
     govuk:contentId "ca23fbbf-edf5-46e1-9634-994684b338d2" ;
-    govuk:currentRoleTitle "Parliamentary Under-Secretary of State (Minister for Employment Rights and Consumer Protection)"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--9> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kate-dearden> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> ;
-    govuk:tenureStart "2025-09-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kate-dearden> ;
+    fm:role <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--9> ;
+    fm:tenureEnd "2025-09-07"^^xsd:date ;
+    fm:tenureStart "2024-07-18"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/kate-dearden> ;
-    govuk:role <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--9> ;
-    govuk:tenureEnd "2025-09-07"^^xsd:date ;
-    govuk:tenureStart "2024-07-18"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/kate-dearden> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--294> ;
+    fm:tenureStart "2025-09-07"^^xsd:date .
 

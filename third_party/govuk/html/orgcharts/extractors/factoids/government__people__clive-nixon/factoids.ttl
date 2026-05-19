@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/nuclear-decommissioning-authority> govuk:hasMinister <https://www.gov.uk/government/people/clive-nixon> .
+<https://www.gov.uk/government/organisations/nuclear-decommissioning-authority> fm:hasMinister <https://www.gov.uk/government/people/clive-nixon> .
 
 <https://www.gov.uk/government/people/clive-nixon> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-03T13:55:07+01:00" ;
     schema1:description "Clive joined the Nuclear Decommissioning Authority (NDA) in April 2005, after 15 years with British Nuclear Fuels, where he undertook a number of roles across research and development, technical and commercial areas. Through this he covered the full range of activities and facilities at Sellafield, including reprocessing, waste management and decommissioning, He also spent time in the US and overseas."@en ;
     schema1:name "Clive Nixon"@en ;
     schema1:url <https://www.gov.uk/government/people/clive-nixon> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-decommissioning-authority> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-decommissioning-authority> ;
+    fm:currentRoleTitle "Nuclear Waste Services NDA Non-Executive Director and Group Chief Nuclear Strategy Officer"@en ;
     govuk:contentId "1c6f7364-b569-4030-883e-2686bda363f3" ;
-    govuk:currentRoleTitle "Nuclear Waste Services NDA Non-Executive Director and Group Chief Nuclear Strategy Officer"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

@@ -1,31 +1,32 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-business-and-trade> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+<https://www.gov.uk/government/organisations/department-for-business-and-trade> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
 
-<https://www.gov.uk/government/organisations/hm-treasury> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+<https://www.gov.uk/government/organisations/hm-treasury> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
 
-<https://www.gov.uk/government/organisations/office-for-investment> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+<https://www.gov.uk/government/organisations/office-for-investment> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
 
 <https://www.gov.uk/government/people/jason-stockwood> schema1:name "Lord Stockwood"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-12-29T10:42:51+00:00" ;
     schema1:name "Minister of State (Minister for Investment)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state-minister-for-investment--2> ;
-    govuk:contentId "d34bfa25-dfdb-448d-8d3a-918bd78b81dd" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade>,
+    fm:partOf <https://www.gov.uk/government/organisations/department-for-business-and-trade>,
         <https://www.gov.uk/government/organisations/hm-treasury>,
         <https://www.gov.uk/government/organisations/office-for-investment> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "GREAT Board"@en,
+    fm:responsibility "GREAT Board"@en,
         "Investor Relations"@en,
         "Office for Investment"@en,
         "investment delivery"@en,
         "investment events"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/jason-stockwood> ;
+    fm:roleHolder <https://www.gov.uk/government/people/jason-stockwood> ;
+    govuk:contentId "d34bfa25-dfdb-448d-8d3a-918bd78b81dd" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 

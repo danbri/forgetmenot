@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-people-group> govuk:hasMinister <https://www.gov.uk/government/people/andrew-kean> .
+<https://www.gov.uk/government/organisations/government-people-group> fm:hasMinister <https://www.gov.uk/government/people/andrew-kean> .
 
 <https://www.gov.uk/government/people/andrew-kean> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-03-28T16:58:18+00:00" ;
     schema1:description "Andrew started his career in the Civil Service on the day the then Prime Minister called the 1997 General Election, originally as a policy officer in the then Department of the Environment dealing with planning rules for telecoms masts and car boot sales."@en ;
     schema1:name "Andrew Kean"@en ;
     schema1:url <https://www.gov.uk/government/people/andrew-kean> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
+    fm:currentRoleTitle "Director of Recruitment"@en ;
     govuk:contentId "8fa178f9-967a-4d49-aa77-b4f39fbe65f0" ;
-    govuk:currentRoleTitle "Director of Recruitment"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

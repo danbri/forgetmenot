@@ -1,12 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/wales-office> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> .
+<https://www.gov.uk/government/organisations/wales-office> fm:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> .
 
 <https://www.gov.uk/government/people/jo-stevens> schema1:name "The Rt Hon Jo Stevens MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> .
 
 <https://www.gov.uk/government/people/alun-cairns-mp> schema1:name "The Rt Hon Alun Cairns"@en .
 
@@ -22,22 +23,20 @@
 
 <https://www.gov.uk/government/people/stephen-crabb> schema1:name "The Rt Hon Stephen Crabb"@en .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-wales> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-wales> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-12T10:56:12+01:00" ;
     schema1:name "Secretary of State for Wales"@en ;
     schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
-    govuk:contentId "845e661b-c0f1-11e4-8223-005056011aef" ;
-    govuk:partOf <https://www.gov.uk/government/organisations/wales-office> ;
-    govuk:previouslyHeldBy <https://www.gov.uk/government/people/alun-cairns-mp>,
+    fm:partOf <https://www.gov.uk/government/organisations/wales-office> ;
+    fm:previouslyHeldBy <https://www.gov.uk/government/people/alun-cairns-mp>,
         <https://www.gov.uk/government/people/cheryl-gillan>,
         <https://www.gov.uk/government/people/david-jones>,
         <https://www.gov.uk/government/people/david-tc-davies>,
         <https://www.gov.uk/government/people/robert-buckland>,
         <https://www.gov.uk/government/people/simon-hart>,
         <https://www.gov.uk/government/people/stephen-crabb> ;
-    govuk:publishingApp "whitehall" ;
-    govuk:responsibility "Brand Wales, Trade & investment"@en,
+    fm:responsibility "Brand Wales, Trade & investment"@en,
         "Constitutional and Legislation"@en,
         "Culture"@en,
         "Defence"@en,
@@ -49,48 +48,50 @@
         "Industrial Strategy"@en,
         "Steel and TATA Transition Board"@en,
         "Transport"@en ;
-    govuk:roleHolder <https://www.gov.uk/government/people/jo-stevens> ;
+    fm:roleHolder <https://www.gov.uk/government/people/jo-stevens> ;
+    govuk:contentId "845e661b-c0f1-11e4-8223-005056011aef" ;
+    govuk:publishingApp "whitehall" ;
     govuk:schemaName "role" .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/stephen-crabb> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
-    govuk:tenureEnd "2016"^^xsd:gYear ;
-    govuk:tenureStart "2014"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/cheryl-gillan> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    fm:tenureEnd "2012"^^xsd:gYear ;
+    fm:tenureStart "2010"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/cheryl-gillan> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
-    govuk:tenureEnd "2012"^^xsd:gYear ;
-    govuk:tenureStart "2010"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/robert-buckland> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-jones> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
-    govuk:tenureEnd "2014"^^xsd:gYear ;
-    govuk:tenureStart "2012"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/david-tc-davies> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    fm:tenureEnd "2024"^^xsd:gYear ;
+    fm:tenureStart "2022"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/robert-buckland> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/stephen-crabb> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    fm:tenureEnd "2016"^^xsd:gYear ;
+    fm:tenureStart "2014"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/alun-cairns-mp> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
-    govuk:tenureEnd "2019"^^xsd:gYear ;
-    govuk:tenureStart "2016"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/simon-hart> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    fm:tenureEnd "2022"^^xsd:gYear ;
+    fm:tenureStart "2019"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/david-tc-davies> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
-    govuk:tenureEnd "2024"^^xsd:gYear ;
-    govuk:tenureStart "2022"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/david-jones> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    fm:tenureEnd "2014"^^xsd:gYear ;
+    fm:tenureStart "2012"^^xsd:gYear .
 
-[] a govuk:RoleTenure ;
-    govuk:holder <https://www.gov.uk/government/people/simon-hart> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
-    govuk:tenureEnd "2022"^^xsd:gYear ;
-    govuk:tenureStart "2019"^^xsd:gYear .
+[] a fm:RoleTenure ;
+    fm:holder <https://www.gov.uk/government/people/alun-cairns-mp> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-wales> ;
+    fm:tenureEnd "2019"^^xsd:gYear ;
+    fm:tenureStart "2016"^^xsd:gYear .
 

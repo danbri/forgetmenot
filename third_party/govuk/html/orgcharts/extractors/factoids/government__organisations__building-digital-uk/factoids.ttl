@@ -1,21 +1,22 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/building-digital-uk> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-03-13T08:51:12+00:00" ;
     schema1:name "Building Digital UK"@en ;
     schema1:url <https://www.gov.uk/government/organisations/building-digital-uk> ;
-    govuk:contentId "120a16f4-37db-451d-9034-a9038a5c65f4" ;
-    govuk:hasManager <https://www.gov.uk/government/people/andrew-field>,
+    fm:hasManager <https://www.gov.uk/government/people/andrew-field>,
         <https://www.gov.uk/government/people/andy-murphy>,
         <https://www.gov.uk/government/people/ben-whitestone>,
         <https://www.gov.uk/government/people/debbie-asbury>,
         <https://www.gov.uk/government/people/hiren-dhimar>,
         <https://www.gov.uk/government/people/laura-battisegola>,
         <https://www.gov.uk/government/people/matt-agar> ;
+    govuk:contentId "120a16f4-37db-451d-9034-a9038a5c65f4" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

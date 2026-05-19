@@ -1,87 +1,88 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/karen-bradley> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/karen-bradley> .
 
-<https://www.gov.uk/government/ministers/assistant-government-whip--3> govuk:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
+<https://www.gov.uk/government/ministers/assistant-government-whip--3> fm:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
 
-<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--4> govuk:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
+<https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--4> fm:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
 
-<https://www.gov.uk/government/ministers/minister-for-modern-slavery-and-organised-crime> govuk:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
+<https://www.gov.uk/government/ministers/minister-for-modern-slavery-and-organised-crime> fm:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport> fm:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport> fm:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport> fm:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> govuk:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> fm:previouslyHeldBy <https://www.gov.uk/government/people/karen-bradley> .
 
 <https://www.gov.uk/government/people/karen-bradley> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-15T16:24:26+01:00" ;
     schema1:description "Karen Bradley was Secretary of State for Northern Ireland from 8 January 2018 to 24 July 2019. She was Secretary of State for Digital, Culture, Media and Sport from July 2016 to January 2018. She was elected Conservative MP for Staffordshire Moorlands in May 2010."@en ;
     schema1:name "The Rt Hon Karen Bradley MP"@en ;
     schema1:url <https://www.gov.uk/government/people/karen-bradley> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "852e8393-c0f1-11e4-8223-005056011aef" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--3>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--3>,
         <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--4>,
         <https://www.gov.uk/government/ministers/minister-for-modern-slavery-and-organised-crime>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:contentId "852e8393-c0f1-11e4-8223-005056011aef" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/karen-bradley> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
-    govuk:tenureEnd "2019-07-24"^^xsd:date ;
-    govuk:tenureStart "2018-01-08"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/karen-bradley> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-for-modern-slavery-and-organised-crime> ;
+    fm:tenureEnd "2016-07-14"^^xsd:date ;
+    fm:tenureStart "2014-02-08"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/karen-bradley> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport> ;
-    govuk:tenureEnd "2018-01-08"^^xsd:date ;
-    govuk:tenureStart "2016-07-14"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/karen-bradley> ;
+    fm:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--4> ;
+    fm:tenureEnd "2014-02-08"^^xsd:date ;
+    fm:tenureStart "2013-10-07"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/karen-bradley> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-for-modern-slavery-and-organised-crime> ;
-    govuk:tenureEnd "2016-07-14"^^xsd:date ;
-    govuk:tenureStart "2014-02-08"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/karen-bradley> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport> ;
+    fm:tenureEnd "2018-01-08"^^xsd:date ;
+    fm:tenureStart "2017-07-03"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/karen-bradley> ;
-    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--3> ;
-    govuk:tenureEnd "2013-10-07"^^xsd:date ;
-    govuk:tenureStart "2012-09-01"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/karen-bradley> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-media-and-sport> ;
+    fm:tenureEnd "2018-01-08"^^xsd:date ;
+    fm:tenureStart "2016-07-14"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/karen-bradley> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport> .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/karen-bradley> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    fm:tenureEnd "2019-07-24"^^xsd:date ;
+    fm:tenureStart "2018-01-08"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/karen-bradley> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-digital-culture-media-and-sport> ;
-    govuk:tenureEnd "2018-01-08"^^xsd:date ;
-    govuk:tenureStart "2017-07-03"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/karen-bradley> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-culture-olympics-media-and-sport> .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/karen-bradley> ;
-    govuk:role <https://www.gov.uk/government/ministers/government-whip-lord-commissioner-of-hm-treasury--4> ;
-    govuk:tenureEnd "2014-02-08"^^xsd:date ;
-    govuk:tenureStart "2013-10-07"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/karen-bradley> ;
+    fm:role <https://www.gov.uk/government/ministers/assistant-government-whip--3> ;
+    fm:tenureEnd "2013-10-07"^^xsd:date ;
+    fm:tenureStart "2012-09-01"^^xsd:date .
 

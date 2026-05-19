@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/department-of-health-and-social-care> govuk:hasMinister <https://www.gov.uk/government/people/baroness-merron> .
+<https://www.gov.uk/government/organisations/department-of-health-and-social-care> fm:hasMinister <https://www.gov.uk/government/people/baroness-merron> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> govuk:roleHolder <https://www.gov.uk/government/people/baroness-merron> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> fm:roleHolder <https://www.gov.uk/government/people/baroness-merron> .
 
 <https://www.gov.uk/government/people/baroness-merron> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-09T19:48:28+01:00" ;
     schema1:description "Baroness Merron was appointed Parliamentary Under-Secretary of State at the Department of Health and Social Care on 9 July 2024."@en ;
     schema1:name "Baroness Merron"@en ;
     schema1:url <https://www.gov.uk/government/people/baroness-merron> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    fm:currentRoleTitle "Parliamentary Under-Secretary of State for Women's Health and Mental Health"@en ;
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> ;
     govuk:contentId "71ac6ca4-6ed5-4bc0-9586-cbc135bf3959" ;
-    govuk:currentRoleTitle "Parliamentary Under-Secretary of State for Women's Health and Mental Health"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/baroness-merron> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> ;
-    govuk:tenureStart "2024-07-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/baroness-merron> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> ;
+    fm:tenureStart "2024-07-09"^^xsd:date .
 

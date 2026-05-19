@@ -1,5 +1,6 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/alan-milburn> a schema1:Person ;
@@ -74,74 +75,73 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/6203f7668fa8f5109bfe1180/s465_Samantha-Jones-960x640.jpg> ;
     schema1:name "Samantha Jones"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state--182> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--182> a fm:MinisterialRole ;
     schema1:name "Minister of State for Care"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/stephen-kinnock> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    fm:roleHolder <https://www.gov.uk/government/people/stephen-kinnock> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--188> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--188> a fm:MinisterialRole ;
     schema1:name "Minister of State for Health (Secondary Care)"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/karin-smyth> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    fm:roleHolder <https://www.gov.uk/government/people/karin-smyth> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State for Women's Health and Mental Health"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/baroness-merron> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    fm:roleHolder <https://www.gov.uk/government/people/baroness-merron> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--306> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--306> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State for Public Health and Prevention ​"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/sharon-hodgson> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    fm:roleHolder <https://www.gov.uk/government/people/sharon-hodgson> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--310> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--310> a fm:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/preet-kaur-gill> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    fm:roleHolder <https://www.gov.uk/government/people/preet-kaur-gill> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> a fm:MinisterialRole ;
     schema1:name "Secretary of State for Health and Social Care"@en ;
-    govuk:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
-    govuk:roleHolder <https://www.gov.uk/government/people/james-murray> .
+    fm:partOf <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
+    fm:roleHolder <https://www.gov.uk/government/people/james-murray> .
 
 <https://www.gov.uk/government/people/baroness-merron> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668d85fdab5fc5929851bce3/s465_Baroness_Merron.jpeg> ;
     schema1:name "Baroness Merron"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255> .
 
 <https://www.gov.uk/government/people/james-murray> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66a24d25fc8e12ac3edb04bd/s465_IMG_4919_1.JPG> ;
     schema1:name "The Rt Hon James Murray MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> .
 
 <https://www.gov.uk/government/people/karin-smyth> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668bbefc541aeb9e928f462b/s465_Karin_Smyth.jpg> ;
     schema1:name "Karin Smyth MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--188> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--188> .
 
 <https://www.gov.uk/government/people/preet-kaur-gill> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6a03911c2a6137e93226babe/s465_preet-kaur-gill.jpeg> ;
     schema1:name "Preet Kaur Gill MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--310> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--310> .
 
 <https://www.gov.uk/government/people/sharon-hodgson> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69fa1447990ff359ff45357d/s465_sharon-hodgson.jpg> ;
     schema1:name "Sharon Hodgson MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--306> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--306> .
 
 <https://www.gov.uk/government/people/stephen-kinnock> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668bba047541f54efe51bb30/s465_stephen-kinnock.jpeg> ;
     schema1:name "Stephen Kinnock MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--182> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--182> .
 
 <https://www.gov.uk/government/organisations/department-of-health-and-social-care> a schema1:GovernmentOrganization,
-        govuk:Organisation ;
+        fm:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-08-03T08:33:01+01:00" ;
     schema1:name "Department of Health and Social Care"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-of-health-and-social-care> ;
-    govuk:contentId "7cd6bf12-bbe9-4118-8523-f927b0442156" ;
-    govuk:hasManager <https://www.gov.uk/government/people/alan-milburn>,
+    fm:hasManager <https://www.gov.uk/government/people/alan-milburn>,
         <https://www.gov.uk/government/people/camilla-cavendish>,
         <https://www.gov.uk/government/people/catherine-frances>,
         <https://www.gov.uk/government/people/christopher-whitty>,
@@ -160,18 +160,19 @@
         <https://www.gov.uk/government/people/richard-douglas>,
         <https://www.gov.uk/government/people/sally-warren>,
         <https://www.gov.uk/government/people/samantha-jones> ;
-    govuk:hasMinister <https://www.gov.uk/government/people/baroness-merron>,
+    fm:hasMinister <https://www.gov.uk/government/people/baroness-merron>,
         <https://www.gov.uk/government/people/james-murray>,
         <https://www.gov.uk/government/people/karin-smyth>,
         <https://www.gov.uk/government/people/preet-kaur-gill>,
         <https://www.gov.uk/government/people/sharon-hodgson>,
         <https://www.gov.uk/government/people/stephen-kinnock> ;
-    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--182>,
+    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--182>,
         <https://www.gov.uk/government/ministers/minister-of-state--188>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--255>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--306>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--310>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-health-and-social-care> ;
+    govuk:contentId "7cd6bf12-bbe9-4118-8523-f927b0442156" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "organisation" .
 

@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/jake-richards> schema1:name "Jake Richards MP"@en ;
-    govuk:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--6> .
+    fm:holdsRole <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--6> .
 
-<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--6> a govuk:MinisterialRole ;
+<https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--6> a fm:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-11-05T17:47:21+00:00" ;
     schema1:name "Assistant Whip, House of Commons"@en ;
     schema1:url <https://www.gov.uk/government/ministers/assistant-whip-house-of-commons--6> ;
+    fm:roleHolder <https://www.gov.uk/government/people/jake-richards> ;
     govuk:contentId "bc223999-f9f6-4052-a830-c5bb6a22ee5a" ;
     govuk:publishingApp "whitehall" ;
-    govuk:roleHolder <https://www.gov.uk/government/people/jake-richards> ;
     govuk:schemaName "role" .
 

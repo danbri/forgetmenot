@@ -1,29 +1,30 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/louise-haigh> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/louise-haigh> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> govuk:previouslyHeldBy <https://www.gov.uk/government/people/louise-haigh> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-transport> fm:previouslyHeldBy <https://www.gov.uk/government/people/louise-haigh> .
 
 <https://www.gov.uk/government/people/louise-haigh> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-11-29T12:07:30+00:00" ;
     schema1:description "Louise Haigh was the Secretary of State for Transport from 5 July 2024 to 29 November 2024."@en ;
     schema1:name "The Rt Hon Louise Haigh MP"@en ;
     schema1:url <https://www.gov.uk/government/people/louise-haigh> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
     govuk:contentId "9309376e-a072-4177-921f-5941901bb3f6" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/louise-haigh> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
-    govuk:tenureEnd "2024-11-29"^^xsd:date ;
-    govuk:tenureStart "2024-07-05"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/louise-haigh> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-transport> ;
+    fm:tenureEnd "2024-11-29"^^xsd:date ;
+    fm:tenureStart "2024-07-05"^^xsd:date .
 

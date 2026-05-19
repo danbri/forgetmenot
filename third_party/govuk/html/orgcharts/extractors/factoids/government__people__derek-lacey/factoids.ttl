@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> govuk:hasMinister <https://www.gov.uk/government/people/derek-lacey> .
+<https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> fm:hasMinister <https://www.gov.uk/government/people/derek-lacey> .
 
 <https://www.gov.uk/government/people/derek-lacey> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-08-01T14:15:06+01:00" ;
     schema1:description "Dr Derek Lacey was appointed to the Committee on Radioactive Waste Management in November 2019."@en ;
     schema1:name "Dr Derek Lacey"@en ;
     schema1:url <https://www.gov.uk/government/people/derek-lacey> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/committee-on-radioactive-waste-management> ;
+    fm:currentRoleTitle "Deputy Chair, CoRWM"@en ;
     govuk:contentId "cc22c286-e4d7-4173-b42f-f574a31c8da6" ;
-    govuk:currentRoleTitle "Deputy Chair, CoRWM"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

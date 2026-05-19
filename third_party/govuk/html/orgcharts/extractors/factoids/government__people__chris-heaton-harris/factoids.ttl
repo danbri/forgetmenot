@@ -1,36 +1,36 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/chris-heaton-harris> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/chris-heaton-harris> .
 
-<https://www.gov.uk/government/ministers/assistant-government-whip--8> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
+<https://www.gov.uk/government/ministers/assistant-government-whip--8> fm:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
 
-<https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
+<https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> fm:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
 
-<https://www.gov.uk/government/ministers/government-whip--2> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
+<https://www.gov.uk/government/ministers/government-whip--2> fm:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--57> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
+<https://www.gov.uk/government/ministers/minister-of-state--57> fm:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
 
-<https://www.gov.uk/government/ministers/minister-of-state-minister-for-europe> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
+<https://www.gov.uk/government/ministers/minister-of-state-minister-for-europe> fm:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
 
-<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
+<https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> fm:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--79> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--79> fm:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> govuk:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
+<https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> fm:previouslyHeldBy <https://www.gov.uk/government/people/chris-heaton-harris> .
 
 <https://www.gov.uk/government/people/chris-heaton-harris> a schema1:Person,
-        govuk:FormerOfficeHolder ;
+        fm:FormerOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-18T11:00:20+01:00" ;
     schema1:description "Chris Heaton-Harris was Secretary of State for Northern Ireland between 6 September 2022 and 5 July 2024."@en ;
     schema1:name "The Rt Hon Chris Heaton-Harris"@en ;
     schema1:url <https://www.gov.uk/government/people/chris-heaton-harris> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
-    govuk:contentId "c219702c-084f-4fc5-a89c-e9b1b28ad489" ;
-    govuk:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--8>,
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:previouslyHeldRole <https://www.gov.uk/government/ministers/assistant-government-whip--8>,
         <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip>,
         <https://www.gov.uk/government/ministers/government-whip--2>,
         <https://www.gov.uk/government/ministers/minister-of-state--57>,
@@ -38,62 +38,63 @@
         <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--79>,
         <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    govuk:contentId "c219702c-084f-4fc5-a89c-e9b1b28ad489" ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
-    govuk:role <https://www.gov.uk/government/ministers/government-whip--2> ;
-    govuk:tenureEnd "2018-01-09"^^xsd:date ;
-    govuk:tenureStart "2017-06-15"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    fm:role <https://www.gov.uk/government/ministers/assistant-government-whip--8> ;
+    fm:tenureEnd "2017-06-15"^^xsd:date ;
+    fm:tenureStart "2016-07-17"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state--57> ;
-    govuk:tenureEnd "2021-12-19"^^xsd:date ;
-    govuk:tenureStart "2019-07-25"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
+    fm:tenureEnd "2024-07-05"^^xsd:date ;
+    fm:tenureStart "2022-09-06"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
-    govuk:role <https://www.gov.uk/government/ministers/assistant-government-whip--8> ;
-    govuk:tenureEnd "2017-06-15"^^xsd:date ;
-    govuk:tenureStart "2016-07-17"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--79> ;
+    fm:tenureEnd "2019-04-03"^^xsd:date ;
+    fm:tenureStart "2018-07-09"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
-    govuk:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-europe> ;
-    govuk:tenureEnd "2022-02-08"^^xsd:date ;
-    govuk:tenureStart "2021-12-19"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state--57> ;
+    fm:tenureEnd "2021-12-19"^^xsd:date ;
+    fm:tenureStart "2019-07-25"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--79> ;
-    govuk:tenureEnd "2019-04-03"^^xsd:date ;
-    govuk:tenureStart "2018-07-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    fm:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
+    fm:tenureEnd "2022-09-06"^^xsd:date ;
+    fm:tenureStart "2022-02-08"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
-    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-northern-ireland> ;
-    govuk:tenureEnd "2024-07-05"^^xsd:date ;
-    govuk:tenureStart "2022-09-06"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    fm:role <https://www.gov.uk/government/ministers/government-whip--2> ;
+    fm:tenureEnd "2018-01-09"^^xsd:date ;
+    fm:tenureStart "2017-06-15"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
-    govuk:role <https://www.gov.uk/government/ministers/parliamentary-secretary-to-the-treasury-and-chief-whip> ;
-    govuk:tenureEnd "2022-09-06"^^xsd:date ;
-    govuk:tenureStart "2022-02-08"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    fm:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
+    fm:tenureEnd "2018-07-09"^^xsd:date ;
+    fm:tenureStart "2018-01-09"^^xsd:date .
 
-[] a govuk:RoleTenure ;
-    govuk:apiSourced true ;
-    govuk:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
-    govuk:role <https://www.gov.uk/government/ministers/comptroller-of-hm-household-government-whip> ;
-    govuk:tenureEnd "2018-07-09"^^xsd:date ;
-    govuk:tenureStart "2018-01-09"^^xsd:date .
+[] a fm:RoleTenure ;
+    fm:apiSourced true ;
+    fm:holder <https://www.gov.uk/government/people/chris-heaton-harris> ;
+    fm:role <https://www.gov.uk/government/ministers/minister-of-state-minister-for-europe> ;
+    fm:tenureEnd "2022-02-08"^^xsd:date ;
+    fm:tenureStart "2021-12-19"^^xsd:date .
 

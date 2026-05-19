@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/nuclear-waste-services> govuk:hasMinister <https://www.gov.uk/government/people/shameem-akhtar> .
+<https://www.gov.uk/government/organisations/nuclear-waste-services> fm:hasMinister <https://www.gov.uk/government/people/shameem-akhtar> .
 
 <https://www.gov.uk/government/people/shameem-akhtar> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-09-19T15:19:00+01:00" ;
     schema1:description "Shameem joined Nuclear Waste Services (NWS) in September 2024 and holds the position of Human Resources Director. Prior to joining NWS, Shameem held HR leadership roles at Aston Martin, Saint Gobain and Air Liquide."@en ;
     schema1:name "Shameem Akhtar"@en ;
     schema1:url <https://www.gov.uk/government/people/shameem-akhtar> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/nuclear-waste-services> ;
+    fm:currentRoleTitle "HR Director"@en ;
     govuk:contentId "1bec39f3-785b-4a49-91e8-0bbb7900256a" ;
-    govuk:currentRoleTitle "HR Director"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

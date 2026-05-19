@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-property-function> govuk:hasMinister <https://www.gov.uk/government/people/lynda-rawsthorne> .
+<https://www.gov.uk/government/organisations/government-property-function> fm:hasMinister <https://www.gov.uk/government/people/lynda-rawsthorne> .
 
 <https://www.gov.uk/government/people/lynda-rawsthorne> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2023-07-18T15:06:45+01:00" ;
     schema1:description "Lynda Rawsthorne was appointed Government Head of Property Profession and Director, Property Capability, Sponsorship & Standards, in August 2023."@en ;
     schema1:name "Lynda Rawsthorne"@en ;
     schema1:url <https://www.gov.uk/government/people/lynda-rawsthorne> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-property-function> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-property-function> ;
+    fm:currentRoleTitle "Government Head of the Property Profession"@en ;
     govuk:contentId "6cce2cda-2214-4047-a6d3-d54cef7de22f" ;
-    govuk:currentRoleTitle "Government Head of the Property Profession"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

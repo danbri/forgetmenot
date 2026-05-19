@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/james-riddick> .
+<https://www.gov.uk/government/organisations/sellafield-ltd> fm:hasMinister <https://www.gov.uk/government/people/james-riddick> .
 
 <https://www.gov.uk/government/people/james-riddick> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2026-05-14T17:28:50+01:00" ;
     schema1:description "James has previously held senior leadership roles in legal, commercial and supply chain functions across nuclear, utilities and logistics sectors."@en ;
     schema1:name "James Riddick"@en ;
     schema1:url <https://www.gov.uk/government/people/james-riddick> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    fm:currentRoleTitle "Chief Commercial Officer"@en ;
     govuk:contentId "8708211b-d4a0-43f4-8407-65b85232b703" ;
-    govuk:currentRoleTitle "Chief Commercial Officer"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

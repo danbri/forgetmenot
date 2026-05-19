@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-people-group> govuk:hasMinister <https://www.gov.uk/government/people/nathan-moores> .
+<https://www.gov.uk/government/organisations/government-people-group> fm:hasMinister <https://www.gov.uk/government/people/nathan-moores> .
 
 <https://www.gov.uk/government/people/nathan-moores> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2025-08-15T09:37:14+01:00" ;
     schema1:description "Nathan is an experienced project, programme and portfolio manager with over 20 years experience leading multi-organisational change and improvements across corporate services in challenging organisational environments, and leading shared services projects."@en ;
     schema1:name "Nathan Moores"@en ;
     schema1:url <https://www.gov.uk/government/people/nathan-moores> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-people-group> ;
+    fm:currentRoleTitle "Director of Shared Services for Government"@en ;
     govuk:contentId "be634ea0-07f4-4f71-a843-35dca8ba8f99" ;
-    govuk:currentRoleTitle "Director of Shared Services for Government"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

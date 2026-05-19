@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/sellafield-ltd> govuk:hasMinister <https://www.gov.uk/government/people/alison-rodwell> .
+<https://www.gov.uk/government/organisations/sellafield-ltd> fm:hasMinister <https://www.gov.uk/government/people/alison-rodwell> .
 
 <https://www.gov.uk/government/people/alison-rodwell> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-09-30T16:54:02+01:00" ;
     schema1:description "In October 2024, Alison was appointed as a non-executive director at Sellafield Ltd, chairing the Audit and Risk Assurance Committee."@en ;
     schema1:name "Alison Rodwell"@en ;
     schema1:url <https://www.gov.uk/government/people/alison-rodwell> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/sellafield-ltd> ;
+    fm:currentRoleTitle "Non-Executive Director"@en ;
     govuk:contentId "1484cd48-1e36-4caa-922f-85d421ac90d6" ;
-    govuk:currentRoleTitle "Non-Executive Director"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

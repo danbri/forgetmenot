@@ -1,19 +1,20 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/government-digital-service> govuk:hasMinister <https://www.gov.uk/government/people/mina-golshan> .
+<https://www.gov.uk/government/organisations/government-digital-service> fm:hasMinister <https://www.gov.uk/government/people/mina-golshan> .
 
 <https://www.gov.uk/government/people/mina-golshan> a schema1:Person,
-        govuk:CurrentOfficeHolder ;
+        fm:CurrentOfficeHolder ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-07-03T13:16:36+01:00" ;
     schema1:description "Mina joined Sizewell C in July 2021 and is an Executive Director on the SZC GenCo Board."@en ;
     schema1:name "Dr Mina Golshan CBE"@en ;
     schema1:url <https://www.gov.uk/government/people/mina-golshan> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/government-digital-service> ;
+    fm:currentRoleTitle "Nuclear Waste Services Independent Non-Executive Director"@en ;
     govuk:contentId "4ed7459a-bdb2-4058-991c-55c830a888c7" ;
-    govuk:currentRoleTitle "Nuclear Waste Services Independent Non-Executive Director"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 

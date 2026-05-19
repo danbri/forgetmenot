@@ -1,17 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix govuk: <https://forgetmenot.local/govuk#> .
+@prefix fm: <https://forgetmenot.local/vocab#> .
+@prefix govuk: <https://www.gov.uk/vocab/meta#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-work-pensions.cy> govuk:hasMinister <https://www.gov.uk/government/people/stephen-timms.cy> .
+<https://www.gov.uk/government/organisations/department-for-work-pensions.cy> fm:hasMinister <https://www.gov.uk/government/people/stephen-timms.cy> .
 
 <https://www.gov.uk/government/people/stephen-timms.cy> a schema1:Person ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
     dcterms:modified "2024-11-22T12:07:19+00:00" ;
     schema1:name "The Rt Hon Sir Stephen Timms MP"@en ;
     schema1:url <https://www.gov.uk/government/people/stephen-timms.cy> ;
-    govuk:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions.cy> ;
+    fm:affiliatedWith <https://www.gov.uk/government/organisations/department-for-work-pensions.cy> ;
+    fm:currentRoleTitle "Gweinidog Gwladol (Gweinidog Nawdd Cymdeithasol ac Anabledd)"@en ;
     govuk:contentId "4a73d6f8-fbab-48e1-b67b-cdf2dcb2292f" ;
-    govuk:currentRoleTitle "Gweinidog Gwladol (Gweinidog Nawdd Cymdeithasol ac Anabledd)"@en ;
     govuk:publishingApp "whitehall" ;
     govuk:schemaName "person" .
 
