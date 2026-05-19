@@ -523,40 +523,107 @@ def lift_one(record: dict) -> tuple[URIRef, rdflib.Graph, dict]:
 
 # ---- per-record file IO ---------------------------------------------
 
+def compute_stats(record: dict) -> dict:
+    """Stat-only accounting; no rdflib. Same counting logic as lift_one
+    so the reuse path can update the rollup summary without re-doing
+    the RDF emission. Keep in sync if lift_one's stat shape changes."""
+    unmapped: list[str] = []
+    party_stats = {"total": 0, "resolved": 0}
+    seen_parties: set[str] = set()
+    for label in (record.get("parties") or []):
+        if not label:
+            continue
+        party_stats["total"] += 1
+        key = label.strip().upper()
+        qid = PARTY_TO_QID.get(key)
+        if qid:
+            party_stats["resolved"] += 1
+        if key in seen_parties:
+            continue
+        seen_parties.add(key)
+        if not qid:
+            unmapped.append(label)
+
+    action_stats = {"total": 0, "null": 0}
+    for pd in (record.get("parties_detail") or []):
+        if not pd.get("country"):
+            continue
+        action_stats["total"] += 1
+        if not pd.get("action"):
+            action_stats["null"] += 1
+
+    ref_stats = {"total": 0, "with_url": 0, "with_cmd": 0, "with_series": 0}
+    for raw in (record.get("references") or []):
+        if not raw:
+            continue
+        ref_stats["total"] += 1
+        parsed = parse_reference(raw)
+        if "series" in parsed:
+            ref_stats["with_series"] += 1
+        if "command_paper" in parsed:
+            ref_stats["with_cmd"] += 1
+        if "pdf_url" in parsed:
+            ref_stats["with_url"] += 1
+
+    signed_iso = parse_dmy(record.get("signed_date"))
+    eif_iso    = parse_dmy(record.get("definitive_eif_date"))
+
+    return {
+        "unmapped_parties": unmapped,
+        "thin": (
+            not record.get("parties")
+            and not record.get("parties_detail")
+            and not record.get("subject")
+        ),
+        "ref_stats":    ref_stats,
+        "party_stats":  party_stats,
+        "action_stats": action_stats,
+        "date_stats":   {
+            "signed_present": 1 if record.get("signed_date") else 0,
+            "signed_parsed":  1 if signed_iso else 0,
+            "eif_present":    1 if record.get("definitive_eif_date") else 0,
+            "eif_parsed":     1 if eif_iso else 0,
+        },
+        "has_subject":  bool(record.get("subject")),
+        "has_biorm":    bool(record.get("bilateral_or_multilateral")),
+    }
+
+
 def lift_to_files(path: Path, refresh: bool) -> dict:
-    """Run lift_one for a record, write per-treaty .ttl, return summary."""
+    """Run lift_one for a record, write per-treaty .ttl, return summary.
+    On reuse: skip the rdflib work but still read the JSON so the
+    rollup summary's coverage stats reflect every record."""
     rid = path.stem
     ttl_path = OUT_DIR / f"{rid}.ttl"
-    if not refresh and ttl_path.exists():
-        return {
-            "id": rid,
-            "ttl_path": str(ttl_path),
-            "reused": True,
-        }
+
     try:
         rec = json.loads(path.read_text())
     except (json.JSONDecodeError, OSError) as exc:
         return {"id": rid, "error": f"read: {exc}"}
 
+    base = {
+        "id": rid,
+        "ttl_path": str(ttl_path),
+        "captured_at": rec.get("captured_at"),
+        "document_url": rec.get("document_url"),
+        "graph_uri": f"https://treaties.fcdo.gov.uk/awweb/awfp/recno/{rid}",
+    }
+
+    if not refresh and ttl_path.exists():
+        stat = compute_stats(rec)
+        return {**base, "reused": True, **stat}
+
     treaty, g, stat = lift_one(rec)
     ttl_path.parent.mkdir(parents=True, exist_ok=True)
     g.serialize(destination=str(ttl_path), format="turtle")
-    return {
-        "id": rid,
-        "ttl_path": str(ttl_path),
-        "triples": stat["triples"],
-        "unmapped_parties": stat["unmapped_parties"],
-        "thin": stat["thin"],
-        "captured_at": rec.get("captured_at"),
-        "document_url": rec.get("document_url"),
-        "graph_uri": str(treaty),
-        "ref_stats":    stat["ref_stats"],
-        "party_stats":  stat["party_stats"],
-        "action_stats": stat["action_stats"],
-        "date_stats":   stat["date_stats"],
-        "has_subject":  stat["has_subject"],
-        "has_biorm":    stat["has_biorm"],
-    }
+    return {**base, "graph_uri": str(treaty),
+            "triples": stat["triples"], **{
+                k: stat[k] for k in (
+                    "unmapped_parties", "thin", "ref_stats",
+                    "party_stats", "action_stats", "date_stats",
+                    "has_subject", "has_biorm",
+                )
+            }}
 
 
 def _nt_quad(s, p, o, g) -> str:
@@ -726,30 +793,21 @@ def main(argv: Iterable[str] | None = None) -> int:
             if done % 500 == 0:
                 print(f"  lifted {done}/{len(records)}", file=sys.stderr)
 
-    # When a TTL was reused (no .json read), pick up captured_at /
-    # document_url from disk so the prov side-file is still complete.
-    for i, summ in enumerate(summaries):
-        if summ.get("reused"):
-            try:
-                rec = json.loads(records[i].read_text())
-            except (json.JSONDecodeError, OSError):
-                continue
-            summ["graph_uri"] = (
-                f"https://treaties.fcdo.gov.uk/awweb/awfp/recno/{records[i].stem}"
-            )
-            summ["captured_at"] = rec.get("captured_at")
-            summ["document_url"] = rec.get("document_url")
-
     nq_path = OUT_DIR / "all.nq"
     total_quads = stream_dataset(records, summaries, nq_path)
     prov_path = OUT_DIR / "_provenance.nq"
     prov_quads = write_provenance(records, summaries, prov_path)
 
     if args.gzip:
-        with nq_path.open("rb") as src, gzip.open(
-            str(nq_path) + ".gz", "wb", mtime=0
-        ) as dst:
-            dst.writelines(src)
+        # mtime=0 in the gzip header so the output is byte-identical
+        # for the same input -- avoids spurious diffs on refresh.
+        gz_path = str(nq_path) + ".gz"
+        with nq_path.open("rb") as src, \
+             open(gz_path, "wb") as raw, \
+             gzip.GzipFile(fileobj=raw, mode="wb",
+                           filename="", mtime=0) as dst:
+            for chunk in iter(lambda: src.read(65536), b""):
+                dst.write(chunk)
 
     # Roll-up summary --------------------------------------------------
     unmapped: dict[str, int] = {}
