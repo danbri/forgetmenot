@@ -102,13 +102,28 @@ This convention is not yet emitted by the extractors. When raw-text
 capture is added, the graph URI suffix `#raw` (or a parallel host
 like `https://forgetmenot.local/raw/<encoded-url>`) is reserved.
 
+## Per-corpus vocab declarations
+
+Each extractor that emits `fm:` triples ships a Turtle file alongside
+its output that formally declares (`rdfs:Class`, `rdf:Property`,
+`rdfs:domain`, `rdfs:range`, `rdfs:label`, `rdfs:comment`) every term
+it uses. Currently:
+
+- [`third_party/data/fcdo_treaties/extractors/factoids/fm-vocab.ttl`](../third_party/data/fcdo_treaties/extractors/factoids/fm-vocab.ttl)
+  — the FCDO treaty lift's subset. Kept in sync with the script by
+  [`scripts/fcdo_treaties_vocab_check.py`](../scripts/fcdo_treaties_vocab_check.py),
+  which diffs declared terms against the script's emitted terms.
+
+When a new extractor is added or an existing one grows a new term,
+the matching declaration goes in the per-corpus vocab file in the
+same commit. A future consolidated `vocab/fm.ttl` could union them.
+
 ## Stability
 
 `fm:` URIs are stable across this repo's lifetime — they don't change
 between commits. The vocabulary is **non-resolvable** today (it doesn't
-host an ontology document); that's a known gap. When this becomes
-distributed, the URIs migrate to a real host and a real OWL ontology
-ships at the namespace URI.
+host an ontology document at the namespace URI); the per-corpus
+declarations above are the closest substitute.
 
 Until then, treat `fm:` as a project-internal vocabulary: stable to
 us, opaque to outsiders. Don't put `fm:` triples in datasets meant

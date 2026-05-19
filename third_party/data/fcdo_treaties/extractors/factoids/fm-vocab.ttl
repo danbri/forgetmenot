@@ -1,0 +1,216 @@
+# forgetmenot vocabulary subset used by the FCDO UK Treaties Online lift.
+#
+# Declares the `fm:` classes and predicates emitted by
+# `scripts/fcdo_treaties_extract.py` and used in
+# `extractors/factoids/all.nq.gz`.
+#
+# Hand-curated. Kept in sync with the script by
+# `scripts/fcdo_treaties_vocab_check.py`, which compares this file's
+# declared terms with the script's emitted terms and fails the build
+# if they drift. New terms emitted by the script MUST be declared here
+# in the same commit.
+#
+# The `fm:` namespace is local to this repository
+# (`https://forgetmenot.local/vocab#`) and is intentionally not a
+# resolvable URL — we don't operate a vocabulary server. See
+# `docs/vocab.md` for the project-wide vocabulary discipline.
+
+@prefix fm:     <https://forgetmenot.local/vocab#> .
+@prefix fm-s:   <https://forgetmenot.local/vocab/subject/> .
+@prefix fm-a:   <https://forgetmenot.local/vocab/action/> .
+@prefix fm-c:   <https://forgetmenot.local/vocab/country/> .
+@prefix owl:    <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:    <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema: <http://schema.org/> .
+@prefix dct:    <http://purl.org/dc/terms/> .
+@prefix skos:   <http://www.w3.org/2004/02/skos/core#> .
+
+# ---- Classes (emitted as rdf:type values by the lift) ---------------
+
+fm:Treaty
+    a            rdfs:Class, owl:Class ;
+    rdfs:label   "Treaty"@en ;
+    rdfs:comment "A treaty or international agreement as catalogued in FCDO's UK Treaties Online (UKTO). Each instance is identified by the UKTO record URL (https://treaties.fcdo.gov.uk/awweb/awfp/recno/<id>) which doubles as the IRI of the per-record named graph that holds its triples."@en ;
+    rdfs:subClassOf schema:CreativeWork .
+
+fm:Country
+    a            rdfs:Class, owl:Class ;
+    rdfs:label   "Country (treaty party)"@en ;
+    rdfs:comment "A state, territory, organisation or other entity that is, was, or could be a party to a UK treaty. Identified by a locally-minted URI under fm:country/ that normalises FCDO's label casing; cross-referenced to a Wikidata QID via owl:sameAs where the curated country-qids.tsv map covers it."@en .
+
+fm:Reference
+    a            rdfs:Class, owl:Class ;
+    rdfs:label   "Treaty reference"@en ;
+    rdfs:comment "A citation attached to a treaty record — typically a Treaty Series number, Command Paper number, UN Registration number, TNA archival reference, or similar bibliographic pointer."@en .
+
+fm:TreatyAction
+    a            rdfs:Class, owl:Class ;
+    rdfs:label   "Treaty action event"@en ;
+    rdfs:comment "A single act performed by a country with respect to a treaty: Signature, Ratification, Accession, Extension, Acceptance, Declaration, Reservation, Denunciation, etc. Each row of FCDO's parties_detail table becomes one TreatyAction node, attached to both the treaty (via fm:partyAction) and the country (via fm:country)."@en .
+
+# ---- Object properties ----------------------------------------------
+
+fm:party
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "treaty party"@en ;
+    rdfs:comment "A country that is, or was, a party to this treaty. Derived from FCDO's parties[] list and parties_detail[].country (with deduplication)."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   fm:Country .
+
+fm:partyAction
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "party action"@en ;
+    rdfs:comment "Links a treaty to one of the per-party events on it (signature, ratification, accession, etc.). One link per parties_detail[] row."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   fm:TreatyAction .
+
+fm:country
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "country"@en ;
+    rdfs:comment "The country performing the action on a TreatyAction event."@en ;
+    rdfs:domain  fm:TreatyAction ;
+    rdfs:range   fm:Country .
+
+fm:action
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "action type"@en ;
+    rdfs:comment "The kind of treaty action: Signature, Ratification, Accession, Extension, Acceptance, Declaration, Reservation, Notification, Statement, Bound, Communication, Objection, Confirmation, Definitive Signature, Application, Provisional Application, Succession, Adoption, Approval, Adherence, Withdrawal (and variants), Denunciation, Termination, Suspension, Derogation, and others. Emitted as a SKOS Concept under fm:action/."@en ;
+    rdfs:domain  fm:TreatyAction ;
+    rdfs:range   skos:Concept .
+
+fm:subject
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "subject"@en ;
+    rdfs:comment "FCDO's subject classification for the treaty — POLLUTION, TRADE, AVIATION, DEFENCE, etc. Emitted as a SKOS Concept under fm:subject/."@en ;
+    rdfs:subPropertyOf dct:subject ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   skos:Concept .
+
+fm:reference
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "reference"@en ;
+    rdfs:comment "A citation attached to the treaty — Treaty Series number, Command Paper, TNA archival reference, etc."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   fm:Reference .
+
+# ---- Datatype properties (treaty) -----------------------------------
+
+fm:uktoId
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "UKTO record id"@en ;
+    rdfs:comment "FCDO UKTO numeric record id (the integer suffix of the document URL)."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   xsd:string .
+
+fm:uktoUuid
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "UKTO record uuid"@en ;
+    rdfs:comment "UUIDv4 assigned by the upstream Knowvation backend; included for round-tripping but not used as a stable identifier here."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   xsd:string .
+
+fm:kind
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "kind"@en ;
+    rdfs:comment "Human-readable form: 'bilateral' or 'multilateral'. Absent when FCDO does not state."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   xsd:string .
+
+fm:isBilateral
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "is bilateral"@en ;
+    rdfs:comment "Boolean shortcut for kind. true = bilateral, false = multilateral. Absent when FCDO does not state."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   xsd:boolean .
+
+fm:signedDate
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "signed date"@en ;
+    rdfs:comment "ISO date the treaty was opened for signature (or signed, for bilaterals)."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   xsd:date .
+
+fm:signedDateText
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "signed date (raw text)"@en ;
+    rdfs:comment "FCDO's raw signed-date string, kept verbatim when it cannot be parsed to an xsd:date (e.g. '00/00/1962' year-only stubs)."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   xsd:string .
+
+fm:signedPlace
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "signed place"@en ;
+    rdfs:comment "Place of signature, as a free-text label (e.g. 'Geneva', 'Rio de Janeiro'). Not yet linked to a geographic resource."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   rdf:langString .
+
+fm:entryIntoForceDate
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "entry into force date"@en ;
+    rdfs:comment "ISO date the treaty came into force for the UK (FCDO's 'definitive EIF date')."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   xsd:date .
+
+fm:commandPaper
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "command paper"@en ;
+    rdfs:comment "Command paper number associated with the treaty (Cm / Cmnd / Cmd / CP <NNNN>). Extracted from a reference string. Also attached at the treaty level so the parliament-bridge.ttl join (UKTO record ↔ Parliament treaty id) can use it."@en ;
+    rdfs:range   xsd:string .
+
+fm:referenceText
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "reference (raw text)"@en ;
+    rdfs:comment "Raw form of every reference attached to the treaty, kept for round-trip and for compatibility with the parliament-bridge.ttl file generated from the previous schema."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   xsd:string .
+
+fm:capturedAt
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "captured at"@en ;
+    rdfs:comment "ISO timestamp when this record was fetched from FCDO by our crawler. The same value also appears on the named graph as prov:generatedAtTime in _provenance.nq."@en ;
+    rdfs:domain  fm:Treaty ;
+    rdfs:range   xsd:dateTime .
+
+# ---- Datatype properties (reference + action) -----------------------
+
+fm:series
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "reference series"@en ;
+    rdfs:comment "The bibliographic series the reference belongs to — 'Treaty Series', 'Country Series', 'Miscellaneous Series', 'Command Paper', 'UN Registration', 'PRO (now TNA) FO', 'British State Papers (BSP)', 'League of Nations Treaty Series', etc."@en ;
+    rdfs:domain  fm:Reference ;
+    rdfs:range   xsd:string .
+
+fm:countryLabel
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "country label (verbatim)"@en ;
+    rdfs:comment "FCDO's raw country label for this action, kept because case is informative — FCDO upper-cases sovereign states ('UNITED KINGDOM') and mixed-cases UK overseas territories ('Bermuda', 'Isle of Man'). The fm:country object property points at a casing-normalised country URI."@en ;
+    rdfs:domain  fm:TreatyAction ;
+    rdfs:range   rdf:langString .
+
+fm:actionDate
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "action date"@en ;
+    rdfs:comment "ISO date the country performed this action."@en ;
+    rdfs:domain  fm:TreatyAction ;
+    rdfs:range   xsd:date .
+
+fm:effectiveDate
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "effective date"@en ;
+    rdfs:comment "ISO date the action took effect for the country (e.g. when an Extension to an overseas territory came into force)."@en ;
+    rdfs:domain  fm:TreatyAction ;
+    rdfs:range   xsd:date .
+
+# ---- Concept schemes ------------------------------------------------
+
+fm-s:
+    a            skos:ConceptScheme ;
+    rdfs:label   "FCDO treaty subject vocabulary"@en ;
+    rdfs:comment "The fixed subject taxonomy FCDO uses to classify treaties — POLLUTION, TRADE, AVIATION, DEFENCE, etc. Concepts are emitted on demand when a treaty cites them; this scheme does not enumerate every term up-front."@en .
+
+fm-a:
+    a            skos:ConceptScheme ;
+    rdfs:label   "FCDO treaty action vocabulary"@en ;
+    rdfs:comment "The set of action verbs FCDO uses on parties_detail rows. 59 distinct values observed in the corpus, mapped here to stable URI slugs (signature, ratification, accession, extension, acceptance, declaration, reservation, …). Concepts are emitted on demand; this scheme does not enumerate every term up-front."@en .
