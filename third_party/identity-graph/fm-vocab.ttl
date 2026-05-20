@@ -1,0 +1,175 @@
+# forgetmenot vocabulary subset used by the identity-graph build.
+#
+# Declares the `fm:` and `parl:` classes and predicates emitted by
+# `scripts/build-identity-graph.mjs` and stored in
+# `third_party/identity-graph/identity.nq`.
+#
+# Hand-curated. The `fm:` namespace is local to this repository
+# (`https://forgetmenot.local/vocab#`) and is intentionally not a
+# resolvable URL — we don't operate a vocabulary server. See
+# `docs/vocab.md` for the project-wide vocabulary discipline,
+# particularly: "Never invent a predicate or class under a third
+# party's namespace".
+#
+# The `parl:` predicates listed below ARE invented by us but reside
+# under Parliament's own namespace; per docs/vocab.md this is
+# explicitly sanctioned for bridge predicates that reference
+# Parliament's stable IDs verbatim.
+
+@prefix fm:      <https://forgetmenot.local/vocab#> .
+@prefix parl:    <https://id.parliament.uk/schema/> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix schema:  <http://schema.org/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix prov:    <http://www.w3.org/ns/prov#> .
+@prefix void:    <http://rdfs.org/ns/void#> .
+
+# ---- Classes ---------------------------------------------------------
+
+fm:AppgGroup
+    a            rdfs:Class, owl:Class ;
+    rdfs:label   "All-Party Parliamentary Group"@en ;
+    rdfs:comment "An APPG resolved from the official Register publication at publications.parliament.uk/pa/cm/cmallparty/. Identified by the contents URL of the relevant Register edition."@en .
+
+# ---- parl: bridge predicates (Parliament's stable IDs) ---------------
+#
+# These literal-valued predicates assert that the string value IS
+# Parliament's identifier for the subject, verbatim. Sanctioned in
+# docs/vocab.md as the only invented terms allowed under parl:.
+
+parl:memberId
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Members API id"@en ;
+    rdfs:comment "Members API integer id, as a string. The same number is canonically `parl:mnisId` for current members."@en ;
+    rdfs:domain  schema:Person ;
+    rdfs:range   xsd:string .
+
+parl:mnisId
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "MNIS member id"@en ;
+    rdfs:comment "Legacy Members Data Platform (MNIS) member id, as a string. Numerically equals parl:memberId for current members."@en ;
+    rdfs:domain  schema:Person ;
+    rdfs:range   xsd:string .
+
+parl:localId
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "DDP LocalId"@en ;
+    rdfs:comment "The eight-character LocalId used by the DDP (data.parliament) triple store, i.e. the slug after `https://id.parliament.uk/`. Example: `34bI5Ock`."@en ;
+    rdfs:domain  schema:Person ;
+    rdfs:range   xsd:string .
+
+# ---- fm: predicates: member attributes -------------------------------
+
+fm:party
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Party"@en ;
+    rdfs:comment "Party name (English) at the time of the local member dump. Free-text — values follow the Members API's party-name convention."@en ;
+    rdfs:domain  schema:Person ;
+    rdfs:range   xsd:string .
+
+fm:house
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "House of Parliament"@en ;
+    rdfs:comment "Either \"Commons\" or \"Lords\", matching the Members API's `house` field."@en ;
+    rdfs:domain  schema:Person ;
+    rdfs:range   xsd:string .
+
+fm:constituency
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Constituency"@en ;
+    rdfs:comment "Constituency name for Commons members; \"Life peer\", \"Hereditary\" or similar for Lords."@en ;
+    rdfs:domain  schema:Person ;
+    rdfs:range   xsd:string .
+
+fm:nameListAs
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Listing-order name"@en ;
+    rdfs:comment "The member's name in the listing-order form, e.g. \"Holmes of Richmond, L.\" — comes from the Members API `nameListAs` field."@en ;
+    rdfs:domain  schema:Person ;
+    rdfs:range   xsd:string .
+
+# ---- fm: predicates: scraped-corpus links ----------------------------
+
+fm:scrapedSiteDir
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Scraped-site directory"@en ;
+    rdfs:comment "Filesystem path (relative to repo root) of the polite-crawl artefact directory for this member's website."@en ;
+    rdfs:range   xsd:string .
+
+fm:scrapedFeed
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Scraped feed path"@en ;
+    rdfs:comment "Filesystem path (relative to repo root) of an RSS / Atom feed discovered for this member by the polite crawl."@en ;
+    rdfs:range   xsd:string .
+
+fm:memberDump
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Member-dump path"@en ;
+    rdfs:comment "Filesystem path (relative to repo root) of the flattened per-member JSON dump produced by `parl members crawl`."@en ;
+    rdfs:range   xsd:string .
+
+fm:sitePlatform
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Site platform"@en ;
+    rdfs:comment "Best-effort detection of the publishing platform underlying the scraped MP site (e.g. \"WordPress\")."@en ;
+    rdfs:range   xsd:string .
+
+# ---- fm: predicates: APPG cluster ------------------------------------
+
+fm:appgOfficership
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "APPG officership"@en ;
+    rdfs:comment "Links a person to a blank node that reifies their officer role in a single APPG (carries fm:appgGroup and fm:appgRole)."@en ;
+    rdfs:domain  schema:Person .
+
+fm:appgGroup
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "APPG group"@en ;
+    rdfs:comment "From a reified officership blank node to the fm:AppgGroup the person serves on."@en ;
+    rdfs:range   fm:AppgGroup .
+
+fm:appgRole
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "APPG role"@en ;
+    rdfs:comment "Role string as published in the APPG Register (e.g. \"Chair & Registered Contact\", \"Co-Chair\", \"Vice Chair\", \"Officer\")."@en ;
+    rdfs:range   xsd:string .
+
+fm:appgSubject
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "APPG subject"@en ;
+    rdfs:comment "The subject string the APPG self-declares in its Register entry. Named `fm:appgSubject` rather than `fm:subject` to avoid clashing with the FCDO treaty subject predicate of the same local name."@en ;
+    rdfs:domain  fm:AppgGroup ;
+    rdfs:range   xsd:string .
+
+fm:appgCategory
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "APPG category"@en ;
+    rdfs:comment "The Register's classification of the APPG (e.g. \"Subject Group\", \"Country, Area or Region Group\")."@en ;
+    rdfs:domain  fm:AppgGroup ;
+    rdfs:range   xsd:string .
+
+# ---- fm: predicates: GOV.UK cross-link -------------------------------
+
+fm:govukFactoidFile
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "GOV.UK factoid file"@en ;
+    rdfs:comment "Filesystem path (relative to repo root) of the hand-templated Turtle factoid file extracted from the matching GOV.UK people page."@en ;
+    rdfs:range   xsd:string .
+
+fm:govukCleanName
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "GOV.UK cleaned name"@en ;
+    rdfs:comment "GOV.UK schema:name with honorifics and post-nominals stripped, as used by the identity-graph matcher to bridge into the GOV.UK people factoid corpus."@en ;
+    rdfs:range   xsd:string .
+
+# ---- fm: predicates: build provenance --------------------------------
+
+fm:gitRevision
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Git revision"@en ;
+    rdfs:comment "Short git revision (first 12 chars) of the repository HEAD at the time of the build. Asserted on the prov:Activity for the build run."@en ;
+    rdfs:domain  prov:Activity ;
+    rdfs:range   xsd:string .
