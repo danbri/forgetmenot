@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-18T16:05:46.930Z",
+  "generatedAt": "2026-05-20T20:40:46.644Z",
   "output": "third_party/identity-graph/identity.nq",
   "totals": {
     "quads": 56832,
@@ -27,19 +27,19 @@
     "prov": "http://www.w3.org/ns/prov#",
     "void": "http://rdfs.org/ns/void#",
     "xsd": "http://www.w3.org/2001/XMLSchema#",
-    "fmn": "https://forgetmenot.local/identity#",
+    "fm": "https://forgetmenot.local/vocab#",
     "parl": "https://id.parliament.uk/schema/"
   },
   "sample": [
-    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#membersApiId> \"100\" <https://forgetmenot.local/graph/identity/members-api> .",
-    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#mnisId> \"100\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://id.parliament.uk/schema/memberId> \"100\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://id.parliament.uk/schema/mnisId> \"100\" <https://forgetmenot.local/graph/identity/members-api> .",
     "<https://members-api.parliament.uk/api/Members/100> <http://schema.org/name> \"Lord Hamilton of Epsom\" <https://forgetmenot.local/graph/identity/members-api> .",
-    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#nameListAs> \"Hamilton of Epsom, L.\" <https://forgetmenot.local/graph/identity/members-api> .",
-    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#party> \"Conservative\" <https://forgetmenot.local/graph/identity/members-api> .",
-    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#house> \"Lords\" <https://forgetmenot.local/graph/identity/members-api> .",
-    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#constituency> \"Life peer\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/vocab#nameListAs> \"Hamilton of Epsom, L.\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/vocab#party> \"Conservative\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/vocab#house> \"Lords\" <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/vocab#constituency> \"Life peer\" <https://forgetmenot.local/graph/identity/members-api> .",
     "<https://members-api.parliament.uk/api/Members/100> <http://schema.org/gender> \"M\" <https://forgetmenot.local/graph/identity/members-api> .",
-    "<https://members-api.parliament.uk/api/Members/100> <https://forgetmenot.local/identity#membershipStart> \"2005-06-17\"^^<http://www.w3.org/2001/XMLSchema#date> <https://forgetmenot.local/graph/identity/members-api> .",
+    "<https://members-api.parliament.uk/api/Members/100> <http://schema.org/startDate> \"2005-06-17\"^^<http://www.w3.org/2001/XMLSchema#date> <https://forgetmenot.local/graph/identity/members-api> .",
     "<https://members-api.parliament.uk/api/Members/100> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://schema.org/Person> <https://forgetmenot.local/graph/identity/members-api> ."
   ]
 }

@@ -60,13 +60,21 @@ with `owl:sameAs` links into:
 - GOV.UK people pages (when matched)
 - Wikidata (when the APPG resolver attached one)
 
-Plus literal-valued identifiers under
-`https://forgetmenot.local/identity#`:
+Plus literal-valued identifiers split between two namespaces, per
+the project vocabulary discipline (`docs/vocab.md`):
 
-- `fmn:membersApiId`, `fmn:mnisId`, `fmn:ddpLocalId`
-- `fmn:scrapedSiteDir`, `fmn:scrapedFeed`, `fmn:memberDump`
-- `fmn:appgOfficership` → blank node with `fmn:appgGroup` and `fmn:appgRole`
-- `fmn:govukFactoidFile`
+- **Parliament's stable IDs** under `parl:` (since they reference
+  Parliament IDs verbatim):
+  `parl:memberId`, `parl:mnisId`, `parl:localId`
+- **Everything else this project invents** under
+  `fm: <https://forgetmenot.local/vocab#>`:
+  - `fm:scrapedSiteDir`, `fm:scrapedFeed`, `fm:memberDump`,
+    `fm:sitePlatform`
+  - `fm:appgOfficership` → blank node with `fm:appgGroup`,
+    `fm:appgRole`; group itself carries `fm:appgSubject` and
+    `fm:appgCategory`
+  - `fm:govukFactoidFile`, `fm:govukCleanName`
+  - Build provenance: `fm:gitRevision` on the `prov:Activity`
 
 ## Build it
 
@@ -83,14 +91,17 @@ politely uses the upstream API.
 
 See `_index.json`. As of the last build:
 
-- 55,975 quads total
+- 56,832 quads total
 - 1,426 members from local per-MP dumps
 - 1,425 of those bridged cleanly to a DDP LocalId
 - 436 with a scraped MP website
 - 2,170 APPG officerships attached
-- 14 cross-linked to a GOV.UK people factoid
+- 273 cross-linked to a GOV.UK people factoid (96.5% of the
+  ~283 politicians on GOV.UK)
 - 4,000 additional DDP-only persons (historical members we
   don't have a local dump for)
+- 67 provenance quads (1 prov:Activity + 5 void:Dataset
+  descriptions of the source graphs)
 
 ## Worked example — Lord Holmes of Richmond (memberId 4294)
 
@@ -101,30 +112,39 @@ The same person under five surface forms in five different graphs:
 <https://members-api.parliament.uk/api/Members/4294>
   a              schema:Person ;
   schema:name    "Lord Holmes of Richmond" ;
-  fmn:mnisId     "4294" ;
-  fmn:house      "Lords" ;
-  fmn:party      "Conservative" .
+  parl:memberId  "4294" ;
+  parl:mnisId    "4294" ;
+  fm:house       "Lords" ;
+  fm:party       "Conservative" .
 
 # ddp-sparql graph
 <https://members-api.parliament.uk/api/Members/4294>
   owl:sameAs        <https://id.parliament.uk/34bI5Ock> ;
-  fmn:ddpLocalId    "34bI5Ock" ;
+  parl:localId      "34bI5Ock" ;
   schema:givenName  "Christopher" ;
   schema:familyName "Holmes" .
 
 # scraped graph
 <https://members-api.parliament.uk/api/Members/4294>
-  schema:url       <http://www.chrisholmes.co.uk/> ;
-  fmn:sitePlatform "WordPress" ;
-  fmn:scrapedFeed  "third_party/data/sites/4294/feeds/0.xml" ;
-  schema:sameAs    <https://www.linkedin.com/in/lord-chris-holmes/> .
+  schema:url      <http://www.chrisholmes.co.uk/> ;
+  fm:sitePlatform "WordPress" ;
+  fm:scrapedFeed  "third_party/data/sites/4294/feeds/0.xml" ;
+  schema:sameAs   <https://www.linkedin.com/in/lord-chris-holmes/> .
 
 # appg graph
 <https://members-api.parliament.uk/api/Members/4294>
-  fmn:appgOfficership _:appg_data_and_emerging_technologies_4294 .
+  fm:appgOfficership _:appg_data_and_emerging_technologies_4294 .
 _:appg_data_and_emerging_technologies_4294
-  fmn:appgGroup    <https://publications.parliament.uk/pa/.../data-and-emerging-technologies.htm> ;
-  fmn:appgRole     "Officer" .
+  fm:appgGroup <https://publications.parliament.uk/pa/.../data-and-emerging-technologies.htm> ;
+  fm:appgRole  "Officer" .
+
+# provenance graph (sixth)
+<…/graph/identity/ddp-sparql>
+  a              void:Dataset, prov:Entity ;
+  dcterms:title  "DDP (data.parliament) public SPARQL graph" ;
+  dcterms:source <https://api.parliament.uk/sparql> ;
+  void:triples   "11423"^^xsd:integer ;
+  prov:wasGeneratedBy <…/identity/build/…> .
 ```
 
 That is the bridge the static traverse report described in prose,

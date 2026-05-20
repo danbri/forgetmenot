@@ -39,7 +39,18 @@ const parl = resolve(repoRoot, 'bin/parl.mjs');
 const outDir = resolve(repoRoot, 'third_party/identity-graph');
 mkdirSync(outDir, { recursive: true });
 
-// Namespaces
+// Namespaces.
+//
+// Vocabulary discipline (docs/vocab.md):
+//   - `fm:`   — all project-invented predicates and classes.
+//   - `parl:` — Parliament's own schema; we use it for bridge
+//               predicates that reference Parliament's stable IDs
+//               verbatim (memberId, mnisId, localId).
+//   - `schema:`, `owl:`, `rdf:`, `rdfs:`, `dcterms:`, `xsd:`,
+//     `prov:`, `void:` — standard external vocabularies.
+//
+// We do NOT invent anything under govuk: or under Parliament's
+// schema beyond the three sanctioned ID predicates above.
 const NS = {
   rdf:    'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
   rdfs:   'http://www.w3.org/2000/01/rdf-schema#',
@@ -49,7 +60,7 @@ const NS = {
   prov:   'http://www.w3.org/ns/prov#',
   void:   'http://rdfs.org/ns/void#',
   xsd:    'http://www.w3.org/2001/XMLSchema#',
-  fmn:    'https://forgetmenot.local/identity#',
+  fm:     'https://forgetmenot.local/vocab#',
   parl:   'https://id.parliament.uk/schema/',
 };
 
@@ -104,15 +115,16 @@ for (const f of memberFiles) {
   const j = JSON.parse(readFileSync(resolve(membersDir, f), 'utf8'));
   members.set(id, j);
   const s = memberIri(id);
-  addLit(s, NS.fmn + 'membersApiId', String(id), G.members);
-  addLit(s, NS.fmn + 'mnisId',       String(id), G.members); // identical for current members
-  if (j.name)              addLit(s, NS.schema + 'name',        j.name,             G.members);
-  if (j.nameListAs)        addLit(s, NS.fmn + 'nameListAs',     j.nameListAs,       G.members);
-  if (j.party)             addLit(s, NS.fmn + 'party',          j.party,            G.members);
-  if (j.house)             addLit(s, NS.fmn + 'house',          j.house,            G.members);
-  if (j.constituency)      addLit(s, NS.fmn + 'constituency',   j.constituency,     G.members);
-  if (j.gender)            addLit(s, NS.schema + 'gender',      j.gender,           G.members);
-  if (j.membershipStart)   addLit(s, NS.fmn + 'membershipStart',j.membershipStart.slice(0,10),
+  // Parliament's stable IDs go under parl: per docs/vocab.md.
+  addLit(s, NS.parl + 'memberId', String(id), G.members);
+  addLit(s, NS.parl + 'mnisId',   String(id), G.members); // identical for current members
+  if (j.name)              addLit(s, NS.schema + 'name',         j.name,            G.members);
+  if (j.nameListAs)        addLit(s, NS.fm + 'nameListAs',       j.nameListAs,      G.members);
+  if (j.party)             addLit(s, NS.fm + 'party',            j.party,           G.members);
+  if (j.house)             addLit(s, NS.fm + 'house',            j.house,           G.members);
+  if (j.constituency)      addLit(s, NS.fm + 'constituency',     j.constituency,    G.members);
+  if (j.gender)            addLit(s, NS.schema + 'gender',       j.gender,          G.members);
+  if (j.membershipStart)   addLit(s, NS.schema + 'startDate',    j.membershipStart.slice(0,10),
                                   G.members,
                                   'http://www.w3.org/2001/XMLSchema#date');
   // Type the subject
@@ -158,7 +170,7 @@ for (const id of members.keys()) {
   ddpHits++;
   const s = memberIri(id);
   addIri(s, NS.owl + 'sameAs', d.ddp, G.ddp);
-  addLit(s, NS.fmn + 'ddpLocalId', d.ddp.replace(/^https:\/\/id\.parliament\.uk\//, ''), G.ddp);
+  addLit(s, NS.parl + 'localId', d.ddp.replace(/^https:\/\/id\.parliament\.uk\//, ''), G.ddp);
   if (d.given)  addLit(s, NS.schema + 'givenName',  d.given,  G.ddp);
   if (d.family) addLit(s, NS.schema + 'familyName', d.family, G.ddp);
 }
@@ -173,8 +185,8 @@ for (const [mnis, d] of ddpByMnis) {
   const s = memberIri(mnis);
   add(iri(s), iri(NS.rdf + 'type'), iri(NS.schema + 'Person'), iri(G.ddp));
   addIri(s, NS.owl + 'sameAs', d.ddp, G.ddp);
-  addLit(s, NS.fmn + 'mnisId', String(mnis), G.ddp);
-  addLit(s, NS.fmn + 'ddpLocalId', d.ddp.replace(/^https:\/\/id\.parliament\.uk\//, ''), G.ddp);
+  addLit(s, NS.parl + 'mnisId', String(mnis), G.ddp);
+  addLit(s, NS.parl + 'localId', d.ddp.replace(/^https:\/\/id\.parliament\.uk\//, ''), G.ddp);
   if (d.given)  addLit(s, NS.schema + 'givenName',  d.given,  G.ddp);
   if (d.family) addLit(s, NS.schema + 'familyName', d.family, G.ddp);
 }
@@ -193,18 +205,18 @@ for (const id of members.keys()) {
   scrapedHits++;
   const s = memberIri(id);
   const rel = `third_party/data/sites/${id}/`;
-  addLit(s, NS.fmn + 'scrapedSiteDir', rel, G.scraped);
+  addLit(s, NS.fm + 'scrapedSiteDir', rel, G.scraped);
   // Surface feeds if present.
   const feedsDir = resolve(dir, 'feeds');
   if (existsSync(feedsDir)) {
     for (const f of readdirSync(feedsDir)) {
-      addLit(s, NS.fmn + 'scrapedFeed', `${rel}feeds/${f}`, G.scraped);
+      addLit(s, NS.fm + 'scrapedFeed', `${rel}feeds/${f}`, G.scraped);
     }
   }
   // Surface platform/social if recorded.
   try {
     const mf = JSON.parse(readFileSync(manifestPath, 'utf8'));
-    if (mf.platform)    addLit(s, NS.fmn + 'sitePlatform', mf.platform, G.scraped);
+    if (mf.platform)    addLit(s, NS.fm + 'sitePlatform', mf.platform, G.scraped);
     if (mf.homepageUrl && /^https?:\/\/[^\s<>]+$/.test(mf.homepageUrl)) {
       addIri(s, NS.schema + 'url', mf.homepageUrl, G.scraped);
     }
@@ -215,7 +227,7 @@ for (const id of members.keys()) {
     }
   } catch (e) { /* keep going */ }
   // Member dump path itself
-  addLit(s, NS.fmn + 'memberDump', `third_party/data/members/${id}.json`, G.scraped);
+  addLit(s, NS.fm + 'memberDump', `third_party/data/members/${id}.json`, G.scraped);
 }
 process.stderr.write(`Members with scraped site present: ${scrapedHits}\n`);
 
@@ -232,10 +244,10 @@ if (existsSync(appgPath)) {
     if (!slug) continue;
     const groupUri = appgIri(slug, edition);
     // Type the group itself.
-    add(iri(groupUri), iri(NS.rdf + 'type'), iri(NS.fmn + 'AppgGroup'), iri(G.appg));
+    add(iri(groupUri), iri(NS.rdf + 'type'), iri(NS.fm + 'AppgGroup'), iri(G.appg));
     addLit(groupUri, NS.schema + 'name', g.title || '', G.appg);
-    if (g.subject) addLit(groupUri, NS.fmn + 'subject', g.subject, G.appg);
-    if (g.category) addLit(groupUri, NS.fmn + 'category', g.category, G.appg);
+    if (g.subject)  addLit(groupUri, NS.fm + 'appgSubject',  g.subject,  G.appg);
+    if (g.category) addLit(groupUri, NS.fm + 'appgCategory', g.category, G.appg);
     for (const o of g.officers || []) {
       const memberId = o.resolution?.member?.id;
       if (!memberId || o.resolution?.status !== 'matched') continue;
@@ -243,9 +255,9 @@ if (existsSync(appgPath)) {
       const s = memberIri(memberId);
       // Officership as a blank node so we can carry the role.
       const bn = `_:appg_${slug.replace(/[^a-z0-9]/gi, '_')}_${memberId}`;
-      add(iri(s), iri(NS.fmn + 'appgOfficership'), bn, iri(G.appg));
-      add(bn, iri(NS.fmn + 'appgGroup'), iri(groupUri), iri(G.appg));
-      add(bn, iri(NS.fmn + 'appgRole'), nqStr(o.role || ''), iri(G.appg));
+      add(iri(s), iri(NS.fm + 'appgOfficership'), bn, iri(G.appg));
+      add(bn, iri(NS.fm + 'appgGroup'), iri(groupUri), iri(G.appg));
+      add(bn, iri(NS.fm + 'appgRole'), nqStr(o.role || ''), iri(G.appg));
       // Wikidata if the resolver attached one.
       if (o.wikidata?.id) {
         addIri(s, NS.owl + 'sameAs', `https://www.wikidata.org/entity/${o.wikidata.id}`, G.appg);
@@ -401,10 +413,10 @@ if (existsSync(govukDir)) {
     govukHits++;
     const s = memberIri(memberId);
     addIri(s, NS.owl + 'sameAs', govukUri, G.govuk);
-    addLit(s, NS.fmn + 'govukFactoidFile',
+    addLit(s, NS.fm + 'govukFactoidFile',
            `third_party/govuk/html/orgcharts/extractors/factoids/${slug}/factoids.ttl`,
            G.govuk);
-    addLit(s, NS.fmn + 'govukCleanName', cleanGovukName(rawName), G.govuk);
+    addLit(s, NS.fm + 'govukCleanName', cleanGovukName(rawName), G.govuk);
   }
 }
 process.stderr.write(
@@ -449,7 +461,7 @@ addLit(buildIri, NS.prov + 'startedAtTime', now, G.prov, NS.xsd + 'dateTime');
 addLit(buildIri, NS.prov + 'endedAtTime',   now, G.prov, NS.xsd + 'dateTime');
 add(iri(buildIri), iri(NS.prov + 'wasAssociatedWith'), iri(scriptIri), iri(G.prov));
 addLit(buildIri, NS.rdfs + 'label', 'forgetmenot identity-graph build', G.prov);
-if (gitRev) addLit(buildIri, NS.fmn + 'gitRevision', gitRev, G.prov);
+if (gitRev) addLit(buildIri, NS.fm + 'gitRevision', gitRev, G.prov);
 
 // The script as a SoftwareAgent
 add(iri(scriptIri), iri(NS.rdf + 'type'), iri(NS.prov + 'SoftwareAgent'), iri(G.prov));

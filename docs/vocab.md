@@ -41,6 +41,7 @@ mirroring, it's `fm:hasSection` — never `tna:hasSection`,
 | `fm:FormerOfficeHolder` | gov.uk org-chart | Inverse |
 | `fm:PastPrimeMinister` | gov.uk org-chart | Past PM (anchor for the past-PMs index) |
 | `fm:Treaty` | fcdo treaties | A UK treaty record at UKTO |
+| `fm:AppgGroup` | identity-graph | An All-Party Parliamentary Group resolved from the Register |
 
 ## fm: relations
 
@@ -57,6 +58,27 @@ mirroring, it's `fm:hasSection` — never `tna:hasSection`,
   `fm:subject`, `fm:kind`, `fm:partyAction`, `fm:country`,
   `fm:countryQid`, `fm:action`, `fm:actionDate`, `fm:effectiveDate`,
   `fm:capturedAt`, `fm:commandPaper`
+
+### identity-graph (Members × DDP × scraped × APPG × GOV.UK)
+- Member attributes (also appears in gov.uk org-chart cluster):
+  `fm:party`, `fm:house`, `fm:constituency`, `fm:nameListAs`
+- Scraped corpus links:
+  `fm:scrapedSiteDir`, `fm:scrapedFeed`, `fm:memberDump`,
+  `fm:sitePlatform`
+- APPG cluster: `fm:appgOfficership`, `fm:appgGroup`, `fm:appgRole`,
+  `fm:appgSubject` (renamed from `fm:subject` to avoid clash with
+  the FCDO treaty subject predicate), `fm:appgCategory`
+- GOV.UK cross-links: `fm:govukFactoidFile`, `fm:govukCleanName`
+- Build metadata: `fm:gitRevision` (on the `prov:Activity` for a
+  given build run)
+
+### parl: bridge predicates (Parliament's stable IDs)
+- `parl:memberId`  — Members API id (string literal)
+- `parl:mnisId`    — MNIS member id (string literal; numerically
+  equals the Members API id for current members)
+- `parl:localId`   — DDP LocalId (the slug after
+  `https://id.parliament.uk/`, e.g. `34bI5Ock`)
+- `parl:treatyId`  — UKTO treaty id (used by the fcdo extractor)
 
 ### Provenance flags
 - `fm:apiSourced` (`true`) — triple read from the source's own
