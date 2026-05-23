@@ -20,7 +20,7 @@ re-expression of an upstream corpus:
 | `third_party/data/psephology/all.nq.gz` | Every UK election result since 1955 — Library data | 420 k quads / 2.4 MB gz |
 | `third_party/data/fcdo_treaties/extractors/factoids/all.nq.gz` | FCDO UK Treaties Online | 1.7 M quads / 15.6 MB gz |
 | `third_party/govuk/html/orgcharts/extractors/factoids/all.nq` | GOV.UK government org chart + people | 20 k quads / 7.4 MB |
-| `third_party/identity-graph/identity.nq` | Cross-source identity for 1,400 MPs/peers | 57 k quads / 9.7 MB |
+| `third_party/identity-graph/identity.nq` | Cross-source identity for 1,400 MPs/peers — Members API ↔ DDP ↔ scraped MP sites ↔ APPG ↔ GOV.UK people factoids ↔ Wikidata QIDs | 58 k quads / 9.9 MB |
 | `third_party/data/tna_legislation/…/*.ttl` | UK legislation (per-act Turtle files) | many small files |
 
 Each of these is queryable as RDF the moment you put a SPARQL
