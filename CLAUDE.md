@@ -119,11 +119,17 @@ Parliament runs **three** RDF graphs; **two are public**.
 
 - **DDP** (`data.parliament`, the data catalogue, ~7.5M statements,
   inference off) is what `api.parliament.uk/sparql` actually fronts.
-- **DD** (procedural ontology over SIs, treaties, written questions,
-  ~3.14M statements, **inference on**) is **not on the public SPARQL
-  endpoint**. Procedural-business questions that look like they should
-  match SPARQL but return empty often live in DD; drop down to the
-  matching REST API instead.
+  Carries the procedural-business instance data too (Acts, SIs,
+  WorkPackages, Treaties, LayingBodies, …) — the Commons Library's
+  procedure queries run against this endpoint.
+- **DD** (procedural ontology, ~3.14M statements, **inference on**)
+  is **not on the public SPARQL endpoint**. Its distinguishing role
+  is *inference*, not data — it hosts the OWL/RDFS closure under the
+  procedural ontology. Queries that depend on that closure work
+  against DD but not against DDP; for those, walk the subclass tree
+  explicitly or drop down to the matching REST API
+  (`statutory-instruments`, `treaties`, `wq`) which is DD's
+  effective public surface.
 - The third graph is internal and not public.
 
 ## Honesty about coverage

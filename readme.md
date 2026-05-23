@@ -135,22 +135,30 @@ bash tests/test_endpoints.sh         # smoke test
 
 Parliament runs **three** RDF graphs; **two are public**. We refer
 to them as **DDP** (`data.parliament`, the data catalogue, ~7.5M
-statements) and **DD** (the procedural-ontology graph covering
-statutory instruments, treaties, written questions; ~3.14M
-statements; **inference turned on**, so queries return the closure
-under the ontology). Both run on GraphDB and are updated at least
-daily; neither is heavily supported. The naming is local to this
-repo — Parliament does not reliably call them "DDP / DD".
+statements, inference off) and **DD** (the procedural-ontology
+graph, ~3.14M statements, **inference turned on** — queries return
+the closure under the OWL/RDFS axioms of the procedural ontology).
+Both run on GraphDB and are updated at least daily; neither is
+heavily supported. The naming is local to this repo — Parliament
+does not reliably call them "DDP / DD".
 
 The public SPARQL endpoint at `api.parliament.uk/sparql` fronts
-mostly DDP. Procedural-business questions that look like they should
-answer but return empty may live in DD instead, in which case drop
-down to the matching REST API (statutory instruments, treaties,
-written questions). One of the two graphs is bundled into a public
-GraphDB Docker Hub container image; the other can be reconstructed
-from a ~2019 Wayback Machine capture — which is which is not clearly
-recorded. See [`docs/sparql-endpoints.md`](docs/sparql-endpoints.md)
-for fuller notes including verification queries.
+**DDP**, which carries the procedural-business instance data too
+(Acts, SIs, WorkPackages, Treaties, LayingBodies, scrutiny steps —
+typed under the same procedural ontology DD uses). The Commons
+Library's own published SPARQL queries run against this endpoint.
+DD's distinguishing role is *inference*, not data: queries that
+depend on entailment under the procedural ontology work against DD
+but may return empty against DDP. For those, either walk the
+subclass tree explicitly or drop down to the matching REST API
+(statutory instruments, treaties, written questions) which is DD's
+effective public surface.
+
+One of the two graphs is bundled into a public GraphDB Docker Hub
+container image; the other can be reconstructed from a ~2019
+Wayback Machine capture — which is which is not clearly recorded.
+See [`docs/sparql-endpoints.md`](docs/sparql-endpoints.md) for
+fuller notes including verification queries.
 
 ## Open work
 
