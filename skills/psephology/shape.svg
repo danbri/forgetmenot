@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Psephology RDF — shape of a typical winning-candidacy instance.
+
+  Anchor: Allison Gardner's win in Stoke-on-Trent South at the
+  2024 UK general election. Every value below is real, lifted
+  from `third_party/data/psephology/all.nq.gz`.
+
+  Prefixes:
+    pe:    http://parliament.uk/ontologies/election/
+    parl:  https://id.parliament.uk/schema/
+    fm:    https://forgetmenot.local/vocab#
+    owl:   http://www.w3.org/2002/07/owl#
+    rdfs:  http://www.w3.org/2000/01/rdf-schema#
+
+  The diagram intentionally shows the SCHEMA (the boxes' types
+  and the labelled edges) BY SHOWING ONE INSTANCE. Every other
+  candidacy in the dump has the same shape.
+-->
+<svg xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 1100 760"
+     font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <!-- Arrow heads -->
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#444"/>
+    </marker>
+    <marker id="arrow-blank" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a6d00"/>
+    </marker>
+    <marker id="arrow-ext" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7a2a2a"/>
+    </marker>
+    <style><![CDATA[
+      .iri-class { font-weight: 600; fill: #235ba8; font-size: 12px; }
+      .iri-id    { font-weight: 600; fill: #1a1f2c; font-size: 13px; }
+      .pred      { font-size: 10.5px; fill: #555; font-style: italic; }
+      .pred-bg   { fill: #fbfbf5; }
+      .lit-k     { font-size: 10.5px; fill: #555; }
+      .lit-v     { font-size: 11px; fill: #1a1f2c; font-weight: 500; }
+      .blank     { font-style: italic; fill: #6e5400; font-weight: 600; font-size: 12px; }
+      .ext       { font-weight: 600; fill: #7a2a2a; font-size: 12px; }
+      .node       { fill: #eef3fa; stroke: #235ba8; stroke-width: 1.2; }
+      .node-blank { fill: #fcf7e0; stroke: #b89800; stroke-width: 1.2;
+                    stroke-dasharray: 4 3; }
+      .node-ext   { fill: #f7ecec; stroke: #7a2a2a; stroke-width: 1.2; }
+      .edge       { fill: none; stroke: #555; stroke-width: 1.2;
+                    marker-end: url(#arrow); }
+      .edge-blank { fill: none; stroke: #8a6d00; stroke-width: 1.2;
+                    marker-end: url(#arrow-blank); }
+      .edge-ext   { fill: none; stroke: #7a2a2a; stroke-width: 1.2;
+                    marker-end: url(#arrow-ext); }
+      .title      { font-size: 16px; font-weight: 700; fill: #1a1f2c; }
+      .sub        { font-size: 12px; fill: #555; }
+      .legend     { font-size: 11px; fill: #555; }
+    ]]></style>
+  </defs>
+
+  <!-- Title -->
+  <text x="40" y="30" class="title">
+    Psephology RDF — shape of a winning candidacy
+  </text>
+  <text x="40" y="48" class="sub">
+    Real instance: Allison Gardner (Lab) winning Stoke-on-Trent South at GE 2024-07-04.
+    Same shape for every candidacy in `third_party/data/psephology/all.nq.gz`.
+  </text>
+
+  <!-- ============= ROW 1: GeneralElection ============= -->
+  <g transform="translate(420 70)">
+    <rect class="node" x="0" y="0" width="260" height="60" rx="6"/>
+    <text x="14" y="20" class="iri-class">pe:GeneralElection</text>
+    <text x="14" y="38" class="iri-id">…/GeneralElection/6</text>
+    <text x="14" y="54"><tspan class="lit-k">pe:generalElectionPollingOn </tspan><tspan class="lit-v">"2024-07-04"^^xsd:date</tspan></text>
+  </g>
+
+  <!-- ============= ROW 2: Electorate, Election, ConstituencyGroup ============= -->
+  <g transform="translate(40 200)">
+    <rect class="node" x="0" y="0" width="220" height="62" rx="6"/>
+    <text x="14" y="20" class="iri-class">pe:Electorate</text>
+    <text x="14" y="38" class="iri-id">…/Electorate/3806</text>
+    <text x="14" y="55"><tspan class="lit-k">pe:recordedSize </tspan><tspan class="lit-v">"70002"^^xsd:integer</tspan></text>
+  </g>
+
+  <g transform="translate(360 180)">
+    <rect class="node" x="0" y="0" width="380" height="120" rx="6"/>
+    <text x="14" y="22" class="iri-class">pe:Election</text>
+    <text x="14" y="40" class="iri-id">…/Election/3807</text>
+    <text x="14" y="58"><tspan class="lit-k">pe:electionPollingOn   </tspan><tspan class="lit-v">"2024-07-04"^^xsd:date</tspan></text>
+    <text x="14" y="74"><tspan class="lit-k">pe:majority            </tspan><tspan class="lit-v">"627"^^xsd:integer</tspan></text>
+    <text x="14" y="90"><tspan class="lit-k">pe:validVoteCount      </tspan><tspan class="lit-v">"40942"^^xsd:integer</tspan></text>
+    <text x="14" y="106"><tspan class="lit-k">pe:invalidVoteCount    </tspan><tspan class="lit-v">"120"^^xsd:integer</tspan></text>
+  </g>
+
+  <g transform="translate(820 200)">
+    <rect class="node" x="0" y="0" width="240" height="62" rx="6"/>
+    <text x="14" y="20" class="iri-class">pe:ConstituencyGroup</text>
+    <text x="14" y="38" class="iri-id">…/ConstituencyGroup/1207</text>
+    <text x="14" y="55"><tspan class="lit-k">rdfs:label </tspan><tspan class="lit-v">"Stoke-on-Trent South"</tspan></text>
+  </g>
+
+  <!-- Edges out of Election -->
+  <!-- Election → GeneralElection -->
+  <path class="edge" d="M 550 180 C 550 145, 550 145, 550 130"/>
+  <rect class="pred-bg" x="392" y="145" width="180" height="14"/>
+  <text x="404" y="156" class="pred">pe:formsPartOfGeneralElection</text>
+
+  <!-- Election → Electorate -->
+  <path class="edge" d="M 360 230 L 260 230"/>
+  <rect class="pred-bg" x="270" y="215" width="84" height="14"/>
+  <text x="276" y="226" class="pred">pe:hasElectorate</text>
+
+  <!-- Election → ConstituencyGroup -->
+  <path class="edge" d="M 740 230 L 820 230"/>
+  <rect class="pred-bg" x="745" y="215" width="118" height="14"/>
+  <text x="753" y="226" class="pred">pe:forConstituencyGroup</text>
+
+  <!-- ============= ROW 3: Result, Candidacy, Person, members-api ============= -->
+  <g transform="translate(40 380)">
+    <rect class="node-blank" x="0" y="0" width="260" height="118" rx="6"/>
+    <text x="14" y="20" class="blank">pe:WinningCandidacyResult</text>
+    <text x="14" y="38" class="blank">_:result_22156   (blank node)</text>
+    <text x="14" y="58"><tspan class="lit-k">pe:resultPosition </tspan><tspan class="lit-v">"1"^^xsd:integer</tspan></text>
+    <text x="14" y="74"><tspan class="lit-k">pe:voteCount      </tspan><tspan class="lit-v">"14221"^^xsd:integer</tspan></text>
+    <text x="14" y="90"><tspan class="lit-k">pe:voteShare      </tspan><tspan class="lit-v">"0.347345"^^xsd:decimal</tspan></text>
+    <text x="14" y="106"><tspan class="lit-k">pe:voteChange     </tspan><tspan class="lit-v">"0.051034"^^xsd:decimal</tspan></text>
+  </g>
+
+  <g transform="translate(380 400)">
+    <rect class="node" x="0" y="0" width="320" height="80" rx="6"/>
+    <text x="14" y="22" class="iri-class">pe:Candidacy</text>
+    <text x="14" y="40" class="iri-id">…/Candidacy/22156</text>
+    <text x="14" y="58"><tspan class="lit-k">pe:candidateGivenName  </tspan><tspan class="lit-v">"Allison"</tspan></text>
+    <text x="14" y="74"><tspan class="lit-k">pe:candidateFamilyName </tspan><tspan class="lit-v">"Gardner"</tspan></text>
+  </g>
+
+  <g transform="translate(780 400)">
+    <rect class="node-blank" x="0" y="0" width="170" height="80" rx="6"/>
+    <text x="14" y="20" class="blank">pe:Person</text>
+    <text x="14" y="38" class="blank">_:person_mnis_5334</text>
+    <text x="14" y="58"><tspan class="lit-k">parl:memberId </tspan><tspan class="lit-v">"5334"</tspan></text>
+    <text x="14" y="74"><tspan class="lit-k">owl:sameAs </tspan><tspan class="lit-v">↓</tspan></text>
+  </g>
+
+  <g transform="translate(965 400)">
+    <rect class="node-ext" x="0" y="0" width="120" height="80" rx="6"/>
+    <text x="60" y="22" class="ext" text-anchor="middle">members-api</text>
+    <text x="60" y="38" class="ext" text-anchor="middle">.parliament.uk</text>
+    <text x="60" y="58" class="lit-v" text-anchor="middle">/api/Members/</text>
+    <text x="60" y="74" class="lit-v" text-anchor="middle">5334</text>
+  </g>
+
+  <!-- Candidacy → Election (vertical) -->
+  <path class="edge" d="M 540 400 L 540 300"/>
+  <rect class="pred-bg" x="510" y="340" width="80" height="14"/>
+  <text x="518" y="351" class="pred">pe:inElection</text>
+
+  <!-- Result → Candidacy -->
+  <path class="edge-blank" d="M 300 440 L 380 440"/>
+  <rect class="pred-bg" x="296" y="425" width="92" height="14"/>
+  <text x="302" y="436" class="pred">pe:resultOfCandidacy</text>
+
+  <!-- Candidacy → Person -->
+  <path class="edge-blank" d="M 700 440 L 780 440"/>
+  <rect class="pred-bg" x="700" y="425" width="86" height="14"/>
+  <text x="706" y="436" class="pred">pe:isOfPerson</text>
+
+  <!-- Person → members-api -->
+  <path class="edge-ext" d="M 950 440 L 965 440"/>
+
+  <!-- ============= ROW 4: Certification, PoliticalParty ============= -->
+  <g transform="translate(380 580)">
+    <rect class="node" x="0" y="0" width="260" height="60" rx="6"/>
+    <text x="14" y="22" class="iri-class">pe:Certification</text>
+    <text x="14" y="40" class="iri-id">…/Certification/20791</text>
+  </g>
+
+  <g transform="translate(720 580)">
+    <rect class="node" x="0" y="0" width="260" height="60" rx="6"/>
+    <text x="14" y="22" class="iri-class">pe:PoliticalParty</text>
+    <text x="14" y="40" class="iri-id">…/PoliticalParty/3</text>
+    <text x="14" y="54"><tspan class="lit-k">rdfs:label </tspan><tspan class="lit-v">"Labour"</tspan><tspan class="lit-k">  fm:abbreviation </tspan><tspan class="lit-v">"Lab"</tspan></text>
+  </g>
+
+  <!-- Certification → Candidacy (up) -->
+  <path class="edge" d="M 510 580 L 510 480"/>
+  <rect class="pred-bg" x="478" y="525" width="100" height="14"/>
+  <text x="484" y="536" class="pred">pe:certificationOf</text>
+
+  <!-- Certification → PoliticalParty -->
+  <path class="edge" d="M 640 610 L 720 610"/>
+  <rect class="pred-bg" x="638" y="595" width="78" height="14"/>
+  <text x="646" y="606" class="pred">pe:issuedBy</text>
+
+  <!-- ============= LEGEND ============= -->
+  <g transform="translate(40 680)">
+    <rect class="node" x="0" y="0" width="14" height="14" rx="2"/>
+    <text x="20" y="11" class="legend">IRI-named instance (pe: classes)</text>
+    <rect class="node-blank" x="200" y="0" width="14" height="14" rx="2"/>
+    <text x="220" y="11" class="legend">blank node (reified result / Person bridge)</text>
+    <rect class="node-ext" x="500" y="0" width="14" height="14" rx="2"/>
+    <text x="520" y="11" class="legend">external IRI (Members API)</text>
+    <text x="0" y="32" class="legend">
+      Prefixes: <tspan font-weight="600">pe:</tspan> Parliament's election ontology  ·
+      <tspan font-weight="600">parl:</tspan> Parliament's stable IDs  ·
+      <tspan font-weight="600">fm:</tspan> forgetmenot vocab  ·
+      <tspan font-weight="600">owl:</tspan>/<tspan font-weight="600">rdfs:</tspan>/<tspan font-weight="600">xsd:</tspan> standard.
+      Every fact above is also a single quad in the matching named graph
+      <tspan font-family="ui-monospace,Menlo,monospace">…/graph/psephology/&lt;table-name&gt;</tspan>.
+    </text>
+  </g>
+</svg>

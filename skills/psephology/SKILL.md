@@ -159,7 +159,10 @@ The Parliament-published **election ontology** at
 <https://ukparliament.github.io/ontologies/election/election-ontology.html>
 (prefix `pe: <http://parliament.uk/ontologies/election/>`) maps
 almost one-to-one onto this schema. The full mapping is in
-[`reference.md`](reference.md).
+[`reference.md`](reference.md); for a one-page visual showing
+the shape via a single real instance, see
+[`shape.md`](shape.md) (and its diagram
+[`shape.svg`](shape.svg)).
 
 A complete N-Quads dump of the database is committed to the repo
 at [`third_party/data/psephology/all.nq.gz`](../../third_party/data/psephology/all.nq.gz)
