@@ -1,7 +1,9 @@
 # Installing and using these skills
 
-The repo contains 28 skills, one per UK Parliament-operated API or
-dataset family, under `skills/<facility>/`. Each skill is two files:
+The repo contains 60 skills under `skills/<facility>/` — most are
+one per UK-Parliament-operated API or third-party data source, plus
+a handful of meta-skills (`parl`, `data-quality`, `local-sparql`,
+`identity-graph`, …). Each skill is typically two files:
 
 ```
 skills/<facility>/
