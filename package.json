@@ -46,7 +46,8 @@
     "psephology:down": "bash scripts/psephology-down.sh",
     "psephology:rdf": "node scripts/psephology-to-rdf.mjs",
     "sparql:serve": "bash scripts/local-sparql-serve.sh",
-    "test:cabinet-won": "node scripts/test-cabinet-won.mjs"
+    "test:cabinet-won": "node scripts/test-cabinet-won.mjs",
+    "test:peers-in-cabinet": "node scripts/test-peers-in-cabinet.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
