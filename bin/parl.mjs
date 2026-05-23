@@ -93,6 +93,7 @@ const FACILITIES = {
   'mysoc-fms':                     F.mysocFms,
   'fms':                           F.mysocFms,
   'senedd':                        F.senedd,
+  'psephology':                    F.psephology,
 };
 
 // Per-facility command map. Each entry is:
@@ -580,6 +581,14 @@ const COMMANDS = {
     'wsdl':            { fn: 'wsdl',            args: [],         help: 'Fetch the WSDL — discovery only; full SOAP client is a stub.' },
     'wsdl-url':        { fn: 'wsdlUrl',         args: [],         help: 'WSDL URL string.' },
   },
+  'psephology': {
+    'sql':             { fn: 'sql',             args: ['query'],  help: 'Run a SQL query against the local psephology Postgres. --pg-uri override.' },
+    'sql-file':        { fn: 'sqlFile',         args: ['path'],   help: 'Run a SQL query from a file.' },
+    'tables':          { fn: 'tables',          args: [],         help: 'List tables with row counts.' },
+    'schema':          { fn: 'tableSchema',     args: ['table'],  help: 'Columns + types for one table.' },
+    'general-elections': { fn: 'generalElections', args: [],      help: 'Per-general-election turnout summary.' },
+    'dump-info':       { fn: 'dumpInfo',        args: [],         help: 'Which dump file is cached on disk.' },
+  },
   'fsa': {
     'establishments':  { fn: 'establishments',  args: [],         help: 'Food businesses + hygiene ratings. --name --address --lat --lon --max-distance-km --local-authority-id --business-type-id --scheme-type-key FHRS|FHIS --rating-key fhrs_5_en --page --take.' },
     'establishment':   { fn: 'establishment',   args: ['id'],     help: 'One establishment by id.' },
@@ -793,6 +802,7 @@ Facilities (canonical names; aliases in parens):
   ons-geo                      ONS Open Geography Portal: constituency boundaries
   ons-nomis            (alias: nomis) — ONS Census + labour-market data per constituency
   os                           Ordnance Survey OpenData: Boundary-Line, Code-Point Open, OpenNames…
+  psephology                   House of Commons Library election-results Postgres DB (local; spin up with scripts/psephology-up.sh)
 
 Run 'parl <facility>' to list its commands.
 Run 'parl <facility> <command> --help' for command help.
