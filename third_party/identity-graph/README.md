@@ -91,16 +91,18 @@ politely uses the upstream API.
 
 See `_index.json`. As of the last build:
 
-- 56,832 quads total
+- 58,189 quads total
 - 1,426 members from local per-MP dumps
 - 1,425 of those bridged cleanly to a DDP LocalId
 - 436 with a scraped MP website
 - 2,170 APPG officerships attached
 - 273 cross-linked to a GOV.UK people factoid (96.5% of the
   ~283 politicians on GOV.UK)
+- **673 cross-linked to Wikidata QIDs** (from
+  `third_party/data/wikidata/data/people-bridge.ttl`)
 - 4,000 additional DDP-only persons (historical members we
   don't have a local dump for)
-- 67 provenance quads (1 prov:Activity + 5 void:Dataset
+- 67 provenance quads (1 prov:Activity + 6 void:Dataset
   descriptions of the source graphs)
 
 ## Worked example — Lord Holmes of Richmond (memberId 4294)

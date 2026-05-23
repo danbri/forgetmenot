@@ -73,6 +73,7 @@ const G = {
   scraped:  'https://forgetmenot.local/graph/identity/scraped',
   appg:     'https://forgetmenot.local/graph/identity/appg',
   govuk:    'https://forgetmenot.local/graph/identity/govuk',
+  wikidata: 'https://forgetmenot.local/graph/identity/wikidata',
   prov:     'https://forgetmenot.local/graph/identity/provenance',
 };
 
@@ -425,7 +426,37 @@ process.stderr.write(
 );
 
 // ---------------------------------------------------------------
-// 6. Provenance graph
+// 6. Wikidata QID bridge — pre-built corpus at
+//    third_party/data/wikidata/data/people-bridge.ttl. The file
+//    is uniformly-shaped Turtle with one record per person, each
+//    carrying owl:sameAs to a wd:Q… IRI and parl:memberId as a
+//    bridge to the Members API. We parse it with a small regex
+//    rather than pulling in a Turtle parser dependency.
+// ---------------------------------------------------------------
+const wdPath = resolve(repoRoot, 'third_party/data/wikidata/data/people-bridge.ttl');
+let wdHits = 0;
+if (existsSync(wdPath)) {
+  const ttl = readFileSync(wdPath, 'utf8');
+  // Pull (memberId, qid) pairs. The file's records are blocks
+  // separated by a blank line; within each block we want the
+  // parl:memberId integer and the wd:Q… IRI.
+  const blocks = ttl.split(/\n\s*\n/);
+  for (const blk of blocks) {
+    const idMatch  = /parl:memberId\s+"(\d+)"/.exec(blk);
+    const qidMatch = /owl:sameAs\s+wd:(Q\d+)/.exec(blk);
+    if (!idMatch || !qidMatch) continue;
+    const mnis = Number(idMatch[1]);
+    const qid  = qidMatch[1];
+    const s = memberIri(mnis);
+    addIri(s, NS.owl + 'sameAs', `https://www.wikidata.org/entity/${qid}`, G.wikidata);
+    addLit(s, NS.fm + 'wikidataQid', qid, G.wikidata);
+    wdHits++;
+  }
+}
+process.stderr.write(`Members cross-linked to Wikidata: ${wdHits}\n`);
+
+// ---------------------------------------------------------------
+// 7. Provenance graph
 //
 // Every quad above belongs to one of five named graphs. This
 // graph (a sixth) DESCRIBES the other five with PROV-O + VoID:
@@ -508,6 +539,16 @@ const graphMeta = [
                  'people pages, where a confident name match exists.',
     sources: ['third_party/govuk/html/orgcharts/extractors/factoids/',
               'https://www.gov.uk/government/people/'],
+  },
+  {
+    iri: G.wikidata,
+    title: 'Wikidata QID bridge',
+    description: 'owl:sameAs from each Members API URL to the matching Wikidata ' +
+                 'entity, plus an fm:wikidataQid literal. Bridge corpus pre-built by ' +
+                 'third_party/data/wikidata/scripts/refresh.py against the live Wikidata ' +
+                 'SPARQL endpoint, keyed on parl:memberId.',
+    sources: ['third_party/data/wikidata/data/people-bridge.ttl',
+              'https://query.wikidata.org/sparql'],
   },
 ];
 

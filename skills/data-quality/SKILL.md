@@ -131,10 +131,37 @@ you cross the Commons / Lords boundary.
   "role tenure then" mis-tags them as peers-at-the-time. **Observed**:
   Baroness Nicky Morgan appears in our GOV.UK factoids against her
   2014-16 Education Secretary tenure even though the peerage came
-  in 2020.
-- *Same person, two ID spaces.* The MP and the resulting peer share
-  no identifier in any one corpus. Bridging needs Members API id →
-  peerage register, which DDP has but the local corpora don't.
+  in 2020. (The Morgan issue is *name-vs-time*, not identity —
+  see next bullet.)
+- *Same person, MP and peer.* The MNIS / Members API id **is
+  stable** across an MP-then-peer career; that's the in-corpus
+  bridge. Verified: William Hague is MNIS 379 in both psephology
+  (MP for Richmond at GE 2010) and the Members API (now "Lord
+  Hague of Richmond", life peer 2015). David Cameron is MNIS 1467
+  through both his MP and his Lord Cameron of Chipping Norton
+  careers. Alistair Darling is MNIS 596 through Edinburgh
+  South West and his life-peerage 2015-2020. The bridge
+  predicate is `parl:memberId`, asserted in the psephology dump,
+  the per-MP member dumps, and the identity-graph
+  (members-api graph). What IS missing is a *peerage-creation
+  date* — without it you can't compute "was this person a peer
+  on date X?" from local data alone; for that, DDP or the Lords
+  Library register.
+- *Same person, Commons → peer → Commons.* The
+  hereditary-disclaimer cases (Tony Benn 1963, Quintin Hogg /
+  Lord Hailsham 1963 → re-created as life peer later). MNIS
+  records this — Benn is MNIS 191, one id covering both the
+  Bristol South East / Chesterfield MP era and his disclaimed
+  Viscount Stansgate inheritance. Hogg has two MNIS records
+  (one per peerage). Treat repeat surnames carefully.
+- *Wikidata as an extra layer.* `identity.nq`'s `wikidata` graph
+  now carries `owl:sameAs <https://www.wikidata.org/entity/Q…>`
+  for 673 members (built from
+  `third_party/data/wikidata/data/people-bridge.ttl`). Wikidata's
+  `P31` (instance of), `P39` (position held with dates) and `P569`
+  (date of birth) cover what the local corpora don't: when each
+  peerage was created, whether the person also held a title via
+  inheritance, and so on.
 
 **Cabinet roles move category.**
 

@@ -165,6 +165,14 @@ fm:govukCleanName
     rdfs:comment "GOV.UK schema:name with honorifics and post-nominals stripped, as used by the identity-graph matcher to bridge into the GOV.UK people factoid corpus."@en ;
     rdfs:range   xsd:string .
 
+# ---- fm: predicates: Wikidata bridge --------------------------------
+
+fm:wikidataQid
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Wikidata QID"@en ;
+    rdfs:comment "Wikidata entity id (the Q-number, e.g. \"Q76736935\") for the same person; the canonical owl:sameAs to https://www.wikidata.org/entity/<qid> is also emitted in the same graph."@en ;
+    rdfs:range   xsd:string .
+
 # ---- fm: predicates: build provenance --------------------------------
 
 fm:gitRevision
