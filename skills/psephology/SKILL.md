@@ -158,13 +158,41 @@ All output is JSON unless `--text` is passed.
 The Parliament-published **election ontology** at
 <https://ukparliament.github.io/ontologies/election/election-ontology.html>
 (prefix `pe: <http://parliament.uk/ontologies/election/>`) maps
-almost one-to-one onto this schema. The mapping in
-[`reference.md`](reference.md) is the basis for a future RDFification
-job (`scripts/psephology_to_rdf.mjs`) that walks the loaded database
-and emits N-Quads using `pe:` plus our project's `fm:` for things
-the ontology doesn't cover (notably the Members API bridge —
-`parl:memberId` on each `pe:Person` so this corpus reconciles
-with the [identity graph](../../third_party/identity-graph/)).
+almost one-to-one onto this schema. The full mapping is in
+[`reference.md`](reference.md).
+
+A complete N-Quads dump of the database is committed to the repo
+at [`third_party/data/psephology/all.nq.gz`](../../third_party/data/psephology/all.nq.gz)
+— **420,158 quads, 81 MB uncompressed, 2.4 MB gzipped** — produced
+by `scripts/psephology-to-rdf.mjs` (run via `npm run psephology:rdf`
+once the database is up). Highlights:
+
+- One named graph per source table:
+  `…/graph/psephology/{countries, parliament-periods, boundary-sets,
+  legislation-items, constituency-group-sets, constituency-groups,
+  constituency-areas, political-parties, political-party-registrations,
+  general-elections, general-election-in-boundary-sets, electorates,
+  elections, candidacies, certifications, members-bridge, provenance}`.
+- Members API bridge: every candidacy with a sitting/former MP
+  carries an `_:person_mnis_<N>` blank node with
+  `parl:memberId "<N>"` + `owl:sameAs
+  <https://members-api.parliament.uk/api/Members/<N>>`. The
+  separate `members-bridge` graph holds the same facts on a
+  canonical IRI (`…/Person/mnis-<N>`) so the bridge is queryable
+  as a standalone graph without unpacking candidacies. Resolves
+  through `members.mnis_id`, not the psephology-local
+  `members.id`.
+- Provenance graph describes every other graph as a
+  `void:Dataset` with `prov:wasGeneratedBy` pointing at the build
+  activity (with `fm:gitRevision`) and `dcterms:source` pointing
+  at the upstream `db/dumps/<date>.sql` file on GitHub.
+
+The uncompressed `all.nq` is not committed (81 MB exceeds the
+repo's committed-uncompressed threshold; FCDO's `all.nq.gz`
+follows the same gzip-only convention). To inspect on disk:
+
+    zcat third_party/data/psephology/all.nq.gz | head
+    zgrep 'WinningCandidacyResult' third_party/data/psephology/all.nq.gz | wc -l   # 4,552 winning results
 
 ## Provenance
 

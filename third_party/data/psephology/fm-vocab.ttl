@@ -1,0 +1,100 @@
+# forgetmenot vocabulary subset used by the psephology RDFification.
+#
+# Declares the `fm:` predicates emitted by
+# `scripts/psephology-to-rdf.mjs` that are NOT covered by the
+# Parliament-published election ontology (`pe:`). Every `pe:` term
+# is external — see <https://ukparliament.github.io/ontologies/election/>
+# for that vocabulary's own declarations.
+#
+# Hand-curated. Kept in sync with the script per the rule in
+# docs/vocab.md.
+
+@prefix fm:      <https://forgetmenot.local/vocab#> .
+@prefix pe:      <http://parliament.uk/ontologies/election/> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+
+# ---- Date-bracket predicates ----------------------------------------
+# Most pe: classes that have a validity window are described in the
+# upstream ontology, but the ontology doesn't declare a single
+# generic "start on" / "end on" predicate. We use these for
+# boundary_sets, constituency_group_sets, political_party_registrations,
+# parliament_periods, anywhere a row has start_on / end_on.
+
+fm:startOn
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Start on (date)"@en ;
+    rdfs:comment "The day a thing started being valid. Polymorphic across BoundarySet, ConstituencyGroupSet, PoliticalPartyRegistration, ParliamentPeriod."@en ;
+    rdfs:range   xsd:date .
+
+fm:endOn
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "End on (date)"@en ;
+    rdfs:comment "The day a thing stopped being valid. Polymorphic across the same classes as fm:startOn."@en ;
+    rdfs:range   xsd:date .
+
+fm:dissolutionOn
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Dissolution on"@en ;
+    rdfs:comment "The day a parliament was dissolved."@en ;
+    rdfs:domain  pe:ParliamentPeriod ;
+    rdfs:range   xsd:date .
+
+# ---- Political party identifier predicate ---------------------------
+
+fm:abbreviation
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Party abbreviation"@en ;
+    rdfs:comment "Short abbreviation for a political party (e.g. \"Lab\", \"Con\")."@en ;
+    rdfs:domain  pe:PoliticalParty ;
+    rdfs:range   xsd:string .
+
+# ---- ConstituencyGroup / Country bridges ----------------------------
+# pe: declares constituencyGroupSetInCountry on ConstituencyGroupSet,
+# but doesn't expose a direct ConstituencyGroup-to-Country or
+# Electorate-to-ConstituencyGroup bridge. We add these so a single
+# query can resolve "which constituency, which country" without
+# walking through the group set.
+
+fm:inCountry
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "In country"@en ;
+    rdfs:comment "Constituency-area-style \"in this country\" link, used on BoundarySet to record its scope. Not redundant with pe:constituencyGroupSetInCountry, which lives on ConstituencyGroupSet."@en ;
+    rdfs:range   pe:Country .
+
+fm:forConstituencyGroup
+    a            rdf:Property, owl:ObjectProperty ;
+    rdfs:label   "For constituency group"@en ;
+    rdfs:comment "Electorate-to-ConstituencyGroup link. pe: expresses this in the other direction via pe:hasElectorate on Election; this is the inverse-leaning shortcut on the Electorate itself."@en ;
+    rdfs:domain  pe:Electorate ;
+    rdfs:range   pe:ConstituencyGroup .
+
+# ---- Legislation-item shape (if/when emitted) -----------------------
+# Used when legislation_items has year / number / chapter columns.
+# pe:StatutoryThing has no declared shape in the upstream ontology
+# beyond being a class.
+
+fm:year
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Year of legislation"@en ;
+    rdfs:range   xsd:gYear .
+
+fm:number
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Numeric identifier within a year"@en ;
+    rdfs:range   xsd:integer .
+
+fm:chapter
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Chapter (Act citation)"@en ;
+    rdfs:range   xsd:string .
+
+# ---- Provenance ------------------------------------------------------
+
+fm:gitRevision
+    a            rdf:Property, owl:DatatypeProperty ;
+    rdfs:label   "Git revision"@en ;
+    rdfs:comment "Short git revision of the repository HEAD at build time; asserted on the prov:Activity in the provenance graph."@en ;
+    rdfs:range   xsd:string .

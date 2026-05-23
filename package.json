@@ -44,7 +44,7 @@
     "identity-graph": "node scripts/build-identity-graph.mjs",
     "psephology:up": "bash scripts/psephology-up.sh",
     "psephology:down": "bash scripts/psephology-down.sh",
-    "psephology:rdf:sketch": "node scripts/psephology-to-rdf-sketch.mjs"
+    "psephology:rdf": "node scripts/psephology-to-rdf.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.29.0",
