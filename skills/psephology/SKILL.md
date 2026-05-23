@@ -1,6 +1,6 @@
 ---
 name: psephology
-description: Authoritative election-results database for UK parliamentary elections — every candidacy, certification, electorate, constituency boundary set and general-election period maintained by the House of Commons Library (Robert Leigh-Pemberton's psephology project). Distributed as a daily PostgreSQL dump at github.com/ukparliament/psephology. Use when a question needs structured per-candidate / per-constituency vote totals, vote shares, or majority counts at any historical UK general election or by-election — granularity the modern Members API does not expose.
+description: Authoritative election-results database for UK Commons elections, maintained by the House of Commons Library and distributed as daily PostgreSQL dumps at github.com/ukparliament/psephology. Covers candidacies, certifications by political parties, vote counts/shares, electorates, constituency boundary sets, general elections and by-elections. **SCOPE — earliest real polling-day data is 2010-05-06**; the 2005 GE is present only as 591 notional re-allocations onto post-2010 boundaries (every row `is_notional=true`); by-elections run 2010 → present. Commons only — Lords members never appear. Use when a question needs structured per-candidate / per-constituency vote totals, vote shares, majorities or boundary-set history at any GE from 2010 onwards, or for any by-election since 2010. For pre-2010 questions (Brown 2009 cabinet, Blair-era contests, peer-vs-Commons-at-the-time joins) route via the live `api.parliament.uk/sparql` (DDP) — see `docs/sparql-endpoints.md`.
 license: Open Parliament Licence v3.0 (Crown copyright; House of Commons Library)
 metadata:
   provenance:
@@ -19,8 +19,50 @@ by the House of Commons Library and published as daily SQL dumps on
 GitHub. Covers candidates, candidacies, certifications by political
 parties, vote counts and shares, constituency boundary sets, general
 elections, and by-elections (`elections` rows where
-`general_election_id IS NULL`). Currently authoritative for the
-1955-onwards modern dataset; pre-1955 cover is partial.
+`general_election_id IS NULL`).
+
+## Scope (read this before reaching for the data)
+
+Empirically verified against the 2026-05-23 dump:
+
+| General Election | Real data? | Candidacies | Notes |
+|---|---|---:|---|
+| **2024-07-04** | ✓ | 4,515 | full coverage, post-2024 boundaries |
+| **2019-12-12** | ✓ | 3,320 | pre-2024 boundaries |
+| 2019-12-12 (notional) | — | 3,529 | sibling row, `is_notional=true`, re-allocated onto 2024 boundaries |
+| **2017-06-08** | ✓ | 3,304 | |
+| **2015-05-07** | ✓ | 3,971 | |
+| **2010-05-06** | ✓ | 4,150 | **earliest real polling-day data** |
+| 2005-05-05 | ✗ | 2,976 | **notional only** — re-allocations onto 2010 boundaries; `is_notional=true` on every row |
+
+**By-elections:** real coverage runs 2010-05-06 → present (3,311
+non-notional rows; last in this dump 2026-02-26).
+
+**Commons only.** Peers never appear. A candidacy with a
+`member_id` references `members.id`, which has a `mnis_id` column
+the RDFification surfaces as `parl:memberId` on a reified
+`pe:Person` blank node.
+
+**What you can't ask from this corpus.**
+
+- Pre-2010 election results for the actual seats and candidates of
+  that era. The 2005 GE is here only as a swing-analysis
+  re-allocation onto the next Parliament's boundaries — not the
+  constituencies people actually contested. Brown's 2009 cabinet
+  was elected at GE 2005; psephology can't validate that they won
+  their seats then. The 2010 GE — which several of them then
+  contested as still-sitting MPs — is here in full.
+- Anything about the Lords. Peers in any cabinet (Mandelson 2008-10,
+  Cameron 2023-24, Hermer 2024-) are absent from this corpus by
+  design; they didn't stand for Commons election. Route via the
+  live `api.parliament.uk/sparql` (DDP) — see
+  [`docs/sparql-endpoints.md`](../../docs/sparql-endpoints.md).
+- Anything earlier than 2010 GE in real form. For Blair-era and
+  earlier, use DDP or external Library briefing papers.
+
+See the [`data-quality`](../data-quality/SKILL.md) skill's
+"peerage and the cabinet" worked example for the cross-source
+implications of these scope cliffs.
 
 ## What it is
 
