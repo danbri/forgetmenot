@@ -17,7 +17,7 @@ statement carries a named-graph IRI naming its origin:
 | Graph IRI | Source |
 |---|---|
 | `…/graph/identity/members-api` | `third_party/data/members/<id>.json` per-MP dumps |
-| `…/graph/identity/ddp-sparql` | DDP triple store via `api.parliament.uk/sparql` |
+| `…/graph/identity/ddp-sparql` | DDP graph via `api.parliament.uk/sparql` |
 | `…/graph/identity/scraped` | `third_party/data/sites/<id>/` polite website crawl |
 | `…/graph/identity/appg` | `third_party/data/appg/resolved.json` officer resolutions |
 | `…/graph/identity/govuk` | `third_party/govuk/.../factoids/…/factoids.ttl` |

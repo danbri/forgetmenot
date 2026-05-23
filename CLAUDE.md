@@ -112,19 +112,19 @@ idiomatic chains).
   `parl members news --out third_party/data/news` to harvest
   every MP's blog/news feed into a flat JSONL of posts.
 
-## Three triple stores
+## Three RDF graphs / SPARQL endpoints
 
-Local lore, captured in [`docs/triple-stores.md`](docs/triple-stores.md):
-Parliament runs **three** RDF triple stores; **two are public**.
+Local lore, captured in [`docs/sparql-endpoints.md`](docs/sparql-endpoints.md):
+Parliament runs **three** RDF graphs; **two are public**.
 
-- **DDP** (`data.parliament`, the data catalogue, ~7.5M triples,
+- **DDP** (`data.parliament`, the data catalogue, ~7.5M statements,
   inference off) is what `api.parliament.uk/sparql` actually fronts.
 - **DD** (procedural ontology over SIs, treaties, written questions,
-  ~3.14M triples, **inference on**) is **not on the public SPARQL
+  ~3.14M statements, **inference on**) is **not on the public SPARQL
   endpoint**. Procedural-business questions that look like they should
   match SPARQL but return empty often live in DD; drop down to the
   matching REST API instead.
-- The third store is internal and not public.
+- The third graph is internal and not public.
 
 ## Honesty about coverage
 
@@ -176,6 +176,6 @@ read `reference.md` only if needed.
 - `scripts/` — refetch + probe + skill-update automation.
 - `tests/` — smoke tests (`tests/test_endpoints.sh`,
   `tests/test_cli.sh`).
-- `docs/` — worklog, todo, design sketches, triple-stores notes,
-  installation, getting-started.
+- `docs/` — worklog, todo, design sketches, SPARQL-endpoints
+  notes, installation, getting-started.
 - `readme.md` — the public index.

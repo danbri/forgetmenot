@@ -1,6 +1,6 @@
 ---
 name: sparql
-description: Query the UK Parliament public SPARQL 1.1 endpoint at api.parliament.uk/sparql. The triple store holds the integrated parliament.uk graph (people, parties, governments, houses, constituencies, periods, incumbencies, divisions, contributions, formal-body memberships) under namespaces id.parliament.uk and similar. Use whenever a question needs to join data across more than one of the REST APIs — SPARQL is the only place where everything is linked by URI.
+description: Query the UK Parliament public SPARQL 1.1 endpoint at api.parliament.uk/sparql. The endpoint fronts the integrated parliament.uk graph (people, parties, governments, houses, constituencies, periods, incumbencies, divisions, contributions, formal-body memberships) under namespaces id.parliament.uk and similar. Use whenever a question needs to join data across more than one of the REST APIs — SPARQL is the only place where everything is linked by URI.
 license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
 metadata:
   provenance:
@@ -106,8 +106,8 @@ For Members, the integer `id` returned by the Members API
   endpoint**. Procedural-business queries that look like they should
   match but return empty may need the matching REST API (statutory
   instruments, treaties, written questions) instead — or the DD
-  store if you can mirror it locally. See
-  [`docs/triple-stores.md`](../../docs/triple-stores.md).
+  graph if you can mirror it locally. See
+  [`docs/sparql-endpoints.md`](../../docs/sparql-endpoints.md).
 - The endpoint is rate-limited; keep `LIMIT` small while exploring.
 - For schema discovery start with:
   ```sparql
@@ -141,7 +141,7 @@ Or after `npm link` (one-time install):
 parl sparql --help
 ```
 
-Wraps the public SPARQL endpoint. Note this fronts the DDP store (~7.5M triples, no inference); the DD store is not on this surface — see docs/triple-stores.md.
+Wraps the public SPARQL endpoint. Note this fronts the DDP graph (~7.5M statements, no inference); the DD graph is not on this surface — see docs/sparql-endpoints.md.
 
 ### Examples
 

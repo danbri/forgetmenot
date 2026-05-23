@@ -131,7 +131,7 @@ this come from".
 
 - **Server vs client filtering**: where the upstream API has no date filter we want, the library auto-pages and applies the filter client-side, returning the same `{ items, totalResults }` envelope plus `_unfilteredTotal`, `_fetched`, `_exhausted` metadata. Currently applies to `treaties.search` and `si.search`.
 - **Honesty about coverage**: every fact returned should be backed by a tool call. The CLI prints the URL it called via `--raw`; cite it.
-- **Three triple stores**: Parliament runs three RDF triple stores, two public ([`docs/triple-stores.md`](../../docs/triple-stores.md)). DDP is what `sparql` fronts; DD (procedural ontology) is NOT on the public SPARQL endpoint — for procedural-business queries that come back empty, drop down to the matching REST API.
+- **Three RDF graphs / SPARQL endpoints**: Parliament runs three RDF graphs, two public ([`docs/sparql-endpoints.md`](../../docs/sparql-endpoints.md)). DDP is what `sparql` fronts; DD (procedural ontology) is NOT on the public SPARQL endpoint — for procedural-business queries that come back empty, drop down to the matching REST API.
 - **Specs**: cached OpenAPI specs live in [`_specs/`](../../_specs/). The probe script at [`scripts/probe-endpoints.sh`](../../scripts/probe-endpoints.sh) confirms every endpoint is reachable.
 
 ## Reference

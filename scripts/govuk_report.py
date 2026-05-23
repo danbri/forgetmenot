@@ -2,7 +2,8 @@
 """Generate a multi-page PDF report on the GOV.UK org-chart corpus.
 
 Pulls all numbers from the local rdflib-endpoint at 127.0.0.1:8765 so
-the report cites only what's actually in the triple store. Writes
+the report cites only what's actually in the local SPARQL endpoint.
+Writes
 
     third_party/govuk/html/orgcharts/extractors/factoids/report.pdf
 

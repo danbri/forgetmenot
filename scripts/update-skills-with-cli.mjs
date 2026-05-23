@@ -174,7 +174,7 @@ const MAPPING = {
   },
   'sparql': {
     cli: 'sparql',
-    intro: 'Wraps the public SPARQL endpoint. Note this fronts the DDP store (~7.5M triples, no inference); the DD store is not on this surface — see docs/triple-stores.md.',
+    intro: 'Wraps the public SPARQL endpoint. Note this fronts the DDP graph (~7.5M statements, no inference); the DD graph is not on this surface — see docs/sparql-endpoints.md.',
     examples: [
       ['parl sparql query \'SELECT * WHERE { ?s ?p ?o } LIMIT 5\'', 'Sanity-check probe.'],
       ['parl sparql classes --limit 30', 'Top instance classes by frequency.'],
