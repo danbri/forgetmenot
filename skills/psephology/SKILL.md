@@ -197,6 +197,17 @@ follows the same gzip-only convention). To inspect on disk:
     zcat third_party/data/psephology/all.nq.gz | head
     zgrep 'WinningCandidacyResult' third_party/data/psephology/all.nq.gz | wc -l   # 4,552 winning results
 
+To query it with real SPARQL — `SELECT`, `OPTIONAL`, joins across
+graphs — spin up an endpoint:
+
+    scripts/local-sparql-serve.sh third_party/data/psephology/all.nq.gz
+    #   → http://127.0.0.1:8765/
+
+See the [`local-sparql`](../local-sparql/SKILL.md) skill for the
+full set of backend options (rdflib-endpoint, Fuseki, Oxigraph),
+loading-time notes for this corpus (~40 s cold start), and worked
+queries.
+
 ## Provenance
 
 Tier 1 — first-party Parliament data, maintained by the House of

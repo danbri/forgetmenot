@@ -149,3 +149,17 @@ _:appg_data_and_emerging_technologies_4294
 
 That is the bridge the static traverse report described in prose,
 now machine-queryable as RDF.
+
+## Querying it
+
+Spin up a local SPARQL endpoint and the file is queryable in
+seconds:
+
+    scripts/local-sparql-serve.sh third_party/identity-graph/identity.nq
+    #   → http://127.0.0.1:8765/
+
+See the [`local-sparql`](../../skills/local-sparql/SKILL.md) skill
+for backend choices (rdflib-endpoint, Fuseki, Oxigraph), worked
+queries, and pitfalls (notably that rdflib coalesces same-named
+blank nodes — the 56 k quads in this file land as a slightly
+smaller count once loaded).

@@ -32,7 +32,20 @@ python3 scripts/govuk_report.py                 # rebuild the PDF report
 The combined N-Quads at `extractors/factoids/all.nq` is the single most
 useful file: 19k triples, one named graph per source GOV.UK page.
 
-Three reasonable endpoint options:
+The generic recipe — backends, prefixes, pitfalls — is in the
+[`local-sparql`](../../../../skills/local-sparql/SKILL.md) skill.
+The quickest path:
+
+```sh
+scripts/local-sparql-serve.sh \
+  third_party/govuk/html/orgcharts/extractors/factoids/all.nq
+#   → http://127.0.0.1:8765/
+```
+
+The legacy corpus-specific wrapper `scripts/govuk_sparql_serve.sh`
+is kept for the existing `govuk-sparql` MCP server which expects
+it; new work should use the generic script. Three reasonable
+endpoint options for this corpus:
 
 1. **`rdflib-endpoint`** -- pure Python, one command. See
    `scripts/govuk_sparql_serve.sh`. Endpoint lives at `/` not
