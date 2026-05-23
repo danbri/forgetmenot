@@ -1,14 +1,44 @@
 # forgetmenot — UK Parliament APIs and datasets, as skills
 
 A repository of skills (one folder per facility) that wrap every
-UK Parliament-operated API and dataset family I could identify.
-The skills are plain Markdown with YAML frontmatter; they do not
-ship code. They contain enough information for a language model
-to construct correct HTTP requests against the Parliament APIs
-without further documentation lookup.
+UK Parliament-operated API and dataset family I could identify,
+plus a growing set of third-party UK-government data sources and
+a few cross-source bridges (identity-graph, psephology RDF). The
+skills are plain Markdown with YAML frontmatter; the actual HTTP
+work is done by the `parl` Node CLI (`bin/parl.mjs`) and the JS
+library in `lib/facilities/`.
 
 Starting point: the catalogue at <https://explore.data.parliament.uk/>
 and the developer hub at <https://developer.parliament.uk/>.
+
+## Quick start
+
+```sh
+git clone https://github.com/danbri/forgetmenot
+cd forgetmenot
+npm install                          # also wires the 60 skills into .claude/skills/
+```
+
+That's it. `npm install` runs the project's `postinstall` hook,
+which calls `scripts/install-skills.sh` and creates symlinks under
+`.claude/skills/<name>` (gitignored) pointing at the canonical
+`skills/<name>/` directories. Claude Code auto-discovers from
+`.claude/skills/` so all 60 skills are available the moment you
+open the repo in Claude Code (`claude .`).
+
+**Claude Code on the web** (no local clone) does this for you on
+container boot via `.claude/hooks/session-start.sh`.
+
+To verify, ask Claude *"what skills are available?"*. To install
+the skills personally (i.e. into `~/.claude/skills/` so they're
+available in every project), pass `--user`:
+
+```sh
+npm run install-skills -- --user
+```
+
+Full options (project / user / copy / uninstall / dry-run) are
+documented in [`docs/installation.md`](docs/installation.md).
 
 ## Layout
 
@@ -85,25 +115,15 @@ CLI conventions are documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
 references it.
 
-## How to use
+## Using it from other tools
 
-```sh
-git clone https://github.com/danbri/forgetmenot
-cd forgetmenot
-bash scripts/install-skills.sh     # wires skills/ into .claude/skills/
-                                    # via relative symlinks (gitignored)
-```
-
-Then open the repo with Claude Code — all 28 skills auto-discover.
-Use `--user` to install personally (available in every project),
-`--copy` for Windows / restricted filesystems, `--uninstall` to undo.
-
-The long answer (Anthropic Agent SDK, Claude API, claude.ai, other
+The Quick start above is the Claude Code path. The long answer
+(Anthropic Agent SDK, Claude API, claude.ai, Claude Desktop, other
 LLM platforms) is in [`docs/installation.md`](docs/installation.md).
 
 A no-LLM use also works: the cached OpenAPI specs in `_specs/` are
-self-contained and the discovery scripts let you re-run the cataloguing
-yourself.
+self-contained, the `parl` CLI works on its own, and the discovery
+scripts let you re-run the cataloguing yourself.
 
 ## How the discovery worked
 
