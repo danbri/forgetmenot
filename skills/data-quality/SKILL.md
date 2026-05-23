@@ -114,3 +114,105 @@ short-circuit to "let's fall back to Wikidata for this one case".
 - Cobbled hybrid datasets that paper over a single-source gap.
   Either fix the source extractor, file an upstream issue, or
   document the limitation — don't silently fill in.
+
+## Worked example: peerage and the cabinet
+
+The "is X currently in cabinet, and did they win their seat?" question
+(see `scripts/test-cabinet-won.mjs` and `scripts/test-peers-in-cabinet.mjs`,
+and the writeup at `docs/data-quality-2026-05-23.md`) looks simple
+but ALL of the following lurk underneath. Each is a real failure
+mode we have observed in this repo's data; document them whenever
+you cross the Commons / Lords boundary.
+
+**Identity moves over time.**
+
+- *Elevated post-election.* An MP elected at one GE may be created
+  a life peer at any later date. Joining "person's name now" against
+  "role tenure then" mis-tags them as peers-at-the-time. **Observed**:
+  Baroness Nicky Morgan appears in our GOV.UK factoids against her
+  2014-16 Education Secretary tenure even though the peerage came
+  in 2020.
+- *Same person, two ID spaces.* The MP and the resulting peer share
+  no identifier in any one corpus. Bridging needs Members API id →
+  peerage register, which DDP has but the local corpora don't.
+
+**Cabinet roles move category.**
+
+- *Lord Chancellor.* Almost always a peer pre-2007; almost always
+  in the Commons since the Constitutional Reform Act 2005 took
+  effect (Jack Straw 2007 → David Lammy 2024).
+- *Attorney General.* Routinely either house — Lord Goldsmith
+  2001-07, Geoffrey Cox 2018-20, Victoria Prentis 2022-24, Lord
+  Hermer 2024- . Filters that exclude "always-peer" posts must
+  list these explicitly, not infer category from current incumbent.
+- *Foreign / Defence / Business secretaries.* Almost always
+  Commons, but with discrete exceptions (Lord Cameron 2023-24,
+  Lord Mandelson 2008-10, Lord Carrington 1979-82, Earl of Halifax
+  1938-40). Treat as "Commons by default, peer rarely" — not as
+  Commons-only.
+
+**Peer-flavours are not uniform.**
+
+- *Life peers.* The modern default; created by Letters Patent on
+  a specific date. The cleanest case to reason about.
+- *Hereditary peers.* Inherited, not appointed; no creation date
+  to filter by. 90 currently sit as elected hereditaries post-1999;
+  others retain titles but no Lords seat. Some have held cabinet
+  office (Earl of Halifax, Viscount Cranborne).
+- *Disclaimed peerages.* Tony Benn disclaimed his viscountcy in
+  1963 to stay in the Commons; Quintin Hogg disclaimed Lord
+  Hailsham, served in cabinet from the Commons, was later created
+  a life peer (different peerage). Same person, three identity
+  states across their career.
+- *Lords Spiritual.* 26 bishops sit ex officio; their "seat" is
+  the diocese, not the person. Membership churns by promotion
+  inside the Church of England.
+- *Excluded / suspended.* Various peers are flagged as not currently
+  sitting (expulsion, suspension, leave-of-absence). "Has a current
+  incumbency" can mean "active" or "nominal but suspended".
+
+**Data-window cliffs.**
+
+- *psephology earliest real polling-day = 2010-05-06.* The 2005 GE
+  exists in the dump but as 591 NOTIONAL elections / 2,976 NOTIONAL
+  candidacies — re-allocations onto the post-2010 boundaries for
+  swing analysis, not actual constituencies of the 2005-2010
+  Parliament. So Brown's 2009 cabinet can't be verified as
+  Commons-elected from psephology alone; you need DDP.
+- *govuk-orgchart factoid corpus = current government's pages.*
+  Past peer cabinet ministers (Mandelson, Falconer, Amos, Adonis)
+  are not in the local extraction because GOV.UK no longer hosts
+  their people-pages. Historical-cabinet queries need DDP's
+  `parl:memberHasParliamentaryIncumbency` joined to formal-body
+  membership, on the live endpoint.
+- *DDP currency lag.* New MPs from the 2024 GE may not yet have a
+  "current" (no-end-date) parliamentary-incumbency row in DDP
+  even when psephology and the Members API agree they won. See
+  `docs/sparql-endpoints.md` and `docs/upstream-bugs.md` for the
+  specific cases.
+
+**Naming and disambiguation.**
+
+- *Same surname, different peer.* "Baroness Smith" alone is
+  ambiguous; the territorial designation ("of Basildon", "of
+  Cluny", etc.) disambiguates. Our identity-graph matcher has
+  one logged false-match risk on these.
+- *Peer styled "Lord" but rank "Baron".* "Lord Cameron" is the
+  courtesy form; "Baron Cameron of Chipping Norton" is the
+  formal rank. Both refer to the same person. Filters keyed on
+  either string work; filters keyed on `?name = "Baron Cameron"`
+  miss anyone styled "Lord".
+
+**What to do about it in code.**
+
+- Always keep a `KNOWN_FALSE_POSITIVES` set in tests that surface
+  any cross-time identity join, like
+  `scripts/test-peers-in-cabinet.mjs` does for Morgan.
+- Categorise cabinet roles explicitly (`whitehall` /
+  `law-officer` / `lords-leadership` / `cross-cutting`) rather
+  than treating "peer in cabinet" as one bucket.
+- When a query result depends on peerage timing, document the
+  external register you used (Lords Library, Roll of the Peerage,
+  DDP) — don't bake the assumption silently into the SPARQL.
+- For pre-2010 questions, route through DDP. The local psephology
+  corpus is not designed to be the answer.
