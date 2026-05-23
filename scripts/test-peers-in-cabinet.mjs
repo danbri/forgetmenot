@@ -120,16 +120,57 @@ const KNOWN_FALSE_POSITIVES = new Set([
   'The Rt Hon Baroness Nicky Morgan', // peerage 2020; Ed Sec 2014-16
 ]);
 
+// Categorise a cabinet role for the "what kind of peer-in-cabinet
+// is this?" question. The headline-newsworthy case is a peer
+// running a Whitehall department (Foreign, Home, Defence, …).
+// Lords-leadership posts are structurally peer and not news;
+// law-officer posts (Attorney General etc.) are sometimes peer,
+// sometimes Commons.
+function categoriseRole(title) {
+  if (/^Secretary of State|Chancellor of the Exchequer|Chief Secretary to the Treasury|Prime Minister|Deputy Prime Minister|Minister for the Cabinet Office/i.test(title))
+    return 'whitehall';        // running a Whitehall department
+  if (/Attorney General|Solicitor General|Advocate General|Lord Chancellor/i.test(title))
+    return 'law-officer';      // sometimes peer, sometimes Commons
+  if (/Leader of the House of Lords|Lord Privy Seal|Lord President of the Council/i.test(title))
+    return 'lords-leadership'; // structurally peer
+  return 'cross-cutting';      // Paymaster General, Minister Without Portfolio, etc.
+}
+const CATEGORY_NOTE = {
+  'whitehall':        'running a Whitehall department (the headline-newsworthy case)',
+  'law-officer':      'law officer (sometimes peer, sometimes Commons)',
+  'lords-leadership': 'Lords leadership (always a peer — structural, not unusual)',
+  'cross-cutting':    'cross-cutting / non-departmental role',
+};
+
 try {
-  const r1 = (await sparqlQuery(Q1)).results.bindings;
+  const r1raw = (await sparqlQuery(Q1)).results.bindings;
+  // Tag each Q1 row with its category so the "what kind of peer
+  // in cabinet?" reading is explicit, not lumped.
+  const r1 = r1raw.map(r => ({
+    name: r.personName.value,
+    title: r.title.value,
+    category: categoriseRole(r.title.value),
+  }));
   console.log(`Q1 — peers in the CURRENT cabinet: ${r1.length}`);
-  for (const r of r1) {
-    console.log(`  ${r.personName.value.padEnd(36)} ${r.title.value}`);
+  const byCat = {};
+  for (const r of r1) (byCat[r.category] = byCat[r.category] || []).push(r);
+  for (const cat of ['whitehall', 'law-officer', 'cross-cutting', 'lords-leadership']) {
+    if (!byCat[cat]) continue;
+    console.log(`  [${cat}] — ${CATEGORY_NOTE[cat]}`);
+    for (const r of byCat[cat]) {
+      console.log(`    ${r.name.padEnd(36)} ${r.title}`);
+    }
+  }
+  const whitehallCurrent = byCat['whitehall']?.length || 0;
+  console.log();
+  console.log(`     Currently running a Whitehall department from the Lords: ${whitehallCurrent}.`);
+  if (whitehallCurrent === 0) {
+    console.log('     (The headline-newsworthy "peer running a department" case.)');
   }
 
   const r2 = (await sparqlQuery(Q2)).results.bindings;
   console.log();
-  console.log(`Q2 — peer tenures in departmental cabinet roles, recent first:`);
+  console.log(`Q2 — past peer tenures in Whitehall-departmental cabinet roles, recent first:`);
   let real = 0, falsePositives = 0;
   for (const r of r2) {
     const name = r.personName.value;
@@ -152,12 +193,12 @@ try {
   // Stable smoke-test: the most recent confirmed one should be Lord Cameron at FCDO.
   const realRows = r2.filter(r => !KNOWN_FALSE_POSITIVES.has(r.personName.value));
   const top = realRows[0];
-  if (!/Lord Cameron/.test(top.personName.value) || !/Foreign/.test(top.roleTitle.value)) {
+  if (!/Lord Cameron/.test(top.name || top.personName.value) || !/Foreign/.test(top.roleTitle.value)) {
     console.error(`UNEXPECTED top row: ${top.personName.value} — ${top.roleTitle.value}`);
     process.exit(1);
   }
   console.log();
-  console.log('PASS — most recent peer departmental cabinet minister, per the data:');
+  console.log('PASS — most recent peer running a Whitehall department, per the data:');
   console.log(`       ${top.personName.value}, ${top.roleTitle.value}, ${top.start?.value} → ${top.end?.value}`);
 } catch (e) {
   if (e.message?.includes('fetch failed')) {
