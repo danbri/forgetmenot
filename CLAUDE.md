@@ -1,19 +1,30 @@
 # forgetmenot — UK Parliament APIs and datasets
 
-This repo wraps every UK Parliament-operated API and dataset as a
-**skill** (one folder per facility under `skills/`) plus a Node CLI
-(`bin/parl.mjs`, also installed as `parl`) and a JS library
+UK Parliament APIs, datasets and adjacent UK public-sector data
+sources, each wrapped as a skill in the
+[Agent Skills](https://agentskills.io) open format, plus a Node
+CLI (`bin/parl.mjs`, also installed as `parl`) and a JS library
 (`lib/facilities/`).
 
-When the user asks anything about UK Parliament — Members, Bills,
-Hansard, Commons or Lords divisions, Committees, treaties, statutory
-instruments, written or oral questions, Early Day Motions, the Register
-of Members' Financial Interests, Erskine May, the SPARQL endpoint, the
-linked-data API, e-petitions, historic Hansard (pre-1988), MNIS, the
-parameterised-query browser, the OData service, or the older
-data.parliament.uk dataset family — consult the skills under
-`skills/<facility>/SKILL.md` and use the CLI to fetch real data. Cite
-the URL you used.
+## Where the skills live (read this first)
+
+- **Canonical home**: `skills/<name>/SKILL.md`. Scan the directory
+  for the current list — there are several dozen, the set grows,
+  and this file is intentionally not the source of truth.
+- **Orientation file**: [`autoexec.bot`](autoexec.bot) at the
+  repo root names the pre-scan target for any inspecting agent.
+- **Per-tool reading rooms**: e.g. `.claude/skills/<name>` is a
+  committed relative symlink → `../../skills/<name>` so Claude
+  Code's project-scope discovery picks the skills up without an
+  install step. The same shape works for other Agent-Skills-
+  compatible tools (see [agentskills.io/clients](https://agentskills.io/clients)).
+
+When the user asks about UK Parliament — Members, Bills, Hansard,
+divisions, Committees, treaties, statutory instruments, questions,
+Erskine May, petitions, the SPARQL endpoint, MNIS, e-petitions,
+historic Hansard, election results, APPGs, the cabinet, … — scan
+`skills/` for a matching folder and read its `SKILL.md`. Use the
+CLI to fetch real data. Cite the URL.
 
 ## CLI usage
 
@@ -28,72 +39,6 @@ parl <facility> <command> --help  # one-line help for a command
 
 Output is JSON to stdout by default (`--text` for human, `--raw` for
 verbatim API response, `--out path` for binary downloads).
-
-## Facilities
-
-| Slug | Skill | What it covers |
-|---|---|---|
-| `members` | [`skills/members`](skills/members/SKILL.md) | MPs and peers, current and historical; constituencies; parties; government / opposition posts. |
-| `bills` | [`skills/bills`](skills/bills/SKILL.md) | Bills through every stage including amendments and ping-pong. |
-| `committees` | [`skills/committees`](skills/committees/SKILL.md) | Select / Joint committees, inquiries, evidence, publications, meetings. |
-| `hansard` | [`skills/hansard`](skills/hansard/SKILL.md) | Hansard 1988→ — debates, contributions, divisions, full-text search. |
-| `commons-votes` | [`skills/commons-votes`](skills/commons-votes/SKILL.md) | Commons divisions (recorded votes). |
-| `lords-votes` | [`skills/lords-votes`](skills/lords-votes/SKILL.md) | Lords divisions (Content / Not Content). |
-| `oral-questions` | [`skills/oral-questions-and-edms`](skills/oral-questions-and-edms/SKILL.md) | Tabled oral questions and EDMs. |
-| `wq` | [`skills/written-questions-and-statements`](skills/written-questions-and-statements/SKILL.md) | Written questions, statements, daily reports. |
-| `si` | [`skills/statutory-instruments`](skills/statutory-instruments/SKILL.md) | Statutory instruments and their procedures. |
-| `treaties` | [`skills/treaties`](skills/treaties/SKILL.md) | Treaties laid under CRaG. |
-| `interests` | [`skills/interests`](skills/interests/SKILL.md) | Register of Members' Financial Interests. |
-| `em` | [`skills/erskine-may`](skills/erskine-may/SKILL.md) | Erskine May (parliamentary procedure manual). |
-| `now` | [`skills/now`](skills/now/SKILL.md) | Live annunciator (what's on in each chamber now). |
-| `petitions` | [`skills/petitions`](skills/petitions/SKILL.md) | UK Parliament e-petitions. |
-| `sparql` | [`skills/sparql`](skills/sparql/SKILL.md) | Public SPARQL 1.1 endpoint over the DDP store. |
-| `odata` | [`skills/odata`](skills/odata/SKILL.md) | OData v4 over the same data graph. |
-| `pq` | [`skills/parameterised-query`](skills/parameterised-query/SKILL.md) | 124 named SPARQL templates returning JSON. |
-| `lda` | [`skills/linked-data-api`](skills/linked-data-api/SKILL.md) | Legacy Linked Data API (Elda) datasets. |
-| `hh` | [`skills/historic-hansard`](skills/historic-hansard/SKILL.md) | Historic Hansard 1803–2005 (HTML site). |
-| `mnis` | [`skills/members-data-platform`](skills/members-data-platform/SKILL.md) | Legacy Members Data Platform. |
-| `ddpd` | [`skills/data-parliament-uk-datasets`](skills/data-parliament-uk-datasets/SKILL.md) | Catalogue of the 19 explore.data.parliament.uk datasets. |
-| `appg` | [`skills/appg`](skills/appg/SKILL.md) | All-Party Parliamentary Groups — scraped from the Register on publications.parliament.uk; no JSON API. |
-| `whatson` | [`skills/whatson`](skills/whatson/SKILL.md) | Calendar, sittings, recess, parliamentary sessions, procedural dates (sitting / answer / tabling / annulment). |
-| `gtp` | [`skills/guide-to-procedure`](skills/guide-to-procedure/SKILL.md) | MPs' Guide to Procedure — plain-English procedural explainers, distinct from Erskine May. |
-| `bp` | [`skills/bill-papers`](skills/bill-papers/SKILL.md) | Bill Papers CSV catalogue + per-bill RSS at api.parliament.uk/bill-papers. |
-| `library` | [`skills/library-feeds`](skills/library-feeds/SKILL.md) | RSS aggregator for Commons Library / Lords Library / POST research briefings. |
-| `mapit` | [`skills/mysoc-mapit`](skills/mysoc-mapit/SKILL.md) | Tier-3: mySociety MapIt — postcode / lat-lon → Westminster constituency + every other administrative area. |
-| `ons-geo` | [`skills/ons-geo`](skills/ons-geo/SKILL.md) | Tier-3: ONS Open Geography Portal — authoritative constituency / ward / LAD boundary polygons. |
-| `nomis` | [`skills/ons-nomis`](skills/ons-nomis/SKILL.md) | Tier-3: Nomis — Census 2021 + labour-market data per constituency / LAD / MSOA / LSOA / OA. ~1,600 datasets. |
-| `os` | [`skills/os`](skills/os/SKILL.md) | Tier-3: Ordnance Survey OpenData catalogue + downloads — Boundary-Line, Code-Point Open, OpenNames, OpenUPRN, OpenRoads, … |
-| `twfy` | [`skills/mysoc-twfy`](skills/mysoc-twfy/SKILL.md) | Tier-3: TheyWorkForYou (mySociety) — voting summaries, debates, written answers, with mySociety analyses. API key required. |
-| `caselaw` | [`skills/tna-caselaw`](skills/tna-caselaw/SKILL.md) | Tier-3: Find Case Law (TNA) — judgments from Supreme Court, Court of Appeal, **High Court**, Upper Tribunals as Akoma Ntoso XML + Atom feeds. |
-| `candidates` | [`skills/dc-candidates`](skills/dc-candidates/SKILL.md) | Tier-3: DemocracyClub Candidates — every UK electoral candidate, with sources and stable IDs. |
-| `elections` | [`skills/dc-elections`](skills/dc-elections/SKILL.md) | Tier-3: DemocracyClub EveryElection — every UK election (Westminster, devolved, mayoral, local, PCCs, parishes) with canonical IDs. |
-| `ec` | [`skills/ec-donations`](skills/ec-donations/SKILL.md) | Tier-3: Electoral Commission — donations, spending, loans, registers of regulated parties and campaigners. |
-| `wd` | [`skills/wikidata`](skills/wikidata/SKILL.md) | Tier-3: Wikidata SPARQL + label search — cross-ID glue across every UK politician identifier ecosystem. |
-| `discovery` | [`skills/tna-discovery`](skills/tna-discovery/SKILL.md) | Tier-3: TNA Discovery — ~37M record-description catalogue across TNA + 2,500 partner UK archives (FO 94 treaty ratifications, CAB, PREM, etc.). |
-| `nao` | [`skills/nao`](skills/nao/SKILL.md) | Tier-3: National Audit Office — Parliament's external auditor; Value-for-Money reports that feed the Public Accounts Committee. WP REST + RSS. |
-| `obr` | [`skills/obr`](skills/obr/SKILL.md) | Tier-3: Office for Budget Responsibility — independent fiscal watchdog; EFO / FSR / policy costings that underpin every Budget. HTML + RSS. |
-| `osr` | [`skills/osr`](skills/osr/SKILL.md) | Tier-3: Office for Statistics Regulation — polices misuse of official statistics by Ministers and MPs; censures + case studies. RSS + HTML. |
-| `ico` | [`skills/ico`](skills/ico/SKILL.md) | Tier-3: Information Commissioner's Office — data-protection / FOI / EIR regulator; enforcement notices, MPNs, decision notices, reprimands. HTML-only. |
-| `gov-data` | [`skills/gov-data`](skills/gov-data/SKILL.md) | Tier-3: data.gov.uk CKAN — ~58,000 datasets from every central department, ~4,275 councils, statutory bodies. Operator: GDS / Cabinet Office. |
-| `sp` | [`skills/sp`](skills/sp/SKILL.md) | Tier-3: Scottish Parliament Open Data — MSPs, parties, committees, constituencies, regions. JSON (requires Accept: application/json). |
-| `gov-content` | [`skills/gov-content`](skills/gov-content/SKILL.md) | Tier-3: gov.uk Content + Search API — every page on www.gov.uk as structured JSON; ~1,900 lookup-shaped pages (local_transaction, smart_answer, place, transaction, …) plus bank-holidays.json. |
-| `flood` | [`skills/ea-flood`](skills/ea-flood/SKILL.md) | Tier-3: Environment Agency Real-Time Flood Monitoring — active flood warnings + ~5,000 monitoring stations (England only). |
-| `fsa` | [`skills/fsa`](skills/fsa/SKILL.md) | Tier-3: Food Standards Agency Hygiene Rating Scheme — every food business in E/W/NI scored 0-5, Scotland Pass/Improvement. ~660,000 records. |
-| `scotstats` | [`skills/scotgov-stats`](skills/scotgov-stats/SKILL.md) | Tier-3: statistics.gov.scot SPARQL — Scottish Government statistics as RDF DataCube. Pairs with `sp`. |
-| `eurlex` | [`skills/eur-lex`](skills/eur-lex/SKILL.md) | Tier-3: EUR-Lex CELLAR SPARQL — EU law as Linked Data. Cross-references via CELEX number, useful for Retained EU Law Act 2023 research. |
-| `nia` | [`skills/nia`](skills/nia/SKILL.md) | Tier-3: NI Assembly Open Data — MLAs, parties, NI constituencies, Hansard, questions, plenary divisions. JSON across 6 ASMX services. |
-| `fms` | [`skills/mysoc-fms`](skills/mysoc-fms/SKILL.md) | Tier-3: FixMyStreet (mySociety) — RSS feeds of street-level issue reports per area / postcode. |
-| `senedd` | [`skills/senedd`](skills/senedd/SKILL.md) | Tier-3 STUB: Senedd Cymru — Welsh Parliament SOAP service. WSDL discovery only; full SOAP client deferred. |
-| `psephology` | [`skills/psephology`](skills/psephology/SKILL.md) | UK Commons election-results database (House of Commons Library psephology project). Earliest real polling day 2010-05-06; 2005 GE notional-only. Commons only. |
-| `identity-graph` | [`skills/identity-graph`](skills/identity-graph/SKILL.md) | Derived: cross-source identity reconciliation as N-Quads — Members API ↔ MNIS ↔ DDP LocalId ↔ scraped sites ↔ APPG ↔ GOV.UK people ↔ Wikidata QIDs. `parl:memberId` is the stable join key across MP-then-peer careers. |
-| `local-sparql` | [`skills/local-sparql`](skills/local-sparql/SKILL.md) | Meta: spin up a local SPARQL endpoint (rdflib-endpoint / Fuseki / Oxigraph) over any RDF dump in this repo — psephology, govuk-orgchart, fcdo-treaties, identity-graph, tna-legislation. |
-| `data-quality` | [`skills/data-quality`](skills/data-quality/SKILL.md) | Meta: discipline for the corpora — anchor cases, cross-extractor checks, upstream-bug reporting, peerage / cabinet edge cases. |
-| `jaws-accessibility` | [`skills/jaws-accessibility`](skills/jaws-accessibility/SKILL.md) | Meta: WCAG 2.2 / ARIA / screen-reader and Spain-EU compliance guidance for accessibility work on tooling built around this corpus. |
-
-The CLI itself is documented as a top-level skill at
-[`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
-references it for CLI-wide conventions (output modes, flag rules,
-idiomatic chains).
 
 ## Idiomatic chains
 
@@ -119,34 +64,30 @@ idiomatic chains).
 
 ## Three RDF graphs / SPARQL endpoints
 
-Local lore, captured in [`docs/sparql-endpoints.md`](docs/sparql-endpoints.md):
+Local lore in [`docs/sparql-endpoints.md`](docs/sparql-endpoints.md):
 Parliament runs **three** RDF graphs; **two are public**.
 
-- **DDP** (`data.parliament`, the data catalogue, ~7.5M statements,
-  inference off) is what `api.parliament.uk/sparql` actually fronts.
-  Carries the procedural-business instance data too (Acts, SIs,
-  WorkPackages, Treaties, LayingBodies, …) — the Commons Library's
+- **DDP** (~7.5M statements, inference off) is what
+  `api.parliament.uk/sparql` actually fronts. Carries
+  procedural-business instance data too — the Commons Library's
   procedure queries run against this endpoint.
-- **DD** (procedural ontology, ~3.14M statements, **inference on**)
-  is **not on the public SPARQL endpoint**. Its distinguishing role
-  is *inference*, not data — it hosts the OWL/RDFS closure under the
-  procedural ontology. Queries that depend on that closure work
-  against DD but not against DDP; for those, walk the subclass tree
-  explicitly or drop down to the matching REST API
-  (`statutory-instruments`, `treaties`, `wq`) which is DD's
-  effective public surface.
-- The third graph is internal and not public.
+- **DD** (procedural ontology, ~3.14M statements, inference on)
+  is **not on the public SPARQL endpoint**. Its distinguishing
+  role is *inference* — the OWL/RDFS closure. For queries that
+  need the closure: walk the subclass tree explicitly or drop
+  down to the matching REST API (`statutory-instruments`,
+  `treaties`, `wq`).
+- The third graph is internal.
 
 ## Honesty about coverage
 
 - Every fact stated should be backed by a tool call. Do not
-  reconstruct vote counts, member names, or dates from memory.
+  reconstruct vote counts, names or dates from memory.
 - The CLI returns the URL it called via `--raw`; cite it.
-- If a query needs synthesis across many resources, chain calls; do
-  not collapse to "based on my knowledge".
+- If a query needs synthesis across many resources, chain calls;
+  do not collapse to "based on my knowledge".
 - Connectivity flakes happen; the CLI retries 5xx but not network
-  failures. If you see HTTP 000 / SSL errors, retry once before
-  reporting failure.
+  failures. If you see HTTP 000 / SSL errors, retry once.
 
 ## Provenance and naming
 
@@ -174,12 +115,14 @@ When using any skill in an answer:
 
 Each `skills/<facility>/SKILL.md` has YAML frontmatter (`name`,
 `description` — used for skill matching) plus a body documenting
-the API. Each also has a `reference.md` next to it with the full
-endpoint listing. Progressive disclosure: load `SKILL.md` first;
-read `reference.md` only if needed.
+the API. Most also have a `reference.md` with the full endpoint
+listing. Progressive disclosure: load `SKILL.md` first; read
+`reference.md` only if needed. Per the Agent Skills spec, the
+SKILL.md filename is singular.
 
 ## Repo
 
+- `skills/` — the skills themselves (canonical, vendor-neutral).
 - `_specs/` — cached OpenAPI specs and discovery snapshots.
 - `lib/facilities/*.mjs` — JS facility modules (Node + browser).
 - `bin/parl.mjs` — CLI dispatcher.
@@ -188,5 +131,7 @@ read `reference.md` only if needed.
 - `tests/` — smoke tests (`tests/test_endpoints.sh`,
   `tests/test_cli.sh`).
 - `docs/` — worklog, todo, design sketches, SPARQL-endpoints
-  notes, installation, getting-started.
+  notes, installation, getting-started, data-quality writeups.
+- `third_party/` — derived RDF, scraped per-MP sites, dumps.
+- `autoexec.bot` — agent orientation pointer.
 - `readme.md` — the public index.
