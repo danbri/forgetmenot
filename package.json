@@ -32,7 +32,6 @@
     "mcp"
   ],
   "scripts": {
-    "postinstall": "bash scripts/install-skills.sh >/dev/null 2>&1 || true",
     "install-skills": "bash scripts/install-skills.sh",
     "test": "node --test 'tests/unit/*.test.mjs' 'tests/integration/*.test.mjs'",
     "test:unit": "node --test 'tests/unit/*.test.mjs'",

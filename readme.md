@@ -16,29 +16,44 @@ and the developer hub at <https://developer.parliament.uk/>.
 ```sh
 git clone https://github.com/danbri/forgetmenot
 cd forgetmenot
-npm install                          # also wires the 60 skills into .claude/skills/
+claude .                              # or open in any Agent Skills compatible tool
 ```
 
-That's it. `npm install` runs the project's `postinstall` hook,
-which calls `scripts/install-skills.sh` and creates symlinks under
-`.claude/skills/<name>` (gitignored) pointing at the canonical
-`skills/<name>/` directories. Claude Code auto-discovers from
-`.claude/skills/` so all 60 skills are available the moment you
-open the repo in Claude Code (`claude .`).
+To verify, ask the agent *"what skills are available?"*.
 
-**Claude Code on the web** (no local clone) does this for you on
-container boot via `.claude/hooks/session-start.sh`.
+## How the skills are laid out
 
-To verify, ask Claude *"what skills are available?"*. To install
-the skills personally (i.e. into `~/.claude/skills/` so they're
-available in every project), pass `--user`:
+The canonical, vendor-neutral home for every skill in this repo
+is `skills/<name>/SKILL.md` — exactly the shape the [Agent Skills
+open standard](https://agentskills.io) specifies. We deliberately
+do **not** put the skill bodies under a folder named after any one
+vendor's product.
+
+For each consuming product, we ship a tiny **reading-room shim**
+that points at that canonical home. Today there's one:
+
+| Tool | Discovery path | What's in it |
+|---|---|---|
+| Claude Code | `.claude/skills/<name>` | committed relative symlink `→ ../../skills/<name>` |
+
+That keeps `skills/` as the single source of truth and avoids
+duplicating the bytes. Other Agent-Skills-compatible products
+(Cursor, Gemini CLI, OpenAI Codex, GitHub Copilot, Goose, OpenHands,
+Continue, Roo Code, Letta, …) typically use either a per-tool
+folder of the same shape (e.g. `.cursor/skills/<name>` → symlink
+to `../../skills/<name>`) or a per-tool setting that lists
+`skills/` as an additional discovery root — see each tool's docs
+under [agentskills.io/clients](https://agentskills.io/clients).
+
+To wire `skills/` into a personal install (`~/.claude/skills/<name>`,
+available in every project on your machine):
 
 ```sh
 npm run install-skills -- --user
 ```
 
-Full options (project / user / copy / uninstall / dry-run) are
-documented in [`docs/installation.md`](docs/installation.md).
+The full list of options (project / user / copy / uninstall /
+dry-run) is in [`docs/installation.md`](docs/installation.md).
 
 ## Layout
 
