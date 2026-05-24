@@ -79,12 +79,12 @@ forgetmenot/
 │   │   ├── SKILL.md                   # …a manifest with frontmatter
 │   │   └── reference.md               # …and a full endpoint reference
 │   ├── bills/
-│   ├── … (21 facilities total)
+│   ├── … (60 skills total)
 └── tests/
     └── test_endpoints.sh              # smoke test
 ```
 
-## The 21 facilities
+## The 60 skills
 
 ### Modern REST APIs (developer.parliament.uk hub)
 

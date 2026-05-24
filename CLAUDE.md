@@ -84,6 +84,11 @@ verbatim API response, `--out path` for binary downloads).
 | `nia` | [`skills/nia`](skills/nia/SKILL.md) | Tier-3: NI Assembly Open Data — MLAs, parties, NI constituencies, Hansard, questions, plenary divisions. JSON across 6 ASMX services. |
 | `fms` | [`skills/mysoc-fms`](skills/mysoc-fms/SKILL.md) | Tier-3: FixMyStreet (mySociety) — RSS feeds of street-level issue reports per area / postcode. |
 | `senedd` | [`skills/senedd`](skills/senedd/SKILL.md) | Tier-3 STUB: Senedd Cymru — Welsh Parliament SOAP service. WSDL discovery only; full SOAP client deferred. |
+| `psephology` | [`skills/psephology`](skills/psephology/SKILL.md) | UK Commons election-results database (House of Commons Library psephology project). Earliest real polling day 2010-05-06; 2005 GE notional-only. Commons only. |
+| `identity-graph` | [`skills/identity-graph`](skills/identity-graph/SKILL.md) | Derived: cross-source identity reconciliation as N-Quads — Members API ↔ MNIS ↔ DDP LocalId ↔ scraped sites ↔ APPG ↔ GOV.UK people ↔ Wikidata QIDs. `parl:memberId` is the stable join key across MP-then-peer careers. |
+| `local-sparql` | [`skills/local-sparql`](skills/local-sparql/SKILL.md) | Meta: spin up a local SPARQL endpoint (rdflib-endpoint / Fuseki / Oxigraph) over any RDF dump in this repo — psephology, govuk-orgchart, fcdo-treaties, identity-graph, tna-legislation. |
+| `data-quality` | [`skills/data-quality`](skills/data-quality/SKILL.md) | Meta: discipline for the corpora — anchor cases, cross-extractor checks, upstream-bug reporting, peerage / cabinet edge cases. |
+| `jaws-accessibility` | [`skills/jaws-accessibility`](skills/jaws-accessibility/SKILL.md) | Meta: WCAG 2.2 / ARIA / screen-reader and Spain-EU compliance guidance for accessibility work on tooling built around this corpus. |
 
 The CLI itself is documented as a top-level skill at
 [`skills/parl`](skills/parl/SKILL.md) — every per-facility skill
