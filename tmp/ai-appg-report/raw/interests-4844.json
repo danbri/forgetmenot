@@ -1,0 +1,180 @@
+{
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://interests-api.parliament.uk/api/v1/Interests?MemberId=4844&ExpandChildInterests=False&Take=20&SortOrder=PublishingDateDescending&Skip=0",
+      "method": "GET"
+    }
+  ],
+  "skip": 0,
+  "take": 20,
+  "totalResults": 2,
+  "items": [
+    {
+      "id": 11475,
+      "summary": "Member of the Thornaby Town Deal Fund Board. This is an unpaid role.",
+      "parentInterestId": null,
+      "registrationDate": "2024-12-11",
+      "publishedDate": "2024-12-12",
+      "updatedDates": [],
+      "category": {
+        "id": 9,
+        "number": "8",
+        "name": "Miscellaneous",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/9",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 4844,
+        "nameDisplayAs": "Matt Vickers",
+        "nameListAs": "Vickers, Matt",
+        "house": "Commons",
+        "memberFrom": "Stockton West",
+        "party": "Conservative",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/4844",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "AroseOn",
+          "description": "Date on which the interest arose, or became registrable",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": "2020-01-06"
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which the interest ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "DonorName",
+          "description": "Name of the donor",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "Description",
+          "description": "Description of the interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Member of the Thornaby Town Deal Fund Board. This is an unpaid role."
+        },
+        {
+          "name": "MiscellaneousInterestType",
+          "description": "The type of interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Unpaid role"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/11475",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    },
+    {
+      "id": 5687,
+      "summary": "Trustee of Friends of Fairfield Play Park, a registered charity that is seeking to establish a play park in the Fairfield Community for the benefit of residents and their children. This is an unpaid role.",
+      "parentInterestId": null,
+      "registrationDate": "2024-05-09",
+      "publishedDate": "2024-05-09",
+      "updatedDates": [],
+      "category": {
+        "id": 9,
+        "number": "8",
+        "name": "Miscellaneous",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/9",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 4844,
+        "nameDisplayAs": "Matt Vickers",
+        "nameListAs": "Vickers, Matt",
+        "house": "Commons",
+        "memberFrom": "Stockton West",
+        "party": "Conservative",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/4844",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "AroseOn",
+          "description": "Date on which the interest arose, or became registrable",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": "2024-05-01"
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which the interest ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "DonorName",
+          "description": "Name of the donor",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "Description",
+          "description": "Description of the interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Trustee of Friends of Fairfield Play Park, a registered charity that is seeking to establish a play park in the Fairfield Community for the benefit of residents and their children. This is an unpaid role."
+        },
+        {
+          "name": "MiscellaneousInterestType",
+          "description": "The type of interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Unpaid role"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/5687",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    }
+  ]
+}

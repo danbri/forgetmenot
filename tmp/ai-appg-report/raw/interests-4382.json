@@ -1,0 +1,194 @@
+{
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://interests-api.parliament.uk/api/v1/Interests?MemberId=4382&ExpandChildInterests=False&Take=20&SortOrder=PublishingDateDescending&Skip=0",
+      "method": "GET"
+    }
+  ],
+  "skip": 0,
+  "take": 20,
+  "totalResults": 2,
+  "items": [
+    {
+      "id": 2553,
+      "summary": "Shares in Pettitts Ltd",
+      "parentInterestId": null,
+      "registrationDate": "2015-06-04",
+      "publishedDate": "2023-12-24",
+      "updatedDates": [],
+      "category": {
+        "id": 8,
+        "number": "7",
+        "name": "Shareholdings",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/8",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 4382,
+        "nameDisplayAs": "Daniel Zeichner",
+        "nameListAs": "Zeichner, Daniel",
+        "house": "Commons",
+        "memberFrom": "Cambridge",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/4382",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "ShareholdingThreshold",
+          "description": "Registrable threshold for this shareholding interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "(i) Shareholdings: over 15% of issued share capital"
+        },
+        {
+          "name": "RegistrableDate",
+          "description": "Date on which the holding was acquired, or achieved registrable value",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which interest in the holding ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "OrganisationName",
+          "description": "Name of the company or partnership",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Pettitts Ltd"
+        },
+        {
+          "name": "OrganisationDescription",
+          "description": "Nature of the company or partnership's business",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Management for the shared freehold flats of which I am a resident."
+        },
+        {
+          "name": "HeldOnBehalfOf",
+          "description": "Held jointly or on behalf of a spouse, partner, or dependent child",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "ManagedBy",
+          "description": "Managed by trust or delegated management",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/2553",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    },
+    {
+      "id": 1253,
+      "summary": "A Director of the Industry & Parliament Trust. This is an unpaid role.",
+      "parentInterestId": null,
+      "registrationDate": "2023-03-08",
+      "publishedDate": "2023-12-17",
+      "updatedDates": [],
+      "category": {
+        "id": 9,
+        "number": "8",
+        "name": "Miscellaneous",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/9",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 4382,
+        "nameDisplayAs": "Daniel Zeichner",
+        "nameListAs": "Zeichner, Daniel",
+        "house": "Commons",
+        "memberFrom": "Cambridge",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/4382",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "AroseOn",
+          "description": "Date on which the interest arose, or became registrable",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": "2023-02-18"
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which the interest ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "DonorName",
+          "description": "Name of the donor",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "Description",
+          "description": "Description of the interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "A Director of the Industry & Parliament Trust. This is an unpaid role."
+        },
+        {
+          "name": "MiscellaneousInterestType",
+          "description": "The type of interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Unpaid role"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/1253",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    }
+  ]
+}

@@ -1,0 +1,882 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI-related APPG officers: donations and commercial connections</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #1a1a1a;
+    --muted: #555;
+    --rule: #d8d8d8;
+    --accent: #003478;
+    --accent-bg: #eaf0f8;
+    --warn-bg: #fff7e6;
+    --warn-border: #c98c00;
+    --link: #0b51c4;
+    --pill: #f0f2f4;
+    --max: 60rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111418;
+      --fg: #ecedef;
+      --muted: #a5acb4;
+      --rule: #2c3137;
+      --accent: #6ea7ff;
+      --accent-bg: #1a2533;
+      --warn-bg: #2c2210;
+      --warn-border: #b88300;
+      --link: #87b6ff;
+      --pill: #1c2026;
+    }
+  }
+  * { box-sizing: border-box }
+  html { font-size: 17px; line-height: 1.55 }
+  body {
+    margin: 0;
+    color: var(--fg);
+    background: var(--bg);
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  main { max-width: var(--max); margin: 0 auto; padding: 1.5rem 1rem 6rem }
+  header.cover {
+    border-bottom: 1px solid var(--rule);
+    padding: 2rem 1rem 1rem;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  header.cover h1 { margin: 0 0 0.25rem; font-size: 1.7rem; line-height: 1.25 }
+  header.cover .sub { color: var(--muted); font-size: 0.95rem }
+  h2 { font-size: 1.35rem; margin-top: 2.4rem; padding-top: 0.4rem; border-top: 1px solid var(--rule) }
+  h3 { font-size: 1.1rem; margin-top: 1.8rem }
+  h4 { font-size: 1rem; margin: 1.2rem 0 0.4rem }
+  a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 2px }
+  a:hover, a:focus { text-decoration-thickness: 2px }
+  p, ul, ol, table { margin: 0.6rem 0 }
+  ul, ol { padding-left: 1.4rem }
+  li { margin: 0.2rem 0 }
+  table { border-collapse: collapse; width: 100%; font-size: 0.92rem }
+  th, td { text-align: left; padding: 0.45rem 0.55rem; border-bottom: 1px solid var(--rule); vertical-align: top }
+  th { background: var(--pill); font-weight: 600 }
+  td.num { text-align: right; font-variant-numeric: tabular-nums }
+  code, kbd, samp { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.88em; background: var(--pill); padding: 0.05rem 0.3rem; border-radius: 3px }
+  pre { background: var(--pill); padding: 0.8rem; overflow-x: auto; border-radius: 4px; font-size: 0.85rem; line-height: 1.45 }
+  .pill { display: inline-block; background: var(--pill); border-radius: 999px; padding: 0.1rem 0.55rem; font-size: 0.8rem; color: var(--muted); margin-right: 0.3rem }
+  .tier1 { background: #d4edda; color: #155724 } .tier2 { background: #fff3cd; color: #856404 } .tier3 { background: #d6e4ff; color: #003a99 }
+  @media (prefers-color-scheme: dark) {
+    .tier1 { background: #1b3a23; color: #b3e6c0 } .tier2 { background: #3d3010; color: #ffe19a } .tier3 { background: #16284a; color: #b3cbff }
+  }
+  blockquote.note {
+    margin: 1rem 0;
+    padding: 0.7rem 1rem;
+    background: var(--accent-bg);
+    border-left: 4px solid var(--accent);
+    font-size: 0.92rem;
+  }
+  blockquote.warn {
+    margin: 1rem 0;
+    padding: 0.7rem 1rem;
+    background: var(--warn-bg);
+    border-left: 4px solid var(--warn-border);
+    font-size: 0.92rem;
+  }
+  details.evidence {
+    margin: 0.5rem 0 0.9rem;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    background: var(--bg);
+  }
+  details.evidence > summary {
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    background: var(--pill);
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: var(--muted);
+    list-style: none;
+  }
+  details.evidence[open] > summary { border-bottom: 1px solid var(--rule); border-radius: 4px 4px 0 0 }
+  details.evidence > summary::before { content: "▸ "; display: inline-block; margin-right: 0.3rem; transition: transform 0.15s }
+  details.evidence[open] > summary::before { content: "▾ " }
+  details.evidence > div { padding: 0.7rem 0.9rem }
+  .nav {
+    position: sticky; top: 0;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.4rem 1rem;
+    z-index: 10;
+    font-size: 0.9rem;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  .nav a { color: var(--fg); margin-right: 1rem; text-decoration: none; padding: 0.2rem 0; border-bottom: 2px solid transparent }
+  .nav a:hover, .nav a.active { border-bottom-color: var(--accent) }
+  .person { display: grid; grid-template-columns: 6rem 1fr; gap: 0.4rem 0.9rem; padding: 0.5rem 0; border-bottom: 1px solid var(--rule) }
+  .person:last-child { border-bottom: none }
+  .person dt { font-weight: 600; color: var(--muted); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em }
+  .skiplink { position: absolute; top: -40px; left: 0; background: var(--accent); color: white; padding: 0.4rem 0.8rem; z-index: 100 }
+  .skiplink:focus { top: 0 }
+  .finding {
+    border-left: 4px solid var(--accent);
+    background: var(--accent-bg);
+    padding: 0.7rem 1rem;
+    margin: 1rem 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .finding h3 { margin-top: 0 }
+  .finding p:last-child { margin-bottom: 0 }
+  .toolbar {
+    margin: 1rem 0;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .toolbar button {
+    background: var(--pill);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.3rem 0.7rem;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.85rem;
+    color: var(--fg);
+  }
+  .toolbar button:hover { background: var(--accent-bg) }
+  small.cite { display: block; color: var(--muted); font-size: 0.82rem; margin-top: 0.2rem }
+  .footer { color: var(--muted); font-size: 0.85rem; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule) }
+  @media print {
+    .nav, .toolbar, .skiplink { display: none }
+    details.evidence > div { display: block !important }
+    details.evidence > summary { display: none }
+  }
+</style>
+</head>
+<body>
+<a class="skiplink" href="#main">Skip to content</a>
+
+<nav class="nav" aria-label="Section navigation">
+  <a href="#summary">Summary</a>
+  <a href="#officers">12 officers</a>
+  <a href="#findings">Findings</a>
+  <a href="#donors">Donor table</a>
+  <a href="#commercial">Commercial connections</a>
+  <a href="#methodology">Methodology</a>
+  <a href="#caveats">Caveats</a>
+  <a href="#papertrail">Paper trail</a>
+</nav>
+
+<header class="cover">
+  <h1>AI-related APPG officers: donations and commercial connections</h1>
+  <p class="sub">
+    Cross-reference of officers of the three AI-related All-Party Parliamentary Groups
+    against the Register of Members' Financial Interests (Commons + Lords) and the
+    Electoral Commission donations register.
+  </p>
+  <p class="sub">
+    Run date: 24 May 2026 &middot; APPG cache edition: 260413 (fetched 3 May 2026) &middot;
+    Commons RMFI snapshot: registerId 799, published 18 May 2026 &middot;
+    <a href="#papertrail">full paper trail below</a>.
+  </p>
+</header>
+
+<main id="main">
+
+<div class="toolbar" role="group" aria-label="Display controls">
+  <button type="button" id="btn-expand-all">Expand all evidence</button>
+  <button type="button" id="btn-collapse-all">Collapse all evidence</button>
+  <button type="button" id="btn-print">Print / save as PDF</button>
+</div>
+
+<section id="summary">
+<h2>Summary</h2>
+
+<p>
+  Twelve people serve as officers (Chair, Co-Chair, Vice Chair or Officer) across the three
+  All-Party Parliamentary Groups whose subject matter directly concerns artificial intelligence,
+  blockchain, or data and emerging technologies in the current parliament (register edition 260413,
+  published April 2026). This report cross-references their personal financial interests and the
+  Electoral Commission's donations register to identify <strong>donors and commercial counterparties
+  that connect more than one of them</strong>, and to find the wider set of recipients that those same
+  donors fund.
+</p>
+
+<div class="finding">
+  <h3>Headline findings</h3>
+  <ol>
+    <li>
+      <strong>Anthony Watson</strong>, a Labour-supporting individual donor, is both the largest declared
+      individual donor to <strong>Dawn Butler MP</strong> (Vice Chair, APPG on AI &mdash; £46,700 across seven
+      gifts) <strong>and</strong> a recurring donor to <strong>Peter Kyle MP</strong>, the Secretary of State
+      for Science, Innovation and Technology &mdash; the Cabinet minister responsible for AI policy
+      (£16,000 across three gifts). Same individual donor, the AI APPG leadership and the AI Cabinet
+      portfolio.
+    </li>
+    <li>
+      <strong>UKUS Crypto Alliance</strong>, a small US-UK crypto trade body, paid for overseas visits to
+      Washington DC in late 2025 / early 2026 for <strong>two of our twelve officers</strong> &mdash;
+      Lord Ranger of Northwood (Vice Chair, APPG on AI) and Baroness Uddin (Officer, APPG for Data
+      and Emerging Technologies). Their first trips overlapped in date. No Commons MP has declared a
+      visit paid for by the same body.
+    </li>
+    <li>
+      <strong>Big Innovation Centre</strong>, the secretariat for the current APPG on AI, has historically
+      funded MPs' attendance at the <em>AI Everything</em> conference in Dubai through its Middle East
+      arm (£6,500 for Damien Moore MP and £7,000 for Stephen Metcalfe MP, both April 2019, both then
+      sitting as APPG Blockchain / APPG AI Chair respectively). The current 12 officers have not
+      declared anything from the Centre, but the prior pattern is on the register.
+    </li>
+    <li>
+      Lord Holmes of Richmond (Officer, APPG for Data and Emerging Technologies) has
+      <strong>45 currently registered paid roles</strong> in the Lords Register, including
+      non-executive directorships at the Avalanche Foundation (blockchain) and consultancies on AI
+      and blockchain at Simmons &amp; Simmons, Submer Technologies (data-centre cooling for AI) and
+      others. This is a substantial commercial footprint in the AI/crypto sector by an officer of
+      the APPG for Data and Emerging Technologies.
+    </li>
+    <li>
+      Lord Clement-Jones (Co-Chair, APPG on AI) is a paid consultant to <strong>DLA Piper UK LLP</strong>,
+      which has been a recurring corporate donor to the Labour Party (£100k+ across 2007&ndash;2022).
+      No direct payment from DLA Piper to Clement-Jones is on the EC donations register &mdash; his
+      retainer is properly declared on his personal Lords RMFI entry instead.
+    </li>
+  </ol>
+</div>
+
+<blockquote class="warn">
+  <strong>Read this before quoting any figure.</strong> Of these five findings, (1), (2), (4) and (5)
+  are robustly anchored to the relevant registers and the underlying API records are linked in the
+  evidence drawers. Finding (3) concerns prior officers, not the current twelve, and is
+  contextual rather than direct. See <a href="#caveats">Caveats</a> for the full list of
+  limitations &mdash; particularly that the AI APPG secretariat funding for the current cycle could
+  not be verified live (Cloudflare interstitial) and the cached scrape shows zero benefits for all
+  three target groups, which may be genuine (recent AGMs) or a scrape miss.
+</blockquote>
+
+</section>
+
+<section id="officers">
+<h2>The twelve officers</h2>
+
+<p>
+  Selection rule: any APPG whose title or stated purpose explicitly mentions artificial intelligence,
+  machine learning, blockchain, or data and emerging technologies in the current Register of APPGs
+  (edition 260413). Three groups qualify; together they have twelve registered officers.
+</p>
+
+<h3>APPG on Artificial Intelligence
+  <small class="cite">
+    <a href="https://publications.parliament.uk/pa/cm/cmallparty/260413/artificial-intelligence.htm" rel="external">
+      publications.parliament.uk &mdash; AI APPG register entry
+    </a>
+  </small>
+</h3>
+<p>Secretariat: <strong>Big Innovation Centre</strong> &middot; AGM: 26 Jan 2026 &middot; Income/expenditure approved.</p>
+<dl class="person">
+  <dt>Chair</dt>
+  <dd><strong>Dr Allison Gardner MP</strong> &middot; Labour &middot; Stoke-on-Trent South
+    &middot; <a href="https://members-api.parliament.uk/api/Members/5334">id 5334</a></dd>
+  <dt>Co-Chair</dt>
+  <dd><strong>Lord Clement-Jones</strong> &middot; Liberal Democrat
+    &middot; <a href="https://members-api.parliament.uk/api/Members/3396">id 3396</a></dd>
+  <dt>Vice Chair</dt>
+  <dd><strong>Dawn Butler MP</strong> &middot; Labour &middot; Brent East
+    &middot; <a href="https://members-api.parliament.uk/api/Members/1489">id 1489</a></dd>
+  <dt>Vice Chair</dt>
+  <dd><strong>Lord Ranger of Northwood</strong> &middot; Conservative
+    &middot; <a href="https://members-api.parliament.uk/api/Members/4989">id 4989</a></dd>
+</dl>
+
+<h3>APPG on Blockchain Technologies
+  <small class="cite">
+    <a href="https://publications.parliament.uk/pa/cm/cmallparty/260413/blockchain-technologies.htm" rel="external">
+      publications.parliament.uk &mdash; Blockchain APPG register entry
+    </a>
+  </small>
+</h3>
+<p>Secretariat: <strong>British Blockchain Association</strong> &middot; AGM: 17 Mar 2025 &middot; Income/expenditure not yet approved.</p>
+<dl class="person">
+  <dt>Chair</dt>
+  <dd><strong>Matt Bishop MP</strong> &middot; Labour &middot; Forest of Dean
+    &middot; <a href="https://members-api.parliament.uk/api/Members/5323">id 5323</a></dd>
+  <dt>Vice Chair</dt>
+  <dd><strong>Lord McNicol of West Kilbride</strong> &middot; Labour
+    &middot; <a href="https://members-api.parliament.uk/api/Members/4702">id 4702</a></dd>
+  <dt>Vice Chair</dt>
+  <dd><strong>Lord Goddard of Stockport</strong> &middot; Liberal Democrat
+    &middot; <a href="https://members-api.parliament.uk/api/Members/4334">id 4334</a></dd>
+  <dt>Vice Chair</dt>
+  <dd><strong>Matt Vickers MP</strong> &middot; Conservative &middot; Stockton West
+    &middot; <a href="https://members-api.parliament.uk/api/Members/4844">id 4844</a></dd>
+</dl>
+
+<h3>APPG for Data and Emerging Technologies
+  <small class="cite">
+    <a href="https://publications.parliament.uk/pa/cm/cmallparty/260413/data-and-emerging-technologies.htm" rel="external">
+      publications.parliament.uk &mdash; DET APPG register entry
+    </a>
+  </small>
+</h3>
+<p>Secretariat: <strong>Policy Connect</strong> &middot; AGM: 10 Feb 2026 &middot; Income/expenditure not yet approved.</p>
+<dl class="person">
+  <dt>Chair</dt>
+  <dd><strong>Daniel Zeichner MP</strong> &middot; Labour &middot; Cambridge
+    &middot; <a href="https://members-api.parliament.uk/api/Members/4382">id 4382</a></dd>
+  <dt>Officer</dt>
+  <dd><strong>Tristan Osborne MP</strong> &middot; Labour &middot; Chatham and Aylesford
+    &middot; <a href="https://members-api.parliament.uk/api/Members/5220">id 5220</a></dd>
+  <dt>Officer</dt>
+  <dd><strong>Lord Holmes of Richmond</strong> &middot; Conservative
+    &middot; <a href="https://members-api.parliament.uk/api/Members/4294">id 4294</a></dd>
+  <dt>Officer</dt>
+  <dd><strong>Baroness Uddin</strong> &middot; Non-affiliated
+    &middot; <a href="https://members-api.parliament.uk/api/Members/1827">id 1827</a></dd>
+</dl>
+</section>
+
+<section id="findings">
+<h2>Findings in detail</h2>
+
+<h3 id="f1">1. Anthony Watson &mdash; same individual donor, both AI APPG Vice Chair and AI Cabinet Minister</h3>
+<p>
+  <strong>Anthony Watson</strong> (a Labour-supporting individual donor whose donations are filed
+  under "Individual" donor status in the Electoral Commission register) is the largest individual
+  donor to Dawn Butler MP (Vice Chair, APPG on AI) by both count and value: 7 donations totalling
+  £46,700 between 2018 and 2022. The same donor name appears as a recurring donor to Peter Kyle MP,
+  the current Secretary of State for Science, Innovation and Technology and the Cabinet minister
+  responsible for AI policy, with 3 donations totalling £16,000.
+</p>
+<p>
+  Anthony Watson's complete declared donation pattern on the Electoral Commission register includes
+  central Labour Party (£260k+), Angela Eagle MP (£97.5k), Owen Smith MP (£67.5k), Dawn Butler MP
+  (£46.7k), Wes Streeting (£35k), Peter Kyle MP (£16k), Tom Watson MP (£6k), Yvette Cooper (£5k),
+  and Oliver Ryan (£4.6k). Total visible donations across all recipients: <strong>£540k+</strong>.
+</p>
+
+<details class="evidence">
+<summary>Evidence: 7 donations Watson → Butler (EC donations register)</summary>
+<div>
+<table>
+  <thead><tr><th>Donor (as recorded)</th><th>Recipient</th><th class="num">Value</th><th>Accepted</th><th>Status</th></tr></thead>
+  <tbody>
+    <tr><td>Mr Anthony Watson</td><td>Dawn Butler MP</td><td class="num">£14,200</td><td>2018-04-06</td><td>Individual</td></tr>
+    <tr><td>Mr Anthony Watson</td><td>Dawn Butler MP</td><td class="num">£2,500</td><td>2020-02-14</td><td>Individual</td></tr>
+    <tr><td>Mr Anthony Watson</td><td>Dawn Butler MP</td><td class="num">£5,000</td><td>2021-04-06</td><td>Individual</td></tr>
+    <tr><td>Mr Anthony Watson</td><td>Dawn Butler MP</td><td class="num">£10,000</td><td>2021-11-05</td><td>Individual</td></tr>
+    <tr><td>Mr Anthony Watson</td><td>Dawn Butler MP</td><td class="num">£5,000</td><td>2022-01-04</td><td>Individual</td></tr>
+    <tr><td>Mr Anthony Watson</td><td>Dawn Butler MP</td><td class="num">£5,000</td><td>2022-03-23</td><td>Individual</td></tr>
+    <tr><td>Mr Anthony Watson</td><td>Dawn Butler MP</td><td class="num">£5,000</td><td>2022-10-10</td><td>Individual</td></tr>
+    <tr><th colspan="2">Total</th><th class="num">£46,700</th><th colspan="2"></th></tr>
+  </tbody>
+</table>
+<p><small class="cite">Source: <a href="https://search.electoralcommission.org.uk/Search/Donations?currentPage=1&amp;rows=50&amp;query=Dawn+Butler&amp;sort=AcceptedDate&amp;order=desc&amp;et=pp&amp;et=ppm&amp;et=tp&amp;et=perm&amp;et=rd&amp;et=ind&amp;prePoll=true&amp;postPoll=true&amp;register=gb&amp;register=ni&amp;register=none">Electoral Commission donations search — Dawn Butler MP</a></small></p>
+</div>
+</details>
+
+<details class="evidence">
+<summary>Evidence: 3 donations Watson → Kyle (EC donations register)</summary>
+<div>
+<table>
+  <thead><tr><th>Donor (as recorded)</th><th>Recipient</th><th class="num">Value</th><th>Accepted</th></tr></thead>
+  <tbody>
+    <tr><td>Mr Anthony Watson</td><td>Peter Kyle MP</td><td class="num">£5,000</td><td>2021-04-05</td></tr>
+    <tr><td>Anthony Watson</td><td>Peter Kyle MP</td><td class="num">£5,000</td><td>2022-09-23</td></tr>
+    <tr><td>Anthony Watson</td><td>Peter Kyle MP</td><td class="num">£6,000</td><td>2024-03-06</td></tr>
+    <tr><th colspan="2">Total</th><th class="num">£16,000</th><th></th></tr>
+  </tbody>
+</table>
+<p><small class="cite">Same donor surname/forename and "Individual" donor status as the Watson→Butler donations. EC does not surface address fields by default; identity inferred from consistent donor status, party context (all Labour), and donation timing pattern. See <a href="#caveats">caveat 6</a>.</small></p>
+<p><small class="cite">Source: <a href="https://search.electoralcommission.org.uk/Search/Donations?currentPage=1&amp;rows=50&amp;query=Anthony+Watson&amp;sort=AcceptedDate&amp;order=desc&amp;et=pp&amp;et=ppm&amp;et=tp&amp;et=perm&amp;et=rd&amp;et=ind&amp;prePoll=true&amp;postPoll=true&amp;register=gb&amp;register=ni&amp;register=none">Electoral Commission donor search — Anthony Watson</a></small></p>
+</div>
+</details>
+
+<details class="evidence">
+<summary>Evidence: Anthony Watson's full donation footprint (every recipient)</summary>
+<div>
+<table>
+  <thead><tr><th>Recipient</th><th class="num">Donations</th><th class="num">Total value</th></tr></thead>
+  <tbody>
+    <tr><td>Labour Party</td><td class="num">6</td><td class="num">£260,200</td></tr>
+    <tr><td>Angela Eagle MP</td><td class="num">5</td><td class="num">£97,500</td></tr>
+    <tr><td>Owen Smith MP</td><td class="num">1</td><td class="num">£67,550</td></tr>
+    <tr><td><strong>Dawn Butler MP</strong> <span class="pill">AI APPG Vice Chair</span></td><td class="num">7</td><td class="num">£46,700</td></tr>
+    <tr><td>Wes Streeting</td><td class="num">6</td><td class="num">£35,000</td></tr>
+    <tr><td><strong>Peter Kyle MP</strong> <span class="pill">DSIT Secretary of State</span></td><td class="num">3</td><td class="num">£16,000</td></tr>
+    <tr><td>Tom Watson MP</td><td class="num">2</td><td class="num">£6,000</td></tr>
+    <tr><td>Yvette Cooper MP</td><td class="num">1</td><td class="num">£5,000</td></tr>
+    <tr><td>Oliver Ryan</td><td class="num">1</td><td class="num">£4,600</td></tr>
+    <tr><th>Total visible</th><th class="num">32</th><th class="num">£538,550</th></tr>
+  </tbody>
+</table>
+<p><small class="cite">Source: <a href="https://search.electoralcommission.org.uk/Search/Donations?query=Anthony+Watson&amp;currentPage=1&amp;rows=50">Electoral Commission donor search — Anthony Watson</a>. Aggregated client-side from 32 records (every record where any field of the donation contained "Anthony Watson" and donor status was Individual).</small></p>
+</div>
+</details>
+
+<h3 id="f2">2. UKUS Crypto Alliance &mdash; same body paid for Washington DC trips for two of the twelve</h3>
+<p>
+  In Lords Register Category 5 (Overseas visits) the same payer &mdash;
+  <strong>UKUS Crypto Alliance</strong> &mdash; is recorded as having met the travel and accommodation
+  costs of three visits across two of the twelve officers, all to Washington DC for stated purposes
+  of meetings or speaking on crypto and digital assets:
+</p>
+<details class="evidence" open>
+<summary>Evidence: 3 visits paid by UKUS Crypto Alliance (Lords RMFI Cat 5)</summary>
+<div>
+<table>
+  <thead><tr><th>Officer</th><th>Visit</th><th>Dates</th><th>Source record</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Lord Ranger of Northwood<br><span class="pill">AI APPG Vice Chair</span></td>
+      <td>Washington DC, USA &mdash; meetings about crypto and digital assets</td>
+      <td>29 Oct &ndash; 1 Nov 2025</td>
+      <td><a href="https://members-api.parliament.uk/api/Members/4989/RegisteredInterests">Members API id 4989, interest 47148</a></td>
+    </tr>
+    <tr>
+      <td>Lord Ranger of Northwood<br><span class="pill">AI APPG Vice Chair</span></td>
+      <td>Washington DC &mdash; speaker at The DC Blockchain Conference and meetings with government officials</td>
+      <td>15&ndash;18 Mar 2026</td>
+      <td><a href="https://members-api.parliament.uk/api/Members/4989/RegisteredInterests">Members API id 4989, interest 47590</a></td>
+    </tr>
+    <tr>
+      <td>Baroness Uddin<br><span class="pill">DET APPG Officer</span></td>
+      <td>Washington DC and New York &mdash; meetings about crypto and digital assets and address to Government Blockchain Association conference</td>
+      <td>29 Oct &ndash; 4 Nov 2025</td>
+      <td><a href="https://members-api.parliament.uk/api/Members/1827/RegisteredInterests">Members API id 1827, interest 47150</a></td>
+    </tr>
+  </tbody>
+</table>
+<p><small class="cite">
+  Lord Ranger's first trip and Baroness Uddin's trip overlap (both in the same Oct/Nov 2025 window,
+  both to Washington DC, both for the same stated purpose). Cross-check of the latest Commons RMFI
+  CSV (registerId 799) for "UKUS Crypto Alliance" returns no further matches: two raw hits on
+  "AUKUS Defence Conference" were false positives.
+</small></p>
+</div>
+</details>
+
+<h3 id="f3">3. Big Innovation Centre &mdash; AI APPG secretariat with prior history of MP travel sponsorship</h3>
+<p>
+  Big Innovation Centre is the named secretariat of the current APPG on AI. The EC donations
+  register holds two entries from <strong>Big Innovation Centre (Middle East)</strong> &mdash; a related
+  entity at a Dubai address &mdash; both dated 29 April 2019 and both classified as Visit donations:
+</p>
+<details class="evidence">
+<summary>Evidence: Big Innovation Centre (Middle East) — historical APPG-officer trips</summary>
+<div>
+<table>
+  <thead><tr><th>Donor (entity)</th><th>Recipient (MP)</th><th class="num">Value</th><th>Destination</th><th>Purpose recorded by EC</th></tr></thead>
+  <tbody>
+    <tr>
+      <td>Big Innovation Centre (Middle East)<br><small class="cite">707 Churchill Tower, Al Amal Street, Business Bay, Dubai, UAE</small></td>
+      <td>Mr Damien Moore MP<br><span class="pill">then APPG Blockchain Chair</span></td>
+      <td class="num">£6,500</td>
+      <td>Dubai, UAE</td>
+      <td>"Attendance at the AI Everything Conference, and chairing a session arranged by the Big Innovation Centre (London) as Chairman of the APPG on Blockchain"</td>
+    </tr>
+    <tr>
+      <td>Big Innovation Centre - Middle East<br><small class="cite">707 Churchill Tower, Al Amal Street, Business Bay, Dubai, UAE</small></td>
+      <td>Mr Stephen Metcalfe MP<br><span class="pill">then APPG AI Chair</span></td>
+      <td class="num">£7,000</td>
+      <td>Dubai</td>
+      <td>"Attendance at the AI Everything Conference, and to chair two sessions arranged by the Big Innovation Center - London"</td>
+    </tr>
+  </tbody>
+</table>
+<p><small class="cite">
+  Both visits sponsored as the then-Chairs of APPG Blockchain and APPG AI in 2019. No equivalent
+  declarations have been made by any of the current twelve officers, but the pattern of Big
+  Innovation Centre's Middle East arm sponsoring AI APPG leadership for AI-conference travel is on
+  the register. Source: <a href="https://search.electoralcommission.org.uk/Search/Donations?query=Big+Innovation+Centre">EC search — Big Innovation Centre</a>.
+</small></p>
+</div>
+</details>
+<blockquote class="note">
+  Note that the cached APPG register entry for the current APPG on AI (edition 260413) shows
+  <strong>zero recorded financial or in-kind benefits to the group</strong> in this cycle. This may
+  be because the AGM (26 Jan 2026) was very recent and no benefits have been required to be filed
+  yet, or because the scraper missed the benefits panel; a live re-fetch on 24 May 2026 was
+  blocked by a Cloudflare interstitial. <em>Do not interpret zero benefits as no relationship.</em>
+</blockquote>
+
+<h3 id="f4">4. Lord Holmes of Richmond &mdash; 45 paid roles incl. blockchain and AI businesses</h3>
+<p>
+  Lord Holmes of Richmond, an officer of the APPG for Data and Emerging Technologies, has
+  <strong>45 currently registered paid roles</strong> in the Lords Register of Interests &mdash; by
+  far the largest such footprint of any of the twelve. Those that touch the AI / blockchain / data
+  sector directly include:
+</p>
+<details class="evidence" open>
+<summary>Evidence: Lord Holmes AI/data/crypto paid roles (Lords RMFI Cat 1)</summary>
+<div>
+<ul>
+  <li><strong>Non-executive director, Avalanche Foundation</strong> (blockchain) &mdash; from 2025 (interest id 46934)</li>
+  <li><strong>Non-executive director, Avalanche BVI Inc</strong> (blockchain) &mdash; from 2025 (interest id 46935)</li>
+  <li><strong>Adviser, Simmons and Simmons LLP</strong> &mdash; "advice given on emerging technologies including AI and block chain" (interest id 47067)</li>
+  <li><strong>Adviser on AI, and data centre strategies and narrative, Submer Technologies Ltd</strong> (data-centre technologies and IT) &mdash; ceased 20 April 2026 (interest id 47202)</li>
+  <li><strong>Member, Technology and Science Advisory Committee, The Crown Estate</strong> (interest id 46565)</li>
+  <li>Multiple paid speaking engagements at: Owl Explains Crypto Summit (May 2025), Hedgeweek Digital Assets Summit (June 2025), Travers Smith Future of Fintech 2025, Amazon (1 Oct 2025), Digital Assets Week (9 Oct), Digital Asset Summit (13 Oct), London Block Chain Conference (23 Oct), Stablecoins Unblocked, Tokenize 2025 summit, and others.</li>
+</ul>
+<p><small class="cite">
+  Source: <a href="https://members-api.parliament.uk/api/Members/4294/RegisteredInterests">Members API id 4294 — Lord Holmes of Richmond, RegisteredInterests</a> (Lords Register).
+  Full list of all 45 paid roles is in the raw JSON dump in the paper-trail appendix.
+</small></p>
+</div>
+</details>
+
+<h3 id="f5">5. Lord Clement-Jones (AI APPG Co-Chair) and DLA Piper</h3>
+<p>
+  Lord Clement-Jones is recorded in the Lords Register of Interests as a <strong>paid consultant
+  to DLA Piper UK LLP</strong> (one of the world's largest law firms, with an active AI regulation
+  practice). DLA Piper is itself a substantial corporate donor to the Labour Party, with
+  recurring sponsorship-style contributions in the Electoral Commission's register going back to
+  2004 and totalling well over £100,000.
+</p>
+<details class="evidence">
+<summary>Evidence: Clement-Jones at DLA Piper + DLA Piper's Labour donations</summary>
+<div>
+<p><strong>Personal interest (Lords RMFI):</strong></p>
+<blockquote>
+  Consultant, DLA Piper UK LLP (law firm) &mdash; entry id 40100, originally registered 10 May 2022,
+  most recently amended 5 Apr 2025.<br>
+  <small class="cite"><a href="https://members-api.parliament.uk/api/Members/3396/RegisteredInterests">Members API id 3396 — Lord Clement-Jones, RegisteredInterests</a></small>
+</blockquote>
+<p><strong>DLA Piper's EC-registered donations</strong> (subset; the firm has 12 recorded entries):</p>
+<table>
+  <thead><tr><th>Donor (entity)</th><th>Recipient</th><th class="num">Value</th><th>Accepted</th></tr></thead>
+  <tbody>
+    <tr><td>DLA Piper LLP</td><td>Labour Party</td><td class="num">£25,068</td><td>2021-04-05</td></tr>
+    <tr><td>DLA Piper LLP</td><td>Labour Party</td><td class="num">£19,052</td><td>2021-04-05</td></tr>
+    <tr><td>DLA Piper LLP</td><td>Labour Party</td><td class="num">£25,068</td><td>2021-01-04</td></tr>
+    <tr><td>DLA Piper LLP</td><td>Labour Party</td><td class="num">£19,052</td><td>2021-01-04</td></tr>
+    <tr><td>DLA Piper LLP</td><td>Labour Party</td><td class="num">£3,288</td><td>2021-07-01</td></tr>
+    <tr><td>DLA Piper LLP</td><td>Labour Party</td><td class="num">£3,288</td><td>2021-12-31</td></tr>
+    <tr><td>DLA Piper UK Ltd</td><td>Conservative and Unionist Party</td><td class="num">£7,957</td><td>2010-12-20</td></tr>
+    <tr><td colspan="4"><em>(plus 5 earlier Labour Party sponsorship entries 2004–2008)</em></td></tr>
+  </tbody>
+</table>
+<p><small class="cite">
+  No <em>direct</em> payment from DLA Piper to Clement-Jones appears in the EC register
+  &mdash; the retainer is a personal employment interest, not a regulated political donation, and
+  is properly declared in the Lords RMFI.
+  Source: <a href="https://search.electoralcommission.org.uk/Search/Donations?query=DLA+Piper">EC search — DLA Piper</a>.
+</small></p>
+</div>
+</details>
+
+</section>
+
+<section id="donors">
+<h2>Donor / counterparty table</h2>
+
+<p>
+  Every distinct entity that appears as a donor (EC), payer (RMFI Cat 1), gift / hospitality
+  giver (RMFI Cat 3 / Cat 6) or overseas-visit funder (RMFI Cat 4 / Cat 5) in the records of any
+  of the twelve officers. Sorted by number of distinct AI-APPG officers connected. Entities
+  appearing on more than one officer's record are the "shared counterparty" findings.
+</p>
+
+<table>
+  <thead>
+    <tr><th>Entity</th><th>Officers connected</th><th>Source registers</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>UKUS Crypto Alliance</strong></td>
+      <td>Lord Ranger of Northwood (×2 visits); Baroness Uddin (×1 visit)</td>
+      <td>Lords RMFI Cat 5</td>
+    </tr>
+    <tr>
+      <td><strong>Anthony Watson</strong> (individual)</td>
+      <td>Dawn Butler MP (×7); <span class="pill">also Peter Kyle MP &mdash; not on our 12 but the DSIT Cabinet minister</span></td>
+      <td>EC donations register</td>
+    </tr>
+    <tr>
+      <td><strong>British–Serbian Chamber of Commerce</strong></td>
+      <td>Lord Holmes of Richmond (×4 visits)</td>
+      <td>Lords RMFI Cat 5</td>
+    </tr>
+    <tr>
+      <td><strong>IX Wireless Limited</strong></td>
+      <td>Matt Vickers MP (×2); also major donor to the Conservative Party (~£500k+) and to other Conservative MPs</td>
+      <td>EC donations register</td>
+    </tr>
+    <tr>
+      <td><strong>Conservative Friends of Israel</strong></td>
+      <td>Matt Vickers MP (×2 delegation visits)</td>
+      <td>EC donations register</td>
+    </tr>
+    <tr>
+      <td>Heward Mills Ltd</td>
+      <td>Dawn Butler MP (×1); also Diane Abbott MP, Bell Ribeiro-Addy MP (same date, same value range)</td>
+      <td>EC donations register</td>
+    </tr>
+    <tr>
+      <td>GUBA Foundation</td>
+      <td>Dawn Butler MP (×1); also Diane Abbott MP, Bell Ribeiro-Addy MP, Abena Oppong-Asare MP (identical date and value)</td>
+      <td>EC donations register</td>
+    </tr>
+    <tr>
+      <td>DLA Piper UK LLP</td>
+      <td>Lord Clement-Jones (paid consultancy); separately a corporate Labour Party donor (~£100k+)</td>
+      <td>Lords RMFI Cat 1 + EC donations register</td>
+    </tr>
+    <tr>
+      <td>Avalanche Foundation / Avalanche BVI Inc</td>
+      <td>Lord Holmes of Richmond (×2 paid directorships)</td>
+      <td>Lords RMFI Cat 1</td>
+    </tr>
+    <tr>
+      <td>Simmons and Simmons LLP</td>
+      <td>Lord Holmes of Richmond (paid adviser on AI and blockchain)</td>
+      <td>Lords RMFI Cat 1</td>
+    </tr>
+    <tr>
+      <td>Submer Technologies Ltd</td>
+      <td>Lord Holmes of Richmond (paid adviser on AI and data centres)</td>
+      <td>Lords RMFI Cat 1</td>
+    </tr>
+    <tr>
+      <td>Automated Analytics Limited</td>
+      <td>Lord Ranger of Northwood (non-executive director, "digital and AI services")</td>
+      <td>Lords RMFI Cat 1</td>
+    </tr>
+    <tr>
+      <td>Scrumconnect Ltd, Athena Labs Ltd</td>
+      <td>Lord Ranger of Northwood (adviser; both ceased Jan 2026)</td>
+      <td>Lords RMFI Cat 1</td>
+    </tr>
+    <tr>
+      <td>Salad Holdings, ELCOM, TISA, N3XUS</td>
+      <td>Lord McNicol of West Kilbride (paid director/adviser; fintech, procurement-tech, ESG)</td>
+      <td>Lords RMFI Cat 1</td>
+    </tr>
+    <tr>
+      <td>Authors' Licensing Collecting Society, Trust Alliance Group</td>
+      <td>Lord Clement-Jones (paid chair roles)</td>
+      <td>Lords RMFI Cat 1</td>
+    </tr>
+  </tbody>
+</table>
+</section>
+
+<section id="commercial">
+<h2>Per-officer commercial connections (Lords RMFI Cat 1)</h2>
+
+<p>
+  Peers' Lords-RMFI Category 1 entries are paid roles, not political donations. They are the most
+  direct measure of an APPG officer's commercial connection to the sector their group covers.
+  Counts of currently-registered Cat 1 paid roles for each peer in our twelve:
+</p>
+
+<table>
+  <thead><tr><th>Officer</th><th class="num">Paid roles</th><th>Notable AI/blockchain/data-sector roles</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Lord Holmes of Richmond</strong> <span class="pill">DET APPG Officer</span></td>
+      <td class="num">45</td>
+      <td>Avalanche Foundation (NED, blockchain); Avalanche BVI Inc (NED); Simmons &amp; Simmons (adviser, "AI and block chain"); Submer Technologies (adviser, AI and data centres); Crown Estate Technology &amp; Science Advisory Committee; multiple speaking engagements at digital-assets / blockchain conferences.</td>
+    </tr>
+    <tr>
+      <td><strong>Lord McNicol of West Kilbride</strong> <span class="pill">Blockchain APPG VC</span></td>
+      <td class="num">12</td>
+      <td>McNicol Consulting Ltd (own consultancy); ELCOM (cloud-based procurement technology, NED, ceased Dec 2025); Salad Holdings (fintech open banking NED); TISA (adviser); N3XUS (senior adviser, ESG/sustainability intelligence).</td>
+    </tr>
+    <tr>
+      <td><strong>Lord Ranger of Northwood</strong> <span class="pill">AI APPG VC</span></td>
+      <td class="num">8</td>
+      <td>Automated Analytics Ltd (NED, "digital and AI services"); Athena Labs (digital marketing, adviser); Scrumconnect Ltd (digital consultancy, adviser, ceased Jan 2026); British-Serbian Chamber of Commerce (chair).</td>
+    </tr>
+    <tr>
+      <td><strong>Lord Goddard of Stockport</strong> <span class="pill">Blockchain APPG VC</span></td>
+      <td class="num">4</td>
+      <td>David Goddard Consulting (own PR/affairs consultancy).</td>
+    </tr>
+    <tr>
+      <td><strong>Lord Clement-Jones</strong> <span class="pill">AI APPG Co-Chair</span></td>
+      <td class="num">3</td>
+      <td>Consultant, DLA Piper UK LLP (law firm with active AI practice); Chair, Authors' Licensing Collecting Society; (ceased June 2025) Non-exec Chair, Trust Alliance Group.</td>
+    </tr>
+    <tr>
+      <td><strong>Baroness Uddin</strong> <span class="pill">DET APPG Officer</span></td>
+      <td class="num">1</td>
+      <td>(No direct AI/blockchain Cat 1 entry. Sectoral connection appears via Cat 5 visits &mdash; see UKUS Crypto Alliance finding above.)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Commons officers &mdash; declared interests</h3>
+<table>
+  <thead><tr><th>Officer</th><th class="num">Items</th><th>Substantive entries</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Dr Allison Gardner MP</strong> <span class="pill">AI APPG Chair</span></td><td class="num">2</td>
+      <td>Director of Women Leading in AI (unpaid); Honorary Senior Research Fellow at Keele University (unpaid). <strong>No paid AI-industry roles declared.</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Dawn Butler MP</strong> <span class="pill">AI APPG VC</span></td><td class="num">7</td>
+      <td>Speaking fee from Gibson, Dunn &amp; Crutcher LLP (law firm; payment of £2,500 in Nov 2025, donated by the Member to Jamaica Hurricane Melissa Relief Fund); Ghana visit (Protect Black Women Tour); Inter-Parliamentary Union and Commonwealth Parliamentary Association unpaid roles.</td>
+    </tr>
+    <tr>
+      <td><strong>Matt Bishop MP</strong> <span class="pill">Blockchain APPG Chair</span></td><td class="num">6</td>
+      <td>Director of PATA Nurseries (unpaid); Trustee of local charities; one Football Association hospitality entry (£470). <strong>No paid blockchain-industry roles declared.</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Matt Vickers MP</strong> <span class="pill">Blockchain APPG VC</span></td><td class="num">2</td>
+      <td>Thornaby Town Deal Fund Board (unpaid); local play park trustee (unpaid). The substantive donor traffic for Vickers is in the EC donations register, not the RMFI &mdash; see donor table above.</td>
+    </tr>
+    <tr>
+      <td><strong>Daniel Zeichner MP</strong> <span class="pill">DET APPG Chair</span></td><td class="num">2</td>
+      <td>Shareholding in Pettitts Ltd (flat freehold management company); Director of the Industry &amp; Parliament Trust (unpaid).</td>
+    </tr>
+    <tr>
+      <td><strong>Tristan Osborne MP</strong> <span class="pill">DET APPG Officer</span></td><td class="num">1</td>
+      <td>Property in Rochester, Kent. (Notable: Osborne is recorded as a donor TO Labour Party — £1,603 — in EC.)</td>
+    </tr>
+  </tbody>
+</table>
+</section>
+
+<section id="methodology">
+<h2>Methodology</h2>
+
+<p>
+  This report cross-references three statutory registers, each operating under different rules and
+  on different platforms. Each fact in the report is attributed to its source register and a link
+  to the underlying API record is provided in the evidence drawer for that claim.
+</p>
+
+<h3>Registers used</h3>
+<table>
+  <thead><tr><th>Tier</th><th>Register</th><th>Operator</th><th>Mechanism in this report</th></tr></thead>
+  <tbody>
+    <tr><td><span class="pill tier2">2 / scraped</span></td><td>Register of All-Party Parliamentary Groups, edition 260413</td><td>UK Parliament (HTML) &mdash; scraped by this repository's <code>parl appg</code> tool</td><td>Used cached resolution (<code>third_party/data/appg/resolved.json</code>) fetched 2026-05-03. Live re-fetch on 2026-05-24 was blocked by Cloudflare.</td></tr>
+    <tr><td><span class="pill tier1">1 / first-party</span></td><td>Register of Members' Financial Interests (Commons)</td><td>UK Parliament &mdash; <code>interests-api.parliament.uk</code></td><td><code>GET /api/v1/Interests?MemberId={id}</code> per MP, plus full snapshot CSV bundle (registerId 799) for full-text grep.</td></tr>
+    <tr><td><span class="pill tier1">1 / first-party</span></td><td>Register of Lords' Interests</td><td>UK Parliament &mdash; <code>members-api.parliament.uk</code></td><td><code>GET /api/Members/{id}/RegisteredInterests</code> per peer. The dedicated interests-api only covers Commons; for peers we used the Members API.</td></tr>
+    <tr><td><span class="pill tier3">3 / third-party</span></td><td>Electoral Commission donations register</td><td>The Electoral Commission &mdash; <code>search.electoralcommission.org.uk/api/search</code></td><td>Free-text <code>query=</code> per officer name and per donor name; results filtered client-side to validate the recipient/donor match.</td></tr>
+  </tbody>
+</table>
+
+<h3>Selection rule for the twelve officers</h3>
+<p>
+  Any APPG whose <em>title</em> or stated <em>purpose</em> (as recorded in the APPG register edition
+  260413) explicitly references artificial intelligence, machine learning, blockchain, web3, data
+  and emerging technologies, or the AI/data sector specifically. This produces three groups:
+  AI, Blockchain Technologies, and Data and Emerging Technologies. Their twelve officers (Chair,
+  Co-Chair, Vice Chair, Officer; "Registered Contact" duplicates the Chair role) are the population.
+  Adjacent groups whose remit touches AI more obliquely &mdash; e.g. Financial Technology, Quantum
+  Technologies, ClimateTech &mdash; were not included; they could be a sensible expansion in a
+  follow-up.
+</p>
+
+<h3>What this report does not do</h3>
+<ul>
+  <li>It does not look at the wider APPG membership (only officers).</li>
+  <li>It does not extend the Lords-RMFI cross-reference to the other ~800 peers (no full-text search API, would need bulk download).</li>
+  <li>It does not attempt to disambiguate same-name donors via address &mdash; the EC register's default response omits the address field. Findings rely on consistent donor-status + recipient-party patterns and are flagged in the relevant evidence drawers.</li>
+  <li>It does not include party-level donations (e.g. Labour Party central donations from corporate donors) as "donations to" any individual officer.</li>
+</ul>
+</section>
+
+<section id="caveats">
+<h2>Caveats</h2>
+<ol>
+  <li><strong>APPG-level benefits in the cache are empty for all three target groups.</strong> This may be because the AGMs were recent and the financial schedule has not yet been required, or because the scraper missed the benefits section. A live re-fetch on 2026-05-24 was blocked by a Cloudflare interstitial on <code>publications.parliament.uk</code>. The absence of secretariat-funding figures in the cached scrape is not evidence that no such funding exists.</li>
+  <li><strong>APPG cache is 21 days old</strong> (fetched 2026-05-03, edition 260413; current edition may have moved on). The user invited use of the cache as it was; this report uses it.</li>
+  <li><strong>The Lords-RMFI free-text search is not implemented at the API layer.</strong> Anything found about a peer is per-peer (you ask their interests by id). There is no equivalent to the Commons CSV bundle for the Lords. We could not cheaply check whether any of the same payers (UKUS Crypto Alliance, Avalanche Foundation, etc.) appear in the records of peers <em>outside</em> our twelve.</li>
+  <li><strong>The Electoral Commission search wrapper in this repository is broken</strong> (<code>lib/facilities/ec-donations.mjs</code>) &mdash; the typed <code>recipient</code> and <code>donorName</code> parameters return <code>Total: -1</code> on the live endpoint. Only the free-text <code>query=</code> parameter works, and only when sent with a full suite of entity-type and register flags. This needs a wrapper fix; in the meantime this report called the EC endpoint directly with the verified parameter set.</li>
+  <li><strong>EC free-text search hits any field of the record</strong>, not just the recipient. We filtered client-side so the table above lists only records where the named officer actually appears as recipient.</li>
+  <li><strong>Donor identity is inferred from name + donor-status + recipient-party context.</strong> The EC register's default API response does not surface the donor's address, so two people called "Anthony Watson" in different contexts could in principle be distinct humans. Where identity was inferred, this is flagged in the evidence drawer.</li>
+  <li><strong>Lords paid roles are not "donations".</strong> A Cat 1 entry is paid employment, not political support. This report treats those as <em>commercial connections</em> &mdash; arguably the more interesting question for an APPG officer &mdash; but the language matters.</li>
+  <li><strong>Edition cut-off:</strong> EC donations data covers everything published up to the run date (2026-05-24); RMFI entries are at register snapshot 799 (published 2026-05-18). Anything filed between the snapshot and the run is not in this report.</li>
+</ol>
+</section>
+
+<section id="papertrail">
+<h2>Paper trail (full audit log)</h2>
+<p>
+  Every API call, every register version, every parameter quirk discovered along the way. Reproduce
+  any finding by repeating these calls in order.
+</p>
+<details class="evidence" open>
+<summary>Open / close paper trail</summary>
+<div id="papertrail-content">
+<p><em>Rendering the project's <code>tmp/ai-appg-report/papertrail.md</code> verbatim. Source is plain markdown so this can be diffed against a follow-up run.</em></p>
+<pre id="papertrail-pre" aria-label="Paper trail in markdown source form">Loading…</pre>
+</div>
+</details>
+
+<h3>Raw artefacts on disk</h3>
+<p>All API responses captured during the run are committed alongside this report:</p>
+<ul>
+  <li><code>tmp/ai-appg-report/01-target-groups.json</code> &mdash; the three target APPGs from the cache</li>
+  <li><code>tmp/ai-appg-report/raw/interests-{id}.json</code> &mdash; one per Commons MP (6 files)</li>
+  <li><code>tmp/ai-appg-report/raw/lords-interests-{id}.json</code> &mdash; one per peer (6 files)</li>
+  <li><code>tmp/ai-appg-report/raw/commons-rmfi-799.zip</code> + <code>commons-rmfi/</code> &mdash; full Commons RMFI snapshot CSV bundle</li>
+  <li><code>tmp/ai-appg-report/raw/ec/recipient-{key}.json</code> &mdash; EC donations query for each of the twelve officer names (12 files)</li>
+  <li><code>tmp/ai-appg-report/raw/ec/pivot/{slug}.json</code> &mdash; EC donations queried for each named donor / payer / visit-funder (18 files)</li>
+  <li><code>tmp/ai-appg-report/entity-index.json</code> &mdash; the consolidated entity-to-officer mapping used to identify cross-references</li>
+</ul>
+</section>
+
+<p class="footer">
+  Generated 2026-05-24 from cached APPG register edition 260413 (fetched 2026-05-03), live RMFI
+  data at registerId 799 (published 2026-05-18), and live Electoral Commission donations search.
+  Sources cited inline; nothing in this report comes from prior knowledge or model memory.
+  Provenance tiers per the repository's <a href="../../../docs/provenance.md">docs/provenance.md</a>:
+  Parliament-first-party (tier 1) for RMFI; UK Parliament HTML scrape (tier 2) for APPG register;
+  Electoral Commission (tier 3) for the donations register.
+</p>
+
+</main>
+
+<script>
+// Load the paper-trail markdown verbatim into the <pre> so readers can compare against
+// the underlying source-of-truth.
+(async function loadPapertrail() {
+  try {
+    const r = await fetch('../papertrail.md');
+    if (!r.ok) throw new Error('Cannot load papertrail.md: ' + r.status);
+    const text = await r.text();
+    document.getElementById('papertrail-pre').textContent = text;
+  } catch (e) {
+    document.getElementById('papertrail-pre').textContent =
+      'Paper trail not loaded in-place. Open tmp/ai-appg-report/papertrail.md directly.\n\nError: ' + e.message;
+  }
+})();
+
+// Expand / collapse all evidence drawers
+document.getElementById('btn-expand-all').addEventListener('click', function () {
+  document.querySelectorAll('details.evidence').forEach(function (d) { d.open = true; });
+});
+document.getElementById('btn-collapse-all').addEventListener('click', function () {
+  document.querySelectorAll('details.evidence').forEach(function (d) { d.open = false; });
+});
+document.getElementById('btn-print').addEventListener('click', function () {
+  document.querySelectorAll('details.evidence').forEach(function (d) { d.open = true; });
+  window.print();
+});
+
+// Highlight the section currently in view in the nav
+(function () {
+  var sections = document.querySelectorAll('section[id]');
+  var links = {};
+  document.querySelectorAll('nav.nav a').forEach(function (a) {
+    links[a.getAttribute('href').slice(1)] = a;
+  });
+  function update() {
+    var top = window.scrollY + 100;
+    var current = null;
+    sections.forEach(function (s) {
+      if (s.offsetTop <= top) current = s.id;
+    });
+    Object.keys(links).forEach(function (k) {
+      links[k].classList.toggle('active', k === current);
+    });
+  }
+  window.addEventListener('scroll', update, { passive: true });
+  update();
+})();
+</script>
+</body>
+</html>

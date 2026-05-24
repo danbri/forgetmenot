@@ -1,0 +1,180 @@
+{
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://interests-api.parliament.uk/api/v1/Interests?MemberId=5334&ExpandChildInterests=False&Take=20&SortOrder=PublishingDateDescending&Skip=0",
+      "method": "GET"
+    }
+  ],
+  "skip": 0,
+  "take": 20,
+  "totalResults": 2,
+  "items": [
+    {
+      "id": 7577,
+      "summary": "Director of Women Leading in AI. This is an unpaid role.",
+      "parentInterestId": null,
+      "registrationDate": "2024-07-26",
+      "publishedDate": "2024-07-26",
+      "updatedDates": [],
+      "category": {
+        "id": 9,
+        "number": "8",
+        "name": "Miscellaneous",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/9",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 5334,
+        "nameDisplayAs": "Dr Allison Gardner",
+        "nameListAs": "Gardner, Dr Allison",
+        "house": "Commons",
+        "memberFrom": "Stoke-on-Trent South",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/5334",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "AroseOn",
+          "description": "Date on which the interest arose, or became registrable",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which the interest ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "DonorName",
+          "description": "Name of the donor",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "Description",
+          "description": "Description of the interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Director of Women Leading in AI. This is an unpaid role."
+        },
+        {
+          "name": "MiscellaneousInterestType",
+          "description": "The type of interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Unpaid role"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/7577",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    },
+    {
+      "id": 7580,
+      "summary": "Honorary Senior Research Fellow at Keele University. This is an unpaid role.",
+      "parentInterestId": null,
+      "registrationDate": "2024-07-26",
+      "publishedDate": "2024-07-26",
+      "updatedDates": [],
+      "category": {
+        "id": 9,
+        "number": "8",
+        "name": "Miscellaneous",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/9",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 5334,
+        "nameDisplayAs": "Dr Allison Gardner",
+        "nameListAs": "Gardner, Dr Allison",
+        "house": "Commons",
+        "memberFrom": "Stoke-on-Trent South",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/5334",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "AroseOn",
+          "description": "Date on which the interest arose, or became registrable",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which the interest ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "DonorName",
+          "description": "Name of the donor",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "Description",
+          "description": "Description of the interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Honorary Senior Research Fellow at Keele University. This is an unpaid role."
+        },
+        {
+          "name": "MiscellaneousInterestType",
+          "description": "The type of interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Unpaid role"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/7580",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    }
+  ]
+}

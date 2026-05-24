@@ -1,0 +1,174 @@
+{
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://interests-api.parliament.uk/api/v1/Interests?MemberId=5220&ExpandChildInterests=False&Take=20&SortOrder=PublishingDateDescending&Skip=0",
+      "method": "GET"
+    }
+  ],
+  "skip": 0,
+  "take": 20,
+  "totalResults": 1,
+  "items": [
+    {
+      "id": 8221,
+      "summary": "Property in Rochester, Kent",
+      "parentInterestId": null,
+      "registrationDate": "2024-07-30",
+      "publishedDate": "2024-07-30",
+      "updatedDates": [],
+      "category": {
+        "id": 7,
+        "number": "6",
+        "name": "Land and property (within or outside the UK)",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/7",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 5220,
+        "nameDisplayAs": "Tristan Osborne",
+        "nameListAs": "Osborne, Tristan",
+        "house": "Commons",
+        "memberFrom": "Chatham and Aylesford",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/5220",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "StartDate",
+          "description": "Date on which the land or property was acquired, or achieved registrable value",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which interest in the property ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "IsSoleOwner",
+          "description": "Whether the Member is the sole owner of the property",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": true
+        },
+        {
+          "name": "Location",
+          "description": "Location of the land or property",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Rochester, Kent"
+        },
+        {
+          "name": "PropertyDescription",
+          "description": "A description of the property",
+          "type": "String",
+          "typeInfo": null,
+          "value": "House"
+        },
+        {
+          "name": "PropertyOwnerDetails",
+          "description": "Details about the ownership arrangements",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "RegistrableRentalIncome",
+          "description": "Property has a rental income exceeding registrable threshold",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "RentalIncomeDetails",
+          "description": "Details of any other recipients of rental income",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "RentalIncomeStartDate",
+          "description": "Date on which the property began generating rental income",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "RentalIncomeEndDate",
+          "description": "Date the rental income ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "NumberOfProperties",
+          "description": "The number of properties this interest relates to",
+          "type": "Int",
+          "typeInfo": null,
+          "value": 1
+        },
+        {
+          "name": "IsLand",
+          "description": "Whether the interest relates to land or property",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "IsAnyRentalIncomePaidToAnotherPerson",
+          "description": "Whether any rental income is paid to another person or organisation",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "Country",
+          "description": "Country in which the land or property is located",
+          "type": "String",
+          "typeInfo": null,
+          "value": "United Kingdom"
+        },
+        {
+          "name": "LandUse",
+          "description": "Use of the land",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "PropertyType",
+          "description": "The type of property",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Residential"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/8221",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    }
+  ]
+}

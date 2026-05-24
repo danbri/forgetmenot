@@ -1,0 +1,875 @@
+{
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://interests-api.parliament.uk/api/v1/Interests?MemberId=1489&ExpandChildInterests=False&Take=20&SortOrder=PublishingDateDescending&Skip=0",
+      "method": "GET"
+    }
+  ],
+  "skip": 0,
+  "take": 20,
+  "totalResults": 7,
+  "items": [
+    {
+      "id": 14050,
+      "summary": "Payment received on 10 November 2025 - £2,500.00",
+      "parentInterestId": 14049,
+      "registrationDate": "2025-12-03",
+      "publishedDate": "2025-12-03",
+      "updatedDates": [],
+      "category": {
+        "id": 1,
+        "number": "1.1",
+        "name": "Employment and earnings - Ad hoc payments",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/1",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 1489,
+        "nameDisplayAs": "Dawn Butler",
+        "nameListAs": "Butler, Dawn",
+        "house": "Commons",
+        "memberFrom": "Brent East",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/1489",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "PaymentReceived",
+          "description": "Whether payment has been received",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": true
+        },
+        {
+          "name": "ReceivedDate",
+          "description": "Date the payment was received or date the services were completed or provided on, if payment not received",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": "2025-11-10"
+        },
+        {
+          "name": "JobTitle",
+          "description": "Type of work or service being provided, if different to the nature of the work provided in parent interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "PaymentType",
+          "description": "Whether the payment was monetary or in kind",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Monetary"
+        },
+        {
+          "name": "PaymentDescription",
+          "description": "Description of payment",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Speaking engagement at a Black History Month Event"
+        },
+        {
+          "name": "Value",
+          "description": "Amount or value of the payment",
+          "type": "Decimal",
+          "typeInfo": {
+            "currencyCode": "GBP"
+          },
+          "value": "2500.00"
+        },
+        {
+          "name": "HoursWorked",
+          "description": "Number of hours worked. If a regular payment, this is hours worked per period",
+          "type": "Decimal",
+          "typeInfo": null,
+          "value": "4.00"
+        },
+        {
+          "name": "HoursDetails",
+          "description": "Additional information about the hours worked",
+          "type": "String",
+          "typeInfo": null,
+          "value": ""
+        },
+        {
+          "name": "IsUltimatePayerDifferent",
+          "description": "Whether the ultimate payer is different to the payer specified in linked parent interest",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "UltimatePayerName",
+          "description": "Name of the ultimate payer (if different to parent interest)",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "UltimatePayerProtectedByConfidentiality",
+          "description": "Whether the ultimate payer details are confidential (if different to parent interest)",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "UltimatePayerAddress",
+          "description": "Address of the ultimate payer, if this can be publicly shared (if different to parent interest)",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "UltimatePayerNatureOfBusiness",
+          "description": "Brief description of the ultimate payer's business (if different to parent interest)",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "IsPaymentDonated",
+          "description": "Whether the payment was donated to a third party, or will be",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": true
+        },
+        {
+          "name": "DonateePaidBy",
+          "description": "Whether the payment was donated by the Member, or direct from the payer (if donated)",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Donated by the Member to the recipient"
+        },
+        {
+          "name": "DonateeType",
+          "description": "Type of third-party the payment was, or will be, donated to (if donated)",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Other"
+        },
+        {
+          "name": "DonateeDetails",
+          "description": "Name of the recipient, if donatee type is 'Other' (if donated)",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Jamaica Hurricane Melissa Relief Fund"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/14050",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    },
+    {
+      "id": 14049,
+      "summary": "Speaking engagement - Gibson, Dunn & Crutcher LLP",
+      "parentInterestId": null,
+      "registrationDate": "2025-12-03",
+      "publishedDate": "2025-12-03",
+      "updatedDates": [],
+      "category": {
+        "id": 12,
+        "number": "1",
+        "name": "Employment and earnings",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/12",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 1489,
+        "nameDisplayAs": "Dawn Butler",
+        "nameListAs": "Butler, Dawn",
+        "house": "Commons",
+        "memberFrom": "Brent East",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/1489",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "JobTitle",
+          "description": "Type of work or service being provided",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Speaking engagement"
+        },
+        {
+          "name": "StartDate",
+          "description": "Date the agreement started",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "EndDate",
+          "description": "Date the agreement ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "IsUntilFurtherNotice",
+          "description": "Whether the agreement is until further notice",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "PayerName",
+          "description": "Name of the payer",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Gibson, Dunn & Crutcher LLP"
+        },
+        {
+          "name": "PayerIsPrivateIndividual",
+          "description": "Whether the payer is a private individual",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "IsPaidAsDirectorOfPayer",
+          "description": "Whether the Member is a director of the payment source",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "PayerNatureOfBusiness",
+          "description": "Brief description of the payer's business",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Law Firm"
+        },
+        {
+          "name": "PayerPublicAddress",
+          "description": "Address of the payer, if this can be publicly shared",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Telephone House, 2-4 Temple Avenue, London EC4Y 0HB"
+        },
+        {
+          "name": "HasSoughtAcobaAdvice",
+          "description": "Has the Member consulted the Advisory Committee on Business Appointments (ACOBA). Only relevant if they have been a minister in the two years preceding this interest.",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/14049",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    },
+    {
+      "id": 12702,
+      "summary": "International visit to Ghana between 23 May 2025 and 01 June 2025",
+      "parentInterestId": null,
+      "registrationDate": "2025-06-24",
+      "publishedDate": "2025-06-24",
+      "updatedDates": [],
+      "category": {
+        "id": 5,
+        "number": "4",
+        "name": "Visits outside the UK",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/5",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 1489,
+        "nameDisplayAs": "Dawn Butler",
+        "nameListAs": "Butler, Dawn",
+        "house": "Commons",
+        "memberFrom": "Brent East",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/1489",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "VisitLocations",
+          "description": "Destinations visited",
+          "type": "VisitLocation[]",
+          "typeInfo": null,
+          "value": null,
+          "values": [
+            [
+              {
+                "name": "Country",
+                "description": "Country visited",
+                "type": "String",
+                "typeInfo": null,
+                "value": "Ghana"
+              },
+              {
+                "name": "Destination",
+                "description": "Destinations within the country, if applicable",
+                "type": "String",
+                "typeInfo": null,
+                "value": null
+              }
+            ]
+          ]
+        },
+        {
+          "name": "Purpose",
+          "description": "Purpose of the visit",
+          "type": "String",
+          "typeInfo": null,
+          "value": "The Protect Black Women Tour - Black Women leaders and allies from the UK and the US gathered in Accra, Ghana for a Liberation Tour to mark the 5th anniversary of George Floyd’s murder and to establish the Protect Black Women Accra Principles."
+        },
+        {
+          "name": "StartDate",
+          "description": "Date Member left the UK",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": "2025-05-23"
+        },
+        {
+          "name": "EndDate",
+          "description": "Date Member returned to the UK",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": "2025-06-01"
+        },
+        {
+          "name": "Appg",
+          "description": "Associated All Parliamentary Group (APPG), where relevant",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "Donors",
+          "description": "Donors and value of visits",
+          "type": "Donor[]",
+          "typeInfo": null,
+          "value": null,
+          "values": [
+            [
+              {
+                "name": "Name",
+                "description": "Name of the donor",
+                "type": "String",
+                "typeInfo": null,
+                "value": "Heward Mills Ltd"
+              },
+              {
+                "name": "IsPrivateIndividual",
+                "description": "Whether the donor is a private individual",
+                "type": "Boolean",
+                "typeInfo": null,
+                "value": false
+              },
+              {
+                "name": "PublicAddress",
+                "description": "Address of the donor, if this can be publicly shared",
+                "type": "String",
+                "typeInfo": null,
+                "value": "77 Farringdon Road, London EC1M 3JU"
+              },
+              {
+                "name": "PaymentType",
+                "description": "Whether elements of the trip were funded by a monetary donation or in kind",
+                "type": "String",
+                "typeInfo": null,
+                "value": "In kind"
+              },
+              {
+                "name": "PaymentDescription",
+                "description": "Description of the funding or in kind donation",
+                "type": "String",
+                "typeInfo": null,
+                "value": "Flights £2,005.19, accommodation £925"
+              },
+              {
+                "name": "Value",
+                "description": "Value of the funded elements of the visit",
+                "type": "Decimal",
+                "typeInfo": {
+                  "currencyCode": "GBP"
+                },
+                "value": "2925.19"
+              },
+              {
+                "name": "IsSoleBeneficiary",
+                "description": "Whether anyone accompanied the Member on this visit or undertook it on their behalf",
+                "type": "Boolean",
+                "typeInfo": null,
+                "value": true
+              }
+            ]
+          ]
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/12702",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    },
+    {
+      "id": 11298,
+      "summary": "Executive Committee Member of the British Group Inter-Parliamentary Union. This is an unpaid role.",
+      "parentInterestId": null,
+      "registrationDate": "2024-11-19",
+      "publishedDate": "2024-11-19",
+      "updatedDates": [],
+      "category": {
+        "id": 9,
+        "number": "8",
+        "name": "Miscellaneous",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/9",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 1489,
+        "nameDisplayAs": "Dawn Butler",
+        "nameListAs": "Butler, Dawn",
+        "house": "Commons",
+        "memberFrom": "Brent East",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/1489",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "AroseOn",
+          "description": "Date on which the interest arose, or became registrable",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": "2024-11-13"
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which the interest ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "DonorName",
+          "description": "Name of the donor",
+          "type": "String",
+          "typeInfo": null,
+          "value": "British Group Inter-Parliamentary Union"
+        },
+        {
+          "name": "Description",
+          "description": "Description of the interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Executive Committee Member of the British Group Inter-Parliamentary Union. This is an unpaid role."
+        },
+        {
+          "name": "MiscellaneousInterestType",
+          "description": "The type of interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Unpaid role"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/11298",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    },
+    {
+      "id": 11206,
+      "summary": "Director and Trustee of the Commonwealth Parliamentary Association (UK Branch). This is an unpaid role.",
+      "parentInterestId": null,
+      "registrationDate": "2024-11-07",
+      "publishedDate": "2024-11-07",
+      "updatedDates": [],
+      "category": {
+        "id": 9,
+        "number": "8",
+        "name": "Miscellaneous",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/9",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 1489,
+        "nameDisplayAs": "Dawn Butler",
+        "nameListAs": "Butler, Dawn",
+        "house": "Commons",
+        "memberFrom": "Brent East",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/1489",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "AroseOn",
+          "description": "Date on which the interest arose, or became registrable",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": "2024-10-16"
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which the interest ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "DonorName",
+          "description": "Name of the donor",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "Description",
+          "description": "Description of the interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Director and Trustee of the Commonwealth Parliamentary Association (UK Branch). This is an unpaid role."
+        },
+        {
+          "name": "MiscellaneousInterestType",
+          "description": "The type of interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Unpaid role"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/11206",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    },
+    {
+      "id": 2172,
+      "summary": "Residential in London",
+      "parentInterestId": null,
+      "registrationDate": "2015-06-08",
+      "publishedDate": "2023-12-24",
+      "updatedDates": [
+        "2018-09-03"
+      ],
+      "category": {
+        "id": 7,
+        "number": "6",
+        "name": "Land and property (within or outside the UK)",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/7",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 1489,
+        "nameDisplayAs": "Dawn Butler",
+        "nameListAs": "Butler, Dawn",
+        "house": "Commons",
+        "memberFrom": "Brent East",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/1489",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "StartDate",
+          "description": "Date on which the land or property was acquired, or achieved registrable value",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which interest in the property ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "IsSoleOwner",
+          "description": "Whether the Member is the sole owner of the property",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": true
+        },
+        {
+          "name": "Location",
+          "description": "Location of the land or property",
+          "type": "String",
+          "typeInfo": null,
+          "value": "London"
+        },
+        {
+          "name": "PropertyDescription",
+          "description": "A description of the property",
+          "type": "String",
+          "typeInfo": null,
+          "value": "house"
+        },
+        {
+          "name": "PropertyOwnerDetails",
+          "description": "Details about the ownership arrangements",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "RegistrableRentalIncome",
+          "description": "Property has a rental income exceeding registrable threshold",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "RentalIncomeDetails",
+          "description": "Details of any other recipients of rental income",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "RentalIncomeStartDate",
+          "description": "Date on which the property began generating rental income",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "RentalIncomeEndDate",
+          "description": "Date the rental income ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "NumberOfProperties",
+          "description": "The number of properties this interest relates to",
+          "type": "Int",
+          "typeInfo": null,
+          "value": 1
+        },
+        {
+          "name": "IsLand",
+          "description": "Whether the interest relates to land or property",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "IsAnyRentalIncomePaidToAnotherPerson",
+          "description": "Whether any rental income is paid to another person or organisation",
+          "type": "Boolean",
+          "typeInfo": null,
+          "value": false
+        },
+        {
+          "name": "Country",
+          "description": "Country in which the land or property is located",
+          "type": "String",
+          "typeInfo": null,
+          "value": "United Kingdom"
+        },
+        {
+          "name": "LandUse",
+          "description": "Use of the land",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "PropertyType",
+          "description": "The type of property",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Residential"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/2172",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    },
+    {
+      "id": 1732,
+      "summary": "Trustee of the National Youth Theatre of Great Britain. This is an unpaid role.",
+      "parentInterestId": null,
+      "registrationDate": "2023-03-03",
+      "publishedDate": "2023-12-17",
+      "updatedDates": [],
+      "category": {
+        "id": 9,
+        "number": "8",
+        "name": "Miscellaneous",
+        "parentCategoryIds": [],
+        "type": "Commons",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://interests-api.parliament.uk/api/v1/Categories/9",
+            "method": "GET"
+          }
+        ]
+      },
+      "member": {
+        "id": 1489,
+        "nameDisplayAs": "Dawn Butler",
+        "nameListAs": "Butler, Dawn",
+        "house": "Commons",
+        "memberFrom": "Brent East",
+        "party": "Labour",
+        "links": [
+          {
+            "rel": "self",
+            "href": "https://members-api.parliament.uk/api/Members/1489",
+            "method": "GET"
+          }
+        ]
+      },
+      "fields": [
+        {
+          "name": "AroseOn",
+          "description": "Date on which the interest arose, or became registrable",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": "2022-11-24"
+        },
+        {
+          "name": "EndDate",
+          "description": "Date on which the interest ended",
+          "type": "DateOnly",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "DonorName",
+          "description": "Name of the donor",
+          "type": "String",
+          "typeInfo": null,
+          "value": null
+        },
+        {
+          "name": "Description",
+          "description": "Description of the interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Trustee of the National Youth Theatre of Great Britain. This is an unpaid role."
+        },
+        {
+          "name": "MiscellaneousInterestType",
+          "description": "The type of interest",
+          "type": "String",
+          "typeInfo": null,
+          "value": "Unpaid role"
+        }
+      ],
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://interests-api.parliament.uk/api/v1/Interests/1732",
+          "method": "GET"
+        }
+      ],
+      "rectified": false,
+      "rectifiedDetails": null
+    }
+  ]
+}
