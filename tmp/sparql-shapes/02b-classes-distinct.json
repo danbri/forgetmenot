@@ -1,0 +1,8 @@
+{
+  "error": {
+    "type": "HttpError",
+    "status": 500,
+    "url": "https://api.parliament.uk/sparql?query=SELECT+DISTINCT+%3Fcls+WHERE+%7B+%3Fs+a+%3Fcls+%7D+LIMIT+200+OFFSET+200",
+    "body": "Query evaluation error: org.eclipse.rdf4j.repository.http.HTTPQueryEvaluationException: Read timed out"
+  }
+}

@@ -1,0 +1,1211 @@
+{
+  "head": {
+    "vars": [
+      "cls"
+    ]
+  },
+  "results": {
+    "bindings": [
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2000/01/rdf-schema#Resource"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2000/01/rdf-schema#Class"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#TransitiveProperty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#SymmetricProperty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2000/01/rdf-schema#Datatype"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/1999/02/22-rdf-syntax-ns#List"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2000/01/rdf-schema#ContainerMembershipProperty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#Class"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WebsiteLabelledThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WebsiteDescribedThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#FunctionalProperty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#ObjectProperty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#InverseFunctionalProperty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/NamedThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ContactableThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/House"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ExternalThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Gender"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisGender"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Threshold"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/RejectionCode"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/TemporalThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WikidataThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ParliamentPeriod"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastParliamentPeriod"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WebArticle"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#Ontology"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Group"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/SesThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ArmsLengthBody"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/LayingBody"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#Restriction"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#AnnotationProperty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/DodsThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PimsThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Person"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/DodsPerson"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PimsPerson"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Member"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PartyMember"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WebLinkedThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GovernmentPerson"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/OppositionPerson"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisMember"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ImageSubject"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/DeceasedPerson"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Incumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GovernmentIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisGovernmentIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Position"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GovernmentPosition"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisGovernmentPosition"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/FormalBody"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastFormalBody"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisFormalBody"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastGroup"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ParliamentaryCommittee"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/SelectCommittee"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-8FD7C02FAFB81D9BD2B9E2CF8091121A"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-F024E901071BC0EE03D391FCF266AB9E"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-CF5665CEA77031F5084A39513B9F1934"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-61D8428D787185E216141ADE43885ED8"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/NonSelectCommittee"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-FF0ABFF1ED142EEAF156F5FF5076771B"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-C1ED3A37007CD40112F333529F865636"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-E321711E30620FEFF801CEBCA08770C0"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-2949D7AF7104161874DD98DE82765623"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/StatutoryCommittee"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-9F9726826B7A708FC3361DF73D9178AC"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-62220DA3237668FFA39233EA98FE6E0B"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-F644054B3D3C09F16E309D24E1AECBFD"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-6988BADE869375F981AE65108C096E97"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/InformallyConstitutedCommittee"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-BCAC47C3A7357CD8A50B7CAD91149D90"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-703D3FD433CE0886F46C9611EAAA6310"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-3E983C747A61454AF9B358C2FDB712AC"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-EA86EE0833539FAC24C1C227C86731D7"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisFormalBodyLayPerson"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastFormalBodyMembership"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/FormalBodyMembership"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisFormalBodyMembership"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ExOfficioMembership"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Image"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PersonImage"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MemberImage"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/HouseSeat"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ConstituencyGroup"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisConstituencyGroup"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastConstituencyGroup"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/OnsThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/OnsConstituencyGroup"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GeographicalThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Place"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/HouseSeatType"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisHouseSeatType"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/SeatIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ParliamentaryIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastParliamentaryIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisSeatIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ElectoralIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GenderIdentity"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ContactPoint"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisContactPoint"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PostalAddress"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PartyMembership"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastPartyMembership"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisPartyMembership"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Party"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisParty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ConstituencyArea"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/UkgapThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/EPetition"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ApprovedEPetition"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/UkgapEPetition"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ThresholdAttainment"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/RejectedEPetition"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Debate"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.w3.org/2002/07/owl#Thing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GovernmentResponse"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/LocatedSignatureCount"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Country"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GovRegisterThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GovRegisterCountry"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GovRegisterTerritory"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Territory"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Moderation"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Rejection"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WebLink"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PersonWebLink"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/OppositionIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisOppositionIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisFormalBodyChairIncumbency"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/OppositionPosition"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisOppositionPosition"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/FormalBodyType"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/SelectCommitteeType"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-5A023627D3FFC8B159CB0FED64DFF798"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-1FCFD7844BEFAE9F330F6084B1532206"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-ECD4F175E142E14318192E9CFDA17AE4"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-2E6F37494B1CE7A934E5311AFC374EED"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/NonSelectCommitteeType"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-4A3654870B278363B049AFE717AC53E7"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-6A0F5C4ABAA58EC748A1CA7546E2BDCA"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-C3BE353B57452BB256649E3DB79F9B92"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-17DAE9912F0A247E482FCEAB6E0394F7"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/StatutoryCommitteeType"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-4C1A0F5E78DE92DFE27824BB2FB52804"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-41EFD20513EF00A6BCD3CCF584388DB7"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-9329784685C10D090AACB3B9250F185E"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-B93E04E8E5828B74CEF87C1F5960A5C9"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/InformallyConstitutedCommitteeType"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-4598706CCE845017A6629682A2356D84"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-083294143037DC8FB4F823C6BA2C516B"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-3F13418DD2063922FB4CA2F3A06EF251"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-17F30083B85FE64A6F81FFAE40DEE597"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/FormalBodyPosition"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/FormalBodyChair"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisDepartmentGroup"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GovRegisterGovernmentOrganisation"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GovernmentOrganisation"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/AnsweringBody"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MnisAnsweringBody"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/GeneralCommitteeType"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-CE373BC506B4761083A394ACAFDE50E1"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-5992114229C77D2C37903C7448E3C367"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-2D08944AE897EC3C151FD80D2EFF777C"
+        }
+      },
+      {
+        "cls": {
+          "type": "bnode",
+          "value": "genid-ecd41bac9f66416eb1852dcc0a9c891e-B18AEB12EE011D010DE0E7FC3C578453"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/IncumbencyInterruption"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/PastIncumbencyInterruption"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Question"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/IndexingAndSearchWrittenQuestion"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/IndexingAndSearchThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/AnswerExpectation"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WrittenAnswerExpectation"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/AnsweringBodyAllocation"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Answer"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WrittenAnswer"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/CorrectingAnswer"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ProcedureStep"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WorkPackage"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Procedure"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/BusinessItem"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Laying"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/BusinessItemWebLink"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WorkPackagedThingWebLink"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WorkPackagedThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/LaidThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/StatutoryInstrumentPaper"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/EnabledThing"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/MadeStatutoryInstrumentPaper"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/ProposedNegativeStatutoryInstrumentPaper"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/WikidataResource"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "http://www.wikidata.org/entity/Q35120"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/Treaty"
+        }
+      },
+      {
+        "cls": {
+          "type": "uri",
+          "value": "https://id.parliament.uk/schema/SeriesMembership"
+        }
+      }
+    ]
+  }
+}
