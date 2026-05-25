@@ -62,6 +62,27 @@ curl -s 'https://api.parliament.uk/query/constituency_lookup_by_postcode?postcod
   | jq '.[0]'
 ```
 
+## Relationship to the `sparql` skill
+
+`api.parliament.uk/query` is a **named-query layer over the same DDP
+store** that `api.parliament.uk/sparql` exposes directly. Same graph,
+same URIs, same coverage:
+
+- Anything the templates can answer, you can also answer in SPARQL.
+- Anything the SPARQL endpoint *can't* answer (Bills, Hansard
+  contributions, divisions, RMFI, elections, EDMs, Erskine May, APPGs —
+  see [`sparql/SKILL.md`](../sparql/SKILL.md#what-it-covers-and-what-it-doesnt))
+  the templates also can't, because the underlying data isn't there.
+
+Pick this skill when there's a named template that fits the question;
+drop down to `sparql` for arbitrary joins, schema discovery, classes
+outside the templated set, or any of the ~194 classes in the parl:
+schema that don't have a pre-canned template.
+
+The IDs are the same opaque 8-character `id.parliament.uk` shortIds
+as in the SPARQL store and as in some REST APIs (treaties, e-petitions),
+so results from one skill compose directly with the others.
+
 ## Notes
 
 - Each template returns JSON when called with the standard `Accept:`
@@ -71,10 +92,6 @@ curl -s 'https://api.parliament.uk/query/constituency_lookup_by_postcode?postcod
   `_specs/discovered/query-templates.txt` and a re-fetch is captured
   by `scripts/probe-endpoints.sh` (extension TODO — currently we only
   record the count and the root URL).
-- For arbitrary queries beyond the templates, drop down to
-  [`sparql`](../sparql/SKILL.md).
-- IDs are the same opaque 8-character `id.parliament.uk` IDs as in the
-  SPARQL store.
 
 <!-- parl-cli-start -->
 
