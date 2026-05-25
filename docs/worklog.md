@@ -155,3 +155,123 @@ successfully during the morning's probe captured at
 The MNIS endpoint did return a real 404 once, but on the next probe
 cycle returned 200 with an XML body. The endpoint is intermittent
 rather than retired — flagged in the dataset's reference doc.
+
+---
+
+## 2026-05-24 — AI-APPG donor cross-reference investigation
+
+User question: "How would we set about using these skills to e.g. check
+for donations to any APPG leads whose group relates to AI, and then go
+back to see who else shares that same donor?" — then asked for a full
+run, with paper trail, written up as accessible HTML.
+
+Output committed to `tmp/ai-appg-report/`:
+
+- `out/report.html` — single-file accessible HTML report (~58 KB,
+  fully self-contained: inline CSS/JS and the paper trail baked in as
+  an escaped `<pre>` block; no `fetch()`, no external assets).
+- `papertrail.md` — chronological audit of every API call and every
+  parameter quirk discovered along the way.
+- `raw/` — every API response captured during the run so claims can
+  be re-verified without re-fetching upstream.
+- `entity-index.json` — the consolidated entity-to-officer mapping
+  used to identify cross-references.
+
+### Method
+
+1. **Scope** to APPGs whose title or stated purpose explicitly
+   references AI, machine learning, blockchain or data and emerging
+   technologies (3 groups, 12 officers) from the cached APPG register
+   edition 260413.
+2. **Personal interests**:
+   - Commons MPs (6): `interests-api.parliament.uk/api/v1/Interests?MemberId={id}` per MP, plus the full register-799 CSV bundle for full-text grep.
+   - Peers (6): `members-api.parliament.uk/api/Members/{id}/RegisteredInterests` (the dedicated interests-api covers Commons only — peers always return 0 from it).
+3. **EC donations**: search.electoralcommission.org.uk for each
+   officer by name, then a pivot search on every non-trivial donor /
+   payer / visit-funder to find every other recipient.
+
+### Findings (anchored in the registers, evidence linked in the HTML)
+
+- **Anthony Watson** funds both **Dawn Butler** (AI APPG Vice Chair —
+  £46,700 over 7 gifts) AND **Peter Kyle** (DSIT Secretary of State,
+  the Cabinet AI minister — £16,000 over 3 gifts). One individual
+  donor across the APPG leadership and the Cabinet portfolio.
+- **UKUS Crypto Alliance** paid for Washington DC trips for two of
+  the twelve — Lord Ranger (×2) and Baroness Uddin (×1), the first
+  trips overlapping in date.
+- **Big Innovation Centre (Middle East)** — the AI APPG's current
+  secretariat's Middle East arm — has a 2019 history of funding
+  then-Chairs of APPG AI and APPG Blockchain to attend the
+  "AI Everything" conference in Dubai.
+- **Lord Holmes of Richmond** has 45 currently-registered Lords paid
+  roles incl. Avalanche Foundation directorships and Simmons &
+  Simmons AI/blockchain advisory work.
+- **Lord Clement-Jones** is paid by DLA Piper UK LLP, which is itself
+  a recurring corporate Labour Party donor in the EC register.
+
+### Bugs / quirks discovered
+
+- **`lib/facilities/ec-donations.mjs` is effectively broken.** The
+  typed `recipient` and `donorName` parameters are silently ignored
+  by the EC search endpoint and return `Total: -1`. Only the free-text
+  `query=` parameter works, and only when sent with this full
+  boilerplate the wrapper does not include:
+
+  ```
+  &et=pp&et=ppm&et=tp&et=perm&et=rd&et=ind
+  &date=Reported&prePoll=true&postPoll=true
+  &register=gb&register=ni&register=none
+  &isIrishSourceYes=true&isIrishSourceNo=true
+  &includeOutsideSection75=true
+  ```
+
+  Reverse-engineered from `search.electoralcommission.org.uk/Scripts/Application/pefsearch.js`.
+  Until the wrapper is fixed, callers must hit the endpoint directly.
+  *Filed as todo: rewrite `donations()` / `loans()` / `spending()`
+  in `lib/facilities/ec-donations.mjs` to send the verified
+  parameter set, and to map a logical `recipient=` argument onto a
+  client-side filter on `RegulatedEntityName` (since the upstream
+  API does not surface that as a typed filter).*
+
+- **`publications.parliament.uk` is behind a Cloudflare interstitial
+  for unattended HTTP clients** (encountered 2026-05-24). Live
+  re-fetches of APPG register pages failed; the cached scrape was
+  the only viable source. The `appg` skill / scraper should grow a
+  Cloudflare-aware fetch mode (likely just a headless-browser
+  fallback) or document the cache-only behaviour clearly.
+
+- **Lords RMFI has no full-text search.** Anything found about a
+  peer is fetched per-id from `members-api.parliament.uk/api/Members/{id}/RegisteredInterests`.
+  There is no equivalent to the Commons CSV bundle, so questions
+  like "which other peers received payments from Avalanche Foundation"
+  require enumerating all ~800 peers. Worth adding a bulk-cache
+  builder script under `scripts/` for periodic refresh.
+
+### Caveats published in the report
+
+Seven explicit caveats: stale APPG cache, empty group-benefit fields,
+Lords RMFI lacking text search, the EC wrapper bug, EC free-text
+search being non-typed, donor identity disambiguation being inferred
+not address-confirmed, and peers' Cat 1 paid roles being commercial
+connections not political donations.
+
+### Hosting / sharing
+
+User asked whether the HTML report has a public URL. The repo has no
+GitHub Pages configured. `raw.githubusercontent.com` serves HTML
+with `text/plain` + a sandbox CSP. Workable third-party renderer:
+`raw.githack.com`. The report is fully self-contained as of commit
+`86eb1359` so it also works as an email attachment or local download
+without depending on a sibling-file fetch.
+
+### Open follow-ups
+
+- Fix `lib/facilities/ec-donations.mjs` per the parameter set above
+  and add an integration test that asserts a non-`-1` Total for
+  a known live recipient.
+- Add a Lords-RMFI bulk-cache script under `scripts/` so cross-peer
+  questions are tractable without enumerating per-id.
+- Consider whether `tmp/ai-appg-report/` should be promoted to
+  `examples/` or `case-studies/` — it's a useful demonstration of
+  chaining `appg` + `interests` + `ec-donations` end-to-end and
+  doesn't really belong in `tmp/`.
