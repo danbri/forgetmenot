@@ -199,28 +199,86 @@ shortcut.
 `Candidacy`, `Candidate`, `ElectionType`, `Concept` (SKOS), `Logo`,
 `AlternateMembership`.
 
-## How DDP compares to the dedicated REST APIs
+## Three RDF surfaces, plus REST — what's where
 
-| REST surface | DDP coverage | Use SPARQL when |
+Parliament publishes UK Parliament data through three RDF surfaces
+and a separate modern REST surface. They overlap unevenly:
+
+| Surface | What it is | Coverage |
 |---|---|---|
-| `members` | Rich — full career history, identifier bridges to MNIS/PIMS/DODS/SES/Wikidata, party + government + opposition incumbencies | Cross-cutting people-and-(committee/government/party-history) queries |
-| `treaties` | 1:1, same IRIs (323=323) | Aggregating by partner country / EU/non-EU / scrutiny route |
-| `statutory-instruments` | Rich subtype taxonomy + full Approval/Rejection event log | Counting per-procedure outcomes, per-laying-body aggregates |
-| `written-questions` | 192k Question + 132k WrittenAnswer + answer-type taxonomy | Cross-department answer-rate analysis, correcting-answer tracking |
-| `petitions` | Full moderation lifecycle, threshold events, geo signature breakdowns | Rejection-code analysis, signature-velocity by constituency |
-| `committees` | Typology (180 ParliamentaryCommittee, 174 SelectCommittee, …) but **NOT** inquiries / evidence / publications | Committee-overlap queries; "who's sat on X with Y" |
-| `bills` | **Effectively absent** (6 PublicBillWork instances) | — — use REST |
-| `hansard` | **Absent** (Debate=328 means ePetition debate only) | — — use REST |
-| `commons-votes` / `lords-votes` | **Absent** (no Division class) | — — use REST |
-| `interests` (RMFI) | **Absent** | — — use REST |
-| Elections / `psephology` | **Absent** (classes defined, 0 instances) | — — use REST / Postgres dump |
-| Early Day Motions | **Absent** | — — use REST |
-| Erskine May | **Absent** | — — use REST |
-| APPGs | **Absent** | — — use the scraped `appg` skill |
+| **DDP SPARQL** (`api.parliament.uk/sparql`) | Modern integrated graph; ~7.5M asserted triples, inference off | The narrowest of the three. Strong on people, procedure, SIs, treaties, Q&A, petitions, Acts. Misses Bills, Hansard, divisions, elections, the Thesaurus. |
+| **LDA** (`lda.data.parliament.uk`) | Legacy linked-data API, per-dataset URL access. *No federated SPARQL endpoint.* JSON-LD or Turtle per-resource | Broader catalogue: Bills, Hansard, divisions, elections, election results, the Thesaurus, briefing papers, research briefings, Lords Bill amendments. Often the only RDF source for these. |
+| **MNIS XML platform** (`data.parliament.uk/membersdataplatform`) | Legacy XML/JSON, per-member or per-query | Members + the cross-system identifier bridge (`<Member Member_Id="172" Dods_Id="25790" Pims_Id="3572" Clerks_Id="1">`) directly as attributes. Same data DDP exposes as `parl:mnisId`/`parl:pimsId`/`parl:dodsId` — not unique to DDP. |
+| **Modern REST APIs** (`*-api.parliament.uk`) | One service per topic: members, bills, hansard, divisions, treaties, SIs, committees, petitions, written-questions, etc. | The fullest coverage of the *content* of any one topic; just no cross-domain join key beyond member id. |
+
+The asymmetry between DDP and REST is narrower than a glance at DDP's
+class list suggests. Most topics absent from DDP are still RDF-available
+via LDA. The truly RDF-absent set is small:
+
+| Topic | DDP | LDA | Modern REST | MNIS |
+|---|:---:|:---:|:---:|:---:|
+| Bills | — | ✓ (`/bills`) | ✓ | — |
+| Hansard contributions | — | ✓ (`/hansardcommons*`, `/hansardlords*`) | ✓ | — |
+| Commons divisions | — | ✓ (`/commonsdivisions`, sparse) | ✓ | — |
+| Lords divisions | — | ✓ (`/lordsdivisions`) | ✓ | — |
+| Elections / results | — | ✓ (`/elections`, `/electionresults`) | psephology Postgres | — |
+| Parliament Thesaurus (SKOS) | — | ✓ (`/terms` with `broader` / `exactMatch`) | — | — |
+| Briefing / research papers | — | ✓ | — | — |
+| Lords Bill amendments | — | ✓ | — | — |
+| Members + careers + identifier bridges | ✓ | ✓ (`/members`) | ✓ (`members-api`) | ✓ (raw IDs) |
+| Treaties | ✓ (323) | — | ✓ (323, same IRIs) | — |
+| Statutory instruments | ✓ (6,932) | — | ✓ | — |
+| Q&A | ✓ (192k Q / 132k A) | ✓ (`/parliamentaryquestionsanswered`) | ✓ | — |
+| ePetitions | ✓ (101k) | — | ✓ | — |
+| Acts of Parliament | ✓ (17,612) | — | — | — |
+| Committee typology | ✓ (180/174/...) | — | ✓ | — |
+| Committee evidence / inquiries | — | — | ✓ | — |
+| Register of Members' Financial Interests | — | — | ✓ | — |
+| Early Day Motions | — | — | ✓ | — |
+| Erskine May text | — | — | scraped HTML | — |
+| APPGs | — | — | scraped HTML | — |
+
+**Genuinely RDF-absent (no SPARQL/LDA surface anywhere):** RMFI,
+EDMs, Erskine May, APPGs, and committee evidence / inquiries.
+Everything else is reachable as RDF — sometimes only via LDA's
+per-URL fetch.
+
+### Where SPARQL (DDP) is the right tool
+
+- Questions that need **cross-domain joins** between any two of:
+  people, procedure, SIs, treaties, Q&A, petitions, Acts. SPARQL
+  pre-joins all of these by URI.
+- **Wikidata bridge** queries — `parl:wikidataThingHasEquivalentWikidataResource`
+  exists on 1,894 People in DDP. Not in MNIS, not in the Members API.
+- **Procedure-route graph** queries — 7,991 typed `ProcedureRoute` edges
+  between `ProcedureStep`s. REST exposes individual stages, not the graph
+  of legal transitions.
+- Anything that benefits from the **multi-typing schema** (a `Person`
+  is also `MnisMember + DodsPerson + PimsPerson + ContactableThing +
+  WikidataThing + …`). This is the SPARQL surface's signature.
+
+### Where LDA is the right tool instead of DDP
+
+- Bills, Hansard, divisions, election results, the SKOS Thesaurus,
+  briefing/research papers, Lords Bill amendments. None of these are
+  in DDP. They are in LDA — though access is per-URL, not federated
+  SPARQL.
+- Parliament Thesaurus (SKOS) — `lda.data.parliament.uk/terms` carries
+  the concept scheme that DDP's `Concept` class doesn't populate.
+
+### Where the modern REST APIs are the only authoritative source
+
+- RMFI, EDMs, Erskine May, APPGs, committee evidence / inquiries.
+- Also wherever you want full per-record detail (Hansard contribution
+  text, division per-member votes, RMFI gift descriptions) — LDA's
+  modelling is sparse on the content even where it exists.
 
 Rule of thumb: questions that *combine* people + procedure data
 (e.g. "which ministers laid the most SIs in 2024") — start in SPARQL.
-Single-subject questions on a missing topic — REST only.
+Anything DDP doesn't model — try LDA before falling back to the
+modern REST surface, because LDA's RDF is sometimes the easiest way
+to ask cross-cutting questions on Bills, Hansard, divisions or
+elections.
 
 ## Discovery queries
 

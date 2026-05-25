@@ -49,21 +49,55 @@ probed instance populations 2026-05-24:
 | **ePetitions** | `EPetition` (101,254 — 28k approved, 73k rejected), `Moderation` (112,380), `ThresholdAttainment` (103,068), `LocatedSignatureCount` (80,247) |
 | **Acts of Parliament** | `ActOfParliament` (17,612 historical) |
 
-### Absent from DDP (REST-only)
+### Absent from DDP — but most are reachable via LDA
 
-Defined-but-empty classes or topics with no schema presence at all:
+`api.parliament.uk/sparql` is one of *three* parliamentary RDF
+surfaces, and the modern DDP graph is the narrowest of them. Topics
+that aren't in DDP are usually still reachable as Linked Data via the
+**legacy LDA** (`lda.data.parliament.uk`) on a per-dataset URL — see
+[`linked-data-api`](../linked-data-api/SKILL.md). LDA has no
+federated SPARQL endpoint; each dataset is its own little graph
+queried via URL parameters.
 
-| Topic | Why not here | Use instead |
-|---|---|---|
-| **Bills** | `PublicBillWork` has 6 instances; no `Bill`/`BillStage` typed view | `bills` skill (REST) |
-| **Hansard contributions** | `Debate` exists, but in DDP it means *ePetition-triggered debate only* (328 instances), not general Commons/Lords proceedings | `hansard` skill |
-| **Divisions / votes** | No `Division`, `Vote`, `MemberVoteRecord` class | `commons-votes` / `lords-votes` skills |
-| **Elections / candidates / results** | Classes defined, **0 instances** — election data does not load into DDP | `psephology` skill (local Postgres) |
-| **Register of Members' Financial Interests** | Not modelled in DDP | `interests` skill |
-| **Early Day Motions** | Not in the schema | `oral-questions-and-edms` skill |
-| **Erskine May** | Not in the schema | `erskine-may` skill |
-| **Committee evidence / inquiries / publications** | Committee *typology* is in SPARQL; evidence and inquiries are REST | `committees` skill |
-| **APPGs** | Not in the schema | `appg` skill (scraped) |
+| Topic | DDP SPARQL | LDA RDF | Modern REST |
+|---|---|---|---|
+| **Bills** | absent (6 `PublicBillWork`) | `lda.../bills.json` populated | `bills-api.parliament.uk` |
+| **Hansard contributions** | absent (`Debate` = ePetition debates only) | `lda.../hansardcommons{proceedings,documents}` + lords equivalents | `hansard-api.parliament.uk` |
+| **Divisions / votes** | absent (no `Division` class) | `lda.../commonsdivisions`, `lda.../lordsdivisions` (sparse — per-member votes not populated) | `commonsvotes-api`, `lordsvotes-api` |
+| **Elections / candidates / results** | classes defined, 0 instances | `lda.../elections`, `lda.../electionresults` | `psephology` (Postgres) |
+| **Parliament Thesaurus (SKOS)** | absent (`Concept` 0 instances) | `lda.../terms` with `broader`/`exactMatch` | — |
+| **Research / briefing papers** | absent | `lda.../briefingpapers`, `lda.../researchbriefings` | — |
+| **Committee typology** | populated (`SelectCommittee` 174, `FormalBody` 399) | — | `committees-api` (also has evidence / inquiries) |
+| **Register of Members' Financial Interests** | **not modelled anywhere as RDF** | — | `interests-api`, `members-api/.../RegisteredInterests` |
+| **Early Day Motions** | **not modelled anywhere as RDF** | — | covered by `oral-questions-and-edms` |
+| **Erskine May text** | **not modelled anywhere as RDF** | — | scraped HTML at `erskinemay.parliament.uk` |
+| **APPGs** | **not modelled anywhere as RDF** | — | scraped via `appg` skill |
+| **Committee evidence / inquiries / publications** | **not modelled anywhere as RDF** | — | `committees-api` |
+
+So the **truly RDF-absent set** (no SPARQL surface anywhere, modern
+or legacy) is small: RMFI, EDMs, Erskine May, APPGs, and committee
+evidence / inquiries. Everything else is reachable as RDF — just
+sometimes only via LDA's per-URL fetch rather than the DDP SPARQL
+endpoint.
+
+### What's *genuinely* unique to DDP SPARQL (not in MNIS, REST, or LDA)
+
+- **Multi-typing as a schema convention** — a `Person` carries
+  16–19 simultaneous types. Schema property only; no data is unique.
+- **Wikidata bridge** (`parl:wikidataThingHasEquivalentWikidataResource`
+  on 1,894 People). Not in MNIS, not in the Members API; SPARQL-only.
+- **ProcedureRoute graph as a typed entity** — 7,991 typed edges
+  between procedural steps. The REST APIs expose individual stages
+  but not the graph of legal transitions between them.
+- **Cross-cutting joins pre-made** — e.g. "every person who was a
+  Minister AND on a Select Committee in 2024" is one SPARQL query;
+  in REST it's a join across two APIs by member id.
+
+Note: the **cross-system identifier bridges** (`parl:mnisId`,
+`parl:pimsId`, `parl:dodsId`, `parl:sesId`) are *not* DDP-unique —
+the MNIS XML platform carries the same `<Member Member_Id Dods_Id
+Pims_Id Clerks_Id>` attributes per member. DDP pre-joins them as
+predicates; MNIS surfaces them per-record.
 
 The reference doc has a deeper comparison and the empirical probe
 queries — see [`reference.md`](reference.md).
