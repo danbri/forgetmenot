@@ -112,7 +112,7 @@ jobs:
 
       # --- Deploy step — needs FLY_API_TOKEN secret (set 2026-05-27) ---
       - name: Set up flyctl
-        uses: superfly/flyctl-actions/setup-flyctl@v1.5
+        uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy to fly.io
         env:
