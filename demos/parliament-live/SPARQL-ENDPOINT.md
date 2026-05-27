@@ -18,9 +18,19 @@ container startup:
 | `accountability.nq.gz` | 70 k | Lords questions → answer → arm's-length body |
 | `identity.nq.gz` | 58 k | Cross-source identity for ~1,400 MPs and peers |
 | `psephology/all.nq.gz` | 420 k | Commons election results since 2010 |
+| `parliament-lda-terms/parliament-lda-terms.nq.gz` | ~6 k (partial, see below) | Parliament Thesaurus — SKOS concept scheme used to subject-tag debates, papers, written questions, briefing papers. Pulled from the legacy LDA at `lda.data.parliament.uk/terms`; not in the modern DDP SPARQL surface. |
 
 Total in-memory store: ~700 k quads, well under the 512 MB RAM
 allocation in `fly.toml`.
+
+**Note on the Thesaurus dump.** The first crawl on 2026-05-27 hit a
+sustained LDA outage past page 20 (every page from 20 onward timed
+out for ~10 minutes; verified with direct curl). The script's
+skip-on-exhaustion logic landed 19 pages = 6,361 quads / 1,724
+distinct terms before its 10-failure backstop fired. Subsequent
+weekly rebuilds will pick up the rest as the LDA recovers — the
+partial bundle is committed for now so the endpoint has at least the
+top of the hierarchy.
 
 ## URL
 

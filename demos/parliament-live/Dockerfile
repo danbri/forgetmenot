@@ -53,6 +53,7 @@ COPY --chown=node:node third_party/data/transparency-graph/transparency.nq.gz   
 COPY --chown=node:node third_party/data/accountability-graph/accountability.nq.gz /app/data/
 COPY --chown=node:node third_party/identity-graph/identity.nq.gz                  /app/data/
 COPY --chown=node:node third_party/data/psephology/all.nq.gz                      /app/data/psephology.nq.gz
+COPY --chown=node:node third_party/data/parliament-lda-terms/parliament-lda-terms.nq.gz /app/data/
 
 ENV HOST=0.0.0.0
 ENV PORT=8080
