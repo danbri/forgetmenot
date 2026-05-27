@@ -118,9 +118,21 @@ the **repo root** with the config flag:
 flyctl deploy --config demos/parliament-live/fly.toml
 ```
 
-(GHA-driven deploy via `superfly/flyctl-actions` is stubbed in
-`.github/workflows/rebuild-graphs.yml`; uncomment after setting the
-`FLY_API_TOKEN` repository secret.)
+### From your phone — manual workflow trigger
+
+Both relevant workflows have `workflow_dispatch` triggers and use the
+`FLY_API_TOKEN` repo secret. Open in **Safari** (request Desktop Site
+for the "Run workflow ▾" button — the iOS GitHub app shows only past
+runs, no dispatch control):
+
+- **Deploy only** (~3 min, ships whatever's on `claude/main`):
+  <https://github.com/danbri/forgetmenot/actions/workflows/deploy-fpkg.yml>
+- **Full data rebuild + deploy** (~20 min, also runs Mondays via cron):
+  <https://github.com/danbri/forgetmenot/actions/workflows/rebuild-graphs.yml>
+
+The deploy workflow also fires automatically on any push to
+`claude/main` that touches `demos/parliament-live/**`,
+`third_party/**/*.nq.gz`, or `lib/facilities/appg.mjs`.
 
 ## Refresh cadence
 

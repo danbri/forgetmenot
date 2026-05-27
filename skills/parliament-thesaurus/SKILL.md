@@ -68,6 +68,23 @@ weekly Monday rebuild. The `.nq.gz` file is then bundled into the
 the live SPARQL endpoint at `https://fpkg.fly.dev/sparql` answers
 queries against the thesaurus alongside the other graphs.
 
+### Triggering a rebuild from your phone
+
+Both relevant workflows have `workflow_dispatch` triggers — open the
+URL in Safari (request Desktop Site for the "Run workflow ▾" button)
+or the GitHub mobile app:
+
+- **Data rebuild + deploy** (full ~20 min cron run, used Mondays):
+  <https://github.com/danbri/forgetmenot/actions/workflows/rebuild-graphs.yml>
+- **Deploy only** (skip the data rebuild, ship current `claude/main`
+  to `fpkg.fly.dev` in ~3 min):
+  <https://github.com/danbri/forgetmenot/actions/workflows/deploy-fpkg.yml>
+
+The "Run workflow" button appears on the right of the workflow runs
+list; the iOS GitHub app shows only past runs and not the dispatch
+control, so Safari (with Desktop Site requested) is the reliable
+mobile path.
+
 ## Reference
 
 Endpoint shape, query patterns and result counts are documented in
