@@ -72,6 +72,13 @@ COPY --chown=node:node third_party/data/accountability-graph/accountability.nq.g
 COPY --chown=node:node third_party/identity-graph/identity.nq.gz                  /app/data/
 COPY --chown=node:node third_party/data/psephology/all.nq.gz                      /app/data/psephology.nq.gz
 COPY --chown=node:node third_party/data/parliament-lda-terms/parliament-lda-terms.nq.gz /app/data/
+# Treaties laid before Parliament under CRaG, lifted to RDF from the
+# FCDO Treaty Series via the fcdo-treaties skill. ~15 MB compressed —
+# by far the largest single dataset in the bundle.
+COPY --chown=node:node third_party/data/fcdo_treaties/extractors/factoids/all.nq.gz /app/data/fcdo-treaties.nq.gz
+# GOV.UK org chart — ministerial / people / organisation pages extracted
+# as factoids, one named graph per gov.uk page. Built by govuk-orgchart.
+COPY --chown=node:node third_party/govuk/html/orgcharts/extractors/factoids/all.nq.gz /app/data/govuk-orgchart.nq.gz
 
 ENV HOST=0.0.0.0
 ENV PORT=8080

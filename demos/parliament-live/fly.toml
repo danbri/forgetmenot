@@ -36,10 +36,12 @@ primary_region = 'lhr'
   [[http_service.checks]]
     interval = '30s'
     timeout = '5s'
-    grace_period = '20s'      # bumped from 10s — N-Quads load on cold start
+    grace_period = '60s'      # bumped: fcdo-treaties (~15 MB compressed) adds
+                              # ~20-30s to the gunzip + RocksDB load on cold start
     method = 'GET'
     path = '/_health'
 
 [[vm]]
   size = 'shared-cpu-1x'
-  memory = '512mb'            # bumped from 256mb — Oxigraph in-memory store
+  memory = '1gb'              # bumped: fcdo-treaties + govuk-orgchart push the
+                              # working set well past 512 MB during initial load
