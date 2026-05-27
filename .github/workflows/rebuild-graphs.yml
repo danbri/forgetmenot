@@ -118,7 +118,8 @@ jobs:
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         run: |
-          flyctl deploy \
+          flyctl deploy . \
             --config demos/parliament-live/fly.toml \
+            --dockerfile demos/parliament-live/Dockerfile \
             --remote-only \
             --strategy immediate
