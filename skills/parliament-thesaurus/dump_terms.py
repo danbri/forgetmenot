@@ -161,7 +161,14 @@ def safe_cache_name(url: str) -> str:
     return h + ".ttl"
 
 
-def fetch_url(url: str, cache_dir: Path, retries: int, timeout: int, sleep: float) -> str:
+def fetch_url(url: str, cache_dir: Path, retries: int, timeout: int, sleep: float) -> str | None:
+    """
+    Fetch one URL, cache the response, return the text. On failure
+    (after all retries exhausted) returns None instead of raising, so
+    one slow page can't kill a long crawl. The caller decides what to
+    do with a None — for page-walks we skip and move on; for explicit
+    --ids we should stop because the user named a specific term.
+    """
     cache_dir.mkdir(parents=True, exist_ok=True)
     cache_path = cache_dir / safe_cache_name(url)
 
@@ -190,7 +197,8 @@ def fetch_url(url: str, cache_dir: Path, retries: int, timeout: int, sleep: floa
             eprint(f"  sleeping {delay:.1f}s")
             time.sleep(delay)
 
-    raise RuntimeError(f"Failed to fetch after {retries} attempts: {url}") from last_error
+    eprint(f"Giving up on {url} after {retries} attempts: {last_error}")
+    return None
 
 
 def parse_turtle(text: str, public_id: str) -> Graph:
@@ -371,6 +379,10 @@ def main() -> int:
                 url = build_item_url(raw_id, args.view)
                 eprint(f"Fetching item {raw_id}: {url}")
                 text = fetch_url(url, cache_dir, args.retries, args.timeout, args.sleep)
+                if text is None:
+                    # The user named a specific term; if we can't fetch it
+                    # the right thing to do is fail loudly, not pretend.
+                    raise RuntimeError(f"Failed to fetch requested item {raw_id}")
                 g = parse_turtle(text, url)
                 selected = select_data_triples(g)
 
@@ -384,6 +396,8 @@ def main() -> int:
 
         else:
             page = 0
+            failed_pages = 0
+            MAX_FAILED_PAGES = 10  # absolute backstop — bail out if half a dozen pages all die
             while True:
                 if not args.all and page >= args.max_pages:
                     break
@@ -392,6 +406,16 @@ def main() -> int:
                 eprint(f"Fetching page {page}: {url}")
 
                 text = fetch_url(url, cache_dir, args.retries, args.timeout, args.sleep)
+                if text is None:
+                    failed_pages += 1
+                    stats.setdefault("pages_failed", []).append(page)
+                    eprint(f"Skipping page {page}; failed_pages={failed_pages}/{MAX_FAILED_PAGES}")
+                    if failed_pages >= MAX_FAILED_PAGES:
+                        eprint(f"Too many failures ({failed_pages}); aborting crawl")
+                        break
+                    page += 1
+                    time.sleep(args.sleep)
+                    continue
                 g = parse_turtle(text, url)
                 selected = select_data_triples(g)
 
