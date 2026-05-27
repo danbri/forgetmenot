@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Lords scrutiny graphs — index</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root { --bg:#fff; --fg:#1a1a1a; --muted:#555; --rule:#d8d8d8; --accent:#003478; --pill:#f0f2f4 }
+@media (prefers-color-scheme: dark) { :root { --bg:#111418; --fg:#ecedef; --muted:#a5acb4; --rule:#2c3137; --accent:#6ea7ff; --pill:#1c2026 } }
+body { font-family: ui-sans-serif, system-ui, sans-serif; max-width: 60rem; margin: 2rem auto; padding: 0 1rem; color: var(--fg); background: var(--bg); line-height: 1.55 }
+h1 { margin: 0 0 0.3rem }
+.muted { color: var(--muted); font-size: 0.95rem }
+.card { background: var(--pill); border-left: 4px solid var(--accent); padding: 1rem 1.2rem; margin: 1rem 0; border-radius: 0 4px 4px 0 }
+.card h2 { margin: 0 0 0.4rem }
+.card a { color: var(--accent) }
+code { background: var(--bg); padding: 0.05rem 0.3rem; border-radius: 3px; font-size: 0.85em }
+ul { margin: 0.3rem 0 }
+</style></head>
+<body>
+<h1>Three Lords scrutiny graphs</h1>
+<p class="muted">Built 2026-05-27 from UK Parliament APIs, Lords RMFI, the APPG register cache and Lords written questions. Each graph is an RDF (N-Quads) dump plus a queryable example HTML.</p>
+
+<div class="card">
+<h2>1. Scrutiny graph — Act → enabling power → SI → laying department → Lords division → peers → interests</h2>
+<p>40 most-recent Lords divisions on statutory-instrument motions, joined with each SI's enabling Act and laying department, the four scrutiny committees, and every peer's voting record + declared sectoral interests.</p>
+<ul>
+  <li><a href="scrutiny-graph/report.html">→ Report (HTML)</a></li>
+  <li><a href="scrutiny-graph/scrutiny.nq">N-Quads</a> · <a href="scrutiny-graph/manifest.json">manifest.json</a></li>
+</ul>
+<p class="muted">9 example queries answered: dept-by-division-count, Acts generating most Lords-visible SIs, AI-tagged peers voting on SIs, scrutiny-committee membership, etc.</p>
+</div>
+
+<div class="card">
+<h2>2. Transparency graph — Lords interests × APPG officers / secretariats / funders</h2>
+<p>Entity-resolution overlap between the APPG register and the Lords RMFI. <strong>Framed as context, not allegation.</strong> Surfaces named-entity matches where the same organisation appears as an APPG secretariat / benefit-provider and in a peer's declared interest text.</p>
+<ul>
+  <li><a href="transparency-graph/report.html">→ Report (HTML)</a></li>
+  <li><a href="transparency-graph/transparency.nq">N-Quads</a> · <a href="transparency-graph/manifest.json">manifest.json</a></li>
+</ul>
+<p class="muted">5 officer-self-overlaps surfaced; Google → PICTFOR & Lord Vaizey; National Grid → Environment APPG & Lord Livingston; etc. Skipped Companies House (no API key) and ORCL lobbying register (Salesforce 403).</p>
+</div>
+
+<div class="card">
+<h2>3. Accountability graph — Lords question → answer → arm's-length body</h2>
+<p>5,000 most-recent Lords written questions (Nov 2025 → May 2026) joined with their answering body, asker, and any named arm's-length body / regulator / agency mentioned in the answer text. Captures follow-up question chains via HLnnnnn references.</p>
+<ul>
+  <li><a href="accountability-graph/report.html">→ Report (HTML)</a></li>
+  <li><a href="accountability-graph/accountability.nq">N-Quads</a> · <a href="accountability-graph/manifest.json">manifest.json</a></li>
+</ul>
+<p class="muted">NHS England (134 mentions, 3 depts), MOD (38, 6 depts), Ofcom (24, 4 depts) lead the indirect-accountability list. Lord Kamall is the most frequent NHS-England pursuer; Lord Jackson of Peterborough chains the most follow-up questions.</p>
+</div>
+
+<h2>How to query locally</h2>
+<p>All three graphs are N-Quads. Spin up a SPARQL endpoint over any of them with the repo's <code>local-sparql</code> skill:</p>
+<pre><code>parl local-sparql up third_party/data/scrutiny-graph/scrutiny.nq
+parl local-sparql up third_party/data/transparency-graph/transparency.nq
+parl local-sparql up third_party/data/accountability-graph/accountability.nq</code></pre>
+<p>Or load all three together for cross-graph queries. The example queries are in <code>tmp/*-graph/queries.py</code>.</p>
+</body></html>

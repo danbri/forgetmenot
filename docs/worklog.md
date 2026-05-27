@@ -275,3 +275,80 @@ without depending on a sibling-file fetch.
   `examples/` or `case-studies/` — it's a useful demonstration of
   chaining `appg` + `interests` + `ec-donations` end-to-end and
   doesn't really belong in `tmp/`.
+
+---
+
+## 2026-05-27 — Three Lords-scrutiny RDF graphs
+
+User asked for a Lords-scrutiny graph chaining Act → enabling power → SI →
+laying body → Lords committee → debate/vote → members → interests, then
+extended the request to two further graphs (transparency overlap and
+question/answer accountability chain). Output: three independent N-Quads
+files, three HTML reports, one index.
+
+### Graph 1 — scrutiny-graph
+
+40 most-recent Lords divisions on SI motions (Regulations / Order titles),
+each resolved to a Parliament SI via name search, with the SI's enabling
+Act(s), laying department, procedure type and legislation.gov.uk URI
+pulled from the SI API. Joined with 871 voter member-basics, 917 Lords
+RMFI records, 4 scrutiny committees (SLSC, JCSI, SISC, DPRRC) and their
+current members.
+
+Output: `third_party/data/scrutiny-graph/scrutiny.nq` (6 named graphs,
+~120k quads) + `report.html` (9 example queries).
+
+Headlines: Home Office (9 divs) and Defra (8 divs) lead the
+contested-SI departments. EU (Withdrawal) Act 2018 generated 5 of the
+contested SIs. Lord Holmes of Richmond is the top sector-tagged-AI peer
+voting on SIs (26 of 40 divisions).
+
+### Graph 2 — transparency-graph
+
+Entity-resolution overlap between APPG register and Lords RMFI, framed
+explicitly as transparency context not allegation. 553 APPGs × 917 peers
+× 491 distinct APPG entity links. Surfaces 5 strict 'officer of an APPG
+whose secretariat I personally declare an interest in' cases, plus the
+broader Google/PICTFOR/Vaizey, National Grid/Environment/Livingston,
+AtkinsRealis/Environment/McGregor-Smith, UKRI/P&S/Bull crossings.
+
+Output: `third_party/data/transparency-graph/transparency.nq` (~43k
+quads, 5 named graphs) + `report.html` (6 example queries).
+
+Skipped data sources (not accessible from sandbox):
+- Companies House — requires API key, not configured.
+- Office of the Registrar of Consultant Lobbyists statutory register —
+  the official Salesforce host returned 403/404 to unauthenticated bulk
+  fetch on 2026-05-27. Manual download or authenticated session needed.
+- mySociety APPG CSV/Parquet dump — equivalent data already cached
+  via this repo's own scraper.
+- Wikidata enrichment for entity disambiguation — possible follow-up;
+  would collapse 'AtkinsRealis' / 'AtkinsRealis Inc' duplicates.
+
+### Graph 3 — accountability-graph
+
+5,000 most-recent Lords written questions (tabled Nov 2025 → 27 May 2026)
+joined with answering body, asker meta, and arm's-length body / regulator
+mentions in the answer text. Captures follow-up chains via HLnnnnn UIN
+references.
+
+Output: `third_party/data/accountability-graph/accountability.nq`
+(~70k quads, 5 named graphs) + `report.html` (7 example queries).
+
+Headlines: NHS England 134 mentions across 3 departments (DHSC dominant);
+MOD 38 across 6 depts; Ofcom 24 across 4 depts. Lord Kamall is the top
+NHS-England-pursuer (25 questions in the window); Lord Jackson of
+Peterborough chains the most follow-ups (31 distinct UIN refs).
+
+### Cross-graph index
+
+`third_party/data/scrutiny-graph-index.html` links the three reports and
+the raw N-Quads, with a 3-line example of bringing them all into a single
+local SPARQL endpoint via the repo's `local-sparql` skill.
+
+### Bugs discovered
+
+- **rdflib SPARQL `HAVING` clause silently returns no rows** with
+  certain GROUP BY + multi-graph patterns. Worked around by post-filtering
+  in Python (`[r for r in rows if r[2] >= N]`). Reproducer in
+  `tmp/accountability-graph/queries.py` history.

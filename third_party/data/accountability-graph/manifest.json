@@ -1,0 +1,50 @@
+{
+  "generated": "2026-05-27T14:15:29.432658Z",
+  "quads": 58286,
+  "size_bytes": 16898426,
+  "named_graphs": {
+    "qa": "https://forgetmenot.example/accountability#graph/questions-answers",
+    "bodies": "https://forgetmenot.example/accountability#graph/answering-bodies",
+    "alb": "https://forgetmenot.example/accountability#graph/arms-length-bodies",
+    "members": "https://forgetmenot.example/accountability#graph/members",
+    "links": "https://forgetmenot.example/accountability#graph/cross-links"
+  },
+  "namespaces": {
+    "acc": "https://forgetmenot.example/accountability#",
+    "mnis": "https://data.parliament.uk/membersdataplatform/services/mnis/members/",
+    "wq": "https://questions-statements-api.parliament.uk/api/writtenquestions/questions/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "foaf": "http://xmlns.com/foaf/0.1/"
+  },
+  "source_counts": {
+    "questions": 5000,
+    "answering_bodies": 24,
+    "distinct_alb_mentions": 38,
+    "distinct_askers": 319,
+    "followup_edges": 452
+  },
+  "top_albs": {
+    "NHS England": 134,
+    "NICE": 45,
+    "MOD": 38,
+    "Ofcom": 24,
+    "HMRC": 21,
+    "UKRI": 19,
+    "MHRA": 19,
+    "FCA": 19,
+    "Environment Agency": 18,
+    "HM Treasury": 18,
+    "Natural England": 15,
+    "CMA": 12,
+    "CQC": 12,
+    "DBT": 12,
+    "EHRC": 12,
+    "HMPPS": 11,
+    "Highways England": 11,
+    "UKHSA": 10,
+    "Crown Prosecution Service": 10,
+    "ICO": 8
+  }
+}
