@@ -1,17 +1,25 @@
-# fly.toml app configuration file generated for fpkg on 2026-05-01T15:26:19+01:00
+# fly.toml — fpkg (Forgetmeknot Palace)
 #
-# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+# Deploy from the *repo root* so the Docker build can COPY third_party/
+# N-Quads dumps for the bundled SPARQL endpoint:
+#
+#   flyctl deploy --config demos/parliament-live/fly.toml
 #
 
 app = 'fpkg'
 primary_region = 'lhr'
 
 [build]
-  dockerfile = 'Dockerfile'
+  # Path is relative to the directory you run `flyctl deploy` in (the
+  # repo root, per the comment above).
+  dockerfile = 'demos/parliament-live/Dockerfile'
 
 [env]
   HOST = '0.0.0.0'
   PORT = '8080'
+  # Bundled-Oxigraph SPARQL endpoint lives at localhost:7878 inside the
+  # container; the Node server proxies /sparql/* to it.
+  OXIGRAPH_BIND = '127.0.0.1:7878'
 
 [http_service]
   internal_port = 8080
@@ -23,10 +31,10 @@ primary_region = 'lhr'
   [[http_service.checks]]
     interval = '30s'
     timeout = '5s'
-    grace_period = '10s'
+    grace_period = '20s'      # bumped from 10s — N-Quads load on cold start
     method = 'GET'
     path = '/_health'
 
 [[vm]]
   size = 'shared-cpu-1x'
-  memory = '256mb'
+  memory = '512mb'            # bumped from 256mb — Oxigraph in-memory store

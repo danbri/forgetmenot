@@ -155,3 +155,255 @@ successfully during the morning's probe captured at
 The MNIS endpoint did return a real 404 once, but on the next probe
 cycle returned 200 with an XML body. The endpoint is intermittent
 rather than retired — flagged in the dataset's reference doc.
+
+---
+
+## 2026-05-24 — AI-APPG donor cross-reference investigation
+
+User question: "How would we set about using these skills to e.g. check
+for donations to any APPG leads whose group relates to AI, and then go
+back to see who else shares that same donor?" — then asked for a full
+run, with paper trail, written up as accessible HTML.
+
+Output committed to `tmp/ai-appg-report/`:
+
+- `out/report.html` — single-file accessible HTML report (~58 KB,
+  fully self-contained: inline CSS/JS and the paper trail baked in as
+  an escaped `<pre>` block; no `fetch()`, no external assets).
+- `papertrail.md` — chronological audit of every API call and every
+  parameter quirk discovered along the way.
+- `raw/` — every API response captured during the run so claims can
+  be re-verified without re-fetching upstream.
+- `entity-index.json` — the consolidated entity-to-officer mapping
+  used to identify cross-references.
+
+### Method
+
+1. **Scope** to APPGs whose title or stated purpose explicitly
+   references AI, machine learning, blockchain or data and emerging
+   technologies (3 groups, 12 officers) from the cached APPG register
+   edition 260413.
+2. **Personal interests**:
+   - Commons MPs (6): `interests-api.parliament.uk/api/v1/Interests?MemberId={id}` per MP, plus the full register-799 CSV bundle for full-text grep.
+   - Peers (6): `members-api.parliament.uk/api/Members/{id}/RegisteredInterests` (the dedicated interests-api covers Commons only — peers always return 0 from it).
+3. **EC donations**: search.electoralcommission.org.uk for each
+   officer by name, then a pivot search on every non-trivial donor /
+   payer / visit-funder to find every other recipient.
+
+### Findings (anchored in the registers, evidence linked in the HTML)
+
+- **Anthony Watson** funds both **Dawn Butler** (AI APPG Vice Chair —
+  £46,700 over 7 gifts) AND **Peter Kyle** (DSIT Secretary of State,
+  the Cabinet AI minister — £16,000 over 3 gifts). One individual
+  donor across the APPG leadership and the Cabinet portfolio.
+- **UKUS Crypto Alliance** paid for Washington DC trips for two of
+  the twelve — Lord Ranger (×2) and Baroness Uddin (×1), the first
+  trips overlapping in date.
+- **Big Innovation Centre (Middle East)** — the AI APPG's current
+  secretariat's Middle East arm — has a 2019 history of funding
+  then-Chairs of APPG AI and APPG Blockchain to attend the
+  "AI Everything" conference in Dubai.
+- **Lord Holmes of Richmond** has 45 currently-registered Lords paid
+  roles incl. Avalanche Foundation directorships and Simmons &
+  Simmons AI/blockchain advisory work.
+- **Lord Clement-Jones** is paid by DLA Piper UK LLP, which is itself
+  a recurring corporate Labour Party donor in the EC register.
+
+### Bugs / quirks discovered
+
+- **`lib/facilities/ec-donations.mjs` is effectively broken.** The
+  typed `recipient` and `donorName` parameters are silently ignored
+  by the EC search endpoint and return `Total: -1`. Only the free-text
+  `query=` parameter works, and only when sent with this full
+  boilerplate the wrapper does not include:
+
+  ```
+  &et=pp&et=ppm&et=tp&et=perm&et=rd&et=ind
+  &date=Reported&prePoll=true&postPoll=true
+  &register=gb&register=ni&register=none
+  &isIrishSourceYes=true&isIrishSourceNo=true
+  &includeOutsideSection75=true
+  ```
+
+  Reverse-engineered from `search.electoralcommission.org.uk/Scripts/Application/pefsearch.js`.
+  Until the wrapper is fixed, callers must hit the endpoint directly.
+  *Filed as todo: rewrite `donations()` / `loans()` / `spending()`
+  in `lib/facilities/ec-donations.mjs` to send the verified
+  parameter set, and to map a logical `recipient=` argument onto a
+  client-side filter on `RegulatedEntityName` (since the upstream
+  API does not surface that as a typed filter).*
+
+- **`publications.parliament.uk` is behind a Cloudflare interstitial
+  for unattended HTTP clients** (encountered 2026-05-24). Live
+  re-fetches of APPG register pages failed; the cached scrape was
+  the only viable source. The `appg` skill / scraper should grow a
+  Cloudflare-aware fetch mode (likely just a headless-browser
+  fallback) or document the cache-only behaviour clearly.
+
+- **Lords RMFI has no full-text search.** Anything found about a
+  peer is fetched per-id from `members-api.parliament.uk/api/Members/{id}/RegisteredInterests`.
+  There is no equivalent to the Commons CSV bundle, so questions
+  like "which other peers received payments from Avalanche Foundation"
+  require enumerating all ~800 peers. Worth adding a bulk-cache
+  builder script under `scripts/` for periodic refresh.
+
+### Caveats published in the report
+
+Seven explicit caveats: stale APPG cache, empty group-benefit fields,
+Lords RMFI lacking text search, the EC wrapper bug, EC free-text
+search being non-typed, donor identity disambiguation being inferred
+not address-confirmed, and peers' Cat 1 paid roles being commercial
+connections not political donations.
+
+### Hosting / sharing
+
+User asked whether the HTML report has a public URL. The repo has no
+GitHub Pages configured. `raw.githubusercontent.com` serves HTML
+with `text/plain` + a sandbox CSP. Workable third-party renderer:
+`raw.githack.com`. The report is fully self-contained as of commit
+`86eb1359` so it also works as an email attachment or local download
+without depending on a sibling-file fetch.
+
+### Open follow-ups
+
+- Fix `lib/facilities/ec-donations.mjs` per the parameter set above
+  and add an integration test that asserts a non-`-1` Total for
+  a known live recipient.
+- Add a Lords-RMFI bulk-cache script under `scripts/` so cross-peer
+  questions are tractable without enumerating per-id.
+- Consider whether `tmp/ai-appg-report/` should be promoted to
+  `examples/` or `case-studies/` — it's a useful demonstration of
+  chaining `appg` + `interests` + `ec-donations` end-to-end and
+  doesn't really belong in `tmp/`.
+
+---
+
+## 2026-05-27 — Three Lords-scrutiny RDF graphs
+
+User asked for a Lords-scrutiny graph chaining Act → enabling power → SI →
+laying body → Lords committee → debate/vote → members → interests, then
+extended the request to two further graphs (transparency overlap and
+question/answer accountability chain). Output: three independent N-Quads
+files, three HTML reports, one index.
+
+### Graph 1 — scrutiny-graph
+
+40 most-recent Lords divisions on SI motions (Regulations / Order titles),
+each resolved to a Parliament SI via name search, with the SI's enabling
+Act(s), laying department, procedure type and legislation.gov.uk URI
+pulled from the SI API. Joined with 871 voter member-basics, 917 Lords
+RMFI records, 4 scrutiny committees (SLSC, JCSI, SISC, DPRRC) and their
+current members.
+
+Output: `third_party/data/scrutiny-graph/scrutiny.nq` (6 named graphs,
+~120k quads) + `report.html` (9 example queries).
+
+Headlines: Home Office (9 divs) and Defra (8 divs) lead the
+contested-SI departments. EU (Withdrawal) Act 2018 generated 5 of the
+contested SIs. Lord Holmes of Richmond is the top sector-tagged-AI peer
+voting on SIs (26 of 40 divisions).
+
+### Graph 2 — transparency-graph
+
+Entity-resolution overlap between APPG register and Lords RMFI, framed
+explicitly as transparency context not allegation. 553 APPGs × 917 peers
+× 491 distinct APPG entity links. Surfaces 5 strict 'officer of an APPG
+whose secretariat I personally declare an interest in' cases, plus the
+broader Google/PICTFOR/Vaizey, National Grid/Environment/Livingston,
+AtkinsRealis/Environment/McGregor-Smith, UKRI/P&S/Bull crossings.
+
+Output: `third_party/data/transparency-graph/transparency.nq` (~43k
+quads, 5 named graphs) + `report.html` (6 example queries).
+
+Skipped data sources (not accessible from sandbox):
+- Companies House — requires API key, not configured.
+- Office of the Registrar of Consultant Lobbyists statutory register —
+  the official Salesforce host returned 403/404 to unauthenticated bulk
+  fetch on 2026-05-27. Manual download or authenticated session needed.
+- mySociety APPG CSV/Parquet dump — equivalent data already cached
+  via this repo's own scraper.
+- Wikidata enrichment for entity disambiguation — possible follow-up;
+  would collapse 'AtkinsRealis' / 'AtkinsRealis Inc' duplicates.
+
+### Graph 3 — accountability-graph
+
+5,000 most-recent Lords written questions (tabled Nov 2025 → 27 May 2026)
+joined with answering body, asker meta, and arm's-length body / regulator
+mentions in the answer text. Captures follow-up chains via HLnnnnn UIN
+references.
+
+Output: `third_party/data/accountability-graph/accountability.nq`
+(~70k quads, 5 named graphs) + `report.html` (7 example queries).
+
+Headlines: NHS England 134 mentions across 3 departments (DHSC dominant);
+MOD 38 across 6 depts; Ofcom 24 across 4 depts. Lord Kamall is the top
+NHS-England-pursuer (25 questions in the window); Lord Jackson of
+Peterborough chains the most follow-ups (31 distinct UIN refs).
+
+### Cross-graph index
+
+`third_party/data/scrutiny-graph-index.html` links the three reports and
+the raw N-Quads, with a 3-line example of bringing them all into a single
+local SPARQL endpoint via the repo's `local-sparql` skill.
+
+### Bugs discovered
+
+- **rdflib SPARQL `HAVING` clause silently returns no rows** with
+  certain GROUP BY + multi-graph patterns. Worked around by post-filtering
+  in Python (`[r for r in rows if r[2] >= N]`). Reproducer in
+  `tmp/accountability-graph/queries.py` history.
+
+---
+
+## 2026-05-27 (later) — Fix parl appg scraper after mySociety comparison
+
+Building on the morning's mysoc-appg probe (`tmp/mysoc-appg-probe.md`),
+fixed `lib/facilities/appg.mjs` benefits-panel parsing. The cause: the
+Parliament Register publishes benefits in two layouts and the old
+code only handled the single-table one. The Layout-B announcement-then-
+detail split (used by every in-kind-only group, including the three AI
+APPGs we'd reported on this morning) was silently dropped.
+
+Clean-room rewrite — fixture-based, no mySociety code consulted:
+
+- `findBenefitPanel()` detects the sub-head row by content in any
+  table position.
+- `parseBenefitRows()` maps each data row to typed fields by column
+  position. In-kind rows carry a new `description` field and a
+  `valueBand` rather than `value` (band strings are not numeric).
+- 5 new fixtures + tests under `tests/fixtures/appg-*.htm` and
+  `tests/unit/appg-benefits.test.mjs`. All 7 tests pass.
+
+Coverage improvement against the random-30 mySociety oracle:
+
+| | Before | After |
+|---|---|---|
+| Groups in sample of 30 with at least one benefit | 3 | 11 |
+| Coverage parity with mySociety | 27% | 100% |
+| Cases where we beat mySociety (Afrikan Reparations Friends House Conference) | 0 | 1 |
+
+Across the full 553-group cache:
+
+| | Before | After |
+|---|---|---|
+| APPGs with benefits | 24 | **301** |
+| Total benefit rows | ~30 | **489** |
+
+The earlier AI-APPG report's "scrape miss or genuine zero?" caveat is
+now resolved as scrape miss. The three target groups' benefits, now
+populated:
+
+- APPG on AI: Big Innovation Centre, £49,501-51,000 secretariat in-kind
+- APPG on Blockchain Technologies: British Blockchain Association,
+  £19,501-21,000 secretariat in-kind
+- APPG for Data and Emerging Technologies: Policy Connect, £37,501-
+  39,000 secretariat in-kind, with the disclosure that **Policy Connect
+  is paid by ACCA, Open Data Institute and Zurich** to act in this role
+
+Transparency graph re-built with the corrected cache: officer
+self-overlaps went from 5 → 8; distinct APPG entity links 491 → 580.
+
+Follow-ups still open:
+- Re-run the AI-APPG report HTML against the corrected cache.
+- Add the broader 277 newly-discovered benefit declarations to the
+  transparency graph's overlap analysis.

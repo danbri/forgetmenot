@@ -70,6 +70,16 @@ const ROUTES = [
     upstreamHost: 'api.parliament.uk',
     upstreamPath: '/sparql',
     exact: true },
+
+  // /sparql?query=...      ->  http://OXIGRAPH_BIND/query?query=...
+  // Bundled SPARQL store containing the project's aggregated N-Quads
+  // (transparency-graph, scrutiny-graph, accountability-graph,
+  // identity-graph, psephology). Read-only, in-memory, populated at
+  // container startup by entrypoint.sh. Routed locally — see special
+  // case in proxy() below.
+  { prefix: '/sparql',
+    local: 'oxigraph',
+    exact: true },
 ];
 
 export function matchRoute(reqPath) {
@@ -124,6 +134,13 @@ export function ttlMsFor(route, tail) {
   if (route.prefix === '/api/sparql') {
     return 60_000;
   }
+  if (route.prefix === '/sparql') {
+    // Bundled store is rebuilt by the data-rebuild workflow; queries
+    // are cacheable for the lifetime of the container. Don't cache too
+    // long — a redeploy reloads the data and the cache stays valid
+    // because cache lives in-process.
+    return 600_000;
+  }
   return 30_000;
 }
 
@@ -137,7 +154,16 @@ setInterval(() => {
   for (const [k, v] of cache) if (v.expires < now) cache.delete(k);
 }, 60_000).unref();
 
+// Local bind for the bundled Oxigraph (when route.local === 'oxigraph').
+// Container-internal address; never reachable from the public internet.
+const OXIGRAPH_BIND = process.env.OXIGRAPH_BIND || '127.0.0.1:7878';
+
 export function buildUpstreamUrl(route, tail, search) {
+  if (route.local === 'oxigraph') {
+    // Oxigraph's query endpoint lives at /query; we expose /sparql to
+    // callers because that's the conventional public path.
+    return `http://${OXIGRAPH_BIND}/query${search || ''}`;
+  }
   const host = route.upstreamHost;
   const base = route.upstreamPath;
   const pathOut = route.exact ? base : (base + tail);
