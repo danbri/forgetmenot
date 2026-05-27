@@ -71,6 +71,16 @@ describe('matchRoute', () => {
     assert.equal(matchRoute('/_health'), null);
     assert.equal(matchRoute('/api/unknown/x'), null);
   });
+
+  test('/sparql route is marked public (bypasses PROXY_PASSWORD)', () => {
+    const r = ROUTES.find(x => x.prefix === '/sparql');
+    assert.equal(r?.local, 'oxigraph');
+    assert.equal(r?.public, true);
+    // Sister route /api/sparql remains gated like the other /api/* routes
+    const r2 = ROUTES.find(x => x.prefix === '/api/sparql');
+    assert.ok(r2);
+    assert.notEqual(r2.public, true);
+  });
 });
 
 // ---------------------------------------------------------------------------

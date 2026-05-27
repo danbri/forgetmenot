@@ -52,10 +52,36 @@ jobs:
 
       - name: Smoke test the live endpoint
         run: |
-          # Wait briefly for fly to flip traffic to the new machine.
-          sleep 10
-          curl -fsSL https://fpkg.fly.dev/_health | jq .
-          # And the new bundled SPARQL store should answer a trivial count.
-          curl -fsSL -H 'Accept: application/sparql-results+json' \
-            "https://fpkg.fly.dev/sparql?query=SELECT%20(COUNT(*)%20AS%20%3Fn)%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D" \
-            | jq .
+          set -euo pipefail
+          # Wait for fly to flip traffic AND for the container to boot
+          # the Oxigraph store. Retry the health probe up to 18×5 s = 90 s
+          # so a real outage fails the step rather than blocking silently.
+          for i in $(seq 1 18); do
+            if curl -fsS -m 10 https://fpkg.fly.dev/_health > /tmp/h.json; then
+              echo "health OK after ${i} attempt(s):"
+              cat /tmp/h.json && echo
+              break
+            fi
+            if [ "$i" = "18" ]; then
+              echo "::error::/_health never returned 200 within 90s"
+              exit 1
+            fi
+            sleep 5
+          done
+          # The bundled SPARQL store should answer a trivial count.
+          # Retries here too — first SPARQL hit may race Oxigraph readiness.
+          for i in $(seq 1 12); do
+            if curl -fsS -m 30 -H 'Accept: application/sparql-results+json' \
+                "https://fpkg.fly.dev/sparql?query=SELECT%20(COUNT(*)%20AS%20%3Fn)%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D" \
+                > /tmp/sparql.json; then
+              echo "sparql OK after ${i} attempt(s):"
+              cat /tmp/sparql.json && echo
+              # Sanity: must be a real JSON-results document, not empty / error
+              jq -e '.results.bindings[0].n.value | tonumber > 0' /tmp/sparql.json \
+                || { echo "::error::SPARQL endpoint returned non-positive count"; exit 1; }
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "::error::/sparql never returned 200 within 60s"
+          exit 1

@@ -74,11 +74,14 @@ const ROUTES = [
   // /sparql?query=...      ->  http://OXIGRAPH_BIND/query?query=...
   // Bundled SPARQL store containing the project's aggregated N-Quads
   // (transparency-graph, scrutiny-graph, accountability-graph,
-  // identity-graph, psephology). Read-only, in-memory, populated at
-  // container startup by entrypoint.sh. Routed locally — see special
-  // case in proxy() below.
+  // identity-graph, psephology, parliament-lda-terms). Read-only,
+  // backed by a RocksDB built at container startup. Routed locally
+  // — see special case in buildUpstreamUrl() below. Marked `public`
+  // so it bypasses the PROXY_PASSWORD gate that protects /api/* —
+  // the data is openly-published parliamentary RDF under OPL v3.0.
   { prefix: '/sparql',
     local: 'oxigraph',
+    public: true,
     exact: true },
 ];
 
@@ -338,7 +341,13 @@ const server = http.createServer(async (req, res) => {
     const m = matchRoute(u.pathname);
     if (!m) return serveStatic(req, res);
 
-    if (!authOk(req)) return json(res, 401, { error: 'unauthorized' });
+    // Public routes — no auth required regardless of PROXY_PASSWORD.
+    // /sparql serves the bundled Oxigraph store, which holds only
+    // openly-published RDF (UK Parliament, OPL v3.0); no reason to gate
+    // it behind the same shared secret as the live-API proxy.
+    const isPublic = m.route.public === true;
+
+    if (!isPublic && !authOk(req)) return json(res, 401, { error: 'unauthorized' });
 
     const ttlMs  = ttlMsFor(m.route, m.tail);
     const upUrl  = buildUpstreamUrl(m.route, m.tail, u.search);
