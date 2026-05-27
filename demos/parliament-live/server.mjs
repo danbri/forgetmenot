@@ -348,6 +348,43 @@ const server = http.createServer(async (req, res) => {
       res.end();
       return;
     }
+
+    // POST is only accepted on /kgx/query — SPARQL clients (Flint,
+    // YASGUI, sparql.py …) POST queries that are too long for a GET
+    // query string. Oxigraph accepts application/x-www-form-urlencoded
+    // (field "query") and application/sparql-query (raw body). We pipe
+    // either shape straight through; not cached (POST body would have
+    // to be hashed for a cache key, and probe queries are one-shot).
+    if (req.method === 'POST') {
+      const u = new URL(req.url, `http://localhost:${PORT}`);
+      if (u.pathname !== '/kgx/query') {
+        setCommonHeaders(res);
+        res.writeHead(405, { 'content-type': 'text/plain' });
+        res.end('method not allowed');
+        return;
+      }
+      const body = await new Promise((resolve, reject) => {
+        const chunks = [];
+        req.on('data', (c) => chunks.push(c));
+        req.on('end', () => resolve(Buffer.concat(chunks)));
+        req.on('error', reject);
+      });
+      const upstream = await fetch(`http://${OXIGRAPH_BIND}/query`, {
+        method: 'POST',
+        headers: {
+          'content-type': req.headers['content-type'] || 'application/x-www-form-urlencoded',
+          'accept': req.headers['accept'] || 'application/sparql-results+json',
+        },
+        body,
+      });
+      const buf = Buffer.from(await upstream.arrayBuffer());
+      setCommonHeaders(res);
+      res.setHeader('content-type', upstream.headers.get('content-type') || 'application/octet-stream');
+      res.writeHead(upstream.status);
+      res.end(buf);
+      return;
+    }
+
     if (req.method !== 'GET') {
       setCommonHeaders(res);
       res.writeHead(405, { 'content-type': 'text/plain' });
