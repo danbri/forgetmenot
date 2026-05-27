@@ -1,0 +1,71 @@
+{
+  "generated": "2026-05-27T14:10:37.603656Z",
+  "quads": 43322,
+  "size_bytes": 10628231,
+  "named_graphs": {
+    "appg": "https://forgetmenot.example/transparency#graph/appg-register",
+    "interests": "https://forgetmenot.example/transparency#graph/lords-rmfi",
+    "members": "https://forgetmenot.example/transparency#graph/members",
+    "entity": "https://forgetmenot.example/transparency#graph/entities-resolved",
+    "overlaps": "https://forgetmenot.example/transparency#graph/overlaps"
+  },
+  "namespaces": {
+    "trn": "https://forgetmenot.example/transparency#",
+    "mnis": "https://data.parliament.uk/membersdataplatform/services/mnis/members/",
+    "appg": "https://publications.parliament.uk/pa/cm/cmallparty/260413/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "foaf": "http://xmlns.com/foaf/0.1/"
+  },
+  "source_counts": {
+    "appgs": 553,
+    "members": 871,
+    "lords_interests_files": 917,
+    "distinct_appg_entity_links": 491,
+    "members_with_interest_entity": 569,
+    "officer_self_overlaps": 5
+  },
+  "officer_self_overlaps_sample": [
+    {
+      "member_id": 1987,
+      "member_name": "Baroness Kennedy of The Shaws",
+      "appg_slug": "arbitrary-detention-and-hostage-affairs",
+      "appg_title": "All-Party Parliamentary Group on Arbitrary Detention and Hostage Affairs",
+      "entity": "international bar association\u2019s human rights institute",
+      "kind": "secretariatOf"
+    },
+    {
+      "member_id": 1987,
+      "member_name": "Baroness Kennedy of The Shaws",
+      "appg_slug": "international-law-justice-and-accountability",
+      "appg_title": "All-Party Parliamentary Group on International Law, Justice and Accountability",
+      "entity": "international bar association\u2019s human rights institute",
+      "kind": "secretariatOf"
+    },
+    {
+      "member_id": 3504,
+      "member_name": "Lord Bassam of Brighton",
+      "appg_slug": "responsible-business",
+      "appg_title": "All-Party Parliamentary Group for Responsible Business",
+      "entity": "business in the community",
+      "kind": "secretariatOf"
+    },
+    {
+      "member_id": 4581,
+      "member_name": "Lord Caine",
+      "appg_slug": "rugby-football-league",
+      "appg_title": "All-Party Parliamentary Group on Rugby Football League",
+      "entity": "rugby football league",
+      "kind": "secretariatOf"
+    },
+    {
+      "member_id": 4529,
+      "member_name": "Lord Mackinlay of Richborough",
+      "appg_slug": "sepsis",
+      "appg_title": "All-Party Parliamentary Group on Sepsis",
+      "entity": "uk sepsis trust",
+      "kind": "secretariatOf"
+    }
+  ]
+}

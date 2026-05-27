@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Lords interests × APPGs — transparency overlap graph</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root { --bg:#fff; --fg:#1a1a1a; --muted:#555; --rule:#d8d8d8; --accent:#003478; --pill:#f0f2f4; --warn:#c98c00; --warn-bg:#fff7e6 }
+@media (prefers-color-scheme: dark) { :root { --bg:#111418; --fg:#ecedef; --muted:#a5acb4; --rule:#2c3137; --accent:#6ea7ff; --pill:#1c2026; --warn-bg:#2c2210 } }
+* { box-sizing:border-box }
+html { font-size:16px; line-height:1.55 }
+body { margin:0; color:var(--fg); background:var(--bg); font-family:ui-sans-serif,system-ui,sans-serif }
+header { border-bottom:1px solid var(--rule); padding:1.5rem 1rem; max-width:65rem; margin:0 auto }
+header h1 { margin:0 0 0.3rem; font-size:1.6rem }
+main { max-width:65rem; margin:0 auto; padding:1rem 1rem 4rem }
+h2 { font-size:1.2rem; margin-top:2.4rem; padding-top:0.4rem; border-top:1px solid var(--rule) }
+table { border-collapse:collapse; width:100%; font-size:0.9rem; margin:0.6rem 0 }
+th,td { text-align:left; padding:0.4rem 0.55rem; border-bottom:1px solid var(--rule); vertical-align:top }
+th { background:var(--pill); font-weight:600 }
+code { background:var(--pill); padding:0.05rem 0.3rem; border-radius:3px; font-size:0.85em }
+a { color:var(--accent) }
+.counts { display:flex; flex-wrap:wrap; gap:0.5rem; margin:1rem 0 }
+.counts span { background:var(--pill); padding:0.3rem 0.6rem; border-radius:4px; font-size:0.85rem }
+.counts b { color:var(--accent) }
+blockquote.warn { margin:1rem 0; padding:0.7rem 1rem; background:var(--warn-bg); border-left:4px solid var(--warn); font-size:0.92rem }
+.muted { color:var(--muted); font-size:0.92rem }
+nav.toc { position:sticky; top:0; background:var(--bg); border-bottom:1px solid var(--rule); padding:0.4rem 1rem; font-size:0.85rem; overflow-x:auto; white-space:nowrap; z-index:10 }
+nav.toc a { color:var(--fg); margin-right:0.7rem; text-decoration:none }
+</style></head>
+<body>
+<header>
+<h1>Lords interests × APPGs — transparency overlap graph</h1>
+<p class="muted">Entity-resolution view of where the <strong>Register of All-Party Parliamentary Groups</strong> and the <strong>Lords Register of Members' Financial Interests</strong> name the same organisation. Generated 2026-05-27T14:10:37.603656Z.</p>
+<blockquote class="warn"><strong>Framing.</strong> Every row in this report is an entity match between two public registers. Most matches are <em>expected</em> — peers chair APPGs about sectors they work in, and the openness of the registers is what allows that connection to be visible. This document is for context and follow-up, not for inferring undisclosed conflict of interest. Cross-check the actual RMFI text and the APPG entry before drawing any conclusion.</blockquote>
+<div class="counts">
+  <span><b>553</b> APPGs</span>
+  <span><b>917</b> Lords interest files</span>
+  <span><b>491</b> distinct APPG entity links</span>
+  <span><b>569</b> peers with named entities</span>
+  <span><b>5</b> officer/secretariat self-overlaps</span>
+  <span><b>43,322</b> RDF quads</span>
+</div>
+</header>
+<nav class="toc"><a href="#q1">Q1</a><a href="#q2">Q2</a><a href="#q3">Q3</a><a href="#q4">Q4</a><a href="#q5">Q5</a><a href="#q6">Q6</a><a href="#about">About</a><a href="#caveats">Caveats</a></nav>
+<main>
+
+<section id="about">
+<h2>About this graph</h2>
+<p><strong>Sources:</strong></p>
+<ul>
+<li>Register of All-Party Parliamentary Groups, edition 260413 (cached at <code>third_party/data/appg/resolved.json</code>) — title, purpose, secretariat, financial + in-kind benefits, officers</li>
+<li>Lords Register of Members' Financial Interests, fetched 27 May 2026 (cached at <code>tmp/scrutiny-graph/raw/lords-interests/</code>) — full text of Cat 1 paid roles, Cat 5 visits, Cat 6 gifts</li>
+<li>UK Parliament Members API for peer name/party</li>
+</ul>
+<p><strong>What was NOT pulled and why:</strong></p>
+<ul>
+<li><strong>Companies House / Persons with Significant Control</strong> — requires API key; not configured in this environment.</li>
+<li><strong>Office of the Registrar of Consultant Lobbyists (ORCL)</strong> statutory register — the official Salesforce-hosted site returned 403/404 for unauthenticated bulk fetch on 2026-05-27; manual download or scrape would be needed.</li>
+<li><strong>mySociety APPG CSV/Parquet dump</strong> — we have the equivalent data via our own scraper.</li>
+<li><strong>Wikidata enrichment for entity disambiguation</strong> — possible follow-up; would help collapse "AtkinsRealis" / "AtkinsRealis Inc" duplicates.</li>
+</ul>
+<p><strong>Graph shape:</strong> 5 named graphs (<code>appg-register</code>, <code>lords-rmfi</code>, <code>members</code>, <code>entities-resolved</code>, <code>overlaps</code>) at <code>third_party/data/transparency-graph/transparency.nq</code>. Entity normalisation: lowercase + strip Ltd/Limited/LLP/Inc/PLC/etc; this is intentionally lossy and undercounts (e.g. "International Bar Association's Human Rights Institute" stays whole). For high-confidence work, layer in Wikidata QID resolution per entity.</p>
+</section>
+
+
+<section id="q1">
+<h2>Officers of an APPG whose secretariat appears in their own Lords RMFI</h2>
+<p>Strict overlap — the peer is both an APPG officer AND has declared a paid role / consultancy / advisory tie to the organisation that acts as that APPG's secretariat. These are <em>entity matches</em>, not allegations: in most cases the connection is openly disclosed and reflects domain expertise that motivated both the APPG role and the personal one.</p>
+<table><thead><tr><th>Peer</th><th>Party</th><th>APPG</th><th>Entity</th></tr></thead><tbody><tr><td>Baroness Kennedy of The Shaws</td><td>Labour</td><td>All-Party Parliamentary Group on Arbitrary Detention and Hostage Affairs</td><td>International Bar Association’s Human Rights Institute</td></tr><tr><td>Baroness Kennedy of The Shaws</td><td>Labour</td><td>All-Party Parliamentary Group on International Law, Justice and Accountability</td><td>International Bar Association’s Human Rights Institute</td></tr><tr><td>Lord Bassam of Brighton</td><td>Labour</td><td>All-Party Parliamentary Group for Responsible Business</td><td>Business in the Community</td></tr><tr><td>Lord Caine</td><td>Conservative</td><td>All-Party Parliamentary Group on Rugby Football League</td><td>Rugby Football League</td></tr><tr><td>Lord Mackinlay of Richborough</td><td>Conservative</td><td>All-Party Parliamentary Group on Sepsis</td><td>UK Sepsis Trust</td></tr></tbody></table>
+</section>
+<section id="q2">
+<h2>Entities most often appearing across the APPG register and peers&#x27; interests</h2>
+<p>Entities that appear as APPG secretariats / benefit-providers <em>and</em> as named organisations in Lords RMFI text. Ranked by number of distinct peers + distinct APPGs. Entity normalisation is naive (lowercase + suffix-strip); small duplicates remain (e.g. 'AtkinsRealis' vs 'AtkinsRealis Inc').</p>
+<table><thead><tr><th>Entity</th><th>APPGs</th><th>Peers</th></tr></thead><tbody><tr><td>Local Government Association</td><td>2</td><td>2</td></tr><tr><td>University of Cambridge</td><td>1</td><td>2</td></tr><tr><td>International Bar Association’s Human Rights Institute</td><td>2</td><td>1</td></tr><tr><td>DMA Invest</td><td>1</td><td>1</td></tr><tr><td>DMA Invest Ltd</td><td>1</td><td>1</td></tr><tr><td>National Grid</td><td>1</td><td>1</td></tr><tr><td>National Grid plc</td><td>1</td><td>1</td></tr><tr><td>AtkinsRealis</td><td>1</td><td>1</td></tr><tr><td>AtkinsRealis Inc</td><td>1</td><td>1</td></tr><tr><td>Google</td><td>1</td><td>1</td></tr><tr><td>London Councils</td><td>1</td><td>1</td></tr><tr><td>Nuclear Industry Association</td><td>1</td><td>1</td></tr><tr><td>Efficio Consulting Ltd</td><td>1</td><td>1</td></tr><tr><td>British Horseracing Authority</td><td>1</td><td>1</td></tr><tr><td>Business in the Community</td><td>1</td><td>1</td></tr><tr><td>Rugby Football League</td><td>1</td><td>1</td></tr><tr><td>UK Research and Innovation</td><td>1</td><td>1</td></tr><tr><td>UK Sepsis Trust</td><td>1</td><td>1</td></tr></tbody></table>
+</section>
+<section id="q3">
+<h2>APPGs with the most overlap to peer-declared entities</h2>
+<p>An APPG is over-represented here if many of its secretariat / benefit-providing entities also turn up as named ties in peers' RMFI text.</p>
+<table><thead><tr><th>APPG</th><th>Peers connected</th><th>Entities connected</th></tr></thead><tbody><tr><td>Parliamentary Internet, Communications and Technology Forum All-Party Parliamentary Group</td><td>3</td><td>2</td></tr><tr><td>All-Party Parliamentary Group for the Environment</td><td>2</td><td>2</td></tr><tr><td>All-Party Parliamentary Group on Digital Communities</td><td>2</td><td>1</td></tr><tr><td>Local Growth All-Party Parliamentary Group</td><td>2</td><td>1</td></tr><tr><td>All-Party Parliamentary Group for Jamaica</td><td>1</td><td>1</td></tr><tr><td>All-Party Parliamentary Group on Arbitrary Detention and Hostage Affairs</td><td>1</td><td>1</td></tr><tr><td>All-Party Parliamentary Group on International Law, Justice and Accountability</td><td>1</td><td>1</td></tr><tr><td>All-Party Parliamentary Group for London</td><td>1</td><td>1</td></tr><tr><td>All-Party Parliamentary Group on Nuclear Energy</td><td>1</td><td>1</td></tr><tr><td>All-Party Parliamentary Group for Public Sector Efficiency</td><td>1</td><td>1</td></tr><tr><td>All-Party Parliamentary Group on Racing and Bloodstock</td><td>1</td><td>1</td></tr><tr><td>All-Party Parliamentary Group for Responsible Business</td><td>1</td><td>1</td></tr><tr><td>All-Party Parliamentary Group on Rugby Football League</td><td>1</td><td>1</td></tr><tr><td>Parliamentary and Scientific Committee (an All-Party Parliamentary Group)</td><td>1</td><td>1</td></tr><tr><td>All-Party Parliamentary Group on Sepsis</td><td>1</td><td>1</td></tr></tbody></table>
+</section>
+<section id="q4">
+<h2>Peers with the most APPG-overlap connections</h2>
+<p>Each row counts the number of APPGs to which a peer has at least one organisational tie via their RMFI. High counts here reflect either dense civic-society networks or commercial portfolios that intersect many policy areas.</p>
+<table><thead><tr><th>Peer</th><th>Party</th><th>APPG overlaps</th></tr></thead><tbody><tr><td>Baroness Kennedy of The Shaws</td><td>Labour</td><td>2</td></tr><tr><td>Lord John of Southwark</td><td>Labour</td><td>2</td></tr><tr><td>Baroness Thornhill</td><td>Liberal Democrat</td><td>2</td></tr><tr><td>Lord Bellingham</td><td>Conservative</td><td>1</td></tr><tr><td>Lord Livingston of Parkhead</td><td>Non-affiliated</td><td>1</td></tr><tr><td>Baroness McGregor-Smith</td><td>Non-affiliated</td><td>1</td></tr><tr><td>Lord Vaizey of Didcot</td><td>Conservative</td><td>1</td></tr><tr><td>Baroness Smith of Newnham</td><td>Liberal Democrat</td><td>1</td></tr><tr><td>Lord Mair</td><td>Crossbench</td><td>1</td></tr><tr><td>Baroness Dacres of Lewisham</td><td>Labour</td><td>1</td></tr><tr><td>Lord McNicol of West Kilbride</td><td>Labour</td><td>1</td></tr><tr><td>Lord Booth</td><td>Conservative</td><td>1</td></tr><tr><td>Lord Allen of Kensington</td><td>Labour</td><td>1</td></tr><tr><td>Lord Bassam of Brighton</td><td>Labour</td><td>1</td></tr><tr><td>Lord Caine</td><td>Conservative</td><td>1</td></tr><tr><td>Baroness Bull</td><td>Crossbench</td><td>1</td></tr><tr><td>Lord Mackinlay of Richborough</td><td>Conservative</td><td>1</td></tr></tbody></table>
+</section>
+<section id="q5">
+<h2>Top financial donors to APPGs (by count)</h2>
+<p>Defence and trade associations dominate the small-cap end of APPG financial benefits. Note the dataset's currency: edition 260413 (April 2026), cached 3 May 2026.</p>
+<table><thead><tr><th>Donor</th><th>APPGs</th></tr></thead><tbody><tr><td>BAE Systems PLC</td><td>2</td></tr><tr><td>APPG on Italy in the previous Parliament</td><td>1</td></tr><tr><td>Japan England Insurance Brokers</td><td>1</td></tr><tr><td>Common Wealth</td><td>1</td></tr><tr><td>Magnitsky Foundation</td><td>1</td></tr><tr><td>James Gray, as Chair of the Armed Forces APPG in the previous Parliament</td><td>1</td></tr><tr><td>MBDA UK Ltd</td><td>1</td></tr><tr><td>Leonardo</td><td>1</td></tr><tr><td>Saab UK</td><td>1</td></tr><tr><td>Boeing Defence UK</td><td>1</td></tr><tr><td>Rolls Royce Submarines Ltd</td><td>1</td></tr><tr><td>Babcock International</td><td>1</td></tr><tr><td>APPG on Aviation in the previous Parliament</td><td>1</td></tr><tr><td>ABInBev</td><td>1</td></tr><tr><td>Stonegate</td><td>1</td></tr><tr><td>Diageo</td><td>1</td></tr><tr><td>SIBA</td><td>1</td></tr><tr><td>Molson Coors</td><td>1</td></tr><tr><td>Greene King</td><td>1</td></tr><tr><td>Carlsberg Britvic</td><td>1</td></tr></tbody></table>
+</section>
+<section id="q6">
+<h2>APPG financial donors that are also named in a peer&#x27;s declared interest</h2>
+<p>Sharper overlap: an APPG receives a financial benefit from organisation X, AND a peer's RMFI mentions organisation X. Surfaces Google → PICTFOR & Lord Vaizey; National Grid → Environment APPG & Lord Livingston; AtkinsRealis → Environment APPG & Baroness McGregor-Smith; UKRI → Parliamentary & Scientific APPG & Baroness Bull.</p>
+<table><thead><tr><th>Entity</th><th>APPG</th><th>Peer</th></tr></thead><tbody><tr><td>AtkinsRealis</td><td>All-Party Parliamentary Group for the Environment</td><td>Baroness McGregor-Smith</td></tr><tr><td>AtkinsRealis Inc</td><td>All-Party Parliamentary Group for the Environment</td><td>Baroness McGregor-Smith</td></tr><tr><td>Google</td><td>Parliamentary Internet, Communications and Technology Forum All-Party Parliamentary Group</td><td>Lord Vaizey of Didcot</td></tr><tr><td>Google</td><td>Parliamentary Internet, Communications and Technology Forum All-Party Parliamentary Group</td><td>Lord Vaizey of Didcot</td></tr><tr><td>National Grid</td><td>All-Party Parliamentary Group for the Environment</td><td>Lord Livingston of Parkhead</td></tr><tr><td>National Grid plc</td><td>All-Party Parliamentary Group for the Environment</td><td>Lord Livingston of Parkhead</td></tr><tr><td>UK Research and Innovation</td><td>Parliamentary and Scientific Committee (an All-Party Parliamentary Group)</td><td>Baroness Bull</td></tr><tr><td>University of Cambridge</td><td>Parliamentary Internet, Communications and Technology Forum All-Party Parliamentary Group</td><td>Baroness Smith of Newnham</td></tr><tr><td>University of Cambridge</td><td>Parliamentary Internet, Communications and Technology Forum All-Party Parliamentary Group</td><td>Lord Mair</td></tr></tbody></table>
+</section>
+
+<section id="caveats">
+<h2>Caveats</h2>
+<ol>
+<li><strong>Entity matching is string-based.</strong> "Google" matches as soon as the word "Google" appears in interest text; a peer who declares "speaking fee, Google" is matched to the APPG's "Google" benefit-provider, but so would "Google Search" or "Google Cloud". For attribution work, hand-verify each match.</li>
+<li><strong>Naming variants are not collapsed.</strong> "National Grid" and "National Grid plc" appear as two separate entities in some queries. A Wikidata-QID layer would fix this.</li>
+<li><strong>The APPG register edition is 260413</strong> (April 2026; the latest at the time of caching). Some APPGs change secretariat or officers between editions.</li>
+<li><strong>Lords RMFI parsing is heuristic.</strong> The <code>build.py</code> extractor uses pattern matching to pull org names from free text. Some entries (e.g. nested chains like "Adviser, Firm A on behalf of Firm B") get only the top-level entity. Review the <code>scr:interestText</code> property directly for full context.</li>
+<li><strong>Only Lords interests are processed</strong>, not Commons. Equivalent overlap would exist on the Commons side — see <code>tmp/ai-appg-report/</code> for that work as applied to AI-APPG officers specifically.</li>
+<li><strong>"Overlap" ≠ "conflict of interest."</strong> Each row should be read as "these two registers name the same entity," which is precisely what the public-disclosure regime is designed to make visible.</li>
+</ol>
+</section>
+
+</main></body></html>
