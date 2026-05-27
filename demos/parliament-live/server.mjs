@@ -262,18 +262,21 @@ async function serveStatic(req, res) {
   // /kgx/ -> /kgx/index.html. Doesn't shadow paths that exist verbatim.
   let full = path.join(WEB_ROOT, p);
   if (!full.startsWith(WEB_ROOT)) return notFound(res);
-  if (!existsSync(full) || !statSync(full).isFile()) {
-    if (p.endsWith('/')) {
-      const idx = path.join(WEB_ROOT, p, 'index.html');
-      if (existsSync(idx) && statSync(idx).isFile()) full = idx;
-      else return notFound(res);
-    } else if (!path.extname(p)) {
+  if (!existsSync(full)) {
+    // Extensionless clean URL: /kgx/playground -> /kgx/playground.html.
+    if (!path.extname(p)) {
       const html = full + '.html';
       if (existsSync(html) && statSync(html).isFile()) full = html;
       else return notFound(res);
     } else {
       return notFound(res);
     }
+  } else if (statSync(full).isDirectory()) {
+    // Directory request, with OR without trailing slash: /kgx and /kgx/
+    // both resolve to /kgx/index.html if it exists.
+    const idx = path.join(full, 'index.html');
+    if (existsSync(idx) && statSync(idx).isFile()) full = idx;
+    else return notFound(res);
   }
   const ext = path.extname(full).toLowerCase();
   const body = await readFile(full);

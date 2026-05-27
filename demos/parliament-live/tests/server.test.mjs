@@ -305,6 +305,12 @@ describe('integration', { concurrency: false }, () => {
     assert.match(r.headers.get('content-type'), /text\/html/);
   });
 
+  test('/kgx (no trailing slash) also serves the kgx index', async () => {
+    const r = await fetch(`${baseUrl}/kgx`);
+    assert.equal(r.status, 200);
+    assert.match(r.headers.get('content-type'), /text\/html/);
+  });
+
   test('/kgx/endpoints.json is the registry the clients read', async () => {
     const r = await fetch(`${baseUrl}/kgx/endpoints.json`);
     assert.equal(r.status, 200);
