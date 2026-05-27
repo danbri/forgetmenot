@@ -352,3 +352,58 @@ local SPARQL endpoint via the repo's `local-sparql` skill.
   certain GROUP BY + multi-graph patterns. Worked around by post-filtering
   in Python (`[r for r in rows if r[2] >= N]`). Reproducer in
   `tmp/accountability-graph/queries.py` history.
+
+---
+
+## 2026-05-27 (later) — Fix parl appg scraper after mySociety comparison
+
+Building on the morning's mysoc-appg probe (`tmp/mysoc-appg-probe.md`),
+fixed `lib/facilities/appg.mjs` benefits-panel parsing. The cause: the
+Parliament Register publishes benefits in two layouts and the old
+code only handled the single-table one. The Layout-B announcement-then-
+detail split (used by every in-kind-only group, including the three AI
+APPGs we'd reported on this morning) was silently dropped.
+
+Clean-room rewrite — fixture-based, no mySociety code consulted:
+
+- `findBenefitPanel()` detects the sub-head row by content in any
+  table position.
+- `parseBenefitRows()` maps each data row to typed fields by column
+  position. In-kind rows carry a new `description` field and a
+  `valueBand` rather than `value` (band strings are not numeric).
+- 5 new fixtures + tests under `tests/fixtures/appg-*.htm` and
+  `tests/unit/appg-benefits.test.mjs`. All 7 tests pass.
+
+Coverage improvement against the random-30 mySociety oracle:
+
+| | Before | After |
+|---|---|---|
+| Groups in sample of 30 with at least one benefit | 3 | 11 |
+| Coverage parity with mySociety | 27% | 100% |
+| Cases where we beat mySociety (Afrikan Reparations Friends House Conference) | 0 | 1 |
+
+Across the full 553-group cache:
+
+| | Before | After |
+|---|---|---|
+| APPGs with benefits | 24 | **301** |
+| Total benefit rows | ~30 | **489** |
+
+The earlier AI-APPG report's "scrape miss or genuine zero?" caveat is
+now resolved as scrape miss. The three target groups' benefits, now
+populated:
+
+- APPG on AI: Big Innovation Centre, £49,501-51,000 secretariat in-kind
+- APPG on Blockchain Technologies: British Blockchain Association,
+  £19,501-21,000 secretariat in-kind
+- APPG for Data and Emerging Technologies: Policy Connect, £37,501-
+  39,000 secretariat in-kind, with the disclosure that **Policy Connect
+  is paid by ACCA, Open Data Institute and Zurich** to act in this role
+
+Transparency graph re-built with the corrected cache: officer
+self-overlaps went from 5 → 8; distinct APPG entity links 491 → 580.
+
+Follow-ups still open:
+- Re-run the AI-APPG report HTML against the corrected cache.
+- Add the broader 277 newly-discovered benefit declarations to the
+  transparency graph's overlap analysis.

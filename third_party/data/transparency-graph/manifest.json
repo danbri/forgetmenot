@@ -1,7 +1,7 @@
 {
-  "generated": "2026-05-27T14:10:37.603656Z",
-  "quads": 43322,
-  "size_bytes": 10628231,
+  "generated": "2026-05-27T14:42:13.739081Z",
+  "quads": 45968,
+  "size_bytes": 11331794,
   "named_graphs": {
     "appg": "https://forgetmenot.example/transparency#graph/appg-register",
     "interests": "https://forgetmenot.example/transparency#graph/lords-rmfi",
@@ -20,11 +20,11 @@
   },
   "source_counts": {
     "appgs": 553,
-    "members": 871,
+    "members": 886,
     "lords_interests_files": 917,
-    "distinct_appg_entity_links": 491,
+    "distinct_appg_entity_links": 580,
     "members_with_interest_entity": 569,
-    "officer_self_overlaps": 5
+    "officer_self_overlaps": 8
   },
   "officer_self_overlaps_sample": [
     {
@@ -34,6 +34,14 @@
       "appg_title": "All-Party Parliamentary Group on Arbitrary Detention and Hostage Affairs",
       "entity": "international bar association\u2019s human rights institute",
       "kind": "secretariatOf"
+    },
+    {
+      "member_id": 1987,
+      "member_name": "Baroness Kennedy of The Shaws",
+      "appg_slug": "arbitrary-detention-and-hostage-affairs",
+      "appg_title": "All-Party Parliamentary Group on Arbitrary Detention and Hostage Affairs",
+      "entity": "international bar association\u2019s human rights institute",
+      "kind": "inKindBenefitTo"
     },
     {
       "member_id": 1987,
@@ -52,12 +60,28 @@
       "kind": "secretariatOf"
     },
     {
+      "member_id": 3504,
+      "member_name": "Lord Bassam of Brighton",
+      "appg_slug": "responsible-business",
+      "appg_title": "All-Party Parliamentary Group for Responsible Business",
+      "entity": "business in the community",
+      "kind": "inKindBenefitTo"
+    },
+    {
       "member_id": 4581,
       "member_name": "Lord Caine",
       "appg_slug": "rugby-football-league",
       "appg_title": "All-Party Parliamentary Group on Rugby Football League",
       "entity": "rugby football league",
       "kind": "secretariatOf"
+    },
+    {
+      "member_id": 4581,
+      "member_name": "Lord Caine",
+      "appg_slug": "rugby-football-league",
+      "appg_title": "All-Party Parliamentary Group on Rugby Football League",
+      "entity": "rugby football league",
+      "kind": "inKindBenefitTo"
     },
     {
       "member_id": 4529,
