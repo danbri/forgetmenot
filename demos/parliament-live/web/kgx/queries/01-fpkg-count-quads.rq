@@ -1,0 +1,5 @@
+# Endpoint: /kgx/query  (FPKG, bundled)
+# Verified: 2026-05-27 against fpkg.fly.dev (558071)
+#
+# Count every quad in the bundled triple store.
+SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }

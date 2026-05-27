@@ -72,14 +72,19 @@ describe('matchRoute', () => {
     assert.equal(matchRoute('/api/unknown/x'), null);
   });
 
-  test('/sparql route is marked public (bypasses PROXY_PASSWORD)', () => {
-    const r = ROUTES.find(x => x.prefix === '/sparql');
+  test('/kgx/query route is marked public (bypasses PROXY_PASSWORD)', () => {
+    const r = ROUTES.find(x => x.prefix === '/kgx/query');
     assert.equal(r?.local, 'oxigraph');
     assert.equal(r?.public, true);
     // Sister route /api/sparql remains gated like the other /api/* routes
     const r2 = ROUTES.find(x => x.prefix === '/api/sparql');
     assert.ok(r2);
     assert.notEqual(r2.public, true);
+  });
+
+  test('legacy /sparql is no longer a registered route (handler redirects instead)', () => {
+    const r = ROUTES.find(x => x.prefix === '/sparql');
+    assert.equal(r, undefined);
   });
 });
 
@@ -269,5 +274,42 @@ describe('integration', { concurrency: false }, () => {
       headers: { authorization: 'Bearer testpw' },
     });
     assert.equal(r.status, 405);
+  });
+
+  test('/sparql 301-redirects to /kgx/query (preserving query string)', async () => {
+    const r = await fetch(`${baseUrl}/sparql?query=SELECT%20*%20%7B%7D`, { redirect: 'manual' });
+    assert.equal(r.status, 301);
+    assert.equal(r.headers.get('location'), '/kgx/query?query=SELECT%20*%20%7B%7D');
+  });
+
+  test('/kgx/query with no ?query and HTML Accept redirects to /kgx/playground', async () => {
+    const r = await fetch(`${baseUrl}/kgx/query`, {
+      headers: { accept: 'text/html' },
+      redirect: 'manual',
+    });
+    assert.equal(r.status, 302);
+    assert.equal(r.headers.get('location'), '/kgx/playground');
+  });
+
+  test('/kgx/playground serves the static HTML file', async () => {
+    const r = await fetch(`${baseUrl}/kgx/playground`);
+    assert.equal(r.status, 200);
+    assert.match(r.headers.get('content-type'), /text\/html/);
+    const body = await r.text();
+    assert.match(body, /SPARQL playground/);
+  });
+
+  test('/kgx/ serves the kgx index', async () => {
+    const r = await fetch(`${baseUrl}/kgx/`);
+    assert.equal(r.status, 200);
+    assert.match(r.headers.get('content-type'), /text\/html/);
+  });
+
+  test('/kgx/endpoints.json is the registry the clients read', async () => {
+    const r = await fetch(`${baseUrl}/kgx/endpoints.json`);
+    assert.equal(r.status, 200);
+    const j = await r.json();
+    assert.ok(Array.isArray(j.endpoints));
+    assert.ok(j.endpoints.some(e => e.id === 'fpkg' && e.url === '/kgx/query'));
   });
 });

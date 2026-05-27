@@ -1,0 +1,22 @@
+# Endpoint: /kgx/query  (FPKG, bundled)
+# Verified: untested in this session — example only
+#
+# All-Party Parliamentary Groups and their officers, joined to
+# Members API ids via the identity-graph. Adjust LIMIT for scale;
+# the AppG register has ~700 groups so omit LIMIT only on a desktop.
+PREFIX schema: <http://schema.org/>
+PREFIX appg:   <https://contextris.example/appg/>
+PREFIX parl:   <https://id.parliament.uk/>
+
+SELECT ?groupName ?officerName ?role ?memberId
+WHERE {
+  GRAPH <https://contextris.example/appg/> {
+    ?group  appg:name        ?groupName ;
+            appg:hasOfficer  ?officer .
+    ?officer appg:officerName ?officerName ;
+             appg:role        ?role ;
+             appg:memberId    ?memberId .
+  }
+}
+ORDER BY ?groupName ?role
+LIMIT 200

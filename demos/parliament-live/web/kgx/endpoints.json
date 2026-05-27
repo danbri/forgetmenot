@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "notes": [
+    "Curated SPARQL endpoints loaded by the kgx clients (playground, flint, yas).",
+    "Endpoints marked needsProxy=true don't send CORS headers; browser clients must route through our proxy.",
+    "Adding an endpoint here surfaces it in every kgx client at once; no JS edits needed."
+  ],
+  "endpoints": [
+    {
+      "id": "fpkg",
+      "label": "FPKG (this server, bundled UK Parliament RDF)",
+      "url": "/kgx/query",
+      "cors": true,
+      "tier": "local",
+      "notes": "Read-only Oxigraph. Public; no auth required."
+    },
+    {
+      "id": "parliament-ddp",
+      "label": "UK Parliament (DDP / api.parliament.uk/sparql)",
+      "url": "https://api.parliament.uk/sparql",
+      "cors": false,
+      "needsProxy": "/api/sparql",
+      "tier": "parliament",
+      "notes": "Public but no CORS. Use the /api/sparql proxy (requires PROXY_PASSWORD)."
+    },
+    {
+      "id": "wikidata",
+      "label": "Wikidata (official, query.wikidata.org)",
+      "url": "https://query.wikidata.org/sparql",
+      "cors": true,
+      "tier": "wikidata",
+      "notes": "WDQS Blazegraph. Sends CORS. Rate-limited; set a User-Agent on bulk crawls."
+    },
+    {
+      "id": "wikidata-qlever",
+      "label": "Wikidata via QLever (Freiburg)",
+      "url": "https://qlever.cs.uni-freiburg.de/api/wikidata",
+      "cors": true,
+      "tier": "wikidata",
+      "notes": "QLever-hosted mirror. Often faster on large joins; lacks some Wikidata extensions."
+    },
+    {
+      "id": "wikidata-virtuoso",
+      "label": "Wikidata via OpenLink Virtuoso",
+      "url": "https://wikidata.demo.openlinksw.com/sparql",
+      "cors": true,
+      "tier": "wikidata",
+      "notes": "Virtuoso mirror of Wikidata. May lag the official endpoint by hours."
+    },
+    {
+      "id": "dbpedia",
+      "label": "DBpedia (dbpedia.org/sparql)",
+      "url": "https://dbpedia.org/sparql",
+      "cors": true,
+      "tier": "general",
+      "notes": "OpenLink Virtuoso. The grandparent of public SPARQL endpoints."
+    },
+    {
+      "id": "legislation",
+      "label": "legislation.gov.uk (invitation-only)",
+      "url": "https://www.legislation.gov.uk/sparql",
+      "cors": false,
+      "tier": "ukgov",
+      "notes": "Per-URI RDF works without auth; the SPARQL endpoint itself is invitation-only as of 2026."
+    }
+  ]
+}

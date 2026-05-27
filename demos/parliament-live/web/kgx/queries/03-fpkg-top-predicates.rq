@@ -1,0 +1,9 @@
+# Endpoint: /kgx/query  (FPKG, bundled)
+# Verified: untested in this session — example only
+#
+# The 20 most-used predicates across all named graphs.
+SELECT ?p (COUNT(*) AS ?n)
+WHERE { ?s ?p ?o }
+GROUP BY ?p
+ORDER BY DESC(?n)
+LIMIT 20

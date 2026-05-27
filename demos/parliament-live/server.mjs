@@ -71,7 +71,7 @@ const ROUTES = [
     upstreamPath: '/sparql',
     exact: true },
 
-  // /sparql?query=...      ->  http://OXIGRAPH_BIND/query?query=...
+  // /kgx/query?query=...  ->  http://OXIGRAPH_BIND/query?query=...
   // Bundled SPARQL store containing the project's aggregated N-Quads
   // (transparency-graph, scrutiny-graph, accountability-graph,
   // identity-graph, psephology, parliament-lda-terms). Read-only,
@@ -79,7 +79,9 @@ const ROUTES = [
   // — see special case in buildUpstreamUrl() below. Marked `public`
   // so it bypasses the PROXY_PASSWORD gate that protects /api/* —
   // the data is openly-published parliamentary RDF under OPL v3.0.
-  { prefix: '/sparql',
+  //
+  // The legacy path /sparql redirects here (see request handler).
+  { prefix: '/kgx/query',
     local: 'oxigraph',
     public: true,
     exact: true },
@@ -137,7 +139,7 @@ export function ttlMsFor(route, tail) {
   if (route.prefix === '/api/sparql') {
     return 60_000;
   }
-  if (route.prefix === '/sparql') {
+  if (route.prefix === '/kgx/query') {
     // Bundled store is rebuilt by the data-rebuild workflow; queries
     // are cacheable for the lifetime of the container. Don't cache too
     // long — a redeploy reloads the data and the cache stays valid
@@ -249,14 +251,30 @@ const MIME = {
   '.jpeg': 'image/jpeg',
   '.ico':  'image/x-icon',
   '.woff2':'font/woff2',
+  '.rq':   'application/sparql-query; charset=utf-8',
+  '.txt':  'text/plain; charset=utf-8',
 };
 
 async function serveStatic(req, res) {
   let p = decodeURIComponent(req.url.split('?')[0]);
   if (p === '/') p = '/index.html';
-  const full = path.join(WEB_ROOT, p);
+  // Extensionless clean URLs: /kgx/playground -> /kgx/playground.html,
+  // /kgx/ -> /kgx/index.html. Doesn't shadow paths that exist verbatim.
+  let full = path.join(WEB_ROOT, p);
   if (!full.startsWith(WEB_ROOT)) return notFound(res);
-  if (!existsSync(full) || !statSync(full).isFile()) return notFound(res);
+  if (!existsSync(full) || !statSync(full).isFile()) {
+    if (p.endsWith('/')) {
+      const idx = path.join(WEB_ROOT, p, 'index.html');
+      if (existsSync(idx) && statSync(idx).isFile()) full = idx;
+      else return notFound(res);
+    } else if (!path.extname(p)) {
+      const html = full + '.html';
+      if (existsSync(html) && statSync(html).isFile()) full = html;
+      else return notFound(res);
+    } else {
+      return notFound(res);
+    }
+  }
   const ext = path.extname(full).toLowerCase();
   const body = await readFile(full);
   setCommonHeaders(res);
@@ -336,6 +354,19 @@ const server = http.createServer(async (req, res) => {
 
     const u = new URL(req.url, `http://localhost:${PORT}`);
 
+    // Legacy paths: /sparql → /kgx/query, /sparql.html → /kgx/playground.
+    // Preserve the query string so existing ?query=… URLs keep working.
+    if (u.pathname === '/sparql') {
+      setCommonHeaders(res);
+      res.writeHead(301, { location: '/kgx/query' + (u.search || '') });
+      return res.end();
+    }
+    if (u.pathname === '/sparql.html') {
+      setCommonHeaders(res);
+      res.writeHead(301, { location: '/kgx/playground' });
+      return res.end();
+    }
+
     if (u.pathname === '/_health') {
       return json(res, 200, { ok: true, cacheEntries: cache.size, authRequired: !!PROXY_PASSWORD });
     }
@@ -352,16 +383,17 @@ const server = http.createServer(async (req, res) => {
     const m = matchRoute(u.pathname);
     if (!m) return serveStatic(req, res);
 
-    // /sparql with no ?query= AND a browser-style Accept header serves a
-    // small HTML playground instead of dispatching upstream. iOS Safari
-    // otherwise saves Oxigraph's `application/sparql-results+xml`
-    // response as a file named "sparql" with no extension — unusable
-    // from a phone.
+    // /kgx/query with no ?query= AND a browser-style Accept header
+    // redirects to the playground UI. iOS Safari otherwise saves
+    // Oxigraph's empty-query response as a file with no extension.
+    // The playground, Flint and YASGUI all hit /kgx/query directly
+    // for actual queries.
     if (m.route.local === 'oxigraph'
         && !u.searchParams.get('query')
         && wantsBrowserView(req)) {
-      req.url = '/sparql.html';
-      return serveStatic(req, res);
+      setCommonHeaders(res);
+      res.writeHead(302, { location: '/kgx/playground' });
+      return res.end();
     }
 
     // Public routes — no auth required regardless of PROXY_PASSWORD.
@@ -424,6 +456,8 @@ if (invokedAsMain) {
     process.stdout.write(`  /api/hansard/<HansardApiPath>\n`);
     process.stdout.write(`  /api/cvotes/<CommonsVotesPath>  /api/lvotes/<LordsVotesPath>\n`);
     process.stdout.write(`  /api/sparql?query=...\n`);
+    process.stdout.write(`  /kgx/query?query=...   (bundled Oxigraph; legacy /sparql redirects here)\n`);
+    process.stdout.write(`  /kgx/  /kgx/playground  /kgx/flint  /kgx/yas\n`);
     process.stdout.write(`  /_health  /_cache\n`);
   });
 }

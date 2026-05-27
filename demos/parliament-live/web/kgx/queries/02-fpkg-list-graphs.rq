@@ -1,0 +1,8 @@
+# Endpoint: /kgx/query  (FPKG, bundled)
+# Verified: untested in this session — example only
+#
+# List every named graph in the store, with its quad count.
+SELECT ?g (COUNT(*) AS ?n)
+WHERE { GRAPH ?g { ?s ?p ?o } }
+GROUP BY ?g
+ORDER BY DESC(?n)

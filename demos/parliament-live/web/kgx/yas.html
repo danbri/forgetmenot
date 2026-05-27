@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FPKG — YASGUI</title>
+<link rel="stylesheet" href="https://unpkg.com/@triply/yasgui/build/yasgui.min.css">
+<style>
+  :root {
+    --bg: #faf8f3;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --accent: #2a4f76;
+    --rule: #d8d4ca;
+  }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+  }
+  header, footer {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  footer { border-bottom: 0; border-top: 1px solid var(--rule); color: var(--ink-soft); font-size: 13px; }
+  h1 { margin: 0 0 4px; font-size: 18px; }
+  nav { font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; }
+  a { color: var(--accent); }
+  .sub { color: var(--ink-soft); font-size: 14px; margin: 0; }
+  #yasgui { min-height: 60vh; padding: 8px; }
+  /* YASGUI's default styles assume a desktop; trim a few things for 360px. */
+  .yasgui .tabContextButton { font-size: 13px; }
+</style>
+</head>
+<body>
+<header>
+  <nav>
+    <a href="/kgx/">kgx index</a>
+    &middot; <a href="/kgx/playground">playground</a>
+    &middot; <a href="/kgx/flint">flint</a>
+    &middot; yasgui
+    &middot; <a href="/kgx/query?query=SELECT%20%28COUNT%28%2A%29%20AS%20%3Fn%29%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D">raw endpoint</a>
+  </nav>
+  <h1>YASGUI</h1>
+  <p class="sub">
+    Triply's tabbed SPARQL UI. Tab title = the endpoint label;
+    switch endpoints from the small globe icon by the URL.
+  </p>
+</header>
+
+<div id="yasgui"></div>
+
+<footer>
+  Contains Parliamentary information licensed under the
+  <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
+  Data source: UK Parliament. This site is a third-party prototype and
+  is not endorsed by, or affiliated with, the UK Parliament.
+</footer>
+
+<script src="https://unpkg.com/@triply/yasgui/build/yasgui.min.js"></script>
+<script>
+(async () => {
+  const reg = await fetch('/kgx/endpoints.json').then(r => r.json());
+  // YASGUI takes a flat list of endpoint URLs for its dropdown catalogue.
+  // We map our richer registry down to that and use the same list to
+  // seed one tab per endpoint at load time.
+  const endpointCatalogue = reg.endpoints.map(e => {
+    // For DDP we proxy via /api/sparql to dodge CORS; surface that URL
+    // (it's gated by PROXY_PASSWORD — the user will see a 401 if they
+    // don't have the cookie, which is the honest failure mode).
+    const url = (e.needsProxy && e.cors === false) ? e.needsProxy : e.url;
+    return { value: url, label: e.label };
+  });
+
+  const yasgui = new Yasgui(document.getElementById('yasgui'), {
+    requestConfig: {
+      endpoint: '/kgx/query',
+      method: 'GET',
+      acceptHeaderSelect: 'application/sparql-results+json',
+      acceptHeaderGraph: 'application/n-triples',
+    },
+    endpointCatalogs: {
+      catalogueOptions: [{
+        name: 'kgx endpoints',
+        options: endpointCatalogue,
+        keyName: 'value',
+        labelName: 'label',
+      }],
+    },
+    copyEndpointOnNewTab: true,
+  });
+
+  // If this is a brand-new visit (no tabs in localStorage), seed one
+  // tab per endpoint so all the curated targets are one click away.
+  if (yasgui.getTab() && yasgui.getTab()._initial !== false) {
+    // Replace the default tab's query with a useful starter.
+    const t0 = yasgui.getTab();
+    t0.setQuery('SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }');
+  }
+})();
+</script>
+</body>
+</html>

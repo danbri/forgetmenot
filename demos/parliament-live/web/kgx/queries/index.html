@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FPKG — sample queries</title>
+<style>
+  :root {
+    --bg: #faf8f3; --ink: #1a1a1a; --ink-soft: #4a4a4a;
+    --accent: #2a4f76; --rule: #d8d4ca; --code-bg: #efece4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--bg); color: var(--ink); padding: 16px;
+    max-width: 760px; margin: 0 auto;
+  }
+  h1 { font-size: 20px; margin: 0 0 8px; }
+  nav { font-size: 13px; color: var(--ink-soft); margin-bottom: 16px; }
+  a { color: var(--accent); }
+  .sub { color: var(--ink-soft); font-size: 14px; }
+  ul { padding-left: 18px; }
+  li { margin: 8px 0; font-size: 14px; }
+  code {
+    font: 12px/1.4 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    background: var(--code-bg); padding: 1px 5px; border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/kgx/">kgx index</a>
+  &middot; <a href="/kgx/playground">playground</a>
+  &middot; <a href="/kgx/flint">flint</a>
+  &middot; <a href="/kgx/yas">yasgui</a>
+</nav>
+<h1>Sample SPARQL queries</h1>
+<p class="sub">
+  Each <code>.rq</code> file declares its target endpoint at the top.
+  Open in your editor of choice, or copy into one of the kgx clients.
+</p>
+<ul>
+  <li><a href="01-fpkg-count-quads.rq">01-fpkg-count-quads.rq</a> — count every quad in the bundled store. <em>Verified.</em></li>
+  <li><a href="02-fpkg-list-graphs.rq">02-fpkg-list-graphs.rq</a> — enumerate named graphs with quad counts.</li>
+  <li><a href="03-fpkg-top-predicates.rq">03-fpkg-top-predicates.rq</a> — top 20 predicates by usage.</li>
+  <li><a href="04-wikidata-current-uk-mps.rq">04-wikidata-current-uk-mps.rq</a> — every sitting MP, against Wikidata.</li>
+  <li><a href="05-fpkg-appg-officers.rq">05-fpkg-appg-officers.rq</a> — APPG officers joined to Members API ids.</li>
+</ul>
+<p class="sub">
+  Adding a query: drop a <code>.rq</code> file in this directory (with
+  the <code># Endpoint:</code> header) and link it here.
+</p>
+</body>
+</html>

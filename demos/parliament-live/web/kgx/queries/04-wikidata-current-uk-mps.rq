@@ -1,0 +1,21 @@
+# Endpoint: https://query.wikidata.org/sparql  (Wikidata)
+# Verified: untested in this session — example only
+#
+# Every person currently a member of the UK House of Commons,
+# with their constituency. Filters out members whose position-held
+# statement has an end date (P582).
+PREFIX wd:  <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX p:   <http://www.wikidata.org/prop/>
+PREFIX ps:  <http://www.wikidata.org/prop/statement/>
+PREFIX pq:  <http://www.wikidata.org/prop/qualifier/>
+
+SELECT ?person ?personLabel ?constituency ?constituencyLabel
+WHERE {
+  ?person p:P39 ?membership.
+  ?membership ps:P39 wd:Q16707842 ;
+              pq:P768 ?constituency .
+  FILTER NOT EXISTS { ?membership pq:P582 [] }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+}
+ORDER BY ?personLabel

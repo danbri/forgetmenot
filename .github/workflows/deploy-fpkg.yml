@@ -72,16 +72,22 @@ jobs:
           # Retries here too — first SPARQL hit may race Oxigraph readiness.
           for i in $(seq 1 12); do
             if curl -fsS -m 30 -H 'Accept: application/sparql-results+json' \
-                "https://fpkg.fly.dev/sparql?query=SELECT%20(COUNT(*)%20AS%20%3Fn)%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D" \
+                "https://fpkg.fly.dev/kgx/query?query=SELECT%20(COUNT(*)%20AS%20%3Fn)%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D" \
                 > /tmp/sparql.json; then
-              echo "sparql OK after ${i} attempt(s):"
+              echo "/kgx/query OK after ${i} attempt(s):"
               cat /tmp/sparql.json && echo
               # Sanity: must be a real JSON-results document, not empty / error
               jq -e '.results.bindings[0].n.value | tonumber > 0' /tmp/sparql.json \
                 || { echo "::error::SPARQL endpoint returned non-positive count"; exit 1; }
+              # Legacy /sparql must 301 to /kgx/query so existing bookmarks keep working.
+              loc=$(curl -fsS -o /dev/null -w '%{redirect_url}' "https://fpkg.fly.dev/sparql?query=ASK%20%7B%7D")
+              case "$loc" in
+                *"/kgx/query?query=ASK%20%7B%7D"*) echo "legacy /sparql redirect OK -> $loc" ;;
+                *) echo "::error::legacy /sparql did not redirect to /kgx/query (got: '$loc')"; exit 1 ;;
+              esac
               exit 0
             fi
             sleep 5
           done
-          echo "::error::/sparql never returned 200 within 60s"
+          echo "::error::/kgx/query never returned 200 within 60s"
           exit 1

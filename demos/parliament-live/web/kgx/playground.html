@@ -111,9 +111,17 @@
 </style>
 </head>
 <body>
+<nav style="font-size:13px;margin-bottom:14px;color:var(--ink-soft);">
+  <a href="/kgx/">kgx index</a>
+  &middot; playground
+  &middot; <a href="/kgx/flint">flint</a>
+  &middot; <a href="/kgx/yas">yasgui</a>
+  &middot; <a href="/kgx/query?query=SELECT%20%28COUNT%28%2A%29%20AS%20%3Fn%29%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D">raw endpoint</a>
+</nav>
 <h1>Forgetmeknot Palace — SPARQL playground</h1>
 <p class="sub">
   Read-only triple store, bundled at deploy time. Public, no auth.
+  Endpoint: <code>/kgx/query</code>.
 </p>
 
 <textarea id="q" spellcheck="false">SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }</textarea>
@@ -156,7 +164,7 @@
     $meta.textContent = '';
     const t0 = performance.now();
     try {
-      const r = await fetch('/sparql?query=' + encodeURIComponent(query), {
+      const r = await fetch('/kgx/query?query=' + encodeURIComponent(query), {
         headers: { 'accept': 'application/sparql-results+json' },
       });
       const ms = (performance.now() - t0).toFixed(0);
