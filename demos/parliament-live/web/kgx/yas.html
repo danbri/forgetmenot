@@ -59,7 +59,11 @@
 <script src="https://unpkg.com/@triply/yasgui/build/yasgui.min.js"></script>
 <script>
 (async () => {
-  const reg = await fetch('/kgx/endpoints.json').then(r => r.json());
+  // ?endpoints=<url> overrides the default registry — lets colleagues
+  // host their own endpoints.json without forking the wrapper.
+  const params = new URLSearchParams(window.location.search);
+  const cfgUrl = params.get('endpoints') || '/kgx/endpoints.json';
+  const reg = await fetch(cfgUrl).then(r => r.json());
   // YASGUI takes a flat list of endpoint URLs for its dropdown catalogue.
   // We map our richer registry down to that and use the same list to
   // seed one tab per endpoint at load time.

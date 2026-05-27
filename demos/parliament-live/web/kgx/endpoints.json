@@ -18,10 +18,9 @@
       "id": "parliament-ddp",
       "label": "UK Parliament (DDP / api.parliament.uk/sparql)",
       "url": "https://api.parliament.uk/sparql",
-      "cors": false,
-      "needsProxy": "/api/sparql",
+      "cors": true,
       "tier": "parliament",
-      "notes": "Public but no CORS. Use the /api/sparql proxy (requires PROXY_PASSWORD)."
+      "notes": "Probed 2026-05-27: GET returns access-control-allow-origin:*. HEAD 404s (server quirk), but real GETs work cross-origin. The /api/sparql proxy is still useful for caching + a single TTL policy, but it's no longer required for CORS."
     },
     {
       "id": "wikidata",

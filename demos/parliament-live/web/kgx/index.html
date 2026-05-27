@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FPKG — SPARQL surface (kgx)</title>
+<title>kgx — Knowledge Graph Exchange (FPKG developer hub)</title>
 <style>
   :root {
     --bg: #faf8f3;
@@ -25,9 +25,9 @@
     margin: 0 auto;
   }
   h1 { font-size: 22px; margin: 0 0 6px; }
-  .sub { color: var(--ink-soft); font-size: 14px; margin: 0 0 18px; }
-  h2 { font-size: 16px; margin: 24px 0 8px; }
-  .clients { display: grid; gap: 10px; }
+  .lede { color: var(--ink-soft); font-size: 14px; margin: 0 0 18px; }
+  h2 { font-size: 16px; margin: 28px 0 10px; }
+  .cards { display: grid; gap: 10px; }
   .card {
     background: var(--card);
     border: 1px solid var(--rule);
@@ -48,10 +48,13 @@
     word-break: break-all;
   }
   ul { padding-left: 20px; }
-  li { margin: 4px 0; }
+  li { margin: 6px 0; font-size: 14px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { color: var(--ink-soft); font-weight: 600; }
   a { color: var(--accent); }
   footer {
-    margin-top: 32px;
+    margin-top: 36px;
     padding-top: 12px;
     border-top: 1px solid var(--rule);
     color: var(--ink-soft);
@@ -61,57 +64,130 @@
 </style>
 </head>
 <body>
-<h1>Forgetmeknot Palace — SPARQL surface</h1>
-<p class="sub">
-  Three browser-based SPARQL clients, plus a raw HTTP endpoint.
-  All four talk to the same default endpoint: <span class="endpoint">/kgx/query</span>.
+<h1>kgx — Knowledge Graph Exchange</h1>
+<p class="lede">
+  Developer surface of <a href="/">Forgetmeknot Palace</a> — a small graph
+  navigator over UK Parliament APIs, plus a bundled SPARQL endpoint over
+  ~558 k quads of openly-published RDF.
 </p>
 
-<h2>Clients</h2>
-<div class="clients">
+<h2>Try SPARQL — three browser clients</h2>
+<div class="cards">
   <a class="card" href="/kgx/playground">
     <p class="card-title">Playground</p>
-    <p class="card-desc">Minimal page — textarea, run, JSON output. ~3 KB; works offline once loaded.</p>
+    <p class="card-desc">Minimal page — textarea, run, JSON output. ~3 KB; useful on a flaky connection or as a sanity check.</p>
   </a>
   <a class="card" href="/kgx/flint">
     <p class="card-title">Flint SPARQL Editor</p>
-    <p class="card-desc">Syntax-highlighted editor (TSO). Lower friction for hand-writing SPARQL.</p>
+    <p class="card-desc">TSO's 2012-era editor (MIT). Loaded via jsDelivr's mirror of <code>TSO-Openup/FlintSparqlEditor</code>. Customise by passing <code>?endpoints=&lt;url&gt;</code>.</p>
   </a>
   <a class="card" href="/kgx/yas">
     <p class="card-title">YASGUI</p>
-    <p class="card-desc">Triply's tabbed editor + table / response / chart views. Heaviest, richest.</p>
+    <p class="card-desc">Triply YASGUI 4.x (MIT). Tabbed, with chart / table / response views. Customise by passing <code>?endpoints=&lt;url&gt;</code>.</p>
   </a>
 </div>
 
-<h2>HTTP endpoint</h2>
-<p>
-  <span class="endpoint">GET /kgx/query?query=&lt;sparql&gt;</span>
-  with <code>Accept: application/sparql-results+json</code>
-  (or omit Accept for XML).
-</p>
-<p style="font-size:14px;color:var(--ink-soft);">
-  Backed by Oxigraph, read-only. The legacy path
-  <span class="endpoint">/sparql</span> 301-redirects here.
-</p>
+<h2>HTTP endpoints (machine paths)</h2>
+<table>
+  <tr><th>Path</th><th>Auth</th><th>What it is</th></tr>
+  <tr>
+    <td><a href="/kgx/query?query=SELECT%20%28COUNT%28%2A%29%20AS%20%3Fn%29%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D"><code>/kgx/query</code></a></td>
+    <td>public</td>
+    <td>Local bundled Oxigraph. Read-only. SPARQL 1.1. <code>/sparql</code> is a legacy alias that 301-redirects here.</td>
+  </tr>
+  <tr>
+    <td><code>/api/sparql</code></td>
+    <td>PROXY_PASSWORD</td>
+    <td>Caching proxy to <code>api.parliament.uk/sparql</code> (the DDP store). Parliament's endpoint sends CORS so you don't strictly need this; we keep it for cache + a single TTL policy.</td>
+  </tr>
+  <tr>
+    <td><code>/api/now/, /api/members/, /api/hansard/, /api/cvotes/, /api/lvotes/</code></td>
+    <td>PROXY_PASSWORD</td>
+    <td>Caching proxies onto the modern Parliament REST APIs. See the demo's <a href="https://github.com/danbri/forgetmenot/blob/main/demos/parliament-live/CLAUDE.md">CLAUDE.md</a> for the routing table.</td>
+  </tr>
+  <tr>
+    <td><a href="/_health"><code>/_health</code></a></td>
+    <td>public</td>
+    <td>JSON liveness probe. Returns <code>{ok, cacheEntries, authRequired}</code>.</td>
+  </tr>
+</table>
 
-<h2>Other endpoints the clients can hit</h2>
-<p>
-  Each client lets you switch endpoints. The registry lives at
-  <a href="/kgx/endpoints.json"><span class="endpoint">/kgx/endpoints.json</span></a>
-  — add an entry and every client picks it up.
-</p>
+<h2>Registries &amp; samples</h2>
 <ul>
-  <li>UK Parliament DDP — via <code>/api/sparql</code> proxy (no CORS direct)</li>
-  <li>Wikidata — official, QLever (Freiburg), and OpenLink Virtuoso mirrors</li>
-  <li>DBpedia</li>
-  <li>legislation.gov.uk (invitation-only, listed for completeness)</li>
+  <li><a href="/kgx/endpoints.json"><code>/kgx/endpoints.json</code></a> — the curated endpoint list every kgx client reads (FPKG, UK Parliament DDP, Wikidata × 3 mirrors, DBpedia, legislation.gov.uk). Add an entry, every client picks it up.</li>
+  <li><a href="/kgx/queries/"><code>/kgx/queries/</code></a> — sample <code>.rq</code> files, each tagged with its target endpoint at the top.</li>
 </ul>
 
-<h2>Sample queries</h2>
+<h2>Customising the clients</h2>
 <p>
-  Curated <code>.rq</code> files at
-  <a href="/kgx/queries/"><span class="endpoint">/kgx/queries/</span></a>.
-  Tagged by target endpoint at the top of each file.
+  Want Flint or YASGUI pointed at your own SPARQL endpoints? Host an
+  <code>endpoints.json</code> with the shape of
+  <a href="/kgx/endpoints.json">ours</a> on a CORS-readable URL, and
+  visit
+  <code>/kgx/flint?endpoints=&lt;url&gt;</code> or
+  <code>/kgx/yas?endpoints=&lt;url&gt;</code>. No fork required.
+</p>
+<p>
+  For deeper customisation (namespaces, branding, default query, the set
+  of toolbar buttons) the wrappers are ~150 lines of HTML and one inline
+  script each — copy, edit, host wherever:
+</p>
+<ul>
+  <li><a href="https://github.com/danbri/forgetmenot/blob/main/demos/parliament-live/web/kgx/flint.html"><code>kgx/flint.html</code> on GitHub</a></li>
+  <li><a href="https://github.com/danbri/forgetmenot/blob/main/demos/parliament-live/web/kgx/yas.html"><code>kgx/yas.html</code> on GitHub</a></li>
+  <li><a href="https://github.com/danbri/forgetmenot/blob/main/demos/parliament-live/web/kgx/playground.html"><code>kgx/playground.html</code> on GitHub</a></li>
+</ul>
+
+<h2>Source code &amp; docs</h2>
+<ul>
+  <li>
+    <a href="https://github.com/danbri/forgetmenot">forgetmenot on GitHub</a>
+    — the whole repo (CLI <code>parl</code>, JS library, skills, demos).
+  </li>
+  <li>
+    <a href="https://github.com/danbri/forgetmenot/tree/main/skills"><code>skills/</code></a>
+    — one folder per UK-Parliament-adjacent API or dataset.
+    Each has a <code>SKILL.md</code> (the contract Claude reads) and a
+    <code>reference.md</code> (the full endpoint listing).
+  </li>
+  <li>
+    <a href="https://github.com/danbri/forgetmenot/blob/main/demos/parliament-live/CLAUDE.md">demos/parliament-live/CLAUDE.md</a>
+    — the 12 rules this demo follows (probe-then-render, defensive
+    renderers, the proxy is the only path, OPL attribution, etc.).
+  </li>
+  <li>
+    <a href="https://github.com/danbri/forgetmenot/tree/main/skills/kgx-infra-cloud-containers"><code>skills/kgx-infra-cloud-containers</code></a>
+    — catalogue of the deployment-side gotchas we've actually hit (fly.io,
+    GitHub Actions, Docker, Oxigraph CLI changes), with the commit each
+    fix landed in.
+  </li>
+  <li>
+    <a href="https://github.com/danbri/forgetmenot/blob/main/docs/triple-stores.md"><code>docs/triple-stores.md</code></a>
+    — local lore on Parliament's three RDF triple stores (DDP, DD,
+    internal) and which one <code>api.parliament.uk/sparql</code>
+    actually fronts.
+  </li>
+</ul>
+
+<h2>What's bundled in the local store?</h2>
+<p>
+  The Oxigraph instance behind <code>/kgx/query</code> is loaded at boot
+  from these gzipped N-Quads (one named graph per source):
+</p>
+<table>
+  <tr><th>Named graph (source)</th><th>Built by skill</th></tr>
+  <tr><td>accountability-graph</td><td>hand-built (Lords questions → arm's-length bodies)</td></tr>
+  <tr><td>transparency-graph</td><td><a href="https://github.com/danbri/forgetmenot/tree/main/skills/appg">appg</a> + <a href="https://github.com/danbri/forgetmenot/tree/main/skills/interests">interests</a></td></tr>
+  <tr><td>scrutiny-graph</td><td>hand-built (Acts → SIs → Lords scrutiny)</td></tr>
+  <tr><td>identity-graph</td><td><a href="https://github.com/danbri/forgetmenot/tree/main/skills/identity-graph">identity-graph</a></td></tr>
+  <tr><td>psephology</td><td><a href="https://github.com/danbri/forgetmenot/tree/main/skills/psephology">psephology</a></td></tr>
+  <tr><td>parliament-lda-terms</td><td><a href="https://github.com/danbri/forgetmenot/tree/main/skills/parliament-thesaurus">parliament-thesaurus</a></td></tr>
+</table>
+<p class="lede">
+  Producers not yet wired in: <code>fcdo-treaties</code> (15 MB committed but
+  not loaded), <code>govuk-orgchart</code> (uncompressed in tree, needs
+  gzipping), <code>tna-legislation</code> (multiple TTL files, needs
+  bulk-aggregation).
 </p>
 
 <footer>

@@ -76,7 +76,13 @@
 // client at once. Note: fetch is to a *relative* URL on the page's own
 // origin, NOT to the <base href>, because XHR/fetch don't honor <base>.
 (async () => {
-  const reg = await fetch(new URL('/kgx/endpoints.json', window.location.href)).then(r => r.json());
+  // ?endpoints=<url> on the page URL lets a colleague point this same
+  // wrapper at their own endpoint registry (must be CORS-readable from
+  // here). Default is our /kgx/endpoints.json. The registry shape is
+  // documented at the top of the default file.
+  const params = new URLSearchParams(window.location.search);
+  const cfgUrl = params.get('endpoints') || '/kgx/endpoints.json';
+  const reg = await fetch(new URL(cfgUrl, window.location.href)).then(r => r.json());
   const endpoints = reg.endpoints.map(e => ({
     name: e.label,
     uri: (e.needsProxy && e.cors === false)
