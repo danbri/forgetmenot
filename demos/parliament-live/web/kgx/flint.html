@@ -37,6 +37,25 @@
     background: #efece4; padding: 1px 5px; border-radius: 4px; word-break: break-all;
   }
 
+  /* Sample-query chips above the editor — Flint's own Samples tab
+     is in the right sidebar and cropped off on phones. */
+  .chips { margin: 12px 14px; }
+  .chips-label {
+    font-size: 13px; color: var(--ink-soft); margin: 0 0 6px;
+  }
+  .chip {
+    display: inline-block;
+    background: white;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 6px 12px;
+    margin: 2px 4px 2px 0;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .chip:active { background: #efece4; }
+
   /* Flint's 2012 layout assumes a desktop; these overrides keep it
      usable down to 360px without rewriting it. The container itself
      can scroll horizontally if Flint's inner tables refuse to wrap. */
@@ -59,6 +78,21 @@
   #flint-test input[type="submit"] {
     min-height: 36px; font-size: 14px;
   }
+  /* Make Submit look clickable. Flint's default styles it as a flat
+     grey button that reads as disabled on touch. It's not — but the
+     visual cue matters. */
+  #flint-test .flint-submit-button,
+  #flint-test #flint-endpoint-submit,
+  #flint-test #flint-dataset-submit {
+    background: var(--accent) !important;
+    color: white !important;
+    border: 1px solid var(--accent) !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    padding: 8px 18px !important;
+    cursor: pointer;
+  }
+  #flint-test .flint-submit-button:active { opacity: 0.85; }
   /* Don't shout in all-caps in the toolbar. */
   #flint-test .flint-toolbar { text-transform: none; }
   /* Result panel: wrap long URIs instead of one-line scrolling forever. */
@@ -82,9 +116,14 @@
   <h1>Flint SPARQL Editor</h1>
   <p class="sub">
     Default endpoint: <code>https://fpkg.fly.dev/kgx/query</code>.
-    Switch endpoints from the Endpoint dropdown; samples (left sidebar) are per-endpoint.
+    Tap a sample below to load it; press <strong>Submit</strong> in the editor to run.
   </p>
 </header>
+
+<div class="chips" id="chips">
+  <p class="chips-label">Samples (tap to load):</p>
+  <!-- buttons injected by JS once SAMPLES is built -->
+</div>
 
 <div id="flint-test"></div>
 
@@ -225,16 +264,40 @@ const SAMPLES = {
   const s = document.createElement('script');
   s.src = new URL('sparql/flint-editor.js', baseHref).toString();
   s.onload = () => {
-    /* global FlintEditor */
+    /* global FlintEditor, jQuery */
     const editor = new FlintEditor('flint-test', baseHref + 'sparql/images', window.flintConfig);
     // Pre-fill the editor with the count-quads probe so first paint
     // shows something runnable, not an empty box.
-    try {
-      const cm = editor.getCodeMirror && editor.getCodeMirror();
-      if (cm && cm.getValue && cm.getValue() === '') {
-        cm.setValue('SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }');
-      }
-    } catch (_) { /* Flint internals are 2012-era — don't blow up on shape change */ }
+    const setEditor = (query) => {
+      try {
+        const cm = editor.getCodeMirror && editor.getCodeMirror();
+        if (cm && cm.setValue) {
+          cm.setValue(query);
+          cm.focus && cm.focus();
+        }
+      } catch (_) { /* Flint internals are 2012-era — don't blow up on shape change */ }
+    };
+    setEditor('SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }');
+
+    // Render visible sample chips above the editor. Flint's own Samples
+    // sidebar tab is cropped off on narrow screens — the chips up top
+    // are the discoverable surface.
+    const fpkg = SAMPLES.fpkg || [];
+    const $chips = document.getElementById('chips');
+    fpkg.forEach((s) => {
+      const b = document.createElement('button');
+      b.className = 'chip';
+      b.textContent = s.name;
+      b.title = s.description;
+      b.addEventListener('click', () => setEditor(s.query));
+      $chips.appendChild(b);
+    });
+
+    // Switch Flint's sidebar to the Samples tab so if the user does
+    // find it, it shows our queries (not the keywords default).
+    setTimeout(() => {
+      try { jQuery('#flint-sidebar-samples').trigger('click'); } catch (_) {}
+    }, 200);
   };
   document.body.appendChild(s);
 })();
