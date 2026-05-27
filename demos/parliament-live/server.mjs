@@ -306,6 +306,17 @@ function json(res, status, obj) {
   res.end(JSON.stringify(obj));
 }
 
+// True when the client looks like a browser tab (no Accept, or Accept
+// includes text/html). Used to: (a) serve the HTML playground at /sparql
+// with no ?query=, (b) rewrite Oxigraph's application/sparql-results+xml
+// to a well-known MIME so iOS Safari renders inline instead of saving
+// the response as a file with no extension.
+export function wantsBrowserView(req) {
+  const a = String(req.headers['accept'] || '').toLowerCase();
+  if (a === '' || a === '*/*') return true;
+  return a.includes('text/html');
+}
+
 // ---- Request handler --------------------------------------------------------
 
 const server = http.createServer(async (req, res) => {
@@ -341,6 +352,18 @@ const server = http.createServer(async (req, res) => {
     const m = matchRoute(u.pathname);
     if (!m) return serveStatic(req, res);
 
+    // /sparql with no ?query= AND a browser-style Accept header serves a
+    // small HTML playground instead of dispatching upstream. iOS Safari
+    // otherwise saves Oxigraph's `application/sparql-results+xml`
+    // response as a file named "sparql" with no extension — unusable
+    // from a phone.
+    if (m.route.local === 'oxigraph'
+        && !u.searchParams.get('query')
+        && wantsBrowserView(req)) {
+      req.url = '/sparql.html';
+      return serveStatic(req, res);
+    }
+
     // Public routes — no auth required regardless of PROXY_PASSWORD.
     // /sparql serves the bundled Oxigraph store, which holds only
     // openly-published RDF (UK Parliament, OPL v3.0); no reason to gate
@@ -365,7 +388,16 @@ const server = http.createServer(async (req, res) => {
     }
 
     setCommonHeaders(res);
-    res.setHeader('content-type', entry.headers['content-type']);
+    // For browser tabs hitting /sparql?query=… directly, rewrite Oxigraph's
+    // application/sparql-results+{xml,json} to a well-known MIME so iOS
+    // Safari renders the response inline. Machine clients that pin Accept
+    // get the unrewritten content type via the cache key split.
+    let outCt = entry.headers['content-type'] || 'application/octet-stream';
+    if (m.route.local === 'oxigraph' && wantsBrowserView(req)) {
+      if (outCt.includes('sparql-results+xml'))  outCt = 'application/xml; charset=utf-8';
+      else if (outCt.includes('sparql-results+json')) outCt = 'application/json; charset=utf-8';
+    }
+    res.setHeader('content-type', outCt);
     res.setHeader('x-cache', source);
     res.setHeader('x-cache-age', String(Date.now() - entry.fetchedAt));
     res.setHeader('x-ttl', String(ttlMs));

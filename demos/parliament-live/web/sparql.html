@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FPKG — SPARQL playground</title>
+<style>
+  :root {
+    --bg: #faf8f3;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --accent: #2a4f76;
+    --accent-ink: #ffffff;
+    --rule: #d8d4ca;
+    --code-bg: #efece4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 16px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  .sub {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin: 0 0 16px;
+  }
+  textarea {
+    width: 100%;
+    min-height: 160px;
+    font: 14px/1.45 ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Mono", monospace;
+    padding: 12px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: white;
+    color: var(--ink);
+    resize: vertical;
+    -webkit-text-size-adjust: 100%;
+  }
+  .actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  button.run {
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  button.run:active { opacity: 0.85; }
+  .meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 6px 0 0;
+  }
+  .examples {
+    margin-top: 18px;
+  }
+  .examples-label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0 0 6px;
+  }
+  .examples button {
+    background: white;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    font-size: 14px;
+    padding: 8px 12px;
+    margin: 2px 2px 2px 0;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  .examples button:active { background: var(--code-bg); }
+  pre.out {
+    background: var(--code-bg);
+    padding: 12px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font: 13px/1.45 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: var(--ink);
+    margin-top: 12px;
+    min-height: 60px;
+  }
+  footer {
+    margin-top: 28px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<h1>Forgetmeknot Palace — SPARQL playground</h1>
+<p class="sub">
+  Read-only triple store, bundled at deploy time. Public, no auth.
+</p>
+
+<textarea id="q" spellcheck="false">SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }</textarea>
+
+<div class="actions">
+  <button class="run" id="run">Run query</button>
+</div>
+<p class="meta" id="meta">&nbsp;</p>
+
+<div class="examples">
+  <p class="examples-label">Examples (tap to load &amp; run):</p>
+  <button data-q="SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }">Count all quads</button>
+  <button data-q="SELECT DISTINCT ?g WHERE { GRAPH ?g { ?s ?p ?o } } ORDER BY ?g">List named graphs</button>
+  <button data-q="SELECT ?type (COUNT(*) AS ?n) WHERE { ?s a ?type } GROUP BY ?type ORDER BY DESC(?n) LIMIT 20">Top 20 rdf:types</button>
+  <button data-q="SELECT ?p (COUNT(*) AS ?n) WHERE { ?s ?p ?o } GROUP BY ?p ORDER BY DESC(?n) LIMIT 20">Top 20 predicates</button>
+</div>
+
+<pre class="out" id="out">Run a query to see results.</pre>
+
+<footer>
+  Contains Parliamentary information licensed under the
+  <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
+  Data source: UK Parliament. This site is a third-party prototype and
+  is not endorsed by, or affiliated with, the UK Parliament.
+</footer>
+
+<script>
+(() => {
+  const $q   = document.getElementById('q');
+  const $out = document.getElementById('out');
+  const $meta = document.getElementById('meta');
+
+  async function run() {
+    const query = $q.value.trim();
+    if (!query) {
+      $out.textContent = 'empty query';
+      return;
+    }
+    $out.textContent = 'running…';
+    $meta.textContent = '';
+    const t0 = performance.now();
+    try {
+      const r = await fetch('/sparql?query=' + encodeURIComponent(query), {
+        headers: { 'accept': 'application/sparql-results+json' },
+      });
+      const ms = (performance.now() - t0).toFixed(0);
+      const text = await r.text();
+      $meta.textContent = `HTTP ${r.status} · ${ms} ms · ${text.length} bytes`;
+      try {
+        const parsed = JSON.parse(text);
+        $out.textContent = JSON.stringify(parsed, null, 2);
+      } catch {
+        // Not JSON — show whatever came back (Turtle, XML for CONSTRUCT, etc.)
+        $out.textContent = text;
+      }
+    } catch (e) {
+      $meta.textContent = '';
+      $out.textContent = 'fetch error: ' + (e && e.message ? e.message : String(e));
+    }
+  }
+
+  document.getElementById('run').addEventListener('click', run);
+  document.querySelectorAll('.examples button').forEach(b => {
+    b.addEventListener('click', () => {
+      $q.value = b.dataset.q;
+      run();
+    });
+  });
+
+  // Cmd/Ctrl-Enter to run from the textarea.
+  $q.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      run();
+    }
+  });
+})();
+</script>
+</body>
+</html>
