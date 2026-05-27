@@ -110,11 +110,15 @@ jobs:
           git commit -m "auto: weekly rebuild of N-Quads + APPG cache (run ${{ github.run_id }})"
           git push
 
-      # --- Deploy step — disabled until FLY_API_TOKEN secret is set ---
-      # - uses: superfly/flyctl-actions/setup-flyctl@v1
-      # - name: Deploy to fly.io
-      #   env:
-      #     FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
-      #   run: |
-      #     flyctl deploy --config demos/parliament-live/fly.toml \
-      #                   --remote-only --strategy immediate
+      # --- Deploy step — needs FLY_API_TOKEN secret (set 2026-05-27) ---
+      - name: Set up flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@v1.5
+
+      - name: Deploy to fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          flyctl deploy \
+            --config demos/parliament-live/fly.toml \
+            --remote-only \
+            --strategy immediate

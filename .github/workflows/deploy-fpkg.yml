@@ -1,0 +1,61 @@
+# Deploy-only workflow for fpkg.fly.dev.
+#
+# Triggers:
+#   - workflow_dispatch — tap "Run workflow" on the GitHub mobile app or
+#     the web UI to ship whatever's currently on main.
+#   - push to main that touches demo code, graph data, or the scraper.
+#
+# To use, you need the FLY_API_TOKEN repository secret. Generate one at
+# https://fly.io/apps/fpkg/tokens (app-scoped deploy token recommended).
+#
+# This is the fast path. The rebuild-graphs workflow also calls flyctl
+# at the end, so don't trigger both at once for the same commit.
+
+name: deploy-fpkg
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'demos/parliament-live/**'
+      - 'third_party/data/**/*.nq.gz'
+      - 'third_party/identity-graph/**/*.nq.gz'
+      - 'lib/facilities/appg.mjs'
+      - '.github/workflows/deploy-fpkg.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-fpkg
+  cancel-in-progress: true     # newer push supersedes an in-flight build
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@v1.5
+
+      - name: Deploy to fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          flyctl deploy \
+            --config demos/parliament-live/fly.toml \
+            --remote-only \
+            --strategy immediate
+
+      - name: Smoke test the live endpoint
+        run: |
+          # Wait briefly for fly to flip traffic to the new machine.
+          sleep 10
+          curl -fsSL https://fpkg.fly.dev/_health | jq .
+          # And the new bundled SPARQL store should answer a trivial count.
+          curl -fsSL -H 'Accept: application/sparql-results+json' \
+            "https://fpkg.fly.dev/sparql?query=SELECT%20(COUNT(*)%20AS%20%3Fn)%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D" \
+            | jq .
