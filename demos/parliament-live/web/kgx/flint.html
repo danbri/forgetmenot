@@ -325,14 +325,25 @@ const SAMPLES = {
     const editor = new FlintEditor('flint-test', baseHref + 'sparql/images', window.flintConfig);
     // Pre-fill the editor with the count-quads probe so first paint
     // shows something runnable, not an empty box.
+    //
+    // The Flint API is:
+    //   FlintEditor (this var) .getEditor() → Flint instance
+    //   Flint                  .getCodeEditor() → CodeMirror instance
+    // — *not* editor.getCodeMirror() as I wrote first time; that just
+    // failed silently inside try/catch and made every chip a no-op.
     const setEditor = (query) => {
       try {
-        const cm = editor.getCodeMirror && editor.getCodeMirror();
+        const flint = editor.getEditor && editor.getEditor();
+        const cm = flint && flint.getCodeEditor && flint.getCodeEditor();
         if (cm && cm.setValue) {
           cm.setValue(query);
           cm.focus && cm.focus();
+        } else {
+          console.warn('[fpkg/flint] CodeMirror handle not found; chip is a no-op');
         }
-      } catch (_) { /* Flint internals are 2012-era — don't blow up on shape change */ }
+      } catch (e) {
+        console.error('[fpkg/flint] setEditor failed:', e);
+      }
     };
     setEditor('SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }');
 
