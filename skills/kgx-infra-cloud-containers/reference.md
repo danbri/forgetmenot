@@ -330,3 +330,52 @@ GitHub web UI at `https://github.com/<owner>/<repo>/branches`. The
 GitHub MCP tools available to the sandbox include `create_branch` but
 not `delete_branch`, and `flyctl-actions` / `gh` CLI aren't installed
 on the Web image.
+
+### Oxigraph release artefact naming + glibc-only
+
+**Seen 2026-05-27.**
+
+```
+gzip: invalid magic
+tar: Child returned status 1
+Error: failed to fetch an image or build from source
+```
+
+I guessed the asset filename as
+`oxigraph_X.Y.Z_x86_64-unknown-linux-musl.tar.gz` (Cargo-style). Wrong
+on two counts for current Oxigraph (0.5.x):
+
+1. **No tarball** — release artefacts are bare ELF binaries (chmod +x
+   and run). Asset naming is
+   `oxigraph_<TAG>_<ARCH>` with no extension.
+2. **No musl static build** — only `_linux_gnu` (glibc) is published,
+   so the binary needs a glibc base image (e.g. `debian:bookworm-slim`,
+   `node:22-slim`). Alpine won't run it.
+
+The 404 from the bad URL was silently saved as `oxigraph.tar.gz`,
+which `tar -xz` then rejected with "gzip: invalid magic".
+
+**Fix** (commit pending): rewrite the Dockerfile stage to:
+
+```dockerfile
+FROM debian:bookworm-slim AS oxigraph-stage
+RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certificates
+ARG OXIGRAPH_VERSION=v0.5.8       # NB literal 'v' in the tag
+RUN curl -fsSL -o /usr/local/bin/oxigraph \
+        "https://github.com/oxigraph/oxigraph/releases/download/${OXIGRAPH_VERSION}/oxigraph_${OXIGRAPH_VERSION}_x86_64_linux_gnu" && \
+    chmod +x /usr/local/bin/oxigraph && \
+    /usr/local/bin/oxigraph --version
+
+FROM node:22-slim AS runtime
+COPY --from=oxigraph-stage /usr/local/bin/oxigraph /usr/local/bin/oxigraph
+```
+
+**Discovery method**: GitHub's `expanded_assets` endpoint is the
+quickest way to enumerate real release artifacts without hitting the
+JSON-API rate limit:
+
+```sh
+curl -s "https://github.com/<owner>/<repo>/releases/expanded_assets/<TAG>" \
+  | grep -oE 'href="[^"]*"' | head -30
+```
+

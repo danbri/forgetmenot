@@ -5,36 +5,54 @@
 #   2. Oxigraph SPARQL store on 127.0.0.1:7878, loaded from bundled
 #      N-Quads dumps. The Node server proxies /sparql/* to it.
 #
-# Build context: repo root (so the Dockerfile can COPY ../../third_party/).
+# Build context: repo root (so the Dockerfile can COPY third_party/...).
 # See demos/parliament-live/fly.toml for deploy invocation.
 
-# --- Stage 1: download a static Oxigraph binary ---
-FROM alpine:3.20 AS oxigraph-stage
-RUN apk add --no-cache curl ca-certificates tar
-# Oxigraph publishes static musl binaries on GitHub Releases.
-# Pin to v0.4.5 (latest stable at time of build). Update with the
-# update-oxigraph step in the rebuild-data workflow.
-ARG OXIGRAPH_VERSION=0.4.5
+# --- Stage 1: download the Oxigraph binary -----------------------------------
+#
+# Oxigraph 0.5.x releases ship as BARE ELF BINARIES (no tarball), and only
+# in linux_gnu (glibc) flavour — no musl static build is published. So we:
+#   - download the bare binary, chmod +x, copy it across
+#   - run on a glibc-based runtime image (node:22-slim, Debian-derived)
+#
+# Asset URL pattern, verified 2026-05-27:
+#   github.com/oxigraph/oxigraph/releases/download/<TAG>/oxigraph_<TAG>_<ARCH>
+# where TAG is the literal "v0.5.8" (including the 'v') and ARCH is one of:
+#   x86_64_linux_gnu | aarch64_linux_gnu | x86_64_apple | ...
+#
+# The earlier `oxigraph_X.Y.Z_<arch>-unknown-linux-musl.tar.gz` naming was a
+# guess at a static-musl release that doesn't exist; the download silently
+# returned an HTML 404 which `tar -xz` rejected with "gzip: invalid magic".
+# Recorded in skills/kgx-infra-cloud-containers/.
+
+FROM debian:bookworm-slim AS oxigraph-stage
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG OXIGRAPH_VERSION=v0.5.8
 RUN set -eux; \
     arch="$(uname -m)"; \
     case "$arch" in \
-        x86_64)  asset=oxigraph_${OXIGRAPH_VERSION}_x86_64-unknown-linux-musl ;; \
-        aarch64) asset=oxigraph_${OXIGRAPH_VERSION}_aarch64-unknown-linux-musl ;; \
-        *) echo "unknown arch: $arch"; exit 1 ;; \
+        x86_64)  asset_arch=x86_64_linux_gnu  ;; \
+        aarch64) asset_arch=aarch64_linux_gnu ;; \
+        *) echo "unsupported arch: $arch"; exit 1 ;; \
     esac; \
-    curl -sSL -o /tmp/oxigraph.tar.gz \
-        "https://github.com/oxigraph/oxigraph/releases/download/v${OXIGRAPH_VERSION}/${asset}.tar.gz"; \
-    mkdir -p /opt/oxigraph; \
-    tar -xzf /tmp/oxigraph.tar.gz -C /opt/oxigraph --strip-components=1; \
-    chmod +x /opt/oxigraph/oxigraph; \
-    /opt/oxigraph/oxigraph --version
+    asset="oxigraph_${OXIGRAPH_VERSION}_${asset_arch}"; \
+    url="https://github.com/oxigraph/oxigraph/releases/download/${OXIGRAPH_VERSION}/${asset}"; \
+    echo "fetching $url"; \
+    curl -fsSL -o /usr/local/bin/oxigraph "$url"; \
+    chmod +x /usr/local/bin/oxigraph; \
+    /usr/local/bin/oxigraph --version
 
-# --- Stage 2: runtime ---
-FROM node:22-alpine AS runtime
+# --- Stage 2: runtime --------------------------------------------------------
+FROM node:22-slim AS runtime
 
-# Oxigraph is statically linked but needs musl libc (alpine has that).
-COPY --from=oxigraph-stage /opt/oxigraph/oxigraph /usr/local/bin/oxigraph
-RUN apk add --no-cache tini gzip
+# Bring the binary across. tini + gzip from apt.
+COPY --from=oxigraph-stage /usr/local/bin/oxigraph /usr/local/bin/oxigraph
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        tini gzip ca-certificates wget \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -64,5 +82,5 @@ EXPOSE 8080
 
 # tini = PID 1, reaps zombies and forwards signals. Required when one
 # process supervises another (Oxigraph here is launched by entrypoint).
-ENTRYPOINT ["/sbin/tini", "--"]
+ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["/usr/local/bin/fpkg-entrypoint"]
