@@ -14,6 +14,16 @@ on:
     # most weekday mornings; gives the new registers time to settle.
     - cron: '0 6 * * 1'
   workflow_dispatch:        # also manual via the GH UI
+  push:
+    branches: [claude/main]
+    paths:
+      # Editing this workflow file kicks a run — useful as a "trigger now"
+      # mechanism when the GitHub web UI is awkward (mobile / no MCP for
+      # workflow_dispatch).
+      - '.github/workflows/rebuild-graphs.yml'
+      # If a builder script changes, the bundled data is stale — re-run.
+      - 'skills/parliament-thesaurus/dump_terms.py'
+      - 'lib/facilities/appg.mjs'
 
 permissions:
   contents: write           # to push the regenerated .nq.gz files
