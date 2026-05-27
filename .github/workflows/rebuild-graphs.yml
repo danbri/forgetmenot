@@ -81,11 +81,19 @@ jobs:
       - name: Rebuild accountability graph
         run: python3 tmp/accountability-graph/build.py
 
+      - name: Refresh Parliament Thesaurus (LDA /terms → .nq.gz)
+        # Full crawl ~10-15 min at --sleep 0.25. The output is the
+        # streamed .nq.gz; no separate gzip step needed.
+        run: |
+          rm -rf cache-parliament-lda-terms
+          python3 skills/parliament-thesaurus/dump_terms.py --all --sleep 0.25
+
       - name: Re-run all queries (sanity)
         run: |
           python3 tmp/scrutiny-graph/queries.py
           python3 tmp/transparency-graph/queries.py
           python3 tmp/accountability-graph/queries.py
+          python3 skills/parliament-thesaurus/query_smoke.py
 
       - name: Gzip and discard uncompressed .nq
         run: |
@@ -102,7 +110,7 @@ jobs:
         run: |
           git config user.name  "forgetmenot-bot"
           git config user.email "forgetmenot-bot@users.noreply.github.com"
-          git add -A third_party/data/ third_party/identity-graph/
+          git add -A third_party/data/ third_party/identity-graph/ skills/parliament-thesaurus/
           if git diff --cached --quiet; then
             echo "no changes to commit"
             exit 0
