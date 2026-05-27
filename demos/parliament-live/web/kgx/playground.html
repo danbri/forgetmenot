@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>FPKG — SPARQL playground</title>
+<!-- YASQE: Triply's standalone SPARQL editor (MIT). Syntax highlighting,
+     prefix autocomplete (foaf: → injects PREFIX foaf:…), SPARQL keyword
+     completion. ~200 KB from unpkg's CDN. We only use it as the editor;
+     submit + results rendering are in our shell. -->
+<link rel="stylesheet" href="https://unpkg.com/@triply/yasqe/build/yasqe.min.css">
 <style>
   :root {
     --bg: #faf8f3;
@@ -50,17 +55,25 @@
     min-height: 44px;
     font-size: 16px;
   }
-  textarea {
-    width: 100%;
-    min-height: 140px;
-    font: 14px/1.45 ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Mono", monospace;
-    padding: 12px;
+  /* YASQE mount point. Border + radius match the rest of the controls
+     so it doesn't look like a foreign object dropped in. */
+  #q {
     border: 1px solid var(--rule);
     border-radius: 8px;
+    overflow: hidden;
     background: white;
-    color: var(--ink);
-    resize: vertical;
   }
+  #q .yasqe { font-size: 14px; }
+  #q .CodeMirror {
+    height: auto !important;
+    min-height: 160px;
+    background: white;
+    font: 14px/1.45 ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Mono", monospace;
+  }
+  /* YASQE's own submit button — we hide it; our Run button below
+     drives execution so we can route the result into our table view
+     rather than YASQE's default JSON dump. */
+  #q .yasqe_buttons { display: none !important; }
   .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
   button.run, button.probe {
     border: 0;
@@ -222,7 +235,7 @@
 <select id="endpoint" aria-label="Endpoint"></select>
 
 <label for="q">Query</label>
-<textarea id="q" spellcheck="false">SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }</textarea>
+<div id="q"></div>
 
 <div class="actions">
   <button class="run" id="run">Run query</button>
@@ -246,6 +259,7 @@
   is not endorsed by, or affiliated with, the UK Parliament.
 </footer>
 
+<script src="https://unpkg.com/@triply/yasqe/build/yasqe.min.js"></script>
 <script>
 // ---------------------------------------------------------------------------
 // Sample queries per endpoint id (or tier). All FPKG samples probed against
@@ -292,15 +306,51 @@ const SAMPLES = {
 // ---------------------------------------------------------------------------
 let REGISTRY = null;          // /kgx/endpoints.json content
 let CURRENT  = null;          // currently-selected endpoint object
+let editor   = null;          // YASQE instance (or textarea fallback)
 
 // ---------------------------------------------------------------------------
 // DOM
 // ---------------------------------------------------------------------------
 const $ep      = document.getElementById('endpoint');
-const $q       = document.getElementById('q');
+const $qMount  = document.getElementById('q');
 const $meta    = document.getElementById('meta');
 const $chips   = document.getElementById('chips');
 const $results = document.getElementById('results');
+
+// Editor accessor — wraps YASQE if it loaded, else falls back to a
+// plain textarea so the page is still usable on a flaky network.
+function getQuery() {
+  return editor && editor.getValue ? editor.getValue() : (editor ? editor.value : '');
+}
+function setQuery(s) {
+  if (editor && editor.setValue) editor.setValue(s);
+  else if (editor) editor.value = s;
+}
+
+function mountEditor(initialQuery) {
+  if (window.Yasqe) {
+    editor = new Yasqe($qMount, {
+      value: initialQuery,
+      showQueryButton: false,
+      persistent: null,                     // don't store across sessions
+      requestConfig: { endpoint: '' },      // we route requests ourselves
+    });
+    // Cmd/Ctrl-Enter → Run (YASQE's CodeMirror intercepts before our
+    // document-level listener fires).
+    editor.addKeyMap && editor.addKeyMap({
+      'Cmd-Enter':  () => run(),
+      'Ctrl-Enter': () => run(),
+    });
+    return;
+  }
+  // Fallback: plain textarea.
+  const ta = document.createElement('textarea');
+  ta.spellcheck = false;
+  ta.value = initialQuery;
+  ta.style.cssText = 'width:100%;min-height:160px;padding:12px;border:0;font:14px/1.45 ui-monospace,Menlo,monospace;background:white;color:inherit;';
+  $qMount.appendChild(ta);
+  editor = ta;
+}
 
 // Map endpoint to its sample-set key. Wikidata's mirrors share one set.
 function sampleKey(e) {
@@ -335,7 +385,7 @@ function renderChips(endpoint) {
     b.textContent = s.name;
     b.title = s.q.split('\n')[0];
     b.addEventListener('click', () => {
-      $q.value = s.q;
+      setQuery(s.q);
       run();
     });
     $chips.appendChild(b);
@@ -483,7 +533,7 @@ function renderResult(res, opts = {}) {
 // Actions
 // ---------------------------------------------------------------------------
 async function run() {
-  const query = $q.value.trim();
+  const query = getQuery().trim();
   if (!query) { $meta.textContent = 'empty query'; return; }
   $meta.textContent = 'running…';
   $results.innerHTML = '';
@@ -493,14 +543,16 @@ async function run() {
 
 document.getElementById('run').addEventListener('click', run);
 document.getElementById('probe-classes').addEventListener('click', () => {
-  $q.value = 'SELECT DISTINCT ?class WHERE { ?s a ?class } ORDER BY ?class LIMIT 1000';
+  setQuery('SELECT DISTINCT ?class WHERE { ?s a ?class } ORDER BY ?class LIMIT 1000');
   run();
 });
 document.getElementById('probe-props').addEventListener('click', () => {
-  $q.value = 'SELECT DISTINCT ?p WHERE { ?s ?p ?o } ORDER BY ?p LIMIT 1000';
+  setQuery('SELECT DISTINCT ?p WHERE { ?s ?p ?o } ORDER BY ?p LIMIT 1000');
   run();
 });
-$q.addEventListener('keydown', (e) => {
+// Cmd/Ctrl-Enter shortcut on the textarea fallback; the YASQE branch
+// installs its own keymap that wins inside CodeMirror's keydown layer.
+$qMount.addEventListener('keydown', (e) => {
   if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
     e.preventDefault();
     run();
@@ -511,6 +563,7 @@ $q.addEventListener('keydown', (e) => {
 // Init
 // ---------------------------------------------------------------------------
 (async () => {
+  mountEditor('SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }');
   try {
     REGISTRY = await fetch('/kgx/endpoints.json').then((r) => r.json());
   } catch (e) {
