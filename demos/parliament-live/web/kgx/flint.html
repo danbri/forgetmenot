@@ -108,9 +108,56 @@
      viewport. The chips above already cover Samples, so hide the
      sidebar at narrow widths. Restored on tablets/desktop. */
   @media (max-width: 768px) {
+    /* The whole #flint-editor — give it the viewport width, not Flint's
+       hardcoded inner widths that overflow horizontally. */
+    #flint-test #flint-editor {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+    }
+    /* Hide chrome that's pure clutter on a phone: the "Flint SPARQL
+       Editor 1.0.3" title bar, the New/Edit/View/Help menu, and the
+       2012-vintage toolbar icon row. Our page header has the title;
+       the chips above cover the toolbar's "new query / load sample"
+       functions. */
+    #flint-test #flint-title,
+    #flint-test #flint-menu,
+    #flint-test #flint-toolbar { display: none !important; }
+    /* Sidebar (SPARQL keywords / Properties / Classes / Prefixes /
+       Samples) — the chips above already provide Samples. */
     #flint-test #flint-sidebar,
     #flint-test #flint-sidebar-grabber { display: none !important; }
-    #flint-test #flint-editor { width: 100% !important; }
+
+    /* Stack the Dataset / Mode / Output / Submit row vertically on
+       narrow screens — those four side-by-side wrap badly at 360px. */
+    #flint-test #flint-endpoint-bar,
+    #flint-test #flint-coolbar {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 8px !important;
+      padding: 8px !important;
+    }
+    #flint-test #flint-endpoint-bar > *,
+    #flint-test #flint-coolbar > * {
+      width: 100% !important;
+      max-width: 100% !important;
+      float: none !important;
+      margin: 0 !important;
+    }
+    #flint-test #flint-endpoint-bar select,
+    #flint-test #flint-coolbar select {
+      width: 100% !important;
+      min-height: 40px;
+    }
+    #flint-test .flint-submit-button {
+      width: 100% !important;
+      min-height: 44px !important;
+      font-size: 16px !important;
+    }
+
+    /* CodeMirror: give the editor more vertical room — it's the
+       primary thing on this page. */
+    #flint-test .CodeMirror { min-height: 280px; }
   }
 </style>
 </head>
