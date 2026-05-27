@@ -82,11 +82,15 @@ jobs:
         run: python3 tmp/accountability-graph/build.py
 
       - name: Refresh Parliament Thesaurus (LDA /terms → .nq.gz)
-        # Full crawl ~10-15 min at --sleep 0.25. The output is the
-        # streamed .nq.gz; no separate gzip step needed.
+        # Full crawl ~12-18 min at --sleep 0.25. Tight per-fetch timeouts
+        # so one slow LDA page costs ~2 minutes (not 8) before being
+        # skipped. The script tolerates up to 10 skipped pages before
+        # bailing out. Output is the streamed .nq.gz; no separate gzip
+        # step needed.
         run: |
           rm -rf cache-parliament-lda-terms
-          python3 skills/parliament-thesaurus/dump_terms.py --all --sleep 0.25
+          python3 skills/parliament-thesaurus/dump_terms.py \
+            --all --sleep 0.25 --timeout 30 --retries 3
 
       - name: Re-run all queries (sanity)
         run: |
