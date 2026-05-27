@@ -1,0 +1,62 @@
+[
+  {
+    "total": 545,
+    "publicationType": {
+      "id": 1,
+      "name": "Report",
+      "description": "Reports are agreed formally by a committee and published by order of the House. They are often the product of a committee inquiry.",
+      "governmentCanRespond": true,
+      "canBeResponse": false,
+      "iconKey": null,
+      "pluralVersion": "Reports"
+    }
+  },
+  {
+    "total": 5,
+    "publicationType": {
+      "id": 2,
+      "name": "Government Response",
+      "description": "The Government has undertaken to respond to most committee reports within two months, although there are exceptions to this rule.",
+      "governmentCanRespond": false,
+      "canBeResponse": true,
+      "iconKey": null,
+      "pluralVersion": "Government Responses"
+    }
+  },
+  {
+    "total": 10,
+    "publicationType": {
+      "id": 3,
+      "name": "Correspondence",
+      "description": "Committees exchange letters with government departments and others, often to request information or follow up on recommendations.",
+      "governmentCanRespond": false,
+      "canBeResponse": true,
+      "iconKey": null,
+      "pluralVersion": "Correspondence"
+    }
+  },
+  {
+    "total": 137,
+    "publicationType": {
+      "id": 8,
+      "name": "Scrutiny evidence",
+      "description": "Evidence received in the course of conducting legislative scrutiny.",
+      "governmentCanRespond": false,
+      "canBeResponse": false,
+      "iconKey": null,
+      "pluralVersion": "Scrutiny evidence"
+    }
+  },
+  {
+    "total": 4,
+    "publicationType": {
+      "id": 13,
+      "name": "Engagement document",
+      "description": "Documents relating to committee engagement activities, such as forums, surveys or ‘roundtable’ events with experts and stakeholders that the committee has chosen to make public.",
+      "governmentCanRespond": false,
+      "canBeResponse": false,
+      "iconKey": "fas fa-comments",
+      "pluralVersion": "Engagement documents"
+    }
+  }
+]
