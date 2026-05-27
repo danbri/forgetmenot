@@ -88,7 +88,9 @@
     uri: (e.needsProxy && e.cors === false)
       ? new URL(e.needsProxy, window.location.href).toString()
       : e.url,
-    modes: ['sparql11query', 'sparql10query'],
+    // Mode names match Flint's internal mode registry — see sparql/init-local.js
+    // in the TSO repo. 'sparql10' / 'sparql11query' / 'sparql11update'.
+    modes: ['sparql11query', 'sparql10'],
   }));
   window.flintConfig = {
     interface: { toolbar: true, menu: ['endpoint', 'mode', 'clear', 'format'] },
@@ -117,14 +119,23 @@
     },
     defaultModes: [
       { name: 'SPARQL 1.1 Query', mode: 'sparql11query' },
-      { name: 'SPARQL 1.0 Query', mode: 'sparql10query' },
+      { name: 'SPARQL 1.0',       mode: 'sparql10' },
     ],
     endpoints,
   };
-  // Now load flint-editor.js — it expects flintConfig as a global and
-  // self-mounts onto #flint-test.
+  // Load flint-editor.js (defines the FlintEditor constructor), then call
+  // it ourselves. The original distribution does this from init-local.js,
+  // which we skip because it hardcodes TSO's own endpoint list.
+  //
+  // The "images" path argument is RELATIVE to the page, not the <base>
+  // — pass the absolute jsDelivr URL so toolbar icons resolve there.
+  const baseHref = document.querySelector('base').href;
   const s = document.createElement('script');
-  s.src = new URL('sparql/flint-editor.js', document.querySelector('base').href).toString();
+  s.src = new URL('sparql/flint-editor.js', baseHref).toString();
+  s.onload = () => {
+    /* global FlintEditor */
+    new FlintEditor('flint-test', baseHref + 'sparql/images', window.flintConfig);
+  };
   document.body.appendChild(s);
 })();
 </script>
