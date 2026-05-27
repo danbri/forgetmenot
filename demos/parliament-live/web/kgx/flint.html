@@ -20,20 +20,54 @@
     --accent: #2a4f76;
     --rule: #d8d4ca;
   }
+  * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
   body {
     font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+    -webkit-text-size-adjust: 100%;
   }
-  header, footer { padding: 14px 16px; border-bottom: 1px solid var(--rule); }
+  header, footer { padding: 12px 14px; border-bottom: 1px solid var(--rule); }
   footer { border-bottom: 0; border-top: 1px solid var(--rule); color: var(--ink-soft); font-size: 13px; }
   nav { font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; }
-  a { color: var(--accent); }
+  nav a { color: var(--accent); }
   h1 { margin: 0 0 4px; font-size: 18px; }
   .sub { color: var(--ink-soft); font-size: 14px; margin: 0; }
-  #flint-test { margin: 0 8px; }
-  /* Flint's 2012 CSS pre-dates 360px design. A few overrides for legibility. */
-  #flint-test, #flint-test .CodeMirror { font-size: 14px; line-height: 1.4; }
-  #flint-test .CodeMirror { min-height: 220px; }
+  .sub code {
+    font: 13px/1.4 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    background: #efece4; padding: 1px 5px; border-radius: 4px; word-break: break-all;
+  }
+
+  /* Flint's 2012 layout assumes a desktop; these overrides keep it
+     usable down to 360px without rewriting it. The container itself
+     can scroll horizontally if Flint's inner tables refuse to wrap. */
+  #flint-test {
+    margin: 8px 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  #flint-test, #flint-test .CodeMirror {
+    font: 14px/1.4 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  }
+  #flint-test .CodeMirror {
+    min-height: 220px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+  /* Bigger hit targets on touch. */
+  #flint-test button,
+  #flint-test select,
+  #flint-test input[type="submit"] {
+    min-height: 36px; font-size: 14px;
+  }
+  /* Don't shout in all-caps in the toolbar. */
+  #flint-test .flint-toolbar { text-transform: none; }
+  /* Result panel: wrap long URIs instead of one-line scrolling forever. */
+  #flint-test .flint-results,
+  #flint-test #flint-results-display,
+  #flint-test table.flint-results td {
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
 </style>
 </head>
 <body>
@@ -43,12 +77,12 @@
     &middot; <a href="/kgx/playground">playground</a>
     &middot; flint
     &middot; <a href="/kgx/yas">yasgui</a>
-    &middot; <a href="/kgx/query?query=SELECT%20%28COUNT%28%2A%29%20AS%20%3Fn%29%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D">raw endpoint</a>
+    &middot; <a href="/kgx/query?query=SELECT%20%28COUNT%28%2A%29%20AS%20%3Fn%29%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D">raw</a>
   </nav>
   <h1>Flint SPARQL Editor</h1>
   <p class="sub">
-    TSO's 2012-era editor (MIT). Endpoint dropdown is populated from
-    <a href="/kgx/endpoints.json">/kgx/endpoints.json</a>.
+    Default endpoint: <code>https://fpkg.fly.dev/kgx/query</code>.
+    Switch endpoints from the Endpoint dropdown; samples (left sidebar) are per-endpoint.
   </p>
 </header>
 
@@ -73,38 +107,98 @@
 <script>
 // Replaces the bundled sparql/init-local.js — we build flintConfig from
 // /kgx/endpoints.json so adding an endpoint anywhere updates every kgx
-// client at once. Note: fetch is to a *relative* URL on the page's own
-// origin, NOT to the <base href>, because XHR/fetch don't honor <base>.
+// client at once. fetch is to a *relative* URL on the page's own origin,
+// NOT to the <base href>, because XHR/fetch don't honor <base>.
 (async () => {
+
+// Sample queries per endpoint id. All FPKG queries verified against
+// /kgx/query 2026-05-27. Wikidata sample is a one-liner that's been
+// canonical since the Wikidata QID for UK MP existed (Q16707842).
+const SAMPLES = {
+  fpkg: [
+    {
+      name: 'Count all quads',
+      description: 'Smoke test — should return a number well into the millions.',
+      query: 'SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }',
+    },
+    {
+      name: 'List named graphs',
+      description: 'Enumerate every source graph in the bundled store, with its quad count.',
+      query: 'SELECT ?g (COUNT(*) AS ?n)\nWHERE { GRAPH ?g { ?s ?p ?o } }\nGROUP BY ?g\nORDER BY DESC(?n)',
+    },
+    {
+      name: 'Top 20 predicates',
+      description: 'Most common properties across all graphs — a quick shape probe.',
+      query: 'SELECT ?p (COUNT(*) AS ?n)\nWHERE { ?s ?p ?o }\nGROUP BY ?p\nORDER BY DESC(?n)\nLIMIT 20',
+    },
+    {
+      name: 'Top 20 rdf:types',
+      description: 'Distribution of typed entities in the store.',
+      query: 'SELECT ?t (COUNT(*) AS ?n)\nWHERE { ?s a ?t }\nGROUP BY ?t\nORDER BY DESC(?n)\nLIMIT 20',
+    },
+    {
+      name: 'Top 5 elections by candidacy count',
+      description: 'From the psephology graph: which Westminster elections have the most candidate records?',
+      query: 'PREFIX el: <http://parliament.uk/ontologies/election/>\nSELECT ?election (COUNT(?c) AS ?n)\nWHERE {\n  ?c a el:Candidacy ;\n     el:inElection ?election .\n}\nGROUP BY ?election\nORDER BY DESC(?n)\nLIMIT 5',
+    },
+    {
+      name: 'Lords RMFI: predicate shape',
+      description: 'Predicates used in the Register of Lords Members’ Interests transparency graph.',
+      query: 'SELECT ?p (COUNT(*) AS ?n)\nWHERE { GRAPH <https://forgetmenot.example/transparency#graph/lords-rmfi> { ?s ?p ?o } }\nGROUP BY ?p\nORDER BY DESC(?n)\nLIMIT 10',
+    },
+  ],
+  wikidata: [
+    {
+      name: 'Sitting UK MPs',
+      description: 'Every person currently in the House of Commons (no end date on the position-held statement).',
+      query: 'PREFIX p: <http://www.wikidata.org/prop/>\nPREFIX ps: <http://www.wikidata.org/prop/statement/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nPREFIX wd: <http://www.wikidata.org/entity/>\n\nSELECT ?person ?personLabel ?constituencyLabel WHERE {\n  ?person p:P39 ?membership .\n  ?membership ps:P39 wd:Q16707842 ;\n              pq:P768 ?constituency .\n  FILTER NOT EXISTS { ?membership pq:P582 [] }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n}\nORDER BY ?personLabel',
+    },
+  ],
+};
+
   // ?endpoints=<url> on the page URL lets a colleague point this same
-  // wrapper at their own endpoint registry (must be CORS-readable from
-  // here). Default is our /kgx/endpoints.json. The registry shape is
-  // documented at the top of the default file.
+  // wrapper at their own endpoint registry (must be CORS-readable).
   const params = new URLSearchParams(window.location.search);
   const cfgUrl = params.get('endpoints') || '/kgx/endpoints.json';
   const reg = await fetch(new URL(cfgUrl, window.location.href)).then(r => r.json());
-  const endpoints = reg.endpoints.map(e => ({
-    name: e.label,
-    uri: (e.needsProxy && e.cors === false)
-      ? new URL(e.needsProxy, window.location.href).toString()
-      : e.url,
-    // Mode names match Flint's internal mode registry — see sparql/init-local.js
-    // in the TSO repo. 'sparql10' / 'sparql11query' / 'sparql11update'.
-    modes: ['sparql11query', 'sparql10'],
-  }));
+
+  // Tier → sample-key. Wikidata's three mirrors share one sample set.
+  const sampleKey = (e) => {
+    if (e.id === 'fpkg') return 'fpkg';
+    if (e.tier === 'wikidata') return 'wikidata';
+    return null;
+  };
+
+  const endpoints = reg.endpoints.map(e => {
+    // Always show absolute URLs in the dropdown so it's obvious which
+    // host you're hitting. A bare "/kgx/query" looks like a placeholder.
+    const absoluteUrl = new URL(e.url, window.location.href).toString();
+    const samples = SAMPLES[sampleKey(e)] || [];
+    return {
+      name: e.label,
+      uri: absoluteUrl,
+      modes: ['sparql11query', 'sparql10'],
+      queries: samples,
+    };
+  });
+
   window.flintConfig = {
     interface: { toolbar: true, menu: ['endpoint', 'mode', 'clear', 'format'] },
     namespaces: [
-      { name: 'RDF',  prefix: 'rdf',  uri: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' },
-      { name: 'RDFS', prefix: 'rdfs', uri: 'http://www.w3.org/2000/01/rdf-schema#' },
-      { name: 'XSD',  prefix: 'xsd',  uri: 'http://www.w3.org/2001/XMLSchema#' },
-      { name: 'OWL',  prefix: 'owl',  uri: 'http://www.w3.org/2002/07/owl#' },
-      { name: 'parl', prefix: 'parl', uri: 'https://id.parliament.uk/schema/' },
-      { name: 'wd',   prefix: 'wd',   uri: 'http://www.wikidata.org/entity/' },
-      { name: 'wdt',  prefix: 'wdt',  uri: 'http://www.wikidata.org/prop/direct/' },
-      { name: 'p',    prefix: 'p',    uri: 'http://www.wikidata.org/prop/' },
-      { name: 'ps',   prefix: 'ps',   uri: 'http://www.wikidata.org/prop/statement/' },
-      { name: 'pq',   prefix: 'pq',   uri: 'http://www.wikidata.org/prop/qualifier/' },
+      { name: 'RDF',          prefix: 'rdf',  uri: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#' },
+      { name: 'RDFS',         prefix: 'rdfs', uri: 'http://www.w3.org/2000/01/rdf-schema#' },
+      { name: 'XSD',          prefix: 'xsd',  uri: 'http://www.w3.org/2001/XMLSchema#' },
+      { name: 'OWL',          prefix: 'owl',  uri: 'http://www.w3.org/2002/07/owl#' },
+      { name: 'SKOS',         prefix: 'skos', uri: 'http://www.w3.org/2004/02/skos/core#' },
+      { name: 'Schema.org',   prefix: 'sdo',  uri: 'http://schema.org/' },
+      { name: 'FPKG vocab',   prefix: 'fm',   uri: 'https://forgetmenot.local/vocab#' },
+      { name: 'Parl Election',prefix: 'el',   uri: 'http://parliament.uk/ontologies/election/' },
+      { name: 'Parl Schema',  prefix: 'parl', uri: 'https://id.parliament.uk/schema/' },
+      { name: 'Wikidata Q',   prefix: 'wd',   uri: 'http://www.wikidata.org/entity/' },
+      { name: 'Wikidata P',   prefix: 'wdt',  uri: 'http://www.wikidata.org/prop/direct/' },
+      { name: 'Wikidata p',   prefix: 'p',    uri: 'http://www.wikidata.org/prop/' },
+      { name: 'Wikidata ps',  prefix: 'ps',   uri: 'http://www.wikidata.org/prop/statement/' },
+      { name: 'Wikidata pq',  prefix: 'pq',   uri: 'http://www.wikidata.org/prop/qualifier/' },
     ],
     defaultEndpointParameters: {
       queryParameters: { query: 'query' },
@@ -113,8 +207,8 @@
         { name: 'XML',  format: 'sparql-results+xml',  type: 'application/sparql-results+xml' },
       ],
       constructFormats: [
-        { name: 'Turtle',     format: 'turtle',    type: 'text/turtle' },
-        { name: 'N-Triples',  format: 'ntriples',  type: 'application/n-triples' },
+        { name: 'Turtle',    format: 'turtle',   type: 'text/turtle' },
+        { name: 'N-Triples', format: 'ntriples', type: 'application/n-triples' },
       ],
     },
     defaultModes: [
@@ -123,18 +217,24 @@
     ],
     endpoints,
   };
-  // Load flint-editor.js (defines the FlintEditor constructor), then call
-  // it ourselves. The original distribution does this from init-local.js,
-  // which we skip because it hardcodes TSO's own endpoint list.
-  //
-  // The "images" path argument is RELATIVE to the page, not the <base>
-  // — pass the absolute jsDelivr URL so toolbar icons resolve there.
+
+  // Load flint-editor.js, then instantiate. Original distribution does
+  // this from init-local.js, which we skip because it hardcodes TSO's
+  // own endpoint list (legislation.gov.uk + London Gazette).
   const baseHref = document.querySelector('base').href;
   const s = document.createElement('script');
   s.src = new URL('sparql/flint-editor.js', baseHref).toString();
   s.onload = () => {
     /* global FlintEditor */
-    new FlintEditor('flint-test', baseHref + 'sparql/images', window.flintConfig);
+    const editor = new FlintEditor('flint-test', baseHref + 'sparql/images', window.flintConfig);
+    // Pre-fill the editor with the count-quads probe so first paint
+    // shows something runnable, not an empty box.
+    try {
+      const cm = editor.getCodeMirror && editor.getCodeMirror();
+      if (cm && cm.getValue && cm.getValue() === '') {
+        cm.setValue('SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }');
+      }
+    } catch (_) { /* Flint internals are 2012-era — don't blow up on shape change */ }
   };
   document.body.appendChild(s);
 })();
