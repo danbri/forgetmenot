@@ -16,7 +16,7 @@ name: deploy-fpkg
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches: [claude/main, main]
     paths:
       - 'demos/parliament-live/**'
       - 'third_party/data/**/*.nq.gz'
@@ -47,7 +47,6 @@ jobs:
         run: |
           flyctl deploy . \
             --config demos/parliament-live/fly.toml \
-            --dockerfile demos/parliament-live/Dockerfile \
             --remote-only \
             --strategy immediate
 

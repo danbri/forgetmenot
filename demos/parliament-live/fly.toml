@@ -3,16 +3,21 @@
 # Deploy from the *repo root* so the Docker build can COPY third_party/
 # N-Quads dumps for the bundled SPARQL endpoint:
 #
-#   flyctl deploy --config demos/parliament-live/fly.toml
+#   flyctl deploy . --config demos/parliament-live/fly.toml
 #
+# Path semantics, learned the hard way:
+#   - [build].dockerfile is resolved relative to fly.toml's directory,
+#     NOT the cwd. So we use bare 'Dockerfile' (which lives next to
+#     this fly.toml).
+#   - The positional WORKING_DIRECTORY argument ('.' above) is what
+#     sets the Docker build context — that's how the Dockerfile's
+#     COPY third_party/... lines reach into the repo root.
 
 app = 'fpkg'
 primary_region = 'lhr'
 
 [build]
-  # Path is relative to the directory you run `flyctl deploy` in (the
-  # repo root, per the comment above).
-  dockerfile = 'demos/parliament-live/Dockerfile'
+  dockerfile = 'Dockerfile'
 
 [env]
   HOST = '0.0.0.0'

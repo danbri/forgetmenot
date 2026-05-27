@@ -132,6 +132,5 @@ jobs:
         run: |
           flyctl deploy . \
             --config demos/parliament-live/fly.toml \
-            --dockerfile demos/parliament-live/Dockerfile \
             --remote-only \
             --strategy immediate
