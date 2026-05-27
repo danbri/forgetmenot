@@ -81,6 +81,15 @@ index.
   reaps zombies + forwards signals. Otherwise SIGTERM from fly
   doesn't reach the children and shutdown takes forever.
 
+### RDF storage vocabulary
+
+- **Cottas ≠ Factoidal.** Cottas is an on-disk RDF quads binary
+  format (a pattern over Parquet) — comparable to HDT, a serialization
+  not an engine. Factoidal is an experimental SPARQL/RDFS/OWL system
+  written in F*, the engine itself. Neither is wired into this repo;
+  both come up when discussing "where could we cache the bundled
+  RocksDB store?". See reference.md → *RDF storage — vocabulary*.
+
 ### Cloudflare / upstream blockers
 
 - **`publications.parliament.uk` returns 200 to browser-style UAs

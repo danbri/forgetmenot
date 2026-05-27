@@ -425,3 +425,56 @@ named graph as part of the default graph for query evaluation. Could
 alternatively force callers to write `GRAPH ?g { ?s ?p ?o }`, but the
 union default is friendlier for a public endpoint.
 
+---
+
+## RDF storage — vocabulary (don't conflate these)
+
+When the conversation turns to "where could we cache the on-disk
+RocksDB?", several names come up. They're distinct things and have
+been merged together in my head before — recording the distinction
+once, here, so future-me stops doing it.
+
+### Cottas
+
+An on-disk **binary format** for RDF quads, structured as a pattern
+over Parquet. Columnar layout, designed to be cheap to ship as a file
+and cheap to range-scan. Comparable in role to **HDT** (header /
+dictionary / triples), not to a triple store. It's a serialization,
+not a query engine. Nothing in this repo currently reads or writes
+Cottas; it's the user's work, lives elsewhere.
+
+### Factoidal
+
+An **experimental SPARQL / RDFS / OWL system written in F***. The
+engine — query evaluator, reasoner, the bit that answers queries.
+Has a few experimental on-disk storage components of its own. Also
+the user's work, not used in this repo.
+
+### How they relate to each other and to what we *do* use
+
+| Layer | Cottas | Factoidal | Ours today |
+|---|---|---|---|
+| Storage format | columnar quads over Parquet | several experimental | Oxigraph's RocksDB indexes |
+| Query engine | — (format only) | SPARQL/RDFS/OWL in F* | Oxigraph (Rust) |
+| Used in this repo | no | no | yes |
+
+The reason both names recurred in the May 2026 thread is that the
+user was thinking about ways to **avoid the 3-5 s gunzip + RocksDB
+load on every cold start** — Cottas as a faster on-disk format,
+Factoidal as a swap-out engine. Neither is wired in; we still load
+`.nq.gz` into Oxigraph's RocksDB at boot.
+
+The shorter realistic options for that same problem stay on the
+table:
+
+1. Bake the populated RocksDB directory into the Docker image at
+   build time (no gunzip + load at boot — adds image size but
+   removes cold-start cost). Likely the cheapest win.
+2. Persist it on a fly volume (already noted under fly.io →
+   auto-stop cold starts).
+3. Keep `min_machines_running = 1` to avoid cold starts entirely.
+
+If we ever do experiment with Cottas or Factoidal in this repo,
+record the integration in this file with the commit hash, and
+update the table above so this distinction stays current.
+
