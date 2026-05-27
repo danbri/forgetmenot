@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # fpkg-entrypoint — start Oxigraph against the pre-baked RocksDB, then
 # exec the Node server in the foreground.
 #
@@ -68,4 +68,13 @@ for i in $(seq 1 60); do
 done
 
 echo "[fpkg] starting node server.mjs on ${HOST:-0.0.0.0}:${PORT:-8080} …"
-exec node /app/server.mjs
+node /app/server.mjs &
+NODE_PID=$!
+
+# If either child dies, exit so fly restarts the whole machine. Without
+# this, oxigraph dying mid-flight leaves node up but every query 502s
+# forever ("fetch failed" against 127.0.0.1:7878).
+wait -n "$OXI_PID" "$NODE_PID" 2>/dev/null || true
+echo "[fpkg] a child process exited — bailing out so fly restarts the machine" >&2
+kill -TERM "$OXI_PID" "$NODE_PID" 2>/dev/null || true
+exit 1

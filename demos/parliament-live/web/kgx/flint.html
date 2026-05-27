@@ -102,6 +102,16 @@
     word-break: break-word;
     overflow-wrap: anywhere;
   }
+
+  /* Phones: Flint's right sidebar (SPARQL/Properties/Classes/Prefixes/
+     Samples) hangs off-screen because the editor is wider than the
+     viewport. The chips above already cover Samples, so hide the
+     sidebar at narrow widths. Restored on tablets/desktop. */
+  @media (max-width: 768px) {
+    #flint-test #flint-sidebar,
+    #flint-test #flint-sidebar-grabber { display: none !important; }
+    #flint-test #flint-editor { width: 100% !important; }
+  }
 </style>
 </head>
 <body>
