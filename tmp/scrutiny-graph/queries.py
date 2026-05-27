@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """Run example queries against scrutiny.nq and emit JSON per query."""
 import json, sys
+import gzip, io
+
+def _open(p):
+    return io.TextIOWrapper(gzip.open(p, "rb"), encoding="utf-8") if p.endswith(".gz") else open(p, "r", encoding="utf-8")
 from rdflib import Dataset
 
 PREFIX = """PREFIX scr:  <https://forgetmenot.example/scrutiny#>
@@ -84,7 +88,7 @@ SELECT ?actName (COUNT(DISTINCT ?si) AS ?siCount) WHERE {{
 
 print("Loading graph…", file=sys.stderr)
 ds = Dataset()
-ds.parse("third_party/data/scrutiny-graph/scrutiny.nq", format="nquads")
+ds.parse(_open("third_party/data/scrutiny-graph/scrutiny.nq.gz"), format="nquads")
 print(f"Loaded {sum(1 for _ in ds.quads((None,None,None,None)))} quads in {len(list(ds.contexts()))} graphs", file=sys.stderr)
 
 out = {}

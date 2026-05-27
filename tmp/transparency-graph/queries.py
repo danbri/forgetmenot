@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 import json, sys
+import gzip, io
+
+def _open(p):
+    return io.TextIOWrapper(gzip.open(p, "rb"), encoding="utf-8") if p.endswith(".gz") else open(p, "r", encoding="utf-8")
 from rdflib import Dataset
 
 PREFIX = """PREFIX trn:  <https://forgetmenot.example/transparency#>
@@ -64,7 +68,7 @@ SELECT ?sourceName ?appgTitle ?mname WHERE {{
 }
 
 ds = Dataset()
-ds.parse("third_party/data/transparency-graph/transparency.nq", format="nquads")
+ds.parse(_open("third_party/data/transparency-graph/transparency.nq.gz"), format="nquads")
 print(f"Loaded {sum(1 for _ in ds.quads((None,None,None,None)))} quads", file=sys.stderr)
 
 out = {}

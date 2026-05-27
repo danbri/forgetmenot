@@ -1,0 +1,120 @@
+# Weekly rebuild of the three project N-Quads (scrutiny, transparency,
+# accountability) plus a fresh APPG cache refresh. Commits any changed
+# .nq.gz files to main; the SPARQL endpoint on fly.io picks them up on
+# the next deploy.
+#
+# The deploy step is currently a no-op stub — set FLY_API_TOKEN in the
+# repository secrets to enable, then uncomment the flyctl block.
+
+name: rebuild-graphs
+
+on:
+  schedule:
+    # Mondays 06:00 UTC — after the Parliament publishing cycle that runs
+    # most weekday mornings; gives the new registers time to settle.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:        # also manual via the GH UI
+
+permissions:
+  contents: write           # to push the regenerated .nq.gz files
+
+concurrency:
+  group: rebuild-graphs
+  cancel-in-progress: false
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python deps
+        run: pip install rdflib
+
+      - name: Run unit tests (scraper sanity)
+        run: |
+          node --test tests/unit/appg.test.mjs tests/unit/appg-benefits.test.mjs
+
+      - name: Refresh APPG cache
+        run: |
+          mkdir -p third_party/data/appg
+          node bin/parl.mjs appg crawl --edition 260413 --delay-ms 150 \
+            > /tmp/appg-crawl.json
+          python3 - <<'PY'
+          import json
+          with open("/tmp/appg-crawl.json") as f:
+              groups = json.load(f)
+          payload = {
+              "count": len(groups),
+              "edition": "260413",
+              "groups": groups,
+              "regeneratedAt": "${{ github.run_id }}-${{ github.run_started_at }}",
+          }
+          with open("third_party/data/appg/resolved.json", "w") as f:
+              json.dump(payload, f, indent=2)
+          PY
+
+      - name: Re-fetch scrutiny inputs (Lords votes + SI details)
+        run: |
+          # Limited refresh — only updates the 40-division seed and
+          # re-pulls each SI. Lords RMFI and committee membership are
+          # rebuilt monthly via a different workflow (not yet wired).
+          # For now: re-run the scrutiny-graph build with cached inputs.
+          [ -d tmp/scrutiny-graph/raw ] || mkdir -p tmp/scrutiny-graph/raw
+          python3 tmp/scrutiny-graph/build.py
+
+      - name: Rebuild transparency graph
+        run: python3 tmp/transparency-graph/build.py
+
+      - name: Rebuild accountability graph
+        run: python3 tmp/accountability-graph/build.py
+
+      - name: Re-run all queries (sanity)
+        run: |
+          python3 tmp/scrutiny-graph/queries.py
+          python3 tmp/transparency-graph/queries.py
+          python3 tmp/accountability-graph/queries.py
+
+      - name: Gzip and discard uncompressed .nq
+        run: |
+          for f in third_party/data/scrutiny-graph/scrutiny.nq \
+                   third_party/data/transparency-graph/transparency.nq \
+                   third_party/data/accountability-graph/accountability.nq; do
+            if [ -f "$f" ]; then
+              gzip -f --best "$f"
+            fi
+          done
+          ls -la third_party/data/*/*.nq.gz third_party/identity-graph/*.nq.gz || true
+
+      - name: Commit refreshed N-Quads + APPG cache
+        run: |
+          git config user.name  "forgetmenot-bot"
+          git config user.email "forgetmenot-bot@users.noreply.github.com"
+          git add -A third_party/data/ third_party/identity-graph/
+          if git diff --cached --quiet; then
+            echo "no changes to commit"
+            exit 0
+          fi
+          git commit -m "auto: weekly rebuild of N-Quads + APPG cache (run ${{ github.run_id }})"
+          git push
+
+      # --- Deploy step — disabled until FLY_API_TOKEN secret is set ---
+      # - uses: superfly/flyctl-actions/setup-flyctl@v1
+      # - name: Deploy to fly.io
+      #   env:
+      #     FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+      #   run: |
+      #     flyctl deploy --config demos/parliament-live/fly.toml \
+      #                   --remote-only --strategy immediate

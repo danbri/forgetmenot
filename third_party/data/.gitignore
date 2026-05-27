@@ -1,0 +1,6 @@
+# N-Quads are stored gzipped only. Build scripts may emit uncompressed
+# .nq alongside; those are working copies, not artefacts.
+**/*.nq
+!**/*.nq.gz
+# Test fixtures keep their .nq though — they're tiny and read directly.
+!../tests/fixtures/*.nq

@@ -66,6 +66,16 @@ describe('matchRoute', () => {
     assert.equal(off, null);
   });
 
+  test('matches /sparql (bundled Oxigraph) exactly', () => {
+    const ok = matchRoute('/sparql');
+    assert.equal(ok?.route.local, 'oxigraph');
+    assert.equal(ok?.tail, '');
+    // /sparql/something must NOT match (exact route)
+    assert.equal(matchRoute('/sparql/something'), null);
+    // The other proxy route /api/sparql must still match independently
+    assert.equal(matchRoute('/api/sparql')?.route.upstreamHost, 'api.parliament.uk');
+  });
+
   test('rejects unrelated paths', () => {
     assert.equal(matchRoute('/'), null);
     assert.equal(matchRoute('/_health'), null);
@@ -150,6 +160,12 @@ describe('buildUpstreamUrl', () => {
     const r = ROUTES.find(x => x.prefix === '/api/sparql');
     const url = buildUpstreamUrl(r, '', '?query=SELECT+%2A');
     assert.equal(url, 'https://api.parliament.uk/sparql?query=SELECT+%2A');
+  });
+
+  test('bundled /sparql: routes to local Oxigraph /query', () => {
+    const r = ROUTES.find(x => x.prefix === '/sparql');
+    const url = buildUpstreamUrl(r, '', '?query=SELECT+%2A');
+    assert.match(url, /^http:\/\/127\.0\.0\.1:7878\/query\?query=SELECT\+%2A$/);
   });
 });
 
