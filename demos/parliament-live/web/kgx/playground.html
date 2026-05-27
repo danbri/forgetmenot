@@ -13,6 +13,9 @@
     --accent-ink: #ffffff;
     --rule: #d8d4ca;
     --code-bg: #efece4;
+    --row-alt: #f4f1ea;
+    --err-bg: #fdecea;
+    --err-ink: #7a1f17;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -20,23 +23,36 @@
     font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
     background: var(--bg);
     color: var(--ink);
-    padding: 16px;
-    max-width: 760px;
+    padding: 14px;
+    max-width: 820px;
     margin: 0 auto;
+    -webkit-text-size-adjust: 100%;
   }
-  h1 {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 0 0 4px;
+  nav { font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; }
+  nav a { color: var(--accent); }
+  h1 { font-size: 20px; font-weight: 600; margin: 4px 0; }
+  .sub { color: var(--ink-soft); font-size: 14px; margin: 0 0 12px; }
+
+  label { display: block; font-size: 13px; color: var(--ink-soft); margin: 12px 0 4px; }
+  select, textarea, button {
+    font: inherit;
+    -webkit-appearance: none;
+    appearance: none;
   }
-  .sub {
-    color: var(--ink-soft);
-    font-size: 14px;
-    margin: 0 0 16px;
+  select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: white url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%234a4a4a' d='M4 6l4 4 4-4z'/></svg>") no-repeat right 10px center;
+    background-size: 16px;
+    padding-right: 36px;
+    min-height: 44px;
+    font-size: 16px;
   }
   textarea {
     width: 100%;
-    min-height: 160px;
+    min-height: 140px;
     font: 14px/1.45 ui-monospace, "SF Mono", Menlo, Monaco, "Cascadia Mono", monospace;
     padding: 12px;
     border: 1px solid var(--rule);
@@ -44,61 +60,133 @@
     background: white;
     color: var(--ink);
     resize: vertical;
-    -webkit-text-size-adjust: 100%;
   }
-  .actions {
-    display: flex;
-    gap: 8px;
-    margin-top: 8px;
-    flex-wrap: wrap;
-  }
-  button.run {
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    background: var(--accent);
-    color: var(--accent-ink);
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  button.run, button.probe {
     border: 0;
     border-radius: 8px;
+    padding: 12px 16px;
+    font-weight: 600;
     cursor: pointer;
+    min-height: 44px;
+    font-size: 15px;
   }
-  button.run:active { opacity: 0.85; }
-  .meta {
-    font-size: 13px;
-    color: var(--ink-soft);
-    margin: 6px 0 0;
+  button.run {
+    background: var(--accent);
+    color: var(--accent-ink);
+    flex: 1 1 120px;
   }
-  .examples {
-    margin-top: 18px;
-  }
-  .examples-label {
-    font-size: 13px;
-    color: var(--ink-soft);
-    margin: 0 0 6px;
-  }
-  .examples button {
+  button.probe {
     background: white;
     color: var(--ink);
     border: 1px solid var(--rule);
-    font-size: 14px;
-    padding: 8px 12px;
-    margin: 2px 2px 2px 0;
-    border-radius: 6px;
+    flex: 0 0 auto;
+  }
+  button.run:active, button.probe:active { opacity: 0.85; }
+
+  .chips { margin-top: 14px; }
+  .chips-label { font-size: 13px; color: var(--ink-soft); margin: 0 0 6px; }
+  .chip {
+    display: inline-block;
+    background: white;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 7px 12px;
+    margin: 0 4px 6px 0;
+    font-size: 13px;
     cursor: pointer;
   }
-  .examples button:active { background: var(--code-bg); }
-  pre.out {
+  .chip:active { background: var(--code-bg); }
+
+  .meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 10px 0 0;
+    min-height: 1.5em;
+  }
+
+  .results { margin-top: 10px; }
+  .results table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .results th {
+    text-align: left;
+    background: var(--code-bg);
+    padding: 8px 10px;
+    font-weight: 600;
+    border-bottom: 1px solid var(--rule);
+    position: sticky; top: 0;
+  }
+  .results td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    font: 12px/1.4 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+  }
+  .results tr:nth-child(even) td { background: var(--row-alt); }
+  .results .uri { color: var(--accent); }
+  .results .uri a { color: inherit; text-decoration: none; }
+  .results .uri a:hover { text-decoration: underline; }
+  .results .lit-tag {
+    color: var(--ink-soft);
+    font-size: 11px;
+    margin-left: 4px;
+  }
+  .results .empty {
+    padding: 16px;
+    color: var(--ink-soft);
+    text-align: center;
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+  .results .raw {
     background: var(--code-bg);
     padding: 12px;
     border-radius: 8px;
     overflow-x: auto;
+    font: 12px/1.45 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+    margin: 0;
+  }
+  .results .ask {
+    padding: 16px;
+    text-align: center;
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .results .ask.t { color: var(--accent); }
+  .results .ask.f { color: var(--err-ink); }
+  .results .err {
+    background: var(--err-bg);
+    color: var(--err-ink);
+    padding: 12px;
+    border-radius: 8px;
     font: 13px/1.45 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
     white-space: pre-wrap;
     word-break: break-word;
-    color: var(--ink);
-    margin-top: 12px;
-    min-height: 60px;
   }
+
+  details summary {
+    cursor: pointer;
+    color: var(--ink-soft);
+    font-size: 13px;
+    padding: 4px 0;
+  }
+
   footer {
     margin-top: 28px;
     padding-top: 12px;
@@ -107,39 +195,49 @@
     font-size: 13px;
     line-height: 1.5;
   }
-  a { color: var(--accent); }
+  footer a { color: var(--accent); }
+  code {
+    font: 12px/1.4 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 4px;
+    word-break: break-all;
+  }
 </style>
 </head>
 <body>
-<nav style="font-size:13px;margin-bottom:14px;color:var(--ink-soft);">
+<nav>
   <a href="/kgx/">kgx index</a>
   &middot; playground
   &middot; <a href="/kgx/flint">flint</a>
   &middot; <a href="/kgx/yas">yasgui</a>
-  &middot; <a href="/kgx/query?query=SELECT%20%28COUNT%28%2A%29%20AS%20%3Fn%29%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D">raw endpoint</a>
+  &middot; <a href="/kgx/query?query=SELECT%20%28COUNT%28%2A%29%20AS%20%3Fn%29%20WHERE%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D">raw</a>
 </nav>
-<h1>Forgetmeknot Palace — SPARQL playground</h1>
+<h1>SPARQL playground</h1>
 <p class="sub">
-  Read-only triple store, bundled at deploy time. Public, no auth.
-  Endpoint: <code>/kgx/query</code>.
+  Mobile-first SPARQL client over our bundled store and a few public endpoints.
 </p>
 
+<label for="endpoint">Endpoint</label>
+<select id="endpoint" aria-label="Endpoint"></select>
+
+<label for="q">Query</label>
 <textarea id="q" spellcheck="false">SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }</textarea>
 
 <div class="actions">
   <button class="run" id="run">Run query</button>
+  <button class="probe" id="probe-classes" title="List the rdf:types in the selected endpoint">Classes</button>
+  <button class="probe" id="probe-props"   title="List the predicates in the selected endpoint">Properties</button>
 </div>
+
 <p class="meta" id="meta">&nbsp;</p>
 
-<div class="examples">
-  <p class="examples-label">Examples (tap to load &amp; run):</p>
-  <button data-q="SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }">Count all quads</button>
-  <button data-q="SELECT DISTINCT ?g WHERE { GRAPH ?g { ?s ?p ?o } } ORDER BY ?g">List named graphs</button>
-  <button data-q="SELECT ?type (COUNT(*) AS ?n) WHERE { ?s a ?type } GROUP BY ?type ORDER BY DESC(?n) LIMIT 20">Top 20 rdf:types</button>
-  <button data-q="SELECT ?p (COUNT(*) AS ?n) WHERE { ?s ?p ?o } GROUP BY ?p ORDER BY DESC(?n) LIMIT 20">Top 20 predicates</button>
+<div class="chips" id="chips">
+  <p class="chips-label">Samples (tap to load &amp; run):</p>
+  <!-- chips injected per-endpoint -->
 </div>
 
-<pre class="out" id="out">Run a query to see results.</pre>
+<div class="results" id="results"></div>
 
 <footer>
   Contains Parliamentary information licensed under the
@@ -149,55 +247,277 @@
 </footer>
 
 <script>
-(() => {
-  const $q   = document.getElementById('q');
-  const $out = document.getElementById('out');
-  const $meta = document.getElementById('meta');
+// ---------------------------------------------------------------------------
+// Sample queries per endpoint id (or tier). All FPKG samples probed against
+// the live store 2026-05-27. Wikidata mirror queries share the Wikidata
+// sample set via the tier tag in /kgx/endpoints.json.
+// ---------------------------------------------------------------------------
+const SAMPLES = {
+  fpkg: [
+    { name: 'Count all quads',
+      q: 'SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }' },
+    { name: 'List named graphs',
+      q: 'SELECT ?g (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?s ?p ?o } } GROUP BY ?g ORDER BY DESC(?n)' },
+    { name: 'Top 20 predicates',
+      q: 'SELECT ?p (COUNT(*) AS ?n) WHERE { ?s ?p ?o } GROUP BY ?p ORDER BY DESC(?n) LIMIT 20' },
+    { name: 'Top 20 rdf:types',
+      q: 'SELECT ?t (COUNT(*) AS ?n) WHERE { ?s a ?t } GROUP BY ?t ORDER BY DESC(?n) LIMIT 20' },
+    { name: 'Top 5 elections by candidacy',
+      q: 'PREFIX el: <http://parliament.uk/ontologies/election/>\nSELECT ?election (COUNT(?c) AS ?n)\nWHERE { ?c a el:Candidacy ; el:inElection ?election }\nGROUP BY ?election ORDER BY DESC(?n) LIMIT 5' },
+    { name: 'Lords RMFI: predicates used',
+      q: 'SELECT ?p (COUNT(*) AS ?n)\nWHERE { GRAPH <https://forgetmenot.example/transparency#graph/lords-rmfi> { ?s ?p ?o } }\nGROUP BY ?p ORDER BY DESC(?n) LIMIT 10' },
+  ],
+  'parliament-ddp': [
+    { name: '3 random triples',
+      q: 'SELECT * WHERE { ?s ?p ?o } LIMIT 3' },
+    { name: 'Sample of Members',
+      q: 'PREFIX parl: <https://id.parliament.uk/schema/>\nSELECT ?p ?label WHERE {\n  ?p a parl:Person ; parl:personFamilyName ?label .\n} LIMIT 20' },
+  ],
+  wikidata: [
+    { name: 'Sitting UK MPs',
+      q: 'PREFIX p:  <http://www.wikidata.org/prop/>\nPREFIX ps: <http://www.wikidata.org/prop/statement/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nSELECT ?person ?personLabel ?constituencyLabel WHERE {\n  ?person p:P39 ?m .\n  ?m ps:P39 wd:Q16707842 ; pq:P768 ?constituency .\n  FILTER NOT EXISTS { ?m pq:P582 [] }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n} ORDER BY ?personLabel' },
+    { name: '5 most-spoken languages (by total speakers)',
+      q: 'PREFIX wdt: <http://www.wikidata.org/prop/direct/>\nSELECT ?language ?languageLabel ?n WHERE {\n  ?language wdt:P31 wd:Q34770 ; wdt:P1098 ?n .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n} ORDER BY DESC(?n) LIMIT 5' },
+  ],
+  dbpedia: [
+    { name: 'London population',
+      q: 'SELECT ?n WHERE {\n  <http://dbpedia.org/resource/London> <http://dbpedia.org/ontology/populationTotal> ?n .\n}' },
+    { name: 'UK cities by population',
+      q: 'PREFIX dbo: <http://dbpedia.org/ontology/>\nSELECT ?city ?name ?pop WHERE {\n  ?city a dbo:City ; dbo:country <http://dbpedia.org/resource/United_Kingdom> ;\n        rdfs:label ?name ; dbo:populationTotal ?pop .\n  FILTER (lang(?name) = "en")\n} ORDER BY DESC(?pop) LIMIT 10' },
+  ],
+};
 
-  async function run() {
-    const query = $q.value.trim();
-    if (!query) {
-      $out.textContent = 'empty query';
-      return;
-    }
-    $out.textContent = 'running…';
-    $meta.textContent = '';
-    const t0 = performance.now();
-    try {
-      const r = await fetch('/kgx/query?query=' + encodeURIComponent(query), {
-        headers: { 'accept': 'application/sparql-results+json' },
-      });
-      const ms = (performance.now() - t0).toFixed(0);
-      const text = await r.text();
-      $meta.textContent = `HTTP ${r.status} · ${ms} ms · ${text.length} bytes`;
-      try {
-        const parsed = JSON.parse(text);
-        $out.textContent = JSON.stringify(parsed, null, 2);
-      } catch {
-        // Not JSON — show whatever came back (Turtle, XML for CONSTRUCT, etc.)
-        $out.textContent = text;
-      }
-    } catch (e) {
-      $meta.textContent = '';
-      $out.textContent = 'fetch error: ' + (e && e.message ? e.message : String(e));
-    }
+// ---------------------------------------------------------------------------
+// State
+// ---------------------------------------------------------------------------
+let REGISTRY = null;          // /kgx/endpoints.json content
+let CURRENT  = null;          // currently-selected endpoint object
+
+// ---------------------------------------------------------------------------
+// DOM
+// ---------------------------------------------------------------------------
+const $ep      = document.getElementById('endpoint');
+const $q       = document.getElementById('q');
+const $meta    = document.getElementById('meta');
+const $chips   = document.getElementById('chips');
+const $results = document.getElementById('results');
+
+// Map endpoint to its sample-set key. Wikidata's mirrors share one set.
+function sampleKey(e) {
+  if (e.id === 'fpkg') return 'fpkg';
+  if (e.id === 'parliament-ddp') return 'parliament-ddp';
+  if (e.tier === 'wikidata') return 'wikidata';
+  if (e.id === 'dbpedia') return 'dbpedia';
+  return null;
+}
+
+function endpointAbsoluteUrl(e) {
+  // Convert /kgx/query → https://fpkg.fly.dev/kgx/query for clarity.
+  return new URL(e.url, window.location.href).toString();
+}
+
+function renderChips(endpoint) {
+  const key = sampleKey(endpoint);
+  const samples = (key && SAMPLES[key]) || [];
+  $chips.innerHTML = '<p class="chips-label">Samples (tap to load &amp; run):</p>';
+  if (!samples.length) {
+    const span = document.createElement('span');
+    span.className = 'chip';
+    span.style.cursor = 'default';
+    span.style.opacity = '0.6';
+    span.textContent = 'no samples wired for this endpoint yet';
+    $chips.appendChild(span);
+    return;
   }
-
-  document.getElementById('run').addEventListener('click', run);
-  document.querySelectorAll('.examples button').forEach(b => {
+  samples.forEach((s) => {
+    const b = document.createElement('button');
+    b.className = 'chip';
+    b.textContent = s.name;
+    b.title = s.q.split('\n')[0];
     b.addEventListener('click', () => {
-      $q.value = b.dataset.q;
+      $q.value = s.q;
       run();
     });
+    $chips.appendChild(b);
   });
+}
 
-  // Cmd/Ctrl-Enter to run from the textarea.
-  $q.addEventListener('keydown', (e) => {
-    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-      e.preventDefault();
-      run();
-    }
+function populateEndpoints() {
+  $ep.innerHTML = '';
+  REGISTRY.endpoints.forEach((e) => {
+    const opt = document.createElement('option');
+    opt.value = e.id;
+    opt.textContent = e.label + '  —  ' + endpointAbsoluteUrl(e);
+    $ep.appendChild(opt);
   });
+  $ep.addEventListener('change', () => {
+    CURRENT = REGISTRY.endpoints.find((x) => x.id === $ep.value);
+    renderChips(CURRENT);
+  });
+  CURRENT = REGISTRY.endpoints[0];
+  renderChips(CURRENT);
+}
+
+// ---------------------------------------------------------------------------
+// SPARQL request
+// ---------------------------------------------------------------------------
+async function execute(query) {
+  if (!CURRENT) return { error: 'no endpoint selected' };
+  const url = CURRENT.url;
+  // Encode as POST form when query is longer than ~1.5 KB, GET otherwise.
+  // Some upstreams (Wikidata, DDP) accept both; some others only one. Form-
+  // encoded POST is the safest universal option for long queries.
+  const useGet = query.length < 1500;
+  const accept = 'application/sparql-results+json';
+  const t0 = performance.now();
+  let r;
+  try {
+    if (useGet) {
+      const u = new URL(url, window.location.href);
+      u.searchParams.set('query', query);
+      r = await fetch(u.toString(), { headers: { accept } });
+    } else {
+      r = await fetch(new URL(url, window.location.href).toString(), {
+        method: 'POST',
+        headers: { accept, 'content-type': 'application/x-www-form-urlencoded' },
+        body: 'query=' + encodeURIComponent(query),
+      });
+    }
+  } catch (e) {
+    return { error: 'fetch error: ' + (e && e.message ? e.message : String(e)),
+             ms: Math.round(performance.now() - t0) };
+  }
+  const ms = Math.round(performance.now() - t0);
+  const ct = r.headers.get('content-type') || '';
+  const text = await r.text();
+  if (!r.ok) {
+    return { error: 'HTTP ' + r.status + '\n' + text, ms, status: r.status, bytes: text.length };
+  }
+  return { ct, text, ms, status: r.status, bytes: text.length };
+}
+
+// ---------------------------------------------------------------------------
+// Rendering
+// ---------------------------------------------------------------------------
+function renderBinding(b) {
+  if (!b) return '';
+  if (b.type === 'uri') {
+    const href = b.value;
+    const short = href.length > 80 ? '…' + href.slice(-77) : href;
+    return `<span class="uri"><a href="${esc(href)}" target="_blank" rel="noopener">${esc(short)}</a></span>`;
+  }
+  if (b.type === 'literal' || b.type === 'typed-literal') {
+    let tag = '';
+    if (b.datatype) {
+      const dt = b.datatype.replace(/^.*[#/]/, '');
+      tag = ` <span class="lit-tag">^^${esc(dt)}</span>`;
+    } else if (b['xml:lang']) {
+      tag = ` <span class="lit-tag">@${esc(b['xml:lang'])}</span>`;
+    }
+    return esc(b.value) + tag;
+  }
+  if (b.type === 'bnode') return `<em>_:${esc(b.value)}</em>`;
+  return esc(JSON.stringify(b));
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+}
+
+function renderTable(rj) {
+  const vars = (rj.head && rj.head.vars) || [];
+  const rows = (rj.results && rj.results.bindings) || [];
+  if (!rows.length) {
+    return '<div class="empty">No rows.</div>';
+  }
+  const ths = vars.map((v) => `<th>${esc(v)}</th>`).join('');
+  const trs = rows.map((row) => {
+    const tds = vars.map((v) => `<td>${renderBinding(row[v])}</td>`).join('');
+    return `<tr>${tds}</tr>`;
+  }).join('');
+  const wrap = document.createElement('div');
+  wrap.style.overflowX = 'auto';
+  wrap.innerHTML = `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+  return wrap.outerHTML;
+}
+
+function renderResult(res, opts = {}) {
+  $results.innerHTML = '';
+  $meta.textContent = `HTTP ${res.status ?? '—'} · ${res.ms} ms · ${res.bytes ?? 0} bytes`;
+  if (res.error) {
+    const div = document.createElement('div');
+    div.className = 'err';
+    div.textContent = res.error;
+    $results.appendChild(div);
+    return;
+  }
+  // Try to parse as SPARQL JSON.
+  let parsed = null;
+  try { parsed = JSON.parse(res.text); } catch (_) { /* not JSON */ }
+  if (parsed && parsed.boolean !== undefined) {
+    // ASK
+    const d = document.createElement('div');
+    d.className = 'ask ' + (parsed.boolean ? 't' : 'f');
+    d.textContent = parsed.boolean ? 'true' : 'false';
+    $results.appendChild(d);
+    return;
+  }
+  if (parsed && parsed.head && parsed.results) {
+    // SELECT
+    $results.innerHTML = renderTable(parsed);
+    // Raw JSON in a collapsible details for inspection.
+    const det = document.createElement('details');
+    det.innerHTML = `<summary>Raw JSON (${res.bytes} bytes)</summary><pre class="raw"></pre>`;
+    det.querySelector('pre').textContent = JSON.stringify(parsed, null, 2);
+    $results.appendChild(det);
+    return;
+  }
+  // Not JSON — CONSTRUCT/DESCRIBE Turtle, or something else. Show verbatim.
+  const pre = document.createElement('pre');
+  pre.className = 'raw';
+  pre.textContent = res.text;
+  $results.appendChild(pre);
+}
+
+// ---------------------------------------------------------------------------
+// Actions
+// ---------------------------------------------------------------------------
+async function run() {
+  const query = $q.value.trim();
+  if (!query) { $meta.textContent = 'empty query'; return; }
+  $meta.textContent = 'running…';
+  $results.innerHTML = '';
+  const res = await execute(query);
+  renderResult(res);
+}
+
+document.getElementById('run').addEventListener('click', run);
+document.getElementById('probe-classes').addEventListener('click', () => {
+  $q.value = 'SELECT DISTINCT ?class WHERE { ?s a ?class } ORDER BY ?class LIMIT 1000';
+  run();
+});
+document.getElementById('probe-props').addEventListener('click', () => {
+  $q.value = 'SELECT DISTINCT ?p WHERE { ?s ?p ?o } ORDER BY ?p LIMIT 1000';
+  run();
+});
+$q.addEventListener('keydown', (e) => {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+    e.preventDefault();
+    run();
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Init
+// ---------------------------------------------------------------------------
+(async () => {
+  try {
+    REGISTRY = await fetch('/kgx/endpoints.json').then((r) => r.json());
+  } catch (e) {
+    $meta.textContent = 'failed to load /kgx/endpoints.json: ' + e.message;
+    return;
+  }
+  populateEndpoints();
 })();
 </script>
 </body>
