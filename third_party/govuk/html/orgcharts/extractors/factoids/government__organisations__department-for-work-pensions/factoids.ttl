@@ -1,6 +1,5 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/arabel-bailey> a schema1:Person ;
@@ -59,83 +58,82 @@
     schema1:image <https://assets.publishing.service.gov.uk/media/670509cbc71e42688b65f2b3/s465_taalib-shaah-image-960_640.jpg> ;
     schema1:name "Taalib Shaah"@en .
 
-<https://www.gov.uk/government/ministers/minister-of-state--175> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--175> a govuk:MinisterialRole ;
     schema1:name "Minister of State (Minister for Skills)"@en ;
-    fm:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    fm:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/jacqui-smith> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--192> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--192> a govuk:MinisterialRole ;
     schema1:name "Minister of State (Minister for Social Security and Disability)"@en ;
-    fm:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    fm:roleHolder <https://www.gov.uk/government/people/stephen-timms> .
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/stephen-timms> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--196> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--196> a govuk:MinisterialRole ;
     schema1:name "Minister of State (Minister for Lords)"@en ;
-    fm:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    fm:roleHolder <https://www.gov.uk/government/people/baroness-sherlock> .
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/baroness-sherlock> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--203> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--203> a govuk:MinisterialRole ;
     schema1:name "Minister of State (Minister for Employment)"@en ;
-    fm:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    fm:roleHolder <https://www.gov.uk/government/people/diana-johnson> .
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/diana-johnson> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205> a govuk:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Pensions)"@en ;
-    fm:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    fm:roleHolder <https://www.gov.uk/government/people/torsten-bell> .
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/torsten-bell> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260> a govuk:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Transformation)"@en ;
-    fm:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    fm:roleHolder <https://www.gov.uk/government/people/andrew-western> .
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/andrew-western> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> a govuk:MinisterialRole ;
     schema1:name "Secretary of State for Work and Pensions"@en ;
-    fm:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    fm:roleHolder <https://www.gov.uk/government/people/pat-mcfadden> .
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/pat-mcfadden> .
 
 <https://www.gov.uk/government/people/andrew-western> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668d8863ab5fc5929851bce8/s465_Portrait.jpeg> ;
     schema1:name "Andrew Western MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260> .
 
 <https://www.gov.uk/government/people/baroness-sherlock> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668d89144a94d44125d9d003/s465_Portrait.jpeg> ;
     schema1:name "Baroness Sherlock OBE"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--196> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--196> .
 
 <https://www.gov.uk/government/people/diana-johnson> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67064b16e84ae1fd8592f032/s465_E50A9770-960_2_.jpg> ;
     schema1:name "The Rt Hon Dame Diana Johnson DBE MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--203> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--203> .
 
 <https://www.gov.uk/government/people/jacqui-smith> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/669551bfa3c2a28abb50cfe8/s465_Jacqui_Smith_960x640.jpg> ;
     schema1:name "The Rt Hon Baroness Smith of Malvern"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--175> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--175> .
 
 <https://www.gov.uk/government/people/pat-mcfadden> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/66880b1cab5fc5929851ba5f/s465_pat-mcfadden.jpg> ;
     schema1:name "The Rt Hon Pat McFadden MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> .
 
 <https://www.gov.uk/government/people/stephen-timms> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/6773ddda02c3076590308cbd/s465_Stephen_Timms.jpg> ;
     schema1:name "The Rt Hon Sir Stephen Timms MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--192> .
 
 <https://www.gov.uk/government/people/torsten-bell> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67e2e04074e40de685195ba7/s465_Torsten_Bell_960x640.jpg> ;
     schema1:name "Torsten Bell MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205> .
 
 <https://www.gov.uk/government/organisations/department-for-work-pensions> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2024-10-08T11:38:37+01:00" ;
     schema1:name "Department for Work and Pensions"@en ;
     schema1:url <https://www.gov.uk/government/organisations/department-for-work-pensions> ;
-    fm:hasManager <https://www.gov.uk/government/people/arabel-bailey>,
+    govuk:hasManager <https://www.gov.uk/government/people/arabel-bailey>,
         <https://www.gov.uk/government/people/barbara-bennett>,
         <https://www.gov.uk/government/people/catherine-vaughan>,
         <https://www.gov.uk/government/people/charlie-steel>,
@@ -149,21 +147,18 @@
         <https://www.gov.uk/government/people/sarah-homer>,
         <https://www.gov.uk/government/people/sophie-dean>,
         <https://www.gov.uk/government/people/taalib-shaah> ;
-    fm:hasMinister <https://www.gov.uk/government/people/andrew-western>,
+    govuk:hasMinister <https://www.gov.uk/government/people/andrew-western>,
         <https://www.gov.uk/government/people/baroness-sherlock>,
         <https://www.gov.uk/government/people/diana-johnson>,
         <https://www.gov.uk/government/people/jacqui-smith>,
         <https://www.gov.uk/government/people/pat-mcfadden>,
         <https://www.gov.uk/government/people/stephen-timms>,
         <https://www.gov.uk/government/people/torsten-bell> ;
-    fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--175>,
+    govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--175>,
         <https://www.gov.uk/government/ministers/minister-of-state--192>,
         <https://www.gov.uk/government/ministers/minister-of-state--196>,
         <https://www.gov.uk/government/ministers/minister-of-state--203>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--205>,
         <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--260>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> ;
-    govuk:contentId "b548a09f-8b35-4104-89f4-f1a40bf3136d" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-work-and-pensions> .
 

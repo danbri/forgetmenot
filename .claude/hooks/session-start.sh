@@ -1,23 +1,19 @@
 #!/bin/bash
-# SessionStart hook for Claude Code on the web.
-#
-# Skills now live at the vendor-neutral `skills/<name>/SKILL.md`
-# path that the open Agent Skills spec (agentskills.io) describes.
-# The `.claude/skills/<name>` discovery shims are committed
-# relative symlinks (`→ ../../skills/<name>`), so Claude Code
-# auto-discovers them on container boot WITHOUT this hook
-# having to do anything — that's the point.
-#
-# What this hook still does:
-#   1. install Node deps so the parl CLI is runnable
-#   2. put bin/ on PATH for the session
+# SessionStart hook: install Node dependencies so the parl CLI, tests,
+# and skills can run in Claude Code on the web sessions.
 set -euo pipefail
 
+# Only run inside the remote (web) execution environment; locally, the
+# developer manages their own node_modules.
 if [ "${CLAUDE_CODE_REMOTE:-}" != "true" ]; then
   exit 0
 fi
 
 cd "${CLAUDE_PROJECT_DIR:-$(pwd)}"
 
+# Install Node dependencies. `npm install` is idempotent and benefits
+# from the container's cached state across sessions.
 npm install --no-audit --no-fund --loglevel=error
+
+# Make the CLI invokable as `parl` for the session.
 echo "export PATH=\"${CLAUDE_PROJECT_DIR:-$(pwd)}/bin:\$PATH\"" >> "$CLAUDE_ENV_FILE"

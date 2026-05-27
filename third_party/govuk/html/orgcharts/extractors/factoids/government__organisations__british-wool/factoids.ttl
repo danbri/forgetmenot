@@ -1,15 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/british-wool> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2023-02-08T12:46:07+00:00" ;
     schema1:name "British Wool"@en ;
-    schema1:url <https://www.gov.uk/government/organisations/british-wool> ;
-    govuk:contentId "0bd81f00-f0b2-4066-9cd5-5fac842e32be" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    schema1:url <https://www.gov.uk/government/organisations/british-wool> .
 

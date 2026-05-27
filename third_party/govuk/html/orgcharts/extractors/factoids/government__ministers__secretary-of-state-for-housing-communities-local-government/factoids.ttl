@@ -1,24 +1,22 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
-<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> fm:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> .
+<https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> govuk:hasRole <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> .
 
 <https://www.gov.uk/government/people/steve-reed> schema1:name "The Rt Hon Steve Reed OBE MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> .
 
 <https://www.gov.uk/government/people/angela-rayner> schema1:name "The Rt Hon Angela Rayner MP"@en .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2025-09-15T10:29:23+01:00" ;
     schema1:name "Secretary of State for Housing, Communities and Local Government"@en ;
     schema1:url <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> ;
-    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
-    fm:previouslyHeldBy <https://www.gov.uk/government/people/angela-rayner> ;
-    fm:responsibility "Communities and faith"@en,
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-housing-communities-local-government> ;
+    govuk:previouslyHeldBy <https://www.gov.uk/government/people/angela-rayner> ;
+    govuk:responsibility "Communities and faith"@en,
         "Corporate"@en,
         "Democracy and elections"@en,
         "Housing and planning"@en,
@@ -27,14 +25,11 @@
         "Public Appointments"@en,
         "Regional and local growth"@en,
         "Strategic oversight of the Department’s business and policy, including: Housing and planning Local government and English devolution Regional and local growth Communities and faith Democracy and elections"@en ;
-    fm:roleHolder <https://www.gov.uk/government/people/steve-reed> ;
-    govuk:contentId "87779e9b-11a9-402a-9c4d-94dfa892f785" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "role" .
+    govuk:roleHolder <https://www.gov.uk/government/people/steve-reed> .
 
-[] a fm:RoleTenure ;
-    fm:holder <https://www.gov.uk/government/people/angela-rayner> ;
-    fm:role <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> ;
-    fm:tenureEnd "2025"^^xsd:gYear ;
-    fm:tenureStart "2024"^^xsd:gYear .
+[] a govuk:RoleTenure ;
+    govuk:holder <https://www.gov.uk/government/people/angela-rayner> ;
+    govuk:role <https://www.gov.uk/government/ministers/secretary-of-state-for-housing-communities-local-government> ;
+    govuk:tenureEnd "2025"^^xsd:gYear ;
+    govuk:tenureStart "2024"^^xsd:gYear .
 

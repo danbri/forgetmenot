@@ -2,16 +2,3 @@
 *.swp
 *~
 node_modules/
-__pycache__/
-*.pyc
-
-# FCDO Treaties crawler output: keep records/ and the small (<50 KB) HTML
-# fragments in html/. The large blobs (PDFs gov.uk serves at the same URL)
-# go to html/large/ which is gitignored from the per-dir .gitignore.
-third_party/data/fcdo_treaties/pdfs/
-third_party/data/fcdo_treaties/crawl.log
-
-# Psephology: keep the canonical YYYY-MM-DD.sql dump files;
-# ignore the per-host *.filtered.sql derivatives written by
-# scripts/psephology-up.sh.
-third_party/data/psephology/*.filtered.sql

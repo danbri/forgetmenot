@@ -1,15 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/office-of-the-independent-prevent-commissioner> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2026-02-05T14:40:46+00:00" ;
     schema1:name "Office of the Independent Prevent Commissioner"@en ;
-    schema1:url <https://www.gov.uk/government/organisations/office-of-the-independent-prevent-commissioner> ;
-    govuk:contentId "03a4164b-a15b-4f42-857b-0a9ffc6e4ae8" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    schema1:url <https://www.gov.uk/government/organisations/office-of-the-independent-prevent-commissioner> .
 

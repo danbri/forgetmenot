@@ -1,15 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/mining-remediation-authority> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2024-12-04T10:10:42+00:00" ;
     schema1:name "Mining Remediation Authority"@en ;
     schema1:url <https://www.gov.uk/government/organisations/mining-remediation-authority> ;
-    fm:hasManager <https://www.gov.uk/government/people/bull>,
+    govuk:hasManager <https://www.gov.uk/government/people/bull>,
         <https://www.gov.uk/government/people/carl-banton>,
         <https://www.gov.uk/government/people/geraldine-wildman>,
         <https://www.gov.uk/government/people/james-lowth>,
@@ -19,10 +17,7 @@
         <https://www.gov.uk/government/people/paul-farringham>,
         <https://www.gov.uk/government/people/richard-bond>,
         <https://www.gov.uk/government/people/victoria-slingsby>,
-        <https://www.gov.uk/government/people/zoe-rose-higgins> ;
-    govuk:contentId "e782b182-796b-4a83-a1ca-d2deaf47fea3" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+        <https://www.gov.uk/government/people/zoe-rose-higgins> .
 
 <https://www.gov.uk/government/people/bull> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/67daabe0b1857deda3da0211/s465_Fay_Bull_for_gov.jpg> ;

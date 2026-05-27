@@ -1,18 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/office-of-the-public-guardian> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2026-04-29T10:52:30+01:00" ;
     schema1:name "Office of the Public Guardian"@en ;
     schema1:url <https://www.gov.uk/government/organisations/office-of-the-public-guardian> ;
-    fm:hasManager <https://www.gov.uk/government/people/ruth-duffin> ;
-    govuk:contentId "8d40ed48-ef2a-42af-a02b-bd4cc84cabc1" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    govuk:hasManager <https://www.gov.uk/government/people/ruth-duffin> .
 
 <https://www.gov.uk/government/people/ruth-duffin> a schema1:Person ;
     schema1:name "Ruth Duffin"@en .

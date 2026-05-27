@@ -1,15 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/national-protective-security-authority> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2024-10-14T16:07:27+01:00" ;
     schema1:name "National Protective Security Authority"@en ;
-    schema1:url <https://www.gov.uk/government/organisations/national-protective-security-authority> ;
-    govuk:contentId "64aed89c-cff6-4699-9da2-2d5c72e05338" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    schema1:url <https://www.gov.uk/government/organisations/national-protective-security-authority> .
 

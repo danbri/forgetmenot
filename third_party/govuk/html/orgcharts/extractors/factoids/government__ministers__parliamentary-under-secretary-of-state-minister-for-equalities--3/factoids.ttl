@@ -1,34 +1,29 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/department-for-education> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+<https://www.gov.uk/government/organisations/department-for-education> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
 
-<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+<https://www.gov.uk/government/organisations/office-for-equality-and-opportunity> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
 
-<https://www.gov.uk/government/organisations/race-equality-unit> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+<https://www.gov.uk/government/organisations/race-equality-unit> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
 
-<https://www.gov.uk/government/organisations/women-and-equalities-unit> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+<https://www.gov.uk/government/organisations/women-and-equalities-unit> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
 
 <https://www.gov.uk/government/people/seema-malhotra> schema1:name "Seema Malhotra MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2025-12-03T10:22:38+00:00" ;
     schema1:name "Parliamentary Under-Secretary of State (Minister for Equalities)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state-minister-for-equalities--3> ;
-    fm:partOf <https://www.gov.uk/government/organisations/department-for-education>,
+    govuk:partOf <https://www.gov.uk/government/organisations/department-for-education>,
         <https://www.gov.uk/government/organisations/office-for-equality-and-opportunity>,
         <https://www.gov.uk/government/organisations/race-equality-unit>,
         <https://www.gov.uk/government/organisations/women-and-equalities-unit> ;
-    fm:responsibility "lead minister for the Equality (Race and Disability) Bill"@en,
+    govuk:responsibility "lead minister for the Equality (Race and Disability) Bill"@en,
         "ministerial sponsor of the Race Equality Engagement Group"@en,
         "race and ethnicity policy"@en,
         "women’s equality policy, including pay gap reporting, equal pay and pay transparency"@en ;
-    fm:roleHolder <https://www.gov.uk/government/people/seema-malhotra> ;
-    govuk:contentId "5948b553-92db-4961-823c-4a5e2d69c985" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "role" .
+    govuk:roleHolder <https://www.gov.uk/government/people/seema-malhotra> .
 

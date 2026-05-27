@@ -1,18 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/forensic-science-regulator> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2025-02-13T09:17:36+00:00" ;
     schema1:name "Forensic Science Regulator"@en ;
     schema1:url <https://www.gov.uk/government/organisations/forensic-science-regulator> ;
-    fm:hasManager <https://www.gov.uk/government/people/marc-bailey> ;
-    govuk:contentId "403b037a-5975-46d3-bb3b-02405ca964b8" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    govuk:hasManager <https://www.gov.uk/government/people/marc-bailey> .
 
 <https://www.gov.uk/government/people/marc-bailey> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/687fb3c677a3acd9f4d0e258/s465_Marc-Bailey3.jpg> ;

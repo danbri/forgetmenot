@@ -1,15 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/hm-revenue-customs> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2025-10-06T09:10:25+01:00" ;
     schema1:name "HM Revenue & Customs"@en ;
     schema1:url <https://www.gov.uk/government/organisations/hm-revenue-customs> ;
-    fm:hasManager <https://www.gov.uk/government/people/alan-evans>,
+    govuk:hasManager <https://www.gov.uk/government/people/alan-evans>,
         <https://www.gov.uk/government/people/angela-macdonald>,
         <https://www.gov.uk/government/people/bill-dodwell>,
         <https://www.gov.uk/government/people/carol-bristow>,
@@ -26,10 +24,7 @@
         <https://www.gov.uk/government/people/myrtle-lloyd>,
         <https://www.gov.uk/government/people/penny-ciniewicz>,
         <https://www.gov.uk/government/people/sachin-jogia>,
-        <https://www.gov.uk/government/people/suzanne-newton> ;
-    govuk:contentId "6667cce2-e809-4e21-ae09-cb0bdc1ddda3" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+        <https://www.gov.uk/government/people/suzanne-newton> .
 
 <https://www.gov.uk/government/people/alan-evans> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/69f096170bb62e692c5d6d52/s465_alan-evans-960x640-28-04-2026-3.png> ;

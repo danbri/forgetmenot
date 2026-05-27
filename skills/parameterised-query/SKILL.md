@@ -1,15 +1,6 @@
 ---
-name: parameterised-query
+name: uk-parliament-parameterised-query
 description: Use the UK Parliament parameterised query browser (api.parliament.uk/query/) — a catalogue of pre-canned SPARQL queries that return JSON without you having to write the SPARQL yourself. Each template has a fixed name and a fixed parameter signature, e.g. person_by_id?person_id=… or constituency_lookup_by_postcode?postcode=…. Use when you want a specific, pre-vetted answer about a Parliament resource and do not want to author SPARQL.
-license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated)
-metadata:
-  provenance:
-    tier: 1
-    operator: UK Parliament
-    service: api.parliament.uk/query
-    citation-short: "via api.parliament.uk/query"
-    citation-formal: "UK Parliament parameterised-query browser, retrieved {date}"
-    confidence: authoritative
 ---
 
 # UK Parliament parameterised query browser
@@ -62,27 +53,6 @@ curl -s 'https://api.parliament.uk/query/constituency_lookup_by_postcode?postcod
   | jq '.[0]'
 ```
 
-## Relationship to the `sparql` skill
-
-`api.parliament.uk/query` is a **named-query layer over the same DDP
-store** that `api.parliament.uk/sparql` exposes directly. Same graph,
-same URIs, same coverage:
-
-- Anything the templates can answer, you can also answer in SPARQL.
-- Anything the SPARQL endpoint *can't* answer (Bills, Hansard
-  contributions, divisions, RMFI, elections, EDMs, Erskine May, APPGs —
-  see [`sparql/SKILL.md`](../sparql/SKILL.md#what-it-covers-and-what-it-doesnt))
-  the templates also can't, because the underlying data isn't there.
-
-Pick this skill when there's a named template that fits the question;
-drop down to `sparql` for arbitrary joins, schema discovery, classes
-outside the templated set, or any of the ~194 classes in the parl:
-schema that don't have a pre-canned template.
-
-The IDs are the same opaque 8-character `id.parliament.uk` shortIds
-as in the SPARQL store and as in some REST APIs (treaties, e-petitions),
-so results from one skill compose directly with the others.
-
 ## Notes
 
 - Each template returns JSON when called with the standard `Accept:`
@@ -92,12 +62,14 @@ so results from one skill compose directly with the others.
   `_specs/discovered/query-templates.txt` and a re-fetch is captured
   by `scripts/probe-endpoints.sh` (extension TODO — currently we only
   record the count and the root URL).
+- For arbitrary queries beyond the templates, drop down to
+  [`sparql`](../sparql/SKILL.md).
+- IDs are the same opaque 8-character `id.parliament.uk` IDs as in the
+  SPARQL store.
 
 <!-- parl-cli-start -->
 
 ## Using the CLI
-
-> See [`../parl/SKILL.md`](../parl/SKILL.md) for the CLI-wide conventions (output modes, flag rules, idiomatic chains).
 
 This skill ships with a Node CLI alongside the documentation. From the
 repo root:
@@ -152,13 +124,3 @@ The library uses only `fetch` / `URL` / `AbortController`, so the
 same source runs in Node 18+ and in modern browsers.
 
 <!-- parl-cli-end -->
-
-## Provenance to cite
-
-**Tier 1 — first-party UK Parliament.** Authoritative.
-
-- Inline cite: **"(via api.parliament.uk/query)"** — once per paragraph in
-  user-facing answers.
-- On request, give the URL `--raw` printed.
-- See [`docs/provenance.md`](../../docs/provenance.md) for the
-  cross-skill rules.

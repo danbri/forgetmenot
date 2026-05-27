@@ -1,20 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/ministry-of-justice> fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> .
+<https://www.gov.uk/government/organisations/ministry-of-justice> govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> .
 
 <https://www.gov.uk/government/people/jake-richards> schema1:name "Jake Richards MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2025-10-16T14:30:57+01:00" ;
     schema1:name "Parliamentary Under-Secretary of State for Sentencing, Youth Justice and International"@en ;
     schema1:url <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--301> ;
-    fm:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
-    fm:responsibility "Commons Minister for Prisons, Probation and Reducing Reoffending"@en,
+    govuk:partOf <https://www.gov.uk/government/organisations/ministry-of-justice> ;
+    govuk:responsibility "Commons Minister for Prisons, Probation and Reducing Reoffending"@en,
         "Cross-cutting corporate portfolio"@en,
         "Crown Dependencies and Overseas Territories"@en,
         "Devolution and the Union"@en,
@@ -26,8 +24,5 @@
         "Transparency"@en,
         "Youth Custody operations"@en,
         "Youth Justice policy"@en ;
-    fm:roleHolder <https://www.gov.uk/government/people/jake-richards> ;
-    govuk:contentId "f0651ae4-36ac-4703-9064-826c4f0ddd93" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "role" .
+    govuk:roleHolder <https://www.gov.uk/government/people/jake-richards> .
 

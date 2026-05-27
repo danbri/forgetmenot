@@ -1,6 +1,5 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/people/alasdair-macdonald> a schema1:Person ;
@@ -27,44 +26,40 @@
 <https://www.gov.uk/government/people/rachel-irvine> a schema1:Person ;
     schema1:name "Louise Nicholls"@en .
 
-<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--273> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--273> a govuk:MinisterialRole ;
     schema1:name "Parliamentary Under-Secretary of State"@en ;
-    fm:partOf <https://www.gov.uk/government/organisations/scotland-office> ;
-    fm:roleHolder <https://www.gov.uk/government/people/kirsty-mcneill> .
+    govuk:partOf <https://www.gov.uk/government/organisations/scotland-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/kirsty-mcneill> .
 
-<https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> a govuk:MinisterialRole ;
     schema1:name "Secretary of State for Scotland"@en ;
-    fm:partOf <https://www.gov.uk/government/organisations/scotland-office> ;
-    fm:roleHolder <https://www.gov.uk/government/people/douglas-alexander> .
+    govuk:partOf <https://www.gov.uk/government/organisations/scotland-office> ;
+    govuk:roleHolder <https://www.gov.uk/government/people/douglas-alexander> .
 
 <https://www.gov.uk/government/people/douglas-alexander> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668aa451d9d35187868f4586/s465_070724_Minister_Alexander_arrival_photos-8-960.jpg> ;
     schema1:name "The Rt Hon Douglas Alexander MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> .
 
 <https://www.gov.uk/government/people/kirsty-mcneill> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/668eae82a3c2a28abb50cd62/s465_Untitled_design__1_.png> ;
     schema1:name "Kirsty McNeill MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--273> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--273> .
 
 <https://www.gov.uk/government/organisations/scotland-office> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2024-09-26T09:46:22+01:00" ;
     schema1:name "Scotland Office"@en ;
     schema1:url <https://www.gov.uk/government/organisations/scotland-office> ;
-    fm:hasManager <https://www.gov.uk/government/people/alasdair-macdonald>,
+    govuk:hasManager <https://www.gov.uk/government/people/alasdair-macdonald>,
         <https://www.gov.uk/government/people/alison-evans>,
         <https://www.gov.uk/government/people/anna-macmillan>,
         <https://www.gov.uk/government/people/clark-dunn>,
         <https://www.gov.uk/government/people/fiona-mettam>,
         <https://www.gov.uk/government/people/laura-crawforth>,
         <https://www.gov.uk/government/people/rachel-irvine> ;
-    fm:hasMinister <https://www.gov.uk/government/people/douglas-alexander>,
+    govuk:hasMinister <https://www.gov.uk/government/people/douglas-alexander>,
         <https://www.gov.uk/government/people/kirsty-mcneill> ;
-    fm:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--273>,
-        <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> ;
-    govuk:contentId "63953ed9-98ac-4d08-a1b9-8ea38dbd0832" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    govuk:hasRole <https://www.gov.uk/government/ministers/parliamentary-under-secretary-of-state--273>,
+        <https://www.gov.uk/government/ministers/secretary-of-state-for-scotland> .
 

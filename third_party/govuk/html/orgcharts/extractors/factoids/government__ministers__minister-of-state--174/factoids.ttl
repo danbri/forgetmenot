@@ -1,20 +1,18 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
-<https://www.gov.uk/government/organisations/home-office> fm:hasRole <https://www.gov.uk/government/ministers/minister-of-state--174> .
+<https://www.gov.uk/government/organisations/home-office> govuk:hasRole <https://www.gov.uk/government/ministers/minister-of-state--174> .
 
 <https://www.gov.uk/government/people/dan-jarvis> schema1:name "Dan Jarvis MBE MP"@en ;
-    fm:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--174> .
+    govuk:holdsRole <https://www.gov.uk/government/ministers/minister-of-state--174> .
 
-<https://www.gov.uk/government/ministers/minister-of-state--174> a fm:MinisterialRole ;
+<https://www.gov.uk/government/ministers/minister-of-state--174> a govuk:MinisterialRole ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2025-10-31T14:12:52+00:00" ;
     schema1:name "Minister of State (Minister for Security)"@en ;
     schema1:url <https://www.gov.uk/government/ministers/minister-of-state--174> ;
-    fm:partOf <https://www.gov.uk/government/organisations/home-office> ;
-    fm:responsibility "MP security and VIP protection"@en,
+    govuk:partOf <https://www.gov.uk/government/organisations/home-office> ;
+    govuk:responsibility "MP security and VIP protection"@en,
         "anti-corruption"@en,
         "aviation and maritime security"@en,
         "counter terrorism and extremism"@en,
@@ -27,8 +25,5 @@
         "oversight of the National Crime Agency"@en,
         "serious and organised crime"@en,
         "state threats"@en ;
-    fm:roleHolder <https://www.gov.uk/government/people/dan-jarvis> ;
-    govuk:contentId "b6023b8d-21a1-4d97-9242-9b7244cb0a15" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "role" .
+    govuk:roleHolder <https://www.gov.uk/government/people/dan-jarvis> .
 

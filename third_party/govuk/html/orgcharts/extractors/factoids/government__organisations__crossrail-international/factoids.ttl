@@ -1,15 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/crossrail-international> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2026-04-30T12:47:23+01:00" ;
     schema1:name "Crossrail International"@en ;
-    schema1:url <https://www.gov.uk/government/organisations/crossrail-international> ;
-    govuk:contentId "431e1cd2-916a-4841-aab4-d8c6801ccbb9" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    schema1:url <https://www.gov.uk/government/organisations/crossrail-international> .
 

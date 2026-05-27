@@ -1,15 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/royal-parks> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2023-02-14T10:04:15+00:00" ;
     schema1:name "Royal Parks"@en ;
-    schema1:url <https://www.gov.uk/government/organisations/royal-parks> ;
-    govuk:contentId "2cff7e4b-452d-4322-9222-ecf89ea5caaf" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    schema1:url <https://www.gov.uk/government/organisations/royal-parks> .
 

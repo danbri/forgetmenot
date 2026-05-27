@@ -1,15 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/royal-marines-museum> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2021-12-29T10:57:28+00:00" ;
     schema1:name "Royal Marines Museum"@en ;
-    schema1:url <https://www.gov.uk/government/organisations/royal-marines-museum> ;
-    govuk:contentId "2f19ac9b-692b-4d33-a2b0-201daf0cd92f" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    schema1:url <https://www.gov.uk/government/organisations/royal-marines-museum> .
 

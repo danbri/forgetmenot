@@ -1,15 +1,13 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/dormant-assets-commission> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2021-04-15T10:04:22+01:00" ;
     schema1:name "Independent Dormant Assets Commission"@en ;
     schema1:url <https://www.gov.uk/government/organisations/dormant-assets-commission> ;
-    fm:hasManager <https://www.gov.uk/government/people/jackie-hunt>,
+    govuk:hasManager <https://www.gov.uk/government/people/jackie-hunt>,
         <https://www.gov.uk/government/people/kirsty-cooper>,
         <https://www.gov.uk/government/people/mark-makepeace>,
         <https://www.gov.uk/government/people/martin-turner>,
@@ -17,10 +15,7 @@
         <https://www.gov.uk/government/people/rachel-hanger>,
         <https://www.gov.uk/government/people/richard-collier-keywood>,
         <https://www.gov.uk/government/people/sean-donovan-smith>,
-        <https://www.gov.uk/government/people/susan-sternglass-noble> ;
-    govuk:contentId "ec2d53a1-0d51-4c9c-8d14-31cfee762922" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+        <https://www.gov.uk/government/people/susan-sternglass-noble> .
 
 <https://www.gov.uk/government/people/jackie-hunt> a schema1:Person ;
     schema1:image <https://assets.publishing.service.gov.uk/media/5a4f696ded915d5954733ec4/s465_jackie_hunt_960.jpg> ;

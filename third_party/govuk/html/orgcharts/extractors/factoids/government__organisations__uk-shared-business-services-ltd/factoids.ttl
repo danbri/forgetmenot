@@ -1,15 +1,10 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
-@prefix fm: <https://forgetmenot.local/vocab#> .
-@prefix govuk: <https://www.gov.uk/vocab/meta#> .
+@prefix govuk: <https://forgetmenot.local/govuk#> .
 @prefix schema1: <http://schema.org/> .
 
 <https://www.gov.uk/government/organisations/uk-shared-business-services-ltd> a schema1:GovernmentOrganization,
-        fm:Organisation ;
+        govuk:Organisation ;
     dcterms:isPartOf <https://www.gov.uk/government> ;
-    dcterms:modified "2023-04-21T11:57:42+01:00" ;
     schema1:name "UK Shared Business Services Ltd"@en ;
-    schema1:url <https://www.gov.uk/government/organisations/uk-shared-business-services-ltd> ;
-    govuk:contentId "666e939a-a9f8-4659-8063-a49089603afe" ;
-    govuk:publishingApp "whitehall" ;
-    govuk:schemaName "organisation" .
+    schema1:url <https://www.gov.uk/government/organisations/uk-shared-business-services-ltd> .
 
