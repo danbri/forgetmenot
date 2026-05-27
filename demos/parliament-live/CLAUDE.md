@@ -36,8 +36,21 @@ immediately visible bugs rather than masquerading as boring real data.
 The page must always go through the proxy at `/api/...` (or absolute
 `http://localhost:8787/api/...` when loaded outside its origin). The
 proxy is the place that applies TTL policy, the attribution header, and
-CORS. Parliament APIs do not allow CORS, so a direct call from the page
-will fail.
+CORS. CORS support across Parliament's APIs is uneven (probed
+2026-05-27):
+
+| Host | CORS on GET | Proxy required? |
+|---|---|---|
+| `members-api.parliament.uk` | `*` | no (but proxy gives caching + TTL) |
+| `commonsvotes-api.parliament.uk` | `*` | no (but proxy gives caching + TTL) |
+| `api.parliament.uk/sparql` | `*` | no (HEAD 404s; GET fine) |
+| `now-api.parliament.uk` | none | **yes** |
+| `hansard-api.parliament.uk` | none | **yes** |
+| `lordsvotes-api.parliament.uk` | preflight `*`, GET none | **yes** (browser blocks the response even though preflight passes) |
+
+Even where CORS is open, route through the proxy so caching, TTL,
+rate-limit-per-host and attribution stay consistent. Do not start
+mixing direct + proxied calls from the page.
 
 ### 4. TTL policy lives in `server.mjs`.
 

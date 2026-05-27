@@ -45,13 +45,46 @@ RUN set -eux; \
     chmod +x /usr/local/bin/oxigraph; \
     /usr/local/bin/oxigraph --version
 
-# --- Stage 2: runtime --------------------------------------------------------
+# --- Stage 2: pre-bake the RocksDB store -------------------------------------
+#
+# Run `oxigraph load` once at CI time so the runtime image ships with a
+# pre-populated RocksDB directory. The runtime entrypoint then goes
+# straight to `serve-read-only`, skipping the ~25-30s gunzip + load that
+# previously ran on every cold start.
+
+FROM debian:bookworm-slim AS load-stage
+RUN apt-get update && apt-get install -y --no-install-recommends \
+        gzip ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+COPY --from=oxigraph-stage /usr/local/bin/oxigraph /usr/local/bin/oxigraph
+
+WORKDIR /load
+# All bundled .nq.gz copied flat into /load (filenames are arbitrary
+# once data lands in RocksDB).
+COPY third_party/data/scrutiny-graph/scrutiny.nq.gz                                 ./
+COPY third_party/data/transparency-graph/transparency.nq.gz                         ./
+COPY third_party/data/accountability-graph/accountability.nq.gz                     ./
+COPY third_party/identity-graph/identity.nq.gz                                      ./
+COPY third_party/data/psephology/all.nq.gz                                          ./psephology.nq.gz
+COPY third_party/data/parliament-lda-terms/parliament-lda-terms.nq.gz               ./
+COPY third_party/data/fcdo_treaties/extractors/factoids/all.nq.gz                   ./fcdo-treaties.nq.gz
+COPY third_party/govuk/html/orgcharts/extractors/factoids/all.nq.gz                 ./govuk-orgchart.nq.gz
+
+RUN set -eux; \
+    mkdir -p /data-db; \
+    for f in *.nq.gz; do gunzip -k "$f"; done; \
+    files=""; for nq in *.nq; do files="$files --file $nq"; done; \
+    # shellcheck disable=SC2086
+    oxigraph load --location /data-db $files; \
+    rm -f *.nq *.nq.gz; \
+    du -sh /data-db
+
+# --- Stage 3: runtime --------------------------------------------------------
 FROM node:22-slim AS runtime
 
-# Bring the binary across. tini + gzip from apt.
 COPY --from=oxigraph-stage /usr/local/bin/oxigraph /usr/local/bin/oxigraph
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        tini gzip ca-certificates wget \
+        tini ca-certificates wget \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -63,27 +96,14 @@ COPY --chown=node:node demos/parliament-live/CLAUDE.md ./
 COPY --chown=node:node demos/parliament-live/entrypoint.sh /usr/local/bin/fpkg-entrypoint
 RUN chmod +x /usr/local/bin/fpkg-entrypoint
 
-# Bundle the N-Quads. They stay gzipped on disk; the entrypoint
-# gunzips into a tmpfs at startup and loads Oxigraph from that.
-RUN mkdir -p /app/data
-COPY --chown=node:node third_party/data/scrutiny-graph/scrutiny.nq.gz             /app/data/
-COPY --chown=node:node third_party/data/transparency-graph/transparency.nq.gz     /app/data/
-COPY --chown=node:node third_party/data/accountability-graph/accountability.nq.gz /app/data/
-COPY --chown=node:node third_party/identity-graph/identity.nq.gz                  /app/data/
-COPY --chown=node:node third_party/data/psephology/all.nq.gz                      /app/data/psephology.nq.gz
-COPY --chown=node:node third_party/data/parliament-lda-terms/parliament-lda-terms.nq.gz /app/data/
-# Treaties laid before Parliament under CRaG, lifted to RDF from the
-# FCDO Treaty Series via the fcdo-treaties skill. ~15 MB compressed —
-# by far the largest single dataset in the bundle.
-COPY --chown=node:node third_party/data/fcdo_treaties/extractors/factoids/all.nq.gz /app/data/fcdo-treaties.nq.gz
-# GOV.UK org chart — ministerial / people / organisation pages extracted
-# as factoids, one named graph per gov.uk page. Built by govuk-orgchart.
-COPY --chown=node:node third_party/govuk/html/orgcharts/extractors/factoids/all.nq.gz /app/data/govuk-orgchart.nq.gz
+# Pre-baked RocksDB from the load-stage. No .nq.gz lives in the runtime
+# image — the data is already in the indexed store.
+COPY --from=load-stage --chown=node:node /data-db /app/data-db
 
 ENV HOST=0.0.0.0
 ENV PORT=8080
 ENV OXIGRAPH_BIND=127.0.0.1:7878
-ENV NQUADS_DIR=/app/data
+ENV OXIGRAPH_DB=/app/data-db
 
 EXPOSE 8080
 

@@ -36,12 +36,13 @@ primary_region = 'lhr'
   [[http_service.checks]]
     interval = '30s'
     timeout = '5s'
-    grace_period = '60s'      # bumped: fcdo-treaties (~15 MB compressed) adds
-                              # ~20-30s to the gunzip + RocksDB load on cold start
+    grace_period = '15s'      # RocksDB is now pre-baked into the image —
+                              # cold-start cost is "open files", not a load
     method = 'GET'
     path = '/_health'
 
 [[vm]]
   size = 'shared-cpu-1x'
-  memory = '1gb'              # bumped: fcdo-treaties + govuk-orgchart push the
-                              # working set well past 512 MB during initial load
+  memory = '512mb'            # serve-read-only against a pre-built RocksDB
+                              # sits at ~100-150 MB; the 1 GB bump that
+                              # covered peak-load memory is no longer needed
