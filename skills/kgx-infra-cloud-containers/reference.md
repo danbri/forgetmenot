@@ -311,3 +311,22 @@ identifies the source (e.g.
 `<https://forgetmenot.example/scrutiny#graph/lords-votes>`). This is
 deliberate so the bundled SPARQL store can query a single source or
 join across sources with explicit `GRAPH { ... }` patterns.
+
+### Claude Code on Web sandbox blocks `git push --delete`
+
+```
+error: RPC failed; HTTP 403 curl 22 The requested URL returned error: 403
+send-pack: unexpected disconnect while reading sideband packet
+fatal: the remote end hung up unexpectedly
+```
+
+The sandbox's local git proxy (e.g. `http://127.0.0.1:<port>/git/<owner>/<repo>`)
+silently swallows delete pushes — they exit 0 with "Everything up-to-date"
+but the branch survives. Verbose mode (`git push -v origin --delete`)
+reveals the 403.
+
+**Fix**: there is no fix from inside the sandbox. Delete from the
+GitHub web UI at `https://github.com/<owner>/<repo>/branches`. The
+GitHub MCP tools available to the sandbox include `create_branch` but
+not `delete_branch`, and `flyctl-actions` / `gh` CLI aren't installed
+on the Web image.
