@@ -379,3 +379,49 @@ curl -s "https://github.com/<owner>/<repo>/releases/expanded_assets/<TAG>" \
   | grep -oE 'href="[^"]*"' | head -30
 ```
 
+
+### Oxigraph 0.5.x CLI is split into `serve` and `serve-read-only`
+
+**Seen 2026-05-27.** Live endpoint hung with `ERR_CONNECTION_TIMED_OUT`
+even though the fly deploy reported healthy and the GHA smoke test
+passed (warning: smoke test masked the failure — see CI gotcha).
+
+Inside the container Oxigraph was crashing on startup because the
+0.4-era CLI I wrote in `entrypoint.sh` is no longer valid:
+
+```sh
+# WRONG (0.4 syntax)
+oxigraph serve --bind ... --read-only --cors "$LOAD_DIR"/*.nq
+```
+
+Three breakages in 0.5.x:
+
+1. `--read-only` is no longer a flag; it's the separate subcommand
+   `serve-read-only`.
+2. Neither `serve` nor `serve-read-only` accepts positional N-Quads
+   files — you must `oxigraph load --location DIR --file F …` first
+   to populate a RocksDB store, then point the server at that DIR.
+3. `serve-read-only` *requires* `--location` (no in-memory mode for
+   read-only). `serve` does support in-memory if you omit `--location`,
+   but there's no way to bulk-load data into an in-memory `serve`
+   so it's useless for our case.
+
+**Fix** (commit pending): two-step boot in `entrypoint.sh`:
+
+```sh
+oxigraph load --location "$DB_DIR" --file file1.nq --file file2.nq …
+oxigraph serve-read-only \
+    --location "$DB_DIR" \
+    --bind 127.0.0.1:7878 \
+    --cors \
+    --union-default-graph
+```
+
+**Subtle extra**: `--union-default-graph` matters when all your data
+sits in NAMED graphs (ours does). Without it, a `SELECT ?s ?p ?o WHERE
+{ ?s ?p ?o }` query returns zero — it's only searching the unnamed
+default graph, which is empty. The flag tells Oxigraph to treat every
+named graph as part of the default graph for query evaluation. Could
+alternatively force callers to write `GRAPH ?g { ?s ?p ?o }`, but the
+union default is friendlier for a public endpoint.
+
