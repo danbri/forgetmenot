@@ -927,8 +927,14 @@ async function addStep(srcStepIdx, relKey, btn) {
   // P18 for human / place portraits; P154 for org logos. COALESCE picks
   // whichever exists so all three target types get a thumbnail when one
   // is available.
+  //
+  // Defensive: Wikidata has wdt:P18 data errors where a related entity
+  // (e.g. Norma Major Q3343721) has its "image" set to a partner's photo.
+  // We drop ?img1 when it equals the source's own wdt:P18 — the tile
+  // then falls back to no image rather than showing the wrong face.
   const imageBlock = `
-  OPTIONAL { ?target wdt:P18  ?img1 }
+  OPTIONAL { ?source wdt:P18 ?srcImg }
+  OPTIONAL { ?target wdt:P18  ?img1 . FILTER (!BOUND(?srcImg) || ?img1 != ?srcImg) }
   OPTIONAL { ?target wdt:P154 ?img2 }
   BIND (COALESCE(?img1, ?img2) AS ?image)`;
 
