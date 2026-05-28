@@ -425,6 +425,92 @@ named graph as part of the default graph for query evaluation. Could
 alternatively force callers to write `GRAPH ?g { ?s ?p ?o }`, but the
 union default is friendlier for a public endpoint.
 
+
+### Oxigraph 0.5.8 `load` is too strict on `#` in IRIs
+
+**Seen 2026-05-28.** identity-graph data was missing from fpkg.fly.dev
+for weeks despite the file being on disk, in the Dockerfile, and in
+the deploy path-trigger. Probed the live store, saw:
+
+```sh
+$ curl '…/kgx/query?query=SELECT (COUNT(*) AS ?n) WHERE { GRAPH <https://forgetmenot.local/graph/identity/members-api> { ?s ?p ?o } }'
+{"results":{"bindings":[{"n":{"value":"0"}}]}}
+```
+
+Reproduced the build's load step locally with `oxigraph_v0.5.8`:
+
+```
+Error while loading file identity.nq:
+Parser error at line 15508 between columns 81 and 368:
+Invalid IRI code point '#'
+Some files like Wikidata dumps contain invalid IRIs or language tags.
+If you want to load them anyway use the `--lenient` option.
+```
+
+The reported line is **misleading** — line 15508 is a perfectly ordinary
+`<…/Members/3805> <http://schema.org/familyName> "Boyd" <…/identity/ddp-sparql> .`
+quad with no `#` in it. The parser actually trips on standard W3C
+namespace IRIs (`<http://www.w3.org/2002/07/owl#sameAs>`,
+`<http://www.w3.org/2001/XMLSchema#integer>`, etc.) — `#` IS a valid IRI
+code point per RFC 3987 (it's the fragment delimiter), so 0.5.8's
+parser is overstrict.
+
+**Fix**: add `--lenient` to the load command.
+
+```sh
+oxigraph load --lenient --location /data-db --file foo.nq --file …
+```
+
+Verified: with `--lenient`, identity.nq loads cleanly — all 7 named
+graphs, 58,157 quads. Of the eight files we currently bundle into the
+fpkg image (`scrutiny`, `transparency`, `accountability`, `identity`,
+`psephology`, `parliament-lda-terms`, `fcdo-treaties`,
+`govuk-orgchart`), `identity` is the only one rejected by strict mode.
+
+(Landed in: commit pending.)
+
+
+### Oxigraph 0.5.8 `load` exits 0 even when it rejects a file
+
+**Seen 2026-05-28** — the *reason* the bug above could hide for weeks.
+The "Error while loading file identity.nq" message goes to **stderr
+only**; the process exit code stays **0**. So:
+
+```Dockerfile
+RUN set -eux; \
+    …; \
+    oxigraph load --location /data-db $files; \   # silently drops identity.nq
+    …                                              # build continues, success
+```
+
+`set -e` doesn't catch it. The build succeeds. fly accepts the image.
+The smoke test (which checks `COUNT(*) > 0` against the whole store)
+passes. Only when something queries the missing named graph by name
+does the gap surface — and only if you remember to.
+
+**Fix**: don't trust Oxigraph's exit code. Pipe stderr+stdout to a log
+and grep:
+
+```Dockerfile
+oxigraph load --lenient --location /data-db $files 2>&1 \
+    | tee /tmp/oxi-load.log; \
+if grep -q "^Error while loading" /tmp/oxi-load.log; then \
+    echo "::error::oxigraph load reported a file-level error" >&2; \
+    exit 1; \
+fi
+```
+
+This is a defence-in-depth measure — even after `--lenient` is in
+place, the next file that hits a different strict-mode rule (or a
+genuine encoding bug) won't ship silently.
+
+Upstream: should be filed against oxigraph (load command should set
+a non-zero exit code when any file errors). Until then, the grep is
+load-bearing.
+
+(Landed in: commit pending.)
+
+
 ---
 
 ## RDF storage — vocabulary (don't conflate these)

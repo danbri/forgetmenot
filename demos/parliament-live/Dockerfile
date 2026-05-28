@@ -74,9 +74,25 @@ RUN set -eux; \
     mkdir -p /data-db; \
     for f in *.nq.gz; do gunzip -k "$f"; done; \
     files=""; for nq in *.nq; do files="$files --file $nq"; done; \
+    # Two bugs in `oxigraph load` 0.5.8 make this step subtle:
+    #   1. Strict mode rejects identity.nq with
+    #        "Parser error ... Invalid IRI code point '#'"
+    #      on standard W3C namespace IRIs (xsd#integer, rdf#type, owl#sameAs,
+    #      …). `#` is a valid IRI code point per RFC 3987 — the parser is
+    #      overstrict. `--lenient` accepts them.
+    #   2. EVEN WHEN A FILE IS REJECTED, `oxigraph load` exits 0. The error
+    #      is on stderr only. So `set -e` does NOT catch it. Without the
+    #      defensive grep below, the build silently ships a RocksDB that's
+    #      missing whichever file failed (we noticed identity-graph absent
+    #      from fpkg.fly.dev for weeks before chasing this down).
+    # See skills/kgx-infra-cloud-containers/reference.md → Oxigraph.
     # shellcheck disable=SC2086
-    oxigraph load --location /data-db $files; \
-    rm -f *.nq *.nq.gz; \
+    oxigraph load --lenient --location /data-db $files 2>&1 | tee /tmp/oxi-load.log; \
+    if grep -q "^Error while loading" /tmp/oxi-load.log; then \
+        echo "::error::oxigraph load reported a file-level error; build halted" >&2; \
+        exit 1; \
+    fi; \
+    rm -f *.nq *.nq.gz /tmp/oxi-load.log; \
     du -sh /data-db
 
 # --- Stage 3: runtime --------------------------------------------------------
