@@ -261,14 +261,41 @@
 
   /* ---- notebook (scrolled history of navigation steps) -------- */
   .step {
-    margin-top: 28px;
-    padding-top: 22px;
-    border-top: 1px dashed var(--rule);
+    margin-top: 22px;
+    padding-top: 0;
+    border: 1px solid var(--rule-soft);
+    border-radius: 10px;
+    background: var(--surface);
+    overflow: hidden;
   }
-  .step:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
-  .step-head {
-    display: flex; align-items: baseline; gap: 8px;
-    margin-bottom: 10px;
+  .step:first-of-type { margin-top: 0; }
+  .step > summary {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    list-style: none;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border-bottom: 1px solid transparent;
+  }
+  .step[open] > summary {
+    border-bottom-color: var(--rule-soft);
+  }
+  .step > summary::-webkit-details-marker { display: none; }
+  .step > summary::before {
+    content: "▸";
+    color: var(--ink-mute);
+    font-size: 11px;
+    transition: transform 0.15s;
+    display: inline-block;
+    width: 12px;
+  }
+  .step[open] > summary::before {
+    transform: rotate(90deg);
+  }
+  .step-body {
+    padding: 10px 12px 14px;
   }
   .step-num {
     font: 11px/1 ui-monospace, Menlo, monospace;
@@ -554,7 +581,14 @@
   <div class="dev-limit-row">
     <label for="dev-limit">Navigate LIMIT</label>
     <input id="dev-limit" type="number" min="1" max="5000" step="10" value="60">
-    <span>per pivot (applies to next navigate)</span>
+    <span>per pivot · bump to 500+ for deep descendant chains</span>
+  </div>
+  <div class="dev-limit-row">
+    <label for="dev-noimg" style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+      <input id="dev-noimg" type="checkbox">
+      Hide items with no image
+    </label>
+    <span>(display only — navigates still see everything)</span>
   </div>
   <h4>Request log <button class="dev-clear" type="button">clear</button></h4>
   <div id="dev-log"></div>
@@ -699,6 +733,12 @@ let lastVisibleIds = new Set();
 // keeps the page snappy. Bumping it surfaces more rows per pivot at the
 // cost of latency.
 let NAV_LIMIT = 60;
+
+// Hide tiles where wdt:P18 / wdt:P154 returned nothing. Useful when
+// the grid is mostly placeholder rectangles. Display-only — the
+// underlying step rows aren't filtered, so subsequent navigates still
+// see the full set.
+let HIDE_NO_IMAGE = false;
 
 // ---------------------------------------------------------------------------
 // Relation catalogue per entity type. Forward properties (subject = the
@@ -995,13 +1035,14 @@ function renderStep(step, stepIdx) {
   // The seed step uses live filters + group-by; derived steps just show
   // whatever rows the navigate query produced.
   const isSeed = step.kind === 'seed';
-  const rows = isSeed ? applyFilters(step.rows) : step.rows;
+  let rows = isSeed ? applyFilters(step.rows) : step.rows;
+  if (HIDE_NO_IMAGE) rows = rows.filter((r) => !!r.image);
 
   const sourceTag = step.source
     ? `<span class="step-source">from ${esc(step.source)} · ${esc(step.via)}</span>` : '';
   const countLabel = isSeed
-    ? `${rows.length} of ${step.rows.length}`
-    : `${rows.length}`;
+    ? `${rows.length} of ${step.rows.length}${HIDE_NO_IMAGE ? ' · w/img' : ''}`
+    : `${rows.length}${HIDE_NO_IMAGE ? ' w/img' : ''}`;
 
   let body;
   if (!rows.length) {
@@ -1047,16 +1088,21 @@ function renderStep(step, stepIdx) {
       + `</span></div>`;
   }
 
-  return `<section class="step" data-step="${stepIdx}">`
-    + `<div class="step-head">`
+  // Native <details>/<summary> = lite tree-widget collapse/expand per
+  // step. Seed step opens by default; derived steps open by default too
+  // but can be collapsed by tapping the header.
+  return `<details class="step" data-step="${stepIdx}" open>`
+    + `<summary>`
     + `<span class="step-num">${stepIdx + 1}</span>`
     + `<span class="step-title">${esc(step.title)}</span>`
     + `<span class="step-count">${countLabel}</span>`
     + sourceTag
-    + `</div>`
+    + `</summary>`
+    + `<div class="step-body">`
     + body
     + jumpRow
-    + `</section>`;
+    + `</div>`
+    + `</details>`;
 }
 
 function renderNotebook() {
@@ -1427,6 +1473,10 @@ $devPanel.querySelector('.dev-clear').addEventListener('click', () => {
 document.getElementById('dev-limit').addEventListener('change', (e) => {
   const n = parseInt(e.target.value, 10);
   if (Number.isFinite(n) && n > 0) NAV_LIMIT = n;
+});
+document.getElementById('dev-noimg').addEventListener('change', (e) => {
+  HIDE_NO_IMAGE = e.target.checked;
+  renderNotebook();
 });
 
 // ---------------------------------------------------------------------------
