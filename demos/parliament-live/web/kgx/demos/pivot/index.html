@@ -258,6 +258,19 @@
     touch-action: manipulation;
   }
   .jump-btn:hover { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
+  /* "discovered" relations — dashed border to mark them as
+     auto-detected (vs the curated buttons next to them). */
+  .jump-btn.discovered {
+    background: transparent;
+    border-style: dashed;
+    color: var(--ink-soft);
+  }
+  .jump-btn.discovered:hover {
+    background: var(--accent);
+    color: var(--accent-on);
+    border-color: var(--accent);
+    border-style: solid;
+  }
 
   /* ---- notebook (scrolled history of navigation steps) -------- */
   .step {
@@ -687,11 +700,15 @@ PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
 PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema: <http://schema.org/>
 SELECT ?pm ?pmLabel ?image ?start ?birth ?birthPlace ?birthPlaceLabel ?wpArticle WHERE {
-  # wd:Q9134365 = "monarch of the United Kingdom" (Charles III's P39).
-  # The pre-1801 Kingdom of Great Britain / England / Scotland positions
-  # exist on Wikidata but data coverage is thinner — start narrow.
+  # Four position QIDs Wikidata uses for the throne across eras:
+  #   Q18810062 — monarch of England          (pre-1707)
+  #   Q110324075 — monarch of Great Britain    (1707–1801)
+  #   Q111722535 — monarch of the UK of GB & I (1801–1922)
+  #   Q9134365  — monarch of the United Kingdom (post-1922)
+  # Restricting to Q9134365 alone only finds 5 holders (George V → Charles III).
+  VALUES ?crown { wd:Q9134365 wd:Q111722535 wd:Q110324075 wd:Q18810062 }
   ?pm p:P39 ?term .
-  ?term ps:P39 wd:Q9134365 ; pq:P580 ?start .
+  ?term ps:P39 ?crown ; pq:P580 ?start .
   OPTIONAL { ?pm wdt:P18  ?image }
   OPTIONAL { ?pm wdt:P19  ?birthPlace .
              OPTIONAL { ?birthPlace rdfs:label ?birthPlaceLabel . FILTER(lang(?birthPlaceLabel) = "en") } }
@@ -779,6 +796,55 @@ const RELATIONS = {
     { key: 'instances',   prop: '^wdt:P31', label: 'instances',    target: 'human' },
   ],
 };
+
+// Cache for discoverRelations(): map from step.id → { predicates: [...] }.
+// Keyed by step id so different walks don't share results.
+const DISCOVERY_CACHE = new Map();
+
+// Find the most common entity-valued (wdt:) predicates among a step's
+// source URIs. The hardcoded RELATIONS table is curated for humans /
+// places / orgs; this discovers what's actually in the data — useful
+// when the step has Lords, monarchs, treaties, anything not in the
+// curated set. Caches per step.id; only re-runs if the cache is cold.
+async function discoverRelations(step) {
+  if (DISCOVERY_CACHE.has(step.id)) return DISCOVERY_CACHE.get(step.id);
+  const rows = (step.kind === 'seed') ? applyFilters(step.rows) : step.rows;
+  if (!rows.length) { DISCOVERY_CACHE.set(step.id, []); return []; }
+  // VALUES gets big fast — sample 30 URIs for the discovery probe.
+  // Predicates that bind in 30 of them will bind in 300; we're after
+  // the head of the distribution, not a complete census.
+  const sample = rows.slice(0, 30).map((r) => '<' + (r.pm || r.uri) + '>').join(' ');
+  const q = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wikibase: <http://wikiba.se/ontology#>
+SELECT ?p (SAMPLE(?pLabel) AS ?label) (COUNT(DISTINCT ?s) AS ?n) WHERE {
+  VALUES ?s { ${sample} }
+  ?s ?p ?o .
+  FILTER(STRSTARTS(STR(?p), "http://www.wikidata.org/prop/direct/"))
+  FILTER(isIRI(?o))
+  BIND(IRI(REPLACE(STR(?p), "/prop/direct/", "/entity/")) AS ?prop)
+  OPTIONAL { ?prop rdfs:label ?pLabel . FILTER(lang(?pLabel) = "en") }
+}
+GROUP BY ?p
+HAVING (COUNT(DISTINCT ?s) >= 2)
+ORDER BY DESC(?n)
+LIMIT 20`;
+  try {
+    const j = await sparql(QLEVER, q, 'sparql:discover-' + step.id);
+    const rels = j.results.bindings.map((b) => ({
+      key:   'discovered:' + b.p.value.replace(/^.*\//, ''),
+      prop:  'wdt:' + b.p.value.replace(/^.*\//, ''),
+      label: (b.label && b.label.value) || b.p.value.replace(/^.*\//, ''),
+      n:     parseInt(b.n.value, 10),
+      target: 'human',           // best guess; safe default for the relation table render path
+      discovered: true,
+    }));
+    DISCOVERY_CACHE.set(step.id, rels);
+    return rels;
+  } catch (e) {
+    DISCOVERY_CACHE.set(step.id, []);
+    return [];
+  }
+}
 
 // All HTTP requests funnel through net() so the dev panel + console get
 // a uniform entry per request.
@@ -1073,14 +1139,25 @@ function renderStep(step, stepIdx) {
   }
 
   const rels = RELATIONS[step.type] || [];
+  const discovered = DISCOVERY_CACHE.get(step.id) || [];
+  // Hide discovered predicates that are already in the curated set
+  // (so we don't show "child (P40)" right next to "children").
+  const curatedProps = new Set(rels.map((r) => r.prop));
+  const discoveredExtras = discovered.filter((d) => !curatedProps.has(d.prop));
   let jumpRow = '';
   if (rels.length && rows.length) {
     jumpRow = `<div class="jump">`
       + `<span class="jump-label">From this selection →</span>`
       + rels.map((rel) =>
           `<button class="jump-btn" data-step="${stepIdx}" data-rel="${esc(rel.key)}">${esc(rel.label)}</button>`
-        ).join('')
-      + `</div>`;
+        ).join('');
+    if (discoveredExtras.length) {
+      jumpRow += `<span class="jump-label" style="opacity:0.7;margin-left:8px;">discovered →</span>`
+        + discoveredExtras.slice(0, 8).map((rel) =>
+            `<button class="jump-btn discovered" data-step="${stepIdx}" data-rel="${esc(rel.key)}" title="${esc(rel.prop)} · ${rel.n} of ${Math.min(rows.length, 30)} sampled">${esc(rel.label)} <span style="opacity:0.6;">${rel.n}</span></button>`
+          ).join('');
+    }
+    jumpRow += `</div>`;
   } else if (rows.length && step.type === 'mnis-human') {
     jumpRow = `<div class="jump"><span class="jump-label" style="opacity:0.7;">`
       + `Wikidata pivots not available — entities are MNIS Member URIs and`
@@ -1109,6 +1186,15 @@ function renderNotebook() {
   const totalCount = STEPS[0] ? `${applyFilters(STEPS[0].rows).length} of ${STEPS[0].rows.length}` : '…';
   $count.textContent = totalCount;
   $reset.hidden = STEPS.length <= 1;
+
+  // Kick off relation discovery for any step we haven't probed yet.
+  // Cached results fall through; cache misses fire a SPARQL and trigger
+  // a re-render when they land so the new "discovered" buttons appear.
+  STEPS.forEach((step) => {
+    if (!DISCOVERY_CACHE.has(step.id)) {
+      discoverRelations(step).then(() => renderNotebook());
+    }
+  });
 
   const useTransition = document.startViewTransition && (lastVisibleIds.size > 0);
   const renderBody = () => {
@@ -1310,7 +1396,12 @@ LIMIT ${NAV_LIMIT}`;
 
 async function addStep(srcStepIdx, relKey, btn) {
   const src = STEPS[srcStepIdx];
-  const rel = (RELATIONS[src.type] || []).find((x) => x.key === relKey);
+  let rel = (RELATIONS[src.type] || []).find((x) => x.key === relKey);
+  if (!rel) {
+    // Discovered relation — look it up in the per-step cache.
+    const discovered = DISCOVERY_CACHE.get(src.id) || [];
+    rel = discovered.find((d) => d.key === relKey);
+  }
   if (!rel) return;
   const srcRows = (src.kind === 'seed') ? applyFilters(src.rows) : src.rows;
   if (!srcRows.length) return;
