@@ -718,6 +718,30 @@ SELECT ?pm ?pmLabel ?image ?start ?birth ?birthPlace ?birthPlaceLabel ?wpArticle
 }
 ORDER BY DESC(?start)`,
   },
+  'imagesnippets': {
+    label: 'ImageSnippets — top tags',
+    endpoint: 'https://imagesnippets.com/sparql/images',
+    entityKind: 'imagesnippets-tag',
+    type: 'imagesnippets-tag',
+    discoverable: false,           // closed-world endpoint; no Wikidata pivots
+    query: `
+PREFIX schema: <http://schema.org/>
+PREFIX lio:    <https://w3id.org/lio/v1#>
+# Top 60 tags by image count. ?pm is a synthesised IRI per tag so the
+# dedupe pipeline (keyed on ?pm) holds; ?image is a sample image url
+# for the tile thumb. No further Wikidata pivots — this endpoint is
+# its own world.
+SELECT (URI(CONCAT("urn:imagesnippets:tag:", ENCODE_FOR_URI(?tag))) AS ?pm)
+       (?tag AS ?pmLabel)
+       (SAMPLE(?img) AS ?image)
+       (COUNT(DISTINCT ?img) AS ?n)
+WHERE {
+  ?img a schema:ImageObject ; lio:hasTag ?tag .
+}
+GROUP BY ?tag
+ORDER BY DESC(?n)
+LIMIT 60`,
+  },
   'appg-ai': {
     label: 'APPG AI officers',
     endpoint: FPKG,
@@ -797,47 +821,55 @@ const RELATIONS = {
   ],
 };
 
-// Cache for discoverRelations(): map from step.id → { predicates: [...] }.
-// Keyed by step id so different walks don't share results.
+// Cache for discoverRelations(): map from step.id → [{ key, prop, label,
+// n, direction }]. Keyed by step id so different walks don't share.
 const DISCOVERY_CACHE = new Map();
 
-// Find the most common entity-valued (wdt:) predicates among a step's
-// source URIs. The hardcoded RELATIONS table is curated for humans /
-// places / orgs; this discovers what's actually in the data — useful
-// when the step has Lords, monarchs, treaties, anything not in the
-// curated set. Caches per step.id; only re-runs if the cache is cold.
+// Find the most common entity-valued predicates among a step's source
+// URIs, in BOTH directions (outgoing wdt:P… and incoming ^wdt:P…). The
+// hardcoded RELATIONS table is curated for humans / places / orgs; this
+// discovers what's actually in the data — useful for monarchs,
+// treaties, ImageSnippets tags etc. Caches per step.id.
 async function discoverRelations(step) {
   if (DISCOVERY_CACHE.has(step.id)) return DISCOVERY_CACHE.get(step.id);
+  if (step.seedRef && SEEDS[step.seedRef] && SEEDS[step.seedRef].discoverable === false) {
+    DISCOVERY_CACHE.set(step.id, []); return [];
+  }
   const rows = (step.kind === 'seed') ? applyFilters(step.rows) : step.rows;
   if (!rows.length) { DISCOVERY_CACHE.set(step.id, []); return []; }
-  // VALUES gets big fast — sample 30 URIs for the discovery probe.
-  // Predicates that bind in 30 of them will bind in 300; we're after
-  // the head of the distribution, not a complete census.
-  const sample = rows.slice(0, 30).map((r) => '<' + (r.pm || r.uri) + '>').join(' ');
+  // 100-URI sample — generous enough that the head of the distribution
+  // is solid, small enough that VALUES stays manageable.
+  const sample = rows.slice(0, 100).map((r) => '<' + (r.pm || r.uri) + '>').join(' ');
   const q = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX wikibase: <http://wikiba.se/ontology#>
-SELECT ?p (SAMPLE(?pLabel) AS ?label) (COUNT(DISTINCT ?s) AS ?n) WHERE {
+SELECT ?p ?dir (SAMPLE(?pLabel) AS ?label) (COUNT(DISTINCT ?s) AS ?n) WHERE {
   VALUES ?s { ${sample} }
-  ?s ?p ?o .
+  { ?s ?p ?o . FILTER(isIRI(?o)) BIND("out" AS ?dir) }
+  UNION
+  { ?o ?p ?s . FILTER(isIRI(?o)) BIND("in"  AS ?dir) }
   FILTER(STRSTARTS(STR(?p), "http://www.wikidata.org/prop/direct/"))
-  FILTER(isIRI(?o))
   BIND(IRI(REPLACE(STR(?p), "/prop/direct/", "/entity/")) AS ?prop)
   OPTIONAL { ?prop rdfs:label ?pLabel . FILTER(lang(?pLabel) = "en") }
 }
-GROUP BY ?p
+GROUP BY ?p ?dir
 HAVING (COUNT(DISTINCT ?s) >= 2)
 ORDER BY DESC(?n)
-LIMIT 20`;
+LIMIT 40`;
   try {
     const j = await sparql(QLEVER, q, 'sparql:discover-' + step.id);
-    const rels = j.results.bindings.map((b) => ({
-      key:   'discovered:' + b.p.value.replace(/^.*\//, ''),
-      prop:  'wdt:' + b.p.value.replace(/^.*\//, ''),
-      label: (b.label && b.label.value) || b.p.value.replace(/^.*\//, ''),
-      n:     parseInt(b.n.value, 10),
-      target: 'human',           // best guess; safe default for the relation table render path
-      discovered: true,
-    }));
+    const rels = j.results.bindings.map((b) => {
+      const pid = b.p.value.replace(/^.*\//, '');
+      const dir = b.dir.value;
+      const baseLabel = (b.label && b.label.value) || pid;
+      return {
+        key:       'discovered:' + dir + ':' + pid,
+        prop:      (dir === 'in' ? '^' : '') + 'wdt:' + pid,
+        label:     baseLabel,
+        direction: dir,
+        n:         parseInt(b.n.value, 10),
+        target:    'human',
+        discovered: true,
+      };
+    });
     DISCOVERY_CACHE.set(step.id, rels);
     return rels;
   } catch (e) {
@@ -1140,21 +1172,22 @@ function renderStep(step, stepIdx) {
 
   const rels = RELATIONS[step.type] || [];
   const discovered = DISCOVERY_CACHE.get(step.id) || [];
-  // Hide discovered predicates that are already in the curated set
-  // (so we don't show "child (P40)" right next to "children").
   const curatedProps = new Set(rels.map((r) => r.prop));
   const discoveredExtras = discovered.filter((d) => !curatedProps.has(d.prop));
+  // Arrow prefix shows direction at-a-glance: → outgoing edge from set,
+  //                                            ← incoming edge to set.
+  const dirArrow = (rel) => rel.prop && rel.prop.startsWith('^') ? '←' : '→';
   let jumpRow = '';
   if (rels.length && rows.length) {
     jumpRow = `<div class="jump">`
-      + `<span class="jump-label">From this selection →</span>`
+      + `<span class="jump-label">From this selection</span>`
       + rels.map((rel) =>
-          `<button class="jump-btn" data-step="${stepIdx}" data-rel="${esc(rel.key)}">${esc(rel.label)}</button>`
+          `<button class="jump-btn" data-step="${stepIdx}" data-rel="${esc(rel.key)}">${dirArrow(rel)} ${esc(rel.label)}</button>`
         ).join('');
     if (discoveredExtras.length) {
-      jumpRow += `<span class="jump-label" style="opacity:0.7;margin-left:8px;">discovered →</span>`
-        + discoveredExtras.slice(0, 8).map((rel) =>
-            `<button class="jump-btn discovered" data-step="${stepIdx}" data-rel="${esc(rel.key)}" title="${esc(rel.prop)} · ${rel.n} of ${Math.min(rows.length, 30)} sampled">${esc(rel.label)} <span style="opacity:0.6;">${rel.n}</span></button>`
+      jumpRow += `<span class="jump-label" style="opacity:0.7;margin-left:8px;">discovered</span>`
+        + discoveredExtras.slice(0, 12).map((rel) =>
+            `<button class="jump-btn discovered" data-step="${stepIdx}" data-rel="${esc(rel.key)}" title="${esc(rel.prop)} · ${rel.n} of ${Math.min(rows.length, 100)} sampled">${dirArrow(rel)} ${esc(rel.label)} <span style="opacity:0.6;">${rel.n}</span></button>`
           ).join('');
     }
     jumpRow += `</div>`;
@@ -1434,6 +1467,7 @@ async function addStep(srcStepIdx, relKey, btn) {
       title: rel.label,
       source: src.title,
       sourceStepIdx: srcStepIdx,  // for route-from-seed walk
+      seedRef: src.seedRef,       // propagate discoverability from seed
       via: rel.label,
       type: rel.target,
       rows,
@@ -1599,6 +1633,7 @@ async function loadSeed(seedId) {
       kind: 'seed',
       title: seed.label,
       type: seed.type,
+      seedRef: seedId,             // ← lets discoverRelations check the seed's flags
       rows: ROWS,
     }];
     renderAll();
