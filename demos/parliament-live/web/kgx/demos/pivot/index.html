@@ -55,6 +55,48 @@
   .toolbar-pill:active { opacity: 0.85; }
   .toolbar-count { margin-left: auto; font-size: 13px; color: var(--ink-soft); }
 
+  /* Pivot-by control — the Microsoft-Pivot-Viewer move: pick a facet to
+     group everything by, tiles rearrange into labeled groups. */
+  .pivotbar {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 8px 10px;
+    margin-bottom: 12px;
+    align-items: center;
+  }
+  .pivotbar-label {
+    font-size: 13px; color: var(--ink-soft); margin-right: 4px;
+  }
+  .pivot-pill {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 5px 11px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  .pivot-pill[aria-pressed="true"] {
+    background: var(--accent); color: white; border-color: var(--accent);
+  }
+  .pivot-group {
+    margin-top: 16px;
+  }
+  .pivot-group:first-child { margin-top: 0; }
+  .pivot-group-header {
+    display: flex; align-items: baseline; gap: 8px;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 4px;
+    margin-bottom: 8px;
+  }
+  .pivot-group-name {
+    font-weight: 600; font-size: 15px;
+  }
+  .pivot-group-n {
+    font-size: 12px; color: var(--ink-soft);
+  }
+
   .layout { display: grid; grid-template-columns: 1fr; gap: 14px; }
   @media (min-width: 800px) {
     .layout { grid-template-columns: 240px 1fr; }
@@ -230,15 +272,25 @@
 </nav>
 <h1>Pivot Viewer — UK Prime Ministers</h1>
 <p class="sub">
-  Microsoft-Pivot-meets-Freebase-Parallax in 200 lines of vanilla JS.
-  Image grid + tap-to-filter facets, plus a "navigate to" row that
-  builds the next query from the currently-visible set.
+  Inspired by Microsoft's 2010 Silverlight Pivot Viewer: pick a facet
+  to <strong>pivot by</strong> and the tiles rearrange into labeled
+  groups — the spiritual move from grid view to histogram view. Plus
+  Freebase-Parallax-style "navigate to" buttons that build the next
+  query from the visible set. ~300 lines of vanilla JS; no SDK.
 </p>
 
 <div class="toolbar">
   <span class="toolbar-label">Source:</span>
   <button class="toolbar-pill" aria-pressed="true" id="src-wikidata">Wikidata</button>
   <span class="toolbar-count" id="count">…</span>
+</div>
+
+<div class="pivotbar">
+  <span class="pivotbar-label">Pivot by:</span>
+  <button class="pivot-pill" data-pivot="" aria-pressed="true">none (grid)</button>
+  <button class="pivot-pill" data-pivot="party">party</button>
+  <button class="pivot-pill" data-pivot="startDecade">decade in office</button>
+  <button class="pivot-pill" data-pivot="birthCentury">birth century</button>
 </div>
 
 <div class="layout">
@@ -326,6 +378,20 @@ const $navigate = document.getElementById('navigate');
 let ROWS = [];      // full result set (one row per PM-term, dedup'd by pm)
 let FILTERS = {};   // facet → Set<value>
 let SEARCH = '';    // free-text filter (lowercase substring against name)
+let PIVOT  = '';    // current pivot-by facet ('', 'party', 'startDecade', 'birthCentury')
+
+// Wikimedia FilePath URLs support a ?width= parameter to return a
+// pre-scaled image. Useful for the popover (we want 400 px tall, not
+// the full 8 MP original) and arguably for the grid too.
+function imgAtWidth(href, w) {
+  if (!href) return '';
+  const u = httpsify(href);
+  if (/commons\.wikimedia\.org\/wiki\/Special:FilePath\//i.test(u)) {
+    const sep = u.includes('?') ? '&' : '?';
+    return u + sep + 'width=' + w;
+  }
+  return u;
+}
 
 function esc(s) {
   return String(s).replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
@@ -446,6 +512,22 @@ function renderFacets() {
   });
 }
 
+// Render one tile. Indexed by data-idx so the click handler can find
+// the row again from the original `visible` array.
+function tileHtml(r, idx) {
+  const meta = [
+    r.start ? r.start.slice(0,4) : '',
+    r.parties[0] || '',
+  ].filter(Boolean).join(' · ');
+  return `<div class="tile" data-idx="${idx}">`
+    + (r.image
+        ? `<img loading="lazy" src="${esc(imgAtWidth(r.image, 180))}" alt="${esc(r.label)}">`
+        : `<div style="aspect-ratio:1/1;background:var(--code-bg);border-radius:4px;"></div>`)
+    + `<div class="name">${esc(r.label)}</div>`
+    + (meta ? `<div class="meta">${esc(meta)}</div>` : '')
+    + `</div>`;
+}
+
 function renderGrid() {
   const visible = applyFilters(ROWS);
   $count.textContent = `${visible.length} of ${ROWS.length} selected`;
@@ -453,27 +535,49 @@ function renderGrid() {
     $results.innerHTML = '<div class="loading">No rows match the current facets.</div>';
     return;
   }
-  $results.innerHTML = '<div class="grid">'
-    + visible.map((r, idx) => {
-        const meta = [
-          r.start ? r.start.slice(0,4) : '',
-          r.parties[0] || '',
-        ].filter(Boolean).join(' · ');
-        // Tile is a <div> with a click handler that opens the popover —
-        // not an <a>, so we keep tap+hold-to-open-Wikipedia accessible
-        // via the popover's "open on Wikidata" button instead. Indexed
-        // by data-idx so the popover handler can find the row again.
-        return `<div class="tile" data-idx="${idx}">`
-          + (r.image
-              ? `<img loading="lazy" src="${esc(httpsify(r.image))}" alt="${esc(r.label)}">`
-              : `<div style="aspect-ratio:1/1;background:var(--code-bg);border-radius:4px;"></div>`)
-          + `<div class="name">${esc(r.label)}</div>`
-          + (meta ? `<div class="meta">${esc(meta)}</div>` : '')
-          + `</div>`;
-      }).join('')
-    + '</div>';
+  if (PIVOT) {
+    // Microsoft-Pivot-Viewer style: group the visible items by the
+    // chosen facet, render each group as a labeled section with its
+    // own tile grid. Items in multiple facet values (e.g. PMs with
+    // two parties) appear once per value — same as the histogram bars
+    // in the original Pivot Viewer.
+    const groups = new Map();
+    visible.forEach((r, idx) => {
+      const vals = facetValues(r, PIVOT);
+      if (!vals.length) {
+        const key = '(unknown)';
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push({ row: r, idx });
+        return;
+      }
+      for (const v of vals) {
+        if (!groups.has(v)) groups.set(v, []);
+        groups.get(v).push({ row: r, idx });
+      }
+    });
+    // Sort groups by count descending; unknown last.
+    const ordered = [...groups.entries()]
+      .sort((a, b) => {
+        if (a[0] === '(unknown)') return 1;
+        if (b[0] === '(unknown)') return -1;
+        return b[1].length - a[1].length;
+      });
+    $results.innerHTML = ordered.map(([name, items]) =>
+      `<div class="pivot-group">`
+      + `<div class="pivot-group-header">`
+      + `<span class="pivot-group-name">${esc(name)}</span>`
+      + `<span class="pivot-group-n">${items.length}</span>`
+      + `</div>`
+      + `<div class="grid">${items.map(({ row, idx }) => tileHtml(row, idx)).join('')}</div>`
+      + `</div>`
+    ).join('');
+  } else {
+    $results.innerHTML = '<div class="grid">'
+      + visible.map((r, idx) => tileHtml(r, idx)).join('')
+      + '</div>';
+  }
 
-  // Tile click → popover
+  // Tile click → popover. Same handler works for both layouts.
   $results.querySelectorAll('.tile').forEach((tile) => {
     tile.addEventListener('click', () => {
       const idx = parseInt(tile.getAttribute('data-idx'), 10);
@@ -555,7 +659,9 @@ function openPopover(row) {
   const wd   = document.getElementById('pop-wd');
 
   if (row.image) {
-    img.src = httpsify(row.image);
+    // Use a Wikimedia ?width=400 scaled image — sharper than the grid
+    // thumb but still a fraction of the megapixel original.
+    img.src = imgAtWidth(row.image, 400);
     img.style.display = '';
   } else {
     img.style.display = 'none';
@@ -596,6 +702,19 @@ document.getElementById('search').addEventListener('input', (e) => {
   renderNavigateButtons();
   // Facet counts depend on SEARCH too, so refresh them.
   renderFacets();
+});
+
+// ---------------------------------------------------------------------------
+// Pivot-by selector — Microsoft-Pivot-Viewer-style histogram view.
+// ---------------------------------------------------------------------------
+document.querySelectorAll('.pivot-pill').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    PIVOT = btn.getAttribute('data-pivot');
+    document.querySelectorAll('.pivot-pill').forEach((b) => {
+      b.setAttribute('aria-pressed', String(b === btn));
+    });
+    renderGrid();
+  });
 });
 
 (async () => {
