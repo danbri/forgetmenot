@@ -250,6 +250,57 @@ LIMIT 15">
   <p class="demo-desc">Winning candidacies sorted by lowest vote share — the tightest contests on record.</p>
 </div>
 
+<h2>Network views (#defaultView:Graph)</h2>
+<p class="sub">
+  Force-directed graph rendering. Convention: rows have <code>?source</code>
+  and <code>?target</code> (URIs) plus optional <code>?sourceLabel</code> /
+  <code>?targetLabel</code> / <code>?edgeLabel</code> / <code>?sourceImage</code> /
+  <code>?targetImage</code>. Nodes dedupe across rows automatically.
+</p>
+
+<div class="demo" data-endpoint="fpkg"
+     data-query="# Lords RMFI as a peer ↔ entity network. Each edge is a single
+# declared interest. The shape ?source / ?target / ?sourceLabel etc.
+# is the convention the playground's Graph renderer reads.
+#
+# defaultView:Graph triggers vis-network rendering — pinch to zoom,
+# tap a node to centre, drag to lay out.
+#defaultView:Graph
+PREFIX tr:   &lt;https://forgetmenot.example/transparency#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+
+SELECT ?source ?sourceLabel ?target ?targetLabel WHERE {
+  GRAPH &lt;https://forgetmenot.example/transparency#graph/lords-rmfi&gt; {
+    ?source tr:hasInterest/tr:mentionsEntity ?target .
+  }
+  BIND (REPLACE(STR(?source), &quot;.*members/&quot;, &quot;MNIS &quot;) AS ?sourceLabel)
+  BIND (REPLACE(STR(?target), &quot;.*/entity/&quot;, &quot;&quot;) AS ?targetLabel)
+}
+LIMIT 80">
+  <p class="demo-title">Lords RMFI: peer → declared entity network</p>
+  <p class="demo-tags"><span class="tag">fpkg</span><span class="tag">transparency-graph</span><span class="tag">graph-view</span></p>
+  <p class="demo-desc">First 80 edges of the Register of Lords' Members' Interests rendered as a force-directed network. Peers cluster by which entities they have in common. Same query without the directive comment shows as a table.</p>
+</div>
+
+<div class="demo" data-endpoint="fpkg"
+     data-query="# Same data, different shape: top 15 entities that appear in the
+# most peers' declarations. #defaultView:BarChart picks the first
+# numeric column for bar length, the other column for the label.
+#defaultView:BarChart
+PREFIX tr: &lt;https://forgetmenot.example/transparency#&gt;
+SELECT ?entity (COUNT(DISTINCT ?peer) AS ?peers) WHERE {
+  GRAPH &lt;https://forgetmenot.example/transparency#graph/lords-rmfi&gt; {
+    ?peer tr:hasInterest/tr:mentionsEntity ?entity .
+  }
+}
+GROUP BY ?entity
+ORDER BY DESC(?peers)
+LIMIT 15">
+  <p class="demo-title">Lords RMFI: top 15 most-declared entities</p>
+  <p class="demo-tags"><span class="tag">fpkg</span><span class="tag">transparency-graph</span><span class="tag">bar-chart</span></p>
+  <p class="demo-desc">Which organisations show up in the most peers' interest declarations? Bar chart sorted by count.</p>
+</div>
+
 <h2>Multi-endpoint federation (experimental)</h2>
 <p class="sub">
   Real SPARQL federation: our endpoint calls out to a remote one via

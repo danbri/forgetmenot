@@ -9,6 +9,8 @@
      completion. ~200 KB from unpkg's CDN. We only use it as the editor;
      submit + results rendering are in our shell. -->
 <link rel="stylesheet" href="https://unpkg.com/@triply/yasqe/build/yasqe.min.css">
+<!-- vis-network for #defaultView:Graph. Loaded lazily on demand below. -->
+<script src="/kgx/js/wikidata-portable.js"></script>
 <style>
   :root {
     --bg: #faf8f3;
@@ -229,6 +231,21 @@
     margin-top: 2px;
   }
 
+  /* Graph + BarChart wrappers */
+  .results .graphwrap, .results .barwrap {
+    background: var(--code-bg);
+    border: 1px solid var(--rule);
+    border-radius: 0 0 6px 6px;
+    padding: 8px;
+  }
+  .results .graph-host {
+    height: 60vh;
+    min-height: 320px;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid var(--rule);
+  }
+
   .results table {
     width: 100%;
     border-collapse: collapse;
@@ -397,20 +414,24 @@ const SAMPLES = {
       q: 'PREFIX parl: <https://id.parliament.uk/schema/>\nSELECT ?p ?label WHERE {\n  ?p a parl:Person ; parl:personFamilyName ?label .\n} LIMIT 20' },
   ],
   wikidata: [
+    // Portable: vanilla rdfs:label OPTIONAL clauses work on official
+    // Wikidata, QLever, OpenLink Virtuoso, DBpedia. The
+    // SERVICE wikibase:label pattern is a Blazegraph extension that
+    // only the official endpoint understands.
     { name: 'UK Prime Ministers (portraits)',
-      q: '# Showcases the result panel: SERVICE wikibase:label triggers\n# the ?pm/?pmLabel column merge; wdt:P18 image URLs render as\n# inline thumbnails; the ?start column sorts chronologically.\nPREFIX wd:  <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p:   <http://www.wikidata.org/prop/>\nPREFIX ps:  <http://www.wikidata.org/prop/statement/>\nPREFIX pq:  <http://www.wikidata.org/prop/qualifier/>\nSELECT ?pm ?pmLabel ?image ?start WHERE {\n  ?pm p:P39 ?term .\n  ?term ps:P39 wd:Q14211 ;            # position held: UK Prime Minister\n        pq:P580 ?start .\n  OPTIONAL { ?pm wdt:P18 ?image }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n}\nORDER BY DESC(?start)\nLIMIT 30' },
+      q: '# UK Prime Ministers, most recent first.\nPREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX p:    <http://www.wikidata.org/prop/>\nPREFIX ps:   <http://www.wikidata.org/prop/statement/>\nPREFIX pq:   <http://www.wikidata.org/prop/qualifier/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?pm ?pmLabel ?image ?start WHERE {\n  ?pm p:P39 ?term .\n  ?term ps:P39 wd:Q14211 ; pq:P580 ?start .\n  OPTIONAL { ?pm wdt:P18 ?image }\n  OPTIONAL { ?pm rdfs:label ?pmLabel . FILTER (lang(?pmLabel) = "en") }\n}\nORDER BY DESC(?start)\nLIMIT 30' },
     { name: 'British monarchs (portraits)',
-      q: '# Monarchs of the United Kingdom plus their predecessor monarchies.\nPREFIX wd:  <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nPREFIX p:   <http://www.wikidata.org/prop/>\nPREFIX ps:  <http://www.wikidata.org/prop/statement/>\nPREFIX pq:  <http://www.wikidata.org/prop/qualifier/>\nSELECT ?monarch ?monarchLabel ?image ?start WHERE {\n  VALUES ?crown { wd:Q9134 wd:Q161885 wd:Q174193 }  # UK, GB, Eng/Scot monarchies\n  ?monarch p:P39 ?term .\n  ?term ps:P39 ?crown ;\n        pq:P580 ?start .\n  OPTIONAL { ?monarch wdt:P18 ?image }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n}\nORDER BY DESC(?start)\nLIMIT 50' },
+      q: '# Monarchs of UK + GB + England/Scotland precursors.\nPREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX p:    <http://www.wikidata.org/prop/>\nPREFIX ps:   <http://www.wikidata.org/prop/statement/>\nPREFIX pq:   <http://www.wikidata.org/prop/qualifier/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?monarch ?monarchLabel ?image ?start WHERE {\n  VALUES ?crown { wd:Q9134 wd:Q161885 wd:Q174193 }\n  ?monarch p:P39 ?term .\n  ?term ps:P39 ?crown ; pq:P580 ?start .\n  OPTIONAL { ?monarch wdt:P18 ?image }\n  OPTIONAL { ?monarch rdfs:label ?monarchLabel . FILTER (lang(?monarchLabel) = "en") }\n}\nORDER BY DESC(?start)\nLIMIT 50' },
     { name: 'The Beatles (portraits)',
-      q: '# Four results, four faces. Members of The Beatles.\nPREFIX wd:  <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nSELECT ?member ?memberLabel ?image ?birth WHERE {\n  ?member wdt:P361 wd:Q1299 ;        # part of: The Beatles\n          wdt:P569 ?birth .\n  OPTIONAL { ?member wdt:P18 ?image }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n}\nORDER BY ?birth' },
+      q: '# Four results, four faces.\nPREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?member ?memberLabel ?image ?birth WHERE {\n  ?member wdt:P361 wd:Q1299 ; wdt:P569 ?birth .\n  OPTIONAL { ?member wdt:P18 ?image }\n  OPTIONAL { ?member rdfs:label ?memberLabel . FILTER (lang(?memberLabel) = "en") }\n}\nORDER BY ?birth' },
     { name: 'UK astronauts (portraits)',
-      q: '# Every British citizen with occupation = astronaut. Small list, big faces.\nPREFIX wd:  <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nSELECT ?p ?pLabel ?image ?birth WHERE {\n  ?p wdt:P106 wd:Q11631 ;            # occupation: astronaut\n     wdt:P27  wd:Q145 .                # country of citizenship: United Kingdom\n  OPTIONAL { ?p wdt:P18 ?image }\n  OPTIONAL { ?p wdt:P569 ?birth }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n}\nORDER BY ?birth' },
+      q: '# British citizens whose occupation is astronaut.\nPREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?p ?pLabel ?image ?birth WHERE {\n  ?p wdt:P106 wd:Q11631 ; wdt:P27 wd:Q145 .\n  OPTIONAL { ?p wdt:P18 ?image }\n  OPTIONAL { ?p wdt:P569 ?birth }\n  OPTIONAL { ?p rdfs:label ?pLabel . FILTER (lang(?pLabel) = "en") }\n}\nORDER BY ?birth' },
     { name: 'London tube lines',
-      q: '# London Underground lines with their colour. Tap a colour to see\n# the hex from the literal; tap the line name to open Wikidata.\nPREFIX wd:  <http://www.wikidata.org/entity/>\nPREFIX wdt: <http://www.wikidata.org/prop/direct/>\nSELECT ?line ?lineLabel ?colour ?logo WHERE {\n  ?line wdt:P31 wd:Q1393724 .       # instance of: London Underground line\n  OPTIONAL { ?line wdt:P462 ?colour }\n  OPTIONAL { ?line wdt:P154 ?logo }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n}\nORDER BY ?lineLabel' },
+      q: '# London Underground lines with colour + logo.\nPREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?line ?lineLabel ?colour ?logo WHERE {\n  ?line wdt:P31 wd:Q1393724 .\n  OPTIONAL { ?line wdt:P462 ?colour }\n  OPTIONAL { ?line wdt:P154 ?logo }\n  OPTIONAL { ?line rdfs:label ?lineLabel . FILTER (lang(?lineLabel) = "en") }\n}\nORDER BY ?lineLabel' },
     { name: 'Sitting UK MPs',
-      q: 'PREFIX p:  <http://www.wikidata.org/prop/>\nPREFIX ps: <http://www.wikidata.org/prop/statement/>\nPREFIX pq: <http://www.wikidata.org/prop/qualifier/>\nPREFIX wd: <http://www.wikidata.org/entity/>\nSELECT ?person ?personLabel ?constituencyLabel WHERE {\n  ?person p:P39 ?m .\n  ?m ps:P39 wd:Q16707842 ; pq:P768 ?constituency .\n  FILTER NOT EXISTS { ?m pq:P582 [] }\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n} ORDER BY ?personLabel' },
+      q: 'PREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX p:    <http://www.wikidata.org/prop/>\nPREFIX ps:   <http://www.wikidata.org/prop/statement/>\nPREFIX pq:   <http://www.wikidata.org/prop/qualifier/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?person ?personLabel ?constituency ?constituencyLabel WHERE {\n  ?person p:P39 ?m .\n  ?m ps:P39 wd:Q16707842 ; pq:P768 ?constituency .\n  FILTER NOT EXISTS { ?m pq:P582 [] }\n  OPTIONAL { ?person rdfs:label ?personLabel . FILTER (lang(?personLabel) = "en") }\n  OPTIONAL { ?constituency rdfs:label ?constituencyLabel . FILTER (lang(?constituencyLabel) = "en") }\n} ORDER BY ?personLabel' },
     { name: '5 most-spoken languages',
-      q: 'PREFIX wdt: <http://www.wikidata.org/prop/direct/>\nSELECT ?language ?languageLabel ?n WHERE {\n  ?language wdt:P31 wd:Q34770 ; wdt:P1098 ?n .\n  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }\n} ORDER BY DESC(?n) LIMIT 5' },
+      q: 'PREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?language ?languageLabel ?n WHERE {\n  ?language wdt:P31 wd:Q34770 ; wdt:P1098 ?n .\n  OPTIONAL { ?language rdfs:label ?languageLabel . FILTER (lang(?languageLabel) = "en") }\n} ORDER BY DESC(?n) LIMIT 5' },
   ],
   dbpedia: [
     { name: 'London population',
@@ -532,10 +553,18 @@ function populateEndpoints() {
 // ---------------------------------------------------------------------------
 async function execute(query) {
   if (!CURRENT) return { error: 'no endpoint selected' };
+  // Rewrite Blazegraph-isms (SERVICE wikibase:label etc.) to portable
+  // SPARQL when the selected endpoint isn't the official Wikidata —
+  // QLever and OpenLink Virtuoso don't implement the label service.
+  let portableNote = '';
+  if (window.wikidataPortable && CURRENT.id !== 'wikidata') {
+    const rewritten = window.wikidataPortable(query);
+    if (rewritten.changed) {
+      query = rewritten.query;
+      portableNote = ' · rewrote SERVICE wikibase:label → ' + rewritten.optionalsInjected + ' OPTIONAL rdfs:label';
+    }
+  }
   const url = CURRENT.url;
-  // Encode as POST form when query is longer than ~1.5 KB, GET otherwise.
-  // Some upstreams (Wikidata, DDP) accept both; some others only one. Form-
-  // encoded POST is the safest universal option for long queries.
   const useGet = query.length < 1500;
   const accept = 'application/sparql-results+json';
   const t0 = performance.now();
@@ -560,9 +589,9 @@ async function execute(query) {
   const ct = r.headers.get('content-type') || '';
   const text = await r.text();
   if (!r.ok) {
-    return { error: 'HTTP ' + r.status + '\n' + text, ms, status: r.status, bytes: text.length };
+    return { error: 'HTTP ' + r.status + '\n' + text, ms, status: r.status, bytes: text.length, portableNote };
   }
-  return { ct, text, ms, status: r.status, bytes: text.length };
+  return { ct, text, ms, status: r.status, bytes: text.length, portableNote };
 }
 
 // ---------------------------------------------------------------------------
@@ -594,6 +623,14 @@ function isImageUri(href) {
       || /commons\.wikimedia\.org\/wiki\/Special:FilePath\//i.test(href);
 }
 
+// Wikidata's wdt:P18 binds http:// Commons URLs — on an https:// page
+// the browser silently blocks them as mixed content and the <img> never
+// loads. Rewriting to https:// for img src specifically (the link href
+// can stay as-is since following it is a top-level navigation).
+function httpsify(href) {
+  return String(href).replace(/^http:\/\//, 'https://');
+}
+
 function renderBinding(b, opts = {}) {
   if (!b) return '';
   if (b.type === 'uri') {
@@ -601,7 +638,7 @@ function renderBinding(b, opts = {}) {
     if (opts.asImage && isImageUri(href)) {
       // Render image inline; click opens the source URL.
       return `<a href="${esc(href)}" target="_blank" rel="noopener">`
-           + `<img class="img-thumb" loading="lazy" alt="" src="${esc(href)}"></a>`;
+           + `<img class="img-thumb" loading="lazy" alt="" src="${esc(httpsify(href))}"></a>`;
     }
     const short = href.length > 80 ? '…' + href.slice(-77) : href;
     return `<span class="uri"><a href="${esc(href)}" target="_blank" rel="noopener">${esc(short)}</a></span>`;
@@ -684,6 +721,99 @@ function pickLabelVar(vars, omit) {
   return vars.find((v) => v !== omit) || null;
 }
 
+// ---------------------------------------------------------------------------
+// #defaultView:Graph — force-directed network via vis-network from CDN.
+// Convention: rows have ?source ?target (URIs) plus optional ?sourceLabel
+// ?targetLabel ?edgeLabel ?sourceImage ?targetImage. Nodes dedupe across rows.
+// ---------------------------------------------------------------------------
+
+let _visNetworkPromise = null;
+function loadVisNetwork() {
+  if (_visNetworkPromise) return _visNetworkPromise;
+  _visNetworkPromise = new Promise((resolve, reject) => {
+    if (window.vis && window.vis.Network) { resolve(); return; }
+    const css = document.createElement('link');
+    css.rel = 'stylesheet';
+    css.href = 'https://unpkg.com/vis-network/styles/vis-network.css';
+    document.head.appendChild(css);
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/vis-network/standalone/umd/vis-network.min.js';
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error('failed to load vis-network'));
+    document.head.appendChild(s);
+  });
+  return _visNetworkPromise;
+}
+
+function renderGraph(rj, container) {
+  const vars = (rj.head && rj.head.vars) || [];
+  const rows = (rj.results && rj.results.bindings) || [];
+  if (!rows.length) { container.innerHTML = '<div class="empty">No edges.</div>'; return; }
+  if (!vars.includes('source') || !vars.includes('target')) {
+    container.innerHTML = '<div class="empty">defaultView:Graph needs ?source and ?target columns. Showing as table.</div>';
+    container.appendChild(Object.assign(document.createElement('div'), { className: 'tablewrap', innerHTML: renderTable(rj) }));
+    return;
+  }
+  const nodes = new Map();
+  const edges = [];
+  for (const r of rows) {
+    const s = r.source && r.source.value;
+    const t = r.target && r.target.value;
+    if (!s || !t) continue;
+    if (!nodes.has(s)) nodes.set(s, { id: s, label: (r.sourceLabel && r.sourceLabel.value) || s.replace(/^.*[\/#]/, ''), image: r.sourceImage && httpsify(r.sourceImage.value), group: 'source' });
+    if (!nodes.has(t)) nodes.set(t, { id: t, label: (r.targetLabel && r.targetLabel.value) || t.replace(/^.*[\/#]/, ''), image: r.targetImage && httpsify(r.targetImage.value), group: 'target' });
+    edges.push({ from: s, to: t, label: r.edgeLabel ? r.edgeLabel.value : undefined });
+  }
+  const nodeArr = [...nodes.values()].map((n) => n.image
+    ? { ...n, shape: 'circularImage', size: 22 }
+    : { ...n, shape: 'dot', size: 14 });
+  container.innerHTML = '<div class="graph-host" id="graph-host"></div>'
+    + `<p class="grid-detail" style="margin-top:6px;padding:0 4px;">${nodeArr.length} nodes · ${edges.length} edges · tap a node to centre, pinch to zoom</p>`;
+  loadVisNetwork().then(() => {
+    const host = document.getElementById('graph-host');
+    new window.vis.Network(host,
+      { nodes: new window.vis.DataSet(nodeArr), edges: new window.vis.DataSet(edges) },
+      {
+        nodes: { font: { size: 12 }, borderWidth: 1 },
+        edges: { arrows: 'to', smooth: { type: 'continuous' }, font: { size: 10 } },
+        physics: { stabilization: { iterations: 80 }, barnesHut: { gravitationalConstant: -3000 } },
+        interaction: { hover: true, dragNodes: true, zoomView: true },
+      }
+    );
+  }).catch((e) => { host.innerHTML = '<div class="err">' + esc(e.message) + '</div>'; });
+}
+
+// ---------------------------------------------------------------------------
+// #defaultView:BarChart — pure SVG. First var = category, first numeric var
+// = bar length. No dependency.
+// ---------------------------------------------------------------------------
+function renderBarChart(rj, container) {
+  const vars = (rj.head && rj.head.vars) || [];
+  const rows = (rj.results && rj.results.bindings) || [];
+  if (!rows.length) { container.innerHTML = '<div class="empty">No rows.</div>'; return; }
+  // Find first numeric var.
+  const numVar = vars.find((v) => rows.every((r) => r[v] && !isNaN(parseFloat(r[v].value))));
+  const labVar = vars.find((v) => v !== numVar) || vars[0];
+  if (!numVar) { container.innerHTML = '<div class="empty">defaultView:BarChart needs a numeric column.</div>'; return; }
+  const data = rows.map((r) => ({
+    label: r[labVar] ? r[labVar].value : '',
+    n: parseFloat(r[numVar].value),
+  }));
+  const max = Math.max(...data.map((d) => d.n), 1);
+  const w = 600, rowH = 26, padL = 180, padR = 60, padT = 8;
+  const h = padT * 2 + data.length * rowH;
+  const trim = (s) => s.length > 28 ? s.slice(0, 25) + '…' : s;
+  const bars = data.map((d, i) => {
+    const y = padT + i * rowH + 4;
+    const bw = ((w - padL - padR) * d.n) / max;
+    const labelText = trim(d.label.replace(/^.*[\/#]/, ''));
+    return `<text x="${padL - 6}" y="${y + 13}" text-anchor="end" font-size="11" fill="#1a1a1a">${esc(labelText)}</text>`
+         + `<rect x="${padL}" y="${y}" width="${bw}" height="${rowH - 8}" fill="#2a4f76" rx="2"></rect>`
+         + `<text x="${padL + bw + 4}" y="${y + 13}" font-size="11" fill="#4a4a4a">${esc(d.n.toLocaleString())}</text>`;
+  }).join('');
+  container.innerHTML = `<svg viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;background:white;border:1px solid var(--rule);border-radius:6px;">${bars}</svg>`;
+}
+
 function renderImageGrid(rj) {
   const vars = (rj.head && rj.head.vars) || [];
   const rows = (rj.results && rj.results.bindings) || [];
@@ -703,7 +833,7 @@ function renderImageGrid(rj) {
       ? `<div class="grid-detail">${esc(String(r[detailVar].value).slice(0, 60))}</div>`
       : '';
     return `<a class="grid-tile" href="${esc(img.value)}" target="_blank" rel="noopener">`
-         + `<img class="grid-img" loading="lazy" alt="" src="${esc(img.value)}">`
+         + `<img class="grid-img" loading="lazy" alt="" src="${esc(httpsify(img.value))}">`
          + `<div class="grid-label">${label}</div>`
          + detail
          + `</a>`;
@@ -801,7 +931,7 @@ function copyPermalink() {
 
 function renderResult(res, opts = {}) {
   $results.innerHTML = '';
-  $meta.textContent = `HTTP ${res.status ?? '—'} · ${res.ms} ms · ${res.bytes ?? 0} bytes`;
+  $meta.textContent = `HTTP ${res.status ?? '—'} · ${res.ms} ms · ${res.bytes ?? 0} bytes${res.portableNote || ''}`;
   if (res.error) {
     const div = document.createElement('div');
     div.className = 'err';
@@ -844,6 +974,14 @@ function renderResult(res, opts = {}) {
       wrap.className = 'gridwrap';
       wrap.innerHTML = renderImageGrid(parsed);
       $results.appendChild(wrap);
+    } else if (directives.defaultView === 'Graph') {
+      wrap.className = 'graphwrap';
+      $results.appendChild(wrap);
+      renderGraph(parsed, wrap);
+    } else if (directives.defaultView === 'BarChart') {
+      wrap.className = 'barwrap';
+      $results.appendChild(wrap);
+      renderBarChart(parsed, wrap);
     } else {
       wrap.className = 'tablewrap';
       wrap.innerHTML = renderTable(parsed);

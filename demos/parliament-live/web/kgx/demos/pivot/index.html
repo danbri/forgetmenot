@@ -254,6 +254,9 @@ let FILTERS = {};   // facet → Set<value>
 function esc(s) {
   return String(s).replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
 }
+// Wikidata's wdt:P18 returns http:// Commons URLs; rewrite to https://
+// so the browser doesn't block them as mixed content on our https page.
+function httpsify(u) { return String(u).replace(/^http:\/\//, 'https://'); }
 
 async function fetchSeed() {
   const u = new URL(WIKIDATA);
