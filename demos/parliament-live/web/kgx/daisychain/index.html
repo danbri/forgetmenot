@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>daisychain — node-flow as a chain of beads</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg:       light-dark(#fbf9f3, #0d0e10);
+    --surface:  light-dark(#ffffff, #161719);
+    --surface-2:light-dark(#f3efe6, #1f2125);
+    --ink:      light-dark(#171717, #f1efe9);
+    --ink-soft: light-dark(#3e3e3e, #cac6bd);
+    --ink-mute: light-dark(#6a6a6a, #8d8e90);
+    --rule:     light-dark(#d6d2c8, #2a2c30);
+    --rule-soft:light-dark(#e8e3d6, #232529);
+    --accent:   light-dark(#2a4f76, #6aa3d4);
+    --accent-on:light-dark(#ffffff, #0a1018);
+    --good:     light-dark(#3a8050, #6db384);
+    --spine:    color-mix(in oklab, var(--accent) 35%, var(--rule));
+    --shadow:        0 1px 2px rgba(0,0,0,0.05);
+    --shadow-lift:   0 4px 12px rgba(0,0,0,0.1);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink);
+    font: 16px/1.4 -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  a { color: var(--accent); }
+  code, .mono { font: 12px/1.4 ui-monospace, "SF Mono", Menlo, monospace; }
+</style>
+</head>
+<body>
+<daisy-app></daisy-app>
+
+<script type="module">
+// ============================================================================
+// /kgx/daisychain/ — bead-spine interaction over the same Bundle / Bloom
+// engine as /kgx/pivcab/. One linear chain of [data] · op · [data] · op · …
+// beads scrolling top-to-bottom. The contextual op chip row on the frontier
+// bead is the only place the user makes decisions; older beads are history.
+// Tapping an earlier bead truncates the chain back to that point (an "undo
+// from here"). Forks (V2) would let two chains share the prefix.
+// ============================================================================
+
+const QLEVER = 'https://qlever.dev/api/wikidata';
+const SEED_LIMIT = 7000;
+
+const POST1900_MPS_QUERY = `
+PREFIX wd:     <http://www.wikidata.org/entity/>
+PREFIX wdt:    <http://www.wikidata.org/prop/direct/>
+PREFIX p:      <http://www.wikidata.org/prop/>
+PREFIX ps:     <http://www.wikidata.org/prop/statement/>
+PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?p (SAMPLE(?lbl) AS ?l)
+       (SAMPLE(?image) AS ?imgUri)
+       (SAMPLE(?mp)    AS ?mpid)
+       (MIN(?startYr)  AS ?firstYr)
+       (MAX(?startYr)  AS ?latestStart)
+       (MAX(?effEnd)   AS ?lastYr)
+       (MAX(?openNow)  AS ?sittingFlag)
+       (GROUP_CONCAT(DISTINCT ?partyLbl; separator="|") AS ?parties)
+WHERE {
+  ?p wdt:P39 ?pos .
+  ?pos wdt:P279* wd:Q16707842 .
+  ?p p:P39 ?stmt . ?stmt ps:P39 ?pos .
+  OPTIONAL { ?stmt pq:P580 ?start . BIND(YEAR(?start) AS ?startYr) }
+  OPTIONAL { ?stmt pq:P582 ?end   . BIND(YEAR(?end)   AS ?endYr)   }
+  BIND(IF(BOUND(?endYr), ?endYr, 9999) AS ?effEnd)
+  BIND(IF(BOUND(?startYr) && !BOUND(?endYr) && ?startYr >= 2024, 1, 0) AS ?openNow)
+  FILTER( (BOUND(?startYr) && ?startYr >= 1900) ||
+          (BOUND(?endYr)   && ?endYr   >= 1900) )
+  OPTIONAL { ?p wdt:P18    ?image }
+  OPTIONAL { ?p wdt:P10428 ?mp }
+  OPTIONAL { ?p wdt:P102   ?party0 .
+             ?party0 rdfs:label ?partyLbl . FILTER(lang(?partyLbl) = "en") }
+  OPTIONAL { ?p rdfs:label ?lbl . FILTER(lang(?lbl) = "en") }
+}
+GROUP BY ?p
+LIMIT ${SEED_LIMIT}`;
+
+// ============================================================================
+// Bloom + Bundle — set-membership and typed set algebra. Copied from pivcab;
+// will lift into a shared module once both pages settle.
+// ============================================================================
+class Bloom {
+  constructor(n = 1000, p = 0.01) {
+    const m = Math.ceil(-n * Math.log(p) / (Math.LN2 ** 2));
+    this.m = Math.max(64, m);
+    this.k = Math.max(2, Math.round((this.m / n) * Math.LN2));
+    this.bits = new Uint32Array(Math.ceil(this.m / 32));
+  }
+  _h1(s) { let h = 2166136261 >>> 0;
+    for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
+    return h >>> 0; }
+  _h2(s) { let h = this._h1(s);
+    h = Math.imul(h ^ (h >>> 16), 0x85ebca6b);
+    h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+    return (h ^ (h >>> 16)) >>> 0; }
+  add(s) { const h1 = this._h1(s), h2 = this._h2(s);
+    for (let i = 0; i < this.k; i++) {
+      const b = (h1 + i * h2) % this.m;
+      this.bits[b >>> 5] |= (1 << (b & 31));
+    }
+    return this; }
+  has(s) { const h1 = this._h1(s), h2 = this._h2(s);
+    for (let i = 0; i < this.k; i++) {
+      const b = (h1 + i * h2) % this.m;
+      if (!(this.bits[b >>> 5] & (1 << (b & 31)))) return false;
+    }
+    return true; }
+  static from(items, p = 0.01) {
+    const bf = new Bloom(items.length || 1, p);
+    for (const x of items) bf.add(String(x));
+    return bf;
+  }
+}
+
+class Bundle {
+  constructor(items, type = 'human', label = 'set') {
+    this.items = items; this.type = type; this.label = label;
+    this._ids = null; this._bf = null;
+  }
+  get ids() { if (!this._ids) this._ids = new Set(this.items.map((x) => x.uri)); return this._ids; }
+  get bloom() { if (!this._bf) this._bf = Bloom.from([...this.ids], 0.005); return this._bf; }
+  get size() { return this.items.length; }
+}
+
+// ============================================================================
+// Net helper.
+// ============================================================================
+async function sparql(endpoint, query, label = 'sparql') {
+  const u = new URL(endpoint);
+  u.searchParams.set('query', query);
+  const t0 = performance.now();
+  const r = await fetch(u.toString(), { headers: { 'Accept': 'application/sparql-results+json' } });
+  if (!r.ok) throw new Error(`${label}: HTTP ${r.status}`);
+  const j = await r.json();
+  console.log('[sparql]', label, { ms: Math.round(performance.now() - t0), rows: j.results.bindings.length });
+  return j;
+}
+
+function httpsify(u) { return String(u || '').replace(/^http:\/\//, 'https://'); }
+function commonsThumb(url, w = 220) {
+  if (!url) return '';
+  const v = httpsify(url);
+  if (/commons\.wikimedia\.org\/wiki\/Special:FilePath\//i.test(v)) {
+    return v + (v.includes('?') ? '&' : '?') + 'width=' + w;
+  }
+  return v;
+}
+
+// ============================================================================
+// Parse + filter ops (same shape as pivcab — same engine).
+// ============================================================================
+function parseMpRows(bindings) {
+  return bindings.map((b) => {
+    const uri = b.p.value;
+    const firstYr = b.firstYr?.value ? +b.firstYr.value : null;
+    const latestStart = b.latestStart?.value ? +b.latestStart.value : null;
+    const rawEnd = b.lastYr?.value ? +b.lastYr.value : null;
+    const sitting = b.sittingFlag?.value === '1';
+    const lastYr = (rawEnd === 9999 || rawEnd === null) ? null : rawEnd;
+    const decadeYr = sitting ? latestStart : lastYr;
+    const parties = (b.parties?.value || '').split('|').filter(Boolean);
+    return {
+      uri, label: b.l?.value || uri.replace(/^.*\//, ''),
+      image: b.imgUri?.value || null,
+      mpid: b.mpid?.value || null,
+      firstYr, lastYr, latestStart, sitting, parties,
+      decade: decadeYr ? `${Math.floor(decadeYr / 10) * 10}s` : null,
+    };
+  });
+}
+
+const opFilters = {
+  party:   (b, v) => new Bundle(b.items.filter((x) => x.parties.includes(v)), b.type, v),
+  decade:  (b, v) => new Bundle(b.items.filter((x) => x.decade === v),         b.type, v + ' '),
+  sitting: (b)    => new Bundle(b.items.filter((x) => x.sitting),              b.type, 'sitting now'),
+  bridged: (b)    => new Bundle(b.items.filter((x) => !!x.mpid),               b.type, 'has Members API id'),
+};
+
+// ============================================================================
+// Op registry — keyed on bead type. Each op is one chip on the frontier bead.
+// Static ops produce a child bead immediately; picker ops open a sheet with
+// dynamically-computed values (top-N by frequency from the parent bundle).
+// ============================================================================
+const OPS = {
+  human: [
+    { id: 'sitting', label: 'sitting now',   icon: '◉', kind: 'static',
+      run: (b) => opFilters.sitting(b) },
+    { id: 'bridged', label: 'has MP id',     icon: '🔗', kind: 'static',
+      run: (b) => opFilters.bridged(b) },
+    { id: 'party',   label: 'party…',        icon: '⚑', kind: 'picker',
+      values: (b) => topCounts(b.items.flatMap((x) => x.parties)),
+      run:    (b, v) => opFilters.party(b, v) },
+    { id: 'decade',  label: 'decade…',       icon: '⌚', kind: 'picker',
+      values: (b) => sortByKey(countBy(b.items, 'decade')),
+      run:    (b, v) => opFilters.decade(b, v) },
+  ],
+};
+
+function countBy(items, field) {
+  const m = new Map();
+  for (const x of items) { const v = x[field]; if (v) m.set(v, (m.get(v) || 0) + 1); }
+  return [...m.entries()].sort((a, b) => b[1] - a[1]);
+}
+function sortByKey(pairs) { return [...pairs].sort((a, b) => a[0].localeCompare(b[0])); }
+function topCounts(strs) {
+  const m = new Map();
+  for (const s of strs) m.set(s, (m.get(s) || 0) + 1);
+  return [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30);
+}
+
+// ============================================================================
+// Starter gallery — kickoff sources. V1: just the post-1900 MPs seed.
+// ============================================================================
+const STARTERS = [
+  {
+    id: 'uk-mps-1900',
+    label: 'UK MPs since 1900',
+    sub: '6,917 Wikidata people · QLever',
+    type: 'human',
+    fetch: async () => {
+      const j = await sparql(QLEVER, POST1900_MPS_QUERY, 'seed:uk-mps-1900');
+      return parseMpRows(j.results.bindings);
+    },
+  },
+];
+
+// ============================================================================
+// State — one ordered list of beads. Each bead carries the bundle it produced.
+// ============================================================================
+const state = {
+  starter: null,         // STARTERS entry once chosen
+  beads: [],             // [{ id, opLabel, opIcon, bundle }]  ordered
+};
+const listeners = new Set();
+function publish() { for (const fn of listeners) fn(); }
+
+let _ids = 0;
+function pushBead(opLabel, opIcon, bundle) {
+  state.beads.push({ id: 'b' + (++_ids), opLabel, opIcon, bundle });
+  publish();
+}
+function truncateTo(idx) {
+  state.beads.length = idx + 1;
+  publish();
+}
+
+// ============================================================================
+// Shared lazy-image observer (same trick as pivcab).
+// ============================================================================
+const tileIo = new IntersectionObserver((entries) => {
+  for (const en of entries) {
+    if (en.isIntersecting) {
+      const img = en.target, src = img.dataset.src;
+      if (src && !img._loaded) {
+        img._loaded = true; img.src = src;
+        img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+        tileIo.unobserve(img);
+      }
+    }
+  }
+}, { rootMargin: '200px 0px' });
+
+// ============================================================================
+// <daisy-starter> — the empty-state kickoff gallery.
+// ============================================================================
+class DaisyStarter extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { display: block; padding: 24px 16px; }
+        .lead { font-size: 14px; color: var(--ink-soft); margin: 0 0 14px; }
+        .gallery { display: grid; gap: 12px;
+                   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+        .card { background: var(--surface); border: 1px solid var(--rule-soft);
+                border-radius: 12px; padding: 14px;
+                box-shadow: var(--shadow); cursor: pointer;
+                transition: transform 0.12s, box-shadow 0.12s; }
+        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+        .title { font-weight: 700; font-size: 15px; color: var(--ink); }
+        .sub { font-size: 12px; color: var(--ink-mute); margin-top: 4px; }
+      </style>
+      <p class="lead">Start a chain from…</p>
+      <div class="gallery"></div>
+    `;
+    const gal = this.shadowRoot.querySelector('.gallery');
+    for (const s of STARTERS) {
+      const c = document.createElement('div');
+      c.className = 'card';
+      c.innerHTML = `<div class="title"></div><div class="sub"></div>`;
+      c.querySelector('.title').textContent = s.label;
+      c.querySelector('.sub').textContent = s.sub;
+      c.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('starter-pick', { detail: s, bubbles: true, composed: true }));
+      });
+      gal.appendChild(c);
+    }
+  }
+}
+customElements.define('daisy-starter', DaisyStarter);
+
+// ============================================================================
+// <daisy-bead> — one bead in the chain. Renders count, op verb, thumb strip,
+// and (if this is the frontier) the contextual op chip row.
+// ============================================================================
+class DaisyBead extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+  set bead(b)     { this._bead = b; this.render(); }
+  set frontier(f) { this._frontier = f; this.render(); }
+  set index(i)    { this._index = i; this.render(); }
+  render() {
+    const b = this._bead;
+    if (!b) return;
+    const front = !!this._frontier;
+    const idx = this._index ?? 0;
+    const thumbs = (b.bundle?.items || []).filter((x) => x.image).slice(0, 8);
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { display: block; position: relative; }
+        .card {
+          background: var(--surface); border: 1px solid var(--rule-soft);
+          border-radius: 14px; padding: 12px 14px;
+          box-shadow: var(--shadow);
+          position: relative;
+        }
+        :host([frontier]) .card {
+          border-color: var(--accent);
+          box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent),
+                      var(--shadow-lift);
+        }
+        .head { display: flex; gap: 8px; align-items: baseline; }
+        .idx { font-size: 11px; color: var(--ink-mute); width: 18px; flex: 0 0 18px;
+               font-variant-numeric: tabular-nums; }
+        .op { font-size: 12px; color: var(--ink-mute); }
+        .verb { color: var(--accent); font-weight: 600; }
+        .title { font-weight: 700; font-size: 15px; color: var(--ink);
+                 overflow: hidden; text-overflow: ellipsis; }
+        .count { margin-left: auto; font-variant-numeric: tabular-nums;
+                 font-size: 13px; color: var(--ink-soft); font-weight: 600; }
+        .strip { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
+        .strip img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px;
+                     background: var(--surface-2); opacity: 0;
+                     transition: opacity 0.4s; }
+        .strip img.loaded { opacity: 1; }
+        .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+        .chip {
+          background: var(--surface-2); color: var(--ink);
+          border: 1px solid var(--rule-soft);
+          border-radius: 999px; padding: 6px 12px;
+          font: 13px/1 -apple-system, system-ui, sans-serif;
+          cursor: pointer; user-select: none;
+          transition: background 0.12s, border-color 0.12s;
+        }
+        .chip:hover, .chip:focus {
+          background: color-mix(in oklab, var(--accent) 12%, var(--surface-2));
+          border-color: var(--accent); outline: none;
+        }
+        .chip .ic { font-size: 12px; margin-right: 4px; }
+        .meta { font-size: 12px; color: var(--ink-mute); margin-top: 6px;
+                display: flex; gap: 8px; flex-wrap: wrap; }
+        .hist-hint {
+          font-size: 11px; color: var(--ink-mute); margin-top: 8px;
+          cursor: pointer;
+        }
+        .hist-hint:hover { color: var(--ink-soft); }
+        .grow {
+          margin-top: 10px; padding: 8px 0 0;
+          border-top: 1px dashed var(--rule-soft);
+          font-size: 12px; color: var(--ink-mute);
+        }
+      </style>
+      <div class="card">
+        <div class="head">
+          <span class="idx"></span>
+          <span class="op"><span class="ic"></span> <span class="verb"></span></span>
+          <span class="title"></span>
+          <span class="count"></span>
+        </div>
+        <div class="strip"></div>
+        <div class="meta"></div>
+        ${front ? `<div class="grow">tap a chip to grow the chain</div><div class="chips"></div>`
+                : `<div class="hist-hint">↺ tap to undo back to here</div>`}
+      </div>
+    `;
+    if (front) this.setAttribute('frontier', ''); else this.removeAttribute('frontier');
+    this.shadowRoot.querySelector('.idx').textContent = `${idx + 1}.`;
+    this.shadowRoot.querySelector('.ic').textContent = b.opIcon || '';
+    this.shadowRoot.querySelector('.verb').textContent = b.opLabel || '';
+    this.shadowRoot.querySelector('.title').textContent = b.bundle?.label || '';
+    this.shadowRoot.querySelector('.count').textContent = (b.bundle?.size ?? 0).toLocaleString();
+
+    // Thumb strip
+    const strip = this.shadowRoot.querySelector('.strip');
+    for (const p of thumbs) {
+      const img = document.createElement('img');
+      img.alt = ''; img.dataset.src = commonsThumb(p.image, 96);
+      strip.appendChild(img);
+      tileIo.observe(img);
+    }
+
+    // Meta line: top decade, top party, sitting count if applicable
+    const meta = this.shadowRoot.querySelector('.meta');
+    if (b.bundle?.items?.length) {
+      const items = b.bundle.items;
+      const sitting = items.filter((x) => x.sitting).length;
+      const parties = countBy(items, 'parties').slice(0, 1);
+      const topParty = (() => {
+        const c = topCounts(items.flatMap((x) => x.parties)).slice(0, 1)[0];
+        return c ? `top party: ${c[0]} (${c[1]})` : null;
+      })();
+      const decades = countBy(items, 'decade').slice(0, 1);
+      const topDec  = decades[0] ? `peak: ${decades[0][0]} (${decades[0][1]})` : null;
+      const bits = [
+        sitting > 0 ? `sitting: ${sitting}` : null,
+        topParty,
+        topDec,
+      ].filter(Boolean);
+      meta.textContent = bits.join('  ·  ');
+    }
+
+    if (front) {
+      const chipRow = this.shadowRoot.querySelector('.chips');
+      const ops = OPS[b.bundle?.type] || [];
+      for (const op of ops) {
+        const chip = document.createElement('button');
+        chip.className = 'chip';
+        chip.innerHTML = `<span class="ic"></span><span class="lbl"></span>`;
+        chip.querySelector('.ic').textContent = op.icon + ' ';
+        chip.querySelector('.lbl').textContent = op.label;
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.dispatchEvent(new CustomEvent('op-tap', {
+            detail: { op, bundle: b.bundle }, bubbles: true, composed: true,
+          }));
+        });
+        chipRow.appendChild(chip);
+      }
+    } else {
+      // Tapping an older bead truncates the chain back to it.
+      this.shadowRoot.querySelector('.card').addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('bead-undo', {
+          detail: { index: idx }, bubbles: true, composed: true,
+        }));
+      });
+    }
+  }
+}
+customElements.define('daisy-bead', DaisyBead);
+
+// ============================================================================
+// <daisy-picker> — sheet that opens for picker ops (party, decade, …).
+// Renders top values with their counts; tap one to commit.
+// ============================================================================
+class DaisyPicker extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+  open(op, bundle) {
+    this._op = op; this._bundle = bundle;
+    const values = op.values(bundle);
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { position: fixed; inset: 0; z-index: 100;
+                background: color-mix(in oklab, var(--ink) 50%, transparent);
+                display: flex; align-items: flex-end; justify-content: center;
+                animation: fade 0.18s ease-out; }
+        @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes slide { from { transform: translateY(20px) } to { transform: translateY(0) } }
+        .sheet {
+          width: 100%; max-width: 560px;
+          background: var(--surface); color: var(--ink);
+          border-radius: 14px 14px 0 0;
+          padding: 14px; max-height: 75vh; overflow-y: auto;
+          box-shadow: 0 -8px 20px rgba(0,0,0,0.15);
+          animation: slide 0.22s ease-out;
+        }
+        .h { display: flex; align-items: baseline; gap: 8px;
+             padding-bottom: 8px; border-bottom: 1px solid var(--rule-soft); }
+        .title { font-weight: 700; font-size: 15px; }
+        .close { margin-left: auto; background: none; border: 0; color: var(--ink-mute);
+                 font-size: 18px; cursor: pointer; padding: 4px 8px; }
+        .list { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; }
+        .row {
+          display: flex; align-items: baseline; gap: 8px;
+          padding: 10px 8px; border-radius: 8px; cursor: pointer;
+          font-size: 14px;
+        }
+        .row:hover, .row:focus {
+          background: color-mix(in oklab, var(--accent) 12%, transparent);
+        }
+        .val { color: var(--ink); }
+        .ct { margin-left: auto; color: var(--ink-mute);
+              font-variant-numeric: tabular-nums; font-size: 12px; }
+      </style>
+      <div class="sheet">
+        <div class="h">
+          <span class="title"></span>
+          <button class="close" aria-label="close">×</button>
+        </div>
+        <div class="list"></div>
+      </div>
+    `;
+    this.shadowRoot.querySelector('.title').textContent = `${op.icon} ${op.label}`;
+    this.shadowRoot.querySelector('.close').addEventListener('click', () => this.remove());
+    this.addEventListener('click', (e) => { if (e.target === this) this.remove(); });
+    const list = this.shadowRoot.querySelector('.list');
+    for (const [val, ct] of values) {
+      const r = document.createElement('button');
+      r.className = 'row';
+      r.innerHTML = `<span class="val"></span><span class="ct"></span>`;
+      r.querySelector('.val').textContent = val;
+      r.querySelector('.ct').textContent = ct.toLocaleString();
+      r.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('pick', {
+          detail: { op, value: val }, bubbles: true, composed: true,
+        }));
+        this.remove();
+      });
+      list.appendChild(r);
+    }
+    document.body.appendChild(this);
+  }
+}
+customElements.define('daisy-picker', DaisyPicker);
+
+// ============================================================================
+// <daisy-app> — orchestration. Hosts the spine, listens for ops, runs them.
+// ============================================================================
+class DaisyApp extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { display: block; max-width: 680px; margin: 0 auto;
+                padding: 12px 12px calc(48px + env(safe-area-inset-bottom));
+                min-height: 100vh; }
+        header { display: flex; gap: 10px; align-items: baseline;
+                 padding: 8px 4px 12px; border-bottom: 1px solid var(--rule-soft); }
+        h1 { font-size: 17px; margin: 0; }
+        .crumb { font-size: 12px; color: var(--ink-mute); }
+        .crumb a { color: var(--accent); text-decoration: none; }
+        .actions { margin-left: auto; display: flex; gap: 6px; }
+        .actions button {
+          background: var(--surface); color: var(--ink);
+          border: 1px solid var(--rule); border-radius: 6px;
+          padding: 5px 10px; font: 12px/1 inherit; cursor: pointer;
+        }
+        .lead { font-size: 13px; color: var(--ink-mute);
+                padding: 12px 4px 4px; line-height: 1.5; }
+        .spine { position: relative; padding: 8px 0 0; }
+        .spine::before {
+          content: ''; position: absolute; left: 22px; top: 18px; bottom: 18px;
+          width: 2px; background: var(--spine); border-radius: 1px;
+        }
+        .bead-wrap { padding: 8px 0 8px 36px; position: relative; }
+        .bead-wrap::before {
+          content: ''; position: absolute; left: 17px; top: 24px;
+          width: 12px; height: 12px; border-radius: 50%;
+          background: var(--surface);
+          border: 2px solid var(--spine);
+        }
+        .bead-wrap[frontier]::before {
+          background: var(--accent); border-color: var(--accent);
+          box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
+        }
+        .empty { padding: 28px 4px; }
+        .foot { font-size: 11px; color: var(--ink-mute);
+                padding: 32px 4px 0; line-height: 1.55; }
+        .foot a { color: var(--ink-soft); }
+        .err { color: #c33; padding: 16px; }
+      </style>
+      <header>
+        <h1>daisychain</h1>
+        <span class="crumb">· <a href="/kgx/">kgx</a></span>
+        <div class="actions">
+          <button id="dag-btn" title="show this chain as a DAG">graph view</button>
+          <button id="reset-btn" title="start over">↺ reset</button>
+        </div>
+      </header>
+      <p class="lead" id="lead">
+        A chain of beads. Each bead is a typed set of things; each chip turns
+        it into the next set. Tap a chip on the bottom bead to grow the chain;
+        tap an older bead to undo back to it.
+      </p>
+      <div class="spine" id="spine"></div>
+      <div class="foot">
+        Contains Parliamentary information licensed under the
+        <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/"
+           target="_blank" rel="noopener">Open Parliament Licence v3.0</a>.
+        Wikidata content via QLever, CC0.
+      </div>
+    `;
+    this.addEventListener('starter-pick', (e) => this._kickoff(e.detail));
+    this.addEventListener('op-tap',       (e) => this._onOp(e.detail));
+    this.addEventListener('bead-undo',    (e) => this._undoTo(e.detail.index));
+    this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => this._reset());
+    this.shadowRoot.querySelector('#dag-btn').addEventListener('click', () =>
+      window.location.href = '/kgx/pivcab/');
+    listeners.add(() => this._render());
+    this._render();
+  }
+
+  async _kickoff(starter) {
+    state.starter = starter;
+    const lead = this.shadowRoot.querySelector('#lead');
+    lead.textContent = `loading ${starter.label} …`;
+    try {
+      const items = await starter.fetch();
+      const bundle = new Bundle(items, starter.type, starter.label);
+      pushBead('source', '●', bundle);
+      const sitting = items.filter((x) => x.sitting).length;
+      const bridged = items.filter((x) => x.mpid).length;
+      lead.innerHTML = `<b>${items.length.toLocaleString()}</b> ${starter.type}s loaded · `
+        + `<b>${sitting.toLocaleString()}</b> sitting now · `
+        + `<b>${bridged.toLocaleString()}</b> bridged to the Members API. `
+        + `Tap a chip on the bottom bead to grow the chain.`;
+    } catch (err) {
+      this.shadowRoot.querySelector('#spine').innerHTML =
+        `<div class="err">load failed: ${err.message}</div>`;
+    }
+  }
+
+  _onOp({ op, bundle }) {
+    if (op.kind === 'static') {
+      const out = op.run(bundle);
+      pushBead(op.label, op.icon, out);
+      return;
+    }
+    // picker
+    const sheet = document.createElement('daisy-picker');
+    sheet.addEventListener('pick', (e) => {
+      const out = e.detail.op.run(bundle, e.detail.value);
+      pushBead(`${e.detail.op.label.replace(/…$/, '')}: ${e.detail.value}`, e.detail.op.icon, out);
+    });
+    sheet.open(op, bundle);
+  }
+
+  _undoTo(idx) { truncateTo(idx); }
+
+  _reset() {
+    state.starter = null;
+    state.beads = [];
+    publish();
+    this.shadowRoot.querySelector('#lead').textContent =
+      'A chain of beads. Tap a starter to begin.';
+  }
+
+  _render() {
+    const spine = this.shadowRoot.querySelector('#spine');
+    spine.innerHTML = '';
+    if (!state.beads.length) {
+      const starter = document.createElement('daisy-starter');
+      const empty = document.createElement('div');
+      empty.className = 'empty';
+      empty.appendChild(starter);
+      spine.appendChild(empty);
+      return;
+    }
+    const last = state.beads.length - 1;
+    for (let i = 0; i <= last; i++) {
+      const wrap = document.createElement('div');
+      wrap.className = 'bead-wrap';
+      if (i === last) wrap.setAttribute('frontier', '');
+      const bead = document.createElement('daisy-bead');
+      bead.bead = state.beads[i];
+      bead.index = i;
+      bead.frontier = (i === last);
+      wrap.appendChild(bead);
+      spine.appendChild(wrap);
+    }
+    // Auto-scroll to the new frontier
+    requestAnimationFrame(() => {
+      const last = spine.querySelector('.bead-wrap[frontier]');
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  }
+}
+customElements.define('daisy-app', DaisyApp);
+</script>
+
+</body>
+</html>
