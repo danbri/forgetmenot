@@ -1,5 +1,11 @@
 # kgx node-flow — sketch
 
+> **Companion doc:** the longer design note with bundle/cache/branch
+> vocabulary, source roles, quality policies, relation templates,
+> forking semantics, TriG manifest layer, and MVP scope lives at
+> [`node-flow-design.md`](./node-flow-design.md). Treat that as the
+> working reference; this file is the original short seed.
+
 Design note. Not yet built. Saved here so whoever picks it up next
 doesn't start from scratch.
 
