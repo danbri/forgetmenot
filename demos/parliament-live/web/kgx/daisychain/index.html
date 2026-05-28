@@ -61,6 +61,8 @@ SELECT ?p (SAMPLE(?lbl) AS ?l)
        (MAX(?effEnd)   AS ?lastYr)
        (MAX(?openNow)  AS ?sittingFlag)
        (GROUP_CONCAT(DISTINCT ?partyLbl; separator="|") AS ?parties)
+       (SAMPLE(?gndLbl) AS ?gender)
+       (GROUP_CONCAT(DISTINCT ?ctzLbl; separator="|") AS ?citizenships)
 WHERE {
   ?p wdt:P39 ?pos .
   ?pos wdt:P279* wd:Q16707842 .
@@ -75,6 +77,10 @@ WHERE {
   OPTIONAL { ?p wdt:P10428 ?mp }
   OPTIONAL { ?p wdt:P102   ?party0 .
              ?party0 rdfs:label ?partyLbl . FILTER(lang(?partyLbl) = "en") }
+  OPTIONAL { ?p wdt:P21    ?gnd .
+             ?gnd rdfs:label ?gndLbl . FILTER(lang(?gndLbl) = "en") }
+  OPTIONAL { ?p wdt:P27    ?ctz .
+             ?ctz rdfs:label ?ctzLbl . FILTER(lang(?ctzLbl) = "en") }
   OPTIONAL { ?p rdfs:label ?lbl . FILTER(lang(?lbl) = "en") }
 }
 GROUP BY ?p
@@ -161,6 +167,11 @@ const ENGINES = {
     id: 'qlever-wikidata', endpoint: QLEVER, label: 'QLever ⇒ Wikidata' }),
   'fpkg': new SparqlEngine({
     id: 'fpkg', endpoint: '/kgx/query', label: 'FPKG (Oxigraph, server-side)' }),
+  // The official UK Parliament SPARQL (the DDP store). Routed through our
+  // proxy at /api/sparql per CLAUDE.md rule 3 — gives caching, TTL, and
+  // the OPL attribution header even though the upstream already sends CORS.
+  'parl-sparql': new SparqlEngine({
+    id: 'parl-sparql', endpoint: '/api/sparql', label: 'UK Parliament SPARQL (DDP)' }),
   // Slot for V2: an in-page Oxigraph wasm engine that operates over each
   // bead's union dataset. Today's ops don't use it, but the API is here.
   // 'oxigraph-wasm': new SparqlEngine({ id: 'oxigraph-wasm', kind: 'wasm', label: 'Oxigraph (in-page wasm)' }),
@@ -234,6 +245,8 @@ function parseMpRows(bindings) {
       image: b.imgUri?.value || null,
       mpid: b.mpid?.value || null,
       firstYr, lastYr, latestStart, sitting, parties,
+      gender: b.gender?.value || null,
+      citizenships: (b.citizenships?.value || '').split('|').filter(Boolean),
       decade: decadeYr ? `${Math.floor(decadeYr / 10) * 10}s` : null,
     };
   });
@@ -436,6 +449,141 @@ async function pivotAlmaMaters(bundle) {
   };
 }
 
+// ----------------------------------------------------------------------------
+// Enrich from the UK Parliament SPARQL endpoint (not Wikidata). Each input
+// item carries a Wikidata QID URI; Parliament's `rdfs:seeAlso` bridge lets
+// us look up the corresponding parliament.uk Person and pull the current
+// constituency + party + name parts. The result lands in `item.extra.parl`
+// and the source is recorded with engineId='parl-sparql'. This is the
+// "not solely Wikidata" proof — same op interface, different engine,
+// different ontology (id.parliament.uk/schema/* instead of wdt:*).
+// ----------------------------------------------------------------------------
+async function enrichFromParliament(bundle) {
+  const uris = bundle.items.map((x) => x.uri).filter((u) => /Q\d+$/.test(u));
+  if (!uris.length) {
+    throw new Error('no Wikidata QIDs in this bundle — Parliament join needs the rdfs:seeAlso bridge');
+  }
+  if (uris.length > ENRICH_MAX) {
+    throw new Error(`bundle of ${uris.length} too big to enrich (cap ${ENRICH_MAX})`);
+  }
+  const values = uris.map((u) => `<${u}>`).join(' ');
+  const q = `
+    PREFIX schema: <https://id.parliament.uk/schema/>
+    PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+    SELECT ?qid
+           (SAMPLE(?const)        AS ?constituency)
+           (SAMPLE(?party)        AS ?parliamentParty)
+           (SAMPLE(?fam)          AS ?familyName)
+           (SAMPLE(?giv)          AS ?givenName)
+           (SAMPLE(?personUri)    AS ?parliamentPerson)
+    WHERE {
+      VALUES ?qid { ${values} }
+      ?personUri rdfs:seeAlso ?qid ;
+                 a schema:Member ;
+                 schema:memberHasParliamentaryIncumbency ?in .
+      OPTIONAL {
+        ?in schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup/schema:constituencyGroupName ?const
+      }
+      OPTIONAL {
+        ?personUri schema:partyMemberHasPartyMembership ?pm .
+        FILTER NOT EXISTS { ?pm schema:partyMembershipEndDate ?pe }
+        ?pm schema:partyMembershipHasParty/schema:partyName ?party
+      }
+      OPTIONAL { ?personUri schema:personFamilyName ?fam }
+      OPTIONAL { ?personUri schema:personGivenName  ?giv }
+    }
+    GROUP BY ?qid`;
+  const res = await engine('parl-sparql').query(q, `parl-enrich(${uris.length})`);
+  const byQid = new Map();
+  for (const b of res.json.results.bindings) byQid.set(b.qid.value, b);
+  const out = bundle.items.map((x) => {
+    const b = byQid.get(x.uri);
+    if (!b) return x;
+    const parl = {
+      personUri:        b.parliamentPerson?.value || null,
+      constituency:     b.constituency?.value || null,
+      currentParty:     b.parliamentParty?.value || null,
+      familyName:       b.familyName?.value || null,
+      givenName:        b.givenName?.value || null,
+    };
+    return { ...x, extra: { ...(x.extra || {}), parl } };
+  });
+  const enriched = new Bundle(out, bundle.type, `${bundle.label} + DDP`);
+  enriched.enriched = true;
+  return {
+    bundle: enriched,
+    source: makeSource({
+      kind: 'parl-enrich', endpoint: res.endpoint, engineId: res.engineId,
+      query: res.query, ms: res.ms, bindings: res.json.results.bindings,
+      note: 'join via rdfs:seeAlso to UK Parliament DDP (current constituency + current party + name parts)',
+    }),
+  };
+}
+
+// ----------------------------------------------------------------------------
+// Seed from Parliament SPARQL — current sitting MPs with the embedded
+// Wikidata bridge. Returns rows shaped to the same `human` Bundle the
+// Wikidata seed produces, so OPS.human chips work without changes.
+// ----------------------------------------------------------------------------
+const PARL_CURRENT_MPS_QUERY = `
+PREFIX schema: <https://id.parliament.uk/schema/>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?person
+       (SAMPLE(?qid)   AS ?wd)
+       (SAMPLE(?fam)   AS ?fam)
+       (SAMPLE(?giv)   AS ?giv)
+       (SAMPLE(?const) AS ?constituency)
+       (SAMPLE(?party) AS ?party)
+       (SAMPLE(?mid)   AS ?mpid)
+WHERE {
+  ?person a schema:Member ;
+          schema:memberHasParliamentaryIncumbency ?in .
+  ?in a schema:SeatIncumbency .
+  FILTER NOT EXISTS { ?in schema:incumbencyEndDate ?end }
+  ?in schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup/schema:constituencyGroupName ?const .
+  OPTIONAL { ?person schema:personFamilyName ?fam }
+  OPTIONAL { ?person schema:personGivenName  ?giv }
+  OPTIONAL { ?person rdfs:seeAlso ?qid }
+  OPTIONAL { ?person schema:memberId ?mid }
+  OPTIONAL { ?person schema:partyMemberHasPartyMembership ?pm .
+             FILTER NOT EXISTS { ?pm schema:partyMembershipEndDate ?pe }
+             ?pm schema:partyMembershipHasParty/schema:partyName ?party }
+}
+GROUP BY ?person`;
+
+function parseParlCurrentRows(bindings) {
+  return bindings.map((b) => {
+    const giv  = b.giv?.value || '';
+    const fam  = b.fam?.value || '';
+    const wd   = b.wd?.value || null;
+    const uri  = wd || b.person.value;
+    return {
+      uri,
+      label: (giv + ' ' + fam).trim() || uri.replace(/^.*\//, ''),
+      image: null,
+      mpid: b.mpid?.value || null,
+      parliamentPerson: b.person.value,
+      firstYr: null, lastYr: null, latestStart: null,
+      sitting: true,
+      parties: [b.party?.value].filter(Boolean),
+      gender: null, citizenships: [],
+      decade: '2020s',
+      // Pre-populate the parl-side extra so the bead reads "enriched" even
+      // before the user runs the Parliament enrich op.
+      extra: {
+        parl: {
+          personUri: b.person.value,
+          constituency: b.const?.value || null,
+          currentParty: b.party?.value || null,
+          familyName: fam || null,
+          givenName:  giv || null,
+        },
+      },
+    };
+  });
+}
+
 // ============================================================================
 // Op registry — keyed on bead type. Each op is one chip on the frontier bead.
 // Static ops produce a child bead immediately; picker ops open a sheet with
@@ -454,9 +602,21 @@ const OPS = {
     { id: 'decade',  label: 'decade…',     icon: '⌚', kind: 'picker',
       values: (b) => sortByKey(countBy(b.items, 'decade')),
       run:    (b, v) => opFilters.decade(b, v) },
-    { id: 'enrich',  label: 'enrich (facts)', icon: '✨', kind: 'async',
-      hint: 'fetch birthplace + coords + dates + alma maters + spouses + occupations',
+    { id: 'gender',  label: 'gender…',     icon: '⚧', kind: 'picker',
+      values: (b) => topCounts(b.items.map((x) => x.gender).filter(Boolean)),
+      run:    (b, v) => new Bundle(b.items.filter((x) => x.gender === v),
+                                   b.type, `${b.label} · ${v}`) },
+    { id: 'citizenship', label: 'citizenship…', icon: '🌎', kind: 'picker',
+      values: (b) => topCounts(b.items.flatMap((x) => x.citizenships || [])),
+      run:    (b, v) => new Bundle(
+        b.items.filter((x) => (x.citizenships || []).includes(v)),
+        b.type, `${b.label} · cit:${v}`) },
+    { id: 'enrich',  label: 'enrich (Wikidata)', icon: '✨', kind: 'async',
+      hint: 'Wikidata: birthplace + coords + dates + alma maters + spouses + occupations',
       run: (b) => enrichHumans(b) },
+    { id: 'parl-enrich', label: 'enrich (Parliament)', icon: '🏛', kind: 'async',
+      hint: 'UK Parliament SPARQL: current constituency + party via rdfs:seeAlso bridge',
+      run: (b) => enrichFromParliament(b) },
     { id: 'pivot-bp',label: '→ birthplaces',    icon: '⌖',  kind: 'async',
       hint: 'walk P19 to a set of places',
       run: (b) => pivotBirthplaces(b) },
@@ -510,8 +670,8 @@ function topCounts(strs) {
 const STARTERS = [
   {
     id: 'uk-mps-1900',
-    label: 'UK MPs since 1900',
-    sub: '6,917 Wikidata people · QLever',
+    label: 'UK MPs since 1900 (Wikidata)',
+    sub: '~6,900 Wikidata people · QLever',
     type: 'human',
     fetch: async () => {
       const res = await sparql(QLEVER, POST1900_MPS_QUERY, 'seed:uk-mps-1900');
@@ -521,6 +681,24 @@ const STARTERS = [
           kind: 'seed:uk-mps-1900', endpoint: res.endpoint, engineId: res.engineId, query: res.query,
           ms: res.ms, bindings: res.json.results.bindings,
           note: 'Wikidata persons holding any position ⊑ Q16707842, with at least one term touching 1900+',
+        }),
+      };
+    },
+  },
+  {
+    id: 'parl-current-mps',
+    label: 'Current MPs (UK Parliament SPARQL)',
+    sub: 'Official DDP triple store — same `human` shape, different engine',
+    type: 'human',
+    fetch: async () => {
+      const res = await engine('parl-sparql').query(PARL_CURRENT_MPS_QUERY, 'seed:parl-current-mps');
+      const items = parseParlCurrentRows(res.json.results.bindings);
+      return {
+        items,
+        source: makeSource({
+          kind: 'seed:parl-current-mps', endpoint: res.endpoint, engineId: res.engineId, query: res.query,
+          ms: res.ms, bindings: res.json.results.bindings,
+          note: 'UK Parliament DDP: sitting Members with open seat incumbencies; carries rdfs:seeAlso → Wikidata',
         }),
       };
     },
@@ -595,6 +773,35 @@ const LIBRARY = [
     steps: [
       { kind: 'starter', id: 'uk-mps-1900' },
       { kind: 'op', op: 'decade', value: '1910s' },
+    ],
+  },
+  {
+    id: 'female-mps',
+    title: 'Female MPs since 1900',
+    sub: 'Seed → ⚧ gender = female.',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'gender', value: 'female' },
+    ],
+  },
+  {
+    id: 'lab-sitting-parl',
+    title: 'Sitting Labour MPs · Parliament-enriched',
+    sub: 'Wikidata seed → Labour → sitting → 🏛 enrich with constituency from the DDP.',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'party', value: 'Labour Party' },
+      { kind: 'op', op: 'sitting' },
+      { kind: 'op', op: 'parl-enrich' },
+    ],
+  },
+  {
+    id: 'parl-seed-tories',
+    title: 'Current Tory MPs via UK Parliament SPARQL',
+    sub: 'Different engine: starter pulled from id.parliament.uk; ⚑ Conservative.',
+    steps: [
+      { kind: 'starter', id: 'parl-current-mps' },
+      { kind: 'op', op: 'party', value: 'Conservative' },
     ],
   },
 ];
@@ -896,22 +1103,35 @@ class DaisyBead extends HTMLElement {
         const sitting = items.filter((x) => x.sitting).length;
         const topParty = topCounts(items.flatMap((x) => x.parties)).slice(0, 1)[0];
         const topDec   = countBy(items, 'decade').slice(0, 1)[0];
+        const topGnd   = topCounts(items.map((x) => x.gender).filter(Boolean)).slice(0, 1)[0];
         if (sitting > 0) bits.push(`sitting: ${sitting}`);
         if (topParty)    bits.push(`top party: ${topParty[0]} (${topParty[1]})`);
         if (topDec)      bits.push(`peak: ${topDec[0]} (${topDec[1]})`);
-        // Enrichment summary — only present if the bundle has been through ✨ enrich.
-        const enriched = items.filter((x) => x.extra);
-        if (enriched.length) {
-          const withBp = enriched.filter((x) => x.extra.birthplace).length;
-          const withCoord = enriched.filter((x) => x.extra.birthplace?.coords).length;
-          const topBp = topCounts(enriched.map((x) => x.extra.birthplace?.label).filter(Boolean)).slice(0, 1)[0];
-          const topAm = topCounts(enriched.flatMap((x) => x.extra.almaMaters || [])).slice(0, 1)[0];
-          const topOcc= topCounts(enriched.flatMap((x) => x.extra.occupations || [])).slice(0, 1)[0];
-          bits.push(`✨ ${enriched.length} enriched`);
+        if (topGnd)      bits.push(`${topGnd[0]}: ${topGnd[1]}`);
+        // Wikidata enrichment summary — only present after ✨.
+        const wdEnriched = items.filter((x) => x.extra && (x.extra.birthplace || x.extra.almaMaters?.length));
+        if (wdEnriched.length) {
+          const withBp = wdEnriched.filter((x) => x.extra.birthplace).length;
+          const withCoord = wdEnriched.filter((x) => x.extra.birthplace?.coords).length;
+          const topBp = topCounts(wdEnriched.map((x) => x.extra.birthplace?.label).filter(Boolean)).slice(0, 1)[0];
+          const topAm = topCounts(wdEnriched.flatMap((x) => x.extra.almaMaters || [])).slice(0, 1)[0];
+          const topOcc= topCounts(wdEnriched.flatMap((x) => x.extra.occupations || [])).slice(0, 1)[0];
+          bits.push(`✨ ${wdEnriched.length} from WD`);
           if (withBp)  bits.push(`born known: ${withBp} (mapped: ${withCoord})`);
           if (topBp)   bits.push(`top birthplace: ${topBp[0]} (${topBp[1]})`);
           if (topAm)   bits.push(`top alma: ${topAm[0]} (${topAm[1]})`);
           if (topOcc)  bits.push(`top occ: ${topOcc[0]} (${topOcc[1]})`);
+        }
+        // Parliament-DDP enrichment summary — only present after 🏛.
+        const parlEnriched = items.filter((x) => x.extra?.parl);
+        if (parlEnriched.length) {
+          const withConst = parlEnriched.filter((x) => x.extra.parl.constituency).length;
+          const topConst = topCounts(parlEnriched.map((x) => x.extra.parl.constituency).filter(Boolean)).slice(0, 1)[0];
+          const topParlParty = topCounts(parlEnriched.map((x) => x.extra.parl.currentParty).filter(Boolean)).slice(0, 1)[0];
+          bits.push(`🏛 ${parlEnriched.length} from DDP`);
+          if (withConst)    bits.push(`constituency known: ${withConst}`);
+          if (topConst)     bits.push(`top constituency: ${topConst[0]}`);
+          if (topParlParty) bits.push(`Parl party top: ${topParlParty[0]} (${topParlParty[1]})`);
         }
       } else if (b.bundle.type === 'place' || b.bundle.type === 'org') {
         const withCoord = items.filter((x) => x.coords).length;
