@@ -267,6 +267,65 @@ const opFilters = {
 };
 
 // ============================================================================
+// First-name → gender heuristic dictionary. Used as a fallback only when
+// `x.gender` is unbound (e.g. items seeded from Parliament SPARQL, which
+// doesn't ship gender) — never as a replacement for an authoritative value.
+// Ambiguous names (Alex / Sam / Chris / Pat / Jamie / Lee / Robin / Kim / Jo /
+// Bobby / Jordan / Kit / Morgan / Taylor / Leslie) are deliberately omitted
+// so the heuristic returns null rather than guessing.
+// ============================================================================
+const GENDER_NAMES_FEMALE = new Set([
+  'abigail','aisha','alice','alison','allison','amanda','amy','angela','ann','anna','anne','annette',
+  'apsana','barbara','beatrice','beth','bridget','carla','carol','caroline','catherine','charlotte',
+  'cherilyn','christine','claire','clare','connie','cynthia','daisy','dawn','deborah','debbie',
+  'diana','diane','dorothy','eleanor','elizabeth','ellie','emily','emma','esther','eve','feryal',
+  'fiona','flick','florence','frances','geraldine','gillian','grace','hannah','harriet','hazel',
+  'heather','helen','helena','henrietta','hilary','holly','imogen','isabel','jacqueline','jane',
+  'janet','jean','jenna','jennifer','jess','jessica','joan','joanna','joanne','judith','julia',
+  'julie','justine','karen','karin','kate','katherine','kathleen','kathryn','katie','kelly',
+  'kerry','kim','laura','lauren','leigh','lesley','linda','lisa','liz','lola','lorna','louise',
+  'lucy','lyn','lynne','margaret','maria','marie','marion','marjorie','martha','mary','maureen',
+  'megan','meg','melanie','michelle','miriam','mona','nadia','naomi','natalie','nia','nicola',
+  'norma','olivia','pamela','patricia','paula','pauline','penelope','phyllis','polly','preet',
+  'priti','rachael','rachel','rebecca','rosemary','rosie','ruth','sally','samantha','sara',
+  'sarah','seema','sharon','sheryll','shirley','siobhan','sonia','sophia','sophie','stella',
+  'stephanie','susan','susanna','suzanne','sylvia','tabitha','tammy','tamara','tania','tessa',
+  'theresa','therese','toni','tracey','tracy','tulip','valerie','vanessa','vicki','victoria',
+  'virginia','wera','yasmin','yvette','yvonne','zara','zarah','zoe',
+]);
+const GENDER_NAMES_MALE = new Set([
+  'aaron','adam','adrian','afzal','alan','albert','alec','alex','alexander','alfred','alistair',
+  'alok','andrew','andy','angus','anthony','antony','archibald','arthur','asim','baillie','barry',
+  'ben','benjamin','bernard','bill','bob','boris','brendan','brian','bruce','bryan','callum',
+  'carl','cecil','charles','christopher','clive','colin','conor','craig','damian','daniel','danny',
+  'darren','dave','david','dean','dennis','derek','desmond','dominic','donald','douglas','drew',
+  'duncan','edward','elliot','eric','ernest','euan','felix','fred','frederick','gareth','gary',
+  'gavin','geoff','geoffrey','george','gerald','gerry','glenn','gordon','graham','greg','gregory',
+  'guy','harold','harry','henry','herbert','hugh','hugo','iain','ian','imran','ivan','jack',
+  'jacob','james','jason','jeff','jeffrey','jeremy','jim','jimmy','joe','john','johnny','jon',
+  'jonathan','joseph','josh','joshua','julian','justin','kasim','keir','keith','kenneth','kevin',
+  'khalid','kieran','kit','kris','kwasi','lawrence','leo','leonard','lewis','liam','lloyd',
+  'louis','luke','malcolm','marcus','mark','martin','marvin','matt','matthew','maurice','max',
+  'michael','mick','mike','mohammad','muhammad','nadhim','nathan','navendu','neal','neil',
+  'nicholas','nick','nigel','noah','norman','oliver','olly','owen','patrick','paul','pete',
+  'peter','phil','philip','phillip','quentin','raj','ralph','ranil','ray','raymond','reece',
+  'rehman','reuben','richard','rishi','rob','robert','roger','ronald','ross','roy','rupert',
+  'russell','sajid','sam','samuel','sandy','scott','sean','sebastian','sergei','shabana','shane',
+  'shaun','sid','simon','stanley','stephen','steve','steven','stewart','stuart','tan','ted',
+  'tej','terence','terry','theodore','thomas','tim','timothy','tobias','toby','tom','tommy',
+  'tony','tristan','trevor','vaughan','vernon','victor','vincent','virendra','walter','warren',
+  'wayne','wes','will','william','zac',
+]);
+function nameGender(label) {
+  if (!label) return null;
+  const first = String(label).trim().split(/[\s.,]+/)[0]?.toLowerCase();
+  if (!first) return null;
+  if (GENDER_NAMES_FEMALE.has(first)) return 'female';
+  if (GENDER_NAMES_MALE.has(first))   return 'male';
+  return null;
+}
+
+// ============================================================================
 // Enrich + pivot — every item is its own mini-graph (`item.extra`). Enrich
 // grows the per-item graph in place; pivot walks one of the edges and
 // produces a new bundle of a new entity type.
@@ -932,9 +991,43 @@ const OPS = {
       values: (b) => sortByKey(countBy(b.items, 'decade')),
       run:    (b, v) => opFilters.decade(b, v) },
     { id: 'gender',  label: 'gender…',     icon: '⚧', kind: 'picker',
-      values: (b) => topCounts(b.items.map((x) => x.gender).filter(Boolean)),
-      run:    (b, v) => new Bundle(b.items.filter((x) => x.gender === v),
-                                   b.type, `${b.label} · ${v}`) },
+      // Picker rows: for each gender, an "exact P21" count and (when any items
+      // have a null gender) a separate "+ heuristic from first name" count.
+      // Heuristic is an explicit choice — never silently merged with exact.
+      values: (b) => {
+        const rows = [];
+        const noGender = b.items.filter((x) => !x.gender);
+        for (const g of ['female', 'male']) {
+          const exact = b.items.filter((x) => x.gender === g).length;
+          if (exact) rows.push([`${g} (exact P21)`, exact]);
+          if (noGender.length) {
+            const heu = noGender.filter((x) => nameGender(x.label) === g).length;
+            if (heu) rows.push([`${g} (+ first-name heuristic)`, exact + heu]);
+          }
+        }
+        return rows;
+      },
+      run: (b, v) => {
+        // Back-compat: legacy library entries used plain 'female' / 'male'.
+        const legacy = (v === 'female' || v === 'male');
+        const m = legacy ? [null, v] : v.match(/^(female|male)\b/);
+        const g = m?.[1];
+        if (!g) return new Bundle([], b.type, `${b.label} · ${v}`);
+        const useHeuristic = /heuristic/.test(v);
+        const filtered = b.items.filter((x) =>
+          x.gender === g ||
+          (useHeuristic && !x.gender && nameGender(x.label) === g));
+        const out = new Bundle(filtered, b.type, `${b.label} · ${v}`);
+        // Stash a breakdown for the Source note (read by _onOp's picker branch).
+        out._opNote = (() => {
+          const ex  = b.items.filter((x) => x.gender === g).length;
+          const heu = filtered.length - ex;
+          return useHeuristic
+            ? `gender=${g}; exact P21: ${ex} · first-name heuristic: ${heu} (ambiguous names — Alex, Sam, Chris, Pat, Jamie, Lee, Robin, Kim, Jo — explicitly excluded by the dictionary)`
+            : `gender=${g}; exact P21 only: ${ex}`;
+        })();
+        return out;
+      } },
     { id: 'citizenship', label: 'citizenship…', icon: '🌎', kind: 'picker',
       values: (b) => topCounts(b.items.flatMap((x) => x.citizenships || [])),
       run:    (b, v) => new Bundle(
@@ -1179,6 +1272,15 @@ const LIBRARY = [
       { kind: 'starter', id: 'uk-mps-1900' },
       { kind: 'op', op: 'sitting' },
       { kind: 'op', op: 'rel-pivot', template: 'current_constituency', variant: 'default' },
+    ],
+  },
+  {
+    id: 'parl-seed-female-heuristic',
+    title: 'Female current MPs (Parliament seed, with name heuristic)',
+    sub: 'Parl-current-mps doesn’t ship P21 — picker resolves the unknowns from first names.',
+    steps: [
+      { kind: 'starter', id: 'parl-current-mps' },
+      { kind: 'op', op: 'gender', value: 'female (+ first-name heuristic)' },
     ],
   },
 ];
@@ -2190,9 +2292,10 @@ class DaisyApp extends HTMLElement {
     const sheet = document.createElement('daisy-picker');
     sheet.addEventListener('pick', (e) => {
       const out = e.detail.op.run(bundle, e.detail.value);
+      const extra = out._opNote ? ` · ${out._opNote}` : '';
       const src = makeSource({
         kind: `filter:${e.detail.op.id}:${e.detail.value}`, ms: 0,
-        note: `client-side picker "${e.detail.op.label}" = "${e.detail.value}" applied to ${bundle.size} → ${out.size}`,
+        note: `client-side picker "${e.detail.op.label}" = "${e.detail.value}" applied to ${bundle.size} → ${out.size}${extra}`,
       });
       pushBead(`${e.detail.op.label.replace(/…$/, '')}: ${e.detail.value}`, e.detail.op.icon, out, [src],
                { kind: 'op', op: e.detail.op.id, value: e.detail.value });
@@ -2224,9 +2327,10 @@ class DaisyApp extends HTMLElement {
           } else if (op.kind === 'picker') {
             // Use the saved value directly, skipping the picker sheet.
             const out = op.run(front.bundle, step.value);
+            const extra = out._opNote ? ` · ${out._opNote}` : '';
             const src = makeSource({
               kind: `filter:${op.id}:${step.value}`, ms: 0,
-              note: `replay picker "${op.label}" = "${step.value}"`,
+              note: `replay picker "${op.label}" = "${step.value}"${extra}`,
             });
             pushBead(`${op.label.replace(/…$/, '')}: ${step.value}`, op.icon, out, [src],
                      { kind: 'op', op: op.id, value: step.value });
