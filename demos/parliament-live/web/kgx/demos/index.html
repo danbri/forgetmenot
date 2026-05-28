@@ -113,8 +113,20 @@
   Curated queries that show what's possible when you join data across
   sources. Each demo has a <strong>Try in playground</strong> button —
   it opens <a href="/kgx/playground">/kgx/playground</a> with the query
-  and endpoint pre-loaded via the URL hash.
+  pre-loaded <em>and auto-run</em> so you see results immediately.
 </p>
+
+<h2>Interactive — Pivot Viewer + Parallax style</h2>
+<div class="demo" style="background:linear-gradient(135deg, #ffffff 0%, #f4f1ea 100%); border-left: 4px solid var(--accent);">
+  <p class="demo-title">→ <a href="/kgx/demos/pivot/">Pivot viewer for UK Prime Ministers</a></p>
+  <p class="demo-tags"><span class="tag">interactive</span><span class="tag">images</span><span class="tag">facets</span><span class="tag">parallax</span></p>
+  <p class="demo-desc">Image grid with party / decade / birth-century facets, free-text search,
+    tile-tap-for-detail-popover, and a Freebase-Parallax-style "Navigate to"
+    row that builds follow-up queries from the visible set
+    (their birthplaces / parties / DBpedia abstracts / spouses).
+    Lives in its own page — opens in a new tab.</p>
+  <p style="margin-top: 10px;"><a href="/kgx/demos/pivot/" style="background: var(--accent); color: white; text-decoration: none; padding: 10px 18px; border-radius: 6px; font-weight: 600; display: inline-block;">Open pivot viewer →</a></p>
+</div>
 
 <h2>Picture-rich queries on Wikidata</h2>
 <p class="sub">
@@ -401,19 +413,6 @@ LIMIT 30">
   <p class="demo-desc">Same dataset as the table demo above, but with <code>#defaultView:ImageGrid</code>. The playground reads the comment and picks the renderer.</p>
 </div>
 
-<h2>Set navigation (Pivot Viewer + Parallax style)</h2>
-<p class="sub">
-  Faceted browse + Freebase-Parallax-style "from this set, jump to a
-  related set via a shared property". Lives in its own page so it can
-  own the full viewport.
-</p>
-
-<div class="cards" style="margin: 10px 0;">
-  <a class="card" href="/kgx/demos/pivot/" style="display:block;background:white;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--ink);">
-    <p style="font-weight:600;margin:0 0 4px;">→ Pivot viewer for UK Prime Ministers</p>
-    <p style="font-size:14px;color:var(--ink-soft);margin:0;">Image grid + birth-century / party facets + Parallax-style "navigate to ▸ their birthplaces / parties / Wikipedia abstracts". One screen, several queries chained.</p>
-  </a>
-</div>
 
 <footer>
   Contains Parliamentary information licensed under the

@@ -1074,6 +1074,11 @@ function parseHashState() {
       renderChips(pick);
     }
   }
+  // Arrived from /kgx/demos/ or a shared permalink with a query — auto-run
+  // so the user sees results, not an idle editor.
+  if (hash && hash.q) {
+    run();
+  }
 })();
 </script>
 </body>
