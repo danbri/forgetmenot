@@ -271,6 +271,13 @@
     margin-left: auto;
   }
 
+  /* Subtle hint above the first step content. */
+  .pro-hint {
+    font-size: 11px; color: var(--ink-mute);
+    padding: 4px 14px 0;
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+
   /* ---- popover ------------------------------------------------- */
   .popover-backdrop {
     position: fixed; inset: 0;
@@ -385,6 +392,57 @@
     color: var(--ink);
   }
   #dev-panel.open { display: block; }
+
+  /* ---- SPARQL peek modal -------------------------------------- */
+  /* Long-press a navigate button → opens this with the exact query
+     the button would run, so you can audit before firing. */
+  #peek-backdrop {
+    position: fixed; inset: 0;
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 110;
+    padding: 16px;
+    overflow-y: auto;
+  }
+  #peek-backdrop.open { display: flex; animation: pop-fade 0.18s ease; }
+  #peek {
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: 10px;
+    max-width: 680px;
+    width: 100%;
+    padding: 14px 16px;
+    box-shadow: var(--shadow-lift);
+    border: 1px solid var(--rule);
+  }
+  #peek h3 { margin: 0 0 4px; font-size: 14px; }
+  #peek .peek-target {
+    font-size: 12px; color: var(--ink-mute);
+    margin: 0 0 10px;
+  }
+  #peek pre {
+    background: var(--surface-2);
+    color: var(--ink);
+    padding: 10px;
+    border-radius: 6px;
+    font: 12px/1.45 ui-monospace, Menlo, monospace;
+    white-space: pre-wrap; word-break: break-word;
+    max-height: 50vh; overflow: auto;
+    margin: 0;
+  }
+  #peek-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+  #peek-actions button {
+    background: var(--accent); color: var(--accent-on); border: 0;
+    border-radius: 4px; padding: 6px 12px; font: inherit; font-size: 13px;
+    cursor: pointer; height: 32px;
+  }
+  #peek-actions .secondary {
+    background: var(--surface-2); color: var(--ink);
+    border: 1px solid var(--rule);
+  }
   #dev-panel h4 {
     margin: 0 0 8px; font-size: 13px;
     color: var(--ink); display: flex; align-items: center; gap: 8px;
@@ -452,6 +510,7 @@
   </aside>
 
   <main>
+    <p class="pro-hint">long-press a decade / century chip to range-select · long-press a "→" button to peek the SPARQL</p>
     <div id="notebook"><div class="loading">loading…</div></div>
     <div style="margin-top:24px;text-align:right;">
       <button class="jump-btn" id="notebook-reset" hidden>↺ clear navigation history</button>
@@ -462,6 +521,19 @@
 <div id="dev-panel" role="region" aria-label="Dev request log">
   <h4>Request log <button class="dev-clear" type="button">clear</button></h4>
   <div id="dev-log"></div>
+</div>
+
+<div id="peek-backdrop">
+  <div id="peek" role="dialog" aria-modal="true" aria-labelledby="peek-title">
+    <h3 id="peek-title">SPARQL preview</h3>
+    <p class="peek-target" id="peek-target"></p>
+    <pre id="peek-body"></pre>
+    <div id="peek-actions">
+      <button type="button" data-act="run">Run</button>
+      <button type="button" class="secondary" data-act="copy">Copy</button>
+      <button type="button" class="secondary" data-act="close">Close</button>
+    </div>
+  </div>
 </div>
 
 <div class="popover-backdrop" id="popover">
@@ -592,6 +664,53 @@ function net(label, url, query) {
       return JSON.parse(text);
     })
     .catch((err) => { finish(null, null, err); throw err; });
+}
+
+// ---------------------------------------------------------------------------
+// Long-press utility. Touch-friendly. Sets the global LONGPRESS_FIRED flag
+// so the following click handler can no-op. iOS contextmenu is suppressed
+// so we don't get the native callout on top of our UI.
+// ---------------------------------------------------------------------------
+let LONGPRESS_FIRED = false;
+function attachLongPress(el, callback, ms = 450) {
+  let timer = null, sx = 0, sy = 0;
+  const start = (e) => {
+    sx = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+    sy = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+    timer = setTimeout(() => {
+      LONGPRESS_FIRED = true;
+      timer = null;
+      callback(e);
+    }, ms);
+  };
+  const move = (e) => {
+    if (!timer) return;
+    const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+    const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+    if (Math.abs(x - sx) > 8 || Math.abs(y - sy) > 8) { clearTimeout(timer); timer = null; }
+  };
+  const cancel = () => { if (timer) { clearTimeout(timer); timer = null; } };
+  el.addEventListener('pointerdown', start);
+  el.addEventListener('pointermove', move);
+  el.addEventListener('pointerup', cancel);
+  el.addEventListener('pointercancel', cancel);
+  el.addEventListener('contextmenu', (e) => e.preventDefault());
+}
+
+// Facets that have a natural ordering: long-pressing a button selects
+// everything between the anchor (any already-selected value in the same
+// facet) and the press target. Maps facet key → number-extracting fn.
+const ORDERED_FACETS = {
+  startDecade:  (s) => parseInt(s, 10),    // "1970s" → 1970
+  birthCentury: (s) => parseInt(s, 10),    // "20c" → 20
+};
+
+function allFacetValues(facet) {
+  // All unique values in the seed step (unfiltered) — what's selectable
+  // when you long-press to range-select.
+  const all = new Set();
+  for (const r of ROWS) for (const v of facetValues(r, facet)) all.add(v);
+  return [...all];
 }
 
 async function sparql(endpoint, query, label = 'sparql') {
@@ -727,12 +846,40 @@ function renderFacets() {
       + `</div></div>`;
   }).join('');
   $facets.querySelectorAll('.facet-btn').forEach((b) => {
+    const f = b.getAttribute('data-facet'), v = b.getAttribute('data-val');
     b.addEventListener('click', () => {
-      const f = b.getAttribute('data-facet'), v = b.getAttribute('data-val');
+      if (LONGPRESS_FIRED) { LONGPRESS_FIRED = false; return; }
       FILTERS[f] = FILTERS[f] || new Set();
       FILTERS[f].has(v) ? FILTERS[f].delete(v) : FILTERS[f].add(v);
       renderAll();
     });
+    if (ORDERED_FACETS[f]) {
+      attachLongPress(b, () => {
+        // Range select: from the anchor (closest already-selected value in
+        // this facet) to v, fill in everything between.
+        const set = FILTERS[f] || new Set();
+        const sortFn = ORDERED_FACETS[f];
+        const targetN = sortFn(v);
+        if (!set.size) {
+          set.add(v);
+        } else {
+          let anchor = null, anchorN = null;
+          for (const x of set) {
+            const xn = sortFn(x);
+            if (anchorN === null || Math.abs(xn - targetN) < Math.abs(anchorN - targetN)) {
+              anchor = x; anchorN = xn;
+            }
+          }
+          const lo = Math.min(targetN, anchorN), hi = Math.max(targetN, anchorN);
+          for (const x of allFacetValues(f)) {
+            const xn = sortFn(x);
+            if (xn >= lo && xn <= hi) set.add(x);
+          }
+        }
+        FILTERS[f] = set;
+        renderAll();
+      });
+    }
   });
 }
 
@@ -817,10 +964,22 @@ function renderNotebook() {
         });
       });
       stepEl.querySelectorAll('.jump-btn').forEach((btn) => {
+        const relKey = btn.getAttribute('data-rel');
         btn.addEventListener('click', () => {
-          const relKey = btn.getAttribute('data-rel');
+          if (LONGPRESS_FIRED) { LONGPRESS_FIRED = false; return; }
           addStep(stepIdx, relKey, btn);
         });
+        if (relKey) {
+          attachLongPress(btn, () => {
+            // Peek: build the SPARQL the click would run and show in a
+            // modal before sending it.
+            const rel = (RELATIONS[step.type] || []).find((x) => x.key === relKey);
+            if (!rel) return;
+            const srcRows = (step.kind === 'seed') ? applyFilters(step.rows) : step.rows;
+            const q = buildJumpQuery(step, rel, srcRows);
+            openPeek(`${esc(step.title)} → ${esc(rel.label)} · ${srcRows.length} source rows · QLever`, q, () => addStep(stepIdx, relKey, btn));
+          });
+        }
       });
     });
     lastVisibleIds = new Set(STEPS.flatMap((s) => s.rows.map((r) => r.pm || r.uri)));
@@ -908,6 +1067,40 @@ document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopov
 // Notebook navigation — each "From this selection" tap appends a new step
 // below, doesn't replace. Type-aware relation menu per step.
 // ---------------------------------------------------------------------------
+function buildJumpQuery(src, rel, srcRows) {
+  const ids = srcRows.map((r) => '<' + (r.pm || r.uri) + '>').join(' ');
+  const triple = rel.prop.startsWith('^')
+    ? `?target ${rel.prop.slice(1)} ?source`
+    : `?source ${rel.prop} ?target`;
+  const imageBlock = `
+  OPTIONAL { ?source wdt:P18 ?srcImg }
+  OPTIONAL { ?target wdt:P18  ?img1 . FILTER (!BOUND(?srcImg) || ?img1 != ?srcImg) }
+  OPTIONAL { ?target wdt:P154 ?img2 }
+  BIND (COALESCE(?img1, ?img2) AS ?image)`;
+  if (rel.groupBy) {
+    return `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+SELECT ?target (SAMPLE(?targetLabel) AS ?label) (SAMPLE(?image) AS ?img) (COUNT(DISTINCT ?source) AS ?n) WHERE {
+  VALUES ?source { ${ids} }
+  ${triple} .
+  ${imageBlock}
+  OPTIONAL { ?target rdfs:label ?targetLabel . FILTER(lang(?targetLabel) = "en") }
+}
+GROUP BY ?target
+ORDER BY DESC(?n)
+LIMIT 60`;
+  }
+  return `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+SELECT DISTINCT ?target ?targetLabel ?image WHERE {
+  VALUES ?source { ${ids} }
+  ${triple} .
+  ${imageBlock}
+  OPTIONAL { ?target rdfs:label ?targetLabel . FILTER(lang(?targetLabel) = "en") }
+}
+LIMIT 60`;
+}
+
 async function addStep(srcStepIdx, relKey, btn) {
   const src = STEPS[srcStepIdx];
   const rel = (RELATIONS[src.type] || []).find((x) => x.key === relKey);
@@ -919,49 +1112,7 @@ async function addStep(srcStepIdx, relKey, btn) {
   const origText = btn.textContent;
   btn.textContent = origText + ' …';
 
-  const ids = srcRows.map((r) => '<' + (r.pm || r.uri) + '>').join(' ');
-  const triple = rel.prop.startsWith('^')
-    ? `?target ${rel.prop.slice(1)} ?source`
-    : `?source ${rel.prop} ?target`;
-
-  // P18 for human / place portraits; P154 for org logos. COALESCE picks
-  // whichever exists so all three target types get a thumbnail when one
-  // is available.
-  //
-  // Defensive: Wikidata has wdt:P18 data errors where a related entity
-  // (e.g. Norma Major Q3343721) has its "image" set to a partner's photo.
-  // We drop ?img1 when it equals the source's own wdt:P18 — the tile
-  // then falls back to no image rather than showing the wrong face.
-  const imageBlock = `
-  OPTIONAL { ?source wdt:P18 ?srcImg }
-  OPTIONAL { ?target wdt:P18  ?img1 . FILTER (!BOUND(?srcImg) || ?img1 != ?srcImg) }
-  OPTIONAL { ?target wdt:P154 ?img2 }
-  BIND (COALESCE(?img1, ?img2) AS ?image)`;
-
-  let query;
-  if (rel.groupBy) {
-    query = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-SELECT ?target (SAMPLE(?targetLabel) AS ?label) (SAMPLE(?image) AS ?img) (COUNT(DISTINCT ?source) AS ?n) WHERE {
-  VALUES ?source { ${ids} }
-  ${triple} .
-  ${imageBlock}
-  OPTIONAL { ?target rdfs:label ?targetLabel . FILTER(lang(?targetLabel) = "en") }
-}
-GROUP BY ?target
-ORDER BY DESC(?n)
-LIMIT 60`;
-  } else {
-    query = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-SELECT DISTINCT ?target ?targetLabel ?image WHERE {
-  VALUES ?source { ${ids} }
-  ${triple} .
-  ${imageBlock}
-  OPTIONAL { ?target rdfs:label ?targetLabel . FILTER(lang(?targetLabel) = "en") }
-}
-LIMIT 60`;
-  }
+  const query = buildJumpQuery(src, rel, srcRows);
 
   try {
     const j = await sparql(QLEVER, query, 'sparql:' + rel.key);
@@ -1015,6 +1166,39 @@ document.getElementById('pivot').addEventListener('change', (e) => {
   PIVOT = e.target.value;
   renderNotebook();
 });
+
+// ---------------------------------------------------------------------------
+// SPARQL peek modal — long-press on a navigate button opens this with the
+// exact query the button would run.
+// ---------------------------------------------------------------------------
+const $peekBack = document.getElementById('peek-backdrop');
+const $peek     = document.getElementById('peek');
+let _peekRun = null;
+
+function openPeek(targetLabel, query, runFn) {
+  document.getElementById('peek-target').innerHTML = targetLabel;
+  document.getElementById('peek-body').textContent = query;
+  _peekRun = runFn;
+  $peekBack.classList.add('open');
+}
+function closePeek() { $peekBack.classList.remove('open'); _peekRun = null; }
+
+$peek.addEventListener('click', (e) => {
+  const act = e.target.getAttribute && e.target.getAttribute('data-act');
+  if (!act) return;
+  if (act === 'close') return closePeek();
+  if (act === 'copy') {
+    navigator.clipboard.writeText(document.getElementById('peek-body').textContent).then(
+      () => { e.target.textContent = 'Copied'; setTimeout(() => e.target.textContent = 'Copy', 1200); }
+    );
+    return;
+  }
+  if (act === 'run') {
+    const fn = _peekRun; closePeek();
+    if (fn) fn();
+  }
+});
+$peekBack.addEventListener('click', (e) => { if (e.target === $peekBack) closePeek(); });
 
 // ---------------------------------------------------------------------------
 // Dev panel — render the request log into the slide-up panel.
