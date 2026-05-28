@@ -464,10 +464,25 @@
     margin: 0 0 8px; font-size: 13px;
     color: var(--ink); display: flex; align-items: center; gap: 8px;
   }
-  #dev-panel .dev-clear {
-    margin-left: auto; background: var(--surface-2); color: var(--ink-soft);
+  #dev-panel .dev-clear,
+  #dev-panel .dev-mini-btn {
+    background: var(--surface-2); color: var(--ink-soft);
     border: 1px solid var(--rule); border-radius: 4px;
     padding: 2px 8px; font: inherit; cursor: pointer;
+  }
+  #dev-panel .dev-clear { margin-left: auto; }
+  #dev-panel .dev-limit-row {
+    display: flex; align-items: center; gap: 6px;
+    margin-bottom: 8px; font-size: 12px; color: var(--ink-soft);
+  }
+  #dev-panel .dev-limit-row input {
+    width: 80px; padding: 2px 6px;
+    border: 1px solid var(--rule); border-radius: 4px;
+    background: var(--surface); color: var(--ink);
+    font: inherit;
+  }
+  #dev-panel .dev-copy-row {
+    display: flex; gap: 6px; margin: 4px 0;
   }
   #dev-panel .dev-row {
     border-top: 1px solid var(--rule-soft);
@@ -536,6 +551,11 @@
 </div>
 
 <div id="dev-panel" role="region" aria-label="Dev request log">
+  <div class="dev-limit-row">
+    <label for="dev-limit">Navigate LIMIT</label>
+    <input id="dev-limit" type="number" min="1" max="5000" step="10" value="60">
+    <span>per pivot (applies to next navigate)</span>
+  </div>
   <h4>Request log <button class="dev-clear" type="button">clear</button></h4>
   <div id="dev-log"></div>
 </div>
@@ -674,6 +694,11 @@ let STEPS   = [];       // notebook of navigation steps
                         //    type: 'human'|'place'|'org'|'concept',
                         //    rows: [{uri, label, image, n?}] }]
 let lastVisibleIds = new Set();
+
+// Navigate-query result cap. Configurable from the dev panel; default 60
+// keeps the page snappy. Bumping it surfaces more rows per pivot at the
+// cost of latency.
+let NAV_LIMIT = 60;
 
 // ---------------------------------------------------------------------------
 // Relation catalogue per entity type. Forward properties (subject = the
@@ -1223,7 +1248,7 @@ SELECT ?target (SAMPLE(?targetLabel) AS ?label) (SAMPLE(?image) AS ?img) (COUNT(
 }
 GROUP BY ?target
 ORDER BY DESC(?n)
-LIMIT 60`;
+LIMIT ${NAV_LIMIT}`;
   }
   return `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
@@ -1234,7 +1259,7 @@ SELECT ?target (SAMPLE(?targetLabel) AS ?label) (SAMPLE(?image) AS ?img) (GROUP_
   OPTIONAL { ?target rdfs:label ?targetLabel . FILTER(lang(?targetLabel) = "en") }
 }
 GROUP BY ?target
-LIMIT 60`;
+LIMIT ${NAV_LIMIT}`;
 }
 
 async function addStep(srcStepIdx, relKey, btn) {
@@ -1362,6 +1387,11 @@ function renderDevLog() {
       + `<span class="ms">${e.ms ?? '—'}ms · ${(e.bytes || 0).toLocaleString()}b</span>`
       + `</div>`
       + `<div class="dev-body">`
+      + `<div class="dev-copy-row">`
+      + `<button class="dev-mini-btn" data-copy="url">copy URL</button>`
+      + (e.query ? `<button class="dev-mini-btn" data-copy="query">copy query</button>` : '')
+      + `<button class="dev-mini-btn" data-copy="curl">copy curl</button>`
+      + `</div>`
       + `<div><b>URL:</b> ${esc(e.url)}</div>`
       + (e.query ? `<pre>${esc(e.query)}</pre>` : '')
       + (e.error ? `<div class="bad">${esc(e.error)}</div>` : '')
@@ -1369,6 +1399,21 @@ function renderDevLog() {
   }).join('');
   $devLog.querySelectorAll('.dev-summary').forEach((s) => {
     s.addEventListener('click', () => s.parentElement.classList.toggle('expanded'));
+  });
+  $devLog.querySelectorAll('.dev-mini-btn[data-copy]').forEach((b) => {
+    b.addEventListener('click', (ev) => {
+      ev.stopPropagation();   // don't collapse the row
+      const i = parseInt(b.closest('.dev-row').getAttribute('data-i'), 10);
+      const e = REQ_LOG[i];
+      const what = b.getAttribute('data-copy');
+      let text;
+      if (what === 'url')   text = e.url;
+      else if (what === 'query') text = e.query || '';
+      else if (what === 'curl')  text = `curl -sS '${e.url}' -H 'Accept: application/sparql-results+json'`;
+      navigator.clipboard.writeText(text).then(
+        () => { const o = b.textContent; b.textContent = '✓'; setTimeout(() => b.textContent = o, 900); }
+      );
+    });
   });
 }
 $devToggle.addEventListener('click', () => {
@@ -1378,6 +1423,10 @@ $devToggle.addEventListener('click', () => {
 $devPanel.querySelector('.dev-clear').addEventListener('click', () => {
   REQ_LOG.length = 0;
   renderDevLog();
+});
+document.getElementById('dev-limit').addEventListener('change', (e) => {
+  const n = parseInt(e.target.value, 10);
+  if (Number.isFinite(n) && n > 0) NAV_LIMIT = n;
 });
 
 // ---------------------------------------------------------------------------
