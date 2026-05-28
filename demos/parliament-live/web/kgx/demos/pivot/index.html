@@ -242,6 +242,35 @@
   }
   .jump-btn:hover { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
 
+  /* ---- notebook (scrolled history of navigation steps) -------- */
+  .step {
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--rule);
+  }
+  .step:first-of-type { margin-top: 0; padding-top: 0; border-top: 0; }
+  .step-head {
+    display: flex; align-items: baseline; gap: 8px;
+    margin-bottom: 10px;
+  }
+  .step-num {
+    font: 11px/1 ui-monospace, Menlo, monospace;
+    color: var(--accent-on);
+    background: var(--accent);
+    padding: 3px 6px;
+    border-radius: 3px;
+  }
+  .step-title {
+    font-weight: 600; font-size: 15px;
+  }
+  .step-count {
+    font-size: 12px; color: var(--ink-mute);
+  }
+  .step-source {
+    font-size: 12px; color: var(--ink-mute);
+    margin-left: auto;
+  }
+
   /* ---- popover ------------------------------------------------- */
   .popover-backdrop {
     position: fixed; inset: 0;
@@ -416,13 +445,9 @@
   </aside>
 
   <main>
-    <div id="results"><div class="loading">loading…</div></div>
-    <div class="jump" id="jump" hidden>
-      <span class="jump-label">From this selection →</span>
-      <button class="jump-btn" data-jump="birthplaces">birthplaces</button>
-      <button class="jump-btn" data-jump="parties">parties</button>
-      <button class="jump-btn" data-jump="spouses">spouses</button>
-      <button class="jump-btn" data-jump="reset" id="jump-reset" hidden>← back to PMs</button>
+    <div id="notebook"><div class="loading">loading…</div></div>
+    <div style="margin-top:24px;text-align:right;">
+      <button class="jump-btn" id="notebook-reset" hidden>↺ clear navigation history</button>
     </div>
   </main>
 </div>
@@ -487,13 +512,50 @@ SELECT ?pm ?pmLabel ?image ?start ?party ?partyLabel ?birthPlace ?birthPlaceLabe
 ORDER BY DESC(?start)
 `;
 
-let ROWS = [];          // [{ pm, label, image, start, birth, wpArticle, parties[], birthplaces[] }]
+let ROWS = [];          // seed rows: [{ pm, label, image, start, birth, wpArticle, parties[], birthplaces[] }]
 let FILTERS = {};
 let SEARCH  = '';
 let PIVOT   = '';
-let VIEW    = 'pms';
-let SUB_ROWS = [];
+let STEPS   = [];       // notebook of navigation steps
+                        // [{ id, kind: 'seed'|'derived', title, source, via,
+                        //    type: 'human'|'place'|'org'|'concept',
+                        //    rows: [{uri, label, image, n?}] }]
 let lastVisibleIds = new Set();
+
+// ---------------------------------------------------------------------------
+// Relation catalogue per entity type. Forward properties (subject = the
+// current item) and reverse (target = the current item, prefix '^').
+// `groupBy` rolls into GROUP BY + COUNT so we get one row per unique value
+// with a count instead of N edges.
+// ---------------------------------------------------------------------------
+const RELATIONS = {
+  human: [
+    { key: 'birthplaces', prop: 'wdt:P19',  label: 'birthplaces',  target: 'place' },
+    { key: 'parties',     prop: 'wdt:P102', label: 'parties',      target: 'org',    groupBy: true },
+    { key: 'spouses',     prop: 'wdt:P26',  label: 'spouses',      target: 'human' },
+    { key: 'children',    prop: 'wdt:P40',  label: 'children',     target: 'human' },
+    { key: 'almaMaters',  prop: 'wdt:P69',  label: 'alma maters',  target: 'org',    groupBy: true },
+    { key: 'occupations', prop: 'wdt:P106', label: 'occupations',  target: 'concept',groupBy: true },
+    { key: 'employers',   prop: 'wdt:P108', label: 'employers',    target: 'org',    groupBy: true },
+  ],
+  place: [
+    { key: 'country',     prop: 'wdt:P17',  label: 'country',                 target: 'place',  groupBy: true },
+    { key: 'continent',   prop: 'wdt:P30',  label: 'continent',               target: 'place',  groupBy: true },
+    { key: 'famousBorn',  prop: '^wdt:P19', label: 'famous people born here', target: 'human' },
+    { key: 'partOf',      prop: 'wdt:P131', label: 'is part of',              target: 'place',  groupBy: true },
+  ],
+  org: [
+    { key: 'founders',    prop: 'wdt:P112', label: 'founders',                target: 'human' },
+    { key: 'country',     prop: 'wdt:P17',  label: 'country',                 target: 'place',  groupBy: true },
+    { key: 'hq',          prop: 'wdt:P159', label: 'headquarters',            target: 'place' },
+    { key: 'notableAlum', prop: '^wdt:P69', label: 'notable alumni',          target: 'human' },
+    { key: 'members',     prop: '^wdt:P102',label: 'notable members',         target: 'human' },
+  ],
+  concept: [
+    { key: 'subclass',    prop: 'wdt:P279', label: 'subclass of',  target: 'concept', groupBy: true },
+    { key: 'instances',   prop: '^wdt:P31', label: 'instances',    target: 'human' },
+  ],
+};
 
 // All HTTP requests funnel through net() so the dev panel + console get
 // a uniform entry per request.
@@ -536,10 +598,9 @@ async function sparql(endpoint, query, label = 'sparql') {
 // DOM
 // ---------------------------------------------------------------------------
 const $facets   = document.getElementById('facets');
-const $results  = document.getElementById('results');
+const $notebook = document.getElementById('notebook');
 const $count    = document.getElementById('count');
-const $jump     = document.getElementById('jump');
-const $jumpReset = document.getElementById('jump-reset');
+const $reset    = document.getElementById('notebook-reset');
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -644,7 +705,7 @@ function tileHtml(r, idx, currentIds) {
 }
 
 function renderFacets() {
-  if (VIEW !== 'pms') { $facets.innerHTML = ''; return; }
+  // Facets only apply to the seed step.
   const visible = applyFilters(ROWS);
   const facets = [['party', 'Party'], ['startDecade', 'Decade'], ['birthCentury', 'Born']];
   $facets.innerHTML = facets.map(([key, label]) => {
@@ -669,67 +730,100 @@ function renderFacets() {
   });
 }
 
-function renderGrid() {
-  let rows, label;
-  if (VIEW === 'pms') {
-    rows = applyFilters(ROWS);
-    label = `${rows.length} of ${ROWS.length}`;
-  } else {
-    rows = SUB_ROWS;
-    label = `${rows.length} ${VIEW}`;
-  }
-  $count.textContent = label;
+function renderStep(step, stepIdx) {
+  // The seed step uses live filters + group-by; derived steps just show
+  // whatever rows the navigate query produced.
+  const isSeed = step.kind === 'seed';
+  const rows = isSeed ? applyFilters(step.rows) : step.rows;
 
+  const sourceTag = step.source
+    ? `<span class="step-source">from ${esc(step.source)} · ${esc(step.via)}</span>` : '';
+  const countLabel = isSeed
+    ? `${rows.length} of ${step.rows.length}`
+    : `${rows.length}`;
+
+  let body;
   if (!rows.length) {
-    $results.innerHTML = '<div class="loading">No matches.</div>';
-    lastVisibleIds = new Set();
-    return;
+    body = '<div class="loading">No matches.</div>';
+  } else if (isSeed && PIVOT) {
+    const groups = new Map();
+    rows.forEach((r, idx) => {
+      const vals = facetValues(r, PIVOT);
+      const keys = vals.length ? vals : ['(unknown)'];
+      for (const v of keys) {
+        if (!groups.has(v)) groups.set(v, []);
+        groups.get(v).push({ row: r, idx });
+      }
+    });
+    const ordered = [...groups.entries()].sort((a, b) => {
+      if (a[0] === '(unknown)') return 1;
+      if (b[0] === '(unknown)') return -1;
+      return b[1].length - a[1].length;
+    });
+    body = ordered.map(([name, items]) =>
+      `<div class="pivot-group">`
+      + `<div class="pivot-group-header"><span class="pivot-group-name">${esc(name)}</span><span class="pivot-group-n">${items.length}</span></div>`
+      + `<div class="grid">${items.map(({ row, idx }) => tileHtml(row, idx)).join('')}</div>`
+      + `</div>`
+    ).join('');
+  } else {
+    body = '<div class="grid">' + rows.map((r, idx) => tileHtml(r, idx)).join('') + '</div>';
   }
+
+  const rels = RELATIONS[step.type] || [];
+  const jumpRow = rels.length && rows.length ?
+    `<div class="jump">`
+    + `<span class="jump-label">From this selection →</span>`
+    + rels.map((rel) =>
+        `<button class="jump-btn" data-step="${stepIdx}" data-rel="${esc(rel.key)}">${esc(rel.label)}</button>`
+      ).join('')
+    + `</div>` : '';
+
+  return `<section class="step" data-step="${stepIdx}">`
+    + `<div class="step-head">`
+    + `<span class="step-num">${stepIdx + 1}</span>`
+    + `<span class="step-title">${esc(step.title)}</span>`
+    + `<span class="step-count">${countLabel}</span>`
+    + sourceTag
+    + `</div>`
+    + body
+    + jumpRow
+    + `</section>`;
+}
+
+function renderNotebook() {
+  const totalCount = STEPS[0] ? `${applyFilters(STEPS[0].rows).length} of ${STEPS[0].rows.length}` : '…';
+  $count.textContent = totalCount;
+  $reset.hidden = STEPS.length <= 1;
 
   const useTransition = document.startViewTransition && (lastVisibleIds.size > 0);
   const renderBody = () => {
-    if (VIEW === 'pms' && PIVOT) {
-      const groups = new Map();
-      rows.forEach((r, idx) => {
-        const vals = facetValues(r, PIVOT);
-        const keys = vals.length ? vals : ['(unknown)'];
-        for (const v of keys) {
-          if (!groups.has(v)) groups.set(v, []);
-          groups.get(v).push({ row: r, idx });
-        }
+    $notebook.innerHTML = STEPS.map(renderStep).join('');
+    // Wire all tile clicks.
+    $notebook.querySelectorAll('.step').forEach((stepEl) => {
+      const stepIdx = parseInt(stepEl.getAttribute('data-step'), 10);
+      const step = STEPS[stepIdx];
+      const rows = (step.kind === 'seed') ? applyFilters(step.rows) : step.rows;
+      stepEl.querySelectorAll('.tile').forEach((tile) => {
+        tile.addEventListener('click', () => {
+          const idx = parseInt(tile.getAttribute('data-idx'), 10);
+          openPopover(rows[idx]);
+        });
       });
-      const ordered = [...groups.entries()].sort((a, b) => {
-        if (a[0] === '(unknown)') return 1;
-        if (b[0] === '(unknown)') return -1;
-        return b[1].length - a[1].length;
-      });
-      $results.innerHTML = ordered.map(([name, items]) =>
-        `<div class="pivot-group">`
-        + `<div class="pivot-group-header"><span class="pivot-group-name">${esc(name)}</span><span class="pivot-group-n">${items.length}</span></div>`
-        + `<div class="grid">${items.map(({ row, idx }) => tileHtml(row, idx)).join('')}</div>`
-        + `</div>`
-      ).join('');
-    } else {
-      $results.innerHTML = '<div class="grid">' + rows.map((r, idx) => tileHtml(r, idx)).join('') + '</div>';
-    }
-    $results.querySelectorAll('.tile').forEach((tile) => {
-      tile.addEventListener('click', () => {
-        const idx = parseInt(tile.getAttribute('data-idx'), 10);
-        openPopover(rows[idx]);
+      stepEl.querySelectorAll('.jump-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const relKey = btn.getAttribute('data-rel');
+          addStep(stepIdx, relKey, btn);
+        });
       });
     });
-    lastVisibleIds = new Set(rows.map((r) => r.pm));
+    lastVisibleIds = new Set(STEPS.flatMap((s) => s.rows.map((r) => r.pm || r.uri)));
   };
   if (useTransition) document.startViewTransition(renderBody);
   else renderBody();
 }
 
-function renderJump() {
-  $jump.hidden = VIEW !== 'pms' && VIEW !== 'birthplaces' && VIEW !== 'parties' && VIEW !== 'spouses';
-  $jumpReset.hidden = VIEW === 'pms';
-}
-
-function renderAll() { renderFacets(); renderGrid(); renderJump(); }
+function renderAll() { renderFacets(); renderNotebook(); }
 
 // ---------------------------------------------------------------------------
 // Popover — second data source pulled live from the Wikipedia REST API
@@ -805,72 +899,97 @@ document.getElementById('popover').addEventListener('click', (e) => { if (e.targ
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopover(); });
 
 // ---------------------------------------------------------------------------
-// "From this selection" jumps — run inline, don't bounce to playground
+// Notebook navigation — each "From this selection" tap appends a new step
+// below, doesn't replace. Type-aware relation menu per step.
 // ---------------------------------------------------------------------------
-async function jumpTo(target) {
-  if (target === 'reset') {
-    VIEW = 'pms'; SUB_ROWS = [];
-    renderAll();
-    return;
-  }
-  const visible = applyFilters(ROWS);
-  if (!visible.length) return;
-  const qids = visible.map((r) => '<' + r.pm + '>').join(' ');
-  let q;
-  // Portable SPARQL — no SERVICE wikibase:label so QLever accepts it.
-  const LABELS = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>`;
-  if (target === 'birthplaces') {
-    q = `${LABELS}
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-SELECT DISTINCT ?place ?placeLabel ?image WHERE {
-  VALUES ?pm { ${qids} }
-  ?pm wdt:P19 ?place .
-  OPTIONAL { ?place wdt:P18 ?image }
-  OPTIONAL { ?place rdfs:label ?placeLabel . FILTER(lang(?placeLabel) = "en") }
-} LIMIT 60`;
-  } else if (target === 'parties') {
-    q = `${LABELS}
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-SELECT ?party ?partyLabel ?image (COUNT(?pm) AS ?n) WHERE {
-  VALUES ?pm { ${qids} }
-  ?pm wdt:P102 ?party .
-  OPTIONAL { ?party wdt:P154 ?image }
-  OPTIONAL { ?party rdfs:label ?partyLabel . FILTER(lang(?partyLabel) = "en") }
-} GROUP BY ?party ?partyLabel ?image ORDER BY DESC(?n)`;
-  } else if (target === 'spouses') {
-    q = `${LABELS}
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-SELECT DISTINCT ?person ?personLabel ?image WHERE {
-  VALUES ?pm { ${qids} }
-  ?pm wdt:P26 ?person .
-  OPTIONAL { ?person wdt:P18 ?image }
-  OPTIONAL { ?person rdfs:label ?personLabel . FILTER(lang(?personLabel) = "en") }
-} LIMIT 60`;
-  } else return;
+async function addStep(srcStepIdx, relKey, btn) {
+  const src = STEPS[srcStepIdx];
+  const rel = (RELATIONS[src.type] || []).find((x) => x.key === relKey);
+  if (!rel) return;
+  const srcRows = (src.kind === 'seed') ? applyFilters(src.rows) : src.rows;
+  if (!srcRows.length) return;
 
-  $results.innerHTML = '<div class="loading">running…</div>';
+  btn.disabled = true;
+  const origText = btn.textContent;
+  btn.textContent = origText + ' …';
+
+  const ids = srcRows.map((r) => '<' + (r.pm || r.uri) + '>').join(' ');
+  const triple = rel.prop.startsWith('^')
+    ? `?target ${rel.prop.slice(1)} ?source`
+    : `?source ${rel.prop} ?target`;
+
+  // P18 for human / place portraits; P154 for org logos. COALESCE picks
+  // whichever exists so all three target types get a thumbnail when one
+  // is available.
+  const imageBlock = `
+  OPTIONAL { ?target wdt:P18  ?img1 }
+  OPTIONAL { ?target wdt:P154 ?img2 }
+  BIND (COALESCE(?img1, ?img2) AS ?image)`;
+
+  let query;
+  if (rel.groupBy) {
+    query = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+SELECT ?target (SAMPLE(?targetLabel) AS ?label) (SAMPLE(?image) AS ?img) (COUNT(DISTINCT ?source) AS ?n) WHERE {
+  VALUES ?source { ${ids} }
+  ${triple} .
+  ${imageBlock}
+  OPTIONAL { ?target rdfs:label ?targetLabel . FILTER(lang(?targetLabel) = "en") }
+}
+GROUP BY ?target
+ORDER BY DESC(?n)
+LIMIT 60`;
+  } else {
+    query = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+SELECT DISTINCT ?target ?targetLabel ?image WHERE {
+  VALUES ?source { ${ids} }
+  ${triple} .
+  ${imageBlock}
+  OPTIONAL { ?target rdfs:label ?targetLabel . FILTER(lang(?targetLabel) = "en") }
+}
+LIMIT 60`;
+  }
+
   try {
-    const j = await sparql(QLEVER, q, 'sparql:jump-' + target);
-    SUB_ROWS = j.results.bindings.map((b) => {
-      const uri = (b.place || b.party || b.person).value;
-      const label = (b.placeLabel || b.partyLabel || b.personLabel) ? (b.placeLabel || b.partyLabel || b.personLabel).value : uri.replace(/^.*\//, '');
+    const j = await sparql(QLEVER, query, 'sparql:' + rel.key);
+    const rows = j.results.bindings.map((b) => {
+      const uri = b.target.value;
+      const labelB = b.targetLabel || b.label;
+      const imgB = b.image || b.img;
       return {
-        pm: uri, label,
-        image: b.image ? b.image.value : null,
-        parties: [],
-        birthplaces: [],
-        n: b.n ? b.n.value : null,
+        pm: uri, uri,
+        label: labelB ? labelB.value : uri.replace(/^.*\//, ''),
+        image: imgB ? imgB.value : null,
+        n: b.n ? parseInt(b.n.value, 10) : null,
+        parties: [], birthplaces: [],
       };
     });
-    VIEW = target;
-    lastVisibleIds = new Set();
-    renderAll();
+    STEPS.push({
+      id: 'step' + STEPS.length,
+      kind: 'derived',
+      title: rel.label,
+      source: src.title,
+      via: rel.label,
+      type: rel.target,
+      rows,
+    });
+    renderNotebook();
+    setTimeout(() => {
+      const el = $notebook.querySelector(`.step[data-step="${STEPS.length - 1}"]`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
   } catch (e) {
-    $results.innerHTML = `<div class="error">${esc(e.message)}</div>`;
+    console.error('[addStep]', e);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = origText;
   }
 }
-document.querySelectorAll('.jump-btn').forEach((b) => {
-  b.addEventListener('click', () => jumpTo(b.getAttribute('data-jump')));
+
+$reset.addEventListener('click', () => {
+  STEPS = STEPS.slice(0, 1);
+  renderNotebook();
 });
 
 // ---------------------------------------------------------------------------
@@ -882,7 +1001,7 @@ document.getElementById('search').addEventListener('input', (e) => {
 });
 document.getElementById('pivot').addEventListener('change', (e) => {
   PIVOT = e.target.value;
-  renderGrid();
+  renderNotebook();
 });
 
 // ---------------------------------------------------------------------------
@@ -933,9 +1052,16 @@ $devPanel.querySelector('.dev-clear').addEventListener('click', () => {
   try {
     const j = await sparql(QLEVER, SEED_QUERY, 'sparql:seed');
     ROWS = dedupe(j.results.bindings);
+    STEPS = [{
+      id: 'seed',
+      kind: 'seed',
+      title: 'UK Prime Ministers',
+      type: 'human',
+      rows: ROWS,
+    }];
     renderAll();
   } catch (e) {
-    $results.innerHTML = `<div class="error">Failed to load: ${esc(e.message)}</div>`;
+    $notebook.innerHTML = `<div class="error">Failed to load: ${esc(e.message)}</div>`;
     $facets.innerHTML = '';
     $count.textContent = '';
   }
