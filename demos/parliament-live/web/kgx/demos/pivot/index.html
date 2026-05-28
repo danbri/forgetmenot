@@ -57,9 +57,17 @@
     border-bottom: 1px solid var(--rule);
     padding: 8px 14px;
   }
-  .topbar h1 {
-    margin: 0; font-size: 15px; font-weight: 600;
-    flex: 0 0 auto;
+  .topbar .seed-select {
+    height: 30px;
+    padding: 0 22px 0 8px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--surface) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23888' d='M4 6l4 4 4-4z'/></svg>") no-repeat right 4px center;
+    background-size: 14px;
+    color: var(--ink);
+    font: 600 14px/1 -apple-system, system-ui, sans-serif;
+    -webkit-appearance: none;
+    appearance: none;
   }
   .topbar .crumbs {
     font-size: 12px; color: var(--ink-mute);
@@ -488,7 +496,7 @@
 <body>
 
 <header class="topbar">
-  <h1>UK Prime Ministers</h1>
+  <select id="seed" class="seed-select" aria-label="Starting set"></select>
   <span class="crumbs">· <a href="/kgx/demos/">demos</a></span>
   <span class="count" id="count">…</span>
   <button id="dev-toggle" type="button" aria-controls="dev-panel" aria-expanded="false">dev ·&nbsp;<span id="dev-count">0</span></button>
@@ -560,13 +568,23 @@
 // endpoint for our kind of join. Falls back nowhere — if QLever is down,
 // the page surfaces the error and the dev panel shows the failed request.
 const QLEVER   = 'https://qlever.dev/api/wikidata';
+const FPKG     = '/kgx/query';
 const WIKIPEDIA_SUMMARY = (title) => `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
 
-// Vanilla SPARQL — no SERVICE wikibase:label, no bd: predicates, runs on
-// any Wikidata-aware endpoint (QLever, OpenLink Virtuoso, official WDQS).
-// ?wpArticle reverse-binds the English Wikipedia article URI for each PM
-// via schema:about — we slice the title off for the Wikipedia REST API.
-const SEED_QUERY = `
+// ---------------------------------------------------------------------------
+// Seed registry — pick one at the top of the page to drive everything below.
+// `type` controls which "From this selection →" relations are offered;
+// `entityKind` controls whether the URIs are Wikidata QIDs (so the pivot
+// can follow them via VALUES ?source { ... } on QLever) or local URIs that
+// need an identity bridge we don't have yet.
+// ---------------------------------------------------------------------------
+const SEEDS = {
+  'uk-pms': {
+    label: 'UK Prime Ministers',
+    endpoint: QLEVER,
+    entityKind: 'wikidata',
+    type: 'human',
+    query: `
 PREFIX wd:     <http://www.wikidata.org/entity/>
 PREFIX wdt:    <http://www.wikidata.org/prop/direct/>
 PREFIX p:      <http://www.wikidata.org/prop/>
@@ -574,7 +592,6 @@ PREFIX ps:     <http://www.wikidata.org/prop/statement/>
 PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
 PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema: <http://schema.org/>
-
 SELECT ?pm ?pmLabel ?image ?start ?party ?partyLabel ?birthPlace ?birthPlaceLabel ?birth ?wpArticle WHERE {
   ?pm p:P39 ?term .
   ?term ps:P39 wd:Q14211 ; pq:P580 ?start .
@@ -587,8 +604,51 @@ SELECT ?pm ?pmLabel ?image ?start ?party ?partyLabel ?birthPlace ?birthPlaceLabe
   OPTIONAL { ?pm rdfs:label ?pmLabel . FILTER(lang(?pmLabel) = "en") }
   OPTIONAL { ?wpArticle schema:about ?pm ; schema:isPartOf <https://en.wikipedia.org/> }
 }
-ORDER BY DESC(?start)
-`;
+ORDER BY DESC(?start)`,
+  },
+  'monarchs': {
+    label: 'British monarchs',
+    endpoint: QLEVER,
+    entityKind: 'wikidata',
+    type: 'human',
+    query: `
+PREFIX wd:     <http://www.wikidata.org/entity/>
+PREFIX wdt:    <http://www.wikidata.org/prop/direct/>
+PREFIX p:      <http://www.wikidata.org/prop/>
+PREFIX ps:     <http://www.wikidata.org/prop/statement/>
+PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
+SELECT ?pm ?pmLabel ?image ?start ?birth ?birthPlace ?birthPlaceLabel ?wpArticle WHERE {
+  VALUES ?crown { wd:Q9134 wd:Q161885 wd:Q174193 }
+  ?pm p:P39 ?term .
+  ?term ps:P39 ?crown ; pq:P580 ?start .
+  OPTIONAL { ?pm wdt:P18  ?image }
+  OPTIONAL { ?pm wdt:P19  ?birthPlace .
+             OPTIONAL { ?birthPlace rdfs:label ?birthPlaceLabel . FILTER(lang(?birthPlaceLabel) = "en") } }
+  OPTIONAL { ?pm wdt:P569 ?birth }
+  OPTIONAL { ?pm rdfs:label ?pmLabel . FILTER(lang(?pmLabel) = "en") }
+  OPTIONAL { ?wpArticle schema:about ?pm ; schema:isPartOf <https://en.wikipedia.org/> }
+}
+ORDER BY DESC(?start)`,
+  },
+  'appg-ai': {
+    label: 'APPG AI officers',
+    endpoint: FPKG,
+    entityKind: 'mnis',                 // not Wikidata — pivots disabled
+    type: 'mnis-human',
+    query: `
+PREFIX tr: <https://forgetmenot.example/transparency#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?pm (?roleStr AS ?pmLabel) WHERE {
+  GRAPH <https://forgetmenot.example/transparency#graph/appg-register> {
+    ?pm tr:officerRoleIn ?roleStr .
+    FILTER(CONTAINS(LCASE(STR(?roleStr)), "artificial intelligence"))
+  }
+}`,
+  },
+};
+const DEFAULT_SEED = 'uk-pms';
 
 let ROWS = [];          // seed rows: [{ pm, label, image, start, birth, wpArticle, parties[], birthplaces[] }]
 let FILTERS = {};
@@ -607,6 +667,11 @@ let lastVisibleIds = new Set();
 // with a count instead of N edges.
 // ---------------------------------------------------------------------------
 const RELATIONS = {
+  // mnis-human: people identified by their MNIS Member URI (our FPKG store).
+  // No Wikidata relations because the URIs don't resolve on QLever. Empty
+  // array → the "From this selection →" row hides; we surface a note
+  // instead saying navigation needs an identity bridge.
+  'mnis-human': [],
   human: [
     { key: 'birthplaces', prop: 'wdt:P19',  label: 'birthplaces',  target: 'place' },
     { key: 'parties',     prop: 'wdt:P102', label: 'parties',      target: 'org',    groupBy: true },
@@ -924,13 +989,20 @@ function renderStep(step, stepIdx) {
   }
 
   const rels = RELATIONS[step.type] || [];
-  const jumpRow = rels.length && rows.length ?
-    `<div class="jump">`
-    + `<span class="jump-label">From this selection →</span>`
-    + rels.map((rel) =>
-        `<button class="jump-btn" data-step="${stepIdx}" data-rel="${esc(rel.key)}">${esc(rel.label)}</button>`
-      ).join('')
-    + `</div>` : '';
+  let jumpRow = '';
+  if (rels.length && rows.length) {
+    jumpRow = `<div class="jump">`
+      + `<span class="jump-label">From this selection →</span>`
+      + rels.map((rel) =>
+          `<button class="jump-btn" data-step="${stepIdx}" data-rel="${esc(rel.key)}">${esc(rel.label)}</button>`
+        ).join('')
+      + `</div>`;
+  } else if (rows.length && step.type === 'mnis-human') {
+    jumpRow = `<div class="jump"><span class="jump-label" style="opacity:0.7;">`
+      + `Wikidata pivots not available — entities are MNIS Member URIs and`
+      + ` we don't yet have an identity bridge to Wikidata for these.`
+      + `</span></div>`;
+  }
 
   return `<section class="step" data-step="${stepIdx}">`
     + `<div class="step-head">`
@@ -1244,23 +1316,48 @@ $devPanel.querySelector('.dev-clear').addEventListener('click', () => {
 // ---------------------------------------------------------------------------
 // Boot
 // ---------------------------------------------------------------------------
-(async () => {
+function populateSeedPicker() {
+  const $seed = document.getElementById('seed');
+  $seed.innerHTML = Object.entries(SEEDS).map(([id, s]) =>
+    `<option value="${esc(id)}">${esc(s.label)}</option>`
+  ).join('');
+  $seed.addEventListener('change', () => loadSeed($seed.value));
+}
+
+async function loadSeed(seedId) {
+  const seed = SEEDS[seedId];
+  if (!seed) return;
+  document.getElementById('seed').value = seedId;
+  FILTERS = {}; SEARCH = ''; PIVOT = ''; STEPS = []; lastVisibleIds = new Set();
+  document.getElementById('search').value = '';
+  document.getElementById('pivot').value = '';
+  $notebook.innerHTML = '<div class="loading">loading ' + esc(seed.label) + '…</div>';
+  $facets.innerHTML = '';
+  $count.textContent = '…';
   try {
-    const j = await sparql(QLEVER, SEED_QUERY, 'sparql:seed');
+    const j = await sparql(seed.endpoint, seed.query, 'sparql:seed-' + seedId);
     ROWS = dedupe(j.results.bindings);
     STEPS = [{
       id: 'seed',
       kind: 'seed',
-      title: 'UK Prime Ministers',
-      type: 'human',
+      title: seed.label,
+      type: seed.type,
       rows: ROWS,
     }];
     renderAll();
   } catch (e) {
-    $notebook.innerHTML = `<div class="error">Failed to load: ${esc(e.message)}</div>`;
+    $notebook.innerHTML = `<div class="error">Failed to load ${esc(seed.label)}: ${esc(e.message)}</div>`;
     $facets.innerHTML = '';
     $count.textContent = '';
   }
+}
+
+(async () => {
+  populateSeedPicker();
+  // Initial seed via URL hash (#seed=appg-ai) or default.
+  const m = window.location.hash.match(/seed=([^&]+)/);
+  const initial = (m && SEEDS[m[1]]) ? m[1] : DEFAULT_SEED;
+  await loadSeed(initial);
 })();
 </script>
 </body>
