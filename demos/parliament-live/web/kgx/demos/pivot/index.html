@@ -3,354 +3,382 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FPKG — Pivot Viewer: UK Prime Ministers</title>
+<title>UK Prime Ministers</title>
 <style>
   :root {
+    color-scheme: light dark;
     --bg: #faf8f3;
+    --surface: #ffffff;
+    --surface-2: #f4f1ea;
     --ink: #1a1a1a;
-    --ink-soft: #4a4a4a;
+    --ink-soft: #5a5a5a;
+    --ink-mute: #8a8a8a;
     --accent: #2a4f76;
-    --accent-ink: #ffffff;
+    --accent-on: #ffffff;
     --rule: #d8d4ca;
-    --card: #ffffff;
-    --code-bg: #efece4;
-    --tag-bg: #e6ddc7;
-    --selected: #2a4f76;
+    --rule-soft: #e9e5db;
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06);
+    --shadow-lift: 0 8px 24px rgba(0,0,0,0.12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #15171a;
+      --surface: #1c1e22;
+      --surface-2: #24272c;
+      --ink: #ececec;
+      --ink-soft: #b0b0b0;
+      --ink-mute: #7a7a7a;
+      --accent: #6da3d6;
+      --accent-on: #0d1115;
+      --rule: #2c2f35;
+      --rule-soft: #25282d;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 4px 12px rgba(0,0,0,0.5);
+      --shadow-lift: 0 8px 24px rgba(0,0,0,0.6);
+    }
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
     background: var(--bg);
     color: var(--ink);
-    padding: 14px;
-    max-width: 1100px;
-    margin: 0 auto;
     -webkit-text-size-adjust: 100%;
   }
-  nav { font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; }
-  nav a { color: var(--accent); }
-  h1 { font-size: 22px; margin: 6px 0; }
-  .sub { color: var(--ink-soft); font-size: 14px; margin: 0 0 16px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
 
-  .toolbar {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    background: var(--code-bg);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    padding: 10px 12px;
-    margin-bottom: 12px;
-    align-items: center;
+  /* ---- top bar -------------------------------------------------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 10;
+    display: flex; align-items: center; gap: 10px;
+    background: color-mix(in srgb, var(--surface) 92%, transparent);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--rule);
+    padding: 8px 14px;
   }
-  .toolbar-label { font-size: 13px; color: var(--ink-soft); }
-  .toolbar-pill {
-    background: white;
-    border: 1px solid var(--rule);
-    border-radius: 14px;
-    padding: 5px 11px;
-    font-size: 13px;
-    cursor: pointer;
+  .topbar h1 {
+    margin: 0; font-size: 15px; font-weight: 600;
+    flex: 0 0 auto;
   }
-  .toolbar-pill[aria-pressed="true"] { background: var(--selected); color: white; border-color: var(--selected); }
-  .toolbar-pill:active { opacity: 0.85; }
-  .toolbar-count { margin-left: auto; font-size: 13px; color: var(--ink-soft); }
-
-  /* Pivot-by control — the Microsoft-Pivot-Viewer move: pick a facet to
-     group everything by, tiles rearrange into labeled groups. */
-  .pivotbar {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    background: white;
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    padding: 8px 10px;
-    margin-bottom: 12px;
-    align-items: center;
+  .topbar .crumbs {
+    font-size: 12px; color: var(--ink-mute);
   }
-  .pivotbar-label {
-    font-size: 13px; color: var(--ink-soft); margin-right: 4px;
-  }
-  .pivot-pill {
-    background: white;
-    border: 1px solid var(--rule);
-    border-radius: 14px;
-    padding: 5px 11px;
-    font-size: 13px;
-    cursor: pointer;
-  }
-  .pivot-pill[aria-pressed="true"] {
-    background: var(--accent); color: white; border-color: var(--accent);
-  }
-  .pivot-group {
-    margin-top: 16px;
-  }
-  .pivot-group:first-child { margin-top: 0; }
-  .pivot-group-header {
-    display: flex; align-items: baseline; gap: 8px;
-    border-bottom: 2px solid var(--accent);
-    padding-bottom: 4px;
-    margin-bottom: 8px;
-  }
-  .pivot-group-name {
-    font-weight: 600; font-size: 15px;
-  }
-  .pivot-group-n {
-    font-size: 12px; color: var(--ink-soft);
+  .topbar .count {
+    margin-left: auto; font-size: 12px; color: var(--ink-soft);
+    white-space: nowrap;
   }
 
-  .layout { display: grid; grid-template-columns: 1fr; gap: 14px; }
-  @media (min-width: 800px) {
-    .layout { grid-template-columns: 240px 1fr; }
-  }
-
-  .facets {
-    background: var(--card);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    padding: 10px 12px;
-    min-height: 0;
-  }
-  .facets h3 {
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--ink-soft);
-    margin: 8px 0 6px;
-    font-weight: 600;
-  }
-  .facet-row { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
-  .facet-btn {
-    background: white;
-    border: 1px solid var(--rule);
-    border-radius: 12px;
-    padding: 4px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    color: var(--ink);
-  }
-  .facet-btn:active { background: var(--code-bg); }
-  .facet-btn[aria-pressed="true"] { background: var(--accent); color: white; border-color: var(--accent); }
-  .facet-count { color: var(--ink-soft); font-size: 11px; margin-left: 4px; }
-
-  .grid {
+  /* ---- controls strip ------------------------------------------- */
+  .controls {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 10px;
-  }
-  .tile {
-    background: var(--card);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    overflow: hidden;
-    text-decoration: none;
-    color: var(--ink);
-    display: flex;
-    flex-direction: column;
-    padding: 6px;
-    cursor: pointer;
-  }
-  .tile:active { background: var(--code-bg); }
-  .tile.selected { outline: 2px solid var(--accent); }
-  .tile img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    background: var(--code-bg);
-    border-radius: 4px;
-  }
-  .tile .name { font: 13px/1.3 -apple-system, system-ui, sans-serif; margin-top: 6px; }
-  .tile .meta { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
-
-  .loading { text-align: center; color: var(--ink-soft); padding: 40px 0; }
-  .error {
-    background: #fdecea; color: #7a1f17; padding: 12px;
-    border-radius: 8px; font: 13px/1.45 ui-monospace, Menlo, monospace;
-    white-space: pre-wrap;
-  }
-  .navigate {
-    margin-top: 18px;
-    background: var(--card);
-    border: 1px solid var(--rule);
-    border-radius: 8px;
-    padding: 14px;
-  }
-  .navigate h3 { font-size: 14px; margin: 0 0 8px; }
-  .nav-buttons { display: flex; flex-wrap: wrap; gap: 8px; }
-  .nav-btn {
-    background: var(--accent);
-    color: white;
-    border: 0;
-    border-radius: 6px;
+    grid-template-columns: 1fr;
+    gap: 8px;
     padding: 10px 14px;
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: none;
-    cursor: pointer;
-    min-height: 40px;
+    border-bottom: 1px solid var(--rule-soft);
   }
-  .nav-btn:active { opacity: 0.85; }
-
-  /* Free-text search input. */
-  #search {
+  @media (min-width: 640px) {
+    .controls { grid-template-columns: 1fr 180px; }
+  }
+  .search-input, .pivot-select {
     width: 100%;
-    padding: 10px 12px;
+    height: 34px;
+    padding: 0 10px;
+    font: inherit; font-size: 14px;
     border: 1px solid var(--rule);
-    border-radius: 8px;
-    background: white;
-    font-size: 16px;
+    border-radius: 6px;
+    background: var(--surface);
+    color: var(--ink);
     -webkit-appearance: none;
     appearance: none;
-    margin-bottom: 8px;
   }
-  #search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .pivot-select {
+    background: var(--surface) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23888' d='M4 6l4 4 4-4z'/></svg>") no-repeat right 8px center;
+    background-size: 14px;
+    padding-right: 28px;
+  }
+  .search-input:focus, .pivot-select:focus {
+    outline: 2px solid var(--accent); outline-offset: -1px;
+  }
 
-  /* Tile popover (modal-ish overlay). */
+  /* ---- layout --------------------------------------------------- */
+  .layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 880px) {
+    .layout { grid-template-columns: 200px 1fr; }
+  }
+
+  /* ---- facets sidebar ------------------------------------------- */
+  .facets {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  @media (min-width: 880px) {
+    .facets { border-bottom: 0; border-right: 1px solid var(--rule-soft); }
+  }
+  .facet-group {
+    margin-bottom: 10px;
+  }
+  .facet-head {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--ink-mute);
+    margin-bottom: 4px; font-weight: 600;
+  }
+  .facet-row { display: flex; flex-wrap: wrap; gap: 4px; }
+  .facet-btn {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 3px 8px;
+    font: inherit; font-size: 12px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+  }
+  .facet-btn:hover { background: var(--surface-2); }
+  .facet-btn[aria-pressed="true"] {
+    background: var(--accent); color: var(--accent-on); border-color: var(--accent);
+  }
+  .facet-count {
+    color: var(--ink-mute); margin-left: 4px; font-size: 11px;
+  }
+  .facet-btn[aria-pressed="true"] .facet-count {
+    color: color-mix(in srgb, var(--accent-on) 70%, transparent);
+  }
+
+  /* ---- grid + groups ------------------------------------------- */
+  main { padding: 12px 14px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 10px;
+  }
+  .pivot-group { margin-bottom: 22px; }
+  .pivot-group-header {
+    display: flex; align-items: baseline; gap: 8px;
+    margin: 0 0 8px;
+  }
+  .pivot-group-name {
+    font-weight: 600; font-size: 14px;
+  }
+  .pivot-group-n {
+    font-size: 11px; color: var(--ink-mute);
+  }
+
+  .tile {
+    background: var(--surface);
+    border: 1px solid var(--rule-soft);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.25s ease;
+    /* For browser-native list transitions (Safari 18+ / Chrome 111+). */
+    view-transition-name: auto;
+  }
+  .tile:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+  .tile:active { transform: translateY(0); }
+  .tile img {
+    width: 100%; aspect-ratio: 1 / 1; object-fit: cover;
+    background: var(--surface-2);
+    display: block;
+  }
+  .tile .body { padding: 6px 8px 8px; }
+  .tile .name {
+    font-size: 13px; line-height: 1.3;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+  .tile .meta {
+    font-size: 11px; color: var(--ink-mute); margin-top: 2px;
+  }
+
+  /* Fade-in for newly-added tiles (filter / pivot change). */
+  .tile.entering { animation: fade-in 0.3s ease both; }
+  @keyframes fade-in {
+    from { opacity: 0; transform: scale(0.92); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .loading {
+    padding: 30px 0; text-align: center; color: var(--ink-mute);
+  }
+  .error {
+    background: color-mix(in srgb, #c0392b 12%, transparent);
+    color: #c0392b;
+    padding: 12px; border-radius: 6px;
+    font: 13px/1.45 ui-monospace, Menlo, monospace;
+    white-space: pre-wrap;
+  }
+  @media (prefers-color-scheme: dark) {
+    .error { color: #ff9a8b; background: color-mix(in srgb, #ff9a8b 18%, transparent); }
+  }
+
+  /* ---- jump bar (the "navigate to" pivot we used to bury) ------ */
+  .jump {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin: 20px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .jump-label {
+    width: 100%; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--ink-mute); font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .jump-btn {
+    background: var(--surface-2);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 6px 10px;
+    font: inherit; font-size: 13px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .jump-btn:hover { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
+
+  /* ---- popover ------------------------------------------------- */
   .popover-backdrop {
     position: fixed; inset: 0;
-    background: rgba(0,0,0,0.5);
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     display: none;
     align-items: center; justify-content: center;
     z-index: 100;
     padding: 16px;
     overflow-y: auto;
   }
-  .popover-backdrop.open { display: flex; }
+  .popover-backdrop.open {
+    display: flex;
+    animation: pop-fade 0.18s ease;
+  }
+  @keyframes pop-fade { from { opacity: 0 } to { opacity: 1 } }
   .popover {
-    background: var(--card);
-    border-radius: 12px;
-    max-width: 480px;
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: 10px;
+    max-width: 520px;
     width: 100%;
     padding: 16px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-    position: relative;
-  }
-  .popover img {
-    width: 100%;
-    max-height: 50vh;
-    object-fit: contain;
-    border-radius: 6px;
-    background: var(--code-bg);
-    margin-bottom: 12px;
-  }
-  .popover h3 { margin: 0 0 4px; font-size: 18px; }
-  .popover .lifespan { color: var(--ink-soft); font-size: 13px; margin: 0 0 12px; }
-  .popover dl { margin: 0; font-size: 14px; }
-  .popover dt {
-    font-size: 11px; text-transform: uppercase;
-    color: var(--ink-soft); letter-spacing: 0.04em; margin-top: 8px;
-  }
-  .popover dd { margin: 2px 0 0; word-break: break-word; }
-  .popover-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-  .popover-actions a, .popover-actions button {
-    background: var(--accent); color: white; border: 0;
-    border-radius: 6px; padding: 8px 14px; font-size: 14px;
-    text-decoration: none; cursor: pointer; min-height: 36px;
-  }
-  .popover-actions .close {
-    background: white; color: var(--ink);
+    box-shadow: var(--shadow-lift);
     border: 1px solid var(--rule);
   }
-
-  footer {
-    margin-top: 30px;
-    padding-top: 12px;
-    border-top: 1px solid var(--rule);
-    color: var(--ink-soft);
-    font-size: 13px;
+  .popover-image-wrap {
+    display: grid;
+    place-items: center;
+    background: var(--surface-2);
+    border-radius: 6px;
+    margin-bottom: 12px;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
   }
-  footer a { color: var(--accent); }
-  code {
-    font: 12px/1.4 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
-    background: var(--code-bg); padding: 1px 5px; border-radius: 4px;
+  .popover-image-wrap img {
+    max-width: 100%; max-height: 100%;
+    object-fit: contain;
+  }
+  .popover h3 { margin: 0 0 2px; font-size: 17px; }
+  .popover .lifespan { color: var(--ink-mute); font-size: 13px; margin: 0 0 10px; }
+  .popover dl { margin: 0 0 10px; font-size: 14px; }
+  .popover dt {
+    font-size: 11px; text-transform: uppercase;
+    color: var(--ink-mute); letter-spacing: 0.05em; margin-top: 8px;
+  }
+  .popover dd { margin: 1px 0 0; }
+  .popover .abstract {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    padding: 8px 10px;
+    background: var(--surface-2);
+    border-radius: 6px;
+    margin: 6px 0 0;
+    border-left: 3px solid var(--accent);
+    min-height: 1.5em;
+  }
+  .popover .abstract.loading {
+    color: var(--ink-mute); font-style: italic; padding: 8px 10px;
+  }
+  .popover .src-tag {
+    font-size: 10px; color: var(--ink-mute);
+    text-transform: uppercase; letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+  .popover-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 14px; }
+  .popover-actions a, .popover-actions button {
+    background: var(--accent); color: var(--accent-on); border: 0;
+    border-radius: 4px; padding: 6px 10px; font: inherit; font-size: 13px;
+    text-decoration: none; cursor: pointer; height: 30px;
+  }
+  .popover-actions .close {
+    background: var(--surface-2); color: var(--ink);
+    border: 1px solid var(--rule);
   }
 </style>
 </head>
 <body>
-<nav>
-  <a href="/kgx/">kgx index</a>
-  &middot; <a href="/kgx/demos/">demos</a>
-  &middot; pivot
-</nav>
-<h1>Pivot Viewer — UK Prime Ministers</h1>
-<p class="sub">
-  Inspired by Microsoft's 2010 Silverlight Pivot Viewer: pick a facet
-  to <strong>pivot by</strong> and the tiles rearrange into labeled
-  groups — the spiritual move from grid view to histogram view. Plus
-  Freebase-Parallax-style "navigate to" buttons that build the next
-  query from the visible set. ~300 lines of vanilla JS; no SDK.
-</p>
 
-<div class="toolbar">
-  <span class="toolbar-label">Source:</span>
-  <button class="toolbar-pill" aria-pressed="true" id="src-wikidata">Wikidata</button>
-  <span class="toolbar-count" id="count">…</span>
-</div>
+<header class="topbar">
+  <h1>UK Prime Ministers</h1>
+  <span class="crumbs">· <a href="/kgx/demos/">demos</a></span>
+  <span class="count" id="count">…</span>
+</header>
 
-<div class="pivotbar">
-  <span class="pivotbar-label">Pivot by:</span>
-  <button class="pivot-pill" data-pivot="" aria-pressed="true">none (grid)</button>
-  <button class="pivot-pill" data-pivot="party">party</button>
-  <button class="pivot-pill" data-pivot="startDecade">decade in office</button>
-  <button class="pivot-pill" data-pivot="birthCentury">birth century</button>
+<div class="controls">
+  <input id="search" class="search-input" type="search" placeholder="Filter by name…" autocomplete="off">
+  <select id="pivot" class="pivot-select">
+    <option value="">Group: none</option>
+    <option value="party">Group by party</option>
+    <option value="startDecade">Group by decade</option>
+    <option value="birthCentury">Group by birth century</option>
+  </select>
 </div>
 
 <div class="layout">
-  <aside class="facets">
-    <input id="search" type="search" placeholder="Filter by name…" autocomplete="off">
-    <div id="facets"><div class="loading">loading facets…</div></div>
+  <aside class="facets" id="facets">
+    <div class="loading">loading…</div>
   </aside>
 
   <main>
-    <div id="results">
-      <div class="loading">loading 30 portraits from Wikidata…</div>
-    </div>
-
-    <div class="navigate" id="navigate" hidden>
-      <h3>Navigate to (Freebase-Parallax-style):</h3>
-      <div class="nav-buttons">
-        <a class="nav-btn" id="nav-birthplaces">▸ their birthplaces (map)</a>
-        <a class="nav-btn" id="nav-parties">▸ their political parties</a>
-        <a class="nav-btn" id="nav-abstracts">▸ their DBpedia abstracts</a>
-        <a class="nav-btn" id="nav-spouses">▸ their spouses</a>
-      </div>
-      <p class="sub" style="margin-top:10px;">
-        Each button generates a fresh SPARQL query against the visible set
-        and opens it in the playground.
-      </p>
+    <div id="results"><div class="loading">loading…</div></div>
+    <div class="jump" id="jump" hidden>
+      <span class="jump-label">From this selection →</span>
+      <button class="jump-btn" data-jump="birthplaces">birthplaces</button>
+      <button class="jump-btn" data-jump="parties">parties</button>
+      <button class="jump-btn" data-jump="spouses">spouses</button>
+      <button class="jump-btn" data-jump="reset" id="jump-reset" hidden>← back to PMs</button>
     </div>
   </main>
 </div>
 
 <div class="popover-backdrop" id="popover">
   <div class="popover" role="dialog" aria-modal="true" aria-labelledby="pop-title">
-    <img id="pop-img" alt="">
+    <div class="popover-image-wrap"><img id="pop-img" alt=""></div>
     <h3 id="pop-title"></h3>
     <p class="lifespan" id="pop-lifespan"></p>
     <dl id="pop-fields"></dl>
+    <dt class="src-tag">From DBpedia (federated)</dt>
+    <p class="abstract loading" id="pop-abstract">loading abstract…</p>
     <div class="popover-actions">
-      <a id="pop-wd" target="_blank" rel="noopener">Open on Wikidata</a>
+      <a id="pop-wd" target="_blank" rel="noopener">Wikidata</a>
+      <a id="pop-dbp" target="_blank" rel="noopener">DBpedia</a>
       <button class="close" id="pop-close">Close</button>
     </div>
   </div>
 </div>
 
-<footer>
-  Source query runs against <code>query.wikidata.org/sparql</code>.
-  Contains Parliamentary information licensed under the
-  <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
-  Data source: UK Parliament. Third-party prototype.
-</footer>
-
 <script>
 // ---------------------------------------------------------------------------
-// Pivot Viewer: faceted browse of a SPARQL result set + Parallax-style
-// jump to a related set. Single-file; no build step; no SDK.
+// State
 // ---------------------------------------------------------------------------
-
 const WIKIDATA = 'https://query.wikidata.org/sparql';
+const DBPEDIA  = 'https://dbpedia.org/sparql';
 
-// One query, packed: every UK PM with their portrait, accession date,
-// political party, birthplace, country of birth, English Wikipedia URI.
-// Most rows have all five; we render whatever exists.
 const SEED_QUERY = `
 PREFIX wd:   <http://www.wikidata.org/entity/>
 PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
@@ -358,81 +386,83 @@ PREFIX p:    <http://www.wikidata.org/prop/>
 PREFIX ps:   <http://www.wikidata.org/prop/statement/>
 PREFIX pq:   <http://www.wikidata.org/prop/qualifier/>
 
-SELECT ?pm ?pmLabel ?image ?start ?partyLabel ?birthPlaceLabel ?birth WHERE {
+SELECT ?pm ?pmLabel ?image ?start ?partyLabel ?birthPlaceLabel ?birth ?dbpedia WHERE {
   ?pm p:P39 ?term .
   ?term ps:P39 wd:Q14211 ; pq:P580 ?start .
-  OPTIONAL { ?pm wdt:P18  ?image }
-  OPTIONAL { ?pm wdt:P102 ?party }
-  OPTIONAL { ?pm wdt:P19  ?birthPlace }
-  OPTIONAL { ?pm wdt:P569 ?birth }
+  OPTIONAL { ?pm wdt:P18   ?image }
+  OPTIONAL { ?pm wdt:P102  ?party }
+  OPTIONAL { ?pm wdt:P19   ?birthPlace }
+  OPTIONAL { ?pm wdt:P569  ?birth }
+  OPTIONAL { ?pm wdt:P2888 ?dbpedia }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
 }
 ORDER BY DESC(?start)
 `;
 
+let ROWS = [];          // [{ pm, label, image, start, birth, dbpedia, parties[], birthplaces[] }]
+let FILTERS = {};       // facet → Set<value>
+let SEARCH  = '';
+let PIVOT   = '';       // '', 'party', 'startDecade', 'birthCentury'
+let VIEW    = 'pms';    // 'pms' | 'birthplaces' | 'parties' | 'spouses'
+let SUB_ROWS = [];      // rows for sub-views (jump targets)
+let lastVisibleIds = new Set();   // for fade-in animation
+
+// ---------------------------------------------------------------------------
+// DOM
+// ---------------------------------------------------------------------------
 const $facets   = document.getElementById('facets');
 const $results  = document.getElementById('results');
 const $count    = document.getElementById('count');
-const $navigate = document.getElementById('navigate');
+const $jump     = document.getElementById('jump');
+const $jumpReset = document.getElementById('jump-reset');
 
-let ROWS = [];      // full result set (one row per PM-term, dedup'd by pm)
-let FILTERS = {};   // facet → Set<value>
-let SEARCH = '';    // free-text filter (lowercase substring against name)
-let PIVOT  = '';    // current pivot-by facet ('', 'party', 'startDecade', 'birthCentury')
-
-// Wikimedia FilePath URLs support a ?width= parameter to return a
-// pre-scaled image. Useful for the popover (we want 400 px tall, not
-// the full 8 MP original) and arguably for the grid too.
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+function esc(s) {
+  return String(s).replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+}
+function httpsify(u) { return String(u || '').replace(/^http:\/\//, 'https://'); }
 function imgAtWidth(href, w) {
   if (!href) return '';
   const u = httpsify(href);
   if (/commons\.wikimedia\.org\/wiki\/Special:FilePath\//i.test(u)) {
-    const sep = u.includes('?') ? '&' : '?';
-    return u + sep + 'width=' + w;
+    return u + (u.includes('?') ? '&' : '?') + 'width=' + w;
   }
   return u;
 }
 
-function esc(s) {
-  return String(s).replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
-}
-// Wikidata's wdt:P18 returns http:// Commons URLs; rewrite to https://
-// so the browser doesn't block them as mixed content on our https page.
-function httpsify(u) { return String(u).replace(/^http:\/\//, 'https://'); }
-
-async function fetchSeed() {
-  const u = new URL(WIKIDATA);
-  u.searchParams.set('query', SEED_QUERY);
+async function sparql(endpoint, query) {
+  const u = new URL(endpoint);
+  u.searchParams.set('query', query);
   u.searchParams.set('format', 'json');
   const r = await fetch(u.toString(), {
     headers: { 'Accept': 'application/sparql-results+json' },
   });
-  if (!r.ok) throw new Error('Wikidata returned HTTP ' + r.status);
+  if (!r.ok) throw new Error(endpoint + ': HTTP ' + r.status);
   return r.json();
 }
 
 function dedupe(bindings) {
-  // Each PM may have multiple term rows; keep the most-recent one and
-  // merge multi-value bits (party/birthPlace) into arrays.
   const byPm = new Map();
   for (const b of bindings) {
     const k = b.pm.value;
     if (!byPm.has(k)) {
       byPm.set(k, {
-        pm: b.pm.value,
+        pm: k,
         label: b.pmLabel ? b.pmLabel.value : k.replace(/^.*\//, ''),
         image: b.image ? b.image.value : null,
         start: b.start ? b.start.value : null,
         birth: b.birth ? b.birth.value : null,
+        dbpedia: b.dbpedia ? b.dbpedia.value : null,
         parties: new Set(),
         birthplaces: new Set(),
       });
     }
     const e = byPm.get(k);
-    if (b.partyLabel) e.parties.add(b.partyLabel.value);
-    if (b.birthPlaceLabel) e.birthplaces.add(b.birthPlaceLabel.value);
+    if (b.partyLabel)        e.parties.add(b.partyLabel.value);
+    if (b.birthPlaceLabel)   e.birthplaces.add(b.birthPlaceLabel.value);
   }
-  // Set → sorted Array for stable rendering.
   return [...byPm.values()].map((e) => ({
     ...e,
     parties: [...e.parties].sort(),
@@ -443,9 +473,18 @@ function dedupe(bindings) {
 function birthCentury(row) {
   if (!row.birth) return null;
   const y = parseInt(row.birth.slice(0, 4), 10);
-  if (!isFinite(y)) return null;
-  const c = Math.floor((y - 1) / 100) + 1;
-  return `${c}${['th','st','nd','rd'][((c%100)>10 && (c%100)<14) ? 0 : Math.min(c%10,4)] || 'th'}`;
+  return isFinite(y) ? `${Math.floor((y - 1) / 100) + 1}c` : null;
+}
+function startDecade(row) {
+  if (!row.start) return null;
+  const y = parseInt(row.start.slice(0, 4), 10);
+  return isFinite(y) ? `${Math.floor(y / 10) * 10}s` : null;
+}
+function facetValues(row, facet) {
+  if (facet === 'party')        return row.parties;
+  if (facet === 'birthCentury') return birthCentury(row) ? [birthCentury(row)] : [];
+  if (facet === 'startDecade')  return startDecade(row) ? [startDecade(row)] : [];
+  return [];
 }
 
 function applyFilters(rows) {
@@ -461,194 +500,137 @@ function applyFilters(rows) {
   });
 }
 
-function startDecade(row) {
-  if (!row.start) return null;
-  const y = parseInt(row.start.slice(0, 4), 10);
-  if (!isFinite(y)) return null;
-  return `${Math.floor(y / 10) * 10}s`;
-}
-
-function facetValues(row, facet) {
-  if (facet === 'party')         return row.parties;
-  if (facet === 'birthCentury')  return birthCentury(row) ? [birthCentury(row)] : [];
-  if (facet === 'startDecade')   return startDecade(row) ? [startDecade(row)] : [];
-  return [];
-}
-
 function tally(rows, facet) {
   const counts = new Map();
-  for (const r of rows) {
-    for (const v of facetValues(r, facet)) {
-      counts.set(v, (counts.get(v) || 0) + 1);
-    }
+  for (const r of rows) for (const v of facetValues(r, facet)) {
+    counts.set(v, (counts.get(v) || 0) + 1);
   }
   return [...counts.entries()].sort((a, b) => b[1] - a[1]);
 }
 
+// ---------------------------------------------------------------------------
+// Render
+// ---------------------------------------------------------------------------
+function tileHtml(r, idx, currentIds) {
+  const meta = [r.start ? r.start.slice(0,4) : '', r.parties && r.parties[0] || ''].filter(Boolean).join(' · ');
+  const isNew = !lastVisibleIds.has(r.pm);
+  return `<div class="tile ${isNew ? 'entering' : ''}" data-idx="${idx}">`
+    + (r.image
+        ? `<img loading="lazy" src="${esc(imgAtWidth(r.image, 240))}" alt="${esc(r.label)}">`
+        : `<div style="aspect-ratio:1/1;background:var(--surface-2);"></div>`)
+    + `<div class="body"><div class="name">${esc(r.label)}</div>`
+    + (meta ? `<div class="meta">${esc(meta)}</div>` : '')
+    + `</div></div>`;
+}
+
 function renderFacets() {
+  if (VIEW !== 'pms') { $facets.innerHTML = ''; return; }
   const visible = applyFilters(ROWS);
-  const html = ['party', 'startDecade', 'birthCentury'].map((facet) => {
-    const label = facet === 'party' ? 'Party'
-                : facet === 'startDecade' ? 'Took office in'
-                : 'Born in';
-    const tallies = tally(visible, facet);
-    const filterSet = FILTERS[facet] || new Set();
-    const btns = tallies.map(([val, n]) => {
-      const pressed = filterSet.has(val) ? 'true' : 'false';
-      return `<button class="facet-btn" aria-pressed="${pressed}" data-facet="${esc(facet)}" data-val="${esc(val)}">${esc(val)}<span class="facet-count">${n}</span></button>`;
-    }).join('');
-    return `<h3>${label}</h3><div class="facet-row">${btns || '<span class="facet-count">no data</span>'}</div>`;
+  const facets = [['party', 'Party'], ['startDecade', 'Decade'], ['birthCentury', 'Born']];
+  $facets.innerHTML = facets.map(([key, label]) => {
+    const tallies = tally(visible, key);
+    const filterSet = FILTERS[key] || new Set();
+    if (!tallies.length) return '';
+    return `<div class="facet-group">`
+      + `<div class="facet-head">${esc(label)}</div>`
+      + `<div class="facet-row">`
+      + tallies.map(([val, n]) =>
+          `<button class="facet-btn" aria-pressed="${filterSet.has(val) ? 'true' : 'false'}" data-facet="${esc(key)}" data-val="${esc(val)}">${esc(val)}<span class="facet-count">${n}</span></button>`
+        ).join('')
+      + `</div></div>`;
   }).join('');
-  $facets.innerHTML = html;
   $facets.querySelectorAll('.facet-btn').forEach((b) => {
     b.addEventListener('click', () => {
-      const f = b.getAttribute('data-facet');
-      const v = b.getAttribute('data-val');
+      const f = b.getAttribute('data-facet'), v = b.getAttribute('data-val');
       FILTERS[f] = FILTERS[f] || new Set();
-      if (FILTERS[f].has(v)) FILTERS[f].delete(v);
-      else FILTERS[f].add(v);
+      FILTERS[f].has(v) ? FILTERS[f].delete(v) : FILTERS[f].add(v);
       renderAll();
     });
   });
 }
 
-// Render one tile. Indexed by data-idx so the click handler can find
-// the row again from the original `visible` array.
-function tileHtml(r, idx) {
-  const meta = [
-    r.start ? r.start.slice(0,4) : '',
-    r.parties[0] || '',
-  ].filter(Boolean).join(' · ');
-  return `<div class="tile" data-idx="${idx}">`
-    + (r.image
-        ? `<img loading="lazy" src="${esc(imgAtWidth(r.image, 180))}" alt="${esc(r.label)}">`
-        : `<div style="aspect-ratio:1/1;background:var(--code-bg);border-radius:4px;"></div>`)
-    + `<div class="name">${esc(r.label)}</div>`
-    + (meta ? `<div class="meta">${esc(meta)}</div>` : '')
-    + `</div>`;
-}
-
 function renderGrid() {
-  const visible = applyFilters(ROWS);
-  $count.textContent = `${visible.length} of ${ROWS.length} selected`;
-  if (!visible.length) {
-    $results.innerHTML = '<div class="loading">No rows match the current facets.</div>';
+  let rows, label;
+  if (VIEW === 'pms') {
+    rows = applyFilters(ROWS);
+    label = `${rows.length} of ${ROWS.length}`;
+  } else {
+    rows = SUB_ROWS;
+    label = `${rows.length} ${VIEW}`;
+  }
+  $count.textContent = label;
+
+  if (!rows.length) {
+    $results.innerHTML = '<div class="loading">No matches.</div>';
+    lastVisibleIds = new Set();
     return;
   }
-  if (PIVOT) {
-    // Microsoft-Pivot-Viewer style: group the visible items by the
-    // chosen facet, render each group as a labeled section with its
-    // own tile grid. Items in multiple facet values (e.g. PMs with
-    // two parties) appear once per value — same as the histogram bars
-    // in the original Pivot Viewer.
-    const groups = new Map();
-    visible.forEach((r, idx) => {
-      const vals = facetValues(r, PIVOT);
-      if (!vals.length) {
-        const key = '(unknown)';
-        if (!groups.has(key)) groups.set(key, []);
-        groups.get(key).push({ row: r, idx });
-        return;
-      }
-      for (const v of vals) {
-        if (!groups.has(v)) groups.set(v, []);
-        groups.get(v).push({ row: r, idx });
-      }
-    });
-    // Sort groups by count descending; unknown last.
-    const ordered = [...groups.entries()]
-      .sort((a, b) => {
+
+  const useTransition = document.startViewTransition && (lastVisibleIds.size > 0);
+  const renderBody = () => {
+    if (VIEW === 'pms' && PIVOT) {
+      const groups = new Map();
+      rows.forEach((r, idx) => {
+        const vals = facetValues(r, PIVOT);
+        const keys = vals.length ? vals : ['(unknown)'];
+        for (const v of keys) {
+          if (!groups.has(v)) groups.set(v, []);
+          groups.get(v).push({ row: r, idx });
+        }
+      });
+      const ordered = [...groups.entries()].sort((a, b) => {
         if (a[0] === '(unknown)') return 1;
         if (b[0] === '(unknown)') return -1;
         return b[1].length - a[1].length;
       });
-    $results.innerHTML = ordered.map(([name, items]) =>
-      `<div class="pivot-group">`
-      + `<div class="pivot-group-header">`
-      + `<span class="pivot-group-name">${esc(name)}</span>`
-      + `<span class="pivot-group-n">${items.length}</span>`
-      + `</div>`
-      + `<div class="grid">${items.map(({ row, idx }) => tileHtml(row, idx)).join('')}</div>`
-      + `</div>`
-    ).join('');
-  } else {
-    $results.innerHTML = '<div class="grid">'
-      + visible.map((r, idx) => tileHtml(r, idx)).join('')
-      + '</div>';
-  }
-
-  // Tile click → popover. Same handler works for both layouts.
-  $results.querySelectorAll('.tile').forEach((tile) => {
-    tile.addEventListener('click', () => {
-      const idx = parseInt(tile.getAttribute('data-idx'), 10);
-      openPopover(visible[idx]);
+      $results.innerHTML = ordered.map(([name, items]) =>
+        `<div class="pivot-group">`
+        + `<div class="pivot-group-header"><span class="pivot-group-name">${esc(name)}</span><span class="pivot-group-n">${items.length}</span></div>`
+        + `<div class="grid">${items.map(({ row, idx }) => tileHtml(row, idx)).join('')}</div>`
+        + `</div>`
+      ).join('');
+    } else {
+      $results.innerHTML = '<div class="grid">' + rows.map((r, idx) => tileHtml(r, idx)).join('') + '</div>';
+    }
+    $results.querySelectorAll('.tile').forEach((tile) => {
+      tile.addEventListener('click', () => {
+        const idx = parseInt(tile.getAttribute('data-idx'), 10);
+        openPopover(rows[idx]);
+      });
     });
-  });
-}
-
-function renderNavigateButtons() {
-  const visible = applyFilters(ROWS);
-  $navigate.hidden = visible.length === 0;
-  const qids = visible.map((r) => '<' + r.pm + '>').join(' ');
-  // Build the four queries on the fly and link them into the playground.
-  const queries = {
-    'nav-birthplaces': `
-#defaultView:ImageGrid
-PREFIX wd:  <http://www.wikidata.org/entity/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-SELECT DISTINCT ?place ?placeLabel ?image WHERE {
-  VALUES ?pm { ${qids} }
-  ?pm wdt:P19 ?place .
-  OPTIONAL { ?place wdt:P18 ?image }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-}`.trim(),
-    'nav-parties': `
-PREFIX wd:  <http://www.wikidata.org/entity/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-SELECT ?party ?partyLabel (COUNT(?pm) AS ?n) WHERE {
-  VALUES ?pm { ${qids} }
-  ?pm wdt:P102 ?party .
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-}
-GROUP BY ?party ?partyLabel
-ORDER BY DESC(?n)`.trim(),
-    'nav-abstracts': `
-PREFIX wd:   <http://www.wikidata.org/entity/>
-PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-PREFIX dbo:  <http://dbpedia.org/ontology/>
-SELECT ?pm ?pmLabel ?abstract WHERE {
-  VALUES ?pm { ${qids} }
-  ?pm wdt:P2888 ?dbp .
-  FILTER (STRSTARTS(STR(?dbp), "http://dbpedia.org/resource/"))
-  SERVICE <https://dbpedia.org/sparql> {
-    ?dbp dbo:abstract ?abstract .
-    FILTER (lang(?abstract) = "en")
-  }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-}`.trim(),
-    'nav-spouses': `
-#defaultView:ImageGrid
-PREFIX wd:  <http://www.wikidata.org/entity/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-SELECT ?spouse ?spouseLabel ?image WHERE {
-  VALUES ?pm { ${qids} }
-  ?pm wdt:P26 ?spouse .
-  OPTIONAL { ?spouse wdt:P18 ?image }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
-}`.trim(),
+    lastVisibleIds = new Set(rows.map((r) => r.pm));
   };
-  for (const [id, q] of Object.entries(queries)) {
-    const el = document.getElementById(id);
-    if (!el) continue;
-    el.href = '/kgx/playground#q=' + encodeURIComponent(q) + '&e=wikidata';
+  if (useTransition) document.startViewTransition(renderBody);
+  else renderBody();
+}
+
+function renderJump() {
+  $jump.hidden = VIEW !== 'pms' && VIEW !== 'birthplaces' && VIEW !== 'parties' && VIEW !== 'spouses';
+  $jumpReset.hidden = VIEW === 'pms';
+}
+
+function renderAll() { renderFacets(); renderGrid(); renderJump(); }
+
+// ---------------------------------------------------------------------------
+// Popover (with federated DBpedia abstract — real cross-source moment)
+// ---------------------------------------------------------------------------
+const ABSTRACT_CACHE = new Map();
+
+async function loadAbstract(dbpediaUri) {
+  if (!dbpediaUri) return null;
+  if (ABSTRACT_CACHE.has(dbpediaUri)) return ABSTRACT_CACHE.get(dbpediaUri);
+  const q = `PREFIX dbo: <http://dbpedia.org/ontology/>
+SELECT ?abstract WHERE { <${dbpediaUri}> dbo:abstract ?abstract . FILTER (lang(?abstract) = "en") } LIMIT 1`;
+  try {
+    const j = await sparql(DBPEDIA, q);
+    const a = j.results.bindings[0] && j.results.bindings[0].abstract.value;
+    ABSTRACT_CACHE.set(dbpediaUri, a || null);
+    return a || null;
+  } catch (e) {
+    return null;
   }
 }
 
-function renderAll() { renderFacets(); renderGrid(); renderNavigateButtons(); }
-
-// ---------------------------------------------------------------------------
-// Popover (tile click → fuller card)
-// ---------------------------------------------------------------------------
 function openPopover(row) {
   if (!row) return;
   const pop  = document.getElementById('popover');
@@ -657,25 +639,21 @@ function openPopover(row) {
   const span = document.getElementById('pop-lifespan');
   const dl   = document.getElementById('pop-fields');
   const wd   = document.getElementById('pop-wd');
+  const dbp  = document.getElementById('pop-dbp');
+  const abs  = document.getElementById('pop-abstract');
 
-  if (row.image) {
-    // Use a Wikimedia ?width=400 scaled image — sharper than the grid
-    // thumb but still a fraction of the megapixel original.
-    img.src = imgAtWidth(row.image, 400);
-    img.style.display = '';
-  } else {
-    img.style.display = 'none';
-  }
+  img.src = row.image ? imgAtWidth(row.image, 500) : '';
+  img.alt = row.label || '';
+  img.parentElement.style.display = row.image ? '' : 'none';
   tit.textContent = row.label;
   const birthY = row.birth ? row.birth.slice(0, 4) : '';
   const startY = row.start ? row.start.slice(0, 4) : '';
-  span.textContent = [birthY ? `b. ${birthY}` : '', startY ? `took office ${startY}` : ''].filter(Boolean).join(' · ');
+  span.textContent = [birthY ? `b. ${birthY}` : '', startY ? `office ${startY}` : ''].filter(Boolean).join(' · ');
 
   dl.innerHTML = '';
   const fields = [
-    ['Party', row.parties.join(', ')],
-    ['Birthplace', row.birthplaces.join(', ')],
-    ['Wikidata QID', row.pm.replace(/^.*\//, '')],
+    ['Party', (row.parties || []).join(', ')],
+    ['Birthplace', (row.birthplaces || []).join(', ')],
   ];
   for (const [k, v] of fields) {
     if (!v) continue;
@@ -683,44 +661,113 @@ function openPopover(row) {
     const dd = document.createElement('dd'); dd.textContent = v;
     dl.appendChild(dt); dl.appendChild(dd);
   }
+
   wd.href = row.pm;
+  if (row.dbpedia) { dbp.href = row.dbpedia; dbp.style.display = ''; }
+  else dbp.style.display = 'none';
+
+  // Wikidata gave us the DBpedia URI; fetch the abstract from DBpedia
+  // live. Two sources, one card.
+  abs.className = 'abstract loading';
+  abs.textContent = row.dbpedia ? 'loading abstract from DBpedia…' : '(no DBpedia link on Wikidata)';
+  if (row.dbpedia) {
+    loadAbstract(row.dbpedia).then((text) => {
+      abs.className = 'abstract';
+      abs.textContent = text || '(DBpedia returned no English abstract)';
+    });
+  }
+
   pop.classList.add('open');
 }
+
 function closePopover() { document.getElementById('popover').classList.remove('open'); }
 document.getElementById('pop-close').addEventListener('click', closePopover);
-document.getElementById('popover').addEventListener('click', (e) => {
-  if (e.target.id === 'popover') closePopover();
-});
+document.getElementById('popover').addEventListener('click', (e) => { if (e.target.id === 'popover') closePopover(); });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopover(); });
 
 // ---------------------------------------------------------------------------
-// Search input — live filter against the name
+// "From this selection" jumps — run inline, don't bounce to playground
+// ---------------------------------------------------------------------------
+async function jumpTo(target) {
+  if (target === 'reset') {
+    VIEW = 'pms'; SUB_ROWS = [];
+    renderAll();
+    return;
+  }
+  const visible = applyFilters(ROWS);
+  if (!visible.length) return;
+  const qids = visible.map((r) => '<' + r.pm + '>').join(' ');
+  let q;
+  if (target === 'birthplaces') {
+    q = `PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT DISTINCT ?place ?placeLabel ?image WHERE {
+  VALUES ?pm { ${qids} }
+  ?pm wdt:P19 ?place .
+  OPTIONAL { ?place wdt:P18 ?image }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+} LIMIT 60`;
+  } else if (target === 'parties') {
+    q = `PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT ?party ?partyLabel ?image (COUNT(?pm) AS ?n) WHERE {
+  VALUES ?pm { ${qids} }
+  ?pm wdt:P102 ?party .
+  OPTIONAL { ?party wdt:P154 ?image }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+} GROUP BY ?party ?partyLabel ?image ORDER BY DESC(?n)`;
+  } else if (target === 'spouses') {
+    q = `PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+SELECT DISTINCT ?person ?personLabel ?image WHERE {
+  VALUES ?pm { ${qids} }
+  ?pm wdt:P26 ?person .
+  OPTIONAL { ?person wdt:P18 ?image }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+} LIMIT 60`;
+  } else return;
+
+  $results.innerHTML = '<div class="loading">running…</div>';
+  try {
+    const j = await sparql(WIKIDATA, q);
+    SUB_ROWS = j.results.bindings.map((b) => {
+      const uri = (b.place || b.party || b.person).value;
+      const label = (b.placeLabel || b.partyLabel || b.personLabel) ? (b.placeLabel || b.partyLabel || b.personLabel).value : uri.replace(/^.*\//, '');
+      return {
+        pm: uri, label,
+        image: b.image ? b.image.value : null,
+        parties: [],
+        birthplaces: [],
+        n: b.n ? b.n.value : null,
+      };
+    });
+    VIEW = target;
+    lastVisibleIds = new Set();
+    renderAll();
+  } catch (e) {
+    $results.innerHTML = `<div class="error">${esc(e.message)}</div>`;
+  }
+}
+document.querySelectorAll('.jump-btn').forEach((b) => {
+  b.addEventListener('click', () => jumpTo(b.getAttribute('data-jump')));
+});
+
+// ---------------------------------------------------------------------------
+// Controls
 // ---------------------------------------------------------------------------
 document.getElementById('search').addEventListener('input', (e) => {
   SEARCH = e.target.value;
+  renderAll();
+});
+document.getElementById('pivot').addEventListener('change', (e) => {
+  PIVOT = e.target.value;
   renderGrid();
-  renderNavigateButtons();
-  // Facet counts depend on SEARCH too, so refresh them.
-  renderFacets();
 });
 
 // ---------------------------------------------------------------------------
-// Pivot-by selector — Microsoft-Pivot-Viewer-style histogram view.
+// Boot
 // ---------------------------------------------------------------------------
-document.querySelectorAll('.pivot-pill').forEach((btn) => {
-  btn.addEventListener('click', () => {
-    PIVOT = btn.getAttribute('data-pivot');
-    document.querySelectorAll('.pivot-pill').forEach((b) => {
-      b.setAttribute('aria-pressed', String(b === btn));
-    });
-    renderGrid();
-  });
-});
-
 (async () => {
   try {
-    const json = await fetchSeed();
-    ROWS = dedupe(json.results.bindings);
+    const j = await sparql(WIKIDATA, SEED_QUERY);
+    ROWS = dedupe(j.results.bindings);
     renderAll();
   } catch (e) {
     $results.innerHTML = `<div class="error">Failed to load: ${esc(e.message)}</div>`;
