@@ -292,6 +292,78 @@ SELECT ?countryLabel ?flag ?capitalLabel WHERE {
   <p class="demo-desc">Local store knows our country URI ↔ Wikidata Q145. The SERVICE clause pulls the flag image + capital name from Wikidata at query time. Single pinned entity → reliable ~1 s.</p>
 </div>
 
+<div class="demo" data-endpoint="wikidata"
+     data-query="# SPARQL Protocol federation: starts on Wikidata, calls out to
+# DBpedia over HTTPS via SERVICE. Two distinct endpoints, two
+# distinct vocabularies, joined on the cross-source identifier
+# (DBpedia's ?dbp resource for each Wikidata QID via wdt:P1709).
+#
+# defaultView:ImageGrid asks the playground's result renderer to
+# show this as a thumbnail grid rather than a table — same data,
+# different visualisation, no client changes needed.
+#defaultView:ImageGrid
+PREFIX wd:   &lt;http://www.wikidata.org/entity/&gt;
+PREFIX wdt:  &lt;http://www.wikidata.org/prop/direct/&gt;
+PREFIX p:    &lt;http://www.wikidata.org/prop/&gt;
+PREFIX ps:   &lt;http://www.wikidata.org/prop/statement/&gt;
+PREFIX pq:   &lt;http://www.wikidata.org/prop/qualifier/&gt;
+PREFIX dbo:  &lt;http://dbpedia.org/ontology/&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+
+SELECT ?pm ?pmLabel ?image ?abstract WHERE {
+  ?pm p:P39 [ ps:P39 wd:Q14211 ; pq:P580 ?start ] ;
+      wdt:P18  ?image ;
+      wdt:P2888 ?dbpedia .
+  FILTER (STRSTARTS(STR(?dbpedia), &quot;http://dbpedia.org/resource/&quot;))
+  SERVICE &lt;https://dbpedia.org/sparql&gt; {
+    ?dbpedia dbo:abstract ?abstract .
+    FILTER (lang(?abstract) = &quot;en&quot;)
+  }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language &quot;en&quot;. }
+}
+ORDER BY DESC(?start)
+LIMIT 10">
+  <p class="demo-title">UK PMs joined to DBpedia abstracts via SERVICE</p>
+  <p class="demo-tags"><span class="tag">federation</span><span class="tag">wikidata</span><span class="tag">dbpedia</span><span class="tag">image-grid</span></p>
+  <p class="demo-desc">Two SPARQL endpoints, joined by the SPARQL Protocol: query starts on Wikidata, the <code>SERVICE &lt;https://dbpedia.org/sparql&gt;</code> clause sends each PM's DBpedia URI to DBpedia and pulls back its English abstract. The <code>#defaultView:ImageGrid</code> directive flips the playground to thumbnail mode.</p>
+</div>
+
+<div class="demo" data-endpoint="wikidata"
+     data-query="# Image grid via #defaultView. Same UK-PMs query, but the magic
+# comment tells the playground to render thumbnails instead of a table.
+#defaultView:ImageGrid
+PREFIX wd:  &lt;http://www.wikidata.org/entity/&gt;
+PREFIX wdt: &lt;http://www.wikidata.org/prop/direct/&gt;
+PREFIX p:   &lt;http://www.wikidata.org/prop/&gt;
+PREFIX ps:  &lt;http://www.wikidata.org/prop/statement/&gt;
+PREFIX pq:  &lt;http://www.wikidata.org/prop/qualifier/&gt;
+SELECT ?pm ?pmLabel ?image ?start WHERE {
+  ?pm p:P39 ?term .
+  ?term ps:P39 wd:Q14211 ; pq:P580 ?start .
+  OPTIONAL { ?pm wdt:P18 ?image }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language &quot;en&quot;. }
+}
+ORDER BY DESC(?start)
+LIMIT 30">
+  <p class="demo-title">UK Prime Ministers as an image grid</p>
+  <p class="demo-tags"><span class="tag">wikidata</span><span class="tag">image-grid</span><span class="tag">directive</span></p>
+  <p class="demo-desc">Same dataset as the table demo above, but with <code>#defaultView:ImageGrid</code>. The playground reads the comment and picks the renderer.</p>
+</div>
+
+<h2>Set navigation (Pivot Viewer + Parallax style)</h2>
+<p class="sub">
+  Faceted browse + Freebase-Parallax-style "from this set, jump to a
+  related set via a shared property". Lives in its own page so it can
+  own the full viewport.
+</p>
+
+<div class="cards" style="margin: 10px 0;">
+  <a class="card" href="/kgx/demos/pivot/" style="display:block;background:white;border:1px solid var(--rule);border-radius:10px;padding:14px 16px;text-decoration:none;color:var(--ink);">
+    <p style="font-weight:600;margin:0 0 4px;">→ Pivot viewer for UK Prime Ministers</p>
+    <p style="font-size:14px;color:var(--ink-soft);margin:0;">Image grid + birth-century / party facets + Parallax-style "navigate to ▸ their birthplaces / parties / Wikipedia abstracts". One screen, several queries chained.</p>
+  </a>
+</div>
+
 <footer>
   Contains Parliamentary information licensed under the
   <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.

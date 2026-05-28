@@ -187,6 +187,48 @@
   .results th { cursor: pointer; user-select: none; }
   .results th:active { background: var(--row-alt); }
 
+  /* WDQS-style #defaultView:ImageGrid output. */
+  .results .gridwrap {
+    background: var(--code-bg);
+    border: 1px solid var(--rule);
+    border-radius: 0 0 6px 6px;
+    padding: 8px;
+  }
+  .results .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+  }
+  .results .grid-tile {
+    background: white;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    padding: 6px;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .results .grid-tile:active { background: var(--row-alt); }
+  .results .grid-img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 4px;
+    background: var(--code-bg);
+  }
+  .results .grid-label {
+    font: 13px/1.3 -apple-system, system-ui, sans-serif;
+    margin-top: 6px;
+    word-break: break-word;
+  }
+  .results .grid-detail {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
   .results table {
     width: 100%;
     border-collapse: collapse;
@@ -613,6 +655,63 @@ function sortRows(rows, sortVar, dir) {
   });
 }
 
+// WDQS-style magic comments. Scan the first 20 lines of the query for
+// `#defaultView:<Name>` directives. Supports:
+//   ImageGrid  — grid of thumbnails with a label underneath
+//   (other WDQS views — Map, Graph, Timeline — could land here later)
+function parseDirectives(query) {
+  const out = {};
+  for (const line of String(query || '').split('\n').slice(0, 20)) {
+    const m = line.match(/^\s*#\s*defaultView\s*:\s*([A-Za-z][A-Za-z0-9_-]*)/);
+    if (m) out.defaultView = m[1];
+  }
+  return out;
+}
+
+// Pick "the" image var for an ImageGrid render: an explicit ?image /
+// ?img / ?pic / ?photo / ?thumb column, OR the first column whose
+// values are all image URIs.
+function pickImageVar(vars, rows) {
+  const named = vars.find((v) => /(?:^|[A-Za-z])(?:image|img|pic|thumb|photo)$/i.test(v));
+  if (named) return named;
+  return vars.find((v) => rows.every((r) => r[v] && r[v].type === 'uri' && isImageUri(r[v].value))) || null;
+}
+
+function pickLabelVar(vars, omit) {
+  // Prefer a *Label, otherwise the first non-image var that isn't a URI-only column.
+  const lab = vars.find((v) => /Label$/.test(v));
+  if (lab && lab !== omit) return lab;
+  return vars.find((v) => v !== omit) || null;
+}
+
+function renderImageGrid(rj) {
+  const vars = (rj.head && rj.head.vars) || [];
+  const rows = (rj.results && rj.results.bindings) || [];
+  if (!rows.length) return '<div class="empty">No rows.</div>';
+  const imgVar = pickImageVar(vars, rows);
+  if (!imgVar) return '<div class="empty">defaultView:ImageGrid set but no image-shaped column found. Falling back to table.</div>'
+    + renderTable(rj);
+  const labVar = pickLabelVar(vars, imgVar);
+  // A "detail" var: anything that isn't img/lab. Shown small under label.
+  const detailVar = vars.find((v) => v !== imgVar && v !== labVar) || null;
+
+  const tiles = rows.map((r) => {
+    const img = r[imgVar];
+    if (!img || img.type !== 'uri' || !isImageUri(img.value)) return '';
+    const label = labVar && r[labVar] ? esc(r[labVar].value) : '';
+    const detail = detailVar && r[detailVar]
+      ? `<div class="grid-detail">${esc(String(r[detailVar].value).slice(0, 60))}</div>`
+      : '';
+    return `<a class="grid-tile" href="${esc(img.value)}" target="_blank" rel="noopener">`
+         + `<img class="grid-img" loading="lazy" alt="" src="${esc(img.value)}">`
+         + `<div class="grid-label">${label}</div>`
+         + detail
+         + `</a>`;
+  }).join('');
+
+  return `<div class="grid">${tiles}</div>`;
+}
+
 function renderTable(rj) {
   const vars = (rj.head && rj.head.vars) || [];
   let rows = (rj.results && rj.results.bindings) || [];
@@ -740,10 +839,17 @@ function renderResult(res, opts = {}) {
     $results.appendChild(header);
 
     const wrap = document.createElement('div');
-    wrap.className = 'tablewrap';
-    wrap.innerHTML = renderTable(parsed);
-    $results.appendChild(wrap);
-    attachSortHandlers(wrap, parsed);
+    const directives = parseDirectives(getQuery());
+    if (directives.defaultView === 'ImageGrid') {
+      wrap.className = 'gridwrap';
+      wrap.innerHTML = renderImageGrid(parsed);
+      $results.appendChild(wrap);
+    } else {
+      wrap.className = 'tablewrap';
+      wrap.innerHTML = renderTable(parsed);
+      $results.appendChild(wrap);
+      attachSortHandlers(wrap, parsed);
+    }
 
     // Header actions
     header.querySelector('[data-act="csv"]').onclick = () =>
