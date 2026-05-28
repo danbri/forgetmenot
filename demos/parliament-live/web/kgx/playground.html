@@ -120,6 +120,73 @@
   }
 
   .results { margin-top: 10px; }
+
+  /* Results header: row count + timing + download/permalink buttons. */
+  .res-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    padding: 8px 10px;
+    background: var(--code-bg);
+    border: 1px solid var(--rule);
+    border-radius: 6px 6px 0 0;
+    border-bottom: 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .res-count { font-weight: 600; color: var(--ink); }
+  .res-time  { color: var(--ink-soft); }
+  .res-actions { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+  .res-btn {
+    background: white;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    min-height: 28px;
+  }
+  .res-btn:active { background: var(--code-bg); }
+  .tablewrap {
+    overflow-x: auto;
+    border: 1px solid var(--rule);
+    border-radius: 0 0 6px 6px;
+    background: white;
+  }
+  .tablewrap table { border: 0; border-radius: 0; }
+
+  /* Label-merged cell: label primary, URI as a small linked tag. */
+  .results td .lbl {
+    font: 14px/1.4 -apple-system, system-ui, sans-serif;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+  .results td .uri-badge {
+    display: inline-block;
+    font: 11px/1.2 ui-monospace, Menlo, monospace;
+    color: var(--ink-soft);
+    background: var(--code-bg);
+    padding: 1px 6px;
+    border-radius: 3px;
+    text-decoration: none;
+    word-break: break-all;
+  }
+  .results td .uri-badge:hover { color: var(--accent); }
+
+  /* Inline image thumbnails for image-URL bindings. */
+  .results td .img-thumb {
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 4px;
+    display: block;
+  }
+
+  /* Sortable column header cursor. */
+  .results th { cursor: pointer; user-select: none; }
+  .results th:active { background: var(--row-alt); }
+
   .results table {
     width: 100%;
     border-collapse: collapse;
@@ -449,10 +516,41 @@ async function execute(query) {
 // ---------------------------------------------------------------------------
 // Rendering
 // ---------------------------------------------------------------------------
-function renderBinding(b) {
+
+// WDQS-style: when results contain both ?x and ?xLabel, render them as
+// one merged column "Label (uri)" — the label shown prominently, the
+// URI behind a small link. Returns { displayVars, labelOf } where
+// displayVars is the column list to actually render, and labelOf maps
+// a display var → its label-companion var name (or null).
+function planLabelMerge(vars) {
+  const set = new Set(vars);
+  const labelOf = {};
+  const skip = new Set();
+  for (const v of vars) {
+    const cand = v + 'Label';
+    if (set.has(cand) && v !== cand) {
+      labelOf[v] = cand;
+      skip.add(cand);
+    }
+  }
+  return { displayVars: vars.filter((v) => !skip.has(v)), labelOf };
+}
+
+// Looks like an image URL (Wikimedia Commons, common file extensions).
+function isImageUri(href) {
+  return /\.(?:jpe?g|png|gif|webp|svg)(?:$|\?)/i.test(href)
+      || /commons\.wikimedia\.org\/wiki\/Special:FilePath\//i.test(href);
+}
+
+function renderBinding(b, opts = {}) {
   if (!b) return '';
   if (b.type === 'uri') {
     const href = b.value;
+    if (opts.asImage && isImageUri(href)) {
+      // Render image inline; click opens the source URL.
+      return `<a href="${esc(href)}" target="_blank" rel="noopener">`
+           + `<img class="img-thumb" loading="lazy" alt="" src="${esc(href)}"></a>`;
+    }
     const short = href.length > 80 ? '…' + href.slice(-77) : href;
     return `<span class="uri"><a href="${esc(href)}" target="_blank" rel="noopener">${esc(short)}</a></span>`;
   }
@@ -470,25 +568,126 @@ function renderBinding(b) {
   return esc(JSON.stringify(b));
 }
 
+// Render a cell that may be a (uri, label) pair. Shows the label as the
+// primary text and the URI as a small linked badge below it.
+function renderMergedCell(uriBinding, labelBinding) {
+  if (!uriBinding) return labelBinding ? renderBinding(labelBinding) : '';
+  const label = labelBinding ? esc(labelBinding.value) : null;
+  if (uriBinding.type !== 'uri') return renderBinding(uriBinding);
+  const href = uriBinding.value;
+  const short = href.replace(/^.*[\/#]/, '');
+  const labelHtml = label
+    ? `<div class="lbl">${label}</div>`
+    : '';
+  return labelHtml
+    + `<a class="uri-badge" href="${esc(href)}" target="_blank" rel="noopener">${esc(short)}</a>`;
+}
+
 function esc(s) {
   return String(s).replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
 }
 
+let CURRENT_RESULT = null;  // last parsed SPARQL JSON, for download/sort.
+let CURRENT_SORT  = null;   // { var, dir: 1 | -1 }
+
+function sortRows(rows, sortVar, dir) {
+  return [...rows].sort((a, b) => {
+    const av = a[sortVar] ? a[sortVar].value : '';
+    const bv = b[sortVar] ? b[sortVar].value : '';
+    // Numeric compare when both look like numbers.
+    const an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn) && String(an) === av && String(bn) === bv) {
+      return (an - bn) * dir;
+    }
+    return av.localeCompare(bv) * dir;
+  });
+}
+
 function renderTable(rj) {
   const vars = (rj.head && rj.head.vars) || [];
-  const rows = (rj.results && rj.results.bindings) || [];
+  let rows = (rj.results && rj.results.bindings) || [];
   if (!rows.length) {
     return '<div class="empty">No rows.</div>';
   }
-  const ths = vars.map((v) => `<th>${esc(v)}</th>`).join('');
+  const { displayVars, labelOf } = planLabelMerge(vars);
+
+  // Per-column flags: any column whose name ends in "Image"/"Img"/"Pic"
+  // OR where every value is an image URI is rendered as inline thumbs.
+  const imageCols = new Set();
+  for (const v of displayVars) {
+    if (/(?:^|[A-Za-z])(?:image|img|pic|thumb|photo)$/i.test(v)) imageCols.add(v);
+    else if (rows.every((r) => r[v] && r[v].type === 'uri' && isImageUri(r[v].value))) imageCols.add(v);
+  }
+
+  if (CURRENT_SORT && vars.includes(CURRENT_SORT.var)) {
+    rows = sortRows(rows, CURRENT_SORT.var, CURRENT_SORT.dir);
+  }
+
+  const ths = displayVars.map((v) => {
+    const arrow = CURRENT_SORT && CURRENT_SORT.var === v
+      ? (CURRENT_SORT.dir > 0 ? ' ▲' : ' ▼') : '';
+    return `<th data-sort="${esc(v)}">${esc(v)}${arrow}</th>`;
+  }).join('');
+
   const trs = rows.map((row) => {
-    const tds = vars.map((v) => `<td>${renderBinding(row[v])}</td>`).join('');
+    const tds = displayVars.map((v) => {
+      const labelVar = labelOf[v];
+      if (labelVar) {
+        return `<td>${renderMergedCell(row[v], row[labelVar])}</td>`;
+      }
+      const opts = imageCols.has(v) ? { asImage: true } : {};
+      return `<td>${renderBinding(row[v], opts)}</td>`;
+    }).join('');
     return `<tr>${tds}</tr>`;
   }).join('');
-  const wrap = document.createElement('div');
-  wrap.style.overflowX = 'auto';
-  wrap.innerHTML = `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
-  return wrap.outerHTML;
+
+  return `<table><thead><tr>${ths}</tr></thead><tbody>${trs}</tbody></table>`;
+}
+
+// CSV / JSON downloads (WDQS-style "Download" menu, condensed).
+function toCsv(rj) {
+  const vars = (rj.head && rj.head.vars) || [];
+  const rows = (rj.results && rj.results.bindings) || [];
+  const escCell = (s) => /[",\n]/.test(s) ? `"${String(s).replace(/"/g, '""')}"` : s;
+  const out = [vars.join(',')];
+  for (const r of rows) {
+    out.push(vars.map((v) => escCell(r[v] ? r[v].value : '')).join(','));
+  }
+  return out.join('\n');
+}
+
+function downloadBlob(filename, mime, text) {
+  const blob = new Blob([text], { type: mime });
+  const u = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = u; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(u); a.remove(); }, 0);
+}
+
+// Re-attach click handlers after each (re)render — innerHTML wipes
+// listeners every time we re-sort.
+function attachSortHandlers(wrap, parsed) {
+  wrap.querySelectorAll('th[data-sort]').forEach((th) => {
+    th.addEventListener('click', () => {
+      const v = th.getAttribute('data-sort');
+      CURRENT_SORT = (CURRENT_SORT && CURRENT_SORT.var === v)
+        ? { var: v, dir: -CURRENT_SORT.dir }
+        : { var: v, dir: 1 };
+      wrap.innerHTML = renderTable(parsed);
+      attachSortHandlers(wrap, parsed);
+    }, { once: true });
+  });
+}
+
+function copyPermalink() {
+  const u = new URL(window.location.href);
+  u.hash = '#q=' + encodeURIComponent(getQuery()) + '&e=' + encodeURIComponent(CURRENT.id);
+  navigator.clipboard.writeText(u.toString()).then(
+    () => { $meta.textContent = 'permalink copied to clipboard'; },
+    () => { $meta.textContent = u.toString(); }
+  );
 }
 
 function renderResult(res, opts = {}) {
@@ -513,11 +712,39 @@ function renderResult(res, opts = {}) {
     return;
   }
   if (parsed && parsed.head && parsed.results) {
-    // SELECT
-    $results.innerHTML = renderTable(parsed);
+    // SELECT — render WDQS-style: a results header (rowcount + time +
+    // download/permalink actions), then the table with optional label
+    // merge / image thumbnails / sortable columns.
+    CURRENT_RESULT = parsed;
+    const nrows = parsed.results.bindings.length;
+    const header = document.createElement('div');
+    header.className = 'res-head';
+    header.innerHTML =
+      `<span class="res-count">${nrows.toLocaleString()} row${nrows === 1 ? '' : 's'}</span>`
+      + `<span class="res-time">${res.ms} ms · ${res.bytes.toLocaleString()} bytes</span>`
+      + `<span class="res-actions">`
+      + `<button class="res-btn" data-act="csv">CSV</button>`
+      + `<button class="res-btn" data-act="json">JSON</button>`
+      + `<button class="res-btn" data-act="link">Permalink</button>`
+      + `</span>`;
+    $results.appendChild(header);
+
+    const wrap = document.createElement('div');
+    wrap.className = 'tablewrap';
+    wrap.innerHTML = renderTable(parsed);
+    $results.appendChild(wrap);
+    attachSortHandlers(wrap, parsed);
+
+    // Header actions
+    header.querySelector('[data-act="csv"]').onclick = () =>
+      downloadBlob('sparql-results.csv', 'text/csv', toCsv(parsed));
+    header.querySelector('[data-act="json"]').onclick = () =>
+      downloadBlob('sparql-results.json', 'application/json', JSON.stringify(parsed, null, 2));
+    header.querySelector('[data-act="link"]').onclick = copyPermalink;
+
     // Raw JSON in a collapsible details for inspection.
     const det = document.createElement('details');
-    det.innerHTML = `<summary>Raw JSON (${res.bytes} bytes)</summary><pre class="raw"></pre>`;
+    det.innerHTML = `<summary>Raw JSON (${res.bytes.toLocaleString()} bytes)</summary><pre class="raw"></pre>`;
     det.querySelector('pre').textContent = JSON.stringify(parsed, null, 2);
     $results.appendChild(det);
     return;
@@ -562,8 +789,22 @@ $qMount.addEventListener('keydown', (e) => {
 // ---------------------------------------------------------------------------
 // Init
 // ---------------------------------------------------------------------------
+// Permalink: parse #q=…&e=… so a shared URL restores the editor + endpoint.
+function parseHashState() {
+  const h = window.location.hash.replace(/^#/, '');
+  if (!h) return null;
+  const out = {};
+  for (const part of h.split('&')) {
+    const [k, ...rest] = part.split('=');
+    out[k] = decodeURIComponent(rest.join('='));
+  }
+  return out;
+}
+
 (async () => {
-  mountEditor('SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }');
+  const hash = parseHashState();
+  const initialQuery = (hash && hash.q) || 'SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }';
+  mountEditor(initialQuery);
   try {
     REGISTRY = await fetch('/kgx/endpoints.json').then((r) => r.json());
   } catch (e) {
@@ -571,6 +812,14 @@ $qMount.addEventListener('keydown', (e) => {
     return;
   }
   populateEndpoints();
+  if (hash && hash.e) {
+    const pick = REGISTRY.endpoints.find((x) => x.id === hash.e);
+    if (pick) {
+      $ep.value = hash.e;
+      CURRENT = pick;
+      renderChips(pick);
+    }
+  }
 })();
 </script>
 </body>
