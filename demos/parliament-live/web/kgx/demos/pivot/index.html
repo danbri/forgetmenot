@@ -147,6 +147,67 @@
   }
   .nav-btn:active { opacity: 0.85; }
 
+  /* Free-text search input. */
+  #search {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: white;
+    font-size: 16px;
+    -webkit-appearance: none;
+    appearance: none;
+    margin-bottom: 8px;
+  }
+  #search:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+
+  /* Tile popover (modal-ish overlay). */
+  .popover-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    align-items: center; justify-content: center;
+    z-index: 100;
+    padding: 16px;
+    overflow-y: auto;
+  }
+  .popover-backdrop.open { display: flex; }
+  .popover {
+    background: var(--card);
+    border-radius: 12px;
+    max-width: 480px;
+    width: 100%;
+    padding: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    position: relative;
+  }
+  .popover img {
+    width: 100%;
+    max-height: 50vh;
+    object-fit: contain;
+    border-radius: 6px;
+    background: var(--code-bg);
+    margin-bottom: 12px;
+  }
+  .popover h3 { margin: 0 0 4px; font-size: 18px; }
+  .popover .lifespan { color: var(--ink-soft); font-size: 13px; margin: 0 0 12px; }
+  .popover dl { margin: 0; font-size: 14px; }
+  .popover dt {
+    font-size: 11px; text-transform: uppercase;
+    color: var(--ink-soft); letter-spacing: 0.04em; margin-top: 8px;
+  }
+  .popover dd { margin: 2px 0 0; word-break: break-word; }
+  .popover-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .popover-actions a, .popover-actions button {
+    background: var(--accent); color: white; border: 0;
+    border-radius: 6px; padding: 8px 14px; font-size: 14px;
+    text-decoration: none; cursor: pointer; min-height: 36px;
+  }
+  .popover-actions .close {
+    background: white; color: var(--ink);
+    border: 1px solid var(--rule);
+  }
+
   footer {
     margin-top: 30px;
     padding-top: 12px;
@@ -181,8 +242,9 @@
 </div>
 
 <div class="layout">
-  <aside class="facets" id="facets">
-    <div class="loading">loading facets…</div>
+  <aside class="facets">
+    <input id="search" type="search" placeholder="Filter by name…" autocomplete="off">
+    <div id="facets"><div class="loading">loading facets…</div></div>
   </aside>
 
   <main>
@@ -204,6 +266,19 @@
       </p>
     </div>
   </main>
+</div>
+
+<div class="popover-backdrop" id="popover">
+  <div class="popover" role="dialog" aria-modal="true" aria-labelledby="pop-title">
+    <img id="pop-img" alt="">
+    <h3 id="pop-title"></h3>
+    <p class="lifespan" id="pop-lifespan"></p>
+    <dl id="pop-fields"></dl>
+    <div class="popover-actions">
+      <a id="pop-wd" target="_blank" rel="noopener">Open on Wikidata</a>
+      <button class="close" id="pop-close">Close</button>
+    </div>
+  </div>
 </div>
 
 <footer>
@@ -250,6 +325,7 @@ const $navigate = document.getElementById('navigate');
 
 let ROWS = [];      // full result set (one row per PM-term, dedup'd by pm)
 let FILTERS = {};   // facet → Set<value>
+let SEARCH = '';    // free-text filter (lowercase substring against name)
 
 function esc(s) {
   return String(s).replace(/[&<>"]/g, (c) => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
@@ -307,7 +383,9 @@ function birthCentury(row) {
 }
 
 function applyFilters(rows) {
+  const needle = SEARCH.trim().toLowerCase();
   return rows.filter((r) => {
+    if (needle && !(r.label || '').toLowerCase().includes(needle)) return false;
     for (const [facet, vals] of Object.entries(FILTERS)) {
       if (!vals.size) continue;
       const rowVals = facetValues(r, facet);
@@ -317,9 +395,17 @@ function applyFilters(rows) {
   });
 }
 
+function startDecade(row) {
+  if (!row.start) return null;
+  const y = parseInt(row.start.slice(0, 4), 10);
+  if (!isFinite(y)) return null;
+  return `${Math.floor(y / 10) * 10}s`;
+}
+
 function facetValues(row, facet) {
   if (facet === 'party')         return row.parties;
   if (facet === 'birthCentury')  return birthCentury(row) ? [birthCentury(row)] : [];
+  if (facet === 'startDecade')   return startDecade(row) ? [startDecade(row)] : [];
   return [];
 }
 
@@ -335,8 +421,10 @@ function tally(rows, facet) {
 
 function renderFacets() {
   const visible = applyFilters(ROWS);
-  const html = ['party', 'birthCentury'].map((facet) => {
-    const label = facet === 'party' ? 'Party' : 'Born in';
+  const html = ['party', 'startDecade', 'birthCentury'].map((facet) => {
+    const label = facet === 'party' ? 'Party'
+                : facet === 'startDecade' ? 'Took office in'
+                : 'Born in';
     const tallies = tally(visible, facet);
     const filterSet = FILTERS[facet] || new Set();
     const btns = tallies.map(([val, n]) => {
@@ -366,20 +454,32 @@ function renderGrid() {
     return;
   }
   $results.innerHTML = '<div class="grid">'
-    + visible.map((r) => {
+    + visible.map((r, idx) => {
         const meta = [
           r.start ? r.start.slice(0,4) : '',
           r.parties[0] || '',
         ].filter(Boolean).join(' · ');
-        return `<a class="tile" href="${esc(r.pm)}" target="_blank" rel="noopener">`
+        // Tile is a <div> with a click handler that opens the popover —
+        // not an <a>, so we keep tap+hold-to-open-Wikipedia accessible
+        // via the popover's "open on Wikidata" button instead. Indexed
+        // by data-idx so the popover handler can find the row again.
+        return `<div class="tile" data-idx="${idx}">`
           + (r.image
-              ? `<img loading="lazy" src="${esc(r.image)}" alt="">`
+              ? `<img loading="lazy" src="${esc(httpsify(r.image))}" alt="${esc(r.label)}">`
               : `<div style="aspect-ratio:1/1;background:var(--code-bg);border-radius:4px;"></div>`)
           + `<div class="name">${esc(r.label)}</div>`
           + (meta ? `<div class="meta">${esc(meta)}</div>` : '')
-          + `</a>`;
+          + `</div>`;
       }).join('')
     + '</div>';
+
+  // Tile click → popover
+  $results.querySelectorAll('.tile').forEach((tile) => {
+    tile.addEventListener('click', () => {
+      const idx = parseInt(tile.getAttribute('data-idx'), 10);
+      openPopover(visible[idx]);
+    });
+  });
 }
 
 function renderNavigateButtons() {
@@ -441,6 +541,62 @@ SELECT ?spouse ?spouseLabel ?image WHERE {
 }
 
 function renderAll() { renderFacets(); renderGrid(); renderNavigateButtons(); }
+
+// ---------------------------------------------------------------------------
+// Popover (tile click → fuller card)
+// ---------------------------------------------------------------------------
+function openPopover(row) {
+  if (!row) return;
+  const pop  = document.getElementById('popover');
+  const img  = document.getElementById('pop-img');
+  const tit  = document.getElementById('pop-title');
+  const span = document.getElementById('pop-lifespan');
+  const dl   = document.getElementById('pop-fields');
+  const wd   = document.getElementById('pop-wd');
+
+  if (row.image) {
+    img.src = httpsify(row.image);
+    img.style.display = '';
+  } else {
+    img.style.display = 'none';
+  }
+  tit.textContent = row.label;
+  const birthY = row.birth ? row.birth.slice(0, 4) : '';
+  const startY = row.start ? row.start.slice(0, 4) : '';
+  span.textContent = [birthY ? `b. ${birthY}` : '', startY ? `took office ${startY}` : ''].filter(Boolean).join(' · ');
+
+  dl.innerHTML = '';
+  const fields = [
+    ['Party', row.parties.join(', ')],
+    ['Birthplace', row.birthplaces.join(', ')],
+    ['Wikidata QID', row.pm.replace(/^.*\//, '')],
+  ];
+  for (const [k, v] of fields) {
+    if (!v) continue;
+    const dt = document.createElement('dt'); dt.textContent = k;
+    const dd = document.createElement('dd'); dd.textContent = v;
+    dl.appendChild(dt); dl.appendChild(dd);
+  }
+  wd.href = row.pm;
+  pop.classList.add('open');
+}
+function closePopover() { document.getElementById('popover').classList.remove('open'); }
+document.getElementById('pop-close').addEventListener('click', closePopover);
+document.getElementById('popover').addEventListener('click', (e) => {
+  if (e.target.id === 'popover') closePopover();
+});
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePopover(); });
+
+// ---------------------------------------------------------------------------
+// Search input — live filter against the name
+// ---------------------------------------------------------------------------
+document.getElementById('search').addEventListener('input', (e) => {
+  SEARCH = e.target.value;
+  renderGrid();
+  renderNavigateButtons();
+  // Facet counts depend on SEARCH too, so refresh them.
+  renderFacets();
+});
 
 (async () => {
   try {
