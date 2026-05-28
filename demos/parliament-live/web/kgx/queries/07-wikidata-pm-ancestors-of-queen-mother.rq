@@ -1,0 +1,27 @@
+# Endpoint: https://qlever.dev/api/wikidata  (Wikidata via QLever)
+# Verified: 2026-05-28 — returns 2 rows.
+#
+# Which UK Prime Ministers are blood ancestors of Queen Elizabeth The
+# Queen Mother per Wikidata? Walks down child edges (wdt:P40) using
+# QLever's property-path closure.
+#
+# Result:
+#   wd:Q238639  William Cavendish, 4th Duke of Devonshire        (Whig PM 1756-57)
+#   wd:Q157208  William Cavendish-Bentinck, 3rd Duke of Portland (Whig PM 1783, 1807-09)
+#
+# Explicit 4-hop chain from Portland to Queen Mother:
+#   Q157208 → Lord Charles Bentinck → Charles Cavendish-Bentinck
+#           → Cecilia Bowes-Lyon (Countess of Strathmore)
+#           → Q10633 (Queen Mother)
+
+PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+PREFIX wd:   <http://www.wikidata.org/entity/>
+PREFIX p:    <http://www.wikidata.org/prop/>
+PREFIX ps:   <http://www.wikidata.org/prop/statement/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT ?pm ?pmLabel WHERE {
+  ?pm p:P39/ps:P39 wd:Q14211 .   # held position: Prime Minister of the United Kingdom
+  ?pm wdt:P40+ wd:Q10633 .       # …whose descendants (via child edges) include Queen Mother
+  OPTIONAL { ?pm rdfs:label ?pmLabel . FILTER(lang(?pmLabel) = "en") }
+}
