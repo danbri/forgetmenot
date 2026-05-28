@@ -73,14 +73,14 @@
 
 const QLEVER = 'https://qlever.dev/api/wikidata';
 
-// 1500 distinct UK cabinet-flavoured people exist via the label-pattern
-// + jurisdiction probe; V1 returned all of them and the page choked on
-// 878 KB of JSON + 1500 shadow-DOM tile instances. V2 fetches a much
-// thinner shape (LIMIT 250 with just label + image + one role), then a
-// lazy second pass enriches with parties / dates only for the bundle
-// currently shown.
-const SEED_LIMIT = 250;
-const CABINET_QUERY = `
+// Seed: every Wikidata person who held a position that is (transitively)
+// a subclass of "Member of the Parliament of the United Kingdom"
+// (Q16707842), with at least one term ending or starting on/after 1900.
+// Probed 2026-05-28: 6,917 distinct people. 2,847 also carry P10428
+// (parliament.uk member id) — the bridge to forgetmenot's Members API
+// skill. Full set arrives in ~2 s / ~3 MB.
+const SEED_LIMIT = 7000;          // soft cap; current universe is 6917
+const POST1900_MPS_QUERY = `
 PREFIX wd:     <http://www.wikidata.org/entity/>
 PREFIX wdt:    <http://www.wikidata.org/prop/direct/>
 PREFIX p:      <http://www.wikidata.org/prop/>
@@ -88,33 +88,27 @@ PREFIX ps:     <http://www.wikidata.org/prop/statement/>
 PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
 PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
 
-SELECT ?p (SAMPLE(?label) AS ?l)
-       (SAMPLE(?image) AS ?img)
-       (MAX(?start)    AS ?lastStart)
-       (SAMPLE(?roleTag) AS ?roleTag)
+SELECT ?p (SAMPLE(?lbl) AS ?l)
+       (SAMPLE(?image) AS ?imgUri)
+       (SAMPLE(?mp)    AS ?mpid)
+       (MIN(?startYr)  AS ?firstYr)
+       (MAX(?endYr)    AS ?lastYr)
+       (SAMPLE(?partyLbl) AS ?party)
 WHERE {
-  ?p p:P39 ?term .
-  ?term ps:P39 ?pos .
-  ?pos wdt:P1001 wd:Q145 .
-  ?pos rdfs:label ?posLabel . FILTER(lang(?posLabel) = "en")
-  FILTER(REGEX(?posLabel,
-    "(Cabinet|Secretary of State|Chancellor of the Exchequer|Lord Chancellor|Home Secretary|Foreign Secretary|Prime Minister|Lord President|Lord Privy Seal|First Lord)"))
-  BIND(
-    IF(CONTAINS(?posLabel, "Shadow"),                  "Shadow",
-    IF(CONTAINS(?posLabel, "Prime Minister"),          "PM",
-    IF(CONTAINS(?posLabel, "Chancellor of the Exchequer"),"Chancellor",
-    IF(CONTAINS(?posLabel, "Home Secretary"),          "Home Secy",
-    IF(CONTAINS(?posLabel, "Foreign Secretary"),       "Foreign Secy",
-    IF(CONTAINS(?posLabel, "Lord Chancellor"),         "Lord Chancellor",
-    IF(CONTAINS(?posLabel, "Secretary of State"),      "Secy of State",
-                                                       "Cabinet")))))))
-    AS ?roleTag)
-  OPTIONAL { ?term pq:P580 ?start }
-  OPTIONAL { ?p wdt:P18 ?image }
-  OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = "en") }
+  ?p wdt:P39 ?pos .
+  ?pos wdt:P279* wd:Q16707842 .          # position ⊑ Member of UK Parliament
+  ?p p:P39 ?stmt . ?stmt ps:P39 ?pos .
+  OPTIONAL { ?stmt pq:P580 ?start . BIND(YEAR(?start) AS ?startYr) }
+  OPTIONAL { ?stmt pq:P582 ?end   . BIND(YEAR(?end)   AS ?endYr)   }
+  FILTER( (BOUND(?start) && YEAR(?start) >= 1900) ||
+          (BOUND(?end)   && YEAR(?end)   >= 1900) )
+  OPTIONAL { ?p wdt:P18    ?image }
+  OPTIONAL { ?p wdt:P10428 ?mp }                 # parliament.uk member id
+  OPTIONAL { ?p wdt:P102   ?party0 .
+             ?party0 rdfs:label ?partyLbl . FILTER(lang(?partyLbl) = "en") }
+  OPTIONAL { ?p rdfs:label ?lbl . FILTER(lang(?lbl) = "en") }
 }
 GROUP BY ?p
-ORDER BY DESC(?lastStart)
 LIMIT ${SEED_LIMIT}`;
 
 // ===========================================================================
@@ -245,25 +239,26 @@ function commonsThumb(url, w = 220) {
 }
 
 // ===========================================================================
-// Seed loader — dedupe + parse out role + party arrays.
+// Seed loader — flatten Wikidata bindings into a person record.
 // ===========================================================================
-function parseCabinetRows(bindings) {
-  // V2 thin shape: ?p ?l ?img ?lastStart ?roleTag (no party/birth/etc.)
-  const out = bindings.map((b) => {
+function parseMpRows(bindings) {
+  return bindings.map((b) => {
     const uri = b.p.value;
-    const role = b.roleTag?.value || 'Cabinet';
+    const firstYr = b.firstYr?.value ? parseInt(b.firstYr.value, 10) : null;
+    const lastYr  = b.lastYr?.value  ? parseInt(b.lastYr.value,  10) : null;
+    const party = b.party?.value || null;
     return {
       uri,
       label: b.l?.value || uri.replace(/^.*\//, ''),
-      image: b.img?.value || null,
-      birth: null,
-      firstStart: null,
-      lastStart: b.lastStart?.value || null,
-      roles: [role],
-      parties: [],
+      image: b.imgUri?.value || null,
+      mpid:  b.mpid?.value || null,        // parliament.uk member id (bridge)
+      firstYr, lastYr,
+      parties: party ? [party] : [],
+      // Decade bucket from last sitting year, for the period filter.
+      decade: lastYr ? `${Math.floor(lastYr / 10) * 10}s` : null,
+      sitting: lastYr ? (lastYr >= 2024) : false,
     };
   });
-  return out;
 }
 
 // ===========================================================================
@@ -272,8 +267,8 @@ function parseCabinetRows(bindings) {
 const state = {
   nodes: [],     // { id, kind, label, op, bundle, depth }
   edges: [],     // { from, to }
-  selection: null, // node id for inspecting
-  pendingCombine: null, // id of first node tapped for combine
+  selection: null,  // node id whose bundle the grid displays
+  picked: new Set(), // up to 2 node ids — operands for the combine bar
 };
 const listeners = new Set();
 function publish() { for (const fn of listeners) fn(); }
@@ -315,11 +310,21 @@ function opSnapshot(parentBundle, predicate, label) {
   return filtered;
 }
 
-function opFilterByRole(parentBundle, role) {
-  return opSnapshot(parentBundle, (x) => x.roles.includes(role), `${parentBundle.label} · role:${role}`);
-}
 function opFilterByParty(parentBundle, party) {
-  return opSnapshot(parentBundle, (x) => x.parties.includes(party), `${parentBundle.label} · party:${party}`);
+  return opSnapshot(parentBundle, (x) => x.parties.includes(party),
+    `${parentBundle.label} · ${party}`);
+}
+function opFilterByDecade(parentBundle, decade) {
+  return opSnapshot(parentBundle, (x) => x.decade === decade,
+    `${parentBundle.label} · ${decade}`);
+}
+function opFilterBySitting(parentBundle) {
+  return opSnapshot(parentBundle, (x) => x.sitting,
+    `${parentBundle.label} · sitting`);
+}
+function opFilterBridged(parentBundle) {
+  return opSnapshot(parentBundle, (x) => !!x.mpid,
+    `${parentBundle.label} · w/ Members API id`);
 }
 
 // ===========================================================================
@@ -398,14 +403,14 @@ class PivcabTilegrid extends HTMLElement {
     const grid = this.shadowRoot.querySelector('.grid');
     // Cap initial DOM count; further scale needs true windowed scroll
     // recycling. 250 tiles is the V2 default seed size.
-    const slice = b.items.slice(0, 1500);
+    const slice = b.items.slice(0, 3000);
     const html = new Array(slice.length);
     for (let i = 0; i < slice.length; i++) {
       const p = slice[i];
-      const meta = [
-        p.lastStart ? p.lastStart.slice(0, 4) : '',
-        p.roles?.[0] || '',
-      ].filter(Boolean);
+      const years = p.firstYr && p.lastYr
+        ? (p.firstYr === p.lastYr ? `${p.firstYr}` : `${p.firstYr}–${p.lastYr}`)
+        : (p.lastYr ? `${p.lastYr}` : '');
+      const meta = [years, p.parties?.[0] || ''].filter(Boolean);
       html[i] = tileHTML(p, meta);
     }
     grid.innerHTML = html.join('');
@@ -428,7 +433,8 @@ class PivcabNode extends HTMLElement {
     const n = this._node;
     if (!n) return;
     const isSelected = state.selection === n.id;
-    const isPending = state.pendingCombine === n.id;
+    const isPicked = state.picked.has(n.id);
+    const pickIdx = isPicked ? ([...state.picked].indexOf(n.id) + 1) : 0;
     this.shadowRoot.innerHTML = `
       <style>
         :host { display: block; background: var(--surface);
@@ -437,13 +443,18 @@ class PivcabNode extends HTMLElement {
                 cursor: pointer; transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s; }
         :host(:hover) { transform: translateY(-1px); box-shadow: var(--shadow-lift); }
         :host([selected]) { border-color: var(--accent); }
-        :host([pending]) { border-color: var(--good); border-style: dashed; }
+        :host([picked]) { border-color: var(--good); border-style: dashed; box-shadow: var(--shadow-lift); }
         .head { display: flex; gap: 6px; align-items: baseline; }
         .kind {
           font: 10px/1 ui-monospace, Menlo, monospace;
           background: var(--accent); color: var(--accent-on);
           padding: 2px 6px; border-radius: 3px; text-transform: uppercase;
           letter-spacing: 0.05em;
+        }
+        .pick {
+          font: 10px/1 ui-monospace, Menlo, monospace;
+          background: var(--good); color: white;
+          padding: 2px 6px; border-radius: 3px; font-weight: 700;
         }
         .title { font-weight: 600; font-size: 13px; color: var(--ink);
                  overflow: hidden; text-overflow: ellipsis; }
@@ -455,6 +466,7 @@ class PivcabNode extends HTMLElement {
       </style>
       <div class="head">
         <span class="kind"></span>
+        <span class="pick" hidden></span>
         <span class="title"></span>
         <span class="n"></span>
       </div>
@@ -462,8 +474,11 @@ class PivcabNode extends HTMLElement {
     `;
     if (isSelected) this.setAttribute('selected', '');
     else this.removeAttribute('selected');
-    if (isPending) this.setAttribute('pending', '');
-    else this.removeAttribute('pending');
+    if (isPicked) this.setAttribute('picked', '');
+    else this.removeAttribute('picked');
+    const pickEl = this.shadowRoot.querySelector('.pick');
+    if (pickIdx) { pickEl.hidden = false; pickEl.textContent = 'A B'.split(' ')[pickIdx - 1]; }
+    else pickEl.hidden = true;
 
     this.shadowRoot.querySelector('.kind').textContent = n.kind;
     this.shadowRoot.querySelector('.title').textContent = n.label || n.kind;
@@ -538,18 +553,19 @@ class PivcabCanvas extends HTMLElement {
     requestAnimationFrame(() => this._drawEdges());
   }
   _onNodeTap(n) {
+    // Combine model: a node tap toggles its membership in `state.picked`
+    // (a Set of node ids, max 2). When two are picked, the combine bar
+    // lights up its three operators. The selection (for the tile grid)
+    // is always the most-recent tap.
     state.selection = n.id;
-    // If we already had a pending combine target, AND it's a different one
-    // of the same type → make a Combine node.
-    if (state.pendingCombine && state.pendingCombine !== n.id) {
-      const a = state.nodes.find((x) => x.id === state.pendingCombine);
-      if (a && a.bundle && n.bundle && a.bundle.type === n.bundle.type) {
-        const ab = Bundle.intersect(a.bundle, n.bundle);
-        const node = addNode({ kind: 'Combine', label: ab.label, op: 'intersect', bundle: ab });
-        addEdge(a.id, node.id);
-        addEdge(n.id, node.id);
+    if (state.picked.has(n.id)) state.picked.delete(n.id);
+    else {
+      if (state.picked.size >= 2) {
+        // Drop the oldest pick to keep at most 2.
+        const oldest = [...state.picked][0];
+        state.picked.delete(oldest);
       }
-      state.pendingCombine = null;
+      state.picked.add(n.id);
     }
     publish();
     this.dispatchEvent(new CustomEvent('node-tap', { detail: n }));
@@ -591,18 +607,23 @@ class PivcabApp extends HTMLElement {
         h1 { margin: 0; font-size: 17px; }
         .crumb { font-size: 12px; color: var(--ink-mute); }
         .count { margin-left: auto; font-size: 12px; color: var(--ink-soft); }
-        .toolbar { display: flex; gap: 6px; flex-wrap: wrap;
-                   padding: 10px 0; align-items: center; }
-        .toolbar button {
+        .bar { display: flex; gap: 6px; flex-wrap: wrap;
+               padding: 8px 10px; align-items: center;
+               background: var(--surface); border: 1px solid var(--rule-soft);
+               border-radius: 8px; margin-top: 8px; }
+        .bar-lbl { font-size: 12px; color: var(--ink-mute); margin-right: 2px; }
+        .bar-lbl b { color: var(--good); font-weight: 700; }
+        .bar button {
           background: var(--surface); color: var(--ink);
           border: 1px solid var(--rule); border-radius: 6px;
           padding: 6px 10px; font: inherit; font-size: 13px;
           cursor: pointer;
         }
-        .toolbar button.primary { background: var(--accent); color: var(--accent-on);
-                                  border-color: var(--accent); font-weight: 600; }
-        .toolbar button:disabled { opacity: 0.5; cursor: default; }
-        .toolbar .sep { width: 1px; height: 20px; background: var(--rule); }
+        .bar button.primary { background: var(--accent); color: var(--accent-on);
+                              border-color: var(--accent); font-weight: 600; }
+        .bar button:disabled { opacity: 0.4; cursor: default; }
+        .bar .sep { width: 1px; height: 20px; background: var(--rule); }
+        #combine-bar { background: color-mix(in oklab, var(--good) 8%, var(--surface)); }
         .grid-wrap { margin-top: 14px; padding: 10px;
                      background: var(--surface); border: 1px solid var(--rule-soft);
                      border-radius: 10px; box-shadow: var(--shadow); }
@@ -625,22 +646,30 @@ class PivcabApp extends HTMLElement {
       </style>
       <header>
         <h1>pivcab</h1>
-        <span class="crumb">· <a href="/kgx/">kgx</a> · UK Cabinet over time</span>
+        <span class="crumb">· <a href="/kgx/">kgx</a> · UK MPs since 1900</span>
         <span class="count" id="count"></span>
       </header>
-      <p class="hint">
-        Web-components V1 of the dataflow architecture from
-        <a href="https://github.com/danbri/forgetmenot/blob/claude/main/docs/kgx/node-flow-design.md" target="_blank" rel="noopener">node-flow-design.md</a>:
-        each box below is an operation node;
-        edges carry typed entity bundles. Bloom-backed set ops in JS.
+      <p class="hint" id="hint">
+        Loading every Wikidata person who sat in the UK House of Commons
+        on or after 1900 …
       </p>
-      <div class="toolbar">
-        <span style="font-size:12px;color:var(--ink-mute);">Filter by role:</span>
-        <select id="role-select"><option value="">(all)</option></select>
-        <button id="filter-btn">+ Filter</button>
+      <div class="bar" id="filter-bar">
+        <span class="bar-lbl">Filter the selected node by</span>
+        <select id="party-select" title="party"><option value="">party…</option></select>
+        <select id="decade-select" title="decade"><option value="">decade…</option></select>
+        <button id="sitting-btn" title="lastYr >= 2024">sitting now</button>
+        <button id="bridged-btn" title="has parliament.uk member id">has MP ID</button>
+      </div>
+      <div class="bar" id="combine-bar">
+        <span class="bar-lbl">
+          <span id="picks-msg">Tap a node, then another, to combine</span>
+        </span>
+        <button id="union-btn"     disabled>A ∪ B  union</button>
+        <button id="intersect-btn" disabled>A ∩ B  intersect</button>
+        <button id="diff-btn"      disabled>A ∖ B  difference</button>
+        <button id="clear-btn"     disabled>clear picks</button>
         <span class="sep"></span>
-        <button id="combine-btn" disabled>+ Combine (tap two)</button>
-        <button id="reset-btn">↺ Reset</button>
+        <button id="reset-btn">↺ Reset graph</button>
       </div>
       <pivcab-canvas></pivcab-canvas>
       <div class="grid-wrap">
@@ -648,21 +677,33 @@ class PivcabApp extends HTMLElement {
       </div>
     `;
     listeners.add(() => this.refresh());
-    this.shadowRoot.querySelector('pivcab-canvas').addEventListener('node-tap', (e) => {
+    const root = this.shadowRoot;
+    root.querySelector('pivcab-canvas').addEventListener('node-tap', (e) => {
       this._showBundle(e.detail);
     });
-    this.shadowRoot.querySelector('#filter-btn').addEventListener('click', () => this._addFilter());
-    this.shadowRoot.querySelector('#combine-btn').addEventListener('click', () => {
-      state.pendingCombine = state.selection;
-      this._refreshToolbar();
+    root.querySelector('#party-select').addEventListener('change', (e) => {
+      if (e.target.value) this._addFilter('party', e.target.value);
+      e.target.value = '';
+    });
+    root.querySelector('#decade-select').addEventListener('change', (e) => {
+      if (e.target.value) this._addFilter('decade', e.target.value);
+      e.target.value = '';
+    });
+    root.querySelector('#sitting-btn').addEventListener('click', () => this._addFilter('sitting'));
+    root.querySelector('#bridged-btn').addEventListener('click', () => this._addFilter('bridged'));
+    root.querySelector('#union-btn').addEventListener('click',     () => this._combine('union'));
+    root.querySelector('#intersect-btn').addEventListener('click', () => this._combine('intersect'));
+    root.querySelector('#diff-btn').addEventListener('click',      () => this._combine('difference'));
+    root.querySelector('#clear-btn').addEventListener('click', () => {
+      state.picked.clear();
       publish();
     });
-    this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => {
+    root.querySelector('#reset-btn').addEventListener('click', () => {
       if (this._seedNode) {
         state.nodes = [this._seedNode, this._viewNode];
         state.edges = [{ from: this._seedNode.id, to: this._viewNode.id }];
         state.selection = this._seedNode.id;
-        state.pendingCombine = null;
+        state.picked.clear();
         publish();
         this._showBundle(this._seedNode);
       }
@@ -671,47 +712,87 @@ class PivcabApp extends HTMLElement {
   }
   async _boot() {
     try {
-      const j = await sparql(QLEVER, CABINET_QUERY, 'seed:cabinet');
-      const items = parseCabinetRows(j.results.bindings);
-      const seedBundle = new Bundle(items, 'human', 'UK Cabinet (1500 latest)');
-      this._seedNode = addNode({ kind: 'Source', label: 'UK Cabinet', bundle: seedBundle, depth: 0 });
+      const j = await sparql(QLEVER, POST1900_MPS_QUERY, 'seed:post-1900-mps');
+      const items = parseMpRows(j.results.bindings);
+      const seedBundle = new Bundle(items, 'human', `UK MPs since 1900 (${items.length.toLocaleString()})`);
+      this._seedNode = addNode({ kind: 'Source', label: 'UK MPs ≥ 1900', bundle: seedBundle, depth: 0 });
       this._viewNode = addNode({ kind: 'View', label: 'tilegrid', bundle: seedBundle, depth: 1 });
       addEdge(this._seedNode.id, this._viewNode.id);
       state.selection = this._seedNode.id;
-      this._populateRoleSelect(seedBundle);
+      this._populateFacets(seedBundle);
       this._showBundle(this._seedNode);
+      const withBridge = items.filter((p) => p.mpid).length;
+      this.shadowRoot.querySelector('#hint').innerHTML =
+        `<b>${items.length.toLocaleString()}</b> Wikidata people sat in the UK Commons on or after 1900 — `
+        + `<b>${withBridge.toLocaleString()}</b> of them carry a `
+        + `<code>parliament.uk member id</code> (the forgetmenot Members API bridge). `
+        + `Filter the selected node by party / decade / "sitting now" / "has MP id"; `
+        + `then tap two nodes and combine with ∪ ∩ ∖.`;
       publish();
     } catch (err) {
       this.shadowRoot.querySelector('pivcab-tilegrid').replaceWith(
         Object.assign(document.createElement('div'), { className: 'empty', textContent: 'load failed: ' + err.message }));
     }
   }
-  _populateRoleSelect(bundle) {
-    const counts = new Map();
-    for (const p of bundle.items) for (const r of p.roles) counts.set(r, (counts.get(r) || 0) + 1);
-    const sel = this.shadowRoot.querySelector('#role-select');
-    sel.innerHTML = '<option value="">(all roles)</option>';
-    for (const [r, n] of [...counts.entries()].sort((a, b) => b[1] - a[1])) {
+  _populateFacets(bundle) {
+    const parties = new Map();
+    const decades = new Map();
+    for (const p of bundle.items) {
+      for (const party of p.parties) parties.set(party, (parties.get(party) || 0) + 1);
+      if (p.decade) decades.set(p.decade, (decades.get(p.decade) || 0) + 1);
+    }
+    const partySel = this.shadowRoot.querySelector('#party-select');
+    partySel.innerHTML = '<option value="">party…</option>';
+    for (const [v, n] of [...parties.entries()].sort((a, b) => b[1] - a[1])) {
       const o = document.createElement('option');
-      o.value = r;
-      o.textContent = `${r}  ·  ${n}`;
-      sel.appendChild(o);
+      o.value = v; o.textContent = `${v}  ·  ${n}`;
+      partySel.appendChild(o);
+    }
+    const decadeSel = this.shadowRoot.querySelector('#decade-select');
+    decadeSel.innerHTML = '<option value="">decade…</option>';
+    for (const [v, n] of [...decades.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+      const o = document.createElement('option');
+      o.value = v; o.textContent = `${v}  ·  ${n}`;
+      decadeSel.appendChild(o);
     }
   }
-  _addFilter() {
-    const sel = this.shadowRoot.querySelector('#role-select');
-    const role = sel.value;
-    if (!role) return;
-    // Filter from the currently-selected node (or the seed).
+  _addFilter(kind, value) {
     const srcNode = state.nodes.find((n) => n.id === state.selection) || this._seedNode;
     if (!srcNode?.bundle) return;
-    const filtered = opFilterByRole(srcNode.bundle, role);
-    const filterNode = addNode({ kind: 'Filter', label: 'role = ' + role, op: 'filter:role', bundle: filtered });
+    let filtered, label;
+    switch (kind) {
+      case 'party':   filtered = opFilterByParty(srcNode.bundle, value);  label = value; break;
+      case 'decade':  filtered = opFilterByDecade(srcNode.bundle, value); label = value; break;
+      case 'sitting': filtered = opFilterBySitting(srcNode.bundle);       label = 'sitting'; break;
+      case 'bridged': filtered = opFilterBridged(srcNode.bundle);         label = 'has MP id'; break;
+    }
+    if (!filtered) return;
+    const filterNode = addNode({ kind: 'Filter', label, op: 'filter:' + kind, bundle: filtered });
     const viewNode = addNode({ kind: 'View', label: 'tilegrid', bundle: filtered });
     addEdge(srcNode.id, filterNode.id);
     addEdge(filterNode.id, viewNode.id);
     state.selection = filterNode.id;
     this._showBundle(filterNode);
+    publish();
+  }
+  _combine(op) {
+    if (state.picked.size !== 2) return;
+    const [aId, bId] = [...state.picked];
+    const a = state.nodes.find((n) => n.id === aId);
+    const b = state.nodes.find((n) => n.id === bId);
+    if (!a?.bundle || !b?.bundle) return;
+    const sym = { union: '∪', intersect: '∩', difference: '∖' }[op];
+    const fn  = { union: Bundle.union, intersect: Bundle.intersect, difference: Bundle.difference }[op];
+    const merged = fn(a.bundle, b.bundle);
+    merged.label = `${a.label} ${sym} ${b.label}`;
+    const node = addNode({ kind: 'Combine', label: merged.label, op, bundle: merged });
+    const view = addNode({ kind: 'View', label: 'tilegrid', bundle: merged });
+    addEdge(a.id, node.id);
+    addEdge(b.id, node.id);
+    addEdge(node.id, view.id);
+    state.selection = node.id;
+    state.picked.clear();
+    this._showBundle(node);
     publish();
   }
   _showBundle(n) {
@@ -720,22 +801,30 @@ class PivcabApp extends HTMLElement {
     grid.bundle = n.bundle;
     this.shadowRoot.querySelector('#count').textContent =
       `${n.bundle.size.toLocaleString()} of ${this._seedNode?.bundle?.size?.toLocaleString() || '…'}`;
-    this._refreshToolbar();
-  }
-  _refreshToolbar() {
-    const sel = this.shadowRoot.querySelector('#combine-btn');
-    sel.disabled = !state.selection;
-    sel.textContent = state.pendingCombine
-      ? `tap another node to ∩`
-      : '+ Combine (tap two)';
-    sel.classList.toggle('primary', !!state.pendingCombine);
   }
   refresh() {
     if (state.selection) {
       const n = state.nodes.find((x) => x.id === state.selection);
       if (n) this._showBundle(n);
     }
-    this._refreshToolbar();
+    this._refreshCombineBar();
+  }
+  _refreshCombineBar() {
+    const root = this.shadowRoot;
+    const n = state.picked.size;
+    const ready = n === 2;
+    for (const id of ['#union-btn', '#intersect-btn', '#diff-btn']) {
+      root.querySelector(id).disabled = !ready;
+      root.querySelector(id).classList.toggle('primary', ready);
+    }
+    root.querySelector('#clear-btn').disabled = n === 0;
+    const msg = root.querySelector('#picks-msg');
+    if (n === 0)      msg.textContent = 'Tap a node to pick A, tap another for B, then combine ∪ ∩ ∖';
+    else if (n === 1) msg.textContent = 'Picked A — tap a second node for B';
+    else {
+      const picks = [...state.picked].map((id) => state.nodes.find((nn) => nn.id === id)?.label).filter(Boolean);
+      msg.innerHTML = `<b>A</b> = ${picks[0]}  ·  <b>B</b> = ${picks[1]}`;
+    }
   }
 }
 customElements.define('pivcab-app', PivcabApp);
