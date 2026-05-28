@@ -568,12 +568,7 @@
 
 <div class="controls">
   <input id="search" class="search-input" type="search" placeholder="Filter by name…" autocomplete="off">
-  <select id="pivot" class="pivot-select">
-    <option value="">Group: none</option>
-    <option value="party">Group by party</option>
-    <option value="startDecade">Group by decade</option>
-    <option value="birthCentury">Group by birth century</option>
-  </select>
+  <select id="pivot" class="pivot-select" aria-label="Group by"></select>
 </div>
 
 <div class="layout">
@@ -582,7 +577,6 @@
   </aside>
 
   <main>
-    <p class="pro-hint">long-press a decade / century chip to range-select · long-press a "→" button to peek the SPARQL</p>
     <div id="notebook"><div class="loading">loading…</div></div>
     <div style="margin-top:24px;text-align:right;">
       <button class="jump-btn" id="notebook-reset" hidden>↺ clear navigation history</button>
@@ -659,8 +653,8 @@ const WIKIPEDIA_SUMMARY = (title) => `https://en.wikipedia.org/api/rest_v1/page/
 // need an identity bridge we don't have yet.
 // ---------------------------------------------------------------------------
 const SEEDS = {
-  'uk-pms': {
-    label: 'UK Prime Ministers',
+  'uk-politicians': {
+    label: 'UK parliamentarians',
     endpoint: QLEVER,
     entityKind: 'wikidata',
     type: 'human',
@@ -672,19 +666,44 @@ PREFIX ps:     <http://www.wikidata.org/prop/statement/>
 PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
 PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema: <http://schema.org/>
-SELECT ?pm ?pmLabel ?image ?start ?party ?partyLabel ?birthPlace ?birthPlaceLabel ?birth ?wpArticle WHERE {
+# Union of several UK-political positions Wikidata models cleanly,
+# each row tagged with which role applies.  GROUP_CONCAT folds the
+# roles per person → facet 'role' surfaces these as filter chips.
+# Notes on what we capture vs what's missing:
+#   PM            wd:Q14211       — 64 holders ever
+#   Lord          wd:Q18952564    — ~5400 holders
+#   Privy Council wd:Q28841847    — ~2600 holders (good proxy for
+#                                    cabinet-grade rank; not exact)
+#   Commons MP    Wikidata fragments this across one position-QID per
+#                 Parliament term (Q41582499 … Q41582582). Including
+#                 all of them produces ~17000 distinct people; we use
+#                 just two recent terms here to keep the seed sized
+#                 for a mobile grid. Parliament-API integration would
+#                 give a clean current-MP list (deferred — needs
+#                 per-relation cross-endpoint dispatch).
+SELECT ?pm ?pmLabel ?image ?start ?party ?partyLabel ?birth ?wpArticle
+       (GROUP_CONCAT(DISTINCT ?roleTag; separator=",") AS ?roles)
+WHERE {
+  VALUES (?pos ?roleTag) {
+    (wd:Q14211      "PM")
+    (wd:Q18952564   "Lord")
+    (wd:Q28841847   "Privy Council")
+    (wd:Q41582581   "Commons MP")   # 30th UK Parliament — best-populated term
+    (wd:Q41582593   "Commons MP")   # 37th
+  }
   ?pm p:P39 ?term .
-  ?term ps:P39 wd:Q14211 ; pq:P580 ?start .
-  OPTIONAL { ?pm wdt:P18  ?image }
+  ?term ps:P39 ?pos .
+  OPTIONAL { ?term pq:P580 ?start }
+  OPTIONAL { ?pm wdt:P18 ?image }
   OPTIONAL { ?pm wdt:P102 ?party .
              OPTIONAL { ?party rdfs:label ?partyLabel . FILTER(lang(?partyLabel) = "en") } }
-  OPTIONAL { ?pm wdt:P19  ?birthPlace .
-             OPTIONAL { ?birthPlace rdfs:label ?birthPlaceLabel . FILTER(lang(?birthPlaceLabel) = "en") } }
   OPTIONAL { ?pm wdt:P569 ?birth }
   OPTIONAL { ?pm rdfs:label ?pmLabel . FILTER(lang(?pmLabel) = "en") }
   OPTIONAL { ?wpArticle schema:about ?pm ; schema:isPartOf <https://en.wikipedia.org/> }
 }
-ORDER BY DESC(?start)`,
+GROUP BY ?pm ?pmLabel ?image ?start ?party ?partyLabel ?birth ?wpArticle
+ORDER BY DESC(?start)
+LIMIT 500`,
   },
   'monarchs': {
     label: 'British monarchs',
@@ -758,7 +777,9 @@ SELECT ?pm (?roleStr AS ?pmLabel) WHERE {
 }`,
   },
 };
-const DEFAULT_SEED = 'uk-pms';
+const DEFAULT_SEED = 'uk-politicians';
+// Legacy alias so existing #seed=uk-pms permalinks still resolve.
+SEEDS['uk-pms'] = SEEDS['uk-politicians'];
 
 let ROWS = [];          // seed rows: [{ pm, label, image, start, birth, wpArticle, parties[], birthplaces[] }]
 let FILTERS = {};
@@ -1003,16 +1024,24 @@ function dedupe(bindings) {
         wpArticle: b.wpArticle ? b.wpArticle.value : null,
         parties: new Set(),
         birthplaces: new Set(),
+        roles: new Set(),       // populated from ?roles GROUP_CONCAT below
+        n: null,
       });
     }
     const e = byPm.get(k);
-    if (b.partyLabel)        e.parties.add(b.partyLabel.value);
-    if (b.birthPlaceLabel)   e.birthplaces.add(b.birthPlaceLabel.value);
+    if (b.partyLabel)      e.parties.add(b.partyLabel.value);
+    if (b.birthPlaceLabel) e.birthplaces.add(b.birthPlaceLabel.value);
+    // Seed query GROUP_CONCATs roles (comma-separated). One value
+    // per binding; multiple bindings if the seed isn't grouped.
+    if (b.roles && b.roles.value) {
+      for (const r of b.roles.value.split(',').map(s => s.trim()).filter(Boolean)) e.roles.add(r);
+    }
   }
   return [...byPm.values()].map((e) => ({
     ...e,
-    parties: [...e.parties].sort(),
+    parties:     [...e.parties].sort(),
     birthplaces: [...e.birthplaces].sort(),
+    roles:       [...e.roles].sort(),
   }));
 }
 
@@ -1033,9 +1062,10 @@ function startDecade(row) {
   return isFinite(y) ? `${Math.floor(y / 10) * 10}s` : null;
 }
 function facetValues(row, facet) {
-  if (facet === 'party')        return row.parties;
+  if (facet === 'party')        return row.parties || [];
   if (facet === 'birthCentury') return birthCentury(row) ? [birthCentury(row)] : [];
   if (facet === 'startDecade')  return startDecade(row) ? [startDecade(row)] : [];
+  if (facet === 'role')         return row.roles || [];
   return [];
 }
 
@@ -1075,10 +1105,37 @@ function tileHtml(r, idx, currentIds) {
     + `</div></div>`;
 }
 
+// Which facets are worth showing depends on whether the seed rows
+// actually have those fields populated. Skip a facet when nobody in
+// the visible set carries any value for it.
+function availableFacets() {
+  const all = [
+    ['role',         'Role'],
+    ['party',        'Party'],
+    ['startDecade',  'Decade'],
+    ['birthCentury', 'Born'],
+  ];
+  return all.filter(([key]) =>
+    ROWS.some((r) => facetValues(r, key).length > 0)
+  );
+}
+
+function populatePivotOptions() {
+  const $pivot = document.getElementById('pivot');
+  const opts = [['', 'Group: none']];
+  for (const [key, label] of availableFacets()) {
+    opts.push([key, 'Group by ' + label.toLowerCase()]);
+  }
+  $pivot.innerHTML = opts.map(([v, l]) => `<option value="${esc(v)}">${esc(l)}</option>`).join('');
+  // If PIVOT no longer applies, reset.
+  if (PIVOT && !opts.find(([v]) => v === PIVOT)) PIVOT = '';
+  $pivot.value = PIVOT;
+}
+
 function renderFacets() {
   // Facets only apply to the seed step.
   const visible = applyFilters(ROWS);
-  const facets = [['party', 'Party'], ['startDecade', 'Decade'], ['birthCentury', 'Born']];
+  const facets = availableFacets();
   $facets.innerHTML = facets.map(([key, label]) => {
     const tallies = tally(visible, key);
     const filterSet = FILTERS[key] || new Set();
@@ -1636,6 +1693,7 @@ async function loadSeed(seedId) {
       seedRef: seedId,             // ← lets discoverRelations check the seed's flags
       rows: ROWS,
     }];
+    populatePivotOptions();        // dynamic group-by — different seeds expose different facets
     renderAll();
   } catch (e) {
     $notebook.innerHTML = `<div class="error">Failed to load ${esc(seed.label)}: ${esc(e.message)}</div>`;
