@@ -350,23 +350,29 @@
   }
 
   /* ---- dev panel ----------------------------------------------- */
+  /* Toggle lives in the topbar where the user can actually find it,
+     not floating in the corner (iOS Safari's bottom chrome hides
+     fixed-positioned things at the bottom). */
   #dev-toggle {
-    position: fixed; bottom: 14px; right: 14px;
-    background: var(--surface);
+    background: var(--surface-2);
     color: var(--ink-soft);
     border: 1px solid var(--rule);
-    border-radius: 16px;
-    padding: 6px 12px;
+    border-radius: 6px;
+    padding: 4px 10px;
     font: 12px/1 ui-monospace, Menlo, monospace;
-    box-shadow: var(--shadow);
     cursor: pointer;
-    z-index: 90;
+    height: 28px;
+    flex: 0 0 auto;
   }
-  #dev-toggle:hover { color: var(--ink); }
+  #dev-toggle:hover { color: var(--ink); background: var(--surface); }
+  #dev-toggle[aria-expanded="true"] {
+    background: var(--accent); color: var(--accent-on); border-color: var(--accent);
+  }
   #dev-panel {
-    position: fixed; right: 14px; bottom: 50px;
+    position: fixed; right: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom, 0px));
     width: min(720px, calc(100vw - 28px));
-    max-height: 70vh;
+    max-height: 60vh;
     overflow-y: auto;
     background: var(--surface);
     border: 1px solid var(--rule);
@@ -427,6 +433,7 @@
   <h1>UK Prime Ministers</h1>
   <span class="crumbs">· <a href="/kgx/demos/">demos</a></span>
   <span class="count" id="count">…</span>
+  <button id="dev-toggle" type="button" aria-controls="dev-panel" aria-expanded="false">dev ·&nbsp;<span id="dev-count">0</span></button>
 </header>
 
 <div class="controls">
@@ -452,7 +459,6 @@
   </main>
 </div>
 
-<button id="dev-toggle" type="button" aria-controls="dev-panel" aria-expanded="false">dev ·  <span id="dev-count">0</span></button>
 <div id="dev-panel" role="region" aria-label="Dev request log">
   <h4>Request log <button class="dev-clear" type="button">clear</button></h4>
   <div id="dev-log"></div>
