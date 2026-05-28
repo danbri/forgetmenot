@@ -309,6 +309,11 @@
     transition: background 0.15s;
   }
   .jump-btn:hover { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
+  .promote-row { background: color-mix(in srgb, var(--accent) 8%, transparent); border-radius: 6px; padding: 6px 8px; }
+  .jump-btn.promote {
+    background: var(--accent); color: var(--accent-on); border-color: var(--accent);
+    font-weight: 600;
+  }
   /* "discovered" relations — dashed border to mark them as
      auto-detected (vs the curated buttons next to them). */
   .jump-btn.discovered {
@@ -1242,6 +1247,19 @@ function renderStep(step, stepIdx) {
   // Arrow prefix shows direction at-a-glance: → outgoing edge from set,
   //                                            ← incoming edge to set.
   const dirArrow = (rel) => rel.prop && rel.prop.startsWith('^') ? '←' : '→';
+  // On the seed step, when filters are active, surface a "snapshot the
+  // filter" action that promotes the visible subset into its own
+  // derived step. Subsequent navigates then branch from THAT, not from
+  // the seed every time.
+  const activeFilterCount = isSeed
+    ? Object.values(FILTERS).reduce((a, s) => a + s.size, 0)
+    : 0;
+  const promoteRow = (isSeed && activeFilterCount > 0 && rows.length && rows.length < step.rows.length)
+    ? `<div class="jump promote-row">`
+      + `<span class="jump-label">Make this slice a step</span>`
+      + `<button class="jump-btn promote" data-step="${stepIdx}">↳ snapshot ${rows.length} as new step</button>`
+      + `</div>`
+    : '';
   let jumpRow = '';
   if (rels.length && rows.length) {
     jumpRow = `<div class="jump">`
@@ -1262,6 +1280,7 @@ function renderStep(step, stepIdx) {
       + ` we don't yet have an identity bridge to Wikidata for these.`
       + `</span></div>`;
   }
+  jumpRow = promoteRow + jumpRow;
 
   // Native <details>/<summary> = lite tree-widget collapse/expand per
   // step. Seed step opens by default; derived steps open by default too
@@ -1310,7 +1329,11 @@ function renderNotebook() {
       });
       stepEl.querySelectorAll('.jump-btn').forEach((btn) => {
         const relKey = btn.getAttribute('data-rel');
-        btn.addEventListener('click', () => addStep(stepIdx, relKey, btn));
+        if (btn.classList.contains('promote')) {
+          btn.addEventListener('click', () => promoteFilter(stepIdx));
+        } else {
+          btn.addEventListener('click', () => addStep(stepIdx, relKey, btn));
+        }
       });
     });
     lastVisibleIds = new Set(STEPS.flatMap((s) => s.rows.map((r) => r.pm || r.uri)));
@@ -1483,6 +1506,37 @@ SELECT ?target (SAMPLE(?targetLabel) AS ?label) (SAMPLE(?image) AS ?img) (GROUP_
 }
 GROUP BY ?target
 LIMIT ${NAV_LIMIT}`;
+}
+
+// Promote the seed's currently-filtered subset into a new derived step
+// in its own right. Subsequent "From this selection →" navigates branch
+// from this snapshot, not from the live-filtered seed — which means
+// changing seed filters later doesn't disturb the chain you've built.
+function promoteFilter(srcStepIdx) {
+  const src = STEPS[srcStepIdx];
+  if (!src || src.kind !== 'seed') return;
+  const rows = applyFilters(src.rows).slice();
+  if (!rows.length) return;
+  const tagsList = Object.entries(FILTERS)
+    .filter(([_, vals]) => vals.size > 0)
+    .map(([f, vals]) => [...vals].join('+'))
+    .join(' · ') || 'filter';
+  STEPS.push({
+    id:            'step' + STEPS.length,
+    kind:          'derived',
+    title:         tagsList,
+    source:        src.title,
+    sourceStepIdx: srcStepIdx,
+    seedRef:       src.seedRef,
+    via:           'filter snapshot',
+    type:          src.type,
+    rows,
+  });
+  renderNotebook();
+  setTimeout(() => {
+    const el = $notebook.querySelector(`.step[data-step="${STEPS.length - 1}"]`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 
 async function addStep(srcStepIdx, relKey, btn) {
@@ -1676,7 +1730,15 @@ document.getElementById('dev-noimg').addEventListener('change', (e) => {
 // ---------------------------------------------------------------------------
 function populateSeedPicker() {
   const $seed = document.getElementById('seed');
-  $seed.innerHTML = Object.entries(SEEDS).map(([id, s]) =>
+  // De-dup so seeds that share the same object (legacy aliases like
+  // 'uk-pms' pointing at 'uk-politicians') aren't shown twice.
+  const seen = new Set();
+  const entries = Object.entries(SEEDS).filter(([id, s]) => {
+    if (seen.has(s)) return false;
+    seen.add(s);
+    return true;
+  });
+  $seed.innerHTML = entries.map(([id, s]) =>
     `<option value="${esc(id)}">${esc(s.label)}</option>`
   ).join('');
   $seed.addEventListener('change', () => loadSeed($seed.value));

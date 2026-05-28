@@ -785,6 +785,52 @@ MVP should be deliberately small.
     collaborative editing
     advanced versioning
 
+## Scale — DOM today, GPU eventually
+
+Raised during May 2026 testing: the seed for UK parliamentarians via
+`?pos wdt:P1001 wd:Q145` returns 17,382 distinct people. `LIMIT 500` in
+the seed query hides 97% of that set — and any filter you apply
+operates on just the visible slice, not the underlying total. That
+**"subsetting undercuts the point"** observation is correct: at this
+scale, the current architecture is sampling, not browsing.
+
+Two orthogonal problems:
+
+1. **Render scaling.** Today every tile is a real DOM `<img>`. iOS
+   Safari starts to chug above ~1,000 tiles. The browser-native fix is
+   **virtualised scrolling**: render only the ~60 tiles in the
+   viewport, recycle nodes as the user scrolls. Bumps practical
+   ceiling to maybe 50,000 tiles with no API changes.
+
+   For real-Pivot-Viewer behaviour at hundreds-of-thousands, the
+   target is a **GPU canvas**: a `<canvas>` (WebGL or WebGPU) where
+   each tile is a textured quad. Labels can be rendered to off-screen
+   `<canvas>` 2D contexts and uploaded as textures (cheap; we already
+   know `OffscreenCanvas` ships everywhere we care about). Image
+   thumbnails ditto. Animation between groupings becomes a vertex
+   shader.
+
+2. **Filter scaling.** Even with GPU rendering, the seed has to
+   actually contain the rows you want to filter. Two paths:
+
+   - **Push facets into the SPARQL**: each facet selection becomes a
+     WHERE clause; re-fire the seed query when filters change. Cheap
+     for the client; relies on QLever being fast (it is, ~0.5–2 s for
+     this shape). Currently we filter client-side because the seed is
+     cached and filters animate; the server-side push would re-fetch
+     per filter change. A hybrid: client-side for the first 500,
+     server-side bump when the user "snapshots" or asks for "all of
+     them".
+   - **Bloom filters for set membership**: ship a compact (~30 KB)
+     bloom of the full 17K QID set, query QLever lazily for rows on
+     demand as the user scrolls. Cheaper than re-firing, more code.
+
+The "promote selection as new step" button shipped this commit is
+the smallest step that respects the user's mental model: filter
+fluidly *and then commit* the subset as its own provenance node, so
+later pivots branch from a known, named slice. Persists in the graph
+DAG; the live-seed-with-filters becomes a transient stage.
+
 ## Out of Scope for This Sketch
 
     multi-user collaborative editing
