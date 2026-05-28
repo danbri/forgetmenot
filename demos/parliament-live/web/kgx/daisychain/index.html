@@ -202,10 +202,10 @@ function newNG(kind) {
   const ts = new Date().toISOString().replace(/[:.]/g, '-');
   return `urn:fmn:bead/${ts}/${_ngSeq}/${kind}`;
 }
-function makeSource({ kind, endpoint = null, engineId = null, query = null, ms = 0, bindings = [], note = null }) {
+function makeSource({ kind, endpoint = null, engineId = null, query = null, ms = 0, bindings = [], note = null, relTemplate = null, variant = null, namedGraphs = [] }) {
   return {
     ng: newNG(kind),
-    kind,                  // 'seed' | 'enrich' | 'pivot:P19' | 'filter' …
+    kind,                  // 'seed' | 'enrich' | 'rel:children:sons' | …
     endpoint,              // null for client-side ops
     engineId,              // which engine ran this (null for client-side)
     query,                 // SPARQL text, or null
@@ -214,6 +214,13 @@ function makeSource({ kind, endpoint = null, engineId = null, query = null, ms =
     bindings,              // kept verbatim so we can render TriG without refetching
     ts: Date.now(),
     note,
+    // Relation-template provenance (set when this Source came from a
+    // RelationTemplate variant — see REL_TEMPLATES below). Makes the chain
+    // legible in the design's vocabulary: "via template 'children', variant
+    // 'sons', engine 'qlever-wikidata', named graph: ∅".
+    relTemplate,           // e.g. 'children' | 'appg_officer'
+    variant,               // e.g. 'default' | 'sons' | 'broaden:family'
+    namedGraphs,           // explicit GRAPH IRIs queried (FPKG NGs etc.)
   };
 }
 
@@ -449,6 +456,328 @@ async function pivotAlmaMaters(bundle) {
   };
 }
 
+// ============================================================================
+// Relation Templates — the design's `relationTemplate` concept made concrete.
+//
+// A pivot is not a raw predicate. It is a semantic relation with a default
+// implementation, optional `tighten` variants (narrower / stricter), and
+// optional `broaden` variants (wider / weaker). The variant a user picks is
+// recorded as provenance on the resulting bead, so the chain is legible as
+// "via template `children`, variant `sons`" rather than as opaque SPARQL.
+//
+// Each template specifies:
+//   - id, label, gloss           — UI identity
+//   - inputType / outputType     — type signature; chip enabled only on a
+//                                  bundle of inputType
+//   - engineId                   — which engine in ENGINES runs the SPARQL
+//   - requires (optional)        — predicate over a bundle; controls
+//                                  whether the variant is reachable
+//                                  ("appg_officer needs mpid; some seeds
+//                                  don't carry it")
+//   - variants: [
+//       { id, kind: 'default'|'tighten'|'broaden',
+//         label, gloss,
+//         namedGraphs: [],       — explicit GRAPH IRIs (FPKG NGs etc.)
+//         build(items) → SPARQL,
+//         parse(bindings) → items, — optional output transformer
+//       }, …
+//     ]
+//
+// Output items follow the same shape conventions as the existing pivots:
+//   { uri, label, image?, country?, coords?, originCount?,
+//     extra?: { … per-template details … } }
+// ============================================================================
+
+function valuesQids(items) {
+  // VALUES clause of Wikidata QIDs found in items[].uri.
+  const qs = items.map((x) => (x.uri.match(/Q\d+$/) || [])[0]).filter(Boolean);
+  return [...new Set(qs)].map((q) => `wd:${q}`).join(' ');
+}
+function valuesMnisPersons(items) {
+  // The FPKG appg-register graph keys people by MNIS Members API id; the
+  // subject URI is <…/services/mnis/members/<id>>. We carry that as mpid.
+  const ids = items.map((x) => x.mpid).filter(Boolean);
+  return [...new Set(ids)]
+    .map((id) => `<https://data.parliament.uk/membersdataplatform/services/mnis/members/${id}>`)
+    .join(' ');
+}
+
+const REL_TEMPLATES = [
+  {
+    id: 'birthplaces',
+    label: 'birthplaces',
+    gloss: 'places of birth (Wikidata P19)',
+    inputType: 'human', outputType: 'place',
+    engineId: 'qlever-wikidata',
+    requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: 'P19 — place of birth',
+        gloss: 'one place per person',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?bp (SAMPLE(?bpLbl) AS ?label) (SAMPLE(?bpCoord) AS ?coord)
+                 (SAMPLE(?img) AS ?image) (SAMPLE(?ctryLbl) AS ?country)
+                 (COUNT(DISTINCT ?p) AS ?n)
+          WHERE {
+            VALUES ?p { ${valuesQids(items)} }
+            ?p wdt:P19 ?bp .
+            OPTIONAL { ?bp rdfs:label ?bpLbl . FILTER(lang(?bpLbl)="en") }
+            OPTIONAL { ?bp wdt:P625 ?bpCoord }
+            OPTIONAL { ?bp wdt:P18  ?img }
+            OPTIONAL { ?bp wdt:P17  ?ctry .
+                       OPTIONAL { ?ctry rdfs:label ?ctryLbl . FILTER(lang(?ctryLbl)="en") } }
+          } GROUP BY ?bp ORDER BY DESC(?n)`,
+        parse: (rows) => rows.map((b) => ({
+          uri: b.bp.value,
+          label: b.label?.value || b.bp.value.replace(/^.*\//, ''),
+          image: b.image?.value || null,
+          country: b.country?.value || null,
+          coords: parsePoint(b.coord?.value),
+          originCount: +(b.n?.value || 0),
+        })),
+      },
+      {
+        id: 'or_residence', kind: 'broaden', label: '+ residence (∪ P551)',
+        gloss: 'place of birth OR residence',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?bp (SAMPLE(?bpLbl) AS ?label) (SAMPLE(?bpCoord) AS ?coord)
+                 (SAMPLE(?img) AS ?image) (SAMPLE(?ctryLbl) AS ?country)
+                 (COUNT(DISTINCT ?p) AS ?n)
+          WHERE {
+            VALUES ?p { ${valuesQids(items)} }
+            { ?p wdt:P19 ?bp } UNION { ?p wdt:P551 ?bp }
+            OPTIONAL { ?bp rdfs:label ?bpLbl . FILTER(lang(?bpLbl)="en") }
+            OPTIONAL { ?bp wdt:P625 ?bpCoord }
+            OPTIONAL { ?bp wdt:P18  ?img }
+            OPTIONAL { ?bp wdt:P17  ?ctry .
+                       OPTIONAL { ?ctry rdfs:label ?ctryLbl . FILTER(lang(?ctryLbl)="en") } }
+          } GROUP BY ?bp ORDER BY DESC(?n)`,
+        parse: (rows) => rows.map((b) => ({
+          uri: b.bp.value,
+          label: b.label?.value || b.bp.value.replace(/^.*\//, ''),
+          image: b.image?.value || null,
+          country: b.country?.value || null,
+          coords: parsePoint(b.coord?.value),
+          originCount: +(b.n?.value || 0),
+        })),
+      },
+    ],
+  },
+  {
+    id: 'children',
+    label: 'children',
+    gloss: 'design showpiece: Wikidata P40 with tighten/broaden',
+    inputType: 'human', outputType: 'human',
+    engineId: 'qlever-wikidata',
+    requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: 'P40 — child',
+        gloss: 'one child per parent statement',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?c (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)
+                 (COUNT(DISTINCT ?p) AS ?n)
+          WHERE {
+            VALUES ?p { ${valuesQids(items)} }
+            ?p wdt:P40 ?c .
+            OPTIONAL { ?c rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+            OPTIONAL { ?c wdt:P18 ?img }
+          } GROUP BY ?c ORDER BY DESC(?n)`,
+      },
+      {
+        id: 'sons', kind: 'tighten', label: 'sons (P40 + P21=male)',
+        gloss: 'children filtered to male',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?c (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)
+                 (COUNT(DISTINCT ?p) AS ?n)
+          WHERE {
+            VALUES ?p { ${valuesQids(items)} }
+            ?p wdt:P40 ?c . ?c wdt:P21 wd:Q6581097 .
+            OPTIONAL { ?c rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+            OPTIONAL { ?c wdt:P18 ?img }
+          } GROUP BY ?c ORDER BY DESC(?n)`,
+      },
+      {
+        id: 'daughters', kind: 'tighten', label: 'daughters (P40 + P21=female)',
+        gloss: 'children filtered to female',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?c (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)
+                 (COUNT(DISTINCT ?p) AS ?n)
+          WHERE {
+            VALUES ?p { ${valuesQids(items)} }
+            ?p wdt:P40 ?c . ?c wdt:P21 wd:Q6581072 .
+            OPTIONAL { ?c rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+            OPTIONAL { ?c wdt:P18 ?img }
+          } GROUP BY ?c ORDER BY DESC(?n)`,
+      },
+      {
+        id: 'family', kind: 'broaden', label: 'family (∪ parents, siblings, spouses)',
+        gloss: 'children OR parents OR siblings OR spouses — design example',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?c (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)
+                 (COUNT(DISTINCT ?p) AS ?n)
+          WHERE {
+            VALUES ?p { ${valuesQids(items)} }
+            { ?p wdt:P40 ?c } UNION { ?c wdt:P40 ?p }
+            UNION { ?p wdt:P3373 ?c } UNION { ?p wdt:P26 ?c }
+            OPTIONAL { ?c rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+            OPTIONAL { ?c wdt:P18 ?img }
+          } GROUP BY ?c ORDER BY DESC(?n)`,
+      },
+    ],
+  },
+  {
+    id: 'current_constituency',
+    label: 'current constituency',
+    gloss: 'Parliament DDP via rdfs:seeAlso bridge — non-Wikidata source',
+    inputType: 'human', outputType: 'constituency',
+    engineId: 'parl-sparql',
+    requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: 'open SeatIncumbency',
+        gloss: 'the constituency they currently sit for',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX schema: <https://id.parliament.uk/schema/>
+          PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?cg (SAMPLE(?cgName) AS ?label) (COUNT(DISTINCT ?qid) AS ?n)
+          WHERE {
+            VALUES ?qid { ${valuesQids(items)} }
+            ?person rdfs:seeAlso ?qid ;
+                    a schema:Member ;
+                    schema:memberHasParliamentaryIncumbency ?in .
+            ?in a schema:SeatIncumbency .
+            FILTER NOT EXISTS { ?in schema:incumbencyEndDate ?e }
+            ?in schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup ?cg .
+            ?cg schema:constituencyGroupName ?cgName .
+          } GROUP BY ?cg ORDER BY DESC(?n)`,
+        parse: (rows) => rows.map((b) => ({
+          uri: b.cg.value,
+          label: b.label?.value || b.cg.value.replace(/^.*\//, ''),
+          originCount: +(b.n?.value || 0),
+          image: null, country: null, coords: null,
+        })),
+      },
+      {
+        id: 'ever_held', kind: 'broaden', label: 'every constituency ever held',
+        gloss: 'all SeatIncumbencies, open or closed',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX schema: <https://id.parliament.uk/schema/>
+          PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?cg (SAMPLE(?cgName) AS ?label) (COUNT(DISTINCT ?qid) AS ?n)
+          WHERE {
+            VALUES ?qid { ${valuesQids(items)} }
+            ?person rdfs:seeAlso ?qid ;
+                    a schema:Member ;
+                    schema:memberHasParliamentaryIncumbency ?in .
+            ?in a schema:SeatIncumbency ;
+                schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup ?cg .
+            ?cg schema:constituencyGroupName ?cgName .
+          } GROUP BY ?cg ORDER BY DESC(?n)`,
+        parse: (rows) => rows.map((b) => ({
+          uri: b.cg.value,
+          label: b.label?.value || b.cg.value.replace(/^.*\//, ''),
+          originCount: +(b.n?.value || 0),
+          image: null, country: null, coords: null,
+        })),
+      },
+    ],
+  },
+  {
+    id: 'appg_officer',
+    label: 'APPGs they officer',
+    gloss: 'FPKG named graph (transparency#graph/appg-register) — bridge via P10428 → MNIS id',
+    inputType: 'human', outputType: 'appg',
+    engineId: 'fpkg',
+    requires: (b) => b.items.some((x) => x.mpid),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: 'officer of (any role)',
+        gloss: 'distinct APPGs each input person officers',
+        namedGraphs: ['https://forgetmenot.example/transparency#graph/appg-register'],
+        build: (items) => `
+          SELECT ?appg (SAMPLE(?appgLbl) AS ?label) (COUNT(DISTINCT ?p) AS ?n)
+          WHERE {
+            VALUES ?p { ${valuesMnisPersons(items)} }
+            GRAPH <https://forgetmenot.example/transparency#graph/appg-register> {
+              ?p <https://forgetmenot.example/transparency#officerOf> ?appg .
+              OPTIONAL { ?appg <https://forgetmenot.example/transparency#title> ?appgLbl }
+            }
+          } GROUP BY ?appg ORDER BY DESC(?n)`,
+        parse: (rows) => rows.map((b) => ({
+          uri: b.appg.value,
+          label: b.label?.value || b.appg.value.replace(/^.*\//, ''),
+          originCount: +(b.n?.value || 0),
+          image: null, country: null, coords: null,
+        })),
+      },
+    ],
+  },
+];
+
+async function applyRelation(template, variant, bundle) {
+  if (!template) throw new Error('no template');
+  if (!variant)  throw new Error('no variant');
+  if (template.requires && !template.requires(bundle)) {
+    throw new Error(`bundle does not satisfy requires() for "${template.id}"`);
+  }
+  const sparqlText = variant.build(bundle.items);
+  const res = await engine(template.engineId).query(
+    sparqlText, `rel:${template.id}:${variant.id}(${bundle.size})`
+  );
+  const rows = res.json.results.bindings;
+  // Per-variant parse fn; otherwise pass bindings through a sensible default.
+  const items = (variant.parse || ((rs) => rs.map((b) => {
+    // Take the first URI column as subject, the first non-URI as label.
+    const cols = Object.keys(b);
+    const sCol = cols.find((c) => b[c]?.type === 'uri');
+    return {
+      uri: b[sCol]?.value || '',
+      label: b.label?.value || (sCol && b[sCol].value.replace(/^.*\//, '')) || '',
+      originCount: +(b.n?.value || 0),
+      image: null, country: null, coords: null,
+    };
+  })))(rows);
+  return {
+    bundle: new Bundle(items, template.outputType,
+                       `${template.label} (${variant.label}) of ${bundle.label}`),
+    source: makeSource({
+      kind: `rel:${template.id}:${variant.id}`,
+      endpoint: res.endpoint, engineId: res.engineId,
+      query: sparqlText, ms: res.ms, bindings: rows,
+      relTemplate: template.id, variant: variant.id,
+      namedGraphs: variant.namedGraphs || [],
+      note: `${template.gloss} · variant=${variant.kind}:${variant.id}`,
+    }),
+  };
+}
+
 // ----------------------------------------------------------------------------
 // Enrich from the UK Parliament SPARQL endpoint (not Wikidata). Each input
 // item carries a Wikidata QID URI; Parliament's `rdfs:seeAlso` bridge lets
@@ -623,6 +952,23 @@ const OPS = {
     { id: 'pivot-am',label: '→ alma maters',    icon: '🎓', kind: 'async',
       hint: 'walk P69 to a set of institutions',
       run: (b) => pivotAlmaMaters(b) },
+    { id: 'pivot', label: '→ pivot…', icon: '⇄', kind: 'rel-picker',
+      hint: 'relation templates: tighten / broaden across Wikidata, Parliament DDP and FPKG NGs' },
+  ],
+  // Result types from non-Wikidata sources — minimal palettes so the chain
+  // can continue (group, narrow). They show that the bead-type vocabulary
+  // doesn't bottom out at human/place/org.
+  constituency: [
+    { id: 'has-origin', label: 'top-weighted', icon: '★', kind: 'static',
+      run: (b) => new Bundle(
+        [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 50),
+        'constituency', `${b.label} · top 50`) },
+  ],
+  appg: [
+    { id: 'top-by-officer-count', label: 'top by officer count', icon: '★', kind: 'static',
+      run: (b) => new Bundle(
+        [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 50),
+        'appg', `${b.label} · top 50`) },
   ],
   place: [
     { id: 'top-country', label: 'group by country', icon: '🌐', kind: 'static',
@@ -802,6 +1148,37 @@ const LIBRARY = [
     steps: [
       { kind: 'starter', id: 'parl-current-mps' },
       { kind: 'op', op: 'party', value: 'Conservative' },
+    ],
+  },
+  {
+    id: 'pm-children-family',
+    title: 'Family of recent PMs (design showpiece)',
+    sub: 'Wikidata seed → 1990s+ → `children` template, broaden:family. Tighten/broaden enforced.',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'decade', value: '2000s' },
+      { kind: 'op', op: 'rel-pivot', template: 'children', variant: 'family' },
+    ],
+  },
+  {
+    id: 'lab-sitting-appgs',
+    title: 'APPGs sitting Labour MPs officer (FPKG named graph)',
+    sub: 'Wikidata seed → Labour → sitting → AppGs they officer (FPKG appg-register NG).',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'party', value: 'Labour Party' },
+      { kind: 'op', op: 'sitting' },
+      { kind: 'op', op: 'rel-pivot', template: 'appg_officer', variant: 'default' },
+    ],
+  },
+  {
+    id: 'sitting-constituencies-parl',
+    title: 'Constituencies of sitting MPs (Parliament DDP)',
+    sub: 'Sitting seed → `current_constituency` template (parl-sparql).',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'sitting' },
+      { kind: 'op', op: 'rel-pivot', template: 'current_constituency', variant: 'default' },
     ],
   },
 ];
@@ -1263,6 +1640,142 @@ class DaisyPicker extends HTMLElement {
 customElements.define('daisy-picker', DaisyPicker);
 
 // ============================================================================
+// <daisy-rel-picker> — bottom sheet for the `→ pivot…` chip. Lists every
+// RelationTemplate applicable to the frontier bundle's type, with each
+// template's variants visibly grouped as default / tighten / broaden so the
+// "no silent broadening" principle is enforced at the picker UI level. Each
+// row prints the engine (Wikidata / Parl DDP / FPKG) and any named graph
+// the variant restricts to.
+// ============================================================================
+class DaisyRelPicker extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); }
+  open(bundle) {
+    this._bundle = bundle;
+    const applicable = REL_TEMPLATES.filter((t) => t.inputType === bundle.type);
+    const enabledFor = (t) => !t.requires || t.requires(bundle);
+    const KIND_LBL = { default: 'default', tighten: 'tighten', broaden: 'broaden' };
+    const tplSections = applicable.map((t) => {
+      const ok = enabledFor(t);
+      const eng = ENGINES[t.engineId];
+      const rows = t.variants.map((v) => {
+        const ngHint = (v.namedGraphs && v.namedGraphs.length)
+          ? `<div class="ngs">graph: <code>${v.namedGraphs.map(escapeHTML).join(', ')}</code></div>` : '';
+        return `
+          <button class="vrow ${v.kind}" data-tpl="${t.id}" data-var="${v.id}" ${ok ? '' : 'disabled'}>
+            <span class="vkind">${KIND_LBL[v.kind] || v.kind}</span>
+            <span class="vlbl">${escapeHTML(v.label)}</span>
+            <span class="vgloss">${escapeHTML(v.gloss || '')}</span>
+            ${ngHint}
+          </button>`;
+      }).join('');
+      return `
+        <section class="tpl ${ok ? '' : 'disabled'}">
+          <header>
+            <span class="tlbl">${escapeHTML(t.label)}</span>
+            <span class="ttype">${escapeHTML(t.inputType)} → ${escapeHTML(t.outputType)}</span>
+            <span class="teng">${escapeHTML(eng?.label || t.engineId)}</span>
+          </header>
+          <div class="tgloss">${escapeHTML(t.gloss || '')}</div>
+          ${ok ? '' : `<div class="trequires">⚠ disabled: bundle does not satisfy this template's prerequisite</div>`}
+          <div class="vrows">${rows}</div>
+        </section>`;
+    }).join('');
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { position: fixed; inset: 0; z-index: 100;
+                background: color-mix(in oklab, var(--ink) 50%, transparent);
+                display: flex; align-items: flex-end; justify-content: center;
+                animation: fade 0.18s ease-out; }
+        @keyframes fade { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes slide { from { transform: translateY(20px) } to { transform: translateY(0) } }
+        .sheet {
+          width: 100%; max-width: 760px;
+          background: var(--surface); color: var(--ink);
+          border-radius: 14px 14px 0 0;
+          padding: 14px 16px;
+          max-height: 88vh; overflow-y: auto;
+          box-shadow: 0 -8px 20px rgba(0,0,0,0.18);
+          animation: slide 0.22s ease-out;
+        }
+        .h { display: flex; align-items: baseline; gap: 8px;
+             padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft); }
+        .title { font-weight: 700; font-size: 15px; }
+        .sub { color: var(--ink-mute); font-size: 12px; }
+        .close { margin-left: auto; background: none; border: 0; color: var(--ink-mute);
+                 font-size: 20px; cursor: pointer; padding: 4px 8px; }
+        .tpl { margin: 10px 0; padding: 10px;
+               background: var(--surface-2); border: 1px solid var(--rule-soft);
+               border-radius: 10px; }
+        .tpl.disabled { opacity: 0.5; }
+        .tpl header { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+        .tlbl { font-weight: 700; font-size: 14px; color: var(--ink); }
+        .ttype, .teng {
+          font: 10px ui-monospace, Menlo, monospace;
+          padding: 2px 6px; border-radius: 3px;
+        }
+        .ttype { background: color-mix(in oklab, var(--accent) 20%, var(--surface));
+                 color: var(--ink); }
+        .teng  { background: color-mix(in oklab, var(--good) 20%, var(--surface));
+                 color: var(--ink); }
+        .tgloss { font-size: 12px; color: var(--ink-soft); margin: 4px 0 8px; }
+        .trequires { font-size: 11px; color: #c33; padding: 4px 0 6px; }
+        .vrows { display: flex; flex-direction: column; gap: 4px; }
+        .vrow {
+          display: grid; grid-template-columns: 70px 1fr auto;
+          gap: 8px; align-items: baseline; text-align: left;
+          padding: 8px 10px; border-radius: 8px;
+          border: 1px solid var(--rule-soft);
+          background: var(--surface); color: var(--ink);
+          cursor: pointer; font: inherit; font-size: 13px;
+        }
+        .vrow:hover, .vrow:focus {
+          border-color: var(--accent);
+          background: color-mix(in oklab, var(--accent) 8%, var(--surface));
+          outline: none;
+        }
+        .vrow:disabled { opacity: 0.45; cursor: default; }
+        .vkind {
+          font: 10px/1 ui-monospace, Menlo, monospace;
+          padding: 2px 6px; border-radius: 3px; text-align: center;
+          color: var(--ink);
+        }
+        .vrow.default .vkind  { background: color-mix(in oklab, var(--ink-mute) 25%, var(--surface)); }
+        .vrow.tighten .vkind  { background: color-mix(in oklab, var(--accent)  35%, var(--surface)); color: var(--ink); }
+        .vrow.broaden .vkind  { background: color-mix(in oklab, #c08020 30%, var(--surface)); }
+        .vlbl { color: var(--ink); font-weight: 600; }
+        .vgloss { color: var(--ink-mute); font-size: 11px;
+                  grid-column: 2 / span 2; padding-top: 2px; }
+        .ngs { grid-column: 2 / span 2; font-size: 10px; color: var(--ink-mute); padding-top: 2px; }
+        .ngs code { font-size: 10px; }
+      </style>
+      <div class="sheet">
+        <div class="h">
+          <span class="title">Relation templates</span>
+          <span class="sub">applicable to <code>${escapeHTML(bundle.type)}</code> bundle of ${bundle.size.toLocaleString()}</span>
+          <button class="close" aria-label="close">×</button>
+        </div>
+        ${tplSections || '<div style="padding:14px;color:var(--ink-mute);font-size:13px;">No templates registered for this bundle type yet.</div>'}
+      </div>
+    `;
+    this.shadowRoot.querySelector('.close').addEventListener('click', () => this.remove());
+    this.addEventListener('click', (e) => { if (e.target === this) this.remove(); });
+    for (const btn of this.shadowRoot.querySelectorAll('.vrow')) {
+      btn.addEventListener('click', () => {
+        const tpl = REL_TEMPLATES.find((t) => t.id === btn.dataset.tpl);
+        const v   = tpl?.variants.find((x) => x.id === btn.dataset.var);
+        if (!tpl || !v) return;
+        this.dispatchEvent(new CustomEvent('rel-pick', {
+          detail: { template: tpl, variant: v }, bubbles: true, composed: true,
+        }));
+        this.remove();
+      });
+    }
+    document.body.appendChild(this);
+  }
+}
+customElements.define('daisy-rel-picker', DaisyRelPicker);
+
+// ============================================================================
 // <daisy-info-sheet> — per-bead lineage panel. Shows what produced this bead
 // (the sources / named graphs that compose its dataset), with the SPARQL
 // used and a "download as TriG" button.
@@ -1280,8 +1793,11 @@ class DaisyInfoSheet extends HTMLElement {
           <span class="ct">${s.rowCount.toLocaleString()} rows · ${s.ms} ms</span>
         </div>
         <div class="src-meta">
-          endpoint: <code>${s.endpoint ? escapeHTML(s.endpoint) : '(client-side op)'}</code><br>
+          endpoint: <code>${s.endpoint ? escapeHTML(s.endpoint) : '(client-side op)'}</code>
+          ${s.engineId ? ` · engine: <code>${escapeHTML(s.engineId)}</code>` : ''}<br>
           fetched: ${new Date(s.ts).toISOString()}
+          ${s.relTemplate ? `<br>relation: <code>${escapeHTML(s.relTemplate)}</code> · variant: <code>${escapeHTML(s.variant || '')}</code>` : ''}
+          ${(s.namedGraphs && s.namedGraphs.length) ? `<br>named graph${s.namedGraphs.length === 1 ? '' : 's'}: ${s.namedGraphs.map((g) => `<code>${escapeHTML(g)}</code>`).join(', ')}` : ''}
           ${s.note ? `<br>note: ${escapeHTML(s.note)}` : ''}
         </div>
         ${s.query ? `<details><summary>SPARQL</summary><pre class="sparql">${escapeHTML(s.query)}</pre></details>` : ''}
@@ -1649,6 +2165,27 @@ class DaisyApp extends HTMLElement {
       }
       return;
     }
+    if (op.kind === 'rel-picker') {
+      const sheet = document.createElement('daisy-rel-picker');
+      sheet.addEventListener('rel-pick', async (e) => {
+        const { template, variant } = e.detail;
+        const lead = this.shadowRoot.querySelector('#lead');
+        const prev = lead.innerHTML;
+        lead.textContent = `⇄ ${template.label} · ${variant.label} (${variant.kind}) — running…`;
+        try {
+          const out = await applyRelation(template, variant, bundle);
+          pushBead(`${template.label} · ${variant.label}`, '⇄',
+                   out.bundle, [out.source],
+                   { kind: 'op', op: 'rel-pivot',
+                     template: template.id, variant: variant.id });
+          lead.innerHTML = prev;
+        } catch (err) {
+          lead.innerHTML = `<span style="color:#c33">${escapeHTML(template.label)} / ${escapeHTML(variant.label)} failed: ${escapeHTML(err.message)}</span>`;
+        }
+      });
+      sheet.open(bundle);
+      return;
+    }
     // picker
     const sheet = document.createElement('daisy-picker');
     sheet.addEventListener('pick', (e) => {
@@ -1693,6 +2230,13 @@ class DaisyApp extends HTMLElement {
             });
             pushBead(`${op.label.replace(/…$/, '')}: ${step.value}`, op.icon, out, [src],
                      { kind: 'op', op: op.id, value: step.value });
+          } else if (op.kind === 'rel-picker') {
+            const tpl = REL_TEMPLATES.find((t) => t.id === step.template);
+            const v   = tpl?.variants.find((x) => x.id === step.variant);
+            if (!tpl || !v) throw new Error(`unknown rel template ${step.template}/${step.variant}`);
+            const out = await applyRelation(tpl, v, front.bundle);
+            pushBead(`${tpl.label} · ${v.label}`, '⇄', out.bundle, [out.source],
+                     { kind: 'op', op: 'rel-pivot', template: tpl.id, variant: v.id });
           }
         }
       } catch (err) {
