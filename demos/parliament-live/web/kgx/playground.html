@@ -588,6 +588,7 @@ async function execute(query) {
   const ms = Math.round(performance.now() - t0);
   const ct = r.headers.get('content-type') || '';
   const text = await r.text();
+  console.log('[sparql]', CURRENT.id, { ms, status: r.status, bytes: text.length, query });
   if (!r.ok) {
     return { error: 'HTTP ' + r.status + '\n' + text, ms, status: r.status, bytes: text.length, portableNote };
   }

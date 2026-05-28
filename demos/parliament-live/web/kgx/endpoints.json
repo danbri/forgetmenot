@@ -33,10 +33,10 @@
     {
       "id": "wikidata-qlever",
       "label": "Wikidata via QLever (Freiburg)",
-      "url": "https://qlever.cs.uni-freiburg.de/api/wikidata",
+      "url": "https://qlever.dev/api/wikidata",
       "cors": true,
       "tier": "wikidata",
-      "notes": "QLever-hosted mirror. Often faster on large joins; lacks some Wikidata extensions."
+      "notes": "QLever-hosted mirror. Often faster on large joins; lacks Blazegraph extensions (wikibase:label etc). Moved 2026 from qlever.cs.uni-freiburg.de."
     },
     {
       "id": "wikidata-virtuoso",

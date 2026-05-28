@@ -319,6 +319,77 @@
     background: var(--surface-2); color: var(--ink);
     border: 1px solid var(--rule);
   }
+
+  /* ---- dev panel ----------------------------------------------- */
+  #dev-toggle {
+    position: fixed; bottom: 14px; right: 14px;
+    background: var(--surface);
+    color: var(--ink-soft);
+    border: 1px solid var(--rule);
+    border-radius: 16px;
+    padding: 6px 12px;
+    font: 12px/1 ui-monospace, Menlo, monospace;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    z-index: 90;
+  }
+  #dev-toggle:hover { color: var(--ink); }
+  #dev-panel {
+    position: fixed; right: 14px; bottom: 50px;
+    width: min(720px, calc(100vw - 28px));
+    max-height: 70vh;
+    overflow-y: auto;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    box-shadow: var(--shadow-lift);
+    padding: 12px;
+    display: none;
+    z-index: 90;
+    font: 12px/1.45 ui-monospace, Menlo, monospace;
+    color: var(--ink);
+  }
+  #dev-panel.open { display: block; }
+  #dev-panel h4 {
+    margin: 0 0 8px; font-size: 13px;
+    color: var(--ink); display: flex; align-items: center; gap: 8px;
+  }
+  #dev-panel .dev-clear {
+    margin-left: auto; background: var(--surface-2); color: var(--ink-soft);
+    border: 1px solid var(--rule); border-radius: 4px;
+    padding: 2px 8px; font: inherit; cursor: pointer;
+  }
+  #dev-panel .dev-row {
+    border-top: 1px solid var(--rule-soft);
+    padding: 6px 0;
+  }
+  #dev-panel .dev-row:first-of-type { border-top: 0; }
+  #dev-panel .dev-summary {
+    display: flex; gap: 8px; align-items: baseline;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  #dev-panel .dev-summary .ok    { color: #2a8a3a; }
+  #dev-panel .dev-summary .bad   { color: #c0392b; }
+  #dev-panel .dev-summary .label { color: var(--ink); flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  #dev-panel .dev-summary .ms    { color: var(--ink-mute); }
+  #dev-panel .dev-body {
+    display: none;
+    padding: 6px 0 4px;
+  }
+  #dev-panel .dev-body pre {
+    background: var(--surface-2);
+    color: var(--ink);
+    padding: 8px; border-radius: 4px;
+    white-space: pre-wrap; word-break: break-word;
+    margin: 4px 0;
+    max-height: 200px; overflow: auto;
+  }
+  #dev-panel .dev-row.expanded .dev-body { display: block; }
+  @media (prefers-color-scheme: dark) {
+    #dev-panel .dev-summary .ok  { color: #6acb6a; }
+    #dev-panel .dev-summary .bad { color: #ff9a8b; }
+  }
 </style>
 </head>
 <body>
@@ -356,14 +427,20 @@
   </main>
 </div>
 
+<button id="dev-toggle" type="button" aria-controls="dev-panel" aria-expanded="false">dev ·  <span id="dev-count">0</span></button>
+<div id="dev-panel" role="region" aria-label="Dev request log">
+  <h4>Request log <button class="dev-clear" type="button">clear</button></h4>
+  <div id="dev-log"></div>
+</div>
+
 <div class="popover-backdrop" id="popover">
   <div class="popover" role="dialog" aria-modal="true" aria-labelledby="pop-title">
     <div class="popover-image-wrap"><img id="pop-img" alt=""></div>
     <h3 id="pop-title"></h3>
     <p class="lifespan" id="pop-lifespan"></p>
     <dl id="pop-fields"></dl>
-    <dt class="src-tag">From DBpedia (federated)</dt>
-    <p class="abstract loading" id="pop-abstract">loading abstract…</p>
+    <dt class="src-tag">Wikipedia summary</dt>
+    <p class="abstract loading" id="pop-abstract">loading…</p>
     <div class="popover-actions">
       <a id="pop-wd" target="_blank" rel="noopener">Wikidata</a>
       <a id="pop-dbp" target="_blank" rel="noopener">DBpedia</a>
@@ -376,36 +453,84 @@
 // ---------------------------------------------------------------------------
 // State
 // ---------------------------------------------------------------------------
-const WIKIDATA = 'https://query.wikidata.org/sparql';
-const DBPEDIA  = 'https://dbpedia.org/sparql';
+// QLever's Wikidata mirror is markedly faster than the official Blazegraph
+// endpoint for our kind of join. Falls back nowhere — if QLever is down,
+// the page surfaces the error and the dev panel shows the failed request.
+const QLEVER   = 'https://qlever.dev/api/wikidata';
+const WIKIPEDIA_SUMMARY = (title) => `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(title)}`;
 
+// Vanilla SPARQL — no SERVICE wikibase:label, no bd: predicates, runs on
+// any Wikidata-aware endpoint (QLever, OpenLink Virtuoso, official WDQS).
+// ?wpArticle reverse-binds the English Wikipedia article URI for each PM
+// via schema:about — we slice the title off for the Wikipedia REST API.
 const SEED_QUERY = `
-PREFIX wd:   <http://www.wikidata.org/entity/>
-PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-PREFIX p:    <http://www.wikidata.org/prop/>
-PREFIX ps:   <http://www.wikidata.org/prop/statement/>
-PREFIX pq:   <http://www.wikidata.org/prop/qualifier/>
+PREFIX wd:     <http://www.wikidata.org/entity/>
+PREFIX wdt:    <http://www.wikidata.org/prop/direct/>
+PREFIX p:      <http://www.wikidata.org/prop/>
+PREFIX ps:     <http://www.wikidata.org/prop/statement/>
+PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX schema: <http://schema.org/>
 
-SELECT ?pm ?pmLabel ?image ?start ?partyLabel ?birthPlaceLabel ?birth ?dbpedia WHERE {
+SELECT ?pm ?pmLabel ?image ?start ?party ?partyLabel ?birthPlace ?birthPlaceLabel ?birth ?wpArticle WHERE {
   ?pm p:P39 ?term .
   ?term ps:P39 wd:Q14211 ; pq:P580 ?start .
-  OPTIONAL { ?pm wdt:P18   ?image }
-  OPTIONAL { ?pm wdt:P102  ?party }
-  OPTIONAL { ?pm wdt:P19   ?birthPlace }
-  OPTIONAL { ?pm wdt:P569  ?birth }
-  OPTIONAL { ?pm wdt:P2888 ?dbpedia }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  OPTIONAL { ?pm wdt:P18  ?image }
+  OPTIONAL { ?pm wdt:P102 ?party .
+             OPTIONAL { ?party rdfs:label ?partyLabel . FILTER(lang(?partyLabel) = "en") } }
+  OPTIONAL { ?pm wdt:P19  ?birthPlace .
+             OPTIONAL { ?birthPlace rdfs:label ?birthPlaceLabel . FILTER(lang(?birthPlaceLabel) = "en") } }
+  OPTIONAL { ?pm wdt:P569 ?birth }
+  OPTIONAL { ?pm rdfs:label ?pmLabel . FILTER(lang(?pmLabel) = "en") }
+  OPTIONAL { ?wpArticle schema:about ?pm ; schema:isPartOf <https://en.wikipedia.org/> }
 }
 ORDER BY DESC(?start)
 `;
 
-let ROWS = [];          // [{ pm, label, image, start, birth, dbpedia, parties[], birthplaces[] }]
-let FILTERS = {};       // facet → Set<value>
+let ROWS = [];          // [{ pm, label, image, start, birth, wpArticle, parties[], birthplaces[] }]
+let FILTERS = {};
 let SEARCH  = '';
-let PIVOT   = '';       // '', 'party', 'startDecade', 'birthCentury'
-let VIEW    = 'pms';    // 'pms' | 'birthplaces' | 'parties' | 'spouses'
-let SUB_ROWS = [];      // rows for sub-views (jump targets)
-let lastVisibleIds = new Set();   // for fade-in animation
+let PIVOT   = '';
+let VIEW    = 'pms';
+let SUB_ROWS = [];
+let lastVisibleIds = new Set();
+
+// All HTTP requests funnel through net() so the dev panel + console get
+// a uniform entry per request.
+const REQ_LOG = [];
+function net(label, url, query) {
+  const t0 = performance.now();
+  const entry = {
+    t: new Date().toISOString().replace('T', ' ').replace('Z', ''),
+    label, url, query: query || null,
+    ms: null, status: null, bytes: null, ok: false, error: null,
+  };
+  REQ_LOG.unshift(entry);
+  if (REQ_LOG.length > 100) REQ_LOG.length = 100;
+  const finish = (res, text, err) => {
+    entry.ms = Math.round(performance.now() - t0);
+    entry.status = res ? res.status : 0;
+    entry.bytes = text ? text.length : 0;
+    entry.ok = !!(res && res.ok);
+    entry.error = err ? String(err.message || err) : null;
+    console.log('[net]', label, url, { ms: entry.ms, status: entry.status, bytes: entry.bytes, query });
+    renderDevLog();
+  };
+  return fetch(url, { headers: { 'Accept': label.startsWith('sparql') ? 'application/sparql-results+json' : 'application/json' } })
+    .then(async (res) => {
+      const text = await res.text();
+      finish(res, text);
+      if (!res.ok) throw new Error(label + ': HTTP ' + res.status);
+      return JSON.parse(text);
+    })
+    .catch((err) => { finish(null, null, err); throw err; });
+}
+
+async function sparql(endpoint, query, label = 'sparql') {
+  const u = new URL(endpoint);
+  u.searchParams.set('query', query);
+  return net(label, u.toString(), query);
+}
 
 // ---------------------------------------------------------------------------
 // DOM
@@ -432,17 +557,6 @@ function imgAtWidth(href, w) {
   return u;
 }
 
-async function sparql(endpoint, query) {
-  const u = new URL(endpoint);
-  u.searchParams.set('query', query);
-  u.searchParams.set('format', 'json');
-  const r = await fetch(u.toString(), {
-    headers: { 'Accept': 'application/sparql-results+json' },
-  });
-  if (!r.ok) throw new Error(endpoint + ': HTTP ' + r.status);
-  return r.json();
-}
-
 function dedupe(bindings) {
   const byPm = new Map();
   for (const b of bindings) {
@@ -454,7 +568,7 @@ function dedupe(bindings) {
         image: b.image ? b.image.value : null,
         start: b.start ? b.start.value : null,
         birth: b.birth ? b.birth.value : null,
-        dbpedia: b.dbpedia ? b.dbpedia.value : null,
+        wpArticle: b.wpArticle ? b.wpArticle.value : null,
         parties: new Set(),
         birthplaces: new Set(),
       });
@@ -468,6 +582,12 @@ function dedupe(bindings) {
     parties: [...e.parties].sort(),
     birthplaces: [...e.birthplaces].sort(),
   }));
+}
+
+function wikipediaTitle(articleUri) {
+  if (!articleUri) return null;
+  const m = articleUri.match(/\/wiki\/(.+)$/);
+  return m ? decodeURIComponent(m[1]) : null;
 }
 
 function birthCentury(row) {
@@ -612,20 +732,21 @@ function renderJump() {
 function renderAll() { renderFacets(); renderGrid(); renderJump(); }
 
 // ---------------------------------------------------------------------------
-// Popover (with federated DBpedia abstract — real cross-source moment)
+// Popover — second data source pulled live from the Wikipedia REST API
+// (Wikidata gave us the article URI via schema:about in the seed query).
 // ---------------------------------------------------------------------------
 const ABSTRACT_CACHE = new Map();
 
-async function loadAbstract(dbpediaUri) {
-  if (!dbpediaUri) return null;
-  if (ABSTRACT_CACHE.has(dbpediaUri)) return ABSTRACT_CACHE.get(dbpediaUri);
-  const q = `PREFIX dbo: <http://dbpedia.org/ontology/>
-SELECT ?abstract WHERE { <${dbpediaUri}> dbo:abstract ?abstract . FILTER (lang(?abstract) = "en") } LIMIT 1`;
+async function loadAbstract(wpArticle) {
+  if (!wpArticle) return null;
+  if (ABSTRACT_CACHE.has(wpArticle)) return ABSTRACT_CACHE.get(wpArticle);
+  const title = wikipediaTitle(wpArticle);
+  if (!title) return null;
   try {
-    const j = await sparql(DBPEDIA, q);
-    const a = j.results.bindings[0] && j.results.bindings[0].abstract.value;
-    ABSTRACT_CACHE.set(dbpediaUri, a || null);
-    return a || null;
+    const json = await net('wikipedia-summary', WIKIPEDIA_SUMMARY(title));
+    const text = json && json.extract;
+    ABSTRACT_CACHE.set(wpArticle, text || null);
+    return text || null;
   } catch (e) {
     return null;
   }
@@ -663,17 +784,15 @@ function openPopover(row) {
   }
 
   wd.href = row.pm;
-  if (row.dbpedia) { dbp.href = row.dbpedia; dbp.style.display = ''; }
+  if (row.wpArticle) { dbp.href = row.wpArticle; dbp.style.display = ''; dbp.textContent = 'Wikipedia'; }
   else dbp.style.display = 'none';
 
-  // Wikidata gave us the DBpedia URI; fetch the abstract from DBpedia
-  // live. Two sources, one card.
   abs.className = 'abstract loading';
-  abs.textContent = row.dbpedia ? 'loading abstract from DBpedia…' : '(no DBpedia link on Wikidata)';
-  if (row.dbpedia) {
-    loadAbstract(row.dbpedia).then((text) => {
+  abs.textContent = row.wpArticle ? 'loading…' : '(no English Wikipedia article)';
+  if (row.wpArticle) {
+    loadAbstract(row.wpArticle).then((text) => {
       abs.className = 'abstract';
-      abs.textContent = text || '(DBpedia returned no English abstract)';
+      abs.textContent = text || '(no summary)';
     });
   }
 
@@ -698,35 +817,40 @@ async function jumpTo(target) {
   if (!visible.length) return;
   const qids = visible.map((r) => '<' + r.pm + '>').join(' ');
   let q;
+  // Portable SPARQL — no SERVICE wikibase:label so QLever accepts it.
+  const LABELS = `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>`;
   if (target === 'birthplaces') {
-    q = `PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    q = `${LABELS}
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 SELECT DISTINCT ?place ?placeLabel ?image WHERE {
   VALUES ?pm { ${qids} }
   ?pm wdt:P19 ?place .
   OPTIONAL { ?place wdt:P18 ?image }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  OPTIONAL { ?place rdfs:label ?placeLabel . FILTER(lang(?placeLabel) = "en") }
 } LIMIT 60`;
   } else if (target === 'parties') {
-    q = `PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    q = `${LABELS}
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 SELECT ?party ?partyLabel ?image (COUNT(?pm) AS ?n) WHERE {
   VALUES ?pm { ${qids} }
   ?pm wdt:P102 ?party .
   OPTIONAL { ?party wdt:P154 ?image }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  OPTIONAL { ?party rdfs:label ?partyLabel . FILTER(lang(?partyLabel) = "en") }
 } GROUP BY ?party ?partyLabel ?image ORDER BY DESC(?n)`;
   } else if (target === 'spouses') {
-    q = `PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+    q = `${LABELS}
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
 SELECT DISTINCT ?person ?personLabel ?image WHERE {
   VALUES ?pm { ${qids} }
   ?pm wdt:P26 ?person .
   OPTIONAL { ?person wdt:P18 ?image }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+  OPTIONAL { ?person rdfs:label ?personLabel . FILTER(lang(?personLabel) = "en") }
 } LIMIT 60`;
   } else return;
 
   $results.innerHTML = '<div class="loading">running…</div>';
   try {
-    const j = await sparql(WIKIDATA, q);
+    const j = await sparql(QLEVER, q, 'sparql:jump-' + target);
     SUB_ROWS = j.results.bindings.map((b) => {
       const uri = (b.place || b.party || b.person).value;
       const label = (b.placeLabel || b.partyLabel || b.personLabel) ? (b.placeLabel || b.partyLabel || b.personLabel).value : uri.replace(/^.*\//, '');
@@ -762,11 +886,52 @@ document.getElementById('pivot').addEventListener('change', (e) => {
 });
 
 // ---------------------------------------------------------------------------
+// Dev panel — render the request log into the slide-up panel.
+// ---------------------------------------------------------------------------
+const $devToggle = document.getElementById('dev-toggle');
+const $devPanel  = document.getElementById('dev-panel');
+const $devLog    = document.getElementById('dev-log');
+const $devCount  = document.getElementById('dev-count');
+
+function renderDevLog() {
+  $devCount.textContent = REQ_LOG.length;
+  $devLog.innerHTML = REQ_LOG.map((e, i) => {
+    const tag = e.ok ? `<span class="ok">${e.status}</span>`
+              : e.error ? `<span class="bad">err</span>`
+              : `<span class="bad">${e.status}</span>`;
+    const summary = e.url.replace(/^https?:\/\//, '').slice(0, 80);
+    return `<div class="dev-row" data-i="${i}">`
+      + `<div class="dev-summary">`
+      + `<span>${e.t.split(' ')[1] || ''}</span>`
+      + tag
+      + `<span class="label">${esc(e.label)} · ${esc(summary)}</span>`
+      + `<span class="ms">${e.ms ?? '—'}ms · ${(e.bytes || 0).toLocaleString()}b</span>`
+      + `</div>`
+      + `<div class="dev-body">`
+      + `<div><b>URL:</b> ${esc(e.url)}</div>`
+      + (e.query ? `<pre>${esc(e.query)}</pre>` : '')
+      + (e.error ? `<div class="bad">${esc(e.error)}</div>` : '')
+      + `</div></div>`;
+  }).join('');
+  $devLog.querySelectorAll('.dev-summary').forEach((s) => {
+    s.addEventListener('click', () => s.parentElement.classList.toggle('expanded'));
+  });
+}
+$devToggle.addEventListener('click', () => {
+  const open = $devPanel.classList.toggle('open');
+  $devToggle.setAttribute('aria-expanded', open);
+});
+$devPanel.querySelector('.dev-clear').addEventListener('click', () => {
+  REQ_LOG.length = 0;
+  renderDevLog();
+});
+
+// ---------------------------------------------------------------------------
 // Boot
 // ---------------------------------------------------------------------------
 (async () => {
   try {
-    const j = await sparql(WIKIDATA, SEED_QUERY);
+    const j = await sparql(QLEVER, SEED_QUERY, 'sparql:seed');
     ROWS = dedupe(j.results.bindings);
     renderAll();
   } catch (e) {
