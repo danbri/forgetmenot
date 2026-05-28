@@ -145,6 +145,11 @@
     font: inherit; font-size: 12px;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, border-color 0.15s;
+    /* iOS: suppress text-selection callout that otherwise eats long-press */
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
   }
   .facet-btn:hover { background: var(--surface-2); }
   .facet-btn[aria-pressed="true"] {
@@ -247,6 +252,10 @@
     font: inherit; font-size: 13px;
     cursor: pointer;
     transition: background 0.15s;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
   }
   .jump-btn:hover { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
 
@@ -552,6 +561,10 @@
     <dl id="pop-fields"></dl>
     <dt class="src-tag">Wikipedia summary</dt>
     <p class="abstract loading" id="pop-abstract">loading…</p>
+    <details id="pop-route" hidden style="margin-top:10px;">
+      <summary class="src-tag" style="cursor:pointer;">Route from seed</summary>
+      <div id="pop-route-body" style="margin-top:6px;font-size:13px;line-height:1.5;"></div>
+    </details>
     <div class="popover-actions">
       <a id="pop-wd" target="_blank" rel="noopener">Wikidata</a>
       <a id="pop-dbp" target="_blank" rel="noopener">DBpedia</a>
@@ -620,9 +633,11 @@ PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
 PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX schema: <http://schema.org/>
 SELECT ?pm ?pmLabel ?image ?start ?birth ?birthPlace ?birthPlaceLabel ?wpArticle WHERE {
-  VALUES ?crown { wd:Q9134 wd:Q161885 wd:Q174193 }
+  # wd:Q9134365 = "monarch of the United Kingdom" (Charles III's P39).
+  # The pre-1801 Kingdom of Great Britain / England / Scotland positions
+  # exist on Wikidata but data coverage is thinner — start narrow.
   ?pm p:P39 ?term .
-  ?term ps:P39 ?crown ; pq:P580 ?start .
+  ?term ps:P39 wd:Q9134365 ; pq:P580 ?start .
   OPTIONAL { ?pm wdt:P18  ?image }
   OPTIONAL { ?pm wdt:P19  ?birthPlace .
              OPTIONAL { ?birthPlace rdfs:label ?birthPlaceLabel . FILTER(lang(?birthPlaceLabel) = "en") } }
@@ -779,7 +794,10 @@ function allFacetValues(facet) {
 }
 
 async function sparql(endpoint, query, label = 'sparql') {
-  const u = new URL(endpoint);
+  // Resolve endpoint relative to the page so FPKG ("/kgx/query") works
+  // alongside absolute URLs like QLever's. new URL('/kgx/query') alone
+  // throws "Invalid URL".
+  const u = new URL(endpoint, window.location.href);
   u.searchParams.set('query', query);
   return net(label, u.toString(), query);
 }
@@ -1032,7 +1050,7 @@ function renderNotebook() {
       stepEl.querySelectorAll('.tile').forEach((tile) => {
         tile.addEventListener('click', () => {
           const idx = parseInt(tile.getAttribute('data-idx'), 10);
-          openPopover(rows[idx]);
+          openPopover(rows[idx], stepIdx);
         });
       });
       stepEl.querySelectorAll('.jump-btn').forEach((btn) => {
@@ -1083,7 +1101,30 @@ async function loadAbstract(wpArticle) {
   }
 }
 
-function openPopover(row) {
+// Walk backward from a row in stepIdx to the seed, returning an array of
+// {step, row} entries from seed → … → leaf. Each derived row carries the
+// source URIs that produced it (via GROUP_CONCAT in the navigate query).
+function routeFromSeed(stepIdx, row) {
+  const chain = [{ step: STEPS[stepIdx], row }];
+  let cur = STEPS[stepIdx], curRow = row;
+  while (cur && cur.kind === 'derived' && cur.sourceStepIdx !== undefined) {
+    const src = STEPS[cur.sourceStepIdx];
+    if (!src) break;
+    // Pick the FIRST source that maps back into src.rows by URI.
+    const sources = curRow.sources || [];
+    let parent = null;
+    for (const u of sources) {
+      parent = src.rows.find((r) => (r.pm || r.uri) === u);
+      if (parent) break;
+    }
+    if (!parent) break;
+    chain.unshift({ step: src, row: parent });
+    cur = src; curRow = parent;
+  }
+  return chain;
+}
+
+function openPopover(row, stepIdx) {
   if (!row) return;
   const pop  = document.getElementById('popover');
   const img  = document.getElementById('pop-img');
@@ -1093,6 +1134,25 @@ function openPopover(row) {
   const wd   = document.getElementById('pop-wd');
   const dbp  = document.getElementById('pop-dbp');
   const abs  = document.getElementById('pop-abstract');
+  const route= document.getElementById('pop-route');
+  const routeBody = document.getElementById('pop-route-body');
+
+  // Route from seed — only show when this isn't already the seed.
+  if (stepIdx !== undefined && stepIdx > 0) {
+    const chain = routeFromSeed(stepIdx, row);
+    if (chain.length > 1) {
+      routeBody.innerHTML = chain.map(({ step, row }, i) => {
+        const arrow = i > 0 ? `<span style="color:var(--ink-mute);">→ ${esc(step.via || step.title)} → </span>` : '';
+        return `<div>${arrow}<strong>${esc(row.label || (row.pm||row.uri).replace(/^.*\//, ''))}</strong></div>`;
+      }).join('');
+      route.hidden = false;
+      route.open = false;
+    } else {
+      route.hidden = true;
+    }
+  } else {
+    route.hidden = true;
+  }
 
   img.src = row.image ? imgAtWidth(row.image, 500) : '';
   img.alt = row.label || '';
@@ -1149,10 +1209,13 @@ function buildJumpQuery(src, rel, srcRows) {
   OPTIONAL { ?target wdt:P18  ?img1 . FILTER (!BOUND(?srcImg) || ?img1 != ?srcImg) }
   OPTIONAL { ?target wdt:P154 ?img2 }
   BIND (COALESCE(?img1, ?img2) AS ?image)`;
+  // GROUP_CONCAT(?source) so each target row carries the list of sources
+  // it came from. The popover walks this back to surface the route from
+  // seed.
   if (rel.groupBy) {
     return `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-SELECT ?target (SAMPLE(?targetLabel) AS ?label) (SAMPLE(?image) AS ?img) (COUNT(DISTINCT ?source) AS ?n) WHERE {
+SELECT ?target (SAMPLE(?targetLabel) AS ?label) (SAMPLE(?image) AS ?img) (COUNT(DISTINCT ?source) AS ?n) (GROUP_CONCAT(DISTINCT STR(?source); separator="\\u0001") AS ?sources) WHERE {
   VALUES ?source { ${ids} }
   ${triple} .
   ${imageBlock}
@@ -1164,12 +1227,13 @@ LIMIT 60`;
   }
   return `PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-SELECT DISTINCT ?target ?targetLabel ?image WHERE {
+SELECT ?target (SAMPLE(?targetLabel) AS ?label) (SAMPLE(?image) AS ?img) (GROUP_CONCAT(DISTINCT STR(?source); separator="\\u0001") AS ?sources) WHERE {
   VALUES ?source { ${ids} }
   ${triple} .
   ${imageBlock}
   OPTIONAL { ?target rdfs:label ?targetLabel . FILTER(lang(?targetLabel) = "en") }
 }
+GROUP BY ?target
 LIMIT 60`;
 }
 
@@ -1192,12 +1256,14 @@ async function addStep(srcStepIdx, relKey, btn) {
       const uri = b.target.value;
       const labelB = b.targetLabel || b.label;
       const imgB = b.image || b.img;
+      const sources = b.sources ? b.sources.value.split('').filter(Boolean) : [];
       return {
         pm: uri, uri,
         label: labelB ? labelB.value : uri.replace(/^.*\//, ''),
         image: imgB ? imgB.value : null,
         n: b.n ? parseInt(b.n.value, 10) : null,
         parties: [], birthplaces: [],
+        sources,                  // [sourceUri,…] for route-from-seed walk
       };
     });
     STEPS.push({
@@ -1205,6 +1271,7 @@ async function addStep(srcStepIdx, relKey, btn) {
       kind: 'derived',
       title: rel.label,
       source: src.title,
+      sourceStepIdx: srcStepIdx,  // for route-from-seed walk
       via: rel.label,
       type: rel.target,
       rows,
