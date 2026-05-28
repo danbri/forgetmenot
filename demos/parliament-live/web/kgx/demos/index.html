@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FPKG — SPARQL demos</title>
+<style>
+  :root {
+    --bg: #faf8f3;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --accent: #2a4f76;
+    --accent-ink: #ffffff;
+    --rule: #d8d4ca;
+    --card: #ffffff;
+    --code-bg: #efece4;
+    --tag-bg: #e6ddc7;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 14px;
+    max-width: 820px;
+    margin: 0 auto;
+    -webkit-text-size-adjust: 100%;
+  }
+  nav { font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; }
+  nav a { color: var(--accent); }
+  h1 { font-size: 22px; margin: 6px 0; }
+  h2 { font-size: 17px; margin: 26px 0 8px; }
+  .sub { color: var(--ink-soft); font-size: 14px; margin: 0 0 16px; }
+
+  .demo {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin: 10px 0;
+  }
+  .demo-title { font-weight: 600; font-size: 16px; margin: 0 0 4px; }
+  .demo-tags { font-size: 12px; color: var(--ink-soft); margin-bottom: 8px; }
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--ink);
+    padding: 2px 8px;
+    border-radius: 12px;
+    margin-right: 4px;
+  }
+  .demo-desc { font-size: 14px; color: var(--ink); margin: 8px 0; }
+  .demo pre {
+    background: var(--code-bg);
+    padding: 10px 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font: 12px/1.45 ui-monospace, "SF Mono", Menlo, Monaco, monospace;
+    margin: 8px 0;
+    white-space: pre;
+  }
+  .demo-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+  .demo-actions a, .demo-actions button {
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: 0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    min-height: 40px;
+  }
+  .demo-actions a:active, .demo-actions button:active { opacity: 0.85; }
+  .demo-actions .copy {
+    background: white;
+    color: var(--ink);
+    border: 1px solid var(--rule);
+  }
+  .note {
+    background: #fff8e1;
+    border: 1px solid #e6cd6a;
+    color: #4d3a00;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin: 6px 0;
+  }
+  a { color: var(--accent); }
+  footer {
+    margin-top: 30px;
+    padding-top: 12px;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/kgx/">kgx index</a>
+  &middot; demos
+  &middot; <a href="/kgx/playground">playground</a>
+  &middot; <a href="/kgx/flint">flint</a>
+  &middot; <a href="/kgx/yas">yasgui</a>
+</nav>
+<h1>SPARQL demos — multi-endpoint, multi-source</h1>
+<p class="sub">
+  Curated queries that show what's possible when you join data across
+  sources. Each demo has a <strong>Try in playground</strong> button —
+  it opens <a href="/kgx/playground">/kgx/playground</a> with the query
+  and endpoint pre-loaded via the URL hash.
+</p>
+
+<h2>Picture-rich queries on Wikidata</h2>
+<p class="sub">
+  Single endpoint, but Wikidata's <code>SERVICE wikibase:label</code>
+  is itself a federation pattern — labels and images join in at query
+  time from Wikidata's own internal services.
+</p>
+
+<div class="demo" data-endpoint="wikidata"
+     data-query="# UK Prime Ministers, most recent first, with portraits.
+# Showcases: SERVICE wikibase:label triggers ?pm / ?pmLabel column
+# merge; wdt:P18 binds image URLs that render as inline thumbnails;
+# tap the ?start column header to sort.
+PREFIX wd:  &lt;http://www.wikidata.org/entity/&gt;
+PREFIX wdt: &lt;http://www.wikidata.org/prop/direct/&gt;
+PREFIX p:   &lt;http://www.wikidata.org/prop/&gt;
+PREFIX ps:  &lt;http://www.wikidata.org/prop/statement/&gt;
+PREFIX pq:  &lt;http://www.wikidata.org/prop/qualifier/&gt;
+SELECT ?pm ?pmLabel ?image ?start WHERE {
+  ?pm p:P39 ?term .
+  ?term ps:P39 wd:Q14211 ;
+        pq:P580 ?start .
+  OPTIONAL { ?pm wdt:P18 ?image }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language &quot;en&quot;. }
+}
+ORDER BY DESC(?start)
+LIMIT 30">
+  <p class="demo-title">UK Prime Ministers with portraits</p>
+  <p class="demo-tags"><span class="tag">wikidata</span><span class="tag">image</span><span class="tag">label-merge</span><span class="tag">sortable</span></p>
+  <p class="demo-desc">~30 rows. Faces and dates. Tap the date column header to flip oldest/newest.</p>
+</div>
+
+<div class="demo" data-endpoint="wikidata"
+     data-query="# Members of The Beatles. Four rows, four faces.
+PREFIX wd:  &lt;http://www.wikidata.org/entity/&gt;
+PREFIX wdt: &lt;http://www.wikidata.org/prop/direct/&gt;
+SELECT ?member ?memberLabel ?image ?birth WHERE {
+  ?member wdt:P361 wd:Q1299 ;
+          wdt:P569 ?birth .
+  OPTIONAL { ?member wdt:P18 ?image }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language &quot;en&quot;. }
+}
+ORDER BY ?birth">
+  <p class="demo-title">The Beatles</p>
+  <p class="demo-tags"><span class="tag">wikidata</span><span class="tag">image</span><span class="tag">label-merge</span></p>
+  <p class="demo-desc">Tiny result set, instantly recognisable. Good first demo to show on a phone.</p>
+</div>
+
+<div class="demo" data-endpoint="wikidata"
+     data-query="# Monarchs of the United Kingdom + Great Britain + England/Scotland
+# precursors, in reverse-chronological order of accession.
+PREFIX wd:  &lt;http://www.wikidata.org/entity/&gt;
+PREFIX wdt: &lt;http://www.wikidata.org/prop/direct/&gt;
+PREFIX p:   &lt;http://www.wikidata.org/prop/&gt;
+PREFIX ps:  &lt;http://www.wikidata.org/prop/statement/&gt;
+PREFIX pq:  &lt;http://www.wikidata.org/prop/qualifier/&gt;
+SELECT ?monarch ?monarchLabel ?image ?start WHERE {
+  VALUES ?crown { wd:Q9134 wd:Q161885 wd:Q174193 }
+  ?monarch p:P39 ?term .
+  ?term ps:P39 ?crown ;
+        pq:P580 ?start .
+  OPTIONAL { ?monarch wdt:P18 ?image }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language &quot;en&quot;. }
+}
+ORDER BY DESC(?start)
+LIMIT 50">
+  <p class="demo-title">British monarchs (UK, GB, England/Scotland)</p>
+  <p class="demo-tags"><span class="tag">wikidata</span><span class="tag">image</span><span class="tag">VALUES</span></p>
+  <p class="demo-desc">Long-running showcase — VALUES merges three crowns into one result table.</p>
+</div>
+
+<h2>Cross-source joins inside FPKG</h2>
+<p class="sub">
+  Same endpoint, but joins across the named graphs the store is built
+  from: psephology, transparency-graph (Lords RMFI + APPG), scrutiny,
+  identity-graph, fcdo-treaties. Each demo lights up two or more
+  sources and would be impossible in a single-source store.
+</p>
+
+<div class="demo" data-endpoint="fpkg"
+     data-query="# Most-recorded treaty signatories. Joins fcdo-treaties' party
+# actions to its Country instances (both fm: namespace, both in the
+# fcdo-treaties graph) and groups by country.
+PREFIX fm: &lt;https://forgetmenot.local/vocab#&gt;
+SELECT (REPLACE(STR(?country), &quot;.*/&quot;, &quot;&quot;) AS ?countrySlug)
+       (COUNT(DISTINCT ?treaty) AS ?treaties)
+WHERE {
+  ?treaty a fm:Treaty ;
+          fm:partyAction/fm:country ?country .
+}
+GROUP BY ?country
+ORDER BY DESC(?treaties)
+LIMIT 20">
+  <p class="demo-title">Top 20 countries by UK treaty count</p>
+  <p class="demo-tags"><span class="tag">fpkg</span><span class="tag">fcdo-treaties</span><span class="tag">aggregation</span></p>
+  <p class="demo-desc">Counts of treaty appearances per country. The slug-strip is so you don't lose half the row to a long URI.</p>
+</div>
+
+<div class="demo" data-endpoint="fpkg"
+     data-query="# Lords RMFI by interest category. Joins all rows in the
+# transparency-graph's lords-rmfi named graph and aggregates.
+PREFIX tr: &lt;https://forgetmenot.example/transparency#&gt;
+SELECT ?category (COUNT(*) AS ?n)
+WHERE {
+  GRAPH &lt;https://forgetmenot.example/transparency#graph/lords-rmfi&gt; {
+    ?interest tr:interestCategory ?category .
+  }
+}
+GROUP BY ?category
+ORDER BY DESC(?n)">
+  <p class="demo-title">Lords RMFI by category</p>
+  <p class="demo-tags"><span class="tag">fpkg</span><span class="tag">transparency-graph</span><span class="tag">aggregation</span></p>
+  <p class="demo-desc">What kinds of interest do peers declare most often? Read against the Lords Register of Members' Interests.</p>
+</div>
+
+<div class="demo" data-endpoint="fpkg"
+     data-query="# Closest Westminster contests in our psephology data. Picks
+# every CandidacyResult in position 1 and orders by vote-share —
+# the lowest winning vote-share = most marginal seat.
+PREFIX el: &lt;http://parliament.uk/ontologies/election/&gt;
+SELECT ?candidacy ?voteShare ?voteCount
+WHERE {
+  ?result a el:CandidacyResult ;
+          el:resultOfCandidacy ?candidacy ;
+          el:resultPosition 1 ;
+          el:voteShare ?voteShare ;
+          el:voteCount ?voteCount .
+}
+ORDER BY ?voteShare
+LIMIT 15">
+  <p class="demo-title">Most marginal winning candidacies</p>
+  <p class="demo-tags"><span class="tag">fpkg</span><span class="tag">psephology</span><span class="tag">sortable</span></p>
+  <p class="demo-desc">Winning candidacies sorted by lowest vote share — the tightest contests on record.</p>
+</div>
+
+<h2>Multi-endpoint federation (experimental)</h2>
+<p class="sub">
+  Real SPARQL federation: our endpoint calls out to a remote one via
+  the <code>SERVICE</code> keyword. Powerful in theory; in practice
+  the optimiser doesn't always push bindings into the remote call,
+  so anything beyond a hand-pinned entity tends to time out at ~30 s.
+  Try it on a single entity first.
+</p>
+
+<div class="note">
+  Oxigraph 0.5's federation works for SERVICE-with-pinned-URI; joins
+  with several bindings often hit fly.io's 60 s edge timeout. If a
+  federation query 502s, the data is fine — just rewrite to pass one
+  entity at a time and aggregate client-side.
+</div>
+
+<div class="demo" data-endpoint="fpkg"
+     data-query="# Federation showcase: fetch the UK's flag image from Wikidata
+# through SERVICE. Works because there's exactly one ?wd binding
+# pinned by the local pattern (Q145) before the SERVICE call.
+PREFIX owl:  &lt;http://www.w3.org/2002/07/owl#&gt;
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt;
+PREFIX wdt:  &lt;http://www.wikidata.org/prop/direct/&gt;
+PREFIX fm:   &lt;https://forgetmenot.local/vocab#&gt;
+
+SELECT ?countryLabel ?flag ?capitalLabel WHERE {
+  &lt;https://forgetmenot.local/vocab/country/UNITED_KINGDOM&gt; owl:sameAs ?wd .
+  FILTER (STRSTARTS(STR(?wd), &quot;http://www.wikidata.org/entity/&quot;))
+  SERVICE &lt;https://query.wikidata.org/sparql&gt; {
+    ?wd rdfs:label ?countryLabel ;
+        wdt:P41    ?flag ;
+        wdt:P36    ?capital .
+    ?capital rdfs:label ?capitalLabel .
+    FILTER (lang(?countryLabel) = &quot;en&quot;)
+    FILTER (lang(?capitalLabel) = &quot;en&quot;)
+  }
+}">
+  <p class="demo-title">UK flag + capital, via federation to Wikidata</p>
+  <p class="demo-tags"><span class="tag">federation</span><span class="tag">fpkg</span><span class="tag">wikidata</span><span class="tag">image</span></p>
+  <p class="demo-desc">Local store knows our country URI ↔ Wikidata Q145. The SERVICE clause pulls the flag image + capital name from Wikidata at query time. Single pinned entity → reliable ~1 s.</p>
+</div>
+
+<footer>
+  Contains Parliamentary information licensed under the
+  <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
+  Data source: UK Parliament. This site is a third-party prototype and
+  is not endorsed by, or affiliated with, the UK Parliament.
+</footer>
+
+<script>
+// Each .demo card carries its query in data-query and its endpoint id
+// in data-endpoint. Render <pre> with the query verbatim, plus a "Try"
+// button that opens the playground with the permalink hash pre-set.
+document.querySelectorAll('.demo').forEach((card) => {
+  const query    = card.getAttribute('data-query') || '';
+  const endpoint = card.getAttribute('data-endpoint') || 'fpkg';
+
+  const pre = document.createElement('pre');
+  pre.textContent = query;
+  card.appendChild(pre);
+
+  const actions = document.createElement('div');
+  actions.className = 'demo-actions';
+
+  const tryUrl = '/kgx/playground#q=' + encodeURIComponent(query)
+               + '&e=' + encodeURIComponent(endpoint);
+  const tryLink = document.createElement('a');
+  tryLink.href = tryUrl;
+  tryLink.textContent = 'Try in playground';
+  actions.appendChild(tryLink);
+
+  const copy = document.createElement('button');
+  copy.className = 'copy';
+  copy.textContent = 'Copy SPARQL';
+  copy.onclick = () => {
+    navigator.clipboard.writeText(query).then(
+      () => { copy.textContent = 'Copied ✓'; setTimeout(() => copy.textContent = 'Copy SPARQL', 1500); },
+      () => { copy.textContent = 'Copy failed'; setTimeout(() => copy.textContent = 'Copy SPARQL', 1500); }
+    );
+  };
+  actions.appendChild(copy);
+
+  card.appendChild(actions);
+});
+</script>
+</body>
+</html>
