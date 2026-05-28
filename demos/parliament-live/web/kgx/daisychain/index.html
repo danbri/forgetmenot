@@ -130,16 +130,55 @@ class Bundle {
 // ============================================================================
 // Net helper.
 // ============================================================================
+// ============================================================================
+// Engines — pluggable SPARQL execution. All queries (seed, enrich, pivot)
+// route through `engine.query()` so the engine can later be swapped between
+// HTTP (today: QLever, FPKG, Wikidata) and in-page Oxigraph wasm without
+// touching the op code. Beads record which engine produced each named graph.
+// ============================================================================
+class SparqlEngine {
+  constructor({ id, endpoint, label, kind = 'remote' }) {
+    this.id = id; this.endpoint = endpoint; this.label = label; this.kind = kind;
+  }
+  async query(query, queryLabel = 'sparql') {
+    if (this.kind !== 'remote') {
+      throw new Error(`engine ${this.id}: kind=${this.kind} not implemented`);
+    }
+    const u = new URL(this.endpoint);
+    u.searchParams.set('query', query);
+    const t0 = performance.now();
+    const r = await fetch(u.toString(), { headers: { 'Accept': 'application/sparql-results+json' } });
+    if (!r.ok) throw new Error(`${queryLabel}: HTTP ${r.status}`);
+    const json = await r.json();
+    const ms = Math.round(performance.now() - t0);
+    console.log('[sparql]', this.id, queryLabel, { ms, rows: json.results.bindings.length });
+    return { json, query, endpoint: this.endpoint, engineId: this.id, ms, label: queryLabel };
+  }
+}
+
+const ENGINES = {
+  'qlever-wikidata': new SparqlEngine({
+    id: 'qlever-wikidata', endpoint: QLEVER, label: 'QLever ⇒ Wikidata' }),
+  'fpkg': new SparqlEngine({
+    id: 'fpkg', endpoint: '/kgx/query', label: 'FPKG (Oxigraph, server-side)' }),
+  // Slot for V2: an in-page Oxigraph wasm engine that operates over each
+  // bead's union dataset. Today's ops don't use it, but the API is here.
+  // 'oxigraph-wasm': new SparqlEngine({ id: 'oxigraph-wasm', kind: 'wasm', label: 'Oxigraph (in-page wasm)' }),
+};
+function engine(id) {
+  const e = ENGINES[id];
+  if (!e) throw new Error('unknown engine: ' + id);
+  return e;
+}
+
 async function sparql(endpoint, query, label = 'sparql') {
-  const u = new URL(endpoint);
-  u.searchParams.set('query', query);
-  const t0 = performance.now();
-  const r = await fetch(u.toString(), { headers: { 'Accept': 'application/sparql-results+json' } });
-  if (!r.ok) throw new Error(`${label}: HTTP ${r.status}`);
-  const j = await r.json();
-  const ms = Math.round(performance.now() - t0);
-  console.log('[sparql]', label, { ms, rows: j.results.bindings.length });
-  return { json: j, query, endpoint, ms, label };
+  // Back-compat shim: most call sites still pass an endpoint URL.
+  // Look up the matching engine, or fall back to ad-hoc remote.
+  for (const e of Object.values(ENGINES)) {
+    if (e.endpoint === endpoint) return e.query(query, label);
+  }
+  const adhoc = new SparqlEngine({ id: 'adhoc', endpoint, label: endpoint });
+  return adhoc.query(query, label);
 }
 
 // Provenance: a Source is one fetched/computed contribution to a bead. Each
@@ -152,11 +191,12 @@ function newNG(kind) {
   const ts = new Date().toISOString().replace(/[:.]/g, '-');
   return `urn:fmn:bead/${ts}/${_ngSeq}/${kind}`;
 }
-function makeSource({ kind, endpoint = null, query = null, ms = 0, bindings = [], note = null }) {
+function makeSource({ kind, endpoint = null, engineId = null, query = null, ms = 0, bindings = [], note = null }) {
   return {
     ng: newNG(kind),
     kind,                  // 'seed' | 'enrich' | 'pivot:P19' | 'filter' …
     endpoint,              // null for client-side ops
+    engineId,              // which engine ran this (null for client-side)
     query,                 // SPARQL text, or null
     ms,
     rowCount: bindings.length,
@@ -294,7 +334,7 @@ async function enrichHumans(bundle) {
   return {
     bundle: enriched,
     source: makeSource({
-      kind: 'enrich', endpoint: res.endpoint, query: res.query, ms: res.ms,
+      kind: 'enrich', endpoint: res.endpoint, engineId: res.engineId, query: res.query, ms: res.ms,
       bindings: res.json.results.bindings,
       note: 'P19 birthplace+P625+P17, P569/P570 dates, P69 alma maters, P26 spouses, P106 occupations',
     }),
@@ -342,7 +382,7 @@ async function pivotBirthplaces(bundle) {
   return {
     bundle: new Bundle(items, 'place', `birthplaces of ${bundle.label}`),
     source: makeSource({
-      kind: 'pivot:P19', endpoint: res.endpoint, query: res.query, ms: res.ms,
+      kind: 'pivot:P19', endpoint: res.endpoint, engineId: res.engineId, query: res.query, ms: res.ms,
       bindings: res.json.results.bindings,
       note: `walked P19 (place of birth) over ${uris.length} subjects`,
     }),
@@ -389,7 +429,7 @@ async function pivotAlmaMaters(bundle) {
   return {
     bundle: new Bundle(items, 'org', `alma maters of ${bundle.label}`),
     source: makeSource({
-      kind: 'pivot:P69', endpoint: res.endpoint, query: res.query, ms: res.ms,
+      kind: 'pivot:P69', endpoint: res.endpoint, engineId: res.engineId, query: res.query, ms: res.ms,
       bindings: res.json.results.bindings,
       note: `walked P69 (educated at) over ${uris.length} subjects`,
     }),
@@ -478,12 +518,84 @@ const STARTERS = [
       return {
         items: parseMpRows(res.json.results.bindings),
         source: makeSource({
-          kind: 'seed:uk-mps-1900', endpoint: res.endpoint, query: res.query,
+          kind: 'seed:uk-mps-1900', endpoint: res.endpoint, engineId: res.engineId, query: res.query,
           ms: res.ms, bindings: res.json.results.bindings,
           note: 'Wikidata persons holding any position ⊑ Q16707842, with at least one term touching 1900+',
         }),
       };
     },
+  },
+];
+
+// ============================================================================
+// Library — named daisychains the page ships with. Each is a sequence of
+// {starter} then {op[, value]} steps. Tapping a library card replays the
+// chain by reusing the kickoff + op dispatch paths. Saved chains land here
+// too (V1: in-memory; V2: persisted via #hash / fetched from a JSON file).
+// ============================================================================
+const LIBRARY = [
+  {
+    id: 'lab-sitting',
+    title: 'Sitting Labour MPs',
+    sub: 'Seed → ⚑ Labour → ◉ sitting',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'party', value: 'Labour Party' },
+      { kind: 'op', op: 'sitting' },
+    ],
+  },
+  {
+    id: 'tory-sitting',
+    title: 'Sitting Conservatives',
+    sub: 'Seed → ⚑ Conservative → ◉ sitting',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'party', value: 'Conservative Party' },
+      { kind: 'op', op: 'sitting' },
+    ],
+  },
+  {
+    id: 'lab-sitting-bp',
+    title: 'Birthplaces of sitting Labour MPs',
+    sub: 'Sitting Labour → ⌖ → birthplaces. Switch to map.',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'party', value: 'Labour Party' },
+      { kind: 'op', op: 'sitting' },
+      { kind: 'op', op: 'pivot-bp' },
+    ],
+    suggestView: 'map',
+  },
+  {
+    id: 'sitting-bridged-enriched',
+    title: 'Sitting MPs (bridged) + facts',
+    sub: 'Sitting → 🔗 has MP id → ✨ enrich. Look at bead 4’s ⓘ.',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'sitting' },
+      { kind: 'op', op: 'bridged' },
+      { kind: 'op', op: 'enrich' },
+    ],
+  },
+  {
+    id: 'tory-alma',
+    title: 'Tory alma maters',
+    sub: 'Sitting Tories → 🎓 → alma maters. (Eton, Oxford appear at the top.)',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'party', value: 'Conservative Party' },
+      { kind: 'op', op: 'sitting' },
+      { kind: 'op', op: 'pivot-am' },
+    ],
+  },
+  {
+    id: 'pre1920-mps',
+    title: 'MPs whose last decade was the 1910s',
+    sub: 'Seed → ⌚ decade = 1910s.',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'decade', value: '1910s' },
+    ],
   },
 ];
 
@@ -499,7 +611,7 @@ const listeners = new Set();
 function publish() { for (const fn of listeners) fn(); }
 
 let _ids = 0;
-function pushBead(opLabel, opIcon, bundle, sources = []) {
+function pushBead(opLabel, opIcon, bundle, sources = [], spec = null) {
   state.beads.push({
     id: 'b' + (++_ids),
     opLabel, opIcon, bundle,
@@ -507,8 +619,14 @@ function pushBead(opLabel, opIcon, bundle, sources = []) {
     // are these sources (plus the ancestor beads' sources, accessible by
     // walking back through state.beads). Default graph is empty.
     sources: Array.isArray(sources) ? sources : [sources],
+    // Structured spec that produced this bead — serialised for the library
+    // and replayed when a saved chain is opened.
+    spec,
   });
   publish();
+}
+function currentChainSpec() {
+  return state.beads.map((b) => b.spec).filter(Boolean);
 }
 function truncateTo(idx) {
   state.beads.length = idx + 1;
@@ -599,7 +717,7 @@ const tileIo = new IntersectionObserver((entries) => {
 }, { rootMargin: '200px 0px' });
 
 // ============================================================================
-// <daisy-starter> — the empty-state kickoff gallery.
+// <daisy-starter> — empty-state gallery: kickoff sources + library chains.
 // ============================================================================
 class DaisyStarter extends HTMLElement {
   constructor() {
@@ -607,24 +725,34 @@ class DaisyStarter extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
-        :host { display: block; padding: 24px 16px; }
-        .lead { font-size: 14px; color: var(--ink-soft); margin: 0 0 14px; }
-        .gallery { display: grid; gap: 12px;
-                   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+        :host { display: block; padding: 18px 8px; }
+        h3 { font-size: 14px; color: var(--ink-soft); margin: 0 0 10px;
+             text-transform: uppercase; letter-spacing: 0.06em; font-weight: 700; }
+        .gallery { display: grid; gap: 10px;
+                   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                   margin-bottom: 22px; }
         .card { background: var(--surface); border: 1px solid var(--rule-soft);
-                border-radius: 12px; padding: 14px;
+                border-radius: 12px; padding: 12px 14px;
                 box-shadow: var(--shadow); cursor: pointer;
-                transition: transform 0.12s, box-shadow 0.12s; }
+                transition: transform 0.12s, box-shadow 0.12s; text-align: left; }
         .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
-        .title { font-weight: 700; font-size: 15px; color: var(--ink); }
-        .sub { font-size: 12px; color: var(--ink-mute); margin-top: 4px; }
+        .card.lib { border-left: 3px solid var(--accent); }
+        .title { font-weight: 700; font-size: 14px; color: var(--ink); }
+        .sub { font-size: 12px; color: var(--ink-mute); margin-top: 4px; line-height: 1.4; }
+        .badge { display: inline-block; font-size: 10px;
+                 background: var(--accent); color: var(--accent-on);
+                 padding: 2px 6px; border-radius: 3px;
+                 letter-spacing: 0.04em; text-transform: uppercase;
+                 margin-right: 6px; vertical-align: 1px; }
       </style>
-      <p class="lead">Start a chain from…</p>
-      <div class="gallery"></div>
+      <h3>Start from a source</h3>
+      <div class="gallery" id="starters"></div>
+      <h3>Or replay a worked chain</h3>
+      <div class="gallery" id="library"></div>
     `;
-    const gal = this.shadowRoot.querySelector('.gallery');
+    const sg = this.shadowRoot.querySelector('#starters');
     for (const s of STARTERS) {
-      const c = document.createElement('div');
+      const c = document.createElement('button');
       c.className = 'card';
       c.innerHTML = `<div class="title"></div><div class="sub"></div>`;
       c.querySelector('.title').textContent = s.label;
@@ -632,7 +760,19 @@ class DaisyStarter extends HTMLElement {
       c.addEventListener('click', () => {
         this.dispatchEvent(new CustomEvent('starter-pick', { detail: s, bubbles: true, composed: true }));
       });
-      gal.appendChild(c);
+      sg.appendChild(c);
+    }
+    const lg = this.shadowRoot.querySelector('#library');
+    for (const entry of LIBRARY) {
+      const c = document.createElement('button');
+      c.className = 'card lib';
+      c.innerHTML = `<div class="title"><span class="badge">${entry.steps.length} steps</span><span class="t"></span></div><div class="sub"></div>`;
+      c.querySelector('.t').textContent = entry.title;
+      c.querySelector('.sub').textContent = entry.sub;
+      c.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('library-pick', { detail: entry, bubbles: true, composed: true }));
+      });
+      lg.appendChild(c);
     }
   }
 }
@@ -1214,6 +1354,7 @@ class DaisyApp extends HTMLElement {
             <button id="v-tiles" data-v="tiles" title="full tile grid of the frontier bead">tiles</button>
             <button id="v-map"   data-v="map"   title="map of the frontier bead (when coords are known)">map</button>
           </div>
+          <button id="save-btn" title="copy this chain as JSON">⎘ save chain</button>
           <button id="reset-btn" title="start over">↺ reset</button>
         </div>
       </header>
@@ -1231,9 +1372,11 @@ class DaisyApp extends HTMLElement {
       </div>
     `;
     this.addEventListener('starter-pick', (e) => this._kickoff(e.detail));
+    this.addEventListener('library-pick', (e) => this._replay(e.detail));
     this.addEventListener('op-tap',       (e) => this._onOp(e.detail));
     this.addEventListener('bead-undo',    (e) => this._undoTo(e.detail.index));
     this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => this._reset());
+    this.shadowRoot.querySelector('#save-btn').addEventListener('click', () => this._saveChain());
     for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
       btn.addEventListener('click', () => { state.view = btn.dataset.v; publish(); });
     }
@@ -1248,7 +1391,7 @@ class DaisyApp extends HTMLElement {
     try {
       const { items, source } = await starter.fetch();
       const bundle = new Bundle(items, starter.type, starter.label);
-      pushBead('source', '●', bundle, [source]);
+      pushBead('source', '●', bundle, [source], { kind: 'starter', id: starter.id });
       const sitting = items.filter((x) => x.sitting).length;
       const bridged = items.filter((x) => x.mpid).length;
       lead.innerHTML = `<b>${items.length.toLocaleString()}</b> ${starter.type}s loaded · `
@@ -1268,7 +1411,7 @@ class DaisyApp extends HTMLElement {
         kind: `filter:${op.id}`, ms: 0,
         note: `client-side filter "${op.label}" applied to ${bundle.size} → ${out.size}`,
       });
-      pushBead(op.label, op.icon, out, [src]);
+      pushBead(op.label, op.icon, out, [src], { kind: 'op', op: op.id });
       return;
     }
     if (op.kind === 'async') {
@@ -1277,10 +1420,9 @@ class DaisyApp extends HTMLElement {
       lead.textContent = `${op.icon} ${op.label} — running over ${bundle.size.toLocaleString()} ${bundle.type}s…`;
       try {
         const out = await op.run(bundle);
-        // Async ops now return { bundle, source }; tolerate legacy bundle-only.
         const newBundle = out instanceof Bundle ? out : out.bundle;
         const sources = out instanceof Bundle ? [] : [out.source];
-        pushBead(op.label, op.icon, newBundle, sources);
+        pushBead(op.label, op.icon, newBundle, sources, { kind: 'op', op: op.id });
         lead.innerHTML = prev;
       } catch (err) {
         lead.innerHTML = `<span style="color:#c33">${escapeHTML(op.label)} failed: ${escapeHTML(err.message)}</span>`;
@@ -1295,9 +1437,64 @@ class DaisyApp extends HTMLElement {
         kind: `filter:${e.detail.op.id}:${e.detail.value}`, ms: 0,
         note: `client-side picker "${e.detail.op.label}" = "${e.detail.value}" applied to ${bundle.size} → ${out.size}`,
       });
-      pushBead(`${e.detail.op.label.replace(/…$/, '')}: ${e.detail.value}`, e.detail.op.icon, out, [src]);
+      pushBead(`${e.detail.op.label.replace(/…$/, '')}: ${e.detail.value}`, e.detail.op.icon, out, [src],
+               { kind: 'op', op: e.detail.op.id, value: e.detail.value });
     });
     sheet.open(op, bundle);
+  }
+
+  // Replay a saved chain step-by-step. Awaits async ops; surfaces failures.
+  async _replay(entry) {
+    state.beads = [];
+    state.starter = null;
+    publish();
+    for (const step of entry.steps || []) {
+      try {
+        if (step.kind === 'starter') {
+          const s = STARTERS.find((x) => x.id === step.id);
+          if (!s) throw new Error('unknown starter ' + step.id);
+          await this._kickoff(s);
+        } else if (step.kind === 'op') {
+          const front = state.beads[state.beads.length - 1];
+          if (!front?.bundle) throw new Error('no frontier bead for op ' + step.op);
+          const ops = OPS[front.bundle.type] || [];
+          const op = ops.find((o) => o.id === step.op);
+          if (!op) throw new Error(`op "${step.op}" not in OPS[${front.bundle.type}]`);
+          if (op.kind === 'static') {
+            await this._onOp({ op, bundle: front.bundle });
+          } else if (op.kind === 'async') {
+            await this._onOp({ op, bundle: front.bundle });
+          } else if (op.kind === 'picker') {
+            // Use the saved value directly, skipping the picker sheet.
+            const out = op.run(front.bundle, step.value);
+            const src = makeSource({
+              kind: `filter:${op.id}:${step.value}`, ms: 0,
+              note: `replay picker "${op.label}" = "${step.value}"`,
+            });
+            pushBead(`${op.label.replace(/…$/, '')}: ${step.value}`, op.icon, out, [src],
+                     { kind: 'op', op: op.id, value: step.value });
+          }
+        }
+      } catch (err) {
+        const lead = this.shadowRoot.querySelector('#lead');
+        lead.innerHTML = `<span style="color:#c33">replay failed at ${escapeHTML(step.kind)} ${escapeHTML(step.op || step.id || '')}: ${escapeHTML(err.message)}</span>`;
+        return;
+      }
+    }
+    if (entry.suggestView) { state.view = entry.suggestView; publish(); }
+  }
+
+  _saveChain() {
+    const spec = currentChainSpec();
+    if (!spec.length) return;
+    const payload = { title: 'untitled chain', steps: spec };
+    const text = JSON.stringify(payload, null, 2);
+    try {
+      navigator.clipboard?.writeText(text);
+    } catch {}
+    const lead = this.shadowRoot.querySelector('#lead');
+    lead.innerHTML = `✓ chain copied to clipboard — <b>${spec.length}</b> steps. `
+      + `<details style="display:inline"><summary>show JSON</summary><pre style="white-space:pre-wrap;font:11px ui-monospace,Menlo,monospace;">${escapeHTML(text)}</pre></details>`;
   }
 
   _undoTo(idx) { truncateTo(idx); }
