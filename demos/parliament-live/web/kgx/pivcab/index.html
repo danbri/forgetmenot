@@ -79,6 +79,13 @@ const QLEVER = 'https://qlever.dev/api/wikidata';
 // Probed 2026-05-28: 6,917 distinct people. 2,847 also carry P10428
 // (parliament.uk member id) — the bridge to forgetmenot's Members API
 // skill. Full set arrives in ~2 s / ~3 MB.
+//
+// `sitting` is detected from the *structural* shape of the latest term:
+// an open-ended P39 statement (P580 bound, P582 unbound) with start year
+// >= 2024 means the person is sitting in the current Parliament. This
+// matters because MAX(endYear) alone misses currently-sitting MPs whose
+// open term has no end-date qualifier — observed 193 Labour with the
+// naive rule vs 400 with the structural rule (matches GE 2024 result).
 const SEED_LIMIT = 7000;          // soft cap; current universe is 6917
 const POST1900_MPS_QUERY = `
 PREFIX wd:     <http://www.wikidata.org/entity/>
@@ -92,16 +99,21 @@ SELECT ?p (SAMPLE(?lbl) AS ?l)
        (SAMPLE(?image) AS ?imgUri)
        (SAMPLE(?mp)    AS ?mpid)
        (MIN(?startYr)  AS ?firstYr)
-       (MAX(?endYr)    AS ?lastYr)
-       (SAMPLE(?partyLbl) AS ?party)
+       (MAX(?startYr)  AS ?latestStart)
+       (MAX(?effEnd)   AS ?lastYr)
+       (MAX(?openNow)  AS ?sittingFlag)
+       (GROUP_CONCAT(DISTINCT ?partyLbl; separator="|") AS ?parties)
 WHERE {
   ?p wdt:P39 ?pos .
   ?pos wdt:P279* wd:Q16707842 .          # position ⊑ Member of UK Parliament
   ?p p:P39 ?stmt . ?stmt ps:P39 ?pos .
   OPTIONAL { ?stmt pq:P580 ?start . BIND(YEAR(?start) AS ?startYr) }
   OPTIONAL { ?stmt pq:P582 ?end   . BIND(YEAR(?end)   AS ?endYr)   }
-  FILTER( (BOUND(?start) && YEAR(?start) >= 1900) ||
-          (BOUND(?end)   && YEAR(?end)   >= 1900) )
+  # Sentinel 9999 for open-ended terms so MAX still flags currently-sitting.
+  BIND(IF(BOUND(?endYr), ?endYr, 9999) AS ?effEnd)
+  BIND(IF(BOUND(?startYr) && !BOUND(?endYr) && ?startYr >= 2024, 1, 0) AS ?openNow)
+  FILTER( (BOUND(?startYr) && ?startYr >= 1900) ||
+          (BOUND(?endYr)   && ?endYr   >= 1900) )
   OPTIONAL { ?p wdt:P18    ?image }
   OPTIONAL { ?p wdt:P10428 ?mp }                 # parliament.uk member id
   OPTIONAL { ?p wdt:P102   ?party0 .
@@ -245,18 +257,24 @@ function parseMpRows(bindings) {
   return bindings.map((b) => {
     const uri = b.p.value;
     const firstYr = b.firstYr?.value ? parseInt(b.firstYr.value, 10) : null;
-    const lastYr  = b.lastYr?.value  ? parseInt(b.lastYr.value,  10) : null;
-    const party = b.party?.value || null;
+    const latestStart = b.latestStart?.value ? parseInt(b.latestStart.value, 10) : null;
+    const rawLastEnd  = b.lastYr?.value  ? parseInt(b.lastYr.value,  10) : null;
+    const sitting = b.sittingFlag?.value === '1';
+    // 9999 sentinel marks an open-ended current term; collapse to null
+    // for display / decade purposes so we never render "2024–9999".
+    const lastYr = (rawLastEnd === 9999 || rawLastEnd === null) ? null : rawLastEnd;
+    // Decade = the last decade they were active. For currently-sitting
+    // members that's whichever decade the open term started in.
+    const decadeYear = sitting ? latestStart : lastYr;
+    const parties = (b.parties?.value || '').split('|').filter(Boolean);
     return {
       uri,
       label: b.l?.value || uri.replace(/^.*\//, ''),
       image: b.imgUri?.value || null,
       mpid:  b.mpid?.value || null,        // parliament.uk member id (bridge)
-      firstYr, lastYr,
-      parties: party ? [party] : [],
-      // Decade bucket from last sitting year, for the period filter.
-      decade: lastYr ? `${Math.floor(lastYr / 10) * 10}s` : null,
-      sitting: lastYr ? (lastYr >= 2024) : false,
+      firstYr, lastYr, latestStart, sitting,
+      parties,
+      decade: decadeYear ? `${Math.floor(decadeYear / 10) * 10}s` : null,
     };
   });
 }
@@ -407,9 +425,11 @@ class PivcabTilegrid extends HTMLElement {
     const html = new Array(slice.length);
     for (let i = 0; i < slice.length; i++) {
       const p = slice[i];
-      const years = p.firstYr && p.lastYr
-        ? (p.firstYr === p.lastYr ? `${p.firstYr}` : `${p.firstYr}–${p.lastYr}`)
-        : (p.lastYr ? `${p.lastYr}` : '');
+      let years = '';
+      if (p.sitting && p.firstYr)        years = `${p.firstYr}–`;
+      else if (p.firstYr && p.lastYr)    years = p.firstYr === p.lastYr ? `${p.firstYr}` : `${p.firstYr}–${p.lastYr}`;
+      else if (p.lastYr)                 years = `${p.lastYr}`;
+      else if (p.firstYr)                years = `${p.firstYr}–`;
       const meta = [years, p.parties?.[0] || ''].filter(Boolean);
       html[i] = tileHTML(p, meta);
     }
