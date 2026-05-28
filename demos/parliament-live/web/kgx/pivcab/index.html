@@ -1,0 +1,749 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>pivcab — UK Cabinet over time</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f7f5ef;
+    --surface: #ffffff;
+    --surface-2: #f0ece2;
+    --ink: #15171a;
+    --ink-soft: #4a4d54;
+    --ink-mute: #888a90;
+    --accent: #2a4f76;
+    --accent-on: #ffffff;
+    --rule: #d6d2c5;
+    --rule-soft: #e6e2d4;
+    --good: #2d8a4e;
+    --bad: #c0392b;
+    --shadow: 0 1px 2px rgba(20,30,60,0.05), 0 6px 16px rgba(20,30,60,0.07);
+    --shadow-lift: 0 10px 32px rgba(20,30,60,0.15);
+    --edge: #b9b3a5;
+    --edge-active: var(--accent);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --surface: #1d1f24;
+      --surface-2: #24272d;
+      --ink: #ececec;
+      --ink-soft: #b8b8b8;
+      --ink-mute: #80828a;
+      --accent: #6da3d6;
+      --accent-on: #0d1115;
+      --rule: #2f3239;
+      --rule-soft: #25272d;
+      --good: #6acb6a;
+      --bad: #ff9a8b;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 6px 16px rgba(0,0,0,0.5);
+      --shadow-lift: 0 10px 32px rgba(0,0,0,0.6);
+      --edge: #4a4d54;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 15px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-text-size-adjust: 100%;
+  }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<pivcab-app></pivcab-app>
+
+<script type="module">
+'use strict';
+
+// ===========================================================================
+// pivcab — node-flow demo over UK Cabinet members
+// ---------------------------------------------------------------------------
+// This is the V1 of the architecture sketched in docs/kgx/node-flow-design.md.
+// A small DAG of operations (Source → Filter → Snapshot → Combine → View)
+// over the same set passes (typed entity bundles). All built as web
+// components with mobile-first CSS, View Transitions, and a stripped-down
+// bloom filter for set membership across larger snapshots.
+// ===========================================================================
+
+const QLEVER = 'https://qlever.dev/api/wikidata';
+
+// 1222 distinct UK cabinet-flavoured people via label pattern + jurisdiction.
+const CABINET_QUERY = `
+PREFIX wd:     <http://www.wikidata.org/entity/>
+PREFIX wdt:    <http://www.wikidata.org/prop/direct/>
+PREFIX p:      <http://www.wikidata.org/prop/>
+PREFIX ps:     <http://www.wikidata.org/prop/statement/>
+PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
+PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT ?p ?label ?image ?birth (MIN(?start) AS ?firstStart) (MAX(?start) AS ?lastStart)
+       (GROUP_CONCAT(DISTINCT ?roleTag; separator=",") AS ?roles)
+       (GROUP_CONCAT(DISTINCT ?partyLabel; separator=",") AS ?parties)
+WHERE {
+  ?p p:P39 ?term .
+  ?term ps:P39 ?pos .
+  ?pos wdt:P1001 wd:Q145 .                     # position applies to UK
+  ?pos rdfs:label ?posLabel . FILTER(lang(?posLabel) = "en")
+  FILTER(REGEX(?posLabel,
+    "(Cabinet|Secretary of State|Chancellor of the Exchequer|Lord Chancellor|Home Secretary|Foreign Secretary|Prime Minister|Lord President|Lord Privy Seal|First Lord)"))
+  BIND(
+    IF(CONTAINS(?posLabel, "Shadow"),                  "Shadow",
+    IF(CONTAINS(?posLabel, "Prime Minister"),          "PM",
+    IF(CONTAINS(?posLabel, "Chancellor of the Exchequer"),"Chancellor",
+    IF(CONTAINS(?posLabel, "Home Secretary"),          "Home Secy",
+    IF(CONTAINS(?posLabel, "Foreign Secretary"),       "Foreign Secy",
+    IF(CONTAINS(?posLabel, "Lord Chancellor"),         "Lord Chancellor",
+    IF(CONTAINS(?posLabel, "Secretary of State"),      "Secy of State",
+                                                       "Cabinet")))))))
+    AS ?roleTag)
+  OPTIONAL { ?term pq:P580 ?start }
+  OPTIONAL { ?p wdt:P18 ?image }
+  OPTIONAL { ?p wdt:P569 ?birth }
+  OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = "en") }
+  OPTIONAL { ?p wdt:P102 ?party .
+             OPTIONAL { ?party rdfs:label ?partyLabel . FILTER(lang(?partyLabel) = "en") } }
+}
+GROUP BY ?p ?label ?image ?birth
+ORDER BY DESC(?lastStart)
+LIMIT 1500`;
+
+// ===========================================================================
+// Bloom filter — compact set-membership with tunable false-positive rate.
+// Backed by a Uint32 typed array; bit twiddling stays cheap.
+// FNV-1a + Murmur-ish mix for two independent hashes; the rest fold in via
+// linear combination (Kirsch–Mitzenmacher).
+// ===========================================================================
+class Bloom {
+  constructor(expectedItems = 1000, falsePositiveRate = 0.01) {
+    // m = -n ln(p) / (ln 2)^2 ; k = (m/n) ln 2
+    const m = Math.ceil(-expectedItems * Math.log(falsePositiveRate) / (Math.LN2 ** 2));
+    this.m = Math.max(64, m);
+    this.k = Math.max(2, Math.round((this.m / expectedItems) * Math.LN2));
+    this.bits = new Uint32Array(Math.ceil(this.m / 32));
+    this.n = 0;
+  }
+  _h1(s) { // FNV-1a
+    let h = 2166136261 >>> 0;
+    for (let i = 0; i < s.length; i++) {
+      h = Math.imul(h ^ s.charCodeAt(i), 16777619);
+    }
+    return h >>> 0;
+  }
+  _h2(s) { // simple xorshift mix off FNV
+    let h = this._h1(s);
+    h = Math.imul(h ^ (h >>> 16), 0x85ebca6b);
+    h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
+    return (h ^ (h >>> 16)) >>> 0;
+  }
+  add(s) {
+    const h1 = this._h1(s), h2 = this._h2(s);
+    for (let i = 0; i < this.k; i++) {
+      const b = (h1 + i * h2) % this.m;
+      this.bits[b >>> 5] |= (1 << (b & 31));
+    }
+    this.n++;
+    return this;
+  }
+  has(s) {
+    const h1 = this._h1(s), h2 = this._h2(s);
+    for (let i = 0; i < this.k; i++) {
+      const b = (h1 + i * h2) % this.m;
+      if (!(this.bits[b >>> 5] & (1 << (b & 31)))) return false;
+    }
+    return true;
+  }
+  static from(items, p = 0.01) {
+    const bf = new Bloom(items.length || 1, p);
+    for (const x of items) bf.add(String(x));
+    return bf;
+  }
+}
+
+// ===========================================================================
+// Typed set with provenance hash and lazy bloom. Wrap a small Set + the
+// originating items so views can render thumbnails without re-querying.
+// ===========================================================================
+class Bundle {
+  constructor(items, type = 'human', label = 'set') {
+    this.items = items;
+    this.type = type;
+    this.label = label;
+    this._idSet = null;
+    this._bloom = null;
+  }
+  get ids() {
+    if (!this._idSet) this._idSet = new Set(this.items.map((i) => i.uri));
+    return this._idSet;
+  }
+  get bloom() {
+    if (!this._bloom) this._bloom = Bloom.from([...this.ids], 0.005);
+    return this._bloom;
+  }
+  get size() { return this.items.length; }
+
+  static union(a, b) {
+    const seen = new Set();
+    const out = [];
+    for (const x of [...a.items, ...b.items]) {
+      if (!seen.has(x.uri)) { seen.add(x.uri); out.push(x); }
+    }
+    return new Bundle(out, a.type, `${a.label} ∪ ${b.label}`);
+  }
+  static intersect(a, b) {
+    // The whole point of the bloom: skip the larger set's hash table
+    // probe on items that can't possibly be in the smaller one. For
+    // small sets the cost is mostly the bloom build, but the API is
+    // ready for sets that are bigger than what fits in working memory.
+    const [small, large] = a.size <= b.size ? [a, b] : [b, a];
+    const smallBloom = small.bloom, smallIds = small.ids;
+    const out = [];
+    for (const x of large.items) {
+      if (smallBloom.has(x.uri) && smallIds.has(x.uri)) out.push(x);
+    }
+    return new Bundle(out, a.type, `${a.label} ∩ ${b.label}`);
+  }
+  static difference(a, b) {
+    const bBloom = b.bloom, bIds = b.ids;
+    const out = a.items.filter((x) => !(bBloom.has(x.uri) && bIds.has(x.uri)));
+    return new Bundle(out, a.type, `${a.label} ∖ ${b.label}`);
+  }
+}
+
+// ===========================================================================
+// Network helper — single funnel so a dev panel can subscribe.
+// ===========================================================================
+async function sparql(endpoint, query, label = 'sparql') {
+  const u = new URL(endpoint);
+  u.searchParams.set('query', query);
+  const t0 = performance.now();
+  console.log('[sparql]', label, '→', endpoint);
+  const r = await fetch(u.toString(), { headers: { 'Accept': 'application/sparql-results+json' } });
+  if (!r.ok) throw new Error(`${label}: HTTP ${r.status}`);
+  const j = await r.json();
+  console.log('[sparql]', label, '←', { ms: Math.round(performance.now() - t0), rows: j.results.bindings.length });
+  return j;
+}
+
+function httpsify(u) { return String(u || '').replace(/^http:\/\//, 'https://'); }
+function commonsThumb(url, w = 220) {
+  if (!url) return '';
+  const v = httpsify(url);
+  if (/commons\.wikimedia\.org\/wiki\/Special:FilePath\//i.test(v)) {
+    return v + (v.includes('?') ? '&' : '?') + 'width=' + w;
+  }
+  return v;
+}
+
+// ===========================================================================
+// Seed loader — dedupe + parse out role + party arrays.
+// ===========================================================================
+function parseCabinetRows(bindings) {
+  const out = bindings.map((b) => {
+    const uri = b.p.value;
+    const roles = (b.roles?.value || '').split(',').filter(Boolean);
+    const parties = (b.parties?.value || '').split(',').filter(Boolean);
+    return {
+      uri,
+      label: b.label?.value || uri.replace(/^.*\//, ''),
+      image: b.image?.value || null,
+      birth: b.birth?.value || null,
+      firstStart: b.firstStart?.value || null,
+      lastStart: b.lastStart?.value || null,
+      roles, parties,
+    };
+  });
+  return out;
+}
+
+// ===========================================================================
+// DAG state — nodes + edges + selection. Single source of truth.
+// ===========================================================================
+const state = {
+  nodes: [],     // { id, kind, label, op, bundle, depth }
+  edges: [],     // { from, to }
+  selection: null, // node id for inspecting
+  pendingCombine: null, // id of first node tapped for combine
+};
+const listeners = new Set();
+function publish() { for (const fn of listeners) fn(); }
+
+let _nodeIdSeq = 0;
+function addNode(node) {
+  node.id = node.id || 'n' + (++_nodeIdSeq);
+  state.nodes.push(node);
+  publish();
+  return node;
+}
+function addEdge(from, to) {
+  state.edges.push({ from, to });
+}
+
+// Layered layout: depth from sources.
+function recomputeLayout() {
+  const inbound = new Map(state.nodes.map((n) => [n.id, 0]));
+  for (const e of state.edges) inbound.set(e.to, (inbound.get(e.to) || 0) + 1);
+  for (const n of state.nodes) n.depth = 0;
+  // Trivial BFS-ish: walk edges, depth(to) = max(depth(from)+1)
+  let changed = true; let safety = 200;
+  while (changed && safety--) {
+    changed = false;
+    for (const e of state.edges) {
+      const a = state.nodes.find((n) => n.id === e.from);
+      const b = state.nodes.find((n) => n.id === e.to);
+      if (!a || !b) continue;
+      if (b.depth < a.depth + 1) { b.depth = a.depth + 1; changed = true; }
+    }
+  }
+}
+
+// ===========================================================================
+// Operations as pure functions over Bundles.
+// ===========================================================================
+function opSnapshot(parentBundle, predicate, label) {
+  const filtered = new Bundle(parentBundle.items.filter(predicate), parentBundle.type, label);
+  return filtered;
+}
+
+function opFilterByRole(parentBundle, role) {
+  return opSnapshot(parentBundle, (x) => x.roles.includes(role), `${parentBundle.label} · role:${role}`);
+}
+function opFilterByParty(parentBundle, party) {
+  return opSnapshot(parentBundle, (x) => x.parties.includes(party), `${parentBundle.label} · party:${party}`);
+}
+
+// ===========================================================================
+// Web Components
+// ===========================================================================
+
+// <pivcab-tile> — a single person card. Lazy-loaded thumb via IntersectionObserver.
+class PivcabTile extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+  static io = new IntersectionObserver((entries) => {
+    for (const en of entries) {
+      if (en.isIntersecting) en.target._reveal();
+    }
+  }, { rootMargin: '200px 0px' });
+  render(person) {
+    this._person = person;
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { display: block; background: var(--surface); border: 1px solid var(--rule-soft);
+                border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);
+                transition: transform 0.18s, box-shadow 0.18s; }
+        :host(:hover) { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+        .ph { aspect-ratio: 1 / 1; background: var(--surface-2); }
+        img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; display: block;
+              transition: opacity 0.35s; opacity: 0; }
+        img.loaded { opacity: 1; }
+        .body { padding: 6px 8px 8px; }
+        .name { font: 13px/1.3 -apple-system, system-ui, sans-serif; color: var(--ink); }
+        .meta { font-size: 11px; color: var(--ink-mute); margin-top: 2px;
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      </style>
+      <div class="thumb"><div class="ph"></div></div>
+      <div class="body">
+        <div class="name"></div>
+        <div class="meta"></div>
+      </div>
+    `;
+    this.shadowRoot.querySelector('.name').textContent = person.label;
+    const meta = [
+      person.firstStart ? person.firstStart.slice(0,4) : '',
+      person.parties[0] || person.roles[0] || '',
+    ].filter(Boolean).join(' · ');
+    this.shadowRoot.querySelector('.meta').textContent = meta;
+    PivcabTile.io.observe(this);
+  }
+  _reveal() {
+    if (!this._person?.image || this._loaded) return;
+    this._loaded = true;
+    const img = document.createElement('img');
+    img.alt = this._person.label;
+    img.loading = 'lazy';
+    img.src = commonsThumb(this._person.image, 220);
+    img.addEventListener('load', () => img.classList.add('loaded'), { once: true });
+    const slot = this.shadowRoot.querySelector('.thumb');
+    slot.innerHTML = '';
+    slot.appendChild(img);
+  }
+  disconnectedCallback() { PivcabTile.io.unobserve(this); }
+}
+customElements.define('pivcab-tile', PivcabTile);
+
+// <pivcab-tilegrid> — windowed rendering. Holds the full set in memory,
+// renders the visible slice as <pivcab-tile> elements. Resizes on scroll.
+class PivcabTilegrid extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { display: block; }
+        .grid { display: grid; gap: 8px;
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+        .head { display:flex; align-items: baseline; gap: 8px;
+                font-size: 12px; color: var(--ink-mute); margin-bottom: 6px; }
+        .head .n { color: var(--ink); font-weight: 600; font-size: 13px; }
+      </style>
+      <div class="head"><span class="n"></span><span class="lbl"></span></div>
+      <div class="grid"></div>
+    `;
+  }
+  set bundle(b) {
+    this._bundle = b;
+    if (!b) return;
+    this.shadowRoot.querySelector('.n').textContent = b.size.toLocaleString();
+    this.shadowRoot.querySelector('.lbl').textContent = b.label;
+    const grid = this.shadowRoot.querySelector('.grid');
+    grid.innerHTML = '';
+    // Cap initial DOM count; IntersectionObserver in each tile defers
+    // image loads until the tile is near viewport. At 1500 items this
+    // is fine on a mid-range phone; for orders of magnitude more, the
+    // next step is true windowed rendering (recycle DOM nodes too).
+    for (const person of b.items.slice(0, 1500)) {
+      const t = document.createElement('pivcab-tile');
+      grid.appendChild(t);
+      t.render(person);
+    }
+  }
+}
+customElements.define('pivcab-tilegrid', PivcabTilegrid);
+
+// <pivcab-node> — one card in the DAG.
+class PivcabNode extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+  set node(n) {
+    this._node = n;
+    this.render();
+  }
+  render() {
+    const n = this._node;
+    if (!n) return;
+    const isSelected = state.selection === n.id;
+    const isPending = state.pendingCombine === n.id;
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { display: block; background: var(--surface);
+                border: 1px solid var(--rule); border-radius: 10px;
+                padding: 10px 12px; box-shadow: var(--shadow);
+                cursor: pointer; transition: transform 0.12s, box-shadow 0.12s, border-color 0.12s; }
+        :host(:hover) { transform: translateY(-1px); box-shadow: var(--shadow-lift); }
+        :host([selected]) { border-color: var(--accent); }
+        :host([pending]) { border-color: var(--good); border-style: dashed; }
+        .head { display: flex; gap: 6px; align-items: baseline; }
+        .kind {
+          font: 10px/1 ui-monospace, Menlo, monospace;
+          background: var(--accent); color: var(--accent-on);
+          padding: 2px 6px; border-radius: 3px; text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+        .title { font-weight: 600; font-size: 13px; color: var(--ink);
+                 overflow: hidden; text-overflow: ellipsis; }
+        .n { margin-left: auto; font-size: 12px; color: var(--ink-mute);
+             font-variant-numeric: tabular-nums; }
+        .strip { display: flex; gap: 3px; margin-top: 8px;
+                 height: 24px; overflow: hidden; border-radius: 4px; background: var(--surface-2); }
+        .strip img { height: 24px; width: 24px; object-fit: cover; flex: 0 0 auto; }
+      </style>
+      <div class="head">
+        <span class="kind"></span>
+        <span class="title"></span>
+        <span class="n"></span>
+      </div>
+      <div class="strip"></div>
+    `;
+    if (isSelected) this.setAttribute('selected', '');
+    else this.removeAttribute('selected');
+    if (isPending) this.setAttribute('pending', '');
+    else this.removeAttribute('pending');
+
+    this.shadowRoot.querySelector('.kind').textContent = n.kind;
+    this.shadowRoot.querySelector('.title').textContent = n.label || n.kind;
+    const sz = n.bundle ? n.bundle.size : 0;
+    this.shadowRoot.querySelector('.n').textContent = sz.toLocaleString();
+
+    // Strip of up to 6 sample thumbnails for visual recognisability
+    const strip = this.shadowRoot.querySelector('.strip');
+    if (n.bundle) {
+      for (const person of n.bundle.items.slice(0, 6)) {
+        if (!person.image) continue;
+        const img = document.createElement('img');
+        img.loading = 'lazy';
+        img.src = commonsThumb(person.image, 56);
+        strip.appendChild(img);
+      }
+    }
+  }
+}
+customElements.define('pivcab-node', PivcabNode);
+
+// <pivcab-canvas> — DAG layout. SVG layer for edges, HTML for nodes.
+class PivcabCanvas extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { display: block; position: relative;
+                background: var(--surface-2);
+                border-radius: 10px; padding: 10px; min-height: 260px;
+                overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .layers { position: relative; min-height: 220px; }
+        .layer { display: flex; flex-direction: column; gap: 12px;
+                 align-items: center; }
+        @media (min-width: 720px) {
+          .layers { display: flex; gap: 36px; align-items: flex-start; }
+        }
+        @media (max-width: 719px) {
+          .layers { display: flex; flex-direction: column; gap: 32px; }
+        }
+        svg { position: absolute; inset: 0; pointer-events: none;
+              width: 100%; height: 100%; }
+        path { fill: none; stroke: var(--edge); stroke-width: 1.4;
+               opacity: 0.9; }
+      </style>
+      <svg><g class="edges"></g></svg>
+      <div class="layers"></div>
+    `;
+    listeners.add(() => this.render());
+  }
+  render() {
+    recomputeLayout();
+    const maxD = state.nodes.reduce((m, n) => Math.max(m, n.depth || 0), 0);
+    const layersDom = this.shadowRoot.querySelector('.layers');
+    layersDom.innerHTML = '';
+    const byDepth = [];
+    for (let d = 0; d <= maxD; d++) byDepth[d] = [];
+    for (const n of state.nodes) byDepth[n.depth || 0].push(n);
+    for (const group of byDepth) {
+      const col = document.createElement('div');
+      col.className = 'layer';
+      for (const n of group) {
+        const el = document.createElement('pivcab-node');
+        col.appendChild(el);
+        el.node = n;
+        el.addEventListener('click', () => this._onNodeTap(n));
+      }
+      layersDom.appendChild(col);
+    }
+    // Defer edge draw to next frame so layout has settled.
+    requestAnimationFrame(() => this._drawEdges());
+  }
+  _onNodeTap(n) {
+    state.selection = n.id;
+    // If we already had a pending combine target, AND it's a different one
+    // of the same type → make a Combine node.
+    if (state.pendingCombine && state.pendingCombine !== n.id) {
+      const a = state.nodes.find((x) => x.id === state.pendingCombine);
+      if (a && a.bundle && n.bundle && a.bundle.type === n.bundle.type) {
+        const ab = Bundle.intersect(a.bundle, n.bundle);
+        const node = addNode({ kind: 'Combine', label: ab.label, op: 'intersect', bundle: ab });
+        addEdge(a.id, node.id);
+        addEdge(n.id, node.id);
+      }
+      state.pendingCombine = null;
+    }
+    publish();
+    this.dispatchEvent(new CustomEvent('node-tap', { detail: n }));
+  }
+  _drawEdges() {
+    const svg = this.shadowRoot.querySelector('svg');
+    const root = this.shadowRoot.querySelector('.layers').getBoundingClientRect();
+    const g = this.shadowRoot.querySelector('.edges');
+    g.innerHTML = '';
+    const cardEls = this.shadowRoot.querySelectorAll('pivcab-node');
+    const byId = new Map();
+    for (const el of cardEls) byId.set(el.node?.id, el);
+    for (const e of state.edges) {
+      const from = byId.get(e.from), to = byId.get(e.to);
+      if (!from || !to) continue;
+      const fr = from.getBoundingClientRect(), tr = to.getBoundingClientRect();
+      const x1 = (fr.right - root.left), y1 = (fr.top + fr.height/2 - root.top);
+      const x2 = (tr.left - root.left),  y2 = (tr.top + tr.height/2 - root.top);
+      const dx = Math.max(20, (x2 - x1) / 2);
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${x1} ${y1} C ${x1+dx} ${y1}, ${x2-dx} ${y2}, ${x2} ${y2}`);
+      g.appendChild(path);
+    }
+  }
+}
+customElements.define('pivcab-canvas', PivcabCanvas);
+
+// <pivcab-app> — orchestration.
+class PivcabApp extends HTMLElement {
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { display: block; padding: 14px;
+                max-width: 1180px; margin: 0 auto; }
+        header { display: flex; gap: 8px; align-items: baseline;
+                 padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft); }
+        h1 { margin: 0; font-size: 17px; }
+        .crumb { font-size: 12px; color: var(--ink-mute); }
+        .count { margin-left: auto; font-size: 12px; color: var(--ink-soft); }
+        .toolbar { display: flex; gap: 6px; flex-wrap: wrap;
+                   padding: 10px 0; align-items: center; }
+        .toolbar button {
+          background: var(--surface); color: var(--ink);
+          border: 1px solid var(--rule); border-radius: 6px;
+          padding: 6px 10px; font: inherit; font-size: 13px;
+          cursor: pointer;
+        }
+        .toolbar button.primary { background: var(--accent); color: var(--accent-on);
+                                  border-color: var(--accent); font-weight: 600; }
+        .toolbar button:disabled { opacity: 0.5; cursor: default; }
+        .toolbar .sep { width: 1px; height: 20px; background: var(--rule); }
+        .grid-wrap { margin-top: 14px; padding: 10px;
+                     background: var(--surface); border: 1px solid var(--rule-soft);
+                     border-radius: 10px; box-shadow: var(--shadow); }
+        .empty { padding: 32px; text-align: center; color: var(--ink-mute); }
+        select {
+          font: inherit; font-size: 13px;
+          background: var(--surface); color: var(--ink);
+          border: 1px solid var(--rule); border-radius: 6px;
+          padding: 5px 8px;
+          -webkit-appearance: none; appearance: none;
+        }
+        .pill {
+          background: var(--surface-2); color: var(--ink-soft);
+          border: 1px solid var(--rule-soft);
+          border-radius: 12px; padding: 3px 9px; font-size: 11px;
+          margin: 1px;
+        }
+        .pills { margin: 4px 0; }
+        .hint { font-size: 12px; color: var(--ink-mute); padding: 6px 0; }
+      </style>
+      <header>
+        <h1>pivcab</h1>
+        <span class="crumb">· <a href="/kgx/">kgx</a> · UK Cabinet over time</span>
+        <span class="count" id="count"></span>
+      </header>
+      <p class="hint">
+        Web-components V1 of the dataflow architecture from
+        <a href="https://github.com/danbri/forgetmenot/blob/claude/main/docs/kgx/node-flow-design.md" target="_blank" rel="noopener">node-flow-design.md</a>:
+        each box below is an operation node;
+        edges carry typed entity bundles. Bloom-backed set ops in JS.
+      </p>
+      <div class="toolbar">
+        <span style="font-size:12px;color:var(--ink-mute);">Filter by role:</span>
+        <select id="role-select"><option value="">(all)</option></select>
+        <button id="filter-btn">+ Filter</button>
+        <span class="sep"></span>
+        <button id="combine-btn" disabled>+ Combine (tap two)</button>
+        <button id="reset-btn">↺ Reset</button>
+      </div>
+      <pivcab-canvas></pivcab-canvas>
+      <div class="grid-wrap">
+        <pivcab-tilegrid></pivcab-tilegrid>
+      </div>
+    `;
+    listeners.add(() => this.refresh());
+    this.shadowRoot.querySelector('pivcab-canvas').addEventListener('node-tap', (e) => {
+      this._showBundle(e.detail);
+    });
+    this.shadowRoot.querySelector('#filter-btn').addEventListener('click', () => this._addFilter());
+    this.shadowRoot.querySelector('#combine-btn').addEventListener('click', () => {
+      state.pendingCombine = state.selection;
+      this._refreshToolbar();
+      publish();
+    });
+    this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => {
+      if (this._seedNode) {
+        state.nodes = [this._seedNode, this._viewNode];
+        state.edges = [{ from: this._seedNode.id, to: this._viewNode.id }];
+        state.selection = this._seedNode.id;
+        state.pendingCombine = null;
+        publish();
+        this._showBundle(this._seedNode);
+      }
+    });
+    this._boot();
+  }
+  async _boot() {
+    try {
+      const j = await sparql(QLEVER, CABINET_QUERY, 'seed:cabinet');
+      const items = parseCabinetRows(j.results.bindings);
+      const seedBundle = new Bundle(items, 'human', 'UK Cabinet (1500 latest)');
+      this._seedNode = addNode({ kind: 'Source', label: 'UK Cabinet', bundle: seedBundle, depth: 0 });
+      this._viewNode = addNode({ kind: 'View', label: 'tilegrid', bundle: seedBundle, depth: 1 });
+      addEdge(this._seedNode.id, this._viewNode.id);
+      state.selection = this._seedNode.id;
+      this._populateRoleSelect(seedBundle);
+      this._showBundle(this._seedNode);
+      publish();
+    } catch (err) {
+      this.shadowRoot.querySelector('pivcab-tilegrid').replaceWith(
+        Object.assign(document.createElement('div'), { className: 'empty', textContent: 'load failed: ' + err.message }));
+    }
+  }
+  _populateRoleSelect(bundle) {
+    const counts = new Map();
+    for (const p of bundle.items) for (const r of p.roles) counts.set(r, (counts.get(r) || 0) + 1);
+    const sel = this.shadowRoot.querySelector('#role-select');
+    sel.innerHTML = '<option value="">(all roles)</option>';
+    for (const [r, n] of [...counts.entries()].sort((a, b) => b[1] - a[1])) {
+      const o = document.createElement('option');
+      o.value = r;
+      o.textContent = `${r}  ·  ${n}`;
+      sel.appendChild(o);
+    }
+  }
+  _addFilter() {
+    const sel = this.shadowRoot.querySelector('#role-select');
+    const role = sel.value;
+    if (!role) return;
+    // Filter from the currently-selected node (or the seed).
+    const srcNode = state.nodes.find((n) => n.id === state.selection) || this._seedNode;
+    if (!srcNode?.bundle) return;
+    const filtered = opFilterByRole(srcNode.bundle, role);
+    const filterNode = addNode({ kind: 'Filter', label: 'role = ' + role, op: 'filter:role', bundle: filtered });
+    const viewNode = addNode({ kind: 'View', label: 'tilegrid', bundle: filtered });
+    addEdge(srcNode.id, filterNode.id);
+    addEdge(filterNode.id, viewNode.id);
+    state.selection = filterNode.id;
+    this._showBundle(filterNode);
+    publish();
+  }
+  _showBundle(n) {
+    if (!n || !n.bundle) return;
+    const grid = this.shadowRoot.querySelector('pivcab-tilegrid');
+    grid.bundle = n.bundle;
+    this.shadowRoot.querySelector('#count').textContent =
+      `${n.bundle.size.toLocaleString()} of ${this._seedNode?.bundle?.size?.toLocaleString() || '…'}`;
+    this._refreshToolbar();
+  }
+  _refreshToolbar() {
+    const sel = this.shadowRoot.querySelector('#combine-btn');
+    sel.disabled = !state.selection;
+    sel.textContent = state.pendingCombine
+      ? `tap another node to ∩`
+      : '+ Combine (tap two)';
+    sel.classList.toggle('primary', !!state.pendingCombine);
+  }
+  refresh() {
+    if (state.selection) {
+      const n = state.nodes.find((x) => x.id === state.selection);
+      if (n) this._showBundle(n);
+    }
+    this._refreshToolbar();
+  }
+}
+customElements.define('pivcab-app', PivcabApp);
+</script>
+
+</body>
+</html>
