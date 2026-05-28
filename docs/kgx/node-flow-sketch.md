@@ -104,6 +104,80 @@ JSON-serialisable. Permalink encodes the whole thing in the URL hash
 
 The MVP (1) is the cheap win.
 
+## Pivot-Viewer fluidity — local reflow ≠ graph edit
+
+The sketch above treats every set-shape change as a node boundary.
+That's right for *graph structure* (provenance, persistence, sharing)
+but wrong for *interaction texture*.
+
+Pivot Viewer's defining move was that you don't redraw the graph to
+slice a set — you fluidly reflow tiles in place, with animated
+transitions. Drag a "Gender" facet onto a histogram of movies-by-year
+and the bars smoothly split into stacked pairs. Restrict by genre and
+empty bars collapse into the gaps. No new node; the *view* re-stages
+the same set.
+
+That's a separate axis from the DAG. Reconciling:
+
+**Two kinds of transformation on a `View` node:**
+
+- **Local reslice (Pivot-Viewer style).** Pure-client. The view holds
+  the set in JS memory; the user toggles a facet, changes the
+  group-by, switches axis. The DOM rearranges via FLIP / View
+  Transitions / Web Animations. No SPARQL hit, no new node.
+- **Persistent fork.** A button on the view ("commit this slice as a
+  new step") promotes the currently-visible subset into a fresh
+  downstream node. Provenance preserved; subsequent pivots see the
+  smaller set.
+
+**Implications for the schema:**
+
+```jsonc
+{
+  "id": "n3",
+  "kind": "View",
+  "op": { "view": "histogram", "bin": "year", "binSize": 10 },
+  "ui": {
+    "filters": { "gender": ["female"] },     // local-only state
+    "highlight": "Q12345"                    // local-only state
+  }
+}
+```
+
+`op` is the persistent graph state — shared via permalink, recorded in
+history. `ui` is volatile per-view state — discarded on reload unless
+the user explicitly forks it into a new node.
+
+**View kinds and what reflow looks like in each:**
+
+| View | What changes when you twiddle a control |
+|---|---|
+| **Grid** | tile re-order via key reconciliation; FLIP transform |
+| **Histogram** | bars split / merge / resize; tiles fly to their new bin |
+| **Map** | pins fade in / out; cluster sizes reanimate |
+| **Timeline** | dots slide along the axis as the date facet narrows |
+| **Force-graph** | nodes recompute physics; edges fade with filter |
+
+**Why View Transitions API is enough for most of this.** Modern
+browsers (Safari 18, Chrome 111+) reconcile DOM diffs across a single
+`document.startViewTransition` call automatically — the FLIP work
+becomes implicit. Our `/kgx/demos/pivot/` already uses it for filter +
+group-by changes; the histogram and map views would just be more
+visually elaborate cases of the same primitive.
+
+**The pivot page is the prototype for one view kind.** Building the
+node-flow tab on top of it means:
+
+- Reuse `STEPS[]` as the underlying DAG (it's already that)
+- Reuse `applyFilters() + renderNotebook()` as the local-reflow engine
+  for whichever step the user is focused on
+- Add new view ops (`histogram`, `map`, `timeline`) by writing one
+  renderer each — they all consume the same set shape
+
+So the node-graph is the persistent transformation lattice. The view
+is the fluid local stage on top of it. Different commitments, both
+visible at once.
+
 ## Tech choices to make later
 
 - **Layout engine**: ELK.js (declarative, server-side-renderable, ~150 KB)
