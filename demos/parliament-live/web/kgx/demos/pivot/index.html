@@ -131,9 +131,69 @@
     margin-bottom: 10px;
   }
   .facet-head {
+    display: flex; align-items: center; gap: 6px;
     font-size: 11px; text-transform: uppercase;
     letter-spacing: 0.05em; color: var(--ink-mute);
     margin-bottom: 4px; font-weight: 600;
+  }
+  .facet-mode-wrap { margin-left: auto; }
+  .facet-mode {
+    font: 11px/1 inherit;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: 3px;
+    padding: 1px 4px;
+    text-transform: none;
+    letter-spacing: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+
+  /* Filter pane wrapper: collapse via <details>, sticky-pin via toggle. */
+  .filters-head {
+    display: flex; align-items: center; gap: 6px;
+    cursor: pointer;
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.05em; color: var(--ink-mute);
+    font-weight: 600;
+    padding: 6px 0;
+    list-style: none;
+  }
+  .filters-head::-webkit-details-marker { display: none; }
+  .filters-head::before {
+    content: "▸";
+    color: var(--ink-mute);
+    display: inline-block;
+    width: 10px;
+  }
+  details[open] > .filters-head::before { content: "▾"; }
+  .filters-pin {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 2px 8px;
+    font: 11px/1 inherit;
+    color: var(--ink-soft);
+    cursor: pointer;
+  }
+  .filters-pin[aria-pressed="true"] {
+    background: var(--accent); color: var(--accent-on); border-color: var(--accent);
+  }
+  .filters-summary-active {
+    margin-left: 6px; color: var(--ink-soft); font-size: 11px;
+    text-transform: none; letter-spacing: 0;
+  }
+  .facets.pinned {
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 5;
+    max-height: 65vh;
+    overflow-y: auto;
+    border-bottom: 1px solid var(--rule);
   }
   .facet-row { display: flex; flex-wrap: wrap; gap: 4px; }
   .facet-btn {
@@ -145,11 +205,6 @@
     font: inherit; font-size: 12px;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, border-color 0.15s;
-    /* iOS: suppress text-selection callout that otherwise eats long-press */
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-    touch-action: manipulation;
   }
   .facet-btn:hover { background: var(--surface-2); }
   .facet-btn[aria-pressed="true"] {
@@ -252,10 +307,6 @@
     font: inherit; font-size: 13px;
     cursor: pointer;
     transition: background 0.15s;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    user-select: none;
-    touch-action: manipulation;
   }
   .jump-btn:hover { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
   /* "discovered" relations — dashed border to mark them as
@@ -572,8 +623,16 @@
 </div>
 
 <div class="layout">
-  <aside class="facets" id="facets">
-    <div class="loading">loading…</div>
+  <aside class="facets" id="facets-pane">
+    <details id="filters-details" open>
+      <summary class="filters-head">
+        Filters
+        <span class="filters-summary-active" id="filters-summary"></span>
+        <button type="button" class="filters-pin" id="filters-pin"
+                aria-pressed="false" title="Pin to top while you scroll">📌 pin</button>
+      </summary>
+      <div id="facets"><div class="loading">loading…</div></div>
+    </details>
   </aside>
 
   <main>
@@ -789,7 +848,11 @@ let STEPS   = [];       // notebook of navigation steps
                         // [{ id, kind: 'seed'|'derived', title, source, via,
                         //    type: 'human'|'place'|'org'|'concept',
                         //    rows: [{uri, label, image, n?}] }]
-let lastVisibleIds = new Set();
+// Filter MODE per facet: 'any' (default — row matches if any of its
+// values for this facet is selected) or 'all' (every selected value
+// must be present on the row). For single-valued facets ("decade",
+// "born") the modes coincide unless you select multiple values.
+let FILTER_MODES = {};
 
 // Navigate-query result cap. Configurable from the dev panel; default 60
 // keeps the page snappy. Bumping it surfaces more rows per pivot at the
@@ -930,53 +993,6 @@ function net(label, url, query) {
     .catch((err) => { finish(null, null, err); throw err; });
 }
 
-// ---------------------------------------------------------------------------
-// Long-press utility. Touch-friendly. Sets the global LONGPRESS_FIRED flag
-// so the following click handler can no-op. iOS contextmenu is suppressed
-// so we don't get the native callout on top of our UI.
-// ---------------------------------------------------------------------------
-let LONGPRESS_FIRED = false;
-function attachLongPress(el, callback, ms = 450) {
-  let timer = null, sx = 0, sy = 0;
-  const start = (e) => {
-    sx = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
-    sy = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
-    timer = setTimeout(() => {
-      LONGPRESS_FIRED = true;
-      timer = null;
-      callback(e);
-    }, ms);
-  };
-  const move = (e) => {
-    if (!timer) return;
-    const x = e.clientX || (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
-    const y = e.clientY || (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
-    if (Math.abs(x - sx) > 8 || Math.abs(y - sy) > 8) { clearTimeout(timer); timer = null; }
-  };
-  const cancel = () => { if (timer) { clearTimeout(timer); timer = null; } };
-  el.addEventListener('pointerdown', start);
-  el.addEventListener('pointermove', move);
-  el.addEventListener('pointerup', cancel);
-  el.addEventListener('pointercancel', cancel);
-  el.addEventListener('contextmenu', (e) => e.preventDefault());
-}
-
-// Facets that have a natural ordering: long-pressing a button selects
-// everything between the anchor (any already-selected value in the same
-// facet) and the press target. Maps facet key → number-extracting fn.
-const ORDERED_FACETS = {
-  startDecade:  (s) => parseInt(s, 10),    // "1970s" → 1970
-  birthCentury: (s) => parseInt(s, 10),    // "20c" → 20
-};
-
-function allFacetValues(facet) {
-  // All unique values in the seed step (unfiltered) — what's selectable
-  // when you long-press to range-select.
-  const all = new Set();
-  for (const r of ROWS) for (const v of facetValues(r, facet)) all.add(v);
-  return [...all];
-}
-
 async function sparql(endpoint, query, label = 'sparql') {
   // Resolve endpoint relative to the page so FPKG ("/kgx/query") works
   // alongside absolute URLs like QLever's. new URL('/kgx/query') alone
@@ -1076,7 +1092,14 @@ function applyFilters(rows) {
     for (const [facet, vals] of Object.entries(FILTERS)) {
       if (!vals.size) continue;
       const rowVals = facetValues(r, facet);
-      if (!rowVals.some((v) => vals.has(v))) return false;
+      const mode = FILTER_MODES[facet] || 'any';
+      if (mode === 'all') {
+        // every selected value must appear on the row
+        for (const v of vals) if (!rowVals.includes(v)) return false;
+      } else {
+        // at least one of the selected values appears on the row
+        if (!rowVals.some((v) => vals.has(v))) return false;
+      }
     }
     return true;
   });
@@ -1140,8 +1163,17 @@ function renderFacets() {
     const tallies = tally(visible, key);
     const filterSet = FILTERS[key] || new Set();
     if (!tallies.length) return '';
+    const mode = FILTER_MODES[key] || 'any';
     return `<div class="facet-group">`
-      + `<div class="facet-head">${esc(label)}</div>`
+      + `<div class="facet-head">`
+      + `<span>${esc(label)}</span>`
+      + `<span class="facet-mode-wrap">`
+      + `<select class="facet-mode" data-facet="${esc(key)}" aria-label="${esc(label)} match mode">`
+      + `<option value="any"${mode === 'any' ? ' selected' : ''}>any</option>`
+      + `<option value="all"${mode === 'all' ? ' selected' : ''}>all</option>`
+      + `</select>`
+      + `</span>`
+      + `</div>`
       + `<div class="facet-row">`
       + tallies.map(([val, n]) =>
           `<button class="facet-btn" aria-pressed="${filterSet.has(val) ? 'true' : 'false'}" data-facet="${esc(key)}" data-val="${esc(val)}">${esc(val)}<span class="facet-count">${n}</span></button>`
@@ -1151,38 +1183,17 @@ function renderFacets() {
   $facets.querySelectorAll('.facet-btn').forEach((b) => {
     const f = b.getAttribute('data-facet'), v = b.getAttribute('data-val');
     b.addEventListener('click', () => {
-      if (LONGPRESS_FIRED) { LONGPRESS_FIRED = false; return; }
       FILTERS[f] = FILTERS[f] || new Set();
       FILTERS[f].has(v) ? FILTERS[f].delete(v) : FILTERS[f].add(v);
       renderAll();
     });
-    if (ORDERED_FACETS[f]) {
-      attachLongPress(b, () => {
-        // Range select: from the anchor (closest already-selected value in
-        // this facet) to v, fill in everything between.
-        const set = FILTERS[f] || new Set();
-        const sortFn = ORDERED_FACETS[f];
-        const targetN = sortFn(v);
-        if (!set.size) {
-          set.add(v);
-        } else {
-          let anchor = null, anchorN = null;
-          for (const x of set) {
-            const xn = sortFn(x);
-            if (anchorN === null || Math.abs(xn - targetN) < Math.abs(anchorN - targetN)) {
-              anchor = x; anchorN = xn;
-            }
-          }
-          const lo = Math.min(targetN, anchorN), hi = Math.max(targetN, anchorN);
-          for (const x of allFacetValues(f)) {
-            const xn = sortFn(x);
-            if (xn >= lo && xn <= hi) set.add(x);
-          }
-        }
-        FILTERS[f] = set;
-        renderAll();
-      });
-    }
+  });
+  $facets.querySelectorAll('.facet-mode').forEach((sel) => {
+    sel.addEventListener('change', (e) => {
+      const f = sel.getAttribute('data-facet');
+      FILTER_MODES[f] = e.target.value;
+      renderAll();
+    });
   });
 }
 
@@ -1302,21 +1313,7 @@ function renderNotebook() {
       });
       stepEl.querySelectorAll('.jump-btn').forEach((btn) => {
         const relKey = btn.getAttribute('data-rel');
-        btn.addEventListener('click', () => {
-          if (LONGPRESS_FIRED) { LONGPRESS_FIRED = false; return; }
-          addStep(stepIdx, relKey, btn);
-        });
-        if (relKey) {
-          attachLongPress(btn, () => {
-            // Peek: build the SPARQL the click would run and show in a
-            // modal before sending it.
-            const rel = (RELATIONS[step.type] || []).find((x) => x.key === relKey);
-            if (!rel) return;
-            const srcRows = (step.kind === 'seed') ? applyFilters(step.rows) : step.rows;
-            const q = buildJumpQuery(step, rel, srcRows);
-            openPeek(`${esc(step.title)} → ${esc(rel.label)} · ${srcRows.length} source rows · QLever`, q, () => addStep(stepIdx, relKey, btn));
-          });
-        }
+        btn.addEventListener('click', () => addStep(stepIdx, relKey, btn));
       });
     });
     lastVisibleIds = new Set(STEPS.flatMap((s) => s.rows.map((r) => r.pm || r.uri)));
@@ -1325,7 +1322,14 @@ function renderNotebook() {
   else renderBody();
 }
 
-function renderAll() { renderFacets(); renderNotebook(); }
+function renderAll() {
+  renderFacets();
+  renderNotebook();
+  // Show "N active" in the collapsed filter head.
+  const active = Object.entries(FILTERS).reduce((acc, [_, vals]) => acc + vals.size, 0);
+  const $s = document.getElementById('filters-summary');
+  if ($s) $s.textContent = active ? `· ${active} active` : '';
+}
 
 // ---------------------------------------------------------------------------
 // Popover — second data source pulled live from the Wikipedia REST API
@@ -1557,6 +1561,15 @@ document.getElementById('search').addEventListener('input', (e) => {
 document.getElementById('pivot').addEventListener('change', (e) => {
   PIVOT = e.target.value;
   renderNotebook();
+});
+
+// Pin filters to top while scrolling.
+document.getElementById('filters-pin').addEventListener('click', (e) => {
+  e.stopPropagation();    // don't toggle the <details> when clicking the pin
+  const pane = document.getElementById('facets-pane');
+  const on = !pane.classList.contains('pinned');
+  pane.classList.toggle('pinned', on);
+  e.currentTarget.setAttribute('aria-pressed', on ? 'true' : 'false');
 });
 
 // ---------------------------------------------------------------------------
