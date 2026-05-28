@@ -235,6 +235,7 @@ const STARTERS = [
 const state = {
   starter: null,         // STARTERS entry once chosen
   beads: [],             // [{ id, opLabel, opIcon, bundle }]  ordered
+  view: 'spine',         // 'spine' | 'graph' | 'table' | 'tiles'
 };
 const listeners = new Set();
 function publish() { for (const fn of listeners) fn(); }
@@ -542,22 +543,45 @@ class DaisyApp extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
-        :host { display: block; max-width: 680px; margin: 0 auto;
+        :host { display: block; max-width: 920px; margin: 0 auto;
                 padding: 12px 12px calc(48px + env(safe-area-inset-bottom));
                 min-height: 100vh; }
         header { display: flex; gap: 10px; align-items: baseline;
-                 padding: 8px 4px 12px; border-bottom: 1px solid var(--rule-soft); }
+                 padding: 8px 4px 12px; border-bottom: 1px solid var(--rule-soft);
+                 flex-wrap: wrap; }
         h1 { font-size: 17px; margin: 0; }
         .crumb { font-size: 12px; color: var(--ink-mute); }
         .crumb a { color: var(--accent); text-decoration: none; }
-        .actions { margin-left: auto; display: flex; gap: 6px; }
+        .actions { margin-left: auto; display: flex; gap: 6px; align-items: center; }
         .actions button {
           background: var(--surface); color: var(--ink);
           border: 1px solid var(--rule); border-radius: 6px;
           padding: 5px 10px; font: 12px/1 inherit; cursor: pointer;
         }
+        .seg {
+          display: inline-flex; border: 1px solid var(--rule); border-radius: 8px;
+          overflow: hidden; background: var(--surface);
+        }
+        .seg button {
+          background: var(--surface); color: var(--ink-soft);
+          border: 0; border-right: 1px solid var(--rule);
+          padding: 6px 10px; font: 12px/1 inherit; cursor: pointer;
+        }
+        .seg button:last-child { border-right: 0; }
+        .seg button.on {
+          background: var(--accent); color: var(--accent-on);
+          font-weight: 600;
+        }
         .lead { font-size: 13px; color: var(--ink-mute);
                 padding: 12px 4px 4px; line-height: 1.5; }
+        #view-root { padding: 8px 0 0; }
+        .empty { padding: 28px 4px; }
+        .foot { font-size: 11px; color: var(--ink-mute);
+                padding: 32px 4px 0; line-height: 1.55; }
+        .foot a { color: var(--ink-soft); }
+        .err { color: #c33; padding: 16px; }
+
+        /* spine view */
         .spine { position: relative; padding: 8px 0 0; }
         .spine::before {
           content: ''; position: absolute; left: 22px; top: 18px; bottom: 18px;
@@ -574,26 +598,112 @@ class DaisyApp extends HTMLElement {
           background: var(--accent); border-color: var(--accent);
           box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
         }
-        .empty { padding: 28px 4px; }
-        .foot { font-size: 11px; color: var(--ink-mute);
-                padding: 32px 4px 0; line-height: 1.55; }
-        .foot a { color: var(--ink-soft); }
-        .err { color: #c33; padding: 16px; }
+
+        /* graph view (the DAG render of the same chain) */
+        .graph-wrap { position: relative; overflow-x: auto;
+                      -webkit-overflow-scrolling: touch;
+                      background: var(--surface-2);
+                      border: 1px solid var(--rule-soft);
+                      border-radius: 12px; padding: 16px;
+                      min-height: 240px; }
+        .graph { position: relative; display: flex; gap: 28px;
+                 align-items: stretch; padding: 4px 8px;
+                 min-width: max-content; }
+        .gnode {
+          flex: 0 0 auto; width: 170px;
+          background: var(--surface); border: 1px solid var(--rule);
+          border-radius: 10px; padding: 10px;
+          box-shadow: var(--shadow);
+          cursor: pointer;
+          display: flex; flex-direction: column; gap: 6px;
+          position: relative; z-index: 1;
+        }
+        .gnode.frontier { border-color: var(--accent);
+          box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent),
+                      var(--shadow-lift); }
+        .gnode .kind {
+          font: 10px/1 ui-monospace, Menlo, monospace;
+          background: var(--accent); color: var(--accent-on);
+          padding: 2px 5px; border-radius: 3px; align-self: flex-start;
+          letter-spacing: 0.04em; text-transform: uppercase;
+        }
+        .gnode .title { font-weight: 700; font-size: 13px; color: var(--ink);
+                        line-height: 1.3; }
+        .gnode .cnt   { font-variant-numeric: tabular-nums;
+                        font-size: 12px; color: var(--ink-soft); }
+        .gnode .strip { display: flex; gap: 2px; margin-top: 4px;
+                        height: 22px; overflow: hidden; border-radius: 4px;
+                        background: var(--surface-2); }
+        .gnode .strip img { width: 22px; height: 22px; object-fit: cover; opacity: 0;
+                            transition: opacity 0.4s; }
+        .gnode .strip img.loaded { opacity: 1; }
+        .gedges { position: absolute; inset: 0; pointer-events: none; }
+        .gedges path { fill: none; stroke: var(--spine); stroke-width: 1.6;
+                       marker-end: url(#arrow); opacity: 0.85; }
+
+        /* table view */
+        .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch;
+                      background: var(--surface); border: 1px solid var(--rule-soft);
+                      border-radius: 12px; }
+        table.beads { width: 100%; border-collapse: collapse;
+                      font-size: 13px; color: var(--ink); }
+        table.beads th, table.beads td {
+          text-align: left; padding: 8px 10px;
+          border-bottom: 1px solid var(--rule-soft);
+        }
+        table.beads th { background: var(--surface-2); color: var(--ink-soft);
+                         font-size: 11px; text-transform: uppercase;
+                         letter-spacing: 0.04em; }
+        table.beads tr.frontier td { background: color-mix(in oklab, var(--accent) 8%, transparent); }
+        table.beads td.cnt { font-variant-numeric: tabular-nums;
+                             text-align: right; font-weight: 600; }
+        table.beads tr { cursor: pointer; }
+        table.beads tr:hover td {
+          background: color-mix(in oklab, var(--accent) 5%, transparent);
+        }
+
+        /* tiles view: full grid of the frontier bead */
+        .tiles-head { font-size: 13px; color: var(--ink-soft);
+                      padding: 4px 4px 10px; display: flex; gap: 8px; align-items: baseline; }
+        .tiles-head .n { font-weight: 700; color: var(--ink); }
+        .tiles {
+          display: grid; gap: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        }
+        .tile {
+          background: var(--surface); border: 1px solid var(--rule-soft);
+          border-radius: 8px; overflow: hidden; box-shadow: var(--shadow);
+        }
+        .tile .th { aspect-ratio: 1/1; background: var(--surface-2); }
+        .tile .th img { width: 100%; aspect-ratio: 1/1; object-fit: cover;
+                        display: block; opacity: 0; transition: opacity 0.35s; }
+        .tile .th img.loaded { opacity: 1; }
+        .tile .body { padding: 6px 8px 8px; }
+        .tile .nm { font-size: 12px; color: var(--ink); line-height: 1.3;
+                    display: -webkit-box; -webkit-line-clamp: 2;
+                    -webkit-box-orient: vertical; overflow: hidden; }
+        .tile .mt { font-size: 10px; color: var(--ink-mute); margin-top: 2px;
+                    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
       </style>
       <header>
         <h1>daisychain</h1>
         <span class="crumb">· <a href="/kgx/">kgx</a></span>
         <div class="actions">
-          <button id="dag-btn" title="show this chain as a DAG">graph view</button>
+          <div class="seg" role="tablist" aria-label="view">
+            <button id="v-spine" data-v="spine" class="on" title="vertical bead spine">spine</button>
+            <button id="v-graph" data-v="graph" title="DAG of the chain">graph</button>
+            <button id="v-table" data-v="table" title="bead table">table</button>
+            <button id="v-tiles" data-v="tiles" title="full tile grid of the frontier bead">tiles</button>
+          </div>
           <button id="reset-btn" title="start over">↺ reset</button>
         </div>
       </header>
       <p class="lead" id="lead">
-        A chain of beads. Each bead is a typed set of things; each chip turns
-        it into the next set. Tap a chip on the bottom bead to grow the chain;
-        tap an older bead to undo back to it.
+        A chain of beads. Each bead is a typed set; each chip on the frontier
+        bead grows the chain. Four views of the same chain: spine, graph,
+        table, tiles.
       </p>
-      <div class="spine" id="spine"></div>
+      <div id="view-root"></div>
       <div class="foot">
         Contains Parliamentary information licensed under the
         <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/"
@@ -605,8 +715,9 @@ class DaisyApp extends HTMLElement {
     this.addEventListener('op-tap',       (e) => this._onOp(e.detail));
     this.addEventListener('bead-undo',    (e) => this._undoTo(e.detail.index));
     this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => this._reset());
-    this.shadowRoot.querySelector('#dag-btn').addEventListener('click', () =>
-      window.location.href = '/kgx/pivcab/');
+    for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
+      btn.addEventListener('click', () => { state.view = btn.dataset.v; publish(); });
+    }
     listeners.add(() => this._render());
     this._render();
   }
@@ -626,7 +737,7 @@ class DaisyApp extends HTMLElement {
         + `<b>${bridged.toLocaleString()}</b> bridged to the Members API. `
         + `Tap a chip on the bottom bead to grow the chain.`;
     } catch (err) {
-      this.shadowRoot.querySelector('#spine').innerHTML =
+      this.shadowRoot.querySelector('#view-root').innerHTML =
         `<div class="err">load failed: ${err.message}</div>`;
     }
   }
@@ -657,16 +768,32 @@ class DaisyApp extends HTMLElement {
   }
 
   _render() {
-    const spine = this.shadowRoot.querySelector('#spine');
-    spine.innerHTML = '';
+    // Sync the view-segment buttons to current state.
+    for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
+      btn.classList.toggle('on', btn.dataset.v === state.view);
+    }
+    const root = this.shadowRoot.querySelector('#view-root');
+    root.innerHTML = '';
     if (!state.beads.length) {
       const starter = document.createElement('daisy-starter');
       const empty = document.createElement('div');
       empty.className = 'empty';
       empty.appendChild(starter);
-      spine.appendChild(empty);
+      root.appendChild(empty);
       return;
     }
+    switch (state.view) {
+      case 'graph':  this._renderGraph(root); break;
+      case 'table':  this._renderTable(root); break;
+      case 'tiles':  this._renderTiles(root); break;
+      case 'spine':
+      default:       this._renderSpine(root); break;
+    }
+  }
+
+  _renderSpine(root) {
+    const spine = document.createElement('div');
+    spine.className = 'spine';
     const last = state.beads.length - 1;
     for (let i = 0; i <= last; i++) {
       const wrap = document.createElement('div');
@@ -679,12 +806,160 @@ class DaisyApp extends HTMLElement {
       wrap.appendChild(bead);
       spine.appendChild(wrap);
     }
-    // Auto-scroll to the new frontier
+    root.appendChild(spine);
     requestAnimationFrame(() => {
       const last = spine.querySelector('.bead-wrap[frontier]');
-      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
   }
+
+  _renderGraph(root) {
+    // Horizontal DAG of the linear chain — same data as the spine,
+    // laid out left-to-right with curved SVG edges between cards.
+    const wrap = document.createElement('div');
+    wrap.className = 'graph-wrap';
+    const g = document.createElement('div');
+    g.className = 'graph';
+    const last = state.beads.length - 1;
+    for (let i = 0; i <= last; i++) {
+      const b = state.beads[i];
+      const card = document.createElement('div');
+      card.className = 'gnode' + (i === last ? ' frontier' : '');
+      const thumbs = (b.bundle?.items || []).filter((x) => x.image).slice(0, 6);
+      const stripHTML = thumbs.map((p) =>
+        `<img alt="" data-src="${commonsThumb(p.image, 56)}">`).join('');
+      card.innerHTML = `
+        <span class="kind">${i === 0 ? 'source' : (last && i === last ? 'frontier' : 'step')}</span>
+        <div class="title"></div>
+        <div class="cnt"></div>
+        <div class="strip">${stripHTML}</div>
+        <div style="font-size:11px;color:var(--ink-mute);">${b.opIcon || ''} ${b.opLabel || ''}</div>
+      `;
+      card.querySelector('.title').textContent = b.bundle?.label || '';
+      card.querySelector('.cnt').textContent = (b.bundle?.size ?? 0).toLocaleString();
+      card.addEventListener('click', () => {
+        if (i === last) return;
+        // Same back-gesture as spine: tap an older node to truncate.
+        this._undoTo(i);
+      });
+      for (const img of card.querySelectorAll('img[data-src]')) tileIo.observe(img);
+      g.appendChild(card);
+    }
+    // SVG overlay for edges
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.classList.add('gedges');
+    svg.innerHTML = `
+      <defs>
+        <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+                markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0,0 L10,5 L0,10 z" fill="var(--spine)"/>
+        </marker>
+      </defs>
+      <g class="paths"></g>
+    `;
+    wrap.appendChild(g);
+    wrap.appendChild(svg);
+    root.appendChild(wrap);
+    requestAnimationFrame(() => this._drawGraphEdges(wrap, g, svg));
+  }
+
+  _drawGraphEdges(wrap, g, svg) {
+    const cards = g.querySelectorAll('.gnode');
+    const wrapBox = wrap.getBoundingClientRect();
+    svg.setAttribute('viewBox', `0 0 ${wrap.scrollWidth} ${wrap.clientHeight}`);
+    svg.setAttribute('width', wrap.scrollWidth);
+    svg.setAttribute('height', wrap.clientHeight);
+    svg.style.width = wrap.scrollWidth + 'px';
+    svg.style.height = wrap.clientHeight + 'px';
+    const paths = svg.querySelector('.paths');
+    paths.innerHTML = '';
+    for (let i = 0; i < cards.length - 1; i++) {
+      const a = cards[i].getBoundingClientRect();
+      const b = cards[i + 1].getBoundingClientRect();
+      const x1 = a.right - wrapBox.left + wrap.scrollLeft;
+      const y1 = a.top   - wrapBox.top + a.height / 2;
+      const x2 = b.left  - wrapBox.left + wrap.scrollLeft;
+      const y2 = b.top   - wrapBox.top + b.height / 2;
+      const dx = Math.max(20, (x2 - x1) / 2);
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${x1} ${y1} C ${x1 + dx} ${y1}, ${x2 - dx} ${y2}, ${x2 - 4} ${y2}`);
+      paths.appendChild(path);
+    }
+    // Scroll to frontier
+    const front = g.querySelector('.gnode.frontier');
+    if (front) front.scrollIntoView({ behavior: 'smooth', inline: 'end', block: 'nearest' });
+  }
+
+  _renderTable(root) {
+    const wrap = document.createElement('div');
+    wrap.className = 'table-wrap';
+    const last = state.beads.length - 1;
+    const rows = state.beads.map((b, i) => {
+      const sitting = b.bundle?.items?.filter((x) => x.sitting).length || 0;
+      const bridged = b.bundle?.items?.filter((x) => x.mpid).length || 0;
+      return `
+        <tr data-i="${i}" class="${i === last ? 'frontier' : ''}">
+          <td>${i + 1}</td>
+          <td>${b.opIcon || ''} ${b.opLabel || ''}</td>
+          <td>${escapeHTML(b.bundle?.label || '')}</td>
+          <td class="cnt">${(b.bundle?.size ?? 0).toLocaleString()}</td>
+          <td class="cnt">${sitting.toLocaleString()}</td>
+          <td class="cnt">${bridged.toLocaleString()}</td>
+        </tr>
+      `;
+    }).join('');
+    wrap.innerHTML = `
+      <table class="beads">
+        <thead><tr>
+          <th>#</th><th>op</th><th>set</th><th>n</th><th>sitting</th><th>w/ MP id</th>
+        </tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    `;
+    for (const tr of wrap.querySelectorAll('tbody tr')) {
+      tr.addEventListener('click', () => {
+        const idx = +tr.dataset.i;
+        if (idx !== last) this._undoTo(idx);
+      });
+    }
+    root.appendChild(wrap);
+  }
+
+  _renderTiles(root) {
+    // The frontier bundle, full grid. Older beads accessible via the
+    // table / spine; this view is about the live result.
+    const last = state.beads[state.beads.length - 1];
+    if (!last?.bundle) return;
+    const head = document.createElement('div');
+    head.className = 'tiles-head';
+    head.innerHTML = `
+      <span class="n">${last.bundle.size.toLocaleString()}</span>
+      <span>${escapeHTML(last.bundle.label)}</span>
+    `;
+    root.appendChild(head);
+    const grid = document.createElement('div');
+    grid.className = 'tiles';
+    const slice = last.bundle.items.slice(0, 3000);
+    const html = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      const p = slice[i];
+      const years = p.sitting && p.firstYr ? `${p.firstYr}–`
+                  : p.firstYr && p.lastYr   ? (p.firstYr === p.lastYr ? `${p.firstYr}` : `${p.firstYr}–${p.lastYr}`)
+                  : p.lastYr                 ? `${p.lastYr}` : (p.firstYr ? `${p.firstYr}–` : '');
+      const mt = [years, p.parties?.[0] || ''].filter(Boolean).join(' · ');
+      html[i] = `<div class="tile">`
+        + `<div class="th">${p.image ? `<img alt="" data-src="${commonsThumb(p.image, 220)}">` : ''}</div>`
+        + `<div class="body"><div class="nm">${escapeHTML(p.label)}</div>`
+        + (mt ? `<div class="mt">${escapeHTML(mt)}</div>` : '')
+        + `</div></div>`;
+    }
+    grid.innerHTML = html.join('');
+    for (const img of grid.querySelectorAll('img[data-src]')) tileIo.observe(img);
+    root.appendChild(grid);
+  }
+}
+function escapeHTML(s) {
+  return String(s ?? '').replace(/[<>&"]/g, (c) => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
 }
 customElements.define('daisy-app', DaisyApp);
 </script>
