@@ -14,7 +14,28 @@
     --accent-ink: #fff; --rule: #d8d4ca; --code-bg: #efece4; --row-alt: #f4f1ea;
     --card: #fff; --tag-bg: #e6ddc7; --err-bg: #fdecea; --err-ink: #7a1f17;
   }
+  /* Respect the OS dark preference. Palette tuned for WCAG AA: body text
+     and links clear ≥4.5:1 on --bg; --accent flips to a light blue so it
+     works both as link text on dark AND (with the dark --accent-ink) as a
+     button fill. The query editor keeps a light surface in dark mode so
+     YASQE's light-tuned syntax tokens stay legible. */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171c; --ink: #e8e6e0; --ink-soft: #b2afa7; --accent: #8ab4f8;
+      --accent-ink: #10243f; --rule: #343a44; --code-bg: #1e222a; --row-alt: #1b1f26;
+      --card: #1a1e25; --tag-bg: #2b313b; --err-bg: #3a1e1b; --err-ink: #f4b7af;
+    }
+    select {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%23b2afa7' d='M4 6l4 4 4-4z'/></svg>");
+    }
+    .tag.verified { background: #274a32; }
+    .tag.template { background: #26405a; }
+    #q, #q .CodeMirror { background: #f6f4ee; color: #1a1a1a; }
+    #q .CodeMirror-gutters { background: #ece9e1; border-color: #d8d4ca; }
+  }
   * { box-sizing: border-box; }
+  /* Visible keyboard-focus ring for accessibility. */
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   html, body { margin: 0; padding: 0; }
   body {
     font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
@@ -28,13 +49,23 @@
   h2 { font-size: 16px; margin: 22px 0 8px; }
 
   .layout { display: grid; grid-template-columns: 1fr; gap: 16px; }
-  @media (min-width: 860px) { .layout { grid-template-columns: 320px 1fr; align-items: start; } }
+  @media (min-width: 860px) {
+    .layout { grid-template-columns: 320px 1fr; align-items: start; }
+    /* App-shell feel: each pane scrolls on its own, so picking a query in
+       the catalogue never scrolls the page out from under the results. */
+    .catalogue, .workbench {
+      position: sticky; top: 10px;
+      max-height: calc(100vh - 20px); overflow-y: auto;
+    }
+    .catalogue { padding-right: 4px; }
+    .workbench { padding-left: 2px; }
+  }
 
   /* ---- catalogue sidebar ---- */
   .catalogue { min-width: 0; }
   .cat-search {
     width: 100%; padding: 10px 12px; border: 1px solid var(--rule);
-    border-radius: 8px; font: inherit; font-size: 16px; min-height: 44px; background: #fff;
+    border-radius: 8px; font: inherit; font-size: 16px; min-height: 44px; background: var(--card);
   }
   details.group {
     background: var(--card); border: 1px solid var(--rule); border-radius: 10px;
@@ -42,19 +73,19 @@
   }
   details.group > summary {
     cursor: pointer; padding: 11px 13px; font-weight: 600; font-size: 14px;
-    list-style: none; background: linear-gradient(90deg, #f7f9ff, #fff);
+    list-style: none; background: var(--code-bg);
   }
   details.group > summary::-webkit-details-marker { display: none; }
   details.group > summary::before { content: "▸ "; color: var(--ink-soft); }
   details.group[open] > summary::before { content: "▾ "; }
-  .group-blurb { font-size: 12px; color: var(--ink-soft); padding: 0 13px 8px; font-weight: 400; }
+  .group-blurb { font-size: 13px; color: var(--ink-soft); padding: 0 13px 8px; font-weight: 400; }
   .q-item {
     display: block; width: 100%; text-align: left; border: 0; border-top: 1px solid var(--rule);
-    background: #fff; padding: 10px 13px; cursor: pointer; font: inherit;
+    background: var(--card); padding: 10px 13px; cursor: pointer; font: inherit;
   }
   .q-item:hover { background: var(--row-alt); }
   .q-title { font-size: 13px; font-weight: 600; color: var(--accent); }
-  .q-desc { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+  .q-desc { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
   .q-tags { margin-top: 4px; }
   .tag {
     display: inline-block; background: var(--tag-bg); color: var(--ink);
@@ -68,13 +99,13 @@
   label { display: block; font-size: 13px; color: var(--ink-soft); margin: 10px 0 4px; }
   select {
     width: 100%; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 8px;
-    background: #fff; min-height: 44px; font: inherit; font-size: 16px; appearance: none;
+    background: var(--card); min-height: 44px; font: inherit; font-size: 16px; appearance: none;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%234a4a4a' d='M4 6l4 4 4-4z'/></svg>");
     background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; padding-right: 36px;
   }
-  #q { border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: #fff; }
+  #q { border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: var(--card); }
   #q .yasqe { font-size: 14px; }
-  #q .CodeMirror { height: auto !important; min-height: 150px; background: #fff;
+  #q .CodeMirror { height: auto !important; min-height: 150px; background: var(--card);
     font: 14px/1.45 ui-monospace, Menlo, Monaco, monospace; }
   #q .yasqe_buttons { display: none !important; }
 
@@ -83,7 +114,7 @@
   .param-row label { margin: 0; min-width: 120px; }
   .param-row input {
     flex: 1 1 140px; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 6px;
-    font: inherit; font-size: 15px; min-height: 38px; background: #fff;
+    font: inherit; font-size: 15px; min-height: 38px; background: var(--card);
   }
 
   .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
@@ -92,7 +123,7 @@
     cursor: pointer; min-height: 44px; font-size: 15px;
   }
   button.run { background: var(--accent); color: var(--accent-ink); flex: 1 1 120px; }
-  button.ghost { background: #fff; color: var(--ink); border: 1px solid var(--rule); flex: 0 0 auto; }
+  button.ghost { background: var(--card); color: var(--ink); border: 1px solid var(--rule); flex: 0 0 auto; }
   button.run:active, button.ghost:active { opacity: 0.85; }
 
   .meta { font-size: 13px; color: var(--ink-soft); margin: 10px 0 0; min-height: 1.5em; }
@@ -104,10 +135,10 @@
     border-radius: 6px 6px 0 0; border-bottom: 0; font-size: 13px; color: var(--ink-soft); }
   .res-count { font-weight: 600; color: var(--ink); }
   .res-actions { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
-  .res-btn { background: #fff; color: var(--ink); border: 1px solid var(--rule);
+  .res-btn { background: var(--card); color: var(--ink); border: 1px solid var(--rule);
     border-radius: 4px; padding: 4px 10px; font-size: 12px; cursor: pointer; min-height: 28px; }
-  .tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 0 0 6px 6px; background: #fff; }
-  .results table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; border: 0; }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 0 0 6px 6px; background: var(--card); }
+  .results table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--card); border: 0; }
   .results th { text-align: left; background: var(--code-bg); padding: 8px 10px; font-weight: 600;
     border-bottom: 1px solid var(--rule); position: sticky; top: 0; cursor: pointer; user-select: none; }
   .results td { padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top;
@@ -120,11 +151,11 @@
   .results td .img-thumb { max-width: 100px; max-height: 100px; border-radius: 4px; display: block; }
   .results .uri a { color: var(--accent); text-decoration: none; }
   .results .lit-tag { color: var(--ink-soft); font-size: 11px; margin-left: 4px; }
-  .results .empty { padding: 16px; color: var(--ink-soft); text-align: center; background: #fff;
+  .results .empty { padding: 16px; color: var(--ink-soft); text-align: center; background: var(--card);
     border: 1px solid var(--rule); border-radius: 6px; }
   .results .err { background: var(--err-bg); color: var(--err-ink); padding: 12px; border-radius: 8px;
     font: 13px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
-  .results .ask { padding: 16px; text-align: center; background: #fff; border: 1px solid var(--rule);
+  .results .ask { padding: 16px; text-align: center; background: var(--card); border: 1px solid var(--rule);
     border-radius: 6px; font-size: 24px; font-weight: 600; }
   .results .ask.t { color: var(--accent); } .results .ask.f { color: var(--err-ink); }
   .results .raw { background: var(--code-bg); padding: 12px; border-radius: 8px; overflow-x: auto;
@@ -132,30 +163,30 @@
   .results .gridwrap, .results .barwrap, .results .graphwrap { background: var(--code-bg);
     border: 1px solid var(--rule); border-radius: 0 0 6px 6px; padding: 8px; }
   .results .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
-  .results .grid-tile { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 6px;
+  .results .grid-tile { background: var(--card); border: 1px solid var(--rule); border-radius: 6px; padding: 6px;
     text-decoration: none; color: var(--ink); display: flex; flex-direction: column; overflow: hidden; }
   .results .grid-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; background: var(--code-bg); }
   .results .grid-label { font: 13px/1.3 -apple-system, system-ui, sans-serif; margin-top: 6px; word-break: break-word; }
   .results .grid-detail { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
-  .results .graph-host { height: 60vh; min-height: 320px; background: #fff; border-radius: 6px; border: 1px solid var(--rule); }
+  .results .graph-host { height: 60vh; min-height: 320px; background: var(--card); border-radius: 6px; border: 1px solid var(--rule); }
   details summary { cursor: pointer; color: var(--ink-soft); font-size: 13px; padding: 4px 0; }
 
   /* ---- wizard ("paperclip") ---- */
   .clip-fab {
     position: fixed; right: 16px; bottom: 16px; z-index: 50;
     width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer;
-    background: var(--accent); color: #fff; font-size: 26px; box-shadow: 0 4px 14px rgba(20,30,60,.28);
+    background: var(--accent); color: var(--accent-ink); font-size: 26px; box-shadow: 0 4px 14px rgba(20,30,60,.28);
   }
   .clip-panel {
     position: fixed; right: 16px; bottom: 84px; z-index: 51; width: min(340px, calc(100vw - 32px));
-    background: #fff; border: 1px solid var(--rule); border-radius: 14px; padding: 14px;
+    background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 14px;
     box-shadow: 0 8px 30px rgba(20,30,60,.22); display: none;
   }
   .clip-panel.open { display: block; }
   .clip-panel h3 { margin: 0 0 4px; font-size: 15px; }
   .clip-panel p { font-size: 13px; color: var(--ink-soft); margin: 0 0 10px; }
   .clip-opt {
-    display: block; width: 100%; text-align: left; border: 1px solid var(--rule); background: #fff;
+    display: block; width: 100%; text-align: left; border: 1px solid var(--rule); background: var(--card);
     border-radius: 8px; padding: 9px 11px; margin: 6px 0; cursor: pointer; font: inherit; font-size: 13px;
   }
   .clip-opt:hover { background: var(--row-alt); }
@@ -185,11 +216,10 @@
 </nav>
 <h1>SPARQL studio</h1>
 <p class="sub">
-  A guided, multi-endpoint SPARQL client over the datasets behind our
-  <a href="https://github.com/danbri/forgetmenot/tree/main/skills">skills</a> —
-  our bundled store, the live UK Parliament DDP, Wikidata, EUR-Lex and more.
-  Pick a query on the left, fill in any blanks, run. The 📎 button bottom-right
-  is a wizard if you don't know where to start.
+  Guided, multi-endpoint SPARQL over the datasets behind our
+  <a href="https://github.com/danbri/forgetmenot/tree/main/skills">skills</a>.
+  Pick a query on the left — it runs straight away; fill in any blanks to
+  re-run. New here? Tap 📎.
 </p>
 
 <div class="layout">
@@ -198,6 +228,13 @@
     <label for="cat-search">Find a query</label>
     <input id="cat-search" class="cat-search" type="search" placeholder="filter by title, dataset, tag…" autocomplete="off">
     <div id="cat-groups"></div>
+
+    <details class="group" style="margin-top: 12px;">
+      <summary>Labs &amp; other clients</summary>
+      <div class="group-blurb">Pivot / parallax explorers, plus the other SPARQL editors and Parliament's own templates.</div>
+      <div class="linkcards" id="labs" style="padding: 0 11px 8px;"></div>
+      <div class="linkcards" id="clients" style="padding: 0 11px 11px;"></div>
+    </details>
   </aside>
 
   <!-- ---- right: workbench ---- -->
@@ -218,12 +255,6 @@
 
     <p class="meta" id="meta">&nbsp;</p>
     <div class="results" id="results"></div>
-
-    <h2>Experimental labs</h2>
-    <div class="linkcards" id="labs"></div>
-
-    <h2>Other clients &amp; Parliament's own templates</h2>
-    <div class="linkcards" id="clients"></div>
   </section>
 </div>
 
@@ -363,7 +394,14 @@ function loadQuery(group, q) {
   $qSource.textContent = '· ' + group.label + (q.skill ? ' · skill: ' + q.skill : '');
   buildParamForm(q);
   applyTemplate(q);
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Data-app feel: run straight away so results appear, and don't yank the
+  // page to the top. On desktop the panes scroll independently and the
+  // workbench is already beside the catalogue; on narrow screens the
+  // catalogue sits above it, so bring the editor + results into view.
+  run();
+  if (window.matchMedia('(max-width: 859px)').matches) {
+    document.querySelector('.workbench').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 // ---------------------------------------------------------------------------
