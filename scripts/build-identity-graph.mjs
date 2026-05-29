@@ -93,6 +93,39 @@ function appgIri(slug, edition) {
   return `https://publications.parliament.uk/pa/cm/cmallparty/${edition}/${slug}.htm`;
 }
 
+// HTML-decode and de-fragment a scraped URL before emitting it as an IRI.
+//
+// The site-crawl manifests contain URLs lifted straight from HTML, so
+// ampersands often arrive as `&#038;` (or `&amp;`) and some entries end
+// in `…/#` (an HTML anchor stub the page used as a sentinel). N-Quads
+// IRIs are RFC 3987 — neither pattern is valid in IRI form:
+//   - `&#038;` puts a literal `#` mid-query-string; the parser then
+//     treats everything after it as a fragment, sees the next `;` /
+//     `=` and bails. Oxigraph 0.5.8 strict-mode rejects with
+//     "Invalid IRI code point '#'", reporting the END of the quad's
+//     line span (misleading — the actual problem is the offending
+//     IRI somewhere on that line).
+//   - `…/#` is an empty-fragment URI; allowed in RFC 3987 but a
+//     pointless anchor sentinel for an `owl:sameAs`-style identity
+//     claim. Dropping the fragment is the right normalisation.
+//
+// Fix: HTML-unescape the URL, drop everything from the first `#`, then
+// re-test the whitespace / angle-bracket guard. Returns the cleaned
+// URL or null if it shouldn't be emitted.
+function cleanScrapedUrl(url) {
+  if (typeof url !== 'string') return null;
+  const decoded = url
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    .replace(/&#(\d+);/g,         (_, d) => String.fromCharCode(parseInt(d, 10)))
+    .replace(/&amp;/g,  '&')
+    .replace(/&lt;/g,   '<')
+    .replace(/&gt;/g,   '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'");
+  const fragless = decoded.split('#')[0];
+  return /^https?:\/\/[^\s<>"]+$/.test(fragless) ? fragless : null;
+}
+
 // Accumulate quads keyed by graph for stable, easily-diffable output.
 const quads = []; // each: [s, p, o, g] where s/o are pre-formatted N-Quad terms
 
@@ -218,13 +251,11 @@ for (const id of members.keys()) {
   try {
     const mf = JSON.parse(readFileSync(manifestPath, 'utf8'));
     if (mf.platform)    addLit(s, NS.fm + 'sitePlatform', mf.platform, G.scraped);
-    if (mf.homepageUrl && /^https?:\/\/[^\s<>]+$/.test(mf.homepageUrl)) {
-      addIri(s, NS.schema + 'url', mf.homepageUrl, G.scraped);
-    }
+    const homeUrl = cleanScrapedUrl(mf.homepageUrl);
+    if (homeUrl) addIri(s, NS.schema + 'url', homeUrl, G.scraped);
     for (const sc of mf.social || []) {
-      if (sc.url && /^https?:\/\/[^\s<>]+$/.test(sc.url)) {
-        addIri(s, NS.schema + 'sameAs', sc.url, G.scraped);
-      }
+      const u = cleanScrapedUrl(sc.url);
+      if (u) addIri(s, NS.schema + 'sameAs', u, G.scraped);
     }
   } catch (e) { /* keep going */ }
   // Member dump path itself

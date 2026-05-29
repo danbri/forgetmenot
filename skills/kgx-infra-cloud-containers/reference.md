@@ -426,7 +426,7 @@ alternatively force callers to write `GRAPH ?g { ?s ?p ?o }`, but the
 union default is friendlier for a public endpoint.
 
 
-### Oxigraph 0.5.8 `load` is too strict on `#` in IRIs
+### Oxigraph 0.5.8 `load` rejects malformed scraped URLs in `identity.nq`
 
 **Seen 2026-05-28.** identity-graph data was missing from fpkg.fly.dev
 for weeks despite the file being on disk, in the Dockerfile, and in
@@ -443,31 +443,49 @@ Reproduced the build's load step locally with `oxigraph_v0.5.8`:
 Error while loading file identity.nq:
 Parser error at line 15508 between columns 81 and 368:
 Invalid IRI code point '#'
-Some files like Wikidata dumps contain invalid IRIs or language tags.
-If you want to load them anyway use the `--lenient` option.
 ```
 
-The reported line is **misleading** — line 15508 is a perfectly ordinary
-`<…/Members/3805> <http://schema.org/familyName> "Boyd" <…/identity/ddp-sparql> .`
-quad with no `#` in it. The parser actually trips on standard W3C
-namespace IRIs (`<http://www.w3.org/2002/07/owl#sameAs>`,
-`<http://www.w3.org/2001/XMLSchema#integer>`, etc.) — `#` IS a valid IRI
-code point per RFC 3987 (it's the fragment delimiter), so 0.5.8's
-parser is overstrict.
+**Don't trust the reported line/column.** Line 15508 itself is a normal
+`"Boyd"` quad with no `#` in it; the parser reports the END of the
+buffer it was scanning, not the offending byte. The real offender is
+elsewhere on the line. The actual problem turned out to be **92 quads
+in the `<…/identity/scraped>` named graph**, all `schema:sameAs` links
+to MPs' LinkedIn / Instagram posts that came through the scraper with
+HTML entities un-decoded:
 
-**Fix**: add `--lenient` to the load command.
+```
+<https://www.linkedin.com/posts/lord-ed-vaizey-603206a3_…?utm_source=share&#038;utm_medium=member_desktop>
+<https://www.instagram.com/david_smith_nn_mp/#>
+```
+
+`&#038;` is the HTML numeric-entity form of `&`, and a literal `#`
+mid-IRI is a fragment delimiter — what follows it isn't a valid
+fragment, so the parser is correct to reject. (`#` in standard
+namespace IRIs like `<…XMLSchema#integer>` is **fine** — those are
+exactly the fragment form the spec intends.)
+
+**Root-cause fix**: in `scripts/build-identity-graph.mjs`,
+HTML-unescape the scraped URL and drop the fragment before emitting
+the IRI. The regex `/^https?:\/\/[^\s<>]+$/` previously used to gate
+the emit was too loose: it accepts any string that doesn't contain
+whitespace or angle-brackets, including HTML entities and bare `#`.
+Helper `cleanScrapedUrl()` added in commit pending.
+
+**Defensive fixes in the Dockerfile load step** (still warranted; see
+the next gotcha):
 
 ```sh
 oxigraph load --lenient --location /data-db --file foo.nq --file …
 ```
 
-Verified: with `--lenient`, identity.nq loads cleanly — all 7 named
-graphs, 58,157 quads. Of the eight files we currently bundle into the
-fpkg image (`scrutiny`, `transparency`, `accountability`, `identity`,
-`psephology`, `parliament-lda-terms`, `fcdo-treaties`,
-`govuk-orgchart`), `identity` is the only one rejected by strict mode.
+`--lenient` lets the load progress past the same class of upstream-
+quality issue if it recurs from another corpus before a rebuild
+catches it — but the real fix is at the emitter. Of the eight files
+we currently bundle (`scrutiny`, `transparency`, `accountability`,
+`identity`, `psephology`, `parliament-lda-terms`, `fcdo-treaties`,
+`govuk-orgchart`), `identity` was the only one rejected.
 
-(Landed in: commit pending.)
+(Landed in: commit pending — both the builder fix and `--lenient`.)
 
 
 ### Oxigraph 0.5.8 `load` exits 0 even when it rejects a file
