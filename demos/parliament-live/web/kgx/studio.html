@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FPKG — SPARQL studio</title>
+<!-- YASQE editor (MIT) for syntax highlighting + prefix autocomplete. -->
+<link rel="stylesheet" href="https://unpkg.com/@triply/yasqe/build/yasqe.min.css">
+<script src="/kgx/js/wikidata-portable.js"></script>
+<script src="/kgx/js/sparql-core.js"></script>
+<style>
+  :root {
+    --bg: #faf8f3; --ink: #1a1a1a; --ink-soft: #4a4a4a; --accent: #2a4f76;
+    --accent-ink: #fff; --rule: #d8d4ca; --code-bg: #efece4; --row-alt: #f4f1ea;
+    --card: #fff; --tag-bg: #e6ddc7; --err-bg: #fdecea; --err-ink: #7a1f17;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+    background: var(--bg); color: var(--ink); padding: 14px;
+    max-width: 1100px; margin: 0 auto; -webkit-text-size-adjust: 100%;
+  }
+  nav { font-size: 13px; color: var(--ink-soft); margin-bottom: 8px; }
+  nav a { color: var(--accent); }
+  h1 { font-size: 22px; font-weight: 600; margin: 4px 0; }
+  .sub { color: var(--ink-soft); font-size: 14px; margin: 0 0 12px; }
+  h2 { font-size: 16px; margin: 22px 0 8px; }
+
+  .layout { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 860px) { .layout { grid-template-columns: 320px 1fr; align-items: start; } }
+
+  /* ---- catalogue sidebar ---- */
+  .catalogue { min-width: 0; }
+  .cat-search {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--rule);
+    border-radius: 8px; font: inherit; font-size: 16px; min-height: 44px; background: #fff;
+  }
+  details.group {
+    background: var(--card); border: 1px solid var(--rule); border-radius: 10px;
+    margin: 8px 0; overflow: hidden;
+  }
+  details.group > summary {
+    cursor: pointer; padding: 11px 13px; font-weight: 600; font-size: 14px;
+    list-style: none; background: linear-gradient(90deg, #f7f9ff, #fff);
+  }
+  details.group > summary::-webkit-details-marker { display: none; }
+  details.group > summary::before { content: "▸ "; color: var(--ink-soft); }
+  details.group[open] > summary::before { content: "▾ "; }
+  .group-blurb { font-size: 12px; color: var(--ink-soft); padding: 0 13px 8px; font-weight: 400; }
+  .q-item {
+    display: block; width: 100%; text-align: left; border: 0; border-top: 1px solid var(--rule);
+    background: #fff; padding: 10px 13px; cursor: pointer; font: inherit;
+  }
+  .q-item:hover { background: var(--row-alt); }
+  .q-title { font-size: 13px; font-weight: 600; color: var(--accent); }
+  .q-desc { font-size: 12px; color: var(--ink-soft); margin-top: 2px; }
+  .q-tags { margin-top: 4px; }
+  .tag {
+    display: inline-block; background: var(--tag-bg); color: var(--ink);
+    font-size: 10px; padding: 1px 6px; border-radius: 10px; margin-right: 3px;
+  }
+  .tag.verified { background: #d6ecd6; }
+  .tag.template { background: #d6e2ec; }
+
+  /* ---- workbench ---- */
+  .workbench { min-width: 0; }
+  label { display: block; font-size: 13px; color: var(--ink-soft); margin: 10px 0 4px; }
+  select {
+    width: 100%; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 8px;
+    background: #fff; min-height: 44px; font: inherit; font-size: 16px; appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%234a4a4a' d='M4 6l4 4 4-4z'/></svg>");
+    background-repeat: no-repeat; background-position: right 10px center; background-size: 16px; padding-right: 36px;
+  }
+  #q { border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; background: #fff; }
+  #q .yasqe { font-size: 14px; }
+  #q .CodeMirror { height: auto !important; min-height: 150px; background: #fff;
+    font: 14px/1.45 ui-monospace, Menlo, Monaco, monospace; }
+  #q .yasqe_buttons { display: none !important; }
+
+  .params { margin-top: 10px; }
+  .param-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 4px 0; }
+  .param-row label { margin: 0; min-width: 120px; }
+  .param-row input {
+    flex: 1 1 140px; padding: 8px 10px; border: 1px solid var(--rule); border-radius: 6px;
+    font: inherit; font-size: 15px; min-height: 38px; background: #fff;
+  }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  button.run, button.ghost {
+    border: 0; border-radius: 8px; padding: 12px 16px; font-weight: 600;
+    cursor: pointer; min-height: 44px; font-size: 15px;
+  }
+  button.run { background: var(--accent); color: var(--accent-ink); flex: 1 1 120px; }
+  button.ghost { background: #fff; color: var(--ink); border: 1px solid var(--rule); flex: 0 0 auto; }
+  button.run:active, button.ghost:active { opacity: 0.85; }
+
+  .meta { font-size: 13px; color: var(--ink-soft); margin: 10px 0 0; min-height: 1.5em; }
+  .results { margin-top: 10px; }
+
+  /* result styling shared with playground */
+  .res-head { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px;
+    padding: 8px 10px; background: var(--code-bg); border: 1px solid var(--rule);
+    border-radius: 6px 6px 0 0; border-bottom: 0; font-size: 13px; color: var(--ink-soft); }
+  .res-count { font-weight: 600; color: var(--ink); }
+  .res-actions { margin-left: auto; display: flex; gap: 6px; flex-wrap: wrap; }
+  .res-btn { background: #fff; color: var(--ink); border: 1px solid var(--rule);
+    border-radius: 4px; padding: 4px 10px; font-size: 12px; cursor: pointer; min-height: 28px; }
+  .tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 0 0 6px 6px; background: #fff; }
+  .results table { width: 100%; border-collapse: collapse; font-size: 13px; background: #fff; border: 0; }
+  .results th { text-align: left; background: var(--code-bg); padding: 8px 10px; font-weight: 600;
+    border-bottom: 1px solid var(--rule); position: sticky; top: 0; cursor: pointer; user-select: none; }
+  .results td { padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top;
+    word-break: break-word; overflow-wrap: anywhere; font: 12px/1.4 ui-monospace, Menlo, Monaco, monospace; }
+  .results tr:nth-child(even) td { background: var(--row-alt); }
+  .results td .lbl { font: 14px/1.4 -apple-system, system-ui, sans-serif; color: var(--ink); margin-bottom: 2px; }
+  .results td .uri-badge { display: inline-block; font: 11px/1.2 ui-monospace, Menlo, monospace;
+    color: var(--ink-soft); background: var(--code-bg); padding: 1px 6px; border-radius: 3px;
+    text-decoration: none; word-break: break-all; }
+  .results td .img-thumb { max-width: 100px; max-height: 100px; border-radius: 4px; display: block; }
+  .results .uri a { color: var(--accent); text-decoration: none; }
+  .results .lit-tag { color: var(--ink-soft); font-size: 11px; margin-left: 4px; }
+  .results .empty { padding: 16px; color: var(--ink-soft); text-align: center; background: #fff;
+    border: 1px solid var(--rule); border-radius: 6px; }
+  .results .err { background: var(--err-bg); color: var(--err-ink); padding: 12px; border-radius: 8px;
+    font: 13px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-word; }
+  .results .ask { padding: 16px; text-align: center; background: #fff; border: 1px solid var(--rule);
+    border-radius: 6px; font-size: 24px; font-weight: 600; }
+  .results .ask.t { color: var(--accent); } .results .ask.f { color: var(--err-ink); }
+  .results .raw { background: var(--code-bg); padding: 12px; border-radius: 8px; overflow-x: auto;
+    font: 12px/1.45 ui-monospace, Menlo, monospace; white-space: pre-wrap; word-break: break-word; margin: 0; }
+  .results .gridwrap, .results .barwrap, .results .graphwrap { background: var(--code-bg);
+    border: 1px solid var(--rule); border-radius: 0 0 6px 6px; padding: 8px; }
+  .results .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .results .grid-tile { background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 6px;
+    text-decoration: none; color: var(--ink); display: flex; flex-direction: column; overflow: hidden; }
+  .results .grid-img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 4px; background: var(--code-bg); }
+  .results .grid-label { font: 13px/1.3 -apple-system, system-ui, sans-serif; margin-top: 6px; word-break: break-word; }
+  .results .grid-detail { font-size: 11px; color: var(--ink-soft); margin-top: 2px; }
+  .results .graph-host { height: 60vh; min-height: 320px; background: #fff; border-radius: 6px; border: 1px solid var(--rule); }
+  details summary { cursor: pointer; color: var(--ink-soft); font-size: 13px; padding: 4px 0; }
+
+  /* ---- wizard ("paperclip") ---- */
+  .clip-fab {
+    position: fixed; right: 16px; bottom: 16px; z-index: 50;
+    width: 56px; height: 56px; border-radius: 50%; border: 0; cursor: pointer;
+    background: var(--accent); color: #fff; font-size: 26px; box-shadow: 0 4px 14px rgba(20,30,60,.28);
+  }
+  .clip-panel {
+    position: fixed; right: 16px; bottom: 84px; z-index: 51; width: min(340px, calc(100vw - 32px));
+    background: #fff; border: 1px solid var(--rule); border-radius: 14px; padding: 14px;
+    box-shadow: 0 8px 30px rgba(20,30,60,.22); display: none;
+  }
+  .clip-panel.open { display: block; }
+  .clip-panel h3 { margin: 0 0 4px; font-size: 15px; }
+  .clip-panel p { font-size: 13px; color: var(--ink-soft); margin: 0 0 10px; }
+  .clip-opt {
+    display: block; width: 100%; text-align: left; border: 1px solid var(--rule); background: #fff;
+    border-radius: 8px; padding: 9px 11px; margin: 6px 0; cursor: pointer; font: inherit; font-size: 13px;
+  }
+  .clip-opt:hover { background: var(--row-alt); }
+  .clip-opt b { color: var(--accent); }
+  .clip-back { font-size: 12px; color: var(--accent); cursor: pointer; background: none; border: 0; padding: 4px 0; }
+
+  .linkcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  .linkcard { background: var(--card); border: 1px solid var(--rule); border-radius: 8px;
+    padding: 10px 12px; text-decoration: none; color: var(--ink); }
+  .linkcard .lc-t { font-weight: 600; font-size: 13px; color: var(--accent); }
+  .linkcard .lc-b { font-size: 12px; color: var(--ink-soft); margin-top: 3px; }
+
+  footer { margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--rule);
+    color: var(--ink-soft); font-size: 13px; line-height: 1.5; }
+  footer a { color: var(--accent); }
+  code { font: 12px/1.4 ui-monospace, Menlo, monospace; background: var(--code-bg);
+    padding: 1px 5px; border-radius: 4px; word-break: break-all; }
+</style>
+</head>
+<body>
+<nav>
+  <a href="/kgx/">kgx index</a> &middot; studio &middot;
+  <a href="/kgx/playground">playground</a> &middot;
+  <a href="/kgx/demos/">demos</a> &middot;
+  <a href="/kgx/flint">flint</a> &middot;
+  <a href="/kgx/yas">yasgui</a>
+</nav>
+<h1>SPARQL studio</h1>
+<p class="sub">
+  A guided, multi-endpoint SPARQL client over the datasets behind our
+  <a href="https://github.com/danbri/forgetmenot/tree/main/skills">skills</a> —
+  our bundled store, the live UK Parliament DDP, Wikidata, EUR-Lex and more.
+  Pick a query on the left, fill in any blanks, run. The 📎 button bottom-right
+  is a wizard if you don't know where to start.
+</p>
+
+<div class="layout">
+  <!-- ---- left: catalogue ---- -->
+  <aside class="catalogue">
+    <label for="cat-search">Find a query</label>
+    <input id="cat-search" class="cat-search" type="search" placeholder="filter by title, dataset, tag…" autocomplete="off">
+    <div id="cat-groups"></div>
+  </aside>
+
+  <!-- ---- right: workbench ---- -->
+  <section class="workbench">
+    <label for="endpoint">Endpoint</label>
+    <select id="endpoint" aria-label="Endpoint"></select>
+
+    <label for="q">Query <span id="q-source" style="color:var(--ink-soft);font-weight:400"></span></label>
+    <div id="q"></div>
+
+    <div class="params" id="params"></div>
+
+    <div class="actions">
+      <button class="run" id="run">Run query</button>
+      <button class="ghost" id="btn-classes" title="List rdf:types in this endpoint">Classes</button>
+      <button class="ghost" id="btn-props" title="List predicates in this endpoint">Properties</button>
+    </div>
+
+    <p class="meta" id="meta">&nbsp;</p>
+    <div class="results" id="results"></div>
+
+    <h2>Experimental labs</h2>
+    <div class="linkcards" id="labs"></div>
+
+    <h2>Other clients &amp; Parliament's own templates</h2>
+    <div class="linkcards" id="clients"></div>
+  </section>
+</div>
+
+<button class="clip-fab" id="clip-fab" title="Query wizard" aria-label="Open query wizard">📎</button>
+<div class="clip-panel" id="clip-panel" role="dialog" aria-label="Query wizard"></div>
+
+<footer>
+  Contains Parliamentary information licensed under the
+  <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
+  Data source: UK Parliament. Wikidata content under CC0; EUR-Lex under the EU's reuse policy.
+  This site is a third-party prototype and is not endorsed by, or affiliated with, the UK Parliament.
+</footer>
+
+<script src="https://unpkg.com/@triply/yasqe/build/yasqe.min.js"></script>
+<script>
+// ---------------------------------------------------------------------------
+// State
+// ---------------------------------------------------------------------------
+var REGISTRY = null;     // endpoints.json
+var CATALOGUE = null;    // catalogue.json
+var CURRENT = null;      // selected endpoint object
+var ACTIVE = null;       // selected catalogue query object (or null = freehand)
+var editor = null;       // YASQE or textarea
+
+var $ep = document.getElementById('endpoint');
+var $qMount = document.getElementById('q');
+var $qSource = document.getElementById('q-source');
+var $params = document.getElementById('params');
+var $meta = document.getElementById('meta');
+var $results = document.getElementById('results');
+var $catGroups = document.getElementById('cat-groups');
+var $catSearch = document.getElementById('cat-search');
+
+// ---------------------------------------------------------------------------
+// Editor
+// ---------------------------------------------------------------------------
+function getQuery() { return editor && editor.getValue ? editor.getValue() : (editor ? editor.value : ''); }
+function setQuery(s) { if (editor && editor.setValue) editor.setValue(s); else if (editor) editor.value = s; }
+
+function mountEditor(initial) {
+  if (window.Yasqe) {
+    editor = new Yasqe($qMount, {
+      value: initial, showQueryButton: false, persistent: null,
+      requestConfig: { endpoint: '' },
+    });
+    editor.addKeyMap && editor.addKeyMap({ 'Cmd-Enter': function () { run(); }, 'Ctrl-Enter': function () { run(); } });
+    return;
+  }
+  var ta = document.createElement('textarea');
+  ta.spellcheck = false; ta.value = initial;
+  ta.style.cssText = 'width:100%;min-height:150px;padding:12px;border:0;font:14px/1.45 ui-monospace,Menlo,monospace;background:#fff;color:inherit;';
+  $qMount.appendChild(ta);
+  editor = ta;
+}
+
+// ---------------------------------------------------------------------------
+// Endpoints
+// ---------------------------------------------------------------------------
+function endpointAbsoluteUrl(e) { return new URL(e.url, window.location.href).toString(); }
+
+function populateEndpoints() {
+  $ep.innerHTML = '';
+  REGISTRY.endpoints.forEach(function (e) {
+    var opt = document.createElement('option');
+    opt.value = e.id;
+    opt.textContent = e.label;
+    $ep.appendChild(opt);
+  });
+  $ep.addEventListener('change', function () {
+    CURRENT = REGISTRY.endpoints.find(function (x) { return x.id === $ep.value; });
+  });
+  CURRENT = REGISTRY.endpoints[0];
+}
+
+function selectEndpoint(id) {
+  var e = REGISTRY.endpoints.find(function (x) { return x.id === id; });
+  if (!e) return;
+  CURRENT = e; $ep.value = id;
+}
+
+// ---------------------------------------------------------------------------
+// Catalogue
+// ---------------------------------------------------------------------------
+function allQueries() {
+  var out = [];
+  CATALOGUE.groups.forEach(function (g) {
+    g.queries.forEach(function (q) { out.push(Object.assign({ _group: g }, q)); });
+  });
+  return out;
+}
+
+function renderCatalogue(filter) {
+  filter = (filter || '').trim().toLowerCase();
+  $catGroups.innerHTML = '';
+  CATALOGUE.groups.forEach(function (g) {
+    var matching = g.queries.filter(function (q) {
+      if (!filter) return true;
+      var hay = (q.title + ' ' + (q.desc || '') + ' ' + g.label + ' ' + (q.skill || '') + ' ' + (q.tags || []).join(' ')).toLowerCase();
+      return hay.indexOf(filter) !== -1;
+    });
+    if (!matching.length) return;
+    var det = document.createElement('details');
+    det.className = 'group';
+    if (filter) det.open = true;
+    var sum = document.createElement('summary');
+    sum.textContent = g.label + ' (' + matching.length + ')';
+    det.appendChild(sum);
+    var blurb = document.createElement('div');
+    blurb.className = 'group-blurb';
+    blurb.textContent = g.blurb || '';
+    det.appendChild(blurb);
+    matching.forEach(function (q) {
+      var btn = document.createElement('button');
+      btn.className = 'q-item';
+      var tags = (q.tags || []).map(function (t) {
+        var cls = t === 'verified' ? 'tag verified' : (t === 'template' ? 'tag template' : 'tag');
+        return '<span class="' + cls + '">' + SparqlCore.esc(t) + '</span>';
+      }).join('');
+      btn.innerHTML = '<div class="q-title">' + SparqlCore.esc(q.title) + '</div>'
+        + '<div class="q-desc">' + SparqlCore.esc(q.desc || '') + '</div>'
+        + (tags ? '<div class="q-tags">' + tags + '</div>' : '');
+      btn.addEventListener('click', function () { loadQuery(g, q); });
+      det.appendChild(btn);
+    });
+    $catGroups.appendChild(det);
+  });
+  if (!$catGroups.children.length) {
+    $catGroups.innerHTML = '<p class="group-blurb">No queries match “' + SparqlCore.esc(filter) + '”.</p>';
+  }
+}
+
+// Load a catalogue query into the workbench: set endpoint, build the
+// parameter form, and template the query text.
+function loadQuery(group, q) {
+  ACTIVE = q;
+  selectEndpoint(group.endpoint || q.endpoint);
+  $qSource.textContent = '· ' + group.label + (q.skill ? ' · skill: ' + q.skill : '');
+  buildParamForm(q);
+  applyTemplate(q);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ---------------------------------------------------------------------------
+// Parameter templating: substitute {{name}} with current input values.
+// ---------------------------------------------------------------------------
+function buildParamForm(q) {
+  $params.innerHTML = '';
+  if (!q.params || !q.params.length) return;
+  q.params.forEach(function (p) {
+    var row = document.createElement('div');
+    row.className = 'param-row';
+    var lab = document.createElement('label');
+    lab.textContent = p.label || p.name;
+    lab.setAttribute('for', 'param-' + p.name);
+    var inp = document.createElement('input');
+    inp.id = 'param-' + p.name;
+    inp.type = 'text';
+    inp.value = p.default != null ? p.default : '';
+    inp.placeholder = p.placeholder || '';
+    inp.dataset.pname = p.name;
+    inp.addEventListener('input', function () { applyTemplate(q); });
+    row.appendChild(lab); row.appendChild(inp);
+    $params.appendChild(row);
+  });
+}
+
+function paramValues() {
+  var vals = {};
+  $params.querySelectorAll('input[data-pname]').forEach(function (i) { vals[i.dataset.pname] = i.value; });
+  return vals;
+}
+
+function applyTemplate(q) {
+  var text = q.query;
+  var vals = paramValues();
+  Object.keys(vals).forEach(function (k) {
+    text = text.split('{{' + k + '}}').join(vals[k]);
+  });
+  setQuery(text);
+}
+
+// ---------------------------------------------------------------------------
+// Run
+// ---------------------------------------------------------------------------
+async function run() {
+  var query = getQuery().trim();
+  if (!query) { $meta.textContent = 'empty query'; return; }
+  $meta.textContent = 'running… (' + (CURRENT ? CURRENT.label : '?') + ')';
+  $results.innerHTML = '';
+  var res = await SparqlCore.execute(CURRENT, query);
+  $meta.textContent = 'HTTP ' + (res.status != null ? res.status : '—') + ' · ' + (res.ms || 0) + ' ms · '
+    + (res.bytes || 0) + ' bytes' + (res.portableNote || '');
+  SparqlCore.render($results, res, {
+    query: query,
+    onPermalink: function () {
+      var link = SparqlCore.permalink(window.location.href, query, CURRENT.id);
+      navigator.clipboard.writeText(link).then(
+        function () { $meta.textContent = 'permalink copied to clipboard'; },
+        function () { $meta.textContent = link; }
+      );
+    },
+  });
+}
+
+document.getElementById('run').addEventListener('click', run);
+document.getElementById('btn-classes').addEventListener('click', function () {
+  ACTIVE = null; $qSource.textContent = ''; $params.innerHTML = '';
+  setQuery('SELECT DISTINCT ?class WHERE { ?s a ?class } ORDER BY ?class LIMIT 1000'); run();
+});
+document.getElementById('btn-props').addEventListener('click', function () {
+  ACTIVE = null; $qSource.textContent = ''; $params.innerHTML = '';
+  setQuery('SELECT DISTINCT ?p WHERE { ?s ?p ?o } ORDER BY ?p LIMIT 1000'); run();
+});
+$qMount.addEventListener('keydown', function (e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') { e.preventDefault(); run(); }
+});
+$catSearch.addEventListener('input', function () { renderCatalogue($catSearch.value); });
+
+// ---------------------------------------------------------------------------
+// Labs + clients link cards
+// ---------------------------------------------------------------------------
+function renderLinkCards(el, items) {
+  el.innerHTML = '';
+  (items || []).forEach(function (it) {
+    var a = document.createElement('a');
+    a.className = 'linkcard'; a.href = it.href;
+    if (/^https?:/.test(it.href)) { a.target = '_blank'; a.rel = 'noopener'; }
+    a.innerHTML = '<div class="lc-t">' + SparqlCore.esc(it.label) + '</div><div class="lc-b">' + SparqlCore.esc(it.blurb || '') + '</div>';
+    el.appendChild(a);
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Wizard ("paperclip")
+// ---------------------------------------------------------------------------
+var WIZARD = {
+  root: {
+    title: 'What are you looking for?',
+    intro: 'Pick a starting point and I\'ll load a query you can run or tweak.',
+    options: [
+      { label: '🏛 People &amp; parties', sub: 'MPs, peers, parties, constituencies', goto: 'people' },
+      { label: '💷 Money &amp; influence', sub: 'APPG funding, financial interests', goto: 'money' },
+      { label: '🗳 Elections', sub: 'candidacies, vote shares, results', goto: 'elections' },
+      { label: '🖼 Picture-rich Wikidata', sub: 'portraits, image grids', firstInGroup: 'wikidata' },
+      { label: '🧭 Just show me the data', sub: 'what is in the bundled store?', firstInGroup: 'fpkg-explore' },
+      { label: '🔗 Join two endpoints', sub: 'SPARQL SERVICE federation', firstInGroup: 'federation' }
+    ]
+  },
+  people: {
+    title: 'People & parties',
+    options: [
+      { label: 'Members with party + constituency', sub: 'FPKG identity graph', q: 'id-members' },
+      { label: 'Members per party (bar chart)', sub: 'FPKG', q: 'id-party-counts' },
+      { label: 'Sitting UK MPs', sub: 'Wikidata', q: 'wd-current-mps' },
+      { label: 'Resolve an MNIS id → DDP person', sub: 'live DDP, template', q: 'ddp-person-by-mnis' }
+    ]
+  },
+  money: {
+    title: 'Money & influence',
+    options: [
+      { label: 'Who funds the APPGs?', sub: 'FPKG, bar chart', q: 'appg-benefits' },
+      { label: 'APPGs on a subject', sub: 'FPKG, template', q: 'appg-by-subject' }
+    ]
+  },
+  elections: {
+    title: 'Elections',
+    options: [
+      { label: 'Biggest elections by candidacy count', sub: 'FPKG psephology', q: 'pseph-top-elections' },
+      { label: 'Highest winning vote shares', sub: 'FPKG psephology', q: 'pseph-winners' }
+    ]
+  }
+};
+
+var $fab = document.getElementById('clip-fab');
+var $panel = document.getElementById('clip-panel');
+function openWizard(stepId) {
+  var step = WIZARD[stepId] || WIZARD.root;
+  var html = '';
+  if (stepId && stepId !== 'root') html += '<button class="clip-back" id="clip-back">‹ back</button>';
+  html += '<h3>' + step.title + '</h3>';
+  if (step.intro) html += '<p>' + step.intro + '</p>';
+  step.options.forEach(function (o, i) {
+    html += '<button class="clip-opt" data-i="' + i + '"><b>' + o.label + '</b><br>'
+      + '<span style="color:var(--ink-soft)">' + (o.sub || '') + '</span></button>';
+  });
+  $panel.innerHTML = html;
+  $panel.classList.add('open');
+  var back = document.getElementById('clip-back');
+  if (back) back.addEventListener('click', function () { openWizard('root'); });
+  $panel.querySelectorAll('.clip-opt').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var o = step.options[+btn.dataset.i];
+      if (o.goto) { openWizard(o.goto); return; }
+      if (o.q) { loadQueryById(o.q); $panel.classList.remove('open'); return; }
+      if (o.firstInGroup) {
+        var g = CATALOGUE.groups.find(function (x) { return x.id === o.firstInGroup; });
+        if (g && g.queries[0]) { loadQuery(g, g.queries[0]); }
+        $panel.classList.remove('open');
+      }
+    });
+  });
+}
+function loadQueryById(qid) {
+  for (var i = 0; i < CATALOGUE.groups.length; i++) {
+    var g = CATALOGUE.groups[i];
+    var q = g.queries.find(function (x) { return x.id === qid; });
+    if (q) { loadQuery(g, q); return; }
+  }
+}
+$fab.addEventListener('click', function () {
+  if ($panel.classList.contains('open')) $panel.classList.remove('open');
+  else openWizard('root');
+});
+
+// ---------------------------------------------------------------------------
+// Permalink restore (#q=…&e=…), shared with the playground format.
+// ---------------------------------------------------------------------------
+function parseHashState() {
+  var h = window.location.hash.replace(/^#/, '');
+  if (!h) return null;
+  var out = {};
+  h.split('&').forEach(function (part) {
+    var idx = part.indexOf('=');
+    if (idx === -1) return;
+    out[part.slice(0, idx)] = decodeURIComponent(part.slice(idx + 1));
+  });
+  return out;
+}
+
+// ---------------------------------------------------------------------------
+// Init
+// ---------------------------------------------------------------------------
+(async function () {
+  var hash = parseHashState();
+  mountEditor((hash && hash.q) || 'SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }');
+  try {
+    REGISTRY = await fetch('/kgx/endpoints.json').then(function (r) { return r.json(); });
+  } catch (e) { $meta.textContent = 'failed to load endpoints.json: ' + e.message; return; }
+  try {
+    CATALOGUE = await fetch('/kgx/catalogue.json').then(function (r) { return r.json(); });
+  } catch (e) { $meta.textContent = 'failed to load catalogue.json: ' + e.message; return; }
+
+  populateEndpoints();
+  renderCatalogue('');
+  renderLinkCards(document.getElementById('labs'), CATALOGUE.labs);
+  var clientCards = (CATALOGUE.clients || []).slice();
+  if (CATALOGUE.parameterisedBrowser) clientCards.push(CATALOGUE.parameterisedBrowser);
+  renderLinkCards(document.getElementById('clients'), clientCards);
+
+  if (hash && hash.e) selectEndpoint(hash.e);
+  if (hash && hash.q) run();
+})();
+</script>
+</body>
+</html>

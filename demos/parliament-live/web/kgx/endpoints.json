@@ -55,6 +55,14 @@
       "notes": "OpenLink Virtuoso. The grandparent of public SPARQL endpoints."
     },
     {
+      "id": "eurlex",
+      "label": "EUR-Lex CELLAR (EU law, publications.europa.eu)",
+      "url": "https://publications.europa.eu/webapi/rdf/sparql",
+      "cors": true,
+      "tier": "eu",
+      "notes": "OpenLink Virtuoso over the EU Publications Office CELLAR. Probed 2026-05-29: GET returns results cross-origin. Of UK-Parliament interest for Retained EU Law research — instruments carry CELEX references that resolve here. Huge; always constrain queries."
+    },
+    {
       "id": "legislation",
       "label": "legislation.gov.uk (invitation-only)",
       "url": "https://www.legislation.gov.uk/sparql",

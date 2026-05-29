@@ -1,0 +1,306 @@
+{
+  "schemaVersion": 1,
+  "notes": [
+    "Query catalogue for the kgx SPARQL studio, organised by dataset / skill.",
+    "Each entry: { id, title, desc, endpoint (id from endpoints.json), skill (repo skill folder), tags[], view?, query, params? }.",
+    "params[] turns a query into a fill-in-the-blank template: each { name, label, default, placeholder } is substituted for {{name}} in the query before running.",
+    "Queries marked verified were run against the live store on 2026-05-29; cite the endpoint when you reuse a result.",
+    "Adding an entry here surfaces it in the studio with no JS edits."
+  ],
+  "groups": [
+    {
+      "id": "fpkg-explore",
+      "label": "FPKG — explore the bundled store",
+      "blurb": "Our own fly.io-hosted Oxigraph: ~558k quads of scraped / extracted / converted UK-Parliament-adjacent RDF, one named graph per source. Start here to see what is loaded.",
+      "endpoint": "fpkg",
+      "queries": [
+        {
+          "id": "fpkg-graphs",
+          "title": "What graphs are loaded? (sizes)",
+          "desc": "Every named graph with its quad count — the table of contents for the bundled store.",
+          "skill": "kgx-infra-cloud-containers",
+          "view": "BarChart",
+          "tags": ["overview", "verified"],
+          "query": "# Endpoint: FPKG (bundled Oxigraph)\n# Named graphs, largest first. Each is one source dataset.\nSELECT ?g (COUNT(*) AS ?n)\nWHERE { GRAPH ?g { ?s ?p ?o } }\nGROUP BY ?g ORDER BY DESC(?n)"
+        },
+        {
+          "id": "fpkg-count",
+          "title": "Count every quad",
+          "desc": "Total size of the bundled store.",
+          "skill": "kgx-infra-cloud-containers",
+          "tags": ["overview", "verified"],
+          "query": "SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }"
+        },
+        {
+          "id": "fpkg-predicates",
+          "title": "Top 20 predicates",
+          "desc": "The most-used predicates across all graphs — a quick sense of the vocabularies present.",
+          "skill": "kgx-infra-cloud-containers",
+          "view": "BarChart",
+          "tags": ["overview", "verified"],
+          "query": "SELECT ?p (COUNT(*) AS ?n)\nWHERE { ?s ?p ?o }\nGROUP BY ?p ORDER BY DESC(?n) LIMIT 20"
+        },
+        {
+          "id": "fpkg-types",
+          "title": "Top 20 rdf:types",
+          "desc": "What kinds of thing are described in the store.",
+          "skill": "kgx-infra-cloud-containers",
+          "view": "BarChart",
+          "tags": ["overview", "verified"],
+          "query": "SELECT ?t (COUNT(*) AS ?n)\nWHERE { ?s a ?t }\nGROUP BY ?t ORDER BY DESC(?n) LIMIT 20"
+        }
+      ]
+    },
+    {
+      "id": "appg",
+      "label": "APPGs — All-Party Parliamentary Groups",
+      "blurb": "Scraped from the Register of APPGs (no official JSON API). Groups, their officers, subjects, and the financial / in-kind benefits each has received.",
+      "endpoint": "fpkg",
+      "queries": [
+        {
+          "id": "appg-groups",
+          "title": "APPGs by subject",
+          "desc": "Every registered group with its subject category and one-line purpose.",
+          "skill": "appg",
+          "tags": ["verified"],
+          "query": "# Endpoint: FPKG · graph: transparency#graph/appg-register\nPREFIX t: <https://forgetmenot.example/transparency#>\nSELECT ?title ?category ?purpose\nWHERE {\n  GRAPH <https://forgetmenot.example/transparency#graph/appg-register> {\n    ?g a t:APPG ;\n       t:title ?title ;\n       t:category ?category ;\n       t:purpose ?purpose .\n  }\n} ORDER BY ?category ?title LIMIT 100"
+        },
+        {
+          "id": "appg-benefits",
+          "title": "Who funds the APPGs? (financial benefits)",
+          "desc": "Financial benefits declared by groups, with the source and GBP value — sorted by value.",
+          "skill": "appg",
+          "view": "BarChart",
+          "tags": ["money", "verified"],
+          "query": "# Endpoint: FPKG · graph: transparency#graph/appg-register\nPREFIX t: <https://forgetmenot.example/transparency#>\nSELECT ?source (SUM(?gbp) AS ?totalGbp)\nWHERE {\n  GRAPH <https://forgetmenot.example/transparency#graph/appg-register> {\n    ?b a t:FinancialBenefit ;\n       t:benefitSource ?source ;\n       t:benefitValueGbp ?gbp .\n  }\n} GROUP BY ?source ORDER BY DESC(?totalGbp) LIMIT 25"
+        },
+        {
+          "id": "appg-by-subject",
+          "title": "APPGs on a subject (template)",
+          "desc": "Find groups whose purpose mentions a keyword. Edit the keyword.",
+          "skill": "appg",
+          "tags": ["template", "verified"],
+          "params": [
+            { "name": "keyword", "label": "Keyword in purpose", "default": "cancer", "placeholder": "e.g. cancer, AI, climate" }
+          ],
+          "query": "PREFIX t: <https://forgetmenot.example/transparency#>\nSELECT ?title ?purpose\nWHERE {\n  GRAPH <https://forgetmenot.example/transparency#graph/appg-register> {\n    ?g a t:APPG ; t:title ?title ; t:purpose ?purpose .\n    FILTER(CONTAINS(LCASE(?purpose), LCASE(\"{{keyword}}\")))\n  }\n} ORDER BY ?title LIMIT 50"
+        }
+      ]
+    },
+    {
+      "id": "psephology",
+      "label": "Psephology — election results",
+      "blurb": "Every Westminster candidacy, election, electorate and result — 260k candidacy quads. Joins to MPs via the members bridge.",
+      "endpoint": "fpkg",
+      "queries": [
+        {
+          "id": "pseph-top-elections",
+          "title": "Biggest elections by candidacy count",
+          "desc": "Which elections have the most candidates recorded.",
+          "skill": "psephology",
+          "view": "BarChart",
+          "tags": ["verified"],
+          "query": "# Endpoint: FPKG · graph: psephology/candidacies\nPREFIX el: <http://parliament.uk/ontologies/election/>\nSELECT ?election (COUNT(?c) AS ?n)\nWHERE {\n  GRAPH <https://forgetmenot.local/graph/psephology/candidacies> {\n    ?c a el:Candidacy ; el:inElection ?election .\n  }\n} GROUP BY ?election ORDER BY DESC(?n) LIMIT 15"
+        },
+        {
+          "id": "pseph-winners",
+          "title": "Highest vote shares (winning candidacies)",
+          "desc": "Candidacies that came first, by vote share.",
+          "skill": "psephology",
+          "tags": ["verified"],
+          "query": "PREFIX el: <http://parliament.uk/ontologies/election/>\nSELECT ?given ?family ?share ?votes\nWHERE {\n  GRAPH <https://forgetmenot.local/graph/psephology/candidacies> {\n    ?c a el:Candidacy ;\n       el:resultPosition 1 ;\n       el:voteShare ?share ;\n       el:voteCount ?votes ;\n       el:candidateGivenName ?given ;\n       el:candidateFamilyName ?family .\n  }\n} ORDER BY DESC(?share) LIMIT 25"
+        }
+      ]
+    },
+    {
+      "id": "accountability",
+      "label": "Accountability — written Q&A to arm's-length bodies",
+      "blurb": "Lords written questions and their answers, with answering body, topic, dates and answer length. Hand-built graph.",
+      "endpoint": "fpkg",
+      "queries": [
+        {
+          "id": "acc-by-body",
+          "title": "Most-questioned answering bodies",
+          "desc": "Which bodies field the most written questions in this slice.",
+          "skill": "members",
+          "view": "BarChart",
+          "tags": ["verified"],
+          "query": "# Endpoint: FPKG · graph: accountability#graph/questions-answers\nPREFIX a: <https://forgetmenot.example/accountability#>\nSELECT ?answeringBody (COUNT(*) AS ?n)\nWHERE {\n  GRAPH <https://forgetmenot.example/accountability#graph/questions-answers> {\n    ?q a:answeringBody ?answeringBody .\n  }\n} GROUP BY ?answeringBody ORDER BY DESC(?n) LIMIT 20"
+        },
+        {
+          "id": "acc-topic",
+          "title": "Questions on a topic (template)",
+          "desc": "Written questions whose heading mentions a keyword, newest first.",
+          "skill": "written-questions-and-statements",
+          "tags": ["template", "verified"],
+          "params": [
+            { "name": "keyword", "label": "Keyword in heading", "default": "NHS", "placeholder": "e.g. NHS, housing, defence" }
+          ],
+          "query": "PREFIX a: <https://forgetmenot.example/accountability#>\nSELECT ?heading ?answeringBody ?dateAnswered\nWHERE {\n  GRAPH <https://forgetmenot.example/accountability#graph/questions-answers> {\n    ?q a:heading ?heading ;\n       a:answeringBody ?answeringBody ;\n       a:dateAnswered ?dateAnswered .\n    FILTER(CONTAINS(LCASE(?heading), LCASE(\"{{keyword}}\")))\n  }\n} ORDER BY DESC(?dateAnswered) LIMIT 50"
+        }
+      ]
+    },
+    {
+      "id": "identity",
+      "label": "Identity graph — cross-source person bridge",
+      "blurb": "Bridges Members-API id ↔ MNIS id ↔ DDP person ↔ APPG officer roles ↔ Wikidata QIDs. The join key between every other dataset.",
+      "endpoint": "fpkg",
+      "queries": [
+        {
+          "id": "id-members",
+          "title": "Members with party + constituency",
+          "desc": "The Members-API slice of the identity graph: name, party, house, constituency, MNIS id.",
+          "skill": "identity-graph",
+          "tags": ["verified"],
+          "query": "# Endpoint: FPKG · graph: identity/members-api\nPREFIX v: <https://forgetmenot.local/vocab#>\nPREFIX parl: <https://id.parliament.uk/schema/>\nPREFIX schema: <http://schema.org/>\nSELECT ?name ?party ?constituency ?mnisId\nWHERE {\n  GRAPH <https://forgetmenot.local/graph/identity/members-api> {\n    ?p schema:name ?name ;\n       v:party ?party ;\n       v:constituency ?constituency ;\n       parl:mnisId ?mnisId .\n  }\n} ORDER BY ?name LIMIT 100"
+        },
+        {
+          "id": "id-party-counts",
+          "title": "Members per party",
+          "desc": "Headcount by party across the identity graph.",
+          "skill": "identity-graph",
+          "view": "BarChart",
+          "tags": ["verified"],
+          "query": "PREFIX v: <https://forgetmenot.local/vocab#>\nSELECT ?party (COUNT(*) AS ?n)\nWHERE {\n  GRAPH <https://forgetmenot.local/graph/identity/members-api> {\n    ?p v:party ?party .\n  }\n} GROUP BY ?party ORDER BY DESC(?n)"
+        }
+      ]
+    },
+    {
+      "id": "thesaurus",
+      "label": "Parliament Thesaurus (SKOS)",
+      "blurb": "The legacy data.parliament.uk subject thesaurus as SKOS concepts with preferred labels.",
+      "endpoint": "fpkg",
+      "queries": [
+        {
+          "id": "thes-terms",
+          "title": "Thesaurus preferred labels (template)",
+          "desc": "Search SKOS prefLabels for a fragment.",
+          "skill": "parliament-thesaurus",
+          "tags": ["template", "verified"],
+          "params": [
+            { "name": "frag", "label": "Label contains", "default": "health", "placeholder": "e.g. health, energy, trade" }
+          ],
+          "query": "PREFIX skos: <http://www.w3.org/2004/02/skos/core#>\nSELECT ?concept ?label\nWHERE {\n  GRAPH <https://lda.data.parliament.uk/graph/legacy-terms/core> {\n    ?concept skos:prefLabel ?label .\n    FILTER(CONTAINS(LCASE(STR(?label)), LCASE(\"{{frag}}\")))\n  }\n} ORDER BY ?label LIMIT 50"
+        }
+      ]
+    },
+    {
+      "id": "ddp",
+      "label": "UK Parliament DDP (live SPARQL)",
+      "blurb": "api.parliament.uk/sparql — the live DDP store: people, parties, memberships, treaties, statutory instruments, written questions, ePetitions. Keep queries small: big GROUP BY aggregates hit the ~30s back-end timeout.",
+      "endpoint": "parliament-ddp",
+      "queries": [
+        {
+          "id": "ddp-parties",
+          "title": "Parties (by rdfs:label)",
+          "desc": "Party URIs and their labels. Note DDP labels parties with rdfs:label, not parl:partyName.",
+          "skill": "sparql",
+          "tags": ["verified"],
+          "query": "# Endpoint: api.parliament.uk/sparql (DDP)\nPREFIX parl: <https://id.parliament.uk/schema/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?party ?label\nWHERE { ?party a parl:Party ; rdfs:label ?label }\nORDER BY ?label LIMIT 50"
+        },
+        {
+          "id": "ddp-treaties",
+          "title": "Treaties (recent CRaG window)",
+          "desc": "Treaty URIs and titles. Same id.parliament.uk IRIs as the treaties REST API.",
+          "skill": "treaties",
+          "tags": ["verified"],
+          "query": "PREFIX parl: <https://id.parliament.uk/schema/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?treaty ?title\nWHERE { ?treaty a parl:Treaty ; rdfs:label ?title }\nLIMIT 40"
+        },
+        {
+          "id": "ddp-person-by-mnis",
+          "title": "Person by MNIS id (template)",
+          "desc": "Resolve a Members-API / MNIS integer id to its DDP person URI and names. Join key into every REST API.",
+          "skill": "sparql",
+          "tags": ["template", "join"],
+          "params": [
+            { "name": "mnis", "label": "MNIS id", "default": "172", "placeholder": "e.g. 172 (Diane Abbott)" }
+          ],
+          "query": "PREFIX parl: <https://id.parliament.uk/schema/>\nPREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\nSELECT ?person ?p ?o\nWHERE {\n  ?person parl:mnisId \"{{mnis}}\"^^xsd:integer ; ?p ?o .\n} LIMIT 60"
+        }
+      ]
+    },
+    {
+      "id": "wikidata",
+      "label": "Wikidata (portable across mirrors)",
+      "blurb": "query.wikidata.org and its QLever / Virtuoso mirrors. Picture-rich. The studio rewrites SERVICE wikibase:label to portable rdfs:label OPTIONALs when the target isn't the official endpoint.",
+      "endpoint": "wikidata-qlever",
+      "queries": [
+        {
+          "id": "wd-pms",
+          "title": "UK Prime Ministers (portraits)",
+          "desc": "Image-grid of PMs, most recent first. Showcases #defaultView:ImageGrid.",
+          "skill": "wikidata",
+          "view": "ImageGrid",
+          "tags": ["pictures"],
+          "query": "# defaultView:ImageGrid\nPREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX p:    <http://www.wikidata.org/prop/>\nPREFIX ps:   <http://www.wikidata.org/prop/statement/>\nPREFIX pq:   <http://www.wikidata.org/prop/qualifier/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?pm ?pmLabel ?image ?start WHERE {\n  ?pm p:P39 ?term .\n  ?term ps:P39 wd:Q14211 ; pq:P580 ?start .\n  OPTIONAL { ?pm wdt:P18 ?image }\n  OPTIONAL { ?pm rdfs:label ?pmLabel . FILTER (lang(?pmLabel) = \"en\") }\n} ORDER BY DESC(?start) LIMIT 30"
+        },
+        {
+          "id": "wd-current-mps",
+          "title": "Sitting UK MPs + constituency",
+          "desc": "People currently holding the MP position (no end date), with constituency.",
+          "skill": "wikidata",
+          "tags": [],
+          "query": "PREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX p:    <http://www.wikidata.org/prop/>\nPREFIX ps:   <http://www.wikidata.org/prop/statement/>\nPREFIX pq:   <http://www.wikidata.org/prop/qualifier/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?person ?personLabel ?constituency ?constituencyLabel WHERE {\n  ?person p:P39 ?m .\n  ?m ps:P39 wd:Q16707842 ; pq:P768 ?constituency .\n  FILTER NOT EXISTS { ?m pq:P582 [] }\n  OPTIONAL { ?person rdfs:label ?personLabel . FILTER (lang(?personLabel) = \"en\") }\n  OPTIONAL { ?constituency rdfs:label ?constituencyLabel . FILTER (lang(?constituencyLabel) = \"en\") }\n} ORDER BY ?personLabel"
+        },
+        {
+          "id": "wd-pm-ancestors",
+          "title": "PMs who are ancestors of the Queen Mother",
+          "desc": "Property-path closure down child edges (wdt:P40+). Best on the QLever mirror. Returns 2 rows.",
+          "skill": "wikidata",
+          "tags": ["paths", "verified"],
+          "query": "PREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX p:    <http://www.wikidata.org/prop/>\nPREFIX ps:   <http://www.wikidata.org/prop/statement/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT DISTINCT ?pm ?pmLabel WHERE {\n  ?pm p:P39/ps:P39 wd:Q14211 .\n  ?pm wdt:P40+ wd:Q10633 .\n  OPTIONAL { ?pm rdfs:label ?pmLabel . FILTER(lang(?pmLabel) = \"en\") }\n}"
+        }
+      ]
+    },
+    {
+      "id": "eurlex",
+      "label": "EUR-Lex (EU law, for Retained EU Law research)",
+      "blurb": "publications.europa.eu CELLAR SPARQL. Of UK-Parliament interest because every retained-EU-law instrument carries a CELEX reference resolving here.",
+      "endpoint": "eurlex",
+      "queries": [
+        {
+          "id": "eurlex-probe",
+          "title": "CELLAR liveness probe",
+          "desc": "Three triples — confirms the endpoint answers. CELLAR is huge; always constrain heavily.",
+          "skill": "eur-lex",
+          "tags": ["verified"],
+          "query": "SELECT * WHERE { ?s ?p ?o } LIMIT 3"
+        }
+      ]
+    },
+    {
+      "id": "federation",
+      "label": "Federation — joining endpoints with SERVICE",
+      "blurb": "SPARQL 1.1 SERVICE lets one query reach into a second endpoint. Use the DDP MNIS id or a Wikidata QID as the join key across stores.",
+      "endpoint": "wikidata-qlever",
+      "queries": [
+        {
+          "id": "fed-wd-into-ddp",
+          "title": "Wikidata person → federate to DDP",
+          "desc": "Pattern: start from a Wikidata entity, then SERVICE-call the live Parliament DDP for the matching person by MNIS id. Edit the QID. (Federation depends on both endpoints permitting SERVICE; if blocked, run the two halves separately and join on mnisId.)",
+          "skill": "sparql",
+          "tags": ["template", "federation", "advanced"],
+          "params": [
+            { "name": "qid", "label": "Wikidata QID", "default": "Q123076", "placeholder": "e.g. Q123076" }
+          ],
+          "query": "# Federated: Wikidata (left) → UK Parliament DDP (SERVICE)\n# Join key: P10428 (MNIS numeric id) on Wikidata = parl:mnisId in DDP.\nPREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX parl: <https://id.parliament.uk/schema/>\nPREFIX xsd:  <http://www.w3.org/2001/XMLSchema#>\nSELECT ?personLabel ?ddpPerson WHERE {\n  VALUES ?person { wd:{{qid}} }\n  ?person wdt:P10428 ?mnis .\n  OPTIONAL { ?person rdfs:label ?personLabel . FILTER(lang(?personLabel)=\"en\") }\n  SERVICE <https://api.parliament.uk/sparql> {\n    ?ddpPerson parl:mnisId ?mnisInt .\n    FILTER(STR(?mnisInt) = ?mnis)\n  }\n} LIMIT 10"
+        }
+      ]
+    }
+  ],
+  "labs": [
+    { "id": "pivot", "label": "Pivot notebook", "href": "/kgx/demos/pivot/", "blurb": "Parallax-style: start with a set, pivot through related entity sets. Linear notebook." },
+    { "id": "daisychain", "label": "Daisychain", "href": "/kgx/daisychain/", "blurb": "Bead-spine over UK MPs since 1900. Relation templates with tighten/broaden (children → sons / family)." },
+    { "id": "pivcab", "label": "Pivcab (DAG)", "href": "/kgx/pivcab/", "blurb": "The same set engine as a DAG, with A ∪ B / A ∩ B / A ∖ B combine." }
+  ],
+  "clients": [
+    { "id": "playground", "label": "Playground", "href": "/kgx/playground", "blurb": "Minimal editor + run + table. The lightest client." },
+    { "id": "flint", "label": "Flint editor", "href": "/kgx/flint", "blurb": "TSO Flint SPARQL editor." },
+    { "id": "yas", "label": "YASGUI", "href": "/kgx/yas", "blurb": "Triply YASGUI with chart/table views." }
+  ],
+  "parameterisedBrowser": {
+    "label": "Parliament's own parameterised-query browser",
+    "href": "https://api.parliament.uk/query/",
+    "blurb": "124 named, pre-vetted SPARQL templates returning JSON over the same DDP store — e.g. constituency_lookup_by_postcode?postcode=SW1P+3JA. Use these when a named template fits and you don't want to author SPARQL. See the parameterised-query skill."
+  }
+}
