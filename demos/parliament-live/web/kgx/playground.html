@@ -347,6 +347,7 @@
 <body>
 <nav>
   <a href="/kgx/">kgx index</a>
+  &middot; <a href="/kgx/studio">studio</a>
   &middot; playground
   &middot; <a href="/kgx/flint">flint</a>
   &middot; <a href="/kgx/yas">yasgui</a>
@@ -410,8 +411,14 @@ const SAMPLES = {
   'parliament-ddp': [
     { name: '3 random triples',
       q: 'SELECT * WHERE { ?s ?p ?o } LIMIT 3' },
-    { name: 'Sample of Members',
-      q: 'PREFIX parl: <https://id.parliament.uk/schema/>\nSELECT ?p ?label WHERE {\n  ?p a parl:Person ; parl:personFamilyName ?label .\n} LIMIT 20' },
+    { name: 'Parties (rdfs:label)',
+      q: '# DDP labels parties with rdfs:label, not parl:partyName.\nPREFIX parl: <https://id.parliament.uk/schema/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?party ?label WHERE {\n  ?party a parl:Party ; rdfs:label ?label .\n} ORDER BY ?label LIMIT 50' },
+    { name: 'Treaties (recent CRaG window)',
+      q: 'PREFIX parl: <https://id.parliament.uk/schema/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?treaty ?title WHERE {\n  ?treaty a parl:Treaty ; rdfs:label ?title .\n} LIMIT 40' },
+  ],
+  eurlex: [
+    { name: 'CELLAR liveness probe',
+      q: '# EUR-Lex CELLAR is huge — always constrain heavily.\nSELECT * WHERE { ?s ?p ?o } LIMIT 3' },
   ],
   wikidata: [
     // Portable: vanilla rdfs:label OPTIONAL clauses work on official
@@ -498,6 +505,7 @@ function sampleKey(e) {
   if (e.id === 'parliament-ddp') return 'parliament-ddp';
   if (e.tier === 'wikidata') return 'wikidata';
   if (e.id === 'dbpedia') return 'dbpedia';
+  if (e.id === 'eurlex') return 'eurlex';
   return null;
 }
 
