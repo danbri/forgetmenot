@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thesaurus graph — FPKG kgx</title>
+<style>
+  :root {
+    --bg: #faf8f3;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --accent: #2a4f76;
+    --rule: #d8d4ca;
+    --card: #ffffff;
+    --code-bg: #efece4;
+    /* edge / node palette (all AA-legible as small text on --card) */
+    --c-broader: #1c6e8c;   /* hierarchy: narrower -> broader */
+    --c-related: #b07400;   /* associative */
+    --c-exact:   #8a3ea0;   /* synonym -> preferred */
+    --n-pref:    #2a7d4f;   /* preferred term */
+    --n-nonpref: #a8531a;   /* non-preferred / synonym */
+    --n-plain:   #51606f;   /* unflagged */
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+  header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--card);
+    flex: none;
+  }
+  header h1 { font-size: 18px; margin: 0; }
+  header p { margin: 2px 0 0; font-size: 13px; color: var(--ink-soft); }
+  header a { color: var(--accent); }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    flex: none;
+  }
+  .toolbar label { font-size: 13px; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 5px; }
+  input[type="search"], select {
+    font: 14px/1.4 inherit;
+    padding: 6px 9px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--ink);
+    min-height: 34px;
+  }
+  input[type="search"] { min-width: 180px; flex: 1 1 180px; max-width: 320px; }
+  button {
+    font: 14px/1.4 inherit;
+    padding: 6px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    min-height: 34px;
+  }
+  button:hover { background: var(--code-bg); }
+  button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+
+  .stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    background:
+      radial-gradient(circle at 50% 40%, #fffdf8 0%, var(--bg) 70%);
+  }
+  canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+
+  .legend {
+    position: absolute;
+    left: 12px; bottom: 12px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-size: 13px;
+    max-width: 220px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .legend h2 { font-size: 12px; margin: 0 0 6px; color: var(--ink-soft); font-weight: 600; }
+  .legend .row { display: flex; align-items: center; gap: 7px; margin: 3px 0; }
+  .swatch { width: 22px; height: 0; border-top-width: 3px; border-top-style: solid; flex: none; }
+  .dot { width: 12px; height: 12px; border-radius: 50%; flex: none; }
+
+  .panel {
+    position: absolute;
+    right: 12px; top: 12px;
+    width: min(320px, calc(100% - 24px));
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+    font-size: 14px;
+    display: none;
+    max-height: calc(100% - 24px);
+    overflow: auto;
+  }
+  .panel.open { display: block; }
+  .panel h2 { font-size: 16px; margin: 0 8px 8px 0; }
+  .panel .close {
+    position: absolute; top: 8px; right: 8px;
+    border: none; background: none; font-size: 20px; line-height: 1;
+    padding: 4px 8px; min-height: 0; cursor: pointer; color: var(--ink-soft);
+  }
+  .panel .meta { color: var(--ink-soft); font-size: 12px; margin: 0 0 10px; }
+  .panel ul { margin: 4px 0 12px; padding-left: 0; list-style: none; }
+  .panel li { margin: 4px 0; }
+  .panel .rel-h { font-size: 12px; color: var(--ink-soft); font-weight: 600; margin: 10px 0 2px; }
+  .panel a.term { color: var(--accent); cursor: pointer; text-decoration: none; border-bottom: 1px dotted var(--accent); }
+
+  .status {
+    position: absolute; left: 12px; top: 12px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px; color: var(--ink-soft);
+    max-width: calc(100% - 24px);
+  }
+  .status strong { color: var(--ink); }
+  .status.err { color: #9a2222; border-color: #d8a0a0; }
+
+  footer {
+    flex: none;
+    padding: 6px 14px;
+    border-top: 1px solid var(--rule);
+    background: var(--card);
+    font-size: 12px; color: var(--ink-soft);
+  }
+  footer a { color: var(--accent); }
+  .hint { font-size: 12px; color: var(--ink-soft); }
+  @media (max-width: 560px) {
+    .legend { display: none; }
+    input[type="search"] { max-width: none; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Parliament Thesaurus — graph</h1>
+  <p>Force-directed (auto-layout) view of the SKOS concept graph loaded in
+     <a href="/kgx/">FPKG kgx</a>. Live from the SPARQL endpoint.</p>
+</header>
+
+<div class="toolbar">
+  <input type="search" id="search" placeholder="Find a concept… (e.g. AT&amp;T)"
+         aria-label="Find a concept by name" autocomplete="off" list="termlist">
+  <datalist id="termlist"></datalist>
+  <label>Show
+    <select id="filter" aria-label="Which relationships to show">
+      <option value="all">all links</option>
+      <option value="hier">hierarchy only</option>
+      <option value="related">related only</option>
+      <option value="exact">exactMatch only</option>
+    </select>
+  </label>
+  <button id="reheat" type="button" title="Re-run the layout">↻ Re-layout</button>
+  <button id="fit" type="button" title="Fit graph to screen">⤢ Fit</button>
+  <span class="hint" id="hint">drag nodes · scroll to zoom · drag background to pan</span>
+</div>
+
+<div class="stage">
+  <canvas id="canvas" role="img"
+          aria-label="Force-directed graph of Parliament Thesaurus concepts and their SKOS relationships. Use the search box and details panel for an accessible view."></canvas>
+  <div class="status" id="status" role="status" aria-live="polite">Loading thesaurus graph…</div>
+
+  <div class="legend" aria-hidden="true">
+    <h2>Links</h2>
+    <div class="row"><span class="swatch" style="border-top-color:var(--c-broader)"></span> hierarchy (broader)</div>
+    <div class="row"><span class="swatch" style="border-top-color:var(--c-related)"></span> related</div>
+    <div class="row"><span class="swatch" style="border-top-color:var(--c-exact)"></span> exactMatch</div>
+    <h2 style="margin-top:8px">Nodes</h2>
+    <div class="row"><span class="dot" style="background:var(--n-pref)"></span> preferred</div>
+    <div class="row"><span class="dot" style="background:var(--n-nonpref)"></span> non-preferred</div>
+    <div class="row"><span class="dot" style="background:var(--n-plain)"></span> unflagged</div>
+  </div>
+
+  <aside class="panel" id="panel" aria-live="polite">
+    <button class="close" id="panel-close" aria-label="Close details">×</button>
+    <h2 id="panel-title">—</h2>
+    <p class="meta" id="panel-meta"></p>
+    <div id="panel-rels"></div>
+  </aside>
+</div>
+
+<footer>
+  Contains Parliamentary information licensed under the
+  <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
+  Source vocabulary: <a href="https://github.com/danbri/forgetmenot/tree/main/skills/parliament-thesaurus">parliament-thesaurus</a>
+  via the legacy LDA <code>terms</code> dataset. This is a partial (alphabetical-front) slice — see the skill for coverage notes.
+</footer>
+
+<script>
+"use strict";
+(function () {
+  // ---- endpoint resolution -------------------------------------------------
+  var params = new URLSearchParams(location.search);
+  var onProd = /\.fly\.dev$/.test(location.hostname);
+  var ENDPOINT = params.get('endpoint') ||
+    (onProd ? '/kgx/query' : 'https://fpkg.fly.dev/kgx/query');
+
+  var SK = 'http://www.w3.org/2004/02/skos/core#';
+  var TNS = 'http://data.parliament.uk/terms/';
+
+  var statusEl = document.getElementById('status');
+  function setStatus(html, isErr) {
+    statusEl.innerHTML = html;
+    statusEl.classList.toggle('err', !!isErr);
+  }
+
+  async function sparql(query) {
+    var url = ENDPOINT + (ENDPOINT.indexOf('?') < 0 ? '?' : '&') +
+              'query=' + encodeURIComponent(query);
+    var r = await fetch(url, { headers: { accept: 'application/sparql-results+json' } });
+    if (!r.ok) throw new Error('HTTP ' + r.status + ' from endpoint');
+    var j = await r.json();
+    return j.results.bindings;
+  }
+
+  // ---- data model ----------------------------------------------------------
+  var EDGE_Q =
+    'SELECT ?s ?sl ?p ?o ?ol WHERE {\n' +
+    '  VALUES ?p { <' + SK + 'broader> <' + SK + 'narrower>' +
+    ' <' + SK + 'related> <' + SK + 'exactMatch> }\n' +
+    '  ?s ?p ?o .\n' +
+    '  ?s <' + SK + 'prefLabel> ?sl .\n' +
+    '  ?o <' + SK + 'prefLabel> ?ol .\n' +
+    '  FILTER(STRSTARTS(STR(?s), "' + TNS + '"))\n' +
+    '}';
+
+  var PREF_Q =
+    'SELECT ?s ?v WHERE {\n' +
+    '  ?s <http://data.parliament.uk/schema/parl#isPreferred> ?v .\n' +
+    '  FILTER(STRSTARTS(STR(?s), "' + TNS + '"))\n' +
+    '}';
+
+  var nodes = {};        // id -> {id,label,pref,x,y,vx,vy,deg,fixed}
+  var edges = [];        // {a,b,kind}  kind in broader|related|exactMatch
+  var nodeArr = [];
+
+  function kindOf(p) {
+    if (p.indexOf('broader') >= 0 || p.indexOf('narrower') >= 0) return 'broader';
+    if (p.indexOf('related') >= 0) return 'related';
+    return 'exact';
+  }
+  // normalise: narrower X->Y is the inverse of broader; store as broader (child,parent)
+  function addEdge(s, sl, p, o, ol) {
+    var child = s, parent = o;
+    if (p.indexOf('narrower') >= 0) { child = o; parent = s; }
+    var kind = kindOf(p);
+    ensure(s, sl); ensure(o, ol);
+    edges.push({ a: child, b: parent, kind: kind });
+  }
+  function ensure(id, label) {
+    if (!nodes[id]) {
+      nodes[id] = { id: id, label: label, pref: null,
+                    x: 0, y: 0, vx: 0, vy: 0, deg: 0, fixed: false };
+    } else if (label && !nodes[id].label) {
+      nodes[id].label = label;
+    }
+  }
+
+  // ---- canvas / view -------------------------------------------------------
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+  var DPR = Math.max(1, window.devicePixelRatio || 1);
+  var W = 0, H = 0;
+  var view = { x: 0, y: 0, k: 1 };   // pan x/y (screen px), zoom k
+  var selected = null, hovered = null;
+
+  function resize() {
+    var rect = canvas.parentNode.getBoundingClientRect();
+    W = rect.width; H = rect.height;
+    canvas.width = Math.round(W * DPR);
+    canvas.height = Math.round(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  }
+  window.addEventListener('resize', function () { resize(); draw(); });
+
+  function toScreen(n) { return { x: n.x * view.k + view.x, y: n.y * view.k + view.y }; }
+  function toWorld(sx, sy) { return { x: (sx - view.x) / view.k, y: (sy - view.y) / view.k }; }
+
+  // ---- force simulation (grid-bucketed repulsion + link springs) ----------
+  var sim = { alpha: 0, running: false };
+  var filterKind = 'all';
+  function activeEdges() {
+    if (filterKind === 'all') return edges;
+    if (filterKind === 'hier') return edges.filter(function (e) { return e.kind === 'broader'; });
+    if (filterKind === 'related') return edges.filter(function (e) { return e.kind === 'related'; });
+    if (filterKind === 'exact') return edges.filter(function (e) { return e.kind === 'exact'; });
+    return edges;
+  }
+
+  function reheat() { sim.alpha = 1; if (!sim.running) { sim.running = true; tick(); } }
+
+  function step() {
+    var aedges = activeEdges();
+    var k = sim.alpha;
+    var REP = 2600;          // repulsion strength
+    var SPRING = 0.012;      // link attraction
+    var LINK_LEN = 60;
+    var GRAV = 0.015;        // pull toward centre
+    var MAXV = 40;
+    var i, n;
+
+    // centre of mass for gravity
+    for (i = 0; i < nodeArr.length; i++) {
+      n = nodeArr[i];
+      if (n.fixed) continue;
+      n.vx += (-n.x) * GRAV * k;
+      n.vy += (-n.y) * GRAV * k;
+    }
+
+    // grid-bucketed repulsion: only repel within neighbouring cells
+    var CELL = 80;
+    var grid = {};
+    function key(cx, cy) { return cx + ',' + cy; }
+    for (i = 0; i < nodeArr.length; i++) {
+      n = nodeArr[i];
+      var cx = Math.floor(n.x / CELL), cy = Math.floor(n.y / CELL);
+      var kk = key(cx, cy);
+      (grid[kk] || (grid[kk] = [])).push(n);
+      n._cx = cx; n._cy = cy;
+    }
+    for (i = 0; i < nodeArr.length; i++) {
+      n = nodeArr[i];
+      for (var gx = n._cx - 1; gx <= n._cx + 1; gx++) {
+        for (var gy = n._cy - 1; gy <= n._cy + 1; gy++) {
+          var bucket = grid[key(gx, gy)];
+          if (!bucket) continue;
+          for (var b = 0; b < bucket.length; b++) {
+            var m = bucket[b];
+            if (m === n) continue;
+            var dx = n.x - m.x, dy = n.y - m.y;
+            var d2 = dx * dx + dy * dy;
+            if (d2 < 0.01) { dx = (Math.random() - 0.5); dy = (Math.random() - 0.5); d2 = 0.5; }
+            if (d2 > CELL * CELL * 9) continue;
+            var f = REP * k / d2;
+            var d = Math.sqrt(d2);
+            n.vx += (dx / d) * f;
+            n.vy += (dy / d) * f;
+          }
+        }
+      }
+    }
+
+    // link springs
+    for (i = 0; i < aedges.length; i++) {
+      var e = aedges[i];
+      var A = nodes[e.a], B = nodes[e.b];
+      if (!A || !B) continue;
+      var ddx = B.x - A.x, ddy = B.y - A.y;
+      var dist = Math.sqrt(ddx * ddx + ddy * ddy) || 0.01;
+      var force = (dist - LINK_LEN) * SPRING * k;
+      var fx = (ddx / dist) * force, fy = (ddy / dist) * force;
+      if (!A.fixed) { A.vx += fx; A.vy += fy; }
+      if (!B.fixed) { B.vx -= fx; B.vy -= fy; }
+    }
+
+    // integrate
+    for (i = 0; i < nodeArr.length; i++) {
+      n = nodeArr[i];
+      if (n.fixed) { n.vx = 0; n.vy = 0; continue; }
+      n.vx *= 0.85; n.vy *= 0.85;
+      if (n.vx > MAXV) n.vx = MAXV; if (n.vx < -MAXV) n.vx = -MAXV;
+      if (n.vy > MAXV) n.vy = MAXV; if (n.vy < -MAXV) n.vy = -MAXV;
+      n.x += n.vx; n.y += n.vy;
+    }
+    sim.alpha *= 0.985;
+  }
+
+  function tick() {
+    step();
+    draw();
+    if (sim.alpha > 0.02) {
+      requestAnimationFrame(tick);
+    } else {
+      sim.running = false;
+    }
+  }
+
+  // ---- rendering -----------------------------------------------------------
+  var EDGE_COL = {
+    broader: getCss('--c-broader'),
+    related: getCss('--c-related'),
+    exact:   getCss('--c-exact')
+  };
+  var NODE_COL = {
+    pref: getCss('--n-pref'),
+    nonpref: getCss('--n-nonpref'),
+    plain: getCss('--n-plain')
+  };
+  function getCss(v) {
+    return getComputedStyle(document.documentElement).getPropertyValue(v).trim() || '#888';
+  }
+  function nodeColor(n) {
+    if (n.pref === true) return NODE_COL.pref;
+    if (n.pref === false) return NODE_COL.nonpref;
+    return NODE_COL.plain;
+  }
+  function radius(n) { return 3 + Math.min(9, Math.sqrt(n.deg) * 2); }
+
+  var neighbourSet = null;  // when a node is selected
+  function computeNeighbours(id) {
+    var s = {}; s[id] = true;
+    activeEdges().forEach(function (e) {
+      if (e.a === id) s[e.b] = true;
+      if (e.b === id) s[e.a] = true;
+    });
+    return s;
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    var aedges = activeEdges();
+
+    // edges
+    ctx.lineWidth = 1;
+    for (var i = 0; i < aedges.length; i++) {
+      var e = aedges[i];
+      var A = nodes[e.a], B = nodes[e.b];
+      if (!A || !B) continue;
+      var sa = toScreen(A), sb = toScreen(B);
+      var dim = neighbourSet && !(neighbourSet[e.a] && neighbourSet[e.b]);
+      ctx.strokeStyle = EDGE_COL[e.kind] || '#999';
+      ctx.globalAlpha = dim ? 0.06 : 0.45;
+      ctx.beginPath();
+      ctx.moveTo(sa.x, sa.y);
+      ctx.lineTo(sb.x, sb.y);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
+
+    // nodes
+    var showLabels = view.k > 1.15 || selected;
+    for (var j = 0; j < nodeArr.length; j++) {
+      var n = nodeArr[j];
+      var s = toScreen(n);
+      if (s.x < -40 || s.x > W + 40 || s.y < -40 || s.y > H + 40) continue;
+      var dim = neighbourSet && !neighbourSet[n.id];
+      var r = radius(n) * Math.min(1.6, Math.max(0.7, view.k));
+      ctx.globalAlpha = dim ? 0.18 : 1;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, r, 0, Math.PI * 2);
+      ctx.fillStyle = nodeColor(n);
+      ctx.fill();
+      if (n === selected || n === hovered) {
+        ctx.lineWidth = 2; ctx.strokeStyle = '#1a1a1a'; ctx.stroke();
+      }
+      // labels for hubs / hovered / zoomed-in / neighbours of selection
+      var labelMe = (n === hovered) || (n === selected) ||
+        (neighbourSet && neighbourSet[n.id]) ||
+        (showLabels && n.deg >= 3) ||
+        (view.k > 1.8);
+      if (labelMe && !dim && n.label) {
+        ctx.globalAlpha = 1;
+        ctx.font = '12px -apple-system, system-ui, sans-serif';
+        var txt = n.label.length > 28 ? n.label.slice(0, 27) + '…' : n.label;
+        var tw = ctx.measureText(txt).width;
+        ctx.fillStyle = 'rgba(255,253,248,0.85)';
+        ctx.fillRect(s.x + r + 2, s.y - 8, tw + 4, 14);
+        ctx.fillStyle = '#1a1a1a';
+        ctx.fillText(txt, s.x + r + 4, s.y + 3);
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // ---- interaction ---------------------------------------------------------
+  var drag = null;   // {node} or {pan:true, sx,sy, vx,vy}
+  function nodeAt(sx, sy) {
+    // topmost (last drawn) first
+    for (var i = nodeArr.length - 1; i >= 0; i--) {
+      var n = nodeArr[i], s = toScreen(n);
+      var r = radius(n) * Math.min(1.6, Math.max(0.7, view.k)) + 3;
+      if ((sx - s.x) * (sx - s.x) + (sy - s.y) * (sy - s.y) <= r * r) return n;
+    }
+    return null;
+  }
+  function evtPos(ev) {
+    var rect = canvas.getBoundingClientRect();
+    var t = ev.touches ? ev.touches[0] : ev;
+    return { x: t.clientX - rect.left, y: t.clientY - rect.top };
+  }
+  canvas.addEventListener('pointerdown', function (ev) {
+    canvas.setPointerCapture(ev.pointerId);
+    var p = evtPos(ev);
+    var n = nodeAt(p.x, p.y);
+    if (n) {
+      n.fixed = true;
+      drag = { node: n, moved: false };
+    } else {
+      drag = { pan: true, sx: p.x, sy: p.y, vx: view.x, vy: view.y, moved: false };
+    }
+  });
+  canvas.addEventListener('pointermove', function (ev) {
+    var p = evtPos(ev);
+    if (drag && drag.node) {
+      var w = toWorld(p.x, p.y);
+      drag.node.x = w.x; drag.node.y = w.y; drag.node.vx = 0; drag.node.vy = 0;
+      drag.moved = true;
+      reheat();
+    } else if (drag && drag.pan) {
+      view.x = drag.vx + (p.x - drag.sx);
+      view.y = drag.vy + (p.y - drag.sy);
+      if (Math.abs(p.x - drag.sx) + Math.abs(p.y - drag.sy) > 3) drag.moved = true;
+      draw();
+    } else {
+      var h = nodeAt(p.x, p.y);
+      if (h !== hovered) { hovered = h; canvas.style.cursor = h ? 'pointer' : 'grab'; draw(); }
+    }
+  });
+  function endDrag(ev) {
+    if (drag && drag.node && !drag.moved) {
+      drag.node.fixed = false;     // a tap (not a drag) un-pins
+      select(drag.node);
+    } else if (drag && drag.pan && !drag.moved) {
+      select(null);
+    }
+    drag = null;
+  }
+  canvas.addEventListener('pointerup', endDrag);
+  canvas.addEventListener('pointercancel', function () { drag = null; });
+
+  canvas.addEventListener('wheel', function (ev) {
+    ev.preventDefault();
+    var p = evtPos(ev);
+    var before = toWorld(p.x, p.y);
+    var factor = Math.exp(-ev.deltaY * 0.0015);
+    view.k = Math.min(6, Math.max(0.15, view.k * factor));
+    var after = toWorld(p.x, p.y);
+    view.x += (after.x - before.x) * view.k;
+    view.y += (after.y - before.y) * view.k;
+    draw();
+  }, { passive: false });
+
+  // ---- selection / details panel ------------------------------------------
+  var panel = document.getElementById('panel');
+  var panelTitle = document.getElementById('panel-title');
+  var panelMeta = document.getElementById('panel-meta');
+  var panelRels = document.getElementById('panel-rels');
+  document.getElementById('panel-close').addEventListener('click', function () { select(null); });
+
+  function select(n) {
+    selected = n;
+    neighbourSet = n ? computeNeighbours(n.id) : null;
+    if (!n) { panel.classList.remove('open'); draw(); return; }
+    panelTitle.textContent = n.label || n.id;
+    var prefTxt = n.pref === true ? 'preferred term'
+                : n.pref === false ? 'non-preferred (synonym)'
+                : 'unflagged';
+    var localId = n.id.replace(TNS, '');
+    panelMeta.innerHTML = prefTxt + ' · degree ' + n.deg +
+      ' · <code>terms/' + esc(localId) + '</code>';
+
+    // group this node's relationships
+    var groups = { broader: [], narrower: [], related: [], exact: [] };
+    activeEdges().forEach(function (e) {
+      if (e.a === n.id) {
+        if (e.kind === 'broader') groups.broader.push(e.b);
+        else groups[e.kind].push(e.b);
+      } else if (e.b === n.id) {
+        if (e.kind === 'broader') groups.narrower.push(e.a);
+        else groups[e.kind].push(e.a);
+      }
+    });
+    var html = '';
+    html += relBlock('Broader (⊂ parent of)', groups.broader);
+    html += relBlock('Narrower (children)', groups.narrower);
+    html += relBlock('Related', groups.related);
+    html += relBlock('exactMatch', groups.exact);
+    if (!html) html = '<p class="meta">No links under the current filter.</p>';
+    panelRels.innerHTML = html;
+    Array.prototype.forEach.call(panelRels.querySelectorAll('a.term'), function (a) {
+      a.addEventListener('click', function () {
+        var t = nodes[a.dataset.id];
+        if (t) { focusNode(t); select(t); }
+      });
+    });
+    panel.classList.add('open');
+    draw();
+  }
+  function relBlock(title, ids) {
+    if (!ids.length) return '';
+    var seen = {}, items = [];
+    ids.forEach(function (id) {
+      if (seen[id]) return; seen[id] = true;
+      var t = nodes[id];
+      items.push('<li><a class="term" data-id="' + esc(id) + '">' +
+                 esc(t ? (t.label || id) : id) + '</a></li>');
+    });
+    return '<div class="rel-h">' + esc(title) + ' (' + items.length + ')</div><ul>' +
+           items.join('') + '</ul>';
+  }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  function focusNode(n) {
+    view.k = Math.max(view.k, 1.6);
+    view.x = W / 2 - n.x * view.k;
+    view.y = H / 2 - n.y * view.k;
+    draw();
+  }
+
+  // ---- fit to screen -------------------------------------------------------
+  function fit() {
+    if (!nodeArr.length) return;
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    nodeArr.forEach(function (n) {
+      if (n.x < minX) minX = n.x; if (n.x > maxX) maxX = n.x;
+      if (n.y < minY) minY = n.y; if (n.y > maxY) maxY = n.y;
+    });
+    var gw = (maxX - minX) || 1, gh = (maxY - minY) || 1;
+    var pad = 40;
+    var k = Math.min((W - pad * 2) / gw, (H - pad * 2) / gh);
+    view.k = Math.min(3, Math.max(0.15, k));
+    view.x = W / 2 - ((minX + maxX) / 2) * view.k;
+    view.y = H / 2 - ((minY + maxY) / 2) * view.k;
+    draw();
+  }
+
+  // ---- controls ------------------------------------------------------------
+  document.getElementById('reheat').addEventListener('click', function () {
+    nodeArr.forEach(function (n) { n.fixed = false; });
+    reheat();
+  });
+  document.getElementById('fit').addEventListener('click', fit);
+  document.getElementById('filter').addEventListener('change', function (e) {
+    filterKind = e.target.value;
+    if (selected) neighbourSet = computeNeighbours(selected.id);
+    reheat();
+  });
+  var searchEl = document.getElementById('search');
+  searchEl.addEventListener('change', function () {
+    var q = searchEl.value.trim().toLowerCase();
+    if (!q) return;
+    var hit = nodeArr.find(function (n) { return (n.label || '').toLowerCase() === q; }) ||
+              nodeArr.find(function (n) { return (n.label || '').toLowerCase().indexOf(q) >= 0; });
+    if (hit) { focusNode(hit); select(hit); }
+    else setStatus('No concept matching “' + esc(searchEl.value) + '”.', true);
+  });
+
+  // ---- boot ----------------------------------------------------------------
+  async function boot() {
+    resize();
+    try {
+      setStatus('Querying endpoint…');
+      var rows = await sparql(EDGE_Q);
+      rows.forEach(function (r) {
+        addEdge(r.s.value, r.sl.value, r.p.value, r.o.value, r.ol.value);
+      });
+      // preferred flags (best-effort; non-fatal)
+      try {
+        var prefs = await sparql(PREF_Q);
+        prefs.forEach(function (r) {
+          if (nodes[r.s.value]) nodes[r.s.value].pref = (r.v.value === 'true');
+        });
+      } catch (e) { /* ignore */ }
+
+      nodeArr = Object.keys(nodes).map(function (k) { return nodes[k]; });
+      // degree + initial circular seeding
+      edges.forEach(function (e) {
+        if (nodes[e.a]) nodes[e.a].deg++;
+        if (nodes[e.b]) nodes[e.b].deg++;
+      });
+      var R = Math.max(120, Math.sqrt(nodeArr.length) * 26);
+      nodeArr.forEach(function (n, i) {
+        var ang = (i / nodeArr.length) * Math.PI * 2;
+        var rr = R * (0.35 + 0.65 * Math.random());
+        n.x = Math.cos(ang) * rr;
+        n.y = Math.sin(ang) * rr;
+      });
+
+      // datalist for search autocomplete (cap to keep DOM light)
+      var dl = document.getElementById('termlist');
+      nodeArr.slice().sort(function (a, b) { return b.deg - a.deg; })
+        .slice(0, 400).forEach(function (n) {
+          var o = document.createElement('option'); o.value = n.label; dl.appendChild(o);
+        });
+
+      setStatus('<strong>' + nodeArr.length + '</strong> concepts · ' +
+        '<strong>' + edges.length + '</strong> links ' +
+        '<span class="hint">(broader/related/exactMatch, both ends labelled)</span>');
+      fit();
+      reheat();
+    } catch (err) {
+      setStatus('Could not load graph: ' + esc(err.message) +
+        '<br><span class="hint">endpoint: <code>' + esc(ENDPOINT) + '</code></span>', true);
+    }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
