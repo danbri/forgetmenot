@@ -873,6 +873,179 @@ const REL_TEMPLATES = [
       },
     ],
   },
+
+  // -- Wikidata navigation primitives ----------------------------------------
+  // "I have a thing. What is it? What else is like it? Narrow by where."
+  // These power the canonical Parallax move:
+  //   any thing → P31 → class → ^P31 → siblings → narrow by P17 country.
+  // Input/output types are intentionally generic — both wd_thing and
+  // wd_class can flow through these chips.
+  {
+    id: 'wd_class_of',
+    label: 'is-a (P31)',
+    gloss: 'What type / class is this thing?',
+    inputType: 'wd_thing', outputType: 'wd_class',
+    engineId: 'qlever-wikidata',
+    requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: 'P31 — instance of',
+        gloss: 'the class(es) Wikidata records this thing as an instance of',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?cls (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)
+                      (COUNT(DISTINCT ?x) AS ?n)
+          WHERE {
+            VALUES ?x { ${valuesQids(items)} }
+            ?x wdt:P31 ?cls .
+            OPTIONAL { ?cls rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+            OPTIONAL { ?cls wdt:P18 ?img }
+          } GROUP BY ?cls ORDER BY DESC(?n)`,
+        parse: (rows) => rows.map((b) => ({
+          uri:   b.cls.value,
+          label: b.label?.value || b.cls.value.replace(/^.*\//, ''),
+          image: b.image?.value || null,
+          originCount: +(b.n?.value || 0),
+          country: null, coords: null,
+        })),
+      },
+    ],
+  },
+  {
+    id: 'wd_subclasses',
+    label: 'subclasses (^P279)',
+    gloss: 'narrower classes that are direct subclasses of this one',
+    inputType: 'wd_class', outputType: 'wd_class',
+    engineId: 'qlever-wikidata',
+    requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: '^P279 — direct subclass',
+        gloss: 'classes whose direct superclass is one of these',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?sub (SAMPLE(?lbl) AS ?label)
+                      (COUNT(DISTINCT ?cls) AS ?n)
+          WHERE {
+            VALUES ?cls { ${valuesQids(items)} }
+            ?sub wdt:P279 ?cls .
+            OPTIONAL { ?sub rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+          } GROUP BY ?sub ORDER BY DESC(?n) LIMIT 200`,
+        parse: (rows) => rows.map((b) => ({
+          uri:   b.sub.value,
+          label: b.label?.value || b.sub.value.replace(/^.*\//, ''),
+          image: null, country: null, coords: null,
+          originCount: +(b.n?.value || 0),
+        })),
+      },
+    ],
+  },
+  {
+    id: 'wd_superclasses',
+    label: 'superclasses (P279)',
+    gloss: 'broader classes that this is a subclass of',
+    inputType: 'wd_class', outputType: 'wd_class',
+    engineId: 'qlever-wikidata',
+    requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: 'P279 — subclass of',
+        gloss: 'direct superclasses (one hop)',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?sup (SAMPLE(?lbl) AS ?label)
+                      (COUNT(DISTINCT ?cls) AS ?n)
+          WHERE {
+            VALUES ?cls { ${valuesQids(items)} }
+            ?cls wdt:P279 ?sup .
+            OPTIONAL { ?sup rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+          } GROUP BY ?sup ORDER BY DESC(?n)`,
+        parse: (rows) => rows.map((b) => ({
+          uri:   b.sup.value,
+          label: b.label?.value || b.sup.value.replace(/^.*\//, ''),
+          image: null, country: null, coords: null,
+          originCount: +(b.n?.value || 0),
+        })),
+      },
+    ],
+  },
+  {
+    id: 'wd_instances_of',
+    label: 'instances',
+    gloss: 'all things Wikidata records as instances of these classes',
+    inputType: 'wd_class', outputType: 'wd_thing',
+    engineId: 'qlever-wikidata',
+    requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
+    variants: [
+      {
+        id: 'default', kind: 'default',
+        label: '^P31 — direct instance',
+        gloss: 'cap 5000; image + coords + country fetched so the next narrow-by-* chip is data-driven',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?inst (SAMPLE(?lbl)    AS ?label)
+                       (SAMPLE(?img)    AS ?image)
+                       (SAMPLE(?coordL) AS ?coord)
+                       (SAMPLE(?ctry)   AS ?country)
+          WHERE {
+            VALUES ?cls { ${valuesQids(items)} }
+            ?inst wdt:P31 ?cls .
+            OPTIONAL { ?inst rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+            OPTIONAL { ?inst wdt:P18  ?img }
+            OPTIONAL { ?inst wdt:P625 ?coordL }
+            OPTIONAL { ?inst wdt:P17/rdfs:label ?ctry . FILTER(lang(?ctry)="en") }
+          } GROUP BY ?inst LIMIT 5000`,
+        parse: (rows) => rows.map((b) => ({
+          uri:   b.inst.value,
+          label: b.label?.value || b.inst.value.replace(/^.*\//, ''),
+          image: b.image?.value || null,
+          country: b.country?.value || null,
+          coords: parsePoint(b.coord?.value),
+        })),
+      },
+      {
+        id: 'transitive', kind: 'broaden',
+        label: '^P31/^P279* — incl. subclass instances',
+        gloss: 'instances of the class OR any of its subclasses (transitive)',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?inst (SAMPLE(?lbl)    AS ?label)
+                       (SAMPLE(?img)    AS ?image)
+                       (SAMPLE(?coordL) AS ?coord)
+                       (SAMPLE(?ctry)   AS ?country)
+          WHERE {
+            VALUES ?cls { ${valuesQids(items)} }
+            ?inst wdt:P31/wdt:P279* ?cls .
+            OPTIONAL { ?inst rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+            OPTIONAL { ?inst wdt:P18  ?img }
+            OPTIONAL { ?inst wdt:P625 ?coordL }
+            OPTIONAL { ?inst wdt:P17/rdfs:label ?ctry . FILTER(lang(?ctry)="en") }
+          } GROUP BY ?inst LIMIT 5000`,
+        parse: (rows) => rows.map((b) => ({
+          uri:   b.inst.value,
+          label: b.label?.value || b.inst.value.replace(/^.*\//, ''),
+          image: b.image?.value || null,
+          country: b.country?.value || null,
+          coords: parsePoint(b.coord?.value),
+        })),
+      },
+    ],
+  },
 ];
 
 async function applyRelation(template, variant, bundle) {
@@ -1137,8 +1310,10 @@ function parseParlCurrentRows(bindings) {
 const OPS = {
   human: [
     { id: 'sitting', label: 'sitting now', icon: '◉', kind: 'static',
+      relevant: (b) => b.items.some((x) => x.sitting === true),
       run: (b) => opFilters.sitting(b) },
     { id: 'bridged', label: 'has MP id',   icon: '🔗', kind: 'static',
+      relevant: (b) => b.items.some((x) => x.mpid),
       run: (b) => opFilters.bridged(b) },
     { id: 'party',   label: 'party…',      icon: '⚑', kind: 'picker',
       values: (b) => topCounts(b.items.flatMap((x) => x.parties)),
@@ -1194,15 +1369,19 @@ const OPS = {
       run: (b) => enrichHumans(b) },
     { id: 'parl-enrich', label: 'enrich (Parliament)', icon: '🏛', kind: 'async',
       hint: 'UK Parliament SPARQL: current constituency + party via rdfs:seeAlso bridge',
+      relevant: (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '') && (x.sitting || x.mpid)),
       run: (b) => enrichFromParliament(b) },
     { id: 'pivot-bp',label: '→ birthplaces',    icon: '⌖',  kind: 'async',
       hint: 'walk P19 to a set of places',
+      relevant: (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '')),
       run: (b) => pivotBirthplaces(b) },
     { id: 'pivot-am',label: '→ alma maters',    icon: '🎓', kind: 'async',
       hint: 'walk P69 to a set of institutions',
+      relevant: (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '')),
       run: (b) => pivotAlmaMaters(b) },
     { id: 'identity-bridge', label: 'bridge (cross-source)', icon: '🔗', kind: 'async',
       hint: 'FPKG identity-graph: resolve to DDP person / Wikidata QID / GOV.UK slug / scraped site, all via parl:memberId',
+      relevant: (b) => b.items.some((x) => x.mpid),
       run: (b) => enrichFromIdentity(b) },
     { id: 'pivot', label: '→ pivot…', icon: '⇄', kind: 'rel-picker',
       hint: 'relation templates: tighten / broaden across Wikidata, Parliament DDP and FPKG NGs' },
@@ -1271,6 +1450,32 @@ const OPS = {
       run:    (b, v) => new Bundle(
         b.items.filter((x) => x.label?.[0]?.toUpperCase() === v),
         'concept', `${b.label} · ${v}…`) },
+  ],
+  // Generic Wikidata-thing bundle — anything with a Q-URI. Data-driven
+  // pickers; OPS hides when its values are empty.
+  wd_thing: [
+    { id: 'has-coord', label: 'has coords', icon: '⌖', kind: 'static',
+      relevant: (b) => b.items.some((x) => x.coords),
+      run: (b) => new Bundle(b.items.filter((x) => x.coords), 'wd_thing', `${b.label} · located`) },
+    { id: 'has-img', label: 'has image', icon: '🖼', kind: 'static',
+      relevant: (b) => b.items.some((x) => x.image),
+      run: (b) => new Bundle(b.items.filter((x) => x.image), 'wd_thing', `${b.label} · with photo`) },
+    { id: 'country', label: 'by country…', icon: '🌐', kind: 'picker',
+      values: (b) => topCounts(b.items.map((x) => x.country).filter(Boolean)),
+      run:    (b, v) => new Bundle(
+        b.items.filter((x) => x.country === v),
+        'wd_thing', `${b.label} · ${v}`) },
+    { id: 'pivot', label: '→ pivot…', icon: '⇄', kind: 'rel-picker',
+      hint: 'P31 to class, P17 to country, etc.' },
+  ],
+  wd_class: [
+    { id: 'top-by-size', label: 'top by member count', icon: '★', kind: 'static',
+      relevant: (b) => b.items.some((x) => x.originCount),
+      run: (b) => new Bundle(
+        [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 50),
+        'wd_class', `${b.label} · top 50`) },
+    { id: 'pivot', label: '→ pivot…', icon: '⇄', kind: 'rel-picker',
+      hint: '^P31 to instances, ^P279 to subclasses, P279 to superclasses' },
   ],
   building: [
     { id: 'has-coord', label: 'has coords', icon: '⌖', kind: 'static',
@@ -1360,6 +1565,22 @@ function rankValue(item, field) {
   const v = item[field];
   return v == null ? null : (typeof v === 'string' ? v : +v);
 }
+// Data-driven OPS palette: hide a chip when its values would be empty so
+// politics-flavoured chips don't leak onto architect / building bundles.
+// Heuristics:
+//   - explicit op.relevant(bundle) wins.
+//   - pickers without explicit relevant: show only if values() returns ≥ 1.
+//   - everything else: show by default.
+function isRelevantOp(op, bundle) {
+  try {
+    if (typeof op.relevant === 'function') return !!op.relevant(bundle);
+    if (op.kind === 'picker' && typeof op.values === 'function') {
+      return (op.values(bundle) || []).length > 0;
+    }
+    return true;
+  } catch { return true; }
+}
+
 function cardinalityChips(bead, idx) {
   const out = [];
   const n = bead?.bundle?.size || 0;
@@ -1914,6 +2135,17 @@ const LIBRARY = [
     suggestView: 'map',
   },
   {
+    id: 'parallax-hk-via-class',
+    title: 'HK building → its class → all instances',
+    sub: 'Start from HK skyscrapers → P31 to class (skyscraper / high-rise) → ^P31 to every instance of that class. Then narrow by country.',
+    steps: [
+      { kind: 'starter', id: 'hk-skyscrapers' },
+      { kind: 'op', op: 'rel-pivot', template: 'wd_class_of',    variant: 'default' },
+      { kind: 'op', op: 'rel-pivot', template: 'wd_instances_of', variant: 'default' },
+    ],
+    suggestView: 'map',
+  },
+  {
     id: 'parallax-presidents',
     title: 'US Presidents → children → educated at',
     sub: 'Presidents → P40 children → 🎓 alma maters.',
@@ -2329,7 +2561,7 @@ class DaisyBead extends HTMLElement {
 
     if (front) {
       const chipRow = this.shadowRoot.querySelector('.chips');
-      const ops = OPS[b.bundle?.type] || [];
+      const ops = (OPS[b.bundle?.type] || []).filter((op) => isRelevantOp(op, b.bundle));
       for (const op of ops) {
         const chip = document.createElement('button');
         chip.className = 'chip';
@@ -2467,7 +2699,14 @@ class DaisyRelPicker extends HTMLElement {
   constructor() { super(); this.attachShadow({ mode: 'open' }); }
   open(bundle) {
     this._bundle = bundle;
-    const applicable = REL_TEMPLATES.filter((t) => t.inputType === bundle.type);
+    // A template applies if its inputType matches the bundle's type exactly,
+    // OR if it's a 'wd_thing' template and the bundle carries Wikidata QIDs
+    // (so the navigation primitives surface on building / human / wd_class /
+    // anything Wikidata-shaped without per-type repetition).
+    const hasQids = bundle.items.some((x) => /Q\d+$/.test(x.uri || ''));
+    const applicable = REL_TEMPLATES.filter((t) =>
+      t.inputType === bundle.type ||
+      (t.inputType === 'wd_thing' && hasQids));
     const enabledFor = (t) => !t.requires || t.requires(bundle);
     const KIND_LBL = { default: 'default', tighten: 'tighten', broaden: 'broaden' };
     const tplSections = applicable.map((t) => {
@@ -3076,6 +3315,20 @@ class DaisyApp extends HTMLElement {
         } else if (step.kind === 'op') {
           const front = state.beads[state.beads.length - 1];
           if (!front?.bundle) throw new Error('no frontier bead for op ' + step.op);
+          // Relation-pivot is replayed directly from {template, variant}
+          // rather than via the OPS-keyed-by-type lookup — the chip is
+          // always called 'pivot' (kind 'rel-picker') but the spec records
+          // the synthetic op id 'rel-pivot'. Without this shortcut the
+          // OPS.find for 'rel-pivot' fails as "op not in OPS[<type>]".
+          if (step.op === 'rel-pivot') {
+            const tpl = REL_TEMPLATES.find((t) => t.id === step.template);
+            const v   = tpl?.variants.find((x) => x.id === step.variant);
+            if (!tpl || !v) throw new Error(`unknown rel template ${step.template}/${step.variant}`);
+            const out = await applyRelation(tpl, v, front.bundle);
+            pushBead(`${tpl.label} · ${v.label}`, '⇄', out.bundle, [out.source],
+                     { kind: 'op', op: 'rel-pivot', template: tpl.id, variant: v.id });
+            continue;
+          }
           const ops = OPS[front.bundle.type] || [];
           const op = ops.find((o) => o.id === step.op);
           if (!op) throw new Error(`op "${step.op}" not in OPS[${front.bundle.type}]`);
