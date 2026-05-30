@@ -71,6 +71,16 @@ const ROUTES = [
     upstreamPath: '/sparql',
     exact: true },
 
+  // /api/query/<template>?p=v...  ->  https://api.parliament.uk/query/<template>?p=v...
+  // Parameterised query browser — 124 named SPARQL templates over the
+  // same DDP store as /api/sparql. Returns JSON-LD with @context +
+  // @graph per template. Marked `public` like /kgx/query — DDP data
+  // is openly-published RDF under OPL v3.0.
+  { prefix: '/api/query/',
+    upstreamHost: 'api.parliament.uk',
+    upstreamPath: '/query/',
+    public: true },
+
   // /kgx/query?query=...  ->  http://OXIGRAPH_BIND/query?query=...
   // Bundled SPARQL store containing the project's aggregated N-Quads
   // (transparency-graph, scrutiny-graph, accountability-graph,
@@ -137,6 +147,11 @@ export function ttlMsFor(route, tail) {
     return 60_000;
   }
   if (route.prefix === '/api/sparql') {
+    return 60_000;
+  }
+  if (route.prefix === '/api/query/') {
+    // Pre-canned templates over the DDP store. Same volatility as the
+    // SPARQL endpoint they wrap, so the same minute-level TTL.
     return 60_000;
   }
   if (route.prefix === '/kgx/query') {

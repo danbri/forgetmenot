@@ -192,6 +192,28 @@ async function sparql(endpoint, query, label = 'sparql') {
   return adhoc.query(query, label);
 }
 
+// ============================================================================
+// Parameterised-query helper — api.parliament.uk/query/ via the local proxy.
+//
+// PQ is the canonical catalogue of pre-canned SPARQL templates over the DDP
+// store (same graph the `parl-sparql` engine queries directly). Returns
+// JSON-LD with `@context` + `@graph`; we treat the `@graph` array as the
+// row bindings. Not a SparqlEngine — the call doesn't take a SPARQL string,
+// just a template name + params.
+// ============================================================================
+async function pqFetch(template, params = {}, label = 'pq') {
+  const u = new URL('/api/query/' + template, window.location.origin);
+  for (const [k, v] of Object.entries(params)) u.searchParams.set(k, v);
+  const t0 = performance.now();
+  const r = await fetch(u.toString(), { headers: { 'Accept': 'application/json' } });
+  if (!r.ok) throw new Error(`${label}: HTTP ${r.status}`);
+  const json = await r.json();
+  const ms = Math.round(performance.now() - t0);
+  const rows = Array.isArray(json['@graph']) ? json['@graph'] : [];
+  console.log('[pq]', label, { ms, rows: rows.length });
+  return { json, rows, query: u.toString(), endpoint: '/api/query/', engineId: 'parl-query', ms, label };
+}
+
 // Provenance: a Source is one fetched/computed contribution to a bead. Each
 // gets a synthesised named-graph IRI so the bead is — formally — a SPARQL
 // dataset whose contents come from the union of its source graphs. The
@@ -1140,12 +1162,62 @@ const OPS = {
       run: (b) => new Bundle(
         [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 50),
         'constituency', `${b.label} · top 50`) },
+    // For constituency_current items (PQ-seeded), the embedded current MP's
+    // party is on the item; offer a quick party narrow without a server hit.
+    { id: 'by-mp-party', label: 'by current MP party…', icon: '⚑', kind: 'picker',
+      values: (b) => topCounts(b.items.map((x) => x.currentMpParty).filter(Boolean)),
+      run:    (b, v) => new Bundle(
+        b.items.filter((x) => x.currentMpParty === v),
+        'constituency', `${b.label} · MP party=${v}`) },
   ],
   appg: [
     { id: 'top-by-officer-count', label: 'top by officer count', icon: '★', kind: 'static',
       run: (b) => new Bundle(
         [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 50),
         'appg', `${b.label} · top 50`) },
+  ],
+  party: [
+    { id: 'in-commons', label: 'has Commons membership', icon: '◉', kind: 'static',
+      run: (b) => new Bundle(
+        b.items.filter((x) => (x.commonsCount || 0) > 0),
+        'party', `${b.label} · with Commons MPs`) },
+    { id: 'in-lords', label: 'has Lords membership', icon: '◈', kind: 'static',
+      run: (b) => new Bundle(
+        b.items.filter((x) => (x.lordsCount || 0) > 0),
+        'party', `${b.label} · with Lords peers`) },
+    { id: 'top-by-size', label: 'top by total members', icon: '★', kind: 'static',
+      run: (b) => new Bundle(
+        [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 25),
+        'party', `${b.label} · top 25`) },
+  ],
+  formal_body: [
+    { id: 'name-contains', label: 'name contains…', icon: '🔍', kind: 'picker',
+      values: (b) => [
+        ['Committee',   b.items.filter((x) => /Committee/i.test(x.label)).length],
+        ['Sub-Committee', b.items.filter((x) => /Sub-Committee/i.test(x.label)).length],
+        ['Select',      b.items.filter((x) => /Select/i.test(x.label)).length],
+        ['Joint',       b.items.filter((x) => /^Joint/i.test(x.label)).length],
+        ['Board',       b.items.filter((x) => /Board/i.test(x.label)).length],
+        ['Commission',  b.items.filter((x) => /Commission/i.test(x.label)).length],
+      ].filter(([_, n]) => n),
+      run:    (b, v) => new Bundle(
+        b.items.filter((x) => new RegExp(v, 'i').test(x.label)),
+        'formal_body', `${b.label} · "${v}"`) },
+  ],
+  concept: [
+    { id: 'name-contains', label: 'name contains…', icon: '🔍', kind: 'picker',
+      values: (b) => {
+        // Show top initial letters as quick filters
+        const initials = new Map();
+        for (const x of b.items) {
+          const c = (x.label?.[0] || '').toUpperCase();
+          if (c) initials.set(c, (initials.get(c) || 0) + 1);
+        }
+        return [...initials.entries()].sort((a, b2) => a[0].localeCompare(b2[0]));
+      },
+      run:    (b, v) => new Bundle(
+        b.items.filter((x) => x.label?.[0]?.toUpperCase() === v),
+        'concept', `${b.label} · ${v}…`) },
   ],
   place: [
     { id: 'top-country', label: 'group by country', icon: '🌐', kind: 'static',
@@ -1222,6 +1294,107 @@ const STARTERS = [
           kind: 'seed:parl-current-mps', endpoint: res.endpoint, engineId: res.engineId, query: res.query,
           ms: res.ms, bindings: res.json.results.bindings,
           note: 'UK Parliament DDP: sitting Members with open seat incumbencies; carries rdfs:seeAlso → Wikidata',
+        }),
+      };
+    },
+  },
+  // -- PQ pump (api.parliament.uk/query) — parameterless catalogue templates.
+  // Each starter wraps a single canonical named query; DDP coverage; the
+  // returned @graph rows become the bundle's items.
+  {
+    id: 'pq-constituency-current',
+    label: 'Current Commons constituencies (PQ)',
+    sub: '674 ConstituencyGroups, each with current MP + party',
+    type: 'constituency',
+    fetch: async () => {
+      const res = await pqFetch('constituency_current', {}, 'pq:constituency_current');
+      const items = res.rows.map((g) => {
+        const inc = g.constituencyGroupHasHouseSeat?.houseSeatHasSeatIncumbency;
+        const mp  = inc?.parliamentaryIncumbencyHasMember;
+        const ptyName = mp?.partyMemberHasPartyMembership?.partyMembershipHasParty?.partyName || null;
+        return {
+          uri:   'https://id.parliament.uk/' + g['@id'],
+          label: g.constituencyGroupName || g['@id'],
+          image: null, country: null, coords: null,
+          currentMpName: mp ? `${mp.personGivenName || ''} ${mp.personFamilyName || ''}`.trim() : null,
+          currentMpParty: ptyName,
+        };
+      });
+      return {
+        items,
+        source: makeSource({
+          kind: 'seed:pq-constituency-current', endpoint: '/api/query/constituency_current',
+          engineId: 'parl-query', query: res.query, ms: res.ms, bindings: res.rows,
+          note: 'PQ template constituency_current — Commons-current constituencies with sitting MP + party.',
+        }),
+      };
+    },
+  },
+  {
+    id: 'pq-party-index',
+    label: 'Parliament parties · with Commons + Lords counts (PQ)',
+    sub: '73 Party records, current state',
+    type: 'party',
+    fetch: async () => {
+      const res = await pqFetch('party_index', {}, 'pq:party_index');
+      const items = res.rows.map((g) => ({
+        uri:   'https://id.parliament.uk/' + g['@id'],
+        label: g.partyName || g['@id'],
+        image: null, country: null, coords: null,
+        commonsCount: +g.commonsCount || 0,
+        lordsCount:   +g.lordsCount   || 0,
+        originCount:  (+g.commonsCount || 0) + (+g.lordsCount || 0),
+      }));
+      return {
+        items,
+        source: makeSource({
+          kind: 'seed:pq-party-index', endpoint: '/api/query/party_index',
+          engineId: 'parl-query', query: res.query, ms: res.ms, bindings: res.rows,
+          note: 'PQ template party_index — each party with current Commons + Lords membership counts.',
+        }),
+      };
+    },
+  },
+  {
+    id: 'pq-formal-body-index',
+    label: 'Parliament formal bodies · committees + boards (PQ)',
+    sub: '399 FormalBody records — Select, Joint, General Committees, Boards',
+    type: 'formal_body',
+    fetch: async () => {
+      const res = await pqFetch('formal_body_index', {}, 'pq:formal_body_index');
+      const items = res.rows.map((g) => ({
+        uri:   'https://id.parliament.uk/' + g['@id'],
+        label: g.formalBodyName || g['@id'],
+        image: null, country: null, coords: null,
+      }));
+      return {
+        items,
+        source: makeSource({
+          kind: 'seed:pq-formal-body-index', endpoint: '/api/query/formal_body_index',
+          engineId: 'parl-query', query: res.query, ms: res.ms, bindings: res.rows,
+          note: 'PQ template formal_body_index — every formal body (Select / Joint / General Committees, Boards, …).',
+        }),
+      };
+    },
+  },
+  {
+    id: 'pq-concept-index',
+    label: 'Top thesaurus concepts (PQ)',
+    sub: '108 SKOS Concept top-terms from the Parliament Thesaurus',
+    type: 'concept',
+    fetch: async () => {
+      const res = await pqFetch('concept_index', {}, 'pq:concept_index');
+      const items = res.rows.map((g) => ({
+        uri:   'https://id.parliament.uk/' + g['@id'],
+        label: g.prefLabel || g['@id'],
+        image: null, country: null, coords: null,
+      }));
+      return {
+        items,
+        source: makeSource({
+          kind: 'seed:pq-concept-index', endpoint: '/api/query/concept_index',
+          engineId: 'parl-query', query: res.query, ms: res.ms, bindings: res.rows,
+          note: 'PQ template concept_index — top-term SKOS concepts in the Parliament Thesaurus.',
         }),
       };
     },
@@ -1376,6 +1549,24 @@ const LIBRARY = [
       { kind: 'op', op: 'party', value: 'Labour Party' },
       { kind: 'op', op: 'sitting' },
       { kind: 'op', op: 'identity-bridge' },
+    ],
+  },
+  {
+    id: 'pq-labour-constituencies',
+    title: 'Labour-held Commons seats (PQ-seeded)',
+    sub: 'constituency_current → MP-party filter Labour.',
+    steps: [
+      { kind: 'starter', id: 'pq-constituency-current' },
+      { kind: 'op', op: 'by-mp-party', value: 'Labour' },
+    ],
+  },
+  {
+    id: 'pq-select-committees',
+    title: 'Select Committees (PQ)',
+    sub: 'formal_body_index → name contains "Select".',
+    steps: [
+      { kind: 'starter', id: 'pq-formal-body-index' },
+      { kind: 'op', op: 'name-contains', value: 'Select' },
     ],
   },
 ];
