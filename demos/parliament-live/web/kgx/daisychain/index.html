@@ -2398,9 +2398,18 @@ class DaisyBead extends HTMLElement {
                 border-radius: 4px; margin-left: 6px; }
         .info:hover { color: var(--accent); background: var(--surface-2); }
         .strip { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
+        .strip .thumb-btn {
+          padding: 0; border: 0; background: none; cursor: pointer;
+          border-radius: 6px; overflow: hidden;
+          transition: transform 0.12s, box-shadow 0.12s;
+        }
+        .strip .thumb-btn:hover, .strip .thumb-btn:focus {
+          transform: scale(1.05); outline: none;
+          box-shadow: 0 0 0 2px var(--accent);
+        }
         .strip img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px;
                      background: var(--surface-2); opacity: 0;
-                     transition: opacity 0.4s; }
+                     transition: opacity 0.4s; display: block; }
         .strip img.loaded { opacity: 1; }
         .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
         .chip {
@@ -2459,12 +2468,25 @@ class DaisyBead extends HTMLElement {
     this.shadowRoot.querySelector('.title').textContent = b.bundle?.label || '';
     this.shadowRoot.querySelector('.count').textContent = (b.bundle?.size ?? 0).toLocaleString();
 
-    // Thumb strip
+    // Thumb strip — each thumb is click-through to a single-item details
+    // sheet (image, all known fields, links to source / Wikidata). Stops
+    // propagation so the click doesn't fire the bead-undo gesture.
     const strip = this.shadowRoot.querySelector('.strip');
     for (const p of thumbs) {
+      const btn = document.createElement('button');
+      btn.className = 'thumb-btn';
+      btn.title = p.label || '';
+      btn.setAttribute('aria-label', p.label || 'item');
       const img = document.createElement('img');
       img.alt = ''; img.dataset.src = commonsThumb(p.image, 96);
-      strip.appendChild(img);
+      btn.appendChild(img);
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.dispatchEvent(new CustomEvent('thing-open', {
+          detail: { item: p, bundle: b.bundle }, bubbles: true, composed: true,
+        }));
+      });
+      strip.appendChild(btn);
       tileIo.observe(img);
     }
 
@@ -2975,6 +2997,136 @@ class DaisyInfoSheet extends HTMLElement {
 customElements.define('daisy-info-sheet', DaisyInfoSheet);
 
 // ============================================================================
+// <daisy-thing-sheet> — single-item details overlay opened from thumb-strip
+// click-through or tile-grid tap. Shows the item's image (larger than the
+// 44px strip thumb), the URI as a clickable link, and every scalar / nested
+// field the item carries. Wikidata-style URIs get a direct "view on
+// Wikidata" link; everything else just gets the canonical URI.
+// ============================================================================
+class DaisyThingSheet extends HTMLElement {
+  constructor() { super(); this.attachShadow({ mode: 'open' }); }
+  open(item, bundleType) {
+    const wdMatch = String(item.uri || '').match(/\/(Q\d+)$/);
+    const wdUrl = wdMatch ? `https://www.wikidata.org/wiki/${wdMatch[1]}` : null;
+    // Best-effort prettified field table — only emit rows that have data.
+    const rows = [];
+    const push = (k, v) => { if (v !== null && v !== undefined && v !== '' && !(Array.isArray(v) && !v.length)) rows.push([k, v]); };
+    push('label',     item.label);
+    push('type',      bundleType);
+    push('image',     item.image);
+    if (item.coords)        push('coords',     `${item.coords.lat.toFixed(4)}, ${item.coords.lon.toFixed(4)}`);
+    push('country',   item.country);
+    push('year',      item.year);
+    if (item.firstYr || item.lastYr)
+      push('years',   `${item.firstYr || '?'}${item.firstYr === item.lastYr ? '' : ' – ' + (item.lastYr || (item.sitting ? 'present' : '?'))}`);
+    if (item.parties?.length) push('parties', item.parties.join(' · '));
+    push('decade',    item.decade);
+    push('gender',    item.gender);
+    if (item.citizenships?.length) push('citizenships', item.citizenships.join(' · '));
+    push('Members API id', item.mpid);
+    push('originCount', item.originCount);
+    push('madeDate',   item.madeDate);
+    push('comingIntoForce', item.comingIntoForce);
+    push('number',     item.number);
+    // extra (enrich results)
+    if (item.extra?.birthplace) push('birthplace (✨)', item.extra.birthplace.label);
+    if (item.extra?.almaMaters?.length) push('alma maters (✨)', item.extra.almaMaters.join(' · '));
+    if (item.extra?.spouses?.length)    push('spouses (✨)',     item.extra.spouses.join(' · '));
+    if (item.extra?.occupations?.length) push('occupations (✨)', item.extra.occupations.join(' · '));
+    if (item.extra?.parl?.constituency) push('constituency (🏛)', item.extra.parl.constituency);
+    if (item.extra?.parl?.currentParty) push('Parl party (🏛)',   item.extra.parl.currentParty);
+    if (item.extra?.identity?.ddpUri)      push('DDP person (🔗)',   item.extra.identity.ddpUri);
+    if (item.extra?.identity?.wikidataQid) push('Wikidata (🔗)',    item.extra.identity.wikidataQid);
+    if (item.extra?.identity?.govukSlug)   push('GOV.UK (🔗)',      item.extra.identity.govukSlug);
+    if (item.extra?.identity?.scrapedSite) push('scraped site (🔗)', item.extra.identity.scrapedSite);
+
+    const rowsHTML = rows.map(([k, v]) =>
+      `<dt>${escapeHTML(k)}</dt><dd>${escapeHTML(String(v))}</dd>`).join('');
+
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host { position: fixed; inset: 0; z-index: 100;
+                background: color-mix(in oklab, var(--ink) 55%, transparent);
+                display: flex; align-items: flex-end; justify-content: center;
+                animation: fade 0.18s ease-out; }
+        @keyframes fade  { from { opacity: 0 } to { opacity: 1 } }
+        @keyframes slide { from { transform: translateY(20px) } to { transform: translateY(0) } }
+        .sheet {
+          width: 100%; max-width: 700px;
+          background: var(--surface); color: var(--ink);
+          border-radius: 14px 14px 0 0;
+          padding: 14px 16px;
+          max-height: 90vh; overflow-y: auto;
+          box-shadow: 0 -8px 20px rgba(0,0,0,0.18);
+          animation: slide 0.22s ease-out;
+        }
+        .h { display: flex; align-items: baseline; gap: 8px;
+             padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft); }
+        .title { font-weight: 700; font-size: 16px; }
+        .sub { color: var(--ink-mute); font-size: 12px; }
+        .close { margin-left: auto; background: none; border: 0; color: var(--ink-mute);
+                 font-size: 20px; cursor: pointer; padding: 4px 8px; }
+        .body { padding-top: 12px; display: grid;
+                grid-template-columns: 1fr; gap: 14px; }
+        @media (min-width: 540px) {
+          .body { grid-template-columns: 220px 1fr; }
+        }
+        .hero {
+          background: var(--surface-2); border-radius: 10px;
+          overflow: hidden; min-height: 160px;
+          display: flex; align-items: center; justify-content: center;
+        }
+        .hero img { width: 100%; height: auto; max-height: 260px;
+                    object-fit: cover; display: block; }
+        .hero .placeholder { color: var(--ink-mute); font-size: 13px;
+                             padding: 24px; text-align: center; }
+        dl { margin: 0; display: grid; grid-template-columns: 130px 1fr;
+             gap: 4px 12px; font-size: 13px; }
+        dt { color: var(--ink-mute); font-weight: 600; }
+        dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
+        .links { margin-top: 14px; padding-top: 10px;
+                 border-top: 1px solid var(--rule-soft);
+                 display: flex; gap: 8px; flex-wrap: wrap; }
+        .links a, .links button.linklike {
+          background: var(--surface-2); color: var(--ink);
+          border: 1px solid var(--rule-soft); border-radius: 6px;
+          padding: 6px 10px; font: 12px/1 inherit;
+          text-decoration: none; cursor: pointer;
+        }
+        .links a:hover, .links button.linklike:hover {
+          background: color-mix(in oklab, var(--accent) 10%, var(--surface-2));
+          border-color: var(--accent);
+        }
+      </style>
+      <div class="sheet">
+        <div class="h">
+          <span class="title">${escapeHTML(item.label || item.uri || 'item')}</span>
+          <span class="sub">${escapeHTML(bundleType || '')}</span>
+          <button class="close" aria-label="close">×</button>
+        </div>
+        <div class="body">
+          <div class="hero">
+            ${item.image
+              ? `<img alt="" src="${commonsThumb(item.image, 600)}">`
+              : `<div class="placeholder">no image on record</div>`}
+          </div>
+          <dl>${rowsHTML}</dl>
+        </div>
+        <div class="links">
+          ${wdUrl    ? `<a href="${wdUrl}"    target="_blank" rel="noopener">view on Wikidata ↗</a>` : ''}
+          ${item.uri ? `<a href="${item.uri}" target="_blank" rel="noopener">canonical URI ↗</a>`   : ''}
+          ${item.image ? `<a href="${commonsThumb(item.image, 1200)}" target="_blank" rel="noopener">full image ↗</a>` : ''}
+        </div>
+      </div>
+    `;
+    this.shadowRoot.querySelector('.close').addEventListener('click', () => this.remove());
+    this.addEventListener('click', (e) => { if (e.target === this) this.remove(); });
+    document.body.appendChild(this);
+  }
+}
+customElements.define('daisy-thing-sheet', DaisyThingSheet);
+
+// ============================================================================
 // <daisy-app> — orchestration. Hosts the spine, listens for ops, runs them.
 // ============================================================================
 class DaisyApp extends HTMLElement {
@@ -3174,6 +3326,7 @@ class DaisyApp extends HTMLElement {
     this.addEventListener('op-tap',       (e) => this._onOp(e.detail));
     this.addEventListener('bead-undo',    (e) => this._undoTo(e.detail.index));
     this.addEventListener('card-chip',    (e) => this._onCardChip(e.detail));
+    this.addEventListener('thing-open',   (e) => this._openThing(e.detail.item, e.detail.bundle?.type));
     this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => this._reset());
     this.shadowRoot.querySelector('#save-btn').addEventListener('click', () => this._saveChain());
     for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
@@ -3266,6 +3419,14 @@ class DaisyApp extends HTMLElement {
 
   // Handle cardinality-response chips (broaden a too-narrow last step, or
   // narrow a too-large bead with top-N).
+  // Open the single-item details overlay from a thumb / tile click.
+  // Tolerates being called with either a bundle or just a bundleType.
+  _openThing(item, bundleType) {
+    if (!item) return;
+    const sheet = document.createElement('daisy-thing-sheet');
+    sheet.open(item, typeof bundleType === 'string' ? bundleType : bundleType?.type);
+  }
+
   async _onCardChip(cc) {
     if (cc.kind === 'broaden-variant') {
       const parent = state.beads[cc.parentIdx];
@@ -3696,14 +3857,22 @@ class DaisyApp extends HTMLElement {
         const ct = p.originCount ? `${p.originCount}` : (p.count ? `${p.count}` : '');
         mt = [ct, p.country || ''].filter(Boolean).join(' · ');
       }
-      html[i] = `<div class="tile">`
+      html[i] = `<button class="tile" data-i="${i}" aria-label="${escapeHTML(p.label)}">`
         + `<div class="th">${p.image ? `<img alt="" data-src="${commonsThumb(p.image, 220)}">` : ''}</div>`
         + `<div class="body"><div class="nm">${escapeHTML(p.label)}</div>`
         + (mt ? `<div class="mt">${escapeHTML(mt)}</div>` : '')
-        + `</div></div>`;
+        + `</button>`;
     }
     grid.innerHTML = html.join('');
     for (const img of grid.querySelectorAll('img[data-src]')) tileIo.observe(img);
+    // Click-through: tap any tile to open the details sheet.
+    for (const tile of grid.querySelectorAll('button.tile')) {
+      tile.addEventListener('click', () => {
+        const i = +tile.dataset.i;
+        const item = slice[i];
+        if (item) this._openThing(item, last.bundle);
+      });
+    }
     root.appendChild(grid);
   }
 }
