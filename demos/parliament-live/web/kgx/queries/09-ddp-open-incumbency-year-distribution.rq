@@ -1,0 +1,26 @@
+# Endpoint: https://api.parliament.uk/sparql
+#
+# Year-distribution of "open" Commons SeatIncumbencies (no end-date).
+# Today returns one row: yr=2019, n=650 — every open incumbency in DDP
+# is dated the day after the 2019 General Election. If DDP catches up
+# this query will instead show yr=2024, n≈650.
+#
+# Note GraphDB quirk: the (YEAR(?start) AS ?yr) form in SELECT plus
+# GROUP BY (YEAR(?start)) is rejected as "variable 'start' in projection
+# not present in GROUP BY". Bind via BIND first; group + project the
+# bound variable. (Most engines accept both forms.)
+
+PREFIX schema: <https://id.parliament.uk/schema/>
+
+SELECT ?yr (COUNT(DISTINCT ?person) AS ?n)
+WHERE {
+  ?person a schema:Member ;
+          schema:memberHasParliamentaryIncumbency ?in .
+  ?in a schema:SeatIncumbency ;
+      schema:parliamentaryIncumbencyStartDate ?start ;
+      schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup ?cg .
+  FILTER NOT EXISTS { ?in schema:incumbencyEndDate ?end }
+  BIND(YEAR(?start) AS ?yr)
+}
+GROUP BY ?yr
+ORDER BY DESC(?yr)

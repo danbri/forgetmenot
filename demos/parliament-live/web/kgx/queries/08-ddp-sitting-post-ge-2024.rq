@@ -1,0 +1,31 @@
+# Endpoint: https://api.parliament.uk/sparql
+#
+# Verification: DDP is one Parliament behind.
+#
+# Counts sitting Commons MPs whose seat incumbency started on/after the
+# 2024 general election (4 July 2024). If DDP reflects the current
+# Parliament, expect ~650. As of 2026-05-28 returns 0 — DDP still treats
+# the 2019 Parliament's cohort as "open", end-dates not written.
+#
+# Two predicate-name traps worth recording:
+#   - the start predicate is schema:parliamentaryIncumbencyStartDate
+#     (NOT schema:incumbencyStartDate — that doesn't exist; the join
+#     silently returns empty if you use it).
+#   - the end predicate IS schema:incumbencyEndDate.
+#   The naming is asymmetric.
+#
+# Companion query: 09-ddp-open-incumbency-year-distribution.rq —
+# bucket open incumbencies by start year. Today: 2019 → 650, no 2024 row.
+
+PREFIX schema: <https://id.parliament.uk/schema/>
+PREFIX xsd:    <http://www.w3.org/2001/XMLSchema#>
+
+SELECT (COUNT(DISTINCT ?person) AS ?postGE2024Sitting) WHERE {
+  ?person a schema:Member ;
+          schema:memberHasParliamentaryIncumbency ?in .
+  ?in a schema:SeatIncumbency ;
+      schema:parliamentaryIncumbencyStartDate ?start ;
+      schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup ?cg .
+  FILTER(?start >= "2024-07-04"^^xsd:date)
+  FILTER NOT EXISTS { ?in schema:incumbencyEndDate ?end }
+}
