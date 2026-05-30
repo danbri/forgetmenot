@@ -124,106 +124,10 @@ GROUP BY ?p
 LIMIT ${SEED_LIMIT}`;
 
 // ===========================================================================
-// Bloom filter — compact set-membership with tunable false-positive rate.
-// Backed by a Uint32 typed array; bit twiddling stays cheap.
-// FNV-1a + Murmur-ish mix for two independent hashes; the rest fold in via
-// linear combination (Kirsch–Mitzenmacher).
+// Substrate (Bloom, Bundle, helpers) lifted to /kgx/lib/node-flow.mjs so
+// daisychain and any future node-flow demo share one implementation.
 // ===========================================================================
-class Bloom {
-  constructor(expectedItems = 1000, falsePositiveRate = 0.01) {
-    // m = -n ln(p) / (ln 2)^2 ; k = (m/n) ln 2
-    const m = Math.ceil(-expectedItems * Math.log(falsePositiveRate) / (Math.LN2 ** 2));
-    this.m = Math.max(64, m);
-    this.k = Math.max(2, Math.round((this.m / expectedItems) * Math.LN2));
-    this.bits = new Uint32Array(Math.ceil(this.m / 32));
-    this.n = 0;
-  }
-  _h1(s) { // FNV-1a
-    let h = 2166136261 >>> 0;
-    for (let i = 0; i < s.length; i++) {
-      h = Math.imul(h ^ s.charCodeAt(i), 16777619);
-    }
-    return h >>> 0;
-  }
-  _h2(s) { // simple xorshift mix off FNV
-    let h = this._h1(s);
-    h = Math.imul(h ^ (h >>> 16), 0x85ebca6b);
-    h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
-    return (h ^ (h >>> 16)) >>> 0;
-  }
-  add(s) {
-    const h1 = this._h1(s), h2 = this._h2(s);
-    for (let i = 0; i < this.k; i++) {
-      const b = (h1 + i * h2) % this.m;
-      this.bits[b >>> 5] |= (1 << (b & 31));
-    }
-    this.n++;
-    return this;
-  }
-  has(s) {
-    const h1 = this._h1(s), h2 = this._h2(s);
-    for (let i = 0; i < this.k; i++) {
-      const b = (h1 + i * h2) % this.m;
-      if (!(this.bits[b >>> 5] & (1 << (b & 31)))) return false;
-    }
-    return true;
-  }
-  static from(items, p = 0.01) {
-    const bf = new Bloom(items.length || 1, p);
-    for (const x of items) bf.add(String(x));
-    return bf;
-  }
-}
-
-// ===========================================================================
-// Typed set with provenance hash and lazy bloom. Wrap a small Set + the
-// originating items so views can render thumbnails without re-querying.
-// ===========================================================================
-class Bundle {
-  constructor(items, type = 'human', label = 'set') {
-    this.items = items;
-    this.type = type;
-    this.label = label;
-    this._idSet = null;
-    this._bloom = null;
-  }
-  get ids() {
-    if (!this._idSet) this._idSet = new Set(this.items.map((i) => i.uri));
-    return this._idSet;
-  }
-  get bloom() {
-    if (!this._bloom) this._bloom = Bloom.from([...this.ids], 0.005);
-    return this._bloom;
-  }
-  get size() { return this.items.length; }
-
-  static union(a, b) {
-    const seen = new Set();
-    const out = [];
-    for (const x of [...a.items, ...b.items]) {
-      if (!seen.has(x.uri)) { seen.add(x.uri); out.push(x); }
-    }
-    return new Bundle(out, a.type, `${a.label} ∪ ${b.label}`);
-  }
-  static intersect(a, b) {
-    // The whole point of the bloom: skip the larger set's hash table
-    // probe on items that can't possibly be in the smaller one. For
-    // small sets the cost is mostly the bloom build, but the API is
-    // ready for sets that are bigger than what fits in working memory.
-    const [small, large] = a.size <= b.size ? [a, b] : [b, a];
-    const smallBloom = small.bloom, smallIds = small.ids;
-    const out = [];
-    for (const x of large.items) {
-      if (smallBloom.has(x.uri) && smallIds.has(x.uri)) out.push(x);
-    }
-    return new Bundle(out, a.type, `${a.label} ∩ ${b.label}`);
-  }
-  static difference(a, b) {
-    const bBloom = b.bloom, bIds = b.ids;
-    const out = a.items.filter((x) => !(bBloom.has(x.uri) && bIds.has(x.uri)));
-    return new Bundle(out, a.type, `${a.label} ∖ ${b.label}`);
-  }
-}
+import { Bloom, Bundle, httpsify, commonsThumb } from '/kgx/lib/node-flow.mjs';
 
 // ===========================================================================
 // Network helper — single funnel so a dev panel can subscribe.
@@ -238,16 +142,6 @@ async function sparql(endpoint, query, label = 'sparql') {
   const j = await r.json();
   console.log('[sparql]', label, '←', { ms: Math.round(performance.now() - t0), rows: j.results.bindings.length });
   return j;
-}
-
-function httpsify(u) { return String(u || '').replace(/^http:\/\//, 'https://'); }
-function commonsThumb(url, w = 220) {
-  if (!url) return '';
-  const v = httpsify(url);
-  if (/commons\.wikimedia\.org\/wiki\/Special:FilePath\//i.test(v)) {
-    return v + (v.includes('?') ? '&' : '?') + 'width=' + w;
-  }
-  return v;
 }
 
 // ===========================================================================

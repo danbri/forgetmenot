@@ -87,51 +87,17 @@ GROUP BY ?p
 LIMIT ${SEED_LIMIT}`;
 
 // ============================================================================
-// Bloom + Bundle — set-membership and typed set algebra. Copied from pivcab;
-// will lift into a shared module once both pages settle.
+// Substrate (Bloom, Bundle, helpers) lifted to /kgx/lib/node-flow.mjs.
+// pivcab imports the same module — single source of truth.
 // ============================================================================
-class Bloom {
-  constructor(n = 1000, p = 0.01) {
-    const m = Math.ceil(-n * Math.log(p) / (Math.LN2 ** 2));
-    this.m = Math.max(64, m);
-    this.k = Math.max(2, Math.round((this.m / n) * Math.LN2));
-    this.bits = new Uint32Array(Math.ceil(this.m / 32));
-  }
-  _h1(s) { let h = 2166136261 >>> 0;
-    for (let i = 0; i < s.length; i++) h = Math.imul(h ^ s.charCodeAt(i), 16777619);
-    return h >>> 0; }
-  _h2(s) { let h = this._h1(s);
-    h = Math.imul(h ^ (h >>> 16), 0x85ebca6b);
-    h = Math.imul(h ^ (h >>> 13), 0xc2b2ae35);
-    return (h ^ (h >>> 16)) >>> 0; }
-  add(s) { const h1 = this._h1(s), h2 = this._h2(s);
-    for (let i = 0; i < this.k; i++) {
-      const b = (h1 + i * h2) % this.m;
-      this.bits[b >>> 5] |= (1 << (b & 31));
-    }
-    return this; }
-  has(s) { const h1 = this._h1(s), h2 = this._h2(s);
-    for (let i = 0; i < this.k; i++) {
-      const b = (h1 + i * h2) % this.m;
-      if (!(this.bits[b >>> 5] & (1 << (b & 31)))) return false;
-    }
-    return true; }
-  static from(items, p = 0.01) {
-    const bf = new Bloom(items.length || 1, p);
-    for (const x of items) bf.add(String(x));
-    return bf;
-  }
-}
+import {
+  Bloom, Bundle,
+  httpsify, commonsThumb, parsePoint, escapeHTML, valuesQids,
+} from '/kgx/lib/node-flow.mjs';
 
-class Bundle {
-  constructor(items, type = 'human', label = 'set') {
-    this.items = items; this.type = type; this.label = label;
-    this._ids = null; this._bf = null;
-  }
-  get ids() { if (!this._ids) this._ids = new Set(this.items.map((x) => x.uri)); return this._ids; }
-  get bloom() { if (!this._bf) this._bf = Bloom.from([...this.ids], 0.005); return this._bf; }
-  get size() { return this.items.length; }
-}
+// The shared Bundle also exposes static union / intersect / difference
+// (previously only used by pivcab) — daisychain now has them too at no
+// extra cost, ready when a future op wants them.
 
 // ============================================================================
 // Net helper.
@@ -246,15 +212,7 @@ function makeSource({ kind, endpoint = null, engineId = null, query = null, ms =
   };
 }
 
-function httpsify(u) { return String(u || '').replace(/^http:\/\//, 'https://'); }
-function commonsThumb(url, w = 220) {
-  if (!url) return '';
-  const v = httpsify(url);
-  if (/commons\.wikimedia\.org\/wiki\/Special:FilePath\//i.test(v)) {
-    return v + (v.includes('?') ? '&' : '?') + 'width=' + w;
-  }
-  return v;
-}
+// httpsify, commonsThumb → /kgx/lib/node-flow.mjs (imported at top).
 
 // ============================================================================
 // Parse + filter ops (same shape as pivcab — same engine).
@@ -354,15 +312,7 @@ function nameGender(label) {
 // ============================================================================
 const ENRICH_MAX = 500;  // soft cap: bundles bigger than this won't enrich
 
-function parsePoint(s) {
-  // QLever returns "POINT(lon lat)" as a literal; some endpoints return
-  // a WKT geography. Parse loosely.
-  const m = String(s || '').match(/POINT\s*\(\s*([-\d.]+)\s+([-\d.]+)\s*\)/i);
-  if (!m) return null;
-  const lon = +m[1], lat = +m[2];
-  if (!Number.isFinite(lon) || !Number.isFinite(lat)) return null;
-  return { lat, lon };
-}
+// parsePoint → /kgx/lib/node-flow.mjs (imported at top).
 
 function valuesClause(uris) {
   // Turn ["http://www.wikidata.org/entity/Q1", ...] into "wd:Q1 wd:Q2 …"
@@ -569,11 +519,7 @@ async function pivotAlmaMaters(bundle) {
 //     extra?: { … per-template details … } }
 // ============================================================================
 
-function valuesQids(items) {
-  // VALUES clause of Wikidata QIDs found in items[].uri.
-  const qs = items.map((x) => (x.uri.match(/Q\d+$/) || [])[0]).filter(Boolean);
-  return [...new Set(qs)].map((q) => `wd:${q}`).join(' ');
-}
+// valuesQids → /kgx/lib/node-flow.mjs (imported at top).
 function valuesMnisPersons(items) {
   // The FPKG appg-register graph keys people by MNIS Members API id; the
   // subject URI is <…/services/mnis/members/<id>>. We carry that as mpid.
@@ -2947,9 +2893,7 @@ class DaisyApp extends HTMLElement {
     root.appendChild(grid);
   }
 }
-function escapeHTML(s) {
-  return String(s ?? '').replace(/[<>&"]/g, (c) => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
-}
+// escapeHTML → /kgx/lib/node-flow.mjs (imported at top).
 customElements.define('daisy-app', DaisyApp);
 </script>
 
