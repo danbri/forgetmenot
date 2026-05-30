@@ -909,6 +909,87 @@ async function enrichFromParliament(bundle) {
 }
 
 // ----------------------------------------------------------------------------
+// Enrich via the cross-source identity graph (fpkg engine, 7 named graphs).
+// Resolves each MP's Members API id to its DDP person URI, Wikidata QID,
+// GOV.UK people-page slug, and presence of a scraped per-MP website — all
+// in one query against the bundled Oxigraph. This is the principled bridge
+// the design note asks for: stop hand-rolling rdfs:seeAlso joins in every
+// template and route through `parl:memberId` as the canonical key.
+// ----------------------------------------------------------------------------
+async function enrichFromIdentity(bundle) {
+  const ids = [...new Set(bundle.items.map((x) => x.mpid).filter(Boolean))];
+  if (!ids.length) {
+    throw new Error('no Members API ids on the bundle — the identity bridge keys on parl:memberId');
+  }
+  if (ids.length > ENRICH_MAX) {
+    throw new Error(`bundle of ${ids.length} too big to enrich (cap ${ENRICH_MAX})`);
+  }
+  const values = ids
+    .map((id) => `<https://members-api.parliament.uk/api/Members/${id}>`)
+    .join(' ');
+  const q = `
+    PREFIX owl:    <http://www.w3.org/2002/07/owl#>
+    PREFIX schema: <http://schema.org/>
+    PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX fm:     <https://forgetmenot.local/vocab/>
+    SELECT ?p
+           (SAMPLE(?ddp)       AS ?ddpUri)
+           (SAMPLE(?wd)        AS ?wikidataQid)
+           (SAMPLE(?govuk)     AS ?govukSlug)
+           (SAMPLE(?site)      AS ?scrapedSite)
+           (SAMPLE(?platform)  AS ?sitePlatform)
+           (SAMPLE(?given)     AS ?givenName)
+           (SAMPLE(?family)    AS ?familyName)
+    WHERE {
+      VALUES ?p { ${values} }
+      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/ddp-sparql>  { ?p owl:sameAs ?ddp } }
+      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/wikidata>    { ?p owl:sameAs ?wd } }
+      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/govuk>       { ?p owl:sameAs ?govuk } }
+      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/scraped>     { ?p <https://forgetmenot.local/vocab#scrapedSiteDir> ?site } }
+      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/scraped>     { ?p <https://forgetmenot.local/vocab#sitePlatform>   ?platform } }
+      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/ddp-sparql>  { ?p schema:givenName  ?given } }
+      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/ddp-sparql>  { ?p schema:familyName ?family } }
+    }
+    GROUP BY ?p`;
+  const res = await engine('fpkg').query(q, `identity-bridge(${ids.length})`);
+  const byMpid = new Map();
+  for (const b of res.json.results.bindings) {
+    const m = b.p.value.match(/Members\/(\d+)$/);
+    if (m) byMpid.set(m[1], b);
+  }
+  const out = bundle.items.map((x) => {
+    const b = x.mpid ? byMpid.get(String(x.mpid)) : null;
+    if (!b) return x;
+    const identity = {
+      ddpUri:        b.ddpUri?.value || null,
+      wikidataQid:   b.wikidataQid?.value || null,
+      govukSlug:     b.govukSlug?.value || null,
+      scrapedSite:   b.scrapedSite?.value || null,
+      sitePlatform:  b.sitePlatform?.value || null,
+      givenName:     b.givenName?.value || null,
+      familyName:    b.familyName?.value || null,
+    };
+    return { ...x, extra: { ...(x.extra || {}), identity } };
+  });
+  const enriched = new Bundle(out, bundle.type, `${bundle.label} + identity bridges`);
+  enriched.enriched = true;
+  return {
+    bundle: enriched,
+    source: makeSource({
+      kind: 'identity-bridge', endpoint: res.endpoint, engineId: res.engineId,
+      query: res.query, ms: res.ms, bindings: res.json.results.bindings,
+      namedGraphs: [
+        'https://forgetmenot.local/graph/identity/ddp-sparql',
+        'https://forgetmenot.local/graph/identity/wikidata',
+        'https://forgetmenot.local/graph/identity/govuk',
+        'https://forgetmenot.local/graph/identity/scraped',
+      ],
+      note: `joined ${ids.length} Members API ids across 4 identity graphs in fpkg (parl:memberId as canonical key)`,
+    }),
+  };
+}
+
+// ----------------------------------------------------------------------------
 // Seed from Parliament SPARQL — current sitting MPs with the embedded
 // Wikidata bridge. Returns rows shaped to the same `human` Bundle the
 // Wikidata seed produces, so OPS.human chips work without changes.
@@ -1045,6 +1126,9 @@ const OPS = {
     { id: 'pivot-am',label: '→ alma maters',    icon: '🎓', kind: 'async',
       hint: 'walk P69 to a set of institutions',
       run: (b) => pivotAlmaMaters(b) },
+    { id: 'identity-bridge', label: 'bridge (cross-source)', icon: '🔗', kind: 'async',
+      hint: 'FPKG identity-graph: resolve to DDP person / Wikidata QID / GOV.UK slug / scraped site, all via parl:memberId',
+      run: (b) => enrichFromIdentity(b) },
     { id: 'pivot', label: '→ pivot…', icon: '⇄', kind: 'rel-picker',
       hint: 'relation templates: tighten / broaden across Wikidata, Parliament DDP and FPKG NGs' },
   ],
@@ -1281,6 +1365,17 @@ const LIBRARY = [
     steps: [
       { kind: 'starter', id: 'parl-current-mps' },
       { kind: 'op', op: 'gender', value: 'female (+ first-name heuristic)' },
+    ],
+  },
+  {
+    id: 'sitting-bridged-identity',
+    title: 'Sitting Labour MPs · bridged across all sources',
+    sub: 'Wikidata seed → Labour → sitting → 🔗 cross-source bridge (DDP / Wikidata / GOV.UK / scraped site, via fpkg identity-graph).',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'party', value: 'Labour Party' },
+      { kind: 'op', op: 'sitting' },
+      { kind: 'op', op: 'identity-bridge' },
     ],
   },
 ];
@@ -1611,6 +1706,19 @@ class DaisyBead extends HTMLElement {
           if (withConst)    bits.push(`constituency known: ${withConst}`);
           if (topConst)     bits.push(`top constituency: ${topConst[0]}`);
           if (topParlParty) bits.push(`Parl party top: ${topParlParty[0]} (${topParlParty[1]})`);
+        }
+        // identity-graph bridge enrichment (fpkg engine, 4 NGs).
+        const bridged = items.filter((x) => x.extra?.identity);
+        if (bridged.length) {
+          const ddp   = bridged.filter((x) => x.extra.identity.ddpUri).length;
+          const wd    = bridged.filter((x) => x.extra.identity.wikidataQid).length;
+          const govuk = bridged.filter((x) => x.extra.identity.govukSlug).length;
+          const site  = bridged.filter((x) => x.extra.identity.scrapedSite).length;
+          bits.push(`🔗 ${bridged.length} bridged`);
+          if (ddp)   bits.push(`DDP: ${ddp}`);
+          if (wd)    bits.push(`Wikidata: ${wd}`);
+          if (govuk) bits.push(`GOV.UK: ${govuk}`);
+          if (site)  bits.push(`site scraped: ${site}`);
         }
       } else if (b.bundle.type === 'place' || b.bundle.type === 'org') {
         const withCoord = items.filter((x) => x.coords).length;
