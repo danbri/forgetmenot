@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thesaurus treemap — FPKG kgx</title>
+<style>
+  :root {
+    --bg: #faf8f3;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --accent: #2a4f76;
+    --rule: #d8d4ca;
+    --card: #ffffff;
+    --code-bg: #efece4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+  header {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--card);
+    flex: none;
+  }
+  header h1 { font-size: 18px; margin: 0; }
+  header p { margin: 2px 0 0; font-size: 13px; color: var(--ink-soft); }
+  header a { color: var(--accent); }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    flex: none;
+  }
+  .toolbar label { font-size: 13px; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 5px; }
+  input[type="search"], select {
+    font: 14px/1.4 inherit;
+    padding: 6px 9px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--ink);
+    min-height: 34px;
+  }
+  input[type="search"] { min-width: 180px; flex: 1 1 180px; max-width: 320px; }
+  button {
+    font: 14px/1.4 inherit;
+    padding: 6px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    min-height: 34px;
+  }
+  button:hover { background: var(--code-bg); }
+  button:disabled { opacity: .5; cursor: default; }
+  button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 1px;
+  }
+
+  /* breadcrumb */
+  .crumbs { display: flex; flex-wrap: wrap; gap: 2px; align-items: center; font-size: 13px; min-width: 0; }
+  .crumbs button {
+    border: none; background: none; padding: 3px 6px; min-height: 0; color: var(--accent);
+    border-radius: 5px; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .crumbs button:hover { background: var(--code-bg); }
+  .crumbs button[aria-current="true"] { color: var(--ink); font-weight: 600; cursor: default; }
+  .crumbs .sep { color: var(--ink-soft); }
+
+  .stage {
+    position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
+    background: var(--bg);
+  }
+  svg { display: block; width: 100%; height: 100%; }
+  svg text { pointer-events: none; user-select: none; }
+  .tile rect { stroke: var(--bg); stroke-width: 1; cursor: pointer; }
+  .tile.leaf rect { cursor: pointer; }
+  .tile rect:hover { stroke: var(--ink); stroke-width: 1.5; }
+  .tile.hl rect { stroke: var(--ink); stroke-width: 2.5; }
+  .tile .label { font: 12px/1.3 -apple-system, system-ui, sans-serif; }
+  .tile .head { font: 600 12px/1.3 -apple-system, system-ui, sans-serif; }
+  .tile .count { font: 11px/1 ui-monospace, monospace; opacity: .85; }
+
+  .status {
+    position: absolute; left: 12px; top: 12px;
+    background: rgba(255,255,255,0.92);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 13px; color: var(--ink-soft);
+    max-width: calc(100% - 24px);
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  }
+  .status strong { color: var(--ink); }
+  .status.err { color: #9a2222; border-color: #d8a0a0; }
+
+  .panel {
+    position: absolute;
+    right: 12px; top: 12px;
+    width: min(320px, calc(100% - 24px));
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 14px 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+    font-size: 14px;
+    display: none;
+    max-height: calc(100% - 24px);
+    overflow: auto;
+  }
+  .panel.open { display: block; }
+  .panel h2 { font-size: 16px; margin: 0 8px 8px 0; }
+  .panel .close {
+    position: absolute; top: 8px; right: 8px;
+    border: none; background: none; font-size: 20px; line-height: 1;
+    padding: 4px 8px; min-height: 0; cursor: pointer; color: var(--ink-soft);
+  }
+  .panel .meta { color: var(--ink-soft); font-size: 12px; margin: 0 0 10px; }
+  .panel .path { font-size: 12px; color: var(--ink-soft); margin: 0 0 10px; }
+  .panel .path a { color: var(--accent); cursor: pointer; text-decoration: none; border-bottom: 1px dotted var(--accent); }
+  .panel .rel-h { font-size: 12px; color: var(--ink-soft); font-weight: 600; margin: 10px 0 2px; }
+  .panel ul { margin: 4px 0 12px; padding-left: 0; list-style: none; }
+  .panel li { margin: 4px 0; }
+  .panel a.term { color: var(--accent); cursor: pointer; text-decoration: none; border-bottom: 1px dotted var(--accent); }
+  .panel .extlink { display: inline-block; margin-top: 6px; font-size: 13px; }
+
+  footer {
+    flex: none;
+    padding: 6px 14px;
+    border-top: 1px solid var(--rule);
+    background: var(--card);
+    font-size: 12px; color: var(--ink-soft);
+  }
+  footer a { color: var(--accent); }
+  .hint { font-size: 12px; color: var(--ink-soft); }
+  .visually-hidden {
+    position: absolute !important; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Parliament Thesaurus — treemap</h1>
+  <p>Nested, zoomable view of the SKOS <code>broader</code>/<code>narrower</code> hierarchy in
+     <a href="/kgx/">FPKG kgx</a>. Tiles sized by number of terms within; click to zoom.
+     See also the <a href="/kgx/thesaurus">force-directed graph</a>.</p>
+</header>
+
+<div class="toolbar">
+  <input type="search" id="search" placeholder="Find a concept… (e.g. Roads)"
+         aria-label="Find a concept by name" autocomplete="off" list="termlist">
+  <datalist id="termlist"></datalist>
+  <button id="up" type="button" title="Zoom out one level" disabled>↑ Up</button>
+  <button id="reset" type="button" title="Back to the top">⤢ Reset</button>
+  <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+</div>
+
+<div class="stage">
+  <svg id="svg" role="img"
+       aria-label="Treemap of the Parliament Thesaurus broader/narrower hierarchy. Use the search box, breadcrumb and details panel for an accessible view."></svg>
+  <div class="status" id="status" role="status" aria-live="polite">Loading thesaurus treemap…</div>
+  <div class="visually-hidden" id="live" aria-live="polite"></div>
+
+  <aside class="panel" id="panel" aria-live="polite">
+    <button class="close" id="panel-close" aria-label="Close details">×</button>
+    <h2 id="panel-title">—</h2>
+    <p class="meta" id="panel-meta"></p>
+    <p class="path" id="panel-path"></p>
+    <div id="panel-rels"></div>
+  </aside>
+</div>
+
+<footer>
+  Contains Parliamentary information licensed under the
+  <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
+  Source vocabulary: <a href="https://github.com/danbri/forgetmenot/tree/main/skills/parliament-thesaurus">parliament-thesaurus</a>
+  via the legacy LDA <code>terms</code> dataset. <span id="coverage"></span>
+  This is a partial (alphabetical-front) slice — see the skill for coverage notes.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script>
+"use strict";
+(function () {
+  // ---- endpoint resolution (mirrors thesaurus.html) ------------------------
+  var params = new URLSearchParams(location.search);
+  var onProd = /\.fly\.dev$/.test(location.hostname);
+  var ENDPOINT = params.get('endpoint') ||
+    (onProd ? '/kgx/query' : 'https://fpkg.fly.dev/kgx/query');
+
+  var SK = 'http://www.w3.org/2004/02/skos/core#';
+  var TNS = 'http://data.parliament.uk/terms/';
+
+  var statusEl = document.getElementById('status');
+  var liveEl = document.getElementById('live');
+  function setStatus(html, isErr) {
+    statusEl.innerHTML = html;
+    statusEl.classList.toggle('err', !!isErr);
+  }
+  function announce(t) { liveEl.textContent = t; }
+
+  if (typeof d3 === 'undefined') {
+    setStatus('Could not load d3 from the CDN (<code>cdn.jsdelivr.net</code>). ' +
+      'The treemap needs it; check your network / blocker, then reload.', true);
+    return;
+  }
+
+  async function sparql(query) {
+    var url = ENDPOINT + (ENDPOINT.indexOf('?') < 0 ? '?' : '&') +
+              'query=' + encodeURIComponent(query);
+    var r = await fetch(url, { headers: { accept: 'application/sparql-results+json' } });
+    if (!r.ok) throw new Error('HTTP ' + r.status + ' from endpoint');
+    var j = await r.json();
+    return j.results.bindings;
+  }
+
+  // ---- queries -------------------------------------------------------------
+  // child -> parent pairs, from broader and (inverted) narrower, both labelled.
+  var HIER_Q =
+    'PREFIX skos: <' + SK + '>\n' +
+    'SELECT DISTINCT ?c ?cl ?p ?pl WHERE {\n' +
+    '  { ?c skos:broader ?p } UNION { ?p skos:narrower ?c }\n' +
+    '  ?c skos:prefLabel ?cl .\n' +
+    '  ?p skos:prefLabel ?pl .\n' +
+    '  FILTER(STRSTARTS(STR(?c), "' + TNS + '"))\n' +
+    '  FILTER(STRSTARTS(STR(?p), "' + TNS + '"))\n' +
+    '}';
+  // related / exactMatch for the side panel (associative links, not hierarchy)
+  var ASSOC_Q =
+    'PREFIX skos: <' + SK + '>\n' +
+    'SELECT ?s ?p ?o ?ol WHERE {\n' +
+    '  VALUES ?p { skos:related skos:exactMatch }\n' +
+    '  ?s ?p ?o . ?o skos:prefLabel ?ol .\n' +
+    '  FILTER(STRSTARTS(STR(?s), "' + TNS + '"))\n' +
+    '}';
+  var TOTAL_Q =
+    'PREFIX skos: <' + SK + '>\n' +
+    'SELECT (COUNT(DISTINCT ?s) AS ?n) WHERE {\n' +
+    '  ?s skos:prefLabel ?l FILTER(STRSTARTS(STR(?s), "' + TNS + '")) }';
+
+  // ---- tree construction ---------------------------------------------------
+  var labelOf = {};                 // id -> prefLabel
+  var childrenOf = Object.create(null); // parentId -> [childId]
+  var isChild = {};                 // ids that appear as a child (have a parent)
+  var assoc = {};                   // id -> { related:[{id,label}], exact:[...] }
+
+  function localId(id) { return id.indexOf(TNS) === 0 ? id.slice(TNS.length) : id; }
+
+  function buildSubtree(id, pathSet) {
+    // pathSet guards against cycles AND diamond re-entry within one branch.
+    var node = { id: id, name: labelOf[id] || localId(id) };
+    var kids = childrenOf[id];
+    if (kids && kids.length) {
+      var nextPath = Object.assign({}, pathSet); nextPath[id] = true;
+      var built = [];
+      for (var i = 0; i < kids.length; i++) {
+        if (nextPath[kids[i]]) continue;        // skip a back-edge / already on path
+        built.push(buildSubtree(kids[i], nextPath));
+      }
+      if (built.length) node.children = built;
+    }
+    return node;
+  }
+
+  // ---- d3 plumbing ---------------------------------------------------------
+  var svg = d3.select('#svg');
+  var color = d3.scaleOrdinal(d3.schemeTableau10.concat(d3.schemeSet3));
+  var rootHierarchy = null;   // full d3.hierarchy
+  var current = null;         // node currently shown as the treemap root
+  var byId = {};              // id -> first hierarchy node carrying it (for search/panel)
+
+  function W() { return svg.node().clientWidth || 800; }
+  function H() { return svg.node().clientHeight || 600; }
+
+  function topGroupName(node) {
+    // the name of the level-1 ancestor (under the synthetic root) -> colour key
+    var n = node;
+    while (n.depth > 1) n = n.parent;
+    return n.data.name;
+  }
+  function lighten(hex, amt) {
+    var c = d3.color(hex); if (!c) return '#ccc';
+    var hsl = d3.hsl(c); hsl.l = Math.min(0.92, hsl.l + amt); return hsl.formatHex();
+  }
+  function textColor(bg) {
+    var c = d3.color(bg); if (!c) return '#1a1a1a';
+    var r = c.r / 255, g = c.g / 255, b = c.b / 255;
+    var lum = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    return lum > 0.6 ? '#1a1a1a' : '#ffffff';
+  }
+
+  function render() {
+    var w = W(), h = H();
+    svg.attr('viewBox', '0 0 ' + w + ' ' + h);
+    svg.selectAll('*').remove();
+
+    // Lay out the CURRENT subtree to fill the stage. Re-sum/sort each time so a
+    // re-rooted view squarifies cleanly.
+    var rootNode = d3.hierarchy(current.data)
+      .sum(function (d) { return (d.children && d.children.length) ? 0 : 1; })
+      .sort(function (a, b) { return b.value - a.value; });
+
+    d3.treemap()
+      .size([w, h])
+      .paddingOuter(2)
+      .paddingTop(function (d) { return d.depth === 0 ? 0 : (d.children ? 18 : 0); })
+      .paddingInner(2)
+      .round(true)(rootNode);
+
+    var nodes = rootNode.descendants().filter(function (d) { return d.depth > 0; });
+
+    var g = svg.selectAll('g.tile').data(nodes, function (d) { return d.data.id + '@' + d.depth; })
+      .enter().append('g')
+      .attr('class', function (d) { return 'tile' + (d.children ? '' : ' leaf'); })
+      .attr('data-id', function (d) { return d.data.id; })
+      .attr('transform', function (d) { return 'translate(' + d.x0 + ',' + d.y0 + ')'; });
+
+    g.append('rect')
+      .attr('width', function (d) { return Math.max(0, d.x1 - d.x0); })
+      .attr('height', function (d) { return Math.max(0, d.y1 - d.y0); })
+      .attr('fill', function (d) {
+        var base = color(topGroupName(d));
+        // leaves and shallow tiles get progressively lighter fills for legibility
+        return d.children ? base : lighten(base, 0.30);
+      })
+      .append('title')
+      .text(function (d) {
+        var leaves = d.children ? d.value : 0;
+        return d.data.name + (d.children ? ' — ' + leaves + ' term' + (leaves === 1 ? '' : 's') + ' within' : '');
+      });
+
+    // click: internal -> zoom in; leaf -> open panel
+    g.style('cursor', 'pointer').on('click', function (ev, d) {
+      ev.stopPropagation();
+      if (d.children) zoomTo(d.data.id);
+      else openPanel(d.data.id);
+    });
+
+    // labels
+    g.each(function (d) {
+      var sel = d3.select(this);
+      var bh = d.y1 - d.y0;
+      var bwid = d.x1 - d.x0;
+      var fill = d.children ? color(topGroupName(d)) : lighten(color(topGroupName(d)), 0.30);
+      var tc = textColor(fill);
+      if (d.children) {
+        // header band (paddingTop = 18)
+        if (bwid > 36 && bh > 16) {
+          sel.append('text').attr('class', 'head')
+            .attr('x', 4).attr('y', 13).attr('fill', tc)
+            .text(clip(d.data.name + '  (' + d.value + ')', bwid - 8));
+        }
+      } else {
+        if (bwid > 34 && bh > 16) {
+          sel.append('text').attr('class', 'label')
+            .attr('x', 4).attr('y', 14).attr('fill', tc)
+            .text(clip(d.data.name, bwid - 8));
+        }
+      }
+    });
+
+    updateCrumbs();
+    document.getElementById('up').disabled = (current === rootHierarchy);
+    var v = current.value || (current.children ? current.children.length : 0);
+    announce('Showing ' + (current.depth === 0 ? 'all top concepts' : current.data.name) +
+      ' — ' + v + ' terms.');
+  }
+
+  function clip(text, maxPx) {
+    // approximate character budget at 12px; trims with an ellipsis
+    var budget = Math.max(1, Math.floor(maxPx / 6.6));
+    return text.length > budget ? text.slice(0, Math.max(1, budget - 1)) + '…' : text;
+  }
+
+  // ---- zoom / navigation ---------------------------------------------------
+  function findHierNode(id) {
+    var hit = null;
+    rootHierarchy.each(function (n) { if (!hit && n.data.id === id) hit = n; });
+    return hit;
+  }
+  function zoomTo(id) {
+    var n = id == null ? rootHierarchy : findHierNode(id);
+    if (!n) return;
+    current = n;
+    render();
+  }
+  // background click zooms out one level
+  svg.on('click', function () { if (current.parent) { current = current.parent; render(); } });
+
+  function updateCrumbs() {
+    var crumbs = document.getElementById('crumbs');
+    crumbs.innerHTML = '';
+    var chain = current.ancestors().reverse(); // root … current
+    chain.forEach(function (n, i) {
+      if (i) {
+        var sep = document.createElement('span'); sep.className = 'sep'; sep.textContent = '›';
+        crumbs.appendChild(sep);
+      }
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = n.depth === 0 ? 'All concepts' : n.data.name;
+      if (n === current) { b.setAttribute('aria-current', 'true'); }
+      else { b.addEventListener('click', function (e) { e.stopPropagation(); current = n; render(); }); }
+      crumbs.appendChild(b);
+    });
+  }
+
+  // ---- details panel -------------------------------------------------------
+  var panel = document.getElementById('panel');
+  document.getElementById('panel-close').addEventListener('click', function () { panel.classList.remove('open'); });
+
+  function openPanel(id) {
+    var node = findHierNode(id);
+    var label = labelOf[id] || localId(id);
+    document.getElementById('panel-title').textContent = label;
+    var kids = childrenOf[id] ? childrenOf[id].length : 0;
+    var descendants = node ? (node.descendants().length - 1) : 0;
+    document.getElementById('panel-meta').innerHTML =
+      (kids ? kids + ' direct · ' + descendants + ' total descendants · ' : 'leaf term · ') +
+      '<code>terms/' + esc(localId(id)) + '</code>';
+
+    // ancestor path (clickable)
+    var pathHtml = '';
+    if (node) {
+      var chain = node.ancestors().reverse().slice(1); // skip synthetic root
+      pathHtml = chain.map(function (n, i) {
+        var nm = esc(n.data.name);
+        return (i === chain.length - 1) ? nm
+          : '<a class="crumb-link" data-id="' + esc(n.data.id) + '">' + nm + '</a>';
+      }).join(' › ');
+    }
+    document.getElementById('panel-path').innerHTML = pathHtml ? ('Path: ' + pathHtml) : '';
+
+    // narrower (direct children) + related/exact (associative)
+    var html = '';
+    if (childrenOf[id] && childrenOf[id].length) {
+      var items = childrenOf[id].slice().sort(function (a, b) {
+        return (labelOf[a] || '').localeCompare(labelOf[b] || '');
+      }).map(function (cid) {
+        return '<li><a class="term" data-id="' + esc(cid) + '">' + esc(labelOf[cid] || localId(cid)) + '</a></li>';
+      });
+      html += '<div class="rel-h">Narrower (children · ' + items.length + ')</div><ul>' + items.join('') + '</ul>';
+    }
+    var a = assoc[id];
+    if (a && a.related && a.related.length) {
+      html += '<div class="rel-h">Related (' + a.related.length + ')</div><ul>' +
+        a.related.map(function (x) { return '<li>' + esc(x.label) + '</li>'; }).join('') + '</ul>';
+    }
+    if (a && a.exact && a.exact.length) {
+      html += '<div class="rel-h">exactMatch (' + a.exact.length + ')</div><ul>' +
+        a.exact.map(function (x) { return '<li>' + esc(x.label) + '</li>'; }).join('') + '</ul>';
+    }
+    html += '<a class="extlink" href="/kgx/thesaurus" >Open the force-directed graph →</a>';
+    document.getElementById('panel-rels').innerHTML = html;
+
+    // wire internal links
+    Array.prototype.forEach.call(panel.querySelectorAll('a.term, a.crumb-link'), function (el) {
+      el.addEventListener('click', function () {
+        var tid = el.dataset.id;
+        if (childrenOf[tid] && childrenOf[tid].length) { zoomToParentAndHighlight(tid); }
+        else openPanel(tid);
+      });
+    });
+    panel.classList.add('open');
+  }
+
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+
+  // ---- search --------------------------------------------------------------
+  function zoomToParentAndHighlight(id) {
+    var n = findHierNode(id);
+    if (!n) return;
+    // zoom to its parent (or itself if it's a container worth opening)
+    if (n.children && n.children.length) { zoomTo(id); }
+    else if (n.parent) { current = n.parent; render(); }
+    // flash highlight + open panel
+    var tile = svg.select('g.tile[data-id="' + cssEsc(id) + '"]');
+    if (!tile.empty()) {
+      tile.classed('hl', true);
+      setTimeout(function () { tile.classed('hl', false); }, 1600);
+    }
+    openPanel(id);
+  }
+  function cssEsc(s) { return (window.CSS && CSS.escape) ? CSS.escape(s) : s.replace(/["\\]/g, '\\$&'); }
+
+  var searchEl = document.getElementById('search');
+  searchEl.addEventListener('change', function () {
+    var q = searchEl.value.trim().toLowerCase();
+    if (!q) return;
+    var ids = Object.keys(labelOf);
+    var hitId = ids.find(function (id) { return (labelOf[id] || '').toLowerCase() === q; }) ||
+                ids.find(function (id) { return (labelOf[id] || '').toLowerCase().indexOf(q) >= 0; });
+    if (hitId && findHierNode(hitId)) { zoomToParentAndHighlight(hitId); }
+    else setStatus('No concept in the hierarchy matching “' + esc(searchEl.value) +
+      '”. <span class="hint">(Only the ' + classifiedCount + ' concepts with a broader/narrower link appear here.)</span>', true);
+  });
+
+  document.getElementById('up').addEventListener('click', function () {
+    if (current.parent) { current = current.parent; render(); }
+  });
+  document.getElementById('reset').addEventListener('click', function () { zoomTo(null); });
+  window.addEventListener('resize', function () { if (current) render(); });
+
+  // ---- boot ----------------------------------------------------------------
+  var classifiedCount = 0;
+  async function boot() {
+    try {
+      setStatus('Querying endpoint…');
+      var totalP = sparql(TOTAL_Q).catch(function () { return null; });
+      var rows = await sparql(HIER_Q);
+
+      var seenEdge = {};
+      rows.forEach(function (r) {
+        var c = r.c.value, p = r.p.value;
+        labelOf[c] = r.cl.value; labelOf[p] = r.pl.value;
+        var k = c + '→' + p;
+        if (c === p || seenEdge[k]) return;       // drop self-loops / dupes
+        seenEdge[k] = true;
+        (childrenOf[p] || (childrenOf[p] = [])).push(c);
+        isChild[c] = true;
+      });
+
+      // associative links for the panel (best-effort, non-fatal)
+      try {
+        var arows = await sparql(ASSOC_Q);
+        arows.forEach(function (r) {
+          var s = r.s.value, kind = r.p.value.indexOf('exactMatch') >= 0 ? 'exact' : 'related';
+          (assoc[s] || (assoc[s] = { related: [], exact: [] }))[kind].push({ id: r.o.value, label: r.ol.value });
+        });
+      } catch (e) { /* ignore */ }
+
+      // roots = parents that are never themselves a child
+      var roots = Object.keys(childrenOf).filter(function (p) { return !isChild[p]; });
+      classifiedCount = Object.keys(labelOf).length;
+
+      if (!roots.length) { setStatus('No broader/narrower hierarchy found in this store.', true); return; }
+
+      // synthetic root holding every top concept
+      var synthetic = {
+        id: '__root__', name: 'Parliament Thesaurus',
+        children: roots.sort(function (a, b) {
+          return (childrenOf[b] ? childrenOf[b].length : 0) - (childrenOf[a] ? childrenOf[a].length : 0);
+        }).map(function (rid) { return buildSubtree(rid, {}); })
+      };
+
+      rootHierarchy = d3.hierarchy(synthetic)
+        .sum(function (d) { return (d.children && d.children.length) ? 0 : 1; })
+        .sort(function (a, b) { return b.value - a.value; });
+      current = rootHierarchy;
+
+      // search autocomplete (every concept in the hierarchy)
+      var dl = document.getElementById('termlist');
+      Object.keys(labelOf).sort(function (a, b) { return (labelOf[a] || '').localeCompare(labelOf[b] || ''); })
+        .forEach(function (id) { var o = document.createElement('option'); o.value = labelOf[id]; dl.appendChild(o); });
+
+      render();
+
+      var total = null;
+      try { var tp = await totalP; if (tp && tp[0]) total = +tp[0].n.value; } catch (e) { /* ignore */ }
+      var topN = roots.length, leaves = rootHierarchy.value;
+      var cov = total
+        ? '<strong>' + classifiedCount + '</strong> of ' + total + ' concepts carry a hierarchy link'
+        : '<strong>' + classifiedCount + '</strong> concepts in the hierarchy';
+      setStatus(cov + ' · <strong>' + topN + '</strong> top concepts · ' +
+        '<strong>' + leaves + '</strong> leaf terms ' +
+        '<span class="hint">— click a tile to zoom</span>');
+      if (total) {
+        document.getElementById('coverage').innerHTML =
+          'Only ' + classifiedCount + ' of ' + total + ' concepts carry a <code>broader</code>/<code>narrower</code> link; ' +
+          'the remaining ' + (total - classifiedCount) + ' stand alone and are not in this tree.';
+      }
+    } catch (err) {
+      setStatus('Could not load treemap: ' + esc(err.message) +
+        '<br><span class="hint">endpoint: <code>' + esc(ENDPOINT) + '</code></span>', true);
+    }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
