@@ -1366,18 +1366,71 @@ const STARTERS = [
   },
   {
     id: 'parl-current-mps',
-    label: 'Current MPs (UK Parliament SPARQL)',
-    sub: 'Official DDP triple store — same `human` shape, different engine',
+    label: 'Current MPs (live)',
+    sub: 'Members API → fresh DDP-shape synthetic graph in FPKG. 647 current Commons, dated 2024 cohort.',
     type: 'human',
     fetch: async () => {
-      const res = await engine('parl-sparql').query(PARL_CURRENT_MPS_QUERY, 'seed:parl-current-mps');
-      const items = parseParlCurrentRows(res.json.results.bindings);
+      // The bundled FPKG store carries third_party/data/parl-current/
+      // — built by scripts/build-parl-current.mjs from Members API into
+      // DDP's schema vocab. NB the api.parliament.uk/sparql endpoint is
+      // a Parliament behind for current-state questions; query 08/09 in
+      // /kgx/queries/ document the diagnosis.
+      const q = `
+        PREFIX schema: <https://id.parliament.uk/schema/>
+        SELECT ?p (SAMPLE(?fam) AS ?fam) (SAMPLE(?giv) AS ?giv)
+                  (SAMPLE(?const) AS ?const)
+                  (SAMPLE(?party) AS ?party)
+                  (SAMPLE(?mid)   AS ?mpid)
+                  (SAMPLE(?start) AS ?start)
+        WHERE {
+          GRAPH ?g {
+            FILTER(CONTAINS(STR(?g), "parl-current/"))
+            ?p schema:memberHasParliamentaryIncumbency ?in .
+            ?in schema:seatIncumbencyHasHouseSeat ?seat .
+            ?seat schema:houseSeatHasHouse <https://id.parliament.uk/1AFu55Hs> .
+            ?seat schema:houseSeatHasConstituencyGroup/schema:constituencyGroupName ?const .
+            FILTER NOT EXISTS { ?in schema:incumbencyEndDate ?e }
+            OPTIONAL { ?p schema:personGivenName  ?giv }
+            OPTIONAL { ?p schema:personFamilyName ?fam }
+            OPTIONAL { ?p schema:mnisId           ?mid }
+            OPTIONAL { ?in schema:parliamentaryIncumbencyStartDate ?start }
+            OPTIONAL {
+              ?p schema:partyMemberHasPartyMembership/schema:partyMembershipHasParty/schema:partyName ?party
+            }
+          }
+        } GROUP BY ?p`;
+      const res = await engine('fpkg').query(q, 'seed:parl-current-mps');
+      const items = res.json.results.bindings.map((b) => {
+        const giv = b.giv?.value || '', fam = b.fam?.value || '';
+        const startYr = b.start?.value ? +b.start.value.slice(0, 4) : null;
+        return {
+          uri: b.p.value,
+          label: (giv + ' ' + fam).trim() || b.p.value.replace(/^.*\//, ''),
+          image: null,
+          mpid: b.mpid?.value || null,
+          firstYr: startYr, lastYr: null, latestStart: startYr, sitting: true,
+          parties: [b.party?.value].filter(Boolean),
+          gender: null, citizenships: [],
+          decade: '2020s',
+          // Pre-populated parl extra so the bead reads enriched.
+          extra: {
+            parl: {
+              personUri: b.p.value,
+              constituency: b.const?.value || null,
+              currentParty: b.party?.value || null,
+              familyName: fam || null,
+              givenName:  giv || null,
+            },
+          },
+        };
+      });
       return {
         items,
         source: makeSource({
-          kind: 'seed:parl-current-mps', endpoint: res.endpoint, engineId: res.engineId, query: res.query,
-          ms: res.ms, bindings: res.json.results.bindings,
-          note: 'UK Parliament DDP: sitting Members with open seat incumbencies; carries rdfs:seeAlso → Wikidata',
+          kind: 'seed:parl-current-mps', endpoint: res.endpoint, engineId: res.engineId,
+          query: res.query, ms: res.ms, bindings: res.json.results.bindings,
+          note: 'FPKG sidecar: DDP-shaped projection of Members API current state. Built daily by scripts/build-parl-current.mjs; DDP endpoint itself is a Parliament behind — see /kgx/queries/08-… for the diagnosis.',
+          namedGraphs: ['https://forgetmenot.local/graph/parl-current/<date>'],
         }),
       };
     },

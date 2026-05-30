@@ -65,6 +65,7 @@ COPY third_party/data/scrutiny-graph/scrutiny.nq.gz                             
 COPY third_party/data/transparency-graph/transparency.nq.gz                         ./
 COPY third_party/data/accountability-graph/accountability.nq.gz                     ./
 COPY third_party/identity-graph/identity.nq.gz                                      ./
+COPY third_party/data/parl-current/parl-current.nq.gz                               ./
 COPY third_party/data/psephology/all.nq.gz                                          ./psephology.nq.gz
 COPY third_party/data/parliament-lda-terms/parliament-lda-terms.nq.gz               ./
 COPY third_party/data/fcdo_treaties/extractors/factoids/all.nq.gz                   ./fcdo-treaties.nq.gz
