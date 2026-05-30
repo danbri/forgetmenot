@@ -152,10 +152,19 @@ export function escapeHTML(s) {
 
 // SPARQL VALUES clause from a list of Wikidata-style URIs. Filters out
 // anything that doesn't look like a QID URI, dedupes, prefixes with `wd:`.
+//
+// Throws on empty result rather than emit `VALUES ?x { }`, which is invalid
+// SPARQL 1.1 and would surface as a parser error from the engine — burying
+// the actual cause (a bundle that lost all its QIDs through filtering).
+// Callers that legitimately handle empty bundles should guard upstream.
 export function valuesQids(items) {
-  const qs = items
+  const qs = (items || [])
     .map((x) => (typeof x === 'string' ? x : x?.uri))
-    .map((u) => (u && u.match(/Q\d+$/) || [])[0])
+    .map((u) => (u && typeof u === 'string' && u.match(/Q\d+$/) || [])[0])
     .filter(Boolean);
-  return [...new Set(qs)].map((q) => `wd:${q}`).join(' ');
+  const uniq = [...new Set(qs)];
+  if (!uniq.length) {
+    throw new Error(`valuesQids: 0 Wikidata QIDs from ${items?.length ?? 0} item(s) — bundle has no Q-URIs`);
+  }
+  return uniq.map((q) => `wd:${q}`).join(' ');
 }

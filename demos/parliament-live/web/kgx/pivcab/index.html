@@ -46,12 +46,18 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    font: 15px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
+    font: 16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif;
     background: var(--bg);
     color: var(--ink);
     -webkit-text-size-adjust: 100%;
   }
   a { color: var(--accent); }
+  .opl-foot {
+    padding: 14px 16px; margin-top: 24px;
+    border-top: 1px solid var(--rule, #ddd);
+    font-size: 13px; color: var(--ink-soft, #555);
+  }
+  .opl-foot a { color: inherit; text-decoration: underline; }
 </style>
 </head>
 <body>
@@ -743,6 +749,13 @@ class PivcabApp extends HTMLElement {
 }
 customElements.define('pivcab-app', PivcabApp);
 </script>
+
+<footer class="opl-foot">
+  Contains Parliamentary information licensed under the
+  <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/"
+     target="_blank" rel="noopener">Open Parliament Licence v3.0</a>.
+  Wikidata content via QLever, CC0.
+</footer>
 
 </body>
 </html>

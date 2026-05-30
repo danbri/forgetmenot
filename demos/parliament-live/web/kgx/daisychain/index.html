@@ -523,8 +523,13 @@ async function pivotAlmaMaters(bundle) {
 function valuesMnisPersons(items) {
   // The FPKG appg-register graph keys people by MNIS Members API id; the
   // subject URI is <…/services/mnis/members/<id>>. We carry that as mpid.
-  const ids = items.map((x) => x.mpid).filter(Boolean);
-  return [...new Set(ids)]
+  // Throws on empty rather than emit invalid SPARQL 1.1 (see valuesQids).
+  const ids = (items || []).map((x) => x.mpid).filter(Boolean);
+  const uniq = [...new Set(ids)];
+  if (!uniq.length) {
+    throw new Error(`valuesMnisPersons: 0 MNIS ids from ${items?.length ?? 0} item(s) — bundle has no .mpid`);
+  }
+  return uniq
     .map((id) => `<https://data.parliament.uk/membersdataplatform/services/mnis/members/${id}>`)
     .join(' ');
 }
@@ -2573,8 +2578,21 @@ class DaisyBead extends HTMLElement {
       const n = b.bundle.size;
       // Cardinality flag in the meta line — the actionable broaden /
       // top-N chips appear separately in the chip row below.
-      if (n > 0 && n < 5) bits.push('⚠ sparse — see 🔧 chip below');
-      else if (n > 1000)  bits.push('⚠ large — see 🔧 chip to narrow');
+      if (n === 0) {
+        // CLAUDE.md rule 2 + 11: fail loud + honest about missing data. When
+        // a DDP-shaped query returns 0 it is much more likely "DDP is one
+        // Parliament behind" than a real empty set (DDP still treats the 2019
+        // cohort as open — see /kgx/queries/08, 09). Surface that explicitly
+        // and point at the sidecar.
+        const fromDdp = (b.sources || []).some((s) => s.engineId === 'parl-sparql');
+        bits.push(fromDdp
+          ? '⚠ 0 rows — DDP may be stale (one Parliament behind). Try the parl-current-mps starter (FPKG sidecar).'
+          : '⚠ 0 rows');
+      } else if (n > 0 && n < 5) {
+        bits.push('⚠ sparse — see 🔧 chip below');
+      } else if (n > 1000) {
+        bits.push('⚠ large — see 🔧 chip to narrow');
+      }
       meta.textContent = bits.join('  ·  ');
     }
 
@@ -2717,6 +2735,55 @@ class DaisyPicker extends HTMLElement {
 customElements.define('daisy-picker', DaisyPicker);
 
 // ============================================================================
+// Modal a11y helper. The three sheet-style overlays (rel-picker, info-sheet,
+// thing-sheet) share the same envelope: a `:host` overlay + a `.sheet` panel
+// with a `.close` button. This wires up the keyboard contract we owe:
+//   - Escape → close
+//   - role=dialog + aria-modal=true on the host element
+//   - initial focus moves to the first focusable inside the shadow root
+//   - previously-focused element is restored when the modal disconnects
+//   - Tab cycles within the shadow root (basic focus trap)
+// Each modal calls setupModalA11y(this) right after `document.body.appendChild`
+// and implements disconnectedCallback so the keydown listener is removed and
+// focus restored even when the modal is closed by click-outside / button.
+// ============================================================================
+const _FOCUSABLE = 'a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"]),input:not([disabled]),select:not([disabled]),textarea:not([disabled])';
+function setupModalA11y(host) {
+  host.setAttribute('role', 'dialog');
+  host.setAttribute('aria-modal', 'true');
+  const prevFocus = document.activeElement;
+  const onKey = (e) => {
+    if (e.key === 'Escape') {
+      e.stopPropagation();
+      host.remove();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    const fs = host.shadowRoot.querySelectorAll(_FOCUSABLE);
+    if (!fs.length) return;
+    const first = fs[0], last = fs[fs.length - 1];
+    const active = host.shadowRoot.activeElement;
+    if (e.shiftKey && (active === first || !active)) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && active === last) {
+      e.preventDefault(); first.focus();
+    }
+  };
+  document.addEventListener('keydown', onKey);
+  // Defer to next microtask so the just-rendered DOM is focusable.
+  Promise.resolve().then(() => {
+    const f = host.shadowRoot.querySelector(_FOCUSABLE);
+    f?.focus();
+  });
+  host._modalCleanup = () => {
+    document.removeEventListener('keydown', onKey);
+    if (prevFocus && typeof prevFocus.focus === 'function') {
+      try { prevFocus.focus(); } catch { /* element may be gone */ }
+    }
+  };
+}
+
+// ============================================================================
 // <daisy-rel-picker> — bottom sheet for the `→ pivot…` chip. Lists every
 // RelationTemplate applicable to the frontier bundle's type, with each
 // template's variants visibly grouped as default / tighten / broaden so the
@@ -2855,7 +2922,9 @@ class DaisyRelPicker extends HTMLElement {
       });
     }
     document.body.appendChild(this);
+    setupModalA11y(this);
   }
+  disconnectedCallback() { this._modalCleanup?.(); }
 }
 customElements.define('daisy-rel-picker', DaisyRelPicker);
 
@@ -2992,7 +3061,9 @@ class DaisyInfoSheet extends HTMLElement {
       body.textContent = beadToTrig(bead);
     });
     document.body.appendChild(this);
+    setupModalA11y(this);
   }
+  disconnectedCallback() { this._modalCleanup?.(); }
 }
 customElements.define('daisy-info-sheet', DaisyInfoSheet);
 
@@ -3122,7 +3193,9 @@ class DaisyThingSheet extends HTMLElement {
     this.shadowRoot.querySelector('.close').addEventListener('click', () => this.remove());
     this.addEventListener('click', (e) => { if (e.target === this) this.remove(); });
     document.body.appendChild(this);
+    setupModalA11y(this);
   }
+  disconnectedCallback() { this._modalCleanup?.(); }
 }
 customElements.define('daisy-thing-sheet', DaisyThingSheet);
 
@@ -3823,6 +3896,15 @@ class DaisyApp extends HTMLElement {
   _renderTiles(root) {
     // The frontier bundle, full grid. Older beads accessible via the
     // table / spine; this view is about the live result.
+    //
+    // 3000 tiles built synchronously was a ~2–4s paint stall on mid-tier
+    // mobile. Two changes keep the painter responsive without changing the
+    // data model:
+    //   1. Batch rendering: append tiles in chunks of TILE_BATCH per animation
+    //      frame so the browser can paint between batches; the first batch
+    //      (one viewport) lands immediately, the rest stream in.
+    //   2. Event delegation: one click listener on the grid, not one per
+    //      tile (matters when items is 3000).
     const last = state.beads[state.beads.length - 1];
     if (!last?.bundle) return;
     const head = document.createElement('div');
@@ -3836,9 +3918,8 @@ class DaisyApp extends HTMLElement {
     grid.className = 'tiles';
     const slice = last.bundle.items.slice(0, 3000);
     const bundleType = last.bundle.type;
-    const html = new Array(slice.length);
-    for (let i = 0; i < slice.length; i++) {
-      const p = slice[i];
+
+    const tileHTML = (p, i) => {
       let mt = '';
       if (bundleType === 'human') {
         const years = p.sitting && p.firstYr ? `${p.firstYr}–`
@@ -3853,27 +3934,65 @@ class DaisyApp extends HTMLElement {
               p.madeDate ? 'made ' + p.madeDate.slice(0, 10) : '']
           .filter(Boolean).join(' · ');
       } else {
-        // place / org / appg / party / formal_body / concept …
         const ct = p.originCount ? `${p.originCount}` : (p.count ? `${p.count}` : '');
         mt = [ct, p.country || ''].filter(Boolean).join(' · ');
       }
-      html[i] = `<button class="tile" data-i="${i}" aria-label="${escapeHTML(p.label)}">`
+      return `<button class="tile" data-i="${i}" aria-label="${escapeHTML(p.label)}">`
         + `<div class="th">${p.image ? `<img alt="" data-src="${commonsThumb(p.image, 220)}">` : ''}</div>`
         + `<div class="body"><div class="nm">${escapeHTML(p.label)}</div>`
         + (mt ? `<div class="mt">${escapeHTML(mt)}</div>` : '')
         + `</button>`;
-    }
-    grid.innerHTML = html.join('');
-    for (const img of grid.querySelectorAll('img[data-src]')) tileIo.observe(img);
-    // Click-through: tap any tile to open the details sheet.
-    for (const tile of grid.querySelectorAll('button.tile')) {
-      tile.addEventListener('click', () => {
-        const i = +tile.dataset.i;
-        const item = slice[i];
-        if (item) this._openThing(item, last.bundle);
-      });
+    };
+
+    // Event delegation — one listener for all tiles in this grid.
+    grid.addEventListener('click', (e) => {
+      const tile = e.target.closest('button.tile');
+      if (!tile || !grid.contains(tile)) return;
+      const i = +tile.dataset.i;
+      const item = slice[i];
+      if (item) this._openThing(item, last.bundle);
+    });
+
+    const TILE_BATCH = 120;     // tiles per frame
+    const hydrateBatch = (frag) => {
+      for (const img of frag.querySelectorAll('img[data-src]')) tileIo.observe(img);
+    };
+    // First batch: render synchronously so above-the-fold paints with content.
+    const firstEnd = Math.min(TILE_BATCH, slice.length);
+    {
+      const buf = new Array(firstEnd);
+      for (let i = 0; i < firstEnd; i++) buf[i] = tileHTML(slice[i], i);
+      const tpl = document.createElement('template');
+      tpl.innerHTML = buf.join('');
+      grid.appendChild(tpl.content);
+      hydrateBatch(grid);
     }
     root.appendChild(grid);
+
+    // Streaming batches: yield to the painter between each so scroll stays
+    // responsive. Bail if this app gets disconnected mid-stream (re-render).
+    let cursor = firstEnd;
+    const stream = () => {
+      if (!this.isConnected || !grid.isConnected) return;
+      const end = Math.min(cursor + TILE_BATCH, slice.length);
+      if (end === cursor) return;
+      const buf = new Array(end - cursor);
+      for (let i = cursor; i < end; i++) buf[i - cursor] = tileHTML(slice[i], i);
+      const tpl = document.createElement('template');
+      tpl.innerHTML = buf.join('');
+      const firstNew = tpl.content.firstElementChild;
+      grid.appendChild(tpl.content);
+      // Hydrate only the newly-appended subrange so we don't re-observe earlier
+      // batches every frame.
+      let n = firstNew;
+      while (n) {
+        for (const img of n.querySelectorAll('img[data-src]')) tileIo.observe(img);
+        n = n.nextElementSibling;
+      }
+      cursor = end;
+      if (cursor < slice.length) requestAnimationFrame(stream);
+    };
+    if (cursor < slice.length) requestAnimationFrame(stream);
   }
 }
 // escapeHTML → /kgx/lib/node-flow.mjs (imported at top).
