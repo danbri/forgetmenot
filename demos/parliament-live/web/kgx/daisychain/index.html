@@ -1316,15 +1316,21 @@ const OPS = {
       relevant: (b) => b.items.some((x) => x.mpid),
       run: (b) => opFilters.bridged(b) },
     { id: 'party',   label: 'party…',      icon: '⚑', kind: 'picker',
+      relevant: (b) => b.items.some((x) => x.parties && x.parties.length),
       values: (b) => topCounts(b.items.flatMap((x) => x.parties)),
       run:    (b, v) => opFilters.party(b, v) },
     { id: 'decade',  label: 'decade…',     icon: '⌚', kind: 'picker',
+      relevant: (b) => b.items.some((x) => x.decade),
       values: (b) => sortByKey(countBy(b.items, 'decade')),
       run:    (b, v) => opFilters.decade(b, v) },
     { id: 'gender',  label: 'gender…',     icon: '⚧', kind: 'picker',
       // Picker rows: for each gender, an "exact P21" count and (when any items
       // have a null gender) a separate "+ heuristic from first name" count.
       // Heuristic is an explicit choice — never silently merged with exact.
+      // Hide the chip on bundles where NO items have an explicit P21 value
+      // (e.g. architects after a pivot) — the heuristic alone isn't worth
+      // surfacing as a primary action when authoritative data is absent.
+      relevant: (b) => b.items.some((x) => x.gender === 'female' || x.gender === 'male'),
       values: (b) => {
         const rows = [];
         const noGender = b.items.filter((x) => !x.gender);
@@ -1360,6 +1366,7 @@ const OPS = {
         return out;
       } },
     { id: 'citizenship', label: 'citizenship…', icon: '🌎', kind: 'picker',
+      relevant: (b) => b.items.some((x) => x.citizenships && x.citizenships.length),
       values: (b) => topCounts(b.items.flatMap((x) => x.citizenships || [])),
       run:    (b, v) => new Bundle(
         b.items.filter((x) => (x.citizenships || []).includes(v)),
@@ -3404,7 +3411,12 @@ class DaisyApp extends HTMLElement {
     }
     // Map view button greys out unless the frontier has any item with coords.
     const front = state.beads[state.beads.length - 1];
-    const hasCoords = !!front?.bundle?.items?.some((x) => x.coords || x.extra?.birthplace?.coords);
+    // Map button stays lit if ANY bead in the chain has coords — the
+    // renderer falls back to the most-recent mappable bead, so a chain
+    // that pivoted from buildings to architects can still show the
+    // buildings on the map.
+    const hasCoords = state.beads.some((bd) =>
+      bd.bundle?.items?.some((x) => x.coords || x.extra?.birthplace?.coords));
     const mapBtn = this.shadowRoot.querySelector('#v-map');
     mapBtn.disabled = !hasCoords;
     mapBtn.style.opacity = hasCoords ? '1' : '0.45';
@@ -3556,27 +3568,54 @@ class DaisyApp extends HTMLElement {
   }
 
   _renderMap(root) {
-    // Collect points from the frontier bundle. Places carry coords directly;
-    // enriched humans carry them under .extra.birthplace.coords.
-    const last = state.beads[state.beads.length - 1];
-    if (!last?.bundle) return;
+    // Pick the most-recent bead that actually carries coordinates. This
+    // matters once a chain pivots through an "intermediate" type that
+    // has no coords (e.g. building → architect): the user still wants
+    // to see the BUILDINGS on the map, not nothing. Falls back through
+    // the chain until it finds a mappable bead.
+    let last = null, idxUsed = -1;
+    for (let i = state.beads.length - 1; i >= 0; i--) {
+      const items = state.beads[i].bundle?.items || [];
+      if (items.some((x) => x.coords || x.extra?.birthplace?.coords)) {
+        last = state.beads[i]; idxUsed = i; break;
+      }
+    }
+    if (!last?.bundle) {
+      const wrap = document.createElement('div');
+      wrap.className = 'map-wrap';
+      wrap.innerHTML = `<div style="padding:16px;color:var(--ink-mute);font-size:13px;">
+        No bead in this chain carries coordinates yet — try ✨ enrich
+        (on a human bead) or → birthplaces.</div>`;
+      root.appendChild(wrap);
+      return;
+    }
     const points = [];
     for (const x of last.bundle.items) {
       const c = x.coords || x.extra?.birthplace?.coords;
       if (!c) continue;
       const lbl = x.label || x.extra?.birthplace?.label || '';
-      const wt  = x.originCount || 1;  // place: how many MPs map here
+      const wt  = x.originCount || 1;
       points.push({ ...c, label: lbl, weight: wt, uri: x.uri });
     }
     const wrap = document.createElement('div');
     wrap.className = 'map-wrap';
+    // If the frontier wasn't the source of coords, tell the user which
+    // bead we're showing — useful when the chain just pivoted away
+    // from a mappable type.
+    const fallbackNote = (idxUsed !== state.beads.length - 1)
+      ? `<div style="padding:6px 8px;color:var(--ink-mute);font-size:12px;">
+          ↪ frontier bead has no coords; showing bead ${idxUsed + 1}
+          (${escapeHTML(last.bundle.label)}).
+        </div>` : '';
     if (!points.length) {
-      wrap.innerHTML = `<div style="padding:16px;color:var(--ink-mute);font-size:13px;">
+      wrap.innerHTML = `${fallbackNote}<div style="padding:16px;color:var(--ink-mute);font-size:13px;">
         No coords on the frontier bead yet — try ✨ enrich (on a human bead)
         or → birthplaces.</div>`;
       root.appendChild(wrap);
       return;
     }
+    // Inject the fallback note before the map header (added below).
+    wrap.dataset.fallbackNote = fallbackNote;
     // Auto-fit bbox with padding.
     let minLat = +Infinity, maxLat = -Infinity, minLon = +Infinity, maxLon = -Infinity;
     for (const p of points) {
@@ -3608,6 +3647,7 @@ class DaisyApp extends HTMLElement {
       return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}"><title>${escapeHTML(title)}</title></circle>`;
     }).join('');
     wrap.innerHTML = `
+      ${wrap.dataset.fallbackNote || ''}
       <div class="map-head">
         <span class="n">${points.length.toLocaleString()}</span>
         <span>points · bbox ${minLat.toFixed(1)}…${maxLat.toFixed(1)} N, ${minLon.toFixed(1)}…${maxLon.toFixed(1)} E</span>
