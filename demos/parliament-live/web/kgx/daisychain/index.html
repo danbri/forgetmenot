@@ -1331,6 +1331,75 @@ function groupBy(bundle, keyFn, asLabel) {
   return new Bundle(items, bundle.type, `${bundle.label} by ${asLabel}`);
 }
 
+// ============================================================================
+// Cardinality response — turns the bead's size into actionable chips.
+//
+// Sparse bundles (1..4 items) usually mean the chain narrowed too far. If
+// the last step was a `rel-pivot`, surface every broaden variant of the
+// same template as a one-tap retry — runs the alternative against the
+// *previous* bundle (so it really is a broaden, not a no-op).
+//
+// Large bundles (> 1000 items) usually mean the chain didn't narrow
+// enough. Surface a "★ top N by …" chip that picks a reasonable ranking
+// field per type and emits a Bundle of the top 100.
+//
+// Returns an array of chip descriptors:
+//   { icon, label, title, kind, … }
+// kind ∈ { 'broaden-variant', 'top-n' }
+// ============================================================================
+function defaultRankField(type) {
+  return ({
+    human: 'latestStart', building: 'year', si: 'madeDate',
+    place: 'originCount', org: 'originCount', appg: 'originCount',
+    party: 'originCount', formal_body: null, concept: null,
+    constituency: 'originCount',
+  })[type] || null;
+}
+function rankValue(item, field) {
+  if (!field) return null;
+  const v = item[field];
+  return v == null ? null : (typeof v === 'string' ? v : +v);
+}
+function cardinalityChips(bead, idx) {
+  const out = [];
+  const n = bead?.bundle?.size || 0;
+
+  if (n > 0 && n < 5 && bead?.spec?.op === 'rel-pivot') {
+    const tpl = REL_TEMPLATES.find((t) => t.id === bead.spec.template);
+    if (tpl) {
+      const prev = state.beads[idx - 1];
+      for (const v of tpl.variants) {
+        if (v.id === bead.spec.variant) continue;
+        if (v.kind !== 'broaden') continue;
+        out.push({
+          icon: '🔧',
+          label: `broaden: ${v.label}`,
+          title: `Re-run "${tpl.label}" against the previous bead with the broaden variant "${v.label}".`,
+          kind: 'broaden-variant',
+          template: tpl, variant: v,
+          parentIdx: idx - 1,
+          parentBundleType: prev?.bundle?.type,
+        });
+      }
+    }
+  }
+
+  if (n > 1000) {
+    const field = defaultRankField(bead.bundle.type);
+    if (field) {
+      out.push({
+        icon: '🔧',
+        label: `top 100 by ${field}`,
+        title: `Narrow to the 100 items with the highest ${field}. ` +
+               `Helps enrich / pivot stay under the 500-item cap.`,
+        kind: 'top-n',
+        n: 100, field,
+      });
+    }
+  }
+  return out;
+}
+
 function countBy(items, field) {
   const m = new Map();
   for (const x of items) { const v = x[field]; if (v) m.set(v, (m.get(v) || 0) + 1); }
@@ -2108,6 +2177,15 @@ class DaisyBead extends HTMLElement {
           border-color: var(--accent); outline: none;
         }
         .chip .ic { font-size: 12px; margin-right: 4px; }
+        .chip.card-chip {
+          background: color-mix(in oklab, #c08020 12%, var(--surface-2));
+          border-color: color-mix(in oklab, #c08020 30%, var(--rule-soft));
+          color: var(--ink);
+        }
+        .chip.card-chip:hover, .chip.card-chip:focus {
+          background: color-mix(in oklab, #c08020 24%, var(--surface-2));
+          border-color: color-mix(in oklab, #c08020 60%, var(--rule));
+        }
         .meta { font-size: 12px; color: var(--ink-mute); margin-top: 6px;
                 display: flex; gap: 8px; flex-wrap: wrap; }
         .hist-hint {
@@ -2232,8 +2310,10 @@ class DaisyBead extends HTMLElement {
       // returned almost nothing (often a "broaden" candidate), or one
       // that returned thousands (often a "narrow before enrich" candidate).
       const n = b.bundle.size;
-      if (n > 0 && n < 5) bits.push('⚠ sparse — try a broaden variant or a different pivot');
-      else if (n > 1000)  bits.push('⚠ large — narrow before ✨ enrich or pivot (cap is 500)');
+      // Cardinality flag in the meta line — the actionable broaden /
+      // top-N chips appear separately in the chip row below.
+      if (n > 0 && n < 5) bits.push('⚠ sparse — see 🔧 chip below');
+      else if (n > 1000)  bits.push('⚠ large — see 🔧 chip to narrow');
       meta.textContent = bits.join('  ·  ');
     }
 
@@ -2260,6 +2340,26 @@ class DaisyBead extends HTMLElement {
           e.stopPropagation();
           this.dispatchEvent(new CustomEvent('op-tap', {
             detail: { op, bundle: b.bundle }, bubbles: true, composed: true,
+          }));
+        });
+        chipRow.appendChild(chip);
+      }
+      // Cardinality response — chips that appear conditionally on bundle
+      // size, so a sparse bead surfaces its template's broaden variants
+      // for one-tap retry, and a large bead surfaces a "top-N by …" auto-
+      // narrow. Distinguished from regular ops with the 🔧 mark.
+      const cardChips = cardinalityChips(b, idx);
+      for (const cc of cardChips) {
+        const chip = document.createElement('button');
+        chip.className = 'chip card-chip';
+        chip.innerHTML = `<span class="ic"></span><span class="lbl"></span>`;
+        chip.querySelector('.ic').textContent = cc.icon + ' ';
+        chip.querySelector('.lbl').textContent = cc.label;
+        chip.title = cc.title || '';
+        chip.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this.dispatchEvent(new CustomEvent('card-chip', {
+            detail: cc, bubbles: true, composed: true,
           }));
         });
         chipRow.appendChild(chip);
@@ -2827,6 +2927,7 @@ class DaisyApp extends HTMLElement {
     this.addEventListener('library-pick', (e) => this._replay(e.detail));
     this.addEventListener('op-tap',       (e) => this._onOp(e.detail));
     this.addEventListener('bead-undo',    (e) => this._undoTo(e.detail.index));
+    this.addEventListener('card-chip',    (e) => this._onCardChip(e.detail));
     this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => this._reset());
     this.shadowRoot.querySelector('#save-btn').addEventListener('click', () => this._saveChain());
     for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
@@ -2915,6 +3016,50 @@ class DaisyApp extends HTMLElement {
                { kind: 'op', op: e.detail.op.id, value: e.detail.value });
     });
     sheet.open(op, bundle);
+  }
+
+  // Handle cardinality-response chips (broaden a too-narrow last step, or
+  // narrow a too-large bead with top-N).
+  async _onCardChip(cc) {
+    if (cc.kind === 'broaden-variant') {
+      const parent = state.beads[cc.parentIdx];
+      if (!parent?.bundle) return;
+      const lead = this.shadowRoot.querySelector('#lead');
+      const prev = lead.innerHTML;
+      lead.textContent = `🔧 broaden ${cc.template.label} → ${cc.variant.label} (re-running over ${parent.bundle.size.toLocaleString()} ${parent.bundle.type}s)…`;
+      try {
+        const out = await applyRelation(cc.template, cc.variant, parent.bundle);
+        pushBead(`${cc.template.label} · ${cc.variant.label}`, '⇄',
+                 out.bundle, [out.source],
+                 { kind: 'op', op: 'rel-pivot',
+                   template: cc.template.id, variant: cc.variant.id });
+        lead.innerHTML = prev;
+      } catch (err) {
+        lead.innerHTML = `<span style="color:#c33">broaden failed: ${escapeHTML(err.message)}</span>`;
+      }
+      return;
+    }
+    if (cc.kind === 'top-n') {
+      const front = state.beads[state.beads.length - 1];
+      if (!front?.bundle) return;
+      const ranked = [...front.bundle.items]
+        .filter((x) => rankValue(x, cc.field) != null)
+        .sort((a, b) => {
+          const va = rankValue(a, cc.field), vb = rankValue(b, cc.field);
+          if (typeof va === 'string') return String(vb).localeCompare(String(va));
+          return vb - va;
+        })
+        .slice(0, cc.n);
+      const out = new Bundle(ranked, front.bundle.type,
+                             `${front.bundle.label} · top ${cc.n} by ${cc.field}`);
+      const src = makeSource({
+        kind: `narrow:top-${cc.n}:${cc.field}`, ms: 0,
+        note: `client-side narrow: top ${cc.n} of ${front.bundle.size} ranked by ${cc.field} desc`,
+      });
+      pushBead(`top ${cc.n} by ${cc.field}`, '🔧', out, [src],
+               { kind: 'op', op: 'narrow-top-n', n: cc.n, field: cc.field });
+      return;
+    }
   }
 
   // Replay a saved chain step-by-step. Awaits async ops; surfaces failures.
