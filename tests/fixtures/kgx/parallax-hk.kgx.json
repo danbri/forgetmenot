@@ -1,0 +1,22 @@
+{
+  "title": "HK skyscrapers → architects → other works",
+  "note": "Mirrors the parallax-hk demonstrator in demos/parliament-live/web/kgx/daisychain/index.html (steps array at lines ~2142). Same SPARQL, inlined here so the kgx CLI can run + hash it. Used by tests/unit/kgx-chain.test.mjs.",
+  "engine": "qlever-wikidata",
+  "steps": [
+    {
+      "id": "hk-skyscrapers",
+      "bindVar": "b",
+      "query": "PREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?b (SAMPLE(?lbl) AS ?label)\n          (SAMPLE(?img) AS ?image)\n          (SAMPLE(?coordL) AS ?coord)\n          (SAMPLE(?yr) AS ?year)\nWHERE {\n  { ?b wdt:P31 wd:Q11303 } UNION { ?b wdt:P31 wd:Q18142 }\n  ?b wdt:P131* wd:Q8646 .\n  OPTIONAL { ?b wdt:P18  ?img }\n  OPTIONAL { ?b wdt:P625 ?coordL }\n  OPTIONAL { ?b wdt:P1619 ?yrLit . BIND(YEAR(?yrLit) AS ?yr) }\n  OPTIONAL { ?b rdfs:label ?lbl . FILTER(lang(?lbl)=\"en\") }\n} GROUP BY ?b"
+    },
+    {
+      "id": "architects",
+      "bindVar": "a",
+      "query": "PREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?a (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)\n          (COUNT(DISTINCT ?b) AS ?n)\nWHERE {\n  VALUES ?b { {{prev_qids}} }\n  ?b wdt:P84 ?a .\n  OPTIONAL { ?a rdfs:label ?lbl . FILTER(lang(?lbl)=\"en\") }\n  OPTIONAL { ?a wdt:P18 ?img }\n} GROUP BY ?a ORDER BY DESC(?n)"
+    },
+    {
+      "id": "works_by",
+      "bindVar": "b",
+      "query": "PREFIX wd:   <http://www.wikidata.org/entity/>\nPREFIX wdt:  <http://www.wikidata.org/prop/direct/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?b (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)\n          (SAMPLE(?coord) AS ?coords) (SAMPLE(?ctry) AS ?country)\n          (COUNT(DISTINCT ?a) AS ?n)\nWHERE {\n  VALUES ?a { {{prev_qids}} }\n  ?b wdt:P84 ?a .\n  OPTIONAL { ?b rdfs:label ?lbl . FILTER(lang(?lbl)=\"en\") }\n  OPTIONAL { ?b wdt:P18  ?img }\n  OPTIONAL { ?b wdt:P625 ?coord }\n  OPTIONAL { ?b wdt:P17/rdfs:label ?ctry . FILTER(lang(?ctry)=\"en\") }\n} GROUP BY ?b ORDER BY DESC(?n)"
+    }
+  ]
+}

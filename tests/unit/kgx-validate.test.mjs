@@ -107,6 +107,37 @@ test('returns silently on queries without a WHERE keyword', () => {
   assert.doesNotThrow(() => assertNoAliasCollisions(q, 'describe'));
 });
 
+test('BIND(expr AS ?v) inside WHERE is not a SELECT-projection violation', () => {
+  // SPARQL 1.1 §18.2.4.5 governs BIND target uniqueness, which is a
+  // different rule from §18.2.4.4. The validator must not false-positive
+  // on a BIND(...) whose target is also referenced (via SAMPLE/COUNT/etc.)
+  // in the SELECT projection with a *different* alias. This is the exact
+  // hk-skyscrapers shape from the daisychain demonstrator.
+  const q = `
+    SELECT ?b (SAMPLE(?yr) AS ?year)
+    WHERE {
+      ?b a <http://example/Building> .
+      OPTIONAL { ?b <http://example/built> ?yrLit . BIND(YEAR(?yrLit) AS ?yr) }
+    } GROUP BY ?b`;
+  assert.doesNotThrow(() => assertNoAliasCollisions(q, 'bind-fresh'));
+});
+
+test('SELECT alias colliding with a BIND target IS a violation', () => {
+  // If the SELECT alias is the same name as a variable bound by BIND
+  // inside WHERE, the alias collides with a WHERE-scope variable and
+  // §18.2.4.4 applies.
+  const q = `
+    SELECT ?b (SAMPLE(?yr) AS ?yr)
+    WHERE {
+      ?b a <http://example/Building> .
+      OPTIONAL { ?b <http://example/built> ?yrLit . BIND(YEAR(?yrLit) AS ?yr) }
+    } GROUP BY ?b`;
+  assert.throws(
+    () => assertNoAliasCollisions(q, 'bind-collide'),
+    /\?yr also appears in the WHERE body/,
+  );
+});
+
 // ---------------------------------------------------------------------------
 // `kgx validate` CLI verb — integration
 // ---------------------------------------------------------------------------

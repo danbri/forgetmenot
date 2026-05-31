@@ -35,10 +35,13 @@
 //     case-sensitive (matches the spec).
 //   - Does NOT flag aliases that appear only in ORDER BY / GROUP BY /
 //     HAVING — those are valid post-projection references.
+//
+// Scope: only SELECT-projection AS clauses are checked. `BIND(expr AS ?v)`
+// inside the WHERE body introduces a fresh variable and is governed by a
+// different rule (§18.2.4.5) — it's not a §18.2.4.4 violation, even though
+// it shares the `AS ?v` syntax. We avoid the false-positive by extracting
+// AS-aliases only from the text before the WHERE block.
 export function assertNoAliasCollisions(query, label = 'sparql') {
-  const aliasMatches = [...query.matchAll(/\bAS\s+\?(\w+)\b/gi)];
-  if (!aliasMatches.length) return;
-
   const whereStart = query.search(/\bWHERE\s*\{/i);
   if (whereStart < 0) return;
   const open = query.indexOf('{', whereStart);
@@ -48,7 +51,11 @@ export function assertNoAliasCollisions(query, label = 'sparql') {
     else if (query[i] === '}' && --depth === 0) { end = i; break; }
   }
   if (end < 0) return;
-  const whereBody = query.slice(open + 1, end);
+  const beforeWhere = query.slice(0, whereStart);
+  const whereBody   = query.slice(open + 1, end);
+
+  const aliasMatches = [...beforeWhere.matchAll(/\bAS\s+\?(\w+)\b/gi)];
+  if (!aliasMatches.length) return;
 
   const seen = new Set();
   for (const m of aliasMatches) {
