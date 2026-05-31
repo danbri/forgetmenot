@@ -2748,10 +2748,22 @@ customElements.define('daisy-picker', DaisyPicker);
 // focus restored even when the modal is closed by click-outside / button.
 // ============================================================================
 const _FOCUSABLE = 'a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"]),input:not([disabled]),select:not([disabled]),textarea:not([disabled])';
+
+// Walk from document.activeElement down through any nested shadow roots so we
+// capture the actual focused leaf, not just the topmost shadow host. Without
+// this, `document.activeElement` returns the outermost custom element (e.g.
+// <daisy-app>) and `prevFocus.focus()` becomes a no-op — focus falls to body
+// on modal close instead of restoring to the trigger.
+function _deepActiveElement() {
+  let n = document.activeElement;
+  while (n && n.shadowRoot && n.shadowRoot.activeElement) n = n.shadowRoot.activeElement;
+  return n;
+}
+
 function setupModalA11y(host) {
   host.setAttribute('role', 'dialog');
   host.setAttribute('aria-modal', 'true');
-  const prevFocus = document.activeElement;
+  const prevFocus = _deepActiveElement();
   const onKey = (e) => {
     if (e.key === 'Escape') {
       e.stopPropagation();
