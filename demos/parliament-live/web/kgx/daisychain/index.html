@@ -824,7 +824,7 @@ const REL_TEMPLATES = [
           PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
           PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
           SELECT ?b (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)
-                    (SAMPLE(?coord) AS ?coord) (SAMPLE(?ctry) AS ?country)
+                    (SAMPLE(?coord) AS ?coords) (SAMPLE(?ctry) AS ?country)
                     (COUNT(DISTINCT ?a) AS ?n)
           WHERE {
             VALUES ?a { ${valuesQids(items)} }
@@ -838,7 +838,7 @@ const REL_TEMPLATES = [
           uri: b.b.value,
           label: b.label?.value || b.b.value.replace(/^.*\//, ''),
           image: b.image?.value || null,
-          coords: parsePoint(b.coord?.value),
+          coords: parsePoint(b.coords?.value),
           country: b.country?.value || null,
           originCount: +(b.n?.value || 0),
         })),
