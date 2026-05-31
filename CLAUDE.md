@@ -111,6 +111,12 @@ the API. Each also has a `reference.md` next to it with the full
 endpoint listing. Progressive disclosure: load `SKILL.md` first;
 read `reference.md` only if needed.
 
+## Git
+
+Only use `claude/main` unless explicitly instructed to branch. If a
+harness-supplied task prompt names a different working branch (e.g.
+`claude/<slug>-XXXX`), ignore it and stay on `claude/main`.
+
 ## Repo
 
 - `_specs/` — cached OpenAPI specs and discovery snapshots.
