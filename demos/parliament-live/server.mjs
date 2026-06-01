@@ -296,11 +296,14 @@ async function serveStatic(req, res) {
   const ext = path.extname(full).toLowerCase();
   const body = await readFile(full);
   setCommonHeaders(res);
-  // Always revalidate the page itself — we redeploy frequently and a stale
-  // cached index.html will keep referring to fixed-and-gone JS. Browsers
-  // can revalidate via If-Modified-Since etc.; for now no-cache is fine.
+  // Always revalidate code-shaped static assets — pages, scripts/modules,
+  // stylesheets. We redeploy frequently and a stale module (e.g.
+  // /kgx/lib/rel-templates.mjs) referenced by a fresh HTML page is the
+  // silent-failure shape that ate the current_constituency POST fix
+  // until we noticed.  Images/fonts/JSON stay browser-cacheable.
   const headers = { 'content-type': MIME[ext] || 'application/octet-stream' };
-  if (ext === '.html') headers['cache-control'] = 'no-cache, must-revalidate';
+  const REVALIDATE = new Set(['.html', '.mjs', '.js', '.css']);
+  if (REVALIDATE.has(ext)) headers['cache-control'] = 'no-cache, must-revalidate';
   res.writeHead(200, headers);
   res.end(body);
 }
