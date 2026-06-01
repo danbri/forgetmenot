@@ -116,7 +116,11 @@ class SparqlEngine {
     if (this.kind !== 'remote') {
       throw new Error(`engine ${this.id}: kind=${this.kind} not implemented`);
     }
-    const u = new URL(this.endpoint);
+    // `new URL(relative)` throws — pass the page origin as the base so
+    // engines that point at this server's own paths (`/kgx/query`,
+    // `/api/sparql`) resolve. Absolute URLs (qlever.dev, …) ignore the
+    // second arg, so this is safe for every engine in ENGINES.
+    const u = new URL(this.endpoint, window.location.origin);
     u.searchParams.set('query', query);
     const t0 = performance.now();
     const r = await fetch(u.toString(), { headers: { 'Accept': 'application/sparql-results+json' } });
