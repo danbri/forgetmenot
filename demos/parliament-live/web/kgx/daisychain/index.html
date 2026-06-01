@@ -121,10 +121,28 @@ class SparqlEngine {
     // engines that point at this server's own paths (`/kgx/query`,
     // `/api/sparql`) resolve. Absolute URLs (qlever.dev, …) ignore the
     // second arg, so this is safe for every engine in ENGINES.
-    const u = new URL(this.endpoint, window.location.origin);
-    u.searchParams.set('query', query);
+    const endpointUrl = new URL(this.endpoint, window.location.origin).toString();
     const t0 = performance.now();
-    const r = await fetch(u.toString(), { headers: { 'Accept': 'application/sparql-results+json' } });
+    // GET fits in URL line; POST when the query is large enough to risk
+    // Cloudflare / server URL caps (~8 KB; URL-encoding inflates by ~1.5×,
+    // so 2 KB raw is the safe-ish threshold). Same shape as bin/kgx.mjs.
+    let r;
+    if (query.length > 2048) {
+      r = await fetch(endpointUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/sparql-query',
+          'Accept': 'application/sparql-results+json',
+        },
+        body: query,
+      });
+    } else {
+      const u = new URL(endpointUrl);
+      u.searchParams.set('query', query);
+      r = await fetch(u.toString(), {
+        headers: { 'Accept': 'application/sparql-results+json' },
+      });
+    }
     if (!r.ok) throw new Error(`${queryLabel}: HTTP ${r.status}`);
     const json = await r.json();
     const ms = Math.round(performance.now() - t0);

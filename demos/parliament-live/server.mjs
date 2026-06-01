@@ -364,19 +364,32 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    // POST is only accepted on /kgx/query — SPARQL clients (Flint,
-    // YASGUI, sparql.py …) POST queries that are too long for a GET
-    // query string. Oxigraph accepts application/x-www-form-urlencoded
-    // (field "query") and application/sparql-query (raw body). We pipe
-    // either shape straight through; not cached (POST body would have
-    // to be hashed for a cache key, and probe queries are one-shot).
+    // POST: SPARQL clients (Flint, YASGUI, sparql.py, our own SparqlEngine
+    // for queries that overflow URL length limits …) need to POST queries
+    // that are too long for a GET query string. Cloudflare et al. cap URLs
+    // near 8 KB; a 646-item VALUES clause blows that. Allowed paths today:
+    //   /kgx/query    -> bundled Oxigraph (raw body, application/sparql-query)
+    //   /api/sparql   -> api.parliament.uk/sparql (auth-gated like the GET)
+    // Either body shape is piped straight through (application/sparql-query
+    // raw or application/x-www-form-urlencoded `query=…`). Not cached —
+    // POST body would need hashing for a cache key, and one-shot probe
+    // queries don't benefit.
     if (req.method === 'POST') {
       const u = new URL(req.url, `http://localhost:${PORT}`);
-      if (u.pathname !== '/kgx/query') {
+      const mPost = matchRoute(u.pathname);
+      const isAllowedPost = mPost && (
+        mPost.route.local === 'oxigraph' || mPost.route.prefix === '/api/sparql'
+      );
+      if (!isAllowedPost) {
         setCommonHeaders(res);
         res.writeHead(405, { 'content-type': 'text/plain' });
         res.end('method not allowed');
         return;
+      }
+      // Same auth gate as the GET path. /kgx/query is public; /api/sparql is
+      // gated by PROXY_PASSWORD.
+      if (!mPost.route.public && !authOk(req)) {
+        return json(res, 401, { error: 'unauthorized' });
       }
       const body = await new Promise((resolve, reject) => {
         const chunks = [];
@@ -384,7 +397,8 @@ const server = http.createServer(async (req, res) => {
         req.on('end', () => resolve(Buffer.concat(chunks)));
         req.on('error', reject);
       });
-      const upstream = await fetch(`http://${OXIGRAPH_BIND}/query`, {
+      const upUrl = buildUpstreamUrl(mPost.route, mPost.tail || '', '');
+      const upstream = await fetch(upUrl, {
         method: 'POST',
         headers: {
           'content-type': req.headers['content-type'] || 'application/x-www-form-urlencoded',
