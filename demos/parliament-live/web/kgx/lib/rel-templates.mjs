@@ -241,6 +241,7 @@ export const REL_TEMPLATES = [
         gloss: 'the constituency they currently sit for',
         namedGraphs: [],
         build: (items) => `
+          PREFIX wd:     <http://www.wikidata.org/entity/>
           PREFIX schema: <https://id.parliament.uk/schema/>
           PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
           SELECT ?cg (SAMPLE(?cgName) AS ?label) (COUNT(DISTINCT ?qid) AS ?n)
@@ -266,6 +267,7 @@ export const REL_TEMPLATES = [
         gloss: 'all SeatIncumbencies, open or closed',
         namedGraphs: [],
         build: (items) => `
+          PREFIX wd:     <http://www.wikidata.org/entity/>
           PREFIX schema: <https://id.parliament.uk/schema/>
           PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
           SELECT ?cg (SAMPLE(?cgName) AS ?label) (COUNT(DISTINCT ?qid) AS ?n)

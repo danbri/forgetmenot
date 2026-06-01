@@ -125,6 +125,49 @@ test('every variant.build() passes the §18.2.4.4 alias-collision gate', () => {
 });
 
 // ---------------------------------------------------------------------------
+// Hygiene: every PNAME prefix used in the emitted SPARQL must be declared.
+// Caught by Parliament SPARQL (RDF4J family) with HTTP 400
+// "QName 'X:Y' uses an undefined prefix". Was the cause of the
+// current_constituency:default(646) failure reported 2026-06-01 — the
+// template emitted `wd:Q…` in VALUES but only PREFIX'd schema: and rdfs:.
+// ---------------------------------------------------------------------------
+
+function declaredPrefixes(sparql) {
+  return new Set([...sparql.matchAll(/\bPREFIX\s+([A-Za-z_][\w-]*)\s*:/gi)].map((m) => m[1]));
+}
+
+function usedPrefixes(sparql) {
+  // Match `prefix:Local` PNAME forms used in the query body. Filter out
+  // false positives: SPARQL `xsd:`/`rdf:`/`rdfs:` keywords inside angle-bracket
+  // IRIs are not PNAMEs, and HTTP/HTTPS URLs contain `://` which isn't a PNAME.
+  const used = new Set();
+  // Strip out angle-bracketed IRIs and string literals first.
+  const stripped = sparql
+    .replace(/<[^>]*>/g, '')
+    .replace(/"[^"]*"/g, '')
+    .replace(/'[^']*'/g, '');
+  for (const m of stripped.matchAll(/\b([A-Za-z_][\w-]*):[A-Za-z_][\w-]*/g)) {
+    used.add(m[1]);
+  }
+  return used;
+}
+
+test('every variant.build() declares every prefix it uses', () => {
+  for (const t of REL_TEMPLATES) {
+    const items = dummyItemsFor(t.inputType, t.engineId);
+    for (const v of t.variants) {
+      const sparql = v.build(items);
+      const declared = declaredPrefixes(sparql);
+      const used     = usedPrefixes(sparql);
+      for (const pfx of used) {
+        assert.ok(declared.has(pfx),
+          `${t.id}:${v.id}: emits "${pfx}:…" but never declares PREFIX ${pfx}:`);
+      }
+    }
+  }
+});
+
+// ---------------------------------------------------------------------------
 // Substitution intact: input URIs appear in emitted SPARQL
 // ---------------------------------------------------------------------------
 
