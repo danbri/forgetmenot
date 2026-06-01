@@ -2,12 +2,22 @@
 //
 // Runs `kgx chain replay` against the parallax-hk fixture, which hits QLever
 // (https://qlever.dev/api/wikidata) three times to walk: HK skyscrapers →
-// architects (P84) → other works (^P84). The recording carries a content
-// hash per bead; replay re-runs each step and asserts the hash matches.
+// architects (P84) → other works (^P84). The recording carries a per-bead
+// `bindHash` — sha256 of the sorted-unique URIs of that step's bindVar,
+// which is the set that flows into the next step's `{{prev_*}}` substitution.
+// Replay re-runs each step and asserts bindHash + row count match.
+//
+// Why bindHash, not full content hash? SPARQL §17.2 says SAMPLE() returns
+// "an arbitrary value from the multiset". The parallax-hk queries use
+// SAMPLE for ?label / ?image / ?coord — values that legitimately jitter
+// across calls without anything in Wikidata having changed. A full-content
+// hash flakes on every call. bindHash hashes only the identity-carrying
+// column, which is stable.
 //
 // Policy: "Live fetch + content hash" (user direction).
-//   - HASH MISMATCH → real test failure. Either Wikidata drifted (re-record
-//     deliberately) or the chain runner broke. Investigate.
+//   - bindHash MISMATCH → real test failure. Either Wikidata drifted (the
+//     set of HK skyscrapers / their architects / those architects' works
+//     genuinely changed — re-record deliberately) or the chain runner broke.
 //   - NETWORK ERROR → t.skip, not failure. QLever is occasionally unreachable
 //     and we don't want CI to flake on infrastructure outside the repo's
 //     control. Visible in the test output so the loss of coverage is loud.
@@ -53,6 +63,7 @@ test('chain replay: parallax-hk reproduces the recorded hashes', async (t) => {
   const want = ['hk-skyscrapers', 'architects', 'works_by'];
   assert.deepEqual(report.beads.map((b) => b.id), want);
   for (const b of report.beads) {
-    assert.equal(b.ok, true, `bead ${b.id} hash mismatch: got ${b.now.hash}, want ${b.want.hash}`);
+    assert.equal(b.ok, true,
+      `bead ${b.id} bindHash mismatch: got ${b.now.bindHash}, want ${b.want.bindHash}`);
   }
 });

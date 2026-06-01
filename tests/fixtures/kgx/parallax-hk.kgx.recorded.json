@@ -21,14 +21,15 @@
       }
     ]
   },
-  "ranAt": "2026-05-31T18:58:56.464Z",
+  "ranAt": "2026-06-01T11:48:17.808Z",
   "beads": [
     {
       "id": "hk-skyscrapers",
+      "bindVar": "b",
       "engineId": "qlever-wikidata",
       "endpoint": "https://qlever.dev/api/wikidata",
       "method": "get",
-      "ms": 1200,
+      "ms": 1638,
       "rows": 98,
       "vars": [
         "b",
@@ -37,14 +38,16 @@
         "coord",
         "year"
       ],
-      "hash": "sha256:ac60d7d1f5dd8ecd2445b1a19236e6002c78980b6256c3e888faaac2c48aeab2"
+      "hash": "sha256:ac60d7d1f5dd8ecd2445b1a19236e6002c78980b6256c3e888faaac2c48aeab2",
+      "bindHash": "sha256:85db516a06f19bac496e928807f70b61eed69628daaae0ac83fb847443f25c3b"
     },
     {
       "id": "architects",
+      "bindVar": "a",
       "engineId": "qlever-wikidata",
       "endpoint": "https://qlever.dev/api/wikidata",
       "method": "get",
-      "ms": 136,
+      "ms": 147,
       "rows": 18,
       "vars": [
         "a",
@@ -52,14 +55,16 @@
         "image",
         "n"
       ],
-      "hash": "sha256:7cedff73e9a37b7ee13df72524187a1811549f1a6cbcc7fb084b252239fe2a91"
+      "hash": "sha256:7cedff73e9a37b7ee13df72524187a1811549f1a6cbcc7fb084b252239fe2a91",
+      "bindHash": "sha256:fd20f31f2cfc3fbec2cdc18dfd25e953af4bedaeb80ad2d48e67711cfe729f4f"
     },
     {
       "id": "works_by",
+      "bindVar": "b",
       "engineId": "qlever-wikidata",
       "endpoint": "https://qlever.dev/api/wikidata",
       "method": "get",
-      "ms": 6988,
+      "ms": 6987,
       "rows": 806,
       "vars": [
         "b",
@@ -69,7 +74,8 @@
         "country",
         "n"
       ],
-      "hash": "sha256:96555648f550c2385ed76b7a6172891b19f04e7abeb86f6543371cd3a709aef2"
+      "hash": "sha256:5c4028ae70d3eb86e96c3730636e7d3aadfe6e8158ac3d94a29a6d3c8d0ee89e",
+      "bindHash": "sha256:731dd280327fafefdb756e4941f32c8753ddf7a4ed28ec5475d3b48626cea8cc"
     }
   ]
 }

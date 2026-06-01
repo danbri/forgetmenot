@@ -310,6 +310,21 @@ function substitute(query, prevUris) {
               .replace(/\{\{prev_iris\}\}/g, iris);
 }
 
+// sha256 over the sorted-unique URIs of a given bindVar. This is the
+// CHAIN-MEANINGFUL hash — it's the set that gets substituted into the next
+// step's `{{prev_*}}` placeholders, so two runs with the same bindHash will
+// drive the rest of the chain identically. Stable across SAMPLE() jitter
+// (SPARQL §17.2: "SAMPLE returns an arbitrary value from the multiset"),
+// unlike a full-content hash, which would flake on every run.
+function hashBindVar(json, bindVar) {
+  const uris = [...new Set(
+    (json?.results?.bindings ?? [])
+      .map((b) => b?.[bindVar]?.value)
+      .filter((v) => typeof v === 'string'),
+  )].sort();
+  return 'sha256:' + createHash('sha256').update(uris.join('\n')).digest('hex');
+}
+
 async function runChain(chain) {
   if (!chain?.steps?.length) throw new Error('chain has no steps');
   const beads = [];
@@ -321,7 +336,8 @@ async function runChain(chain) {
     const prevUris = prevJson ? collectBindings(prevJson, prevBindVar) : [];
     const query = substitute(step.query, prevUris);
     const bead = await execStep(engineId, query, step.id);
-    beads.push({ id: step.id, ...bead });
+    bead.bindHash = hashBindVar(bead.json, step.bindVar);
+    beads.push({ id: step.id, bindVar: step.bindVar, ...bead });
     prevJson = bead.json;
     prevBindVar = step.bindVar;
   }
@@ -353,15 +369,17 @@ async function cmdChainReplay(flags) {
   if (!recording.chain || !recording.beads) die('not a recording: missing { chain, beads }');
   const beads = await runChain(recording.chain);
   let failed = 0;
+  // Assertion is on bindHash (the bindVar URI-set hash) plus row count.
+  // Full-content `hash` shifts under SAMPLE() jitter; bindHash does not.
   const report = beads.map((b, i) => {
     const want = recording.beads[i];
-    const ok = want && b.hash === want.hash && b.rows === want.rows;
+    const ok = !!want && b.bindHash === want.bindHash && b.rows === want.rows;
     if (!ok) failed++;
     return {
       id: b.id, ok,
       engine: b.engineId,
-      now:  { rows: b.rows, hash: b.hash, ms: b.ms },
-      want: want ? { rows: want.rows, hash: want.hash } : null,
+      now:  { rows: b.rows, bindHash: b.bindHash, hash: b.hash, ms: b.ms },
+      want: want ? { rows: want.rows, bindHash: want.bindHash } : null,
     };
   });
   process.stdout.write(JSON.stringify({

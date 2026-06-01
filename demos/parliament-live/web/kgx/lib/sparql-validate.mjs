@@ -14,18 +14,35 @@
 
 // SPARQL 1.1 §18.2.4.4: the target of an `(expr AS ?alias)` clause must not
 // be a variable that is already bound in the WHERE body of the same SELECT.
-// Strict engines (QLever, used by query.wikidata.org's QLever mirror)
-// reject the query with HTTP 400; permissive engines (Stardog,
-// api.parliament.uk/sparql) silently accept the same query. That asymmetry
-// is exactly how a latent collision survives until it hits the strict
-// endpoint — the bug that surfaced on fpkg.fly.dev as
+// Engines vary in how aggressively they enforce this — probed 2026-06-01:
+//
+//   qlever.dev/api/wikidata           — STRICT (HTTP 400, "AS clause was
+//                                       already used in the query body")
+//   api.parliament.uk/sparql          — STRICT (HTTP 400, "MALFORMED QUERY:
+//                                       projection alias 'x' was previously
+//                                       used"; the wording is RDF4J/Sesame
+//                                       family but the underlying engine
+//                                       isn't named in the service
+//                                       description, so call it "RDF4J-like"
+//                                       rather than guessing the product)
+//   fpkg.fly.dev/kgx/query (Oxigraph) — PERMISSIVE (HTTP 200; happily
+//                                       returns rows from the violating
+//                                       query — see /tmp probe in
+//                                       commit 04361652 history)
+//   query.wikidata.org/sparql         — Blazegraph; not re-probed
+//                                       recently, historically permissive
+//
+// The asymmetry is exactly how a latent collision survives until it
+// hits a strict endpoint — the bug that surfaced on fpkg.fly.dev as
 //   replay failed at op rel-pivot: rel:works_by:default(18): HTTP 400
-// for `(SAMPLE(?coord) AS ?coord)` paired with `?b wdt:P625 ?coord`
-// (fixed in commit 123ad3e7).
+// for `(SAMPLE(?coord) AS ?coord)` paired with `?b wdt:P625 ?coord`,
+// because the *intermediate* chain step on Wikidata's QLever rejected
+// it (fixed in commit 123ad3e7).
 //
 // Wire this into every SPARQL-execution code path so future template
 // authors can't ship the same class of bug regardless of which engine
-// they target.
+// they target. Validating up-front is cheaper than discovering one of
+// your endpoints is the strict one.
 //
 // Limitations of the string-based check (sufficient for the flat SELECTs
 // this app issues; swap for a real SPARQL parser if these bite):
