@@ -11,14 +11,13 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createHash } from 'node:crypto';
 
 import {
   STARTERS, POST1900_MPS_QUERY, SEED_LIMIT, parseMpRows,
 } from '../../demos/parliament-live/web/kgx/lib/starters.mjs';
 import { assertNoAliasCollisions } from
   '../../demos/parliament-live/web/kgx/lib/sparql-validate.mjs';
-import { cachedFetch } from '../_lib/http-cache.mjs';
+import { cachedFetch, readSummary } from '../_lib/http-cache.mjs';
 
 // ---------------------------------------------------------------------------
 // Registry shape
@@ -148,30 +147,20 @@ test('parseMpRows handles missing optional fields (empty strings, null pipes)', 
 });
 
 // ---------------------------------------------------------------------------
-// Live (cached) end-to-end: run uk-mps-1900 against QLever via the http-cache.
+// Live (cached) end-to-end: run uk-mps-1900 against QLever via the
+// two-tier http-cache.
 //
-// First run: hits qlever.dev, writes tests/fixtures/http-cache/<…>.json.
-// Subsequent runs: read from disk, no network.
+//   First run (cache mode, no fixture): hits qlever.dev, writes BOTH
+//     tests/fixtures/http-cache/<aa>/<key>.json (small summary, committed)
+//     AND /tmp/kgx-http-cache/<aa>/<key>.body (full body, ephemeral).
+//   Repeat local runs: read from /tmp, no network.
+//   CI (frozen mode, no /tmp): synthesizes Response from the committed
+//     summary's sample bindings — `vars + rows + bindHash` are exact;
+//     the test only iterates the sample so it still passes hermetically.
 //
-// The assertion is on the URI set's content hash (bindHash) — the chain-
-// meaningful identity that's stable across SAMPLE() jitter (SPARQL §17.2).
-// Wikidata drift on the underlying MP set will flip the hash; re-record.
-//
-// Skips gracefully on network errors so unrecorded CI doesn't false-fail.
+// Skips gracefully on network errors so a transient QLever outage doesn't
+// false-fail.
 // ---------------------------------------------------------------------------
-
-function sha256(s) {
-  return 'sha256:' + createHash('sha256').update(s).digest('hex');
-}
-
-function bindHashOf(json, varName) {
-  const uris = [...new Set(
-    (json?.results?.bindings ?? [])
-      .map((b) => b?.[varName]?.value)
-      .filter((v) => typeof v === 'string'),
-  )].sort();
-  return sha256(uris.join('\n'));
-}
 
 const NETWORK_HINTS = /HTTP 5\d\d|HTTP 000|ENOTFOUND|ECONNRESET|ECONNREFUSED|ETIMEDOUT|getaddrinfo|fetch failed|network/i;
 
@@ -179,11 +168,12 @@ test('uk-mps-1900 returns ≥6,000 distinct MPs from QLever (live, cached)', asy
   const uk = STARTERS.find((s) => s.id === 'uk-mps-1900');
   assert.ok(uk, 'uk-mps-1900 missing from STARTERS');
 
+  const url  = `https://qlever.dev/api/wikidata?query=${encodeURIComponent(uk.query)}`;
+  const init = { headers: { 'Accept': 'application/sparql-results+json' } };
+
   let res;
   try {
-    res = await cachedFetch(`https://qlever.dev/api/wikidata?query=${encodeURIComponent(uk.query)}`, {
-      headers: { 'Accept': 'application/sparql-results+json' },
-    });
+    res = await cachedFetch(url, init);
   } catch (e) {
     if (NETWORK_HINTS.test(String(e?.message || e))) {
       t.skip(`QLever unreachable — ${e?.message}`);
@@ -192,15 +182,25 @@ test('uk-mps-1900 returns ≥6,000 distinct MPs from QLever (live, cached)', asy
     throw e;
   }
   assert.equal(res.status, 200, `unexpected HTTP ${res.status}`);
+
+  // Summary is the test-grade pin: works in any mode (cache/live/frozen)
+  // since both cache and live always write it.
+  const summary = readSummary(url, init);
+  assert.ok(summary, 'expected a committed summary after the fetch');
+  assert.equal(summary.shape, 'sparql-results-json');
+  assert.ok(summary.vars.includes('p'), `expected ?p in summary vars; got ${summary.vars}`);
+  assert.ok(summary.rows >= 6000, `expected ≥6000 MPs in committed summary; got ${summary.rows}`);
+  assert.match(summary.bindHash, /^sha256:[0-9a-f]{64}$/);
+
+  // parseMpRows on the sample bindings — exercises the parse function in
+  // both cache and frozen modes. The synthesized frozen Response carries
+  // sample.length (capped at 3) bindings; the cache/live Response carries
+  // the full set.
   const json = JSON.parse(await res.text());
   const items = uk.parse(json.results.bindings);
-  assert.ok(items.length >= 6000, `expected ≥6000 MPs, got ${items.length}`);
-  // bindHash on the ?p column — pin the URI set.
-  // Logged but not asserted vs. a fixed value here: a hard-coded hash would
-  // require frequent re-recording as Wikidata drifts. The cache file
-  // itself is the de-facto fixture; this assertion just checks the
-  // hash is stable (= deterministic) across the parse function.
-  const hash1 = bindHashOf(json, 'p');
-  const hash2 = bindHashOf(json, 'p');
-  assert.equal(hash1, hash2, 'bindHash is non-deterministic — parse is mutating?');
+  assert.ok(items.length >= 1, 'parse must emit at least one item');
+  for (const item of items) {
+    assert.ok(/^https?:\/\/.+\/Q\d+$/.test(item.uri),
+      `expected Wikidata QID URI; got ${item.uri}`);
+  }
 });

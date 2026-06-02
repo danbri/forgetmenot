@@ -1,31 +1,37 @@
 // =============================================================================
-// tests/_lib/http-cache.mjs — record/replay HTTP cache for tests
+// tests/_lib/http-cache.mjs — two-tier record/replay HTTP cache
 //
-// Tests that need a real SPARQL response (or any HTTP fetch) call
-// `cachedFetch(url, init)` instead of `fetch`. On first run the request
-// goes live and the response is written to disk; subsequent runs read
-// from disk and never touch the network.
+// Why two tiers:
 //
-// Cache directory: tests/fixtures/http-cache/<aa>/<full-sha256>.json
-// (sharded by first two hex chars so directories don't grow unbounded).
+//   Tier 1 — COMMITTED SUMMARY at  tests/fixtures/http-cache/<aa>/<key>.json
+//            Small JSON: status, vars, rows, bindHash, sample (first 3
+//            bindings), recorded timestamp. ~1-5 KB per response. This is
+//            what's diffable in PRs and what CI replays from.
 //
-// Cache key: sha256(method  + "\n" + url + "\n" + accept-header + "\n" + body)
-//   - method case-normalised
-//   - body either a string or a Buffer
-//   - accept-header pulled out separately because the same URL+body can
-//     return different content-types on negotiation
+//   Tier 2 — RUNTIME FULL BODY at  /tmp/kgx-http-cache/<aa>/<key>.body
+//            The exact bytes returned by the upstream. Ephemeral (/tmp
+//            survives reboots on most setups but isn't authoritative).
+//            Local re-runs go through here so iteration speed matches the
+//            old "full body in fixtures" feel without 6 MB-per-fixture
+//            git bloat.
 //
-// Modes (env KGX_HTTP_CACHE_MODE):
-//   cache  (default) - read from disk if present, otherwise fetch live + write
-//   live              - always fetch, never read or write (re-record by hand)
-//   frozen            - only read; throw on miss (use in CI for hermetic runs)
+// Reading order (mode 'cache' or 'frozen'):
+//   1. If /tmp has the full body, serve it. Fast, exact.
+//   2. Else if a committed summary exists AND mode is 'frozen', SYNTHESIZE
+//      a Response from `{ head:{vars}, results:{bindings: sample} }`.
+//      Tests that need only `vars + rows + bindHash` work fine. Tests that
+//      iterate every binding will see only the 3 samples — that's a
+//      deliberate trade for hermetic CI.
+//   3. Mode 'cache' may fetch live and write both tiers.
+//   4. Mode 'live' always fetches; writes both tiers anyway so the next
+//      run is fast.
+//   5. Mode 'frozen' with no /tmp AND no summary throws.
 //
-// Re-record: `rm -rf tests/fixtures/http-cache/` then `npm test`.
-// The cache files are checked into git so drift on the upstream is visible
-// in the diff when a re-record happens.
+// Cache key: sha256(METHOD + "\n" + url + "\n" + accept-header + "\n" + body)
 //
-// Underscore-prefixed directory so `node --test 'tests/**/*.test.mjs'`
-// patterns that match unit/ + integration/ don't pick this up.
+// Re-record a fixture: `rm tests/fixtures/http-cache/aa/<key>.json` and
+// re-run tests in mode 'cache' (default).  Drop /tmp by `rm -rf
+// /tmp/kgx-http-cache` if you want a hard live-refresh.
 // =============================================================================
 
 import { createHash } from 'node:crypto';
@@ -35,9 +41,11 @@ import {
 } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import os from 'node:os';
 
 const __dirname  = path.dirname(fileURLToPath(import.meta.url));
-const CACHE_DIR  = path.join(__dirname, '..', 'fixtures', 'http-cache');
+const SUMMARY_DIR = path.join(__dirname, '..', 'fixtures', 'http-cache');
+const FULL_DIR    = path.join(os.tmpdir(), 'kgx-http-cache');
 const VALID_MODES = new Set(['cache', 'live', 'frozen']);
 
 function mode() {
@@ -58,7 +66,6 @@ function asString(body) {
 
 function acceptOf(headers) {
   if (!headers) return '';
-  // Tolerate Headers / plain object / array-of-pairs.
   if (typeof headers.get === 'function') return headers.get('accept') || '';
   for (const k of Object.keys(headers)) {
     if (k.toLowerCase() === 'accept') return headers[k];
@@ -76,67 +83,152 @@ export function cacheKey({ method = 'GET', url, body = '', headers = {} } = {}) 
   return h.digest('hex');
 }
 
-function cachePath(key) {
-  return path.join(CACHE_DIR, key.slice(0, 2), key + '.json');
+function summaryPath(key) {
+  return path.join(SUMMARY_DIR, key.slice(0, 2), key + '.json');
+}
+function fullPath(key) {
+  return path.join(FULL_DIR, key.slice(0, 2), key + '.body');
 }
 
-// Drop-in replacement for global fetch, with a disk cache between us
-// and the network. Returns a Response-shaped object.
+function bindHashOf(bindings) {
+  // sha256 over canonical-ordered JSON of each binding. Stable across row
+  // re-orderings (most SPARQL engines don't guarantee row order).
+  const rows = bindings.map((b) => {
+    const keys = Object.keys(b).sort();
+    const sorted = {};
+    for (const k of keys) sorted[k] = b[k];
+    return JSON.stringify(sorted);
+  });
+  rows.sort();
+  return 'sha256:' + createHash('sha256').update('[' + rows.join(',') + ']').digest('hex');
+}
+
+function summarize(url, method, status, contentType, text) {
+  const base = {
+    meta: { method, url, recordedAt: new Date().toISOString() },
+    status,
+    contentType,
+  };
+  try {
+    const json = JSON.parse(text);
+    const bindings = json?.results?.bindings ?? [];
+    const vars     = json?.head?.vars ?? [];
+    return {
+      ...base,
+      shape:    'sparql-results-json',
+      vars,
+      rows:     bindings.length,
+      bindHash: bindHashOf(bindings),
+      sample:   bindings.slice(0, 3),
+    };
+  } catch {
+    return {
+      ...base,
+      shape: 'opaque',
+      bodyLength: text.length,
+      bodyPreview: text.slice(0, 200),
+    };
+  }
+}
+
+function synthesizeFromSummary(summary) {
+  // Only meaningful for SPARQL-shape summaries: rebuild a Response whose
+  // body parses to head/vars + results.bindings = sample. Tests that
+  // assert on `vars` or summary-aggregate fields work; tests that scan
+  // every binding will see only the 3 sample rows. That's the deliberate
+  // trade for hermetic frozen-mode CI without large fixtures.
+  if (summary.shape !== 'sparql-results-json') {
+    return new Response(summary.bodyPreview || '', {
+      status: summary.status || 200,
+      headers: { 'content-type': summary.contentType || 'text/plain' },
+    });
+  }
+  const synthetic = JSON.stringify({
+    head:    { vars: summary.vars || [] },
+    results: { bindings: summary.sample || [] },
+  });
+  return new Response(synthetic, {
+    status: summary.status || 200,
+    headers: { 'content-type': summary.contentType || 'application/sparql-results+json' },
+  });
+}
+
+// Public surface (matches a subset of global fetch).
 export async function cachedFetch(url, init = {}) {
   const method  = init.method  || 'GET';
   const body    = init.body    || '';
   const headers = init.headers || {};
   const key     = cacheKey({ method, url, body, headers });
-  const file    = cachePath(key);
+  const sumF    = summaryPath(key);
+  const fullF   = fullPath(key);
   const m       = mode();
 
-  if (m !== 'live' && existsSync(file)) {
-    const rec = JSON.parse(readFileSync(file, 'utf8'));
-    return new Response(rec.body, { status: rec.status, headers: rec.headers });
+  // 1. /tmp full body always wins when present + mode allows it.
+  if (m !== 'live' && existsSync(fullF)) {
+    const buf  = readFileSync(fullF);
+    const meta = existsSync(sumF) ? JSON.parse(readFileSync(sumF, 'utf8')) : {};
+    return new Response(buf, {
+      status: meta.status || 200,
+      headers: { 'content-type': meta.contentType || 'application/octet-stream' },
+    });
   }
 
+  // 2. Frozen mode: synthesize from summary, or throw.
   if (m === 'frozen') {
+    if (existsSync(sumF)) return synthesizeFromSummary(JSON.parse(readFileSync(sumF, 'utf8')));
     throw new Error(
-      `cachedFetch: cache miss for ${method} ${url} (key ${key.slice(0, 12)}…); ` +
-      `KGX_HTTP_CACHE_MODE=frozen requires every request to be pre-recorded. ` +
-      `Re-record with: rm -rf ${path.relative(process.cwd(), CACHE_DIR)} && npm test`,
+      `cachedFetch frozen: no /tmp body AND no summary for ${method} ${url} ` +
+      `(key ${key.slice(0, 12)}…). Pre-warm /tmp by running once in 'cache' mode.`,
     );
   }
 
+  // 3. Live fetch (mode 'cache' or 'live').
   const res = await fetch(url, init);
-  const text = await res.text();
+  const buf = Buffer.from(await res.arrayBuffer());
+  const text = buf.toString('utf8');
+  const status = res.status;
+  const contentType = res.headers.get('content-type') || '';
 
-  if (m === 'cache') {
-    mkdirSync(path.dirname(file), { recursive: true });
-    const bodyPreview = asString(body).slice(0, 200);
-    writeFileSync(file, JSON.stringify({
-      meta: {
-        method, url,
-        recordedAt: new Date().toISOString(),
-        bodyPreview: bodyPreview || undefined,
-      },
-      status: res.status,
-      headers: Object.fromEntries(res.headers.entries()),
-      body: text,
-    }, null, 2));
-  }
+  // 4. Persist both tiers. Even mode 'live' writes them so the next run
+  //    is fast; 'live' just guarantees this run hits the network.
+  mkdirSync(path.dirname(fullF), { recursive: true });
+  writeFileSync(fullF, buf);
+  mkdirSync(path.dirname(sumF), { recursive: true });
+  writeFileSync(sumF, JSON.stringify(summarize(url, method, status, contentType, text), null, 2));
 
-  return new Response(text, { status: res.status, headers: Object.fromEntries(res.headers.entries()) });
+  return new Response(buf, {
+    status,
+    headers: { 'content-type': contentType || 'application/octet-stream' },
+  });
 }
 
-// Wipe the on-disk cache. Bounded to CACHE_DIR — never deletes anything else.
+// Read a committed summary for assertions / drift checks. Returns null if
+// no fixture is present.
+export function readSummary(url, init = {}) {
+  const method  = init.method  || 'GET';
+  const body    = init.body    || '';
+  const headers = init.headers || {};
+  const key = cacheKey({ method, url, body, headers });
+  const sumF = summaryPath(key);
+  if (!existsSync(sumF)) return null;
+  return JSON.parse(readFileSync(sumF, 'utf8'));
+}
+
+// Test ephemera cleanup. Wipes only the named CACHE_DIRs.
 export function clearCache() {
-  if (!existsSync(CACHE_DIR)) return;
-  const wipe = (p) => {
-    const s = statSync(p);
-    if (s.isDirectory()) {
-      for (const e of readdirSync(p)) wipe(path.join(p, e));
-      rmdirSync(p);
-    } else {
-      unlinkSync(p);
-    }
+  const wipe = (root) => {
+    if (!existsSync(root)) return;
+    const rec = (p) => {
+      const s = statSync(p);
+      if (s.isDirectory()) {
+        for (const e of readdirSync(p)) rec(path.join(p, e));
+        rmdirSync(p);
+      } else unlinkSync(p);
+    };
+    rec(root);
   };
-  wipe(CACHE_DIR);
+  wipe(SUMMARY_DIR);
+  wipe(FULL_DIR);
 }
 
-export { CACHE_DIR };
+export { SUMMARY_DIR, FULL_DIR };
