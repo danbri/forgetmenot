@@ -43,50 +43,6 @@
 // ============================================================================
 
 const QLEVER = 'https://qlever.dev/api/wikidata';
-const SEED_LIMIT = 7000;
-
-const POST1900_MPS_QUERY = `
-PREFIX wd:     <http://www.wikidata.org/entity/>
-PREFIX wdt:    <http://www.wikidata.org/prop/direct/>
-PREFIX p:      <http://www.wikidata.org/prop/>
-PREFIX ps:     <http://www.wikidata.org/prop/statement/>
-PREFIX pq:     <http://www.wikidata.org/prop/qualifier/>
-PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
-
-SELECT ?p (SAMPLE(?lbl) AS ?l)
-       (SAMPLE(?image) AS ?imgUri)
-       (SAMPLE(?mp)    AS ?mpid)
-       (MIN(?startYr)  AS ?firstYr)
-       (MAX(?startYr)  AS ?latestStart)
-       (MAX(?effEnd)   AS ?lastYr)
-       (MAX(?openNow)  AS ?sittingFlag)
-       (GROUP_CONCAT(DISTINCT ?partyLbl; separator="|") AS ?parties)
-       (SAMPLE(?gndLbl) AS ?gender)
-       (GROUP_CONCAT(DISTINCT ?ctzLbl; separator="|") AS ?citizenships)
-WHERE {
-  ?p wdt:P39 ?pos .
-  ?pos wdt:P279* wd:Q16707842 .
-  ?p p:P39 ?stmt . ?stmt ps:P39 ?pos .
-  OPTIONAL { ?stmt pq:P580 ?start . BIND(YEAR(?start) AS ?startYr) }
-  OPTIONAL { ?stmt pq:P582 ?end   . BIND(YEAR(?end)   AS ?endYr)   }
-  BIND(IF(BOUND(?endYr), ?endYr, 9999) AS ?effEnd)
-  BIND(IF(BOUND(?startYr) && !BOUND(?endYr) && ?startYr >= 2024, 1, 0) AS ?openNow)
-  FILTER( (BOUND(?startYr) && ?startYr >= 1900) ||
-          (BOUND(?endYr)   && ?endYr   >= 1900) )
-  OPTIONAL { ?p wdt:P18    ?image }
-  OPTIONAL { ?p wdt:P10428 ?mp }
-  OPTIONAL { ?p wdt:P102   ?party0 .
-             ?party0 rdfs:label ?partyLbl . FILTER(lang(?partyLbl) = "en") }
-  OPTIONAL { ?p wdt:P21    ?gnd .
-             ?gnd rdfs:label ?gndLbl . FILTER(lang(?gndLbl) = "en") }
-  OPTIONAL { ?p wdt:P27    ?ctz .
-             ?ctz rdfs:label ?ctzLbl . FILTER(lang(?ctzLbl) = "en") }
-  OPTIONAL { ?p rdfs:label ?lbl . FILTER(lang(?lbl) = "en") }
-}
-GROUP BY ?p
-LIMIT ${SEED_LIMIT}`;
-
-// ============================================================================
 // Substrate (Bloom, Bundle, helpers) lifted to /kgx/lib/node-flow.mjs.
 // pivcab imports the same module — single source of truth.
 // ============================================================================
@@ -99,6 +55,10 @@ import {
   opFilters, nameGender,
   countBy, sortByKey, topCounts,
 } from '/kgx/lib/restrict.mjs';
+import {
+  STARTERS as LIB_STARTERS,
+  POST1900_MPS_QUERY, parseMpRows, SEED_LIMIT,
+} from '/kgx/lib/starters.mjs';
 
 // The shared Bundle also exposes static union / intersect / difference
 // (previously only used by pivcab) — daisychain now has them too at no
@@ -244,27 +204,6 @@ function makeSource({ kind, endpoint = null, engineId = null, query = null, ms =
 // ============================================================================
 // Parse + filter ops (same shape as pivcab — same engine).
 // ============================================================================
-function parseMpRows(bindings) {
-  return bindings.map((b) => {
-    const uri = b.p.value;
-    const firstYr = b.firstYr?.value ? +b.firstYr.value : null;
-    const latestStart = b.latestStart?.value ? +b.latestStart.value : null;
-    const rawEnd = b.lastYr?.value ? +b.lastYr.value : null;
-    const sitting = b.sittingFlag?.value === '1';
-    const lastYr = (rawEnd === 9999 || rawEnd === null) ? null : rawEnd;
-    const decadeYr = sitting ? latestStart : lastYr;
-    const parties = (b.parties?.value || '').split('|').filter(Boolean);
-    return {
-      uri, label: b.l?.value || uri.replace(/^.*\//, ''),
-      image: b.imgUri?.value || null,
-      mpid: b.mpid?.value || null,
-      firstYr, lastYr, latestStart, sitting, parties,
-      gender: b.gender?.value || null,
-      citizenships: (b.citizenships?.value || '').split('|').filter(Boolean),
-      decade: decadeYr ? `${Math.floor(decadeYr / 10) * 10}s` : null,
-    };
-  });
-}
 
 
 // ============================================================================
@@ -670,70 +609,6 @@ async function enrichFromIdentity(bundle) {
   };
 }
 
-// ----------------------------------------------------------------------------
-// Seed from Parliament SPARQL — current sitting MPs with the embedded
-// Wikidata bridge. Returns rows shaped to the same `human` Bundle the
-// Wikidata seed produces, so OPS.human chips work without changes.
-// ----------------------------------------------------------------------------
-const PARL_CURRENT_MPS_QUERY = `
-PREFIX schema: <https://id.parliament.uk/schema/>
-PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
-
-SELECT ?person
-       (SAMPLE(?qid)   AS ?wd)
-       (SAMPLE(?fam)   AS ?fam)
-       (SAMPLE(?giv)   AS ?giv)
-       (SAMPLE(?const) AS ?constituency)
-       (SAMPLE(?party) AS ?party)
-       (SAMPLE(?mid)   AS ?mpid)
-WHERE {
-  ?person a schema:Member ;
-          schema:memberHasParliamentaryIncumbency ?in .
-  ?in a schema:SeatIncumbency .
-  FILTER NOT EXISTS { ?in schema:incumbencyEndDate ?end }
-  ?in schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup/schema:constituencyGroupName ?const .
-  OPTIONAL { ?person schema:personFamilyName ?fam }
-  OPTIONAL { ?person schema:personGivenName  ?giv }
-  OPTIONAL { ?person rdfs:seeAlso ?qid }
-  OPTIONAL { ?person schema:memberId ?mid }
-  OPTIONAL { ?person schema:partyMemberHasPartyMembership ?pm .
-             FILTER NOT EXISTS { ?pm schema:partyMembershipEndDate ?pe }
-             ?pm schema:partyMembershipHasParty/schema:partyName ?party }
-}
-GROUP BY ?person`;
-
-function parseParlCurrentRows(bindings) {
-  return bindings.map((b) => {
-    const giv  = b.giv?.value || '';
-    const fam  = b.fam?.value || '';
-    const wd   = b.wd?.value || null;
-    const uri  = wd || b.person.value;
-    return {
-      uri,
-      label: (giv + ' ' + fam).trim() || uri.replace(/^.*\//, ''),
-      image: null,
-      mpid: b.mpid?.value || null,
-      parliamentPerson: b.person.value,
-      firstYr: null, lastYr: null, latestStart: null,
-      sitting: true,
-      parties: [b.party?.value].filter(Boolean),
-      gender: null, citizenships: [],
-      decade: '2020s',
-      // Pre-populate the parl-side extra so the bead reads "enriched" even
-      // before the user runs the Parliament enrich op.
-      extra: {
-        parl: {
-          personUri: b.person.value,
-          constituency: b.const?.value || null,
-          currentParty: b.party?.value || null,
-          familyName: fam || null,
-          givenName:  giv || null,
-        },
-      },
-    };
-  });
-}
-
 // ============================================================================
 // Op registry — keyed on bead type. Each op is one chip on the frontier bead.
 // Static ops produce a child bead immediately; picker ops open a sheet with
@@ -1065,24 +940,29 @@ function cardinalityChips(bead, idx) {
 // ============================================================================
 // Starter gallery — kickoff sources. V1: just the post-1900 MPs seed.
 // ============================================================================
+// Generic loader: declarative starters from lib expose `{engineId, query,
+// parse, note}`; old-style starters in this file expose an inline
+// `fetch:` closure. Either shape produces `{ items, source }`. As more
+// starters migrate to lib, the `fetch:` branch goes away.
+async function loadStarter(s) {
+  if (s.query && s.parse) {
+    const res = await engine(s.engineId).query(s.query, `seed:${s.id}`);
+    return {
+      items: s.parse(res.json.results.bindings),
+      source: makeSource({
+        kind: `seed:${s.id}`,
+        endpoint: res.endpoint, engineId: res.engineId,
+        query: res.query, ms: res.ms,
+        bindings: res.json.results.bindings,
+        note: s.note,
+      }),
+    };
+  }
+  return s.fetch();
+}
+
 const STARTERS = [
-  {
-    id: 'uk-mps-1900',
-    label: 'UK MPs since 1900 (Wikidata)',
-    sub: '~6,900 Wikidata people · QLever',
-    type: 'human',
-    fetch: async () => {
-      const res = await sparql(QLEVER, POST1900_MPS_QUERY, 'seed:uk-mps-1900');
-      return {
-        items: parseMpRows(res.json.results.bindings),
-        source: makeSource({
-          kind: 'seed:uk-mps-1900', endpoint: res.endpoint, engineId: res.engineId, query: res.query,
-          ms: res.ms, bindings: res.json.results.bindings,
-          note: 'Wikidata persons holding any position ⊑ Q16707842, with at least one term touching 1900+',
-        }),
-      };
-    },
-  },
+  ...LIB_STARTERS,         // declarative — uk-mps-1900 today, more migrating in
   {
     id: 'parl-current-mps',
     label: 'Current MPs (live)',
@@ -2843,7 +2723,7 @@ class DaisyApp extends HTMLElement {
     const lead = this.shadowRoot.querySelector('#lead');
     lead.textContent = `loading ${starter.label} …`;
     try {
-      const { items, source } = await starter.fetch();
+      const { items, source } = await loadStarter(starter);
       const bundle = new Bundle(items, starter.type, starter.label);
       pushBead('source', '●', bundle, [source], { kind: 'starter', id: starter.id });
       const sitting = items.filter((x) => x.sitting).length;
