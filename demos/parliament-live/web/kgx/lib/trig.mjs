@@ -28,7 +28,9 @@
 const PREFIXES = [
   ['kgx',   'https://forgetmenot.local/vocab/kgx/'],
   ['kgxb',  'https://forgetmenot.local/bundle/'],
+  ['kgxr',  'https://forgetmenot.local/run/'],
   ['kgxs',  'https://forgetmenot.local/source/'],
+  ['prov',  'http://www.w3.org/ns/prov#'],
   ['dct',   'http://purl.org/dc/terms/'],
   ['rdfs',  'http://www.w3.org/2000/01/rdf-schema#'],
   ['rdf',   'http://www.w3.org/1999/02/22-rdf-syntax-ns#'],
@@ -51,6 +53,8 @@ function ttlId(prefix, local) {
 }
 
 function bundleId(i) { return ttlId('kgxb', `b${i}`); }
+function runId(i)    { return ttlId('kgxr', `r${i}`); }
+function xsdLiteral(value, type) { return `"${value}"^^xsd:${type}`; }
 
 // One-off RFC4122-ish id so two chains with identical specs serialise to
 // distinct flow graph names. Browser + Node both have crypto.randomUUID.
@@ -91,9 +95,30 @@ function stepTriples(step, idx, prevId) {
   return t.join('\n');
 }
 
+// Per-bead execution record. Emitted only when `beads` is supplied
+// (i.e. the chain has actually been run). Each record uses prov: + kgx:
+// vocabulary so the TriG is interoperable with any prov-aware tooling
+// AND legible in our own kgx vocabulary.
+function beadRunTriples(bead, idx, ranAt) {
+  const me  = runId(idx);
+  const bun = bundleId(idx);
+  const t   = [];
+  t.push(`  ${me} a prov:Activity, kgx:Run ;`);
+  t.push(`    prov:generated ${bun} ;`);
+  if (bead.engineId) t.push(`    kgx:engineId    ${ttlString(bead.engineId)} ;`);
+  if (typeof bead.ms === 'number')   t.push(`    kgx:durationMs  ${xsdLiteral(bead.ms, 'integer')} ;`);
+  if (typeof bead.size === 'number') t.push(`    kgx:resultSize  ${xsdLiteral(bead.size, 'integer')} ;`);
+  if (bead.bindHash) t.push(`    kgx:bindHash    ${ttlString(bead.bindHash)} ;`);
+  if (ranAt)         t.push(`    prov:startedAtTime ${xsdLiteral(ranAt, 'dateTime')} ;`);
+  t[t.length - 1] = t[t.length - 1].replace(/ ;$/, ' .');
+  return t.join('\n');
+}
+
 export function chainToTrig(spec, opts = {}) {
   if (!spec?.steps?.length) throw new Error('chainToTrig: spec has no steps');
   const flowG = opts.graphIri || flowGraphId();
+  const beads = opts.beads || null;
+  const ranAt = opts.ranAt || (beads ? new Date().toISOString() : null);
   const lines = [];
   for (const [p, ns] of PREFIXES) lines.push(`@prefix ${p}: <${ns}> .`);
   lines.push('');
@@ -106,6 +131,13 @@ export function chainToTrig(spec, opts = {}) {
   for (let i = 0; i < spec.steps.length; i++) {
     lines.push(stepTriples(spec.steps[i], i, prev));
     prev = bundleId(i);
+  }
+  // If we have beads, emit prov:Activity records alongside the bundle defs.
+  if (beads?.length) {
+    lines.push('');
+    for (let i = 0; i < beads.length; i++) {
+      lines.push(beadRunTriples(beads[i], i, ranAt));
+    }
   }
   lines.push('}');
   lines.push('');

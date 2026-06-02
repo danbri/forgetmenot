@@ -117,3 +117,55 @@ test('chainToTrig serialises every LIBRARY entry without throwing', () => {
       `${chain.id}: chainToTrig threw`);
   }
 });
+
+// ---------------------------------------------------------------------------
+// Execution records: chainToTrig(spec, { beads }) emits prov:Activity / kgx:Run
+// per bead, alongside the bundle defs.
+// ---------------------------------------------------------------------------
+
+const FAKE_BEADS = [
+  { id: 'uk-mps-1900',    kind: 'starter', size: 6917, engineId: 'qlever-wikidata', ms: 1200, bindHash: 'sha256:abc' },
+  { id: 'party',          kind: 'op',      size:  120, ms: 4 },
+  { id: 'sitting',        kind: 'op',      size:   95, ms: 2 },
+];
+
+test('chainToTrig with beads emits prov:Activity per step + kgx:Run typed', () => {
+  const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH, beads: FAKE_BEADS });
+  // each step has a corresponding run record
+  for (let i = 0; i < FAKE_BEADS.length; i++) {
+    assert.match(ttl, new RegExp(`<https://forgetmenot\\.local/run/r${i}>\\s+a\\s+prov:Activity, kgx:Run`),
+      `expected run record r${i}`);
+  }
+});
+
+test('chainToTrig run records carry prov:generated → the corresponding bundle', () => {
+  const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH, beads: FAKE_BEADS });
+  for (let i = 0; i < FAKE_BEADS.length; i++) {
+    assert.match(ttl,
+      new RegExp(`<https://forgetmenot\\.local/run/r${i}>[\\s\\S]*?prov:generated\\s+<https://forgetmenot\\.local/bundle/b${i}>`),
+      `r${i} must prov:generate b${i}`);
+  }
+});
+
+test('chainToTrig run records carry engineId / durationMs / resultSize / bindHash where present', () => {
+  const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH, beads: FAKE_BEADS });
+  assert.match(ttl, /kgx:engineId\s+"qlever-wikidata"/);
+  assert.match(ttl, /kgx:durationMs\s+"1200"\^\^xsd:integer/);
+  assert.match(ttl, /kgx:resultSize\s+"6917"\^\^xsd:integer/);
+  assert.match(ttl, /kgx:bindHash\s+"sha256:abc"/);
+});
+
+test('chainToTrig run records share a prov:startedAtTime when ranAt is supplied', () => {
+  const ranAt = '2026-06-02T18:00:00Z';
+  const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH, beads: FAKE_BEADS, ranAt });
+  // every run record carries the timestamp
+  const matches = ttl.match(/prov:startedAtTime\s+"2026-06-02T18:00:00Z"\^\^xsd:dateTime/g);
+  assert.equal(matches?.length, FAKE_BEADS.length,
+    `expected ${FAKE_BEADS.length} prov:startedAtTime occurrences, got ${matches?.length}`);
+});
+
+test('chainToTrig without beads does not emit run records', () => {
+  const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH });
+  assert.equal(/prov:Activity/.test(ttl), false);
+  assert.equal(/kgx:Run/.test(ttl), false);
+});
