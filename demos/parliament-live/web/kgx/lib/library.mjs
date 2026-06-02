@@ -191,6 +191,37 @@ export const LIBRARY = [
       { kind: 'op', op: 'top-by-size' },
     ],
   },
+  // -- A fork example. The tree shape (branches[] with forkedFrom) lets
+  //    one chain hold multiple lines of inquiry sharing a common prefix.
+  //    Active-branch runs starter → party → sitting → rel-pivot
+  //    (the same as lab-sitting-bp), but a sibling branch on `main`
+  //    would let the user also pivot to alma_maters from the same
+  //    sitting-Labour bundle without re-fetching the prefix.
+  {
+    id: 'fork-demo',
+    title: 'Fork demo — sitting Labour, branching to birthplaces',
+    sub: 'tree-shape chain: shared {starter → Labour → sitting} prefix, fork into birthplaces.',
+    activeBranch: 'with-bp',
+    branches: [
+      {
+        id: 'main',
+        label: 'sitting Labour',
+        steps: [
+          { kind: 'starter', id: 'uk-mps-1900' },
+          { kind: 'op', op: 'party', value: 'Labour Party' },
+          { kind: 'op', op: 'sitting' },
+        ],
+      },
+      {
+        id: 'with-bp',
+        label: '→ birthplaces',
+        forkedFrom: { branch: 'main', beadIdx: 2 },
+        steps: [
+          { kind: 'op', op: 'rel-pivot', template: 'birthplaces', variant: 'default' },
+        ],
+      },
+    ],
+  },
   // -- Parallax-style demonstrators
   {
     id: 'parallax-hk',

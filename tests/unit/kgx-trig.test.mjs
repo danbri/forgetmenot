@@ -107,7 +107,9 @@ test('chainToTrig escapes embedded quotes in titles + values', () => {
 });
 
 test('chainToTrig throws on an empty / missing-steps spec', () => {
-  assert.throws(() => chainToTrig({}),                 /no steps/);
+  // Goes through the branch normaliser now; the error text differs by
+  // path but both reject empty specs.
+  assert.throws(() => chainToTrig({}),                 /declare either `steps` or `branches`/);
   assert.throws(() => chainToTrig({ steps: [] }),      /no steps/);
 });
 

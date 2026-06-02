@@ -49,6 +49,7 @@ import { opFilters } from './restrict.mjs';
 import { STARTERS } from './starters.mjs';
 import { REL_TEMPLATES } from './rel-templates.mjs';
 import { AUGMENT_OPS } from './augment.mjs';
+import { normaliseChainSpec, activeChainSteps } from './branches.mjs';
 
 // Stable per-bead content hash over the sorted-unique uris of the bundle's
 // items. Same shape the http-cache assigns to summaries, so two records of
@@ -96,7 +97,11 @@ export async function runChainSpec(spec, ctx) {
   if (!ctx || typeof ctx.engine !== 'function') {
     throw new Error('runChainSpec: ctx.engine(id) resolver required');
   }
-  if (!spec?.steps?.length) throw new Error('runChainSpec: spec has no steps');
+  // Accept either the flat {steps: [...]} or the tree {branches: [...]}
+  // shape. The flatten walks ancestor prefixes up to each fork point,
+  // returning the linear sequence the active branch needs to see.
+  const normalised  = normaliseChainSpec(spec);
+  const stepsToRun  = activeChainSteps(normalised);
 
   const beads = [];
   let bundle = null;
@@ -109,7 +114,7 @@ export async function runChainSpec(spec, ctx) {
     'pivot-am': { template: 'alma_maters', variant: 'default' },
   };
 
-  for (let step of spec.steps) {
+  for (let step of stepsToRun) {
     if (step.kind === 'op' && PIVOT_ALIASES[step.op]) {
       step = { kind: 'op', op: 'rel-pivot', ...PIVOT_ALIASES[step.op] };
     }

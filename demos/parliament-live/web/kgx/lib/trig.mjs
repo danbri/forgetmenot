@@ -25,6 +25,8 @@
 // static manifest is the foundation.
 // =============================================================================
 
+import { normaliseChainSpec, activeChainSteps } from './branches.mjs';
+
 const PREFIXES = [
   ['kgx',   'https://forgetmenot.local/vocab/kgx/'],
   ['kgxb',  'https://forgetmenot.local/bundle/'],
@@ -115,7 +117,11 @@ function beadRunTriples(bead, idx, ranAt) {
 }
 
 export function chainToTrig(spec, opts = {}) {
-  if (!spec?.steps?.length) throw new Error('chainToTrig: spec has no steps');
+  // Accept either {steps} or {branches}; for the manifest we emit the
+  // active branch's linear walk. Future commits will add multi-branch
+  // serialisation with kgx:forkedFrom predicates between bundle nodes.
+  const normalised = normaliseChainSpec(spec);
+  const stepsToRun = activeChainSteps(normalised);
   const flowG = opts.graphIri || flowGraphId();
   const beads = opts.beads || null;
   const ranAt = opts.ranAt || (beads ? new Date().toISOString() : null);
@@ -123,13 +129,13 @@ export function chainToTrig(spec, opts = {}) {
   for (const [p, ns] of PREFIXES) lines.push(`@prefix ${p}: <${ns}> .`);
   lines.push('');
   lines.push(`${flowG} {`);
-  if (spec.title) lines.push(`  ${flowG} dct:title ${ttlString(spec.title)} .`);
-  if (spec.sub)   lines.push(`  ${flowG} dct:description ${ttlString(spec.sub)} .`);
-  if (spec.id)    lines.push(`  ${flowG} dct:identifier ${ttlString(spec.id)} .`);
+  if (normalised.title) lines.push(`  ${flowG} dct:title ${ttlString(normalised.title)} .`);
+  if (normalised.sub)   lines.push(`  ${flowG} dct:description ${ttlString(normalised.sub)} .`);
+  if (normalised.id)    lines.push(`  ${flowG} dct:identifier ${ttlString(normalised.id)} .`);
   lines.push('');
   let prev = null;
-  for (let i = 0; i < spec.steps.length; i++) {
-    lines.push(stepTriples(spec.steps[i], i, prev));
+  for (let i = 0; i < stepsToRun.length; i++) {
+    lines.push(stepTriples(stepsToRun[i], i, prev));
     prev = bundleId(i);
   }
   // If we have beads, emit prov:Activity records alongside the bundle defs.

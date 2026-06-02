@@ -27,7 +27,15 @@ import { LIBRARY } from
   '../../demos/parliament-live/web/kgx/lib/library.mjs';
 import { runChainSpec, UnsupportedOpError } from
   '../../demos/parliament-live/web/kgx/lib/runner.mjs';
+import { normaliseChainSpec, activeChainSteps } from
+  '../../demos/parliament-live/web/kgx/lib/branches.mjs';
 import { cachedFetch, readSummary } from '../_lib/http-cache.mjs';
+
+// Expected bead count for a chain: walks the active-branch flatten
+// (works for both flat {steps} and tree {branches} shapes).
+function expectedBeadCount(chain) {
+  return activeChainSteps(normaliseChainSpec(chain)).length;
+}
 
 // ---------------------------------------------------------------------------
 // Engine resolver — maps the engineId strings used in lib registries to a
@@ -140,8 +148,9 @@ for (const chain of LIBRARY) {
 
     // Successful run: assert structural invariants.
     assert.ok(Array.isArray(result.beads),  'expected a beads array');
-    assert.equal(result.beads.length, chain.steps.length,
-      `expected ${chain.steps.length} beads, got ${result.beads.length}`);
+    const expected = expectedBeadCount(chain);
+    assert.equal(result.beads.length, expected,
+      `expected ${expected} beads, got ${result.beads.length}`);
     assert.ok(result.bundle,                'expected a final bundle');
     assert.ok(typeof result.bundle.size === 'number');
     // Bundle's type is whatever the last op decided. For most LIBRARY chains
