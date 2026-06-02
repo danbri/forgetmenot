@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "method": "POST",
+    "url": "https://qlever.dev/api/wikidata",
+    "recordedAt": "2026-06-02T16:55:41.782Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "am",
+    "label",
+    "image",
+    "coords",
+    "country",
+    "n"
+  ],
+  "rows": 133,
+  "bindHash": "sha256:127d945fc4b9aa31e64f655ff1ae597d7cfe32ec90ce15cf589a71f0378ba7b8",
+  "sample": [
+    {
+      "am": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q13371"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Harvard University",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Sanders%20theater%202009y.JPG"
+      },
+      "coords": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(-71.116944 42.374444)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "United States",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "15"
+      }
+    },
+    {
+      "am": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q49123"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Harvard College",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Harvard%20Lampoon%20building.jpg"
+      },
+      "coords": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(-71.117000 42.374000)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "United States",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "6"
+      }
+    },
+    {
+      "am": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q3439758"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Sidwell Friends School",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Sidwell%20Friends%20School.JPG"
+      },
+      "coords": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(-77.074628 38.939217)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "United States",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "6"
+      }
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "method": "GET",
+    "url": "https://qlever.dev/api/wikidata?query=%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20wd%3A%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fentity%2F%3E%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20wdt%3A%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2Fdirect%2F%3E%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0A%20%20%20%20%20%20%20%20%20%20SELECT%20%3Fb%20(SAMPLE(%3Flbl)%20AS%20%3Flabel)%20(SAMPLE(%3Fimg)%20AS%20%3Fimage)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fcoord)%20AS%20%3Fcoords)%20(SAMPLE(%3Fctry)%20AS%20%3Fcountry)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(COUNT(DISTINCT%20%3Fa)%20AS%20%3Fn)%0A%20%20%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20VALUES%20%3Fa%20%7B%20wd%3AQ3011372%20wd%3AQ10924416%20wd%3AQ11703235%20wd%3AQ8031961%20wd%3AQ3359930%20wd%3AQ8032029%20wd%3AQ309483%20wd%3AQ2825503%20wd%3AQ119009123%20wd%3AQ212487%20wd%3AQ3110942%20wd%3AQ1789188%20wd%3AQ3567241%20wd%3AQ459464%20wd%3AQ46868%20wd%3AQ5205972%20wd%3AQ7255465%20wd%3AQ104898%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fb%20wdt%3AP84%20%3Fa%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fb%20rdfs%3Alabel%20%3Flbl%20.%20FILTER(lang(%3Flbl)%3D%22en%22)%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fb%20wdt%3AP18%20%20%3Fimg%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fb%20wdt%3AP625%20%3Fcoord%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fb%20wdt%3AP17%2Frdfs%3Alabel%20%3Fctry%20.%20FILTER(lang(%3Fctry)%3D%22en%22)%20%7D%0A%20%20%20%20%20%20%20%20%20%20%7D%20GROUP%20BY%20%3Fb%20ORDER%20BY%20DESC(%3Fn)",
+    "recordedAt": "2026-06-02T16:55:37.530Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "b",
+    "label",
+    "image",
+    "coords",
+    "country",
+    "n"
+  ],
+  "rows": 806,
+  "bindHash": "sha256:5c4028ae70d3eb86e96c3730636e7d3aadfe6e8158ac3d94a29a6d3c8d0ee89e",
+  "sample": [
+    {
+      "b": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q14226100"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Two International Finance Centre",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/IFC%20HKSAR.JPG"
+      },
+      "coords": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(114.159140 22.285380)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "People's Republic of China",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "2"
+      }
+    },
+    {
+      "b": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q841968"
+      },
+      "label": {
+        "type": "literal",
+        "value": "AIA Central",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/AIA%20Tower%202013%20%28cropped%29.jpg"
+      },
+      "coords": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(114.161806 22.281250)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "People's Republic of China",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "2"
+      }
+    },
+    {
+      "b": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q1114839"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Union Square",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Union%20Square%20Overview%20200809.jpg"
+      },
+      "coords": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(114.162000 22.305300)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "People's Republic of China",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "2"
+      }
+    }
+  ]
+}

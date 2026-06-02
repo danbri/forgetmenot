@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "method": "POST",
+    "url": "https://api.parliament.uk/sparql",
+    "recordedAt": "2026-06-02T16:55:44.604Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json;charset=UTF-8",
+  "shape": "sparql-results-json",
+  "vars": [
+    "lb",
+    "label",
+    "n"
+  ],
+  "rows": 22,
+  "bindHash": "sha256:f2df739f401bd7ff181464ae1c39cfd179f6f73d4b2d2dace33c3cc534fd0dcf",
+  "sample": [
+    {
+      "lb": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/HYfypSOE"
+      },
+      "label": {
+        "type": "literal",
+        "value": "HM Treasury"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+        "type": "literal",
+        "value": "246"
+      }
+    },
+    {
+      "lb": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/NDZSYjeE"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Home Office"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+        "type": "literal",
+        "value": "120"
+      }
+    },
+    {
+      "lb": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/BRTNQywN"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Ministry of Justice"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+        "type": "literal",
+        "value": "113"
+      }
+    }
+  ]
+}

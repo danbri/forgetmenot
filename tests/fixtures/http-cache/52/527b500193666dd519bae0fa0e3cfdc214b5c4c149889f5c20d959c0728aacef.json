@@ -1,0 +1,82 @@
+{
+  "meta": {
+    "method": "GET",
+    "url": "https://qlever.dev/api/wikidata?query=%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20wd%3A%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fentity%2F%3E%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20wdt%3A%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2Fdirect%2F%3E%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0A%20%20%20%20%20%20%20%20%20%20SELECT%20%3Finst%20(SAMPLE(%3Flbl)%20%20%20%20AS%20%3Flabel)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fimg)%20%20%20%20AS%20%3Fimage)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3FcoordL)%20AS%20%3Fcoord)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fctry)%20%20%20AS%20%3Fcountry)%0A%20%20%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20VALUES%20%3Fcls%20%7B%20wd%3AQ11303%20wd%3AQ1021645%20wd%3AQ18142%20wd%3AQ27686%20wd%3AQ7246209%20wd%3AQ11315%20wd%3AQ11755880%20wd%3AQ1220959%20wd%3AQ18761864%20wd%3AQ13402009%20wd%3AQ18691599%20wd%3AQ31374404%20wd%3AQ63099748%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Finst%20wdt%3AP31%20%3Fcls%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Finst%20rdfs%3Alabel%20%3Flbl%20.%20FILTER(lang(%3Flbl)%3D%22en%22)%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Finst%20wdt%3AP18%20%20%3Fimg%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Finst%20wdt%3AP625%20%3FcoordL%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Finst%20wdt%3AP17%2Frdfs%3Alabel%20%3Fctry%20.%20FILTER(lang(%3Fctry)%3D%22en%22)%20%7D%0A%20%20%20%20%20%20%20%20%20%20%7D%20GROUP%20BY%20%3Finst%20LIMIT%205000",
+    "recordedAt": "2026-06-02T16:55:40.391Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "inst",
+    "label",
+    "image",
+    "coord",
+    "country"
+  ],
+  "rows": 5000,
+  "bindHash": "sha256:899de75d5b6366d9db4189edf622658d91bed3040973a5d02a69ee9cb3b1ecd9",
+  "sample": [
+    {
+      "inst": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q10010475"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Renaissance Tianjin Hotel",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/%E5%A4%A9%E6%B4%A5%E6%BB%A8%E6%B1%9F%E4%B8%87%E4%B8%BD%E9%85%92%E5%BA%97.jpg"
+      },
+      "country": {
+        "type": "literal",
+        "value": "People's Republic of China",
+        "xml:lang": "en"
+      }
+    },
+    {
+      "inst": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q100135674"
+      },
+      "coord": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(12.250570 47.450084)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "Austria",
+        "xml:lang": "en"
+      }
+    },
+    {
+      "inst": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q100137236"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Wandering shire offices",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Wandering%20shire%20offices%2C%20October%202020%2002.jpg"
+      },
+      "coord": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(116.675658 -32.681385)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "Australia",
+        "xml:lang": "en"
+      }
+    }
+  ]
+}

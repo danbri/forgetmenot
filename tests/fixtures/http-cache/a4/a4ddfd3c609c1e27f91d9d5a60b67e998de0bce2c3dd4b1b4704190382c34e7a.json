@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "method": "GET",
+    "url": "https://qlever.dev/api/wikidata?query=%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20wd%3A%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fentity%2F%3E%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20wdt%3A%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2Fdirect%2F%3E%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0A%20%20%20%20%20%20%20%20%20%20SELECT%20%3Fa%20(SAMPLE(%3Flbl)%20AS%20%3Flabel)%20(SAMPLE(%3Fimg)%20AS%20%3Fimage)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(COUNT(DISTINCT%20%3Fb)%20AS%20%3Fn)%0A%20%20%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20VALUES%20%3Fb%20%7B%20wd%3AQ1017614%20wd%3AQ10373468%20wd%3AQ10851419%20wd%3AQ10874575%20wd%3AQ10899309%20wd%3AQ10902454%20wd%3AQ10920073%20wd%3AQ11080920%20wd%3AQ11087516%20wd%3AQ11092339%20wd%3AQ11092342%20wd%3AQ112640%20wd%3AQ11642127%20wd%3AQ130478%20wd%3AQ130644567%20wd%3AQ1372014%20wd%3AQ1417597%20wd%3AQ14226100%20wd%3AQ14316774%20wd%3AQ15904972%20wd%3AQ15913468%20wd%3AQ15928486%20wd%3AQ15932122%20wd%3AQ16922880%20wd%3AQ16923840%20wd%3AQ18653910%20wd%3AQ1983016%20wd%3AQ21328102%20wd%3AQ214855%20wd%3AQ2166585%20wd%3AQ23021262%20wd%3AQ2365550%20wd%3AQ24036127%20wd%3AQ241648%20wd%3AQ2628254%20wd%3AQ2669877%20wd%3AQ2713101%20wd%3AQ2743773%20wd%3AQ27998518%20wd%3AQ2816441%20wd%3AQ2817159%20wd%3AQ28344217%20wd%3AQ29837471%20wd%3AQ3052060%20wd%3AQ3052104%20wd%3AQ308279%20wd%3AQ3156982%20wd%3AQ317034%20wd%3AQ3177231%20wd%3AQ3228939%20wd%3AQ3234973%20wd%3AQ3314308%20wd%3AQ3550695%20wd%3AQ3751504%20wd%3AQ3756182%20wd%3AQ3756202%20wd%3AQ3756285%20wd%3AQ3756290%20wd%3AQ3756298%20wd%3AQ432494%20wd%3AQ4646427%20wd%3AQ4651805%20wd%3AQ4696827%20wd%3AQ48169720%20wd%3AQ4883419%20wd%3AQ5015659%20wd%3AQ520839%20wd%3AQ5380441%20wd%3AQ5674592%20wd%3AQ591683%20wd%3AQ5962277%20wd%3AQ6130456%20wd%3AQ657544%20wd%3AQ6716576%20wd%3AQ6746295%20wd%3AQ6749261%20wd%3AQ700058%20wd%3AQ7076051%20wd%3AQ717259%20wd%3AQ7213032%20wd%3AQ7271131%20wd%3AQ7504742%20wd%3AQ7524806%20wd%3AQ7598197%20wd%3AQ7721940%20wd%3AQ7732743%20wd%3AQ7746901%20wd%3AQ7751117%20wd%3AQ7774342%20wd%3AQ8015602%20wd%3AQ8036350%20wd%3AQ8038893%20wd%3AQ839983%20wd%3AQ841959%20wd%3AQ841968%20wd%3AQ8422510%20wd%3AQ844621%20wd%3AQ849373%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fb%20wdt%3AP84%20%3Fa%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fa%20rdfs%3Alabel%20%3Flbl%20.%20FILTER(lang(%3Flbl)%3D%22en%22)%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fa%20wdt%3AP18%20%3Fimg%20%7D%0A%20%20%20%20%20%20%20%20%20%20%7D%20GROUP%20BY%20%3Fa%20ORDER%20BY%20DESC(%3Fn)",
+    "recordedAt": "2026-06-02T16:55:37.162Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "a",
+    "label",
+    "image",
+    "n"
+  ],
+  "rows": 18,
+  "bindHash": "sha256:7cedff73e9a37b7ee13df72524187a1811549f1a6cbcc7fb084b252239fe2a91",
+  "sample": [
+    {
+      "a": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q3011372"
+      },
+      "label": {
+        "type": "literal",
+        "value": "DLN Architects",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "4"
+      }
+    },
+    {
+      "a": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q10924416"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Rocco Yim",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Rocco%20Yim%202010.jpg"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "3"
+      }
+    },
+    {
+      "a": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q11703235"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Architectural Services Department",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "3"
+      }
+    }
+  ]
+}

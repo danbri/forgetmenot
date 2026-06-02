@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "method": "GET",
+    "url": "https://qlever.dev/api/wikidata?query=%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20wd%3A%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fentity%2F%3E%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20wdt%3A%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2Fdirect%2F%3E%0A%20%20%20%20%20%20%20%20%20%20PREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0A%20%20%20%20%20%20%20%20%20%20SELECT%20%3Fc%20(SAMPLE(%3Flbl)%20AS%20%3Flabel)%20(SAMPLE(%3Fimg)%20AS%20%3Fimage)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(COUNT(DISTINCT%20%3Fp)%20AS%20%3Fn)%0A%20%20%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20VALUES%20%3Fp%20%7B%20wd%3AQ107054330%20wd%3AQ1124%20wd%3AQ113227667%20wd%3AQ11613%20wd%3AQ11806%20wd%3AQ11812%20wd%3AQ11813%20wd%3AQ11815%20wd%3AQ11816%20wd%3AQ11817%20wd%3AQ11820%20wd%3AQ11869%20wd%3AQ11881%20wd%3AQ11891%20wd%3AQ11896%20wd%3AQ120436023%20wd%3AQ12306%20wd%3AQ12312%20wd%3AQ12325%20wd%3AQ131583299%20wd%3AQ207%20wd%3AQ22686%20wd%3AQ23%20wd%3AQ23505%20wd%3AQ23685%20wd%3AQ24043569%20wd%3AQ33866%20wd%3AQ34296%20wd%3AQ3438922%20wd%3AQ34597%20wd%3AQ34836%20wd%3AQ35041%20wd%3AQ35171%20wd%3AQ35236%20wd%3AQ35286%20wd%3AQ3545001%20wd%3AQ35498%20wd%3AQ35648%20wd%3AQ35678%20wd%3AQ35686%20wd%3AQ36023%20wd%3AQ4003185%20wd%3AQ47622%20wd%3AQ5297058%20wd%3AQ5335019%20wd%3AQ5531983%20wd%3AQ5567565%20wd%3AQ6279%20wd%3AQ7241241%20wd%3AQ7241251%20wd%3AQ7242478%20wd%3AQ76%20wd%3AQ8007%20wd%3AQ8066924%20wd%3AQ8612%20wd%3AQ91%20wd%3AQ9582%20wd%3AQ9588%20wd%3AQ96181216%20wd%3AQ9640%20wd%3AQ9696%20wd%3AQ9916%20wd%3AQ9960%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%3Fp%20wdt%3AP40%20%3Fc%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fc%20rdfs%3Alabel%20%3Flbl%20.%20FILTER(lang(%3Flbl)%3D%22en%22)%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fc%20wdt%3AP18%20%3Fimg%20%7D%0A%20%20%20%20%20%20%20%20%20%20%7D%20GROUP%20BY%20%3Fc%20ORDER%20BY%20DESC(%3Fn)",
+    "recordedAt": "2026-06-02T16:55:40.816Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "c",
+    "label",
+    "image",
+    "n"
+  ],
+  "rows": 174,
+  "bindHash": "sha256:d9d2053c07c823234cc7b3622aa901b1d2b6987aadd6e4bd2b73ae3b7c45f75d",
+  "sample": [
+    {
+      "c": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q75765959"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Benjamin Harrison",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "1"
+      }
+    },
+    {
+      "c": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q7381354"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Russell Benjamin Harrison",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Russell%20Harrison%20%28cropped%29.jpg"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "1"
+      }
+    },
+    {
+      "c": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q7382923"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Ruth Cleveland",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Baby%20Ruth%20Cleveland.jpg"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "1"
+      }
+    }
+  ]
+}

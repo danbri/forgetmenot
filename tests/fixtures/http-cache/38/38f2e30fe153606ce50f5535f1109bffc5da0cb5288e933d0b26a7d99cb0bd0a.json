@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "method": "GET",
+    "url": "https://qlever.dev/api/wikidata?query=%0APREFIX%20wd%3A%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fentity%2F%3E%0APREFIX%20wdt%3A%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2Fdirect%2F%3E%0APREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0ASELECT%20%3Fp%20(SAMPLE(%3Flbl)%20%20AS%20%3Flabel)%20%20(SAMPLE(%3Fimg)%20AS%20%3Fimage)%0A%20%20%20%20%20%20%20%20%20%20(MIN(%3FdobLit)%20%20AS%20%3Fdob)%20%20%20%20(MAX(%3FdodLit)%20AS%20%3Fdod)%0AWHERE%20%7B%0A%20%20%3Fp%20wdt%3AP39%20wd%3AQ11696%20.%0A%20%20OPTIONAL%20%7B%20%3Fp%20wdt%3AP18%20%20%3Fimg%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fp%20wdt%3AP569%20%3FdobLit%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fp%20wdt%3AP570%20%3FdodLit%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fp%20rdfs%3Alabel%20%3Flbl%20.%20FILTER(lang(%3Flbl)%3D%22en%22)%20%7D%0A%7D%20GROUP%20BY%20%3Fp",
+    "recordedAt": "2026-06-02T16:55:40.633Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "p",
+    "label",
+    "image",
+    "dob",
+    "dod"
+  ],
+  "rows": 63,
+  "bindHash": "sha256:df40b180cd151406ca261e2fd637b410a184a28f1ea30943935c18c812d0f886",
+  "sample": [
+    {
+      "p": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q107054330"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Phil Baker",
+        "xml:lang": "en"
+      }
+    },
+    {
+      "p": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q1124"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Bill Clinton",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Bill%20Clinton.jpg"
+      },
+      "dob": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1946-08-19T00:00:00Z"
+      }
+    },
+    {
+      "p": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q113227667"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Quentin Trembley",
+        "xml:lang": "en"
+      }
+    }
+  ]
+}
