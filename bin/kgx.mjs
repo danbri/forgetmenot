@@ -117,6 +117,9 @@ kgx — SPARQL web-protocol client + ops dispatcher
   kgx chain explain --library <lib-id> describe what each step does, without running
        [-f chain.json]                 same, from a LIBRARY-shape JSON file
   kgx chain candidates --type <t>      list ops that apply to a bundle of type <t>
+  kgx chain validate --library <id>    run every lib hygiene gate (§18.2.4.4 + prefix
+       [-f chain.json]                  declarations + bundle-type contract + variant
+                                        membership). Exit 0 = clean; 1 = issues found.
   kgx ops                              dump every registry (STARTERS, REL_TEMPLATES,
                                        opFilters, AUGMENT_OPS) as JSON
   kgx library                          list every saved chain (id, title, op trace)
@@ -493,6 +496,126 @@ function cmdChainCandidates(flags) {
   process.stdout.write(JSON.stringify(out, null, 2) + '\n');
 }
 
+// -----------------------------------------------------------------------------
+// `kgx chain validate` — run every lib hygiene gate on a chain spec without
+// executing. Useful for pre-flighting an LLM-composed chain before paying
+// network cost.
+//
+// Checks per step:
+//   - starter / rel-template / restrict / augment is in the lib registry
+//   - rel-template variant is in the template's variants[]
+//   - emitted SPARQL passes assertNoAliasCollisions
+//   - PNAME prefix declarations match the prefixes used
+//   - bundle-type contract holds (e.g. rel-pivot's inputType matches the
+//     upstream output)
+//
+// Exit 0 = clean; 1 = any failure (JSON report on stdout names which
+// step + which check tripped).
+// -----------------------------------------------------------------------------
+function declaredPrefixes(sparql) {
+  return new Set([...sparql.matchAll(/\bPREFIX\s+([A-Za-z_][\w-]*)\s*:/gi)].map((m) => m[1]));
+}
+function usedPrefixes(sparql) {
+  const stripped = sparql.replace(/<[^>]*>/g, '').replace(/"[^"]*"/g, '').replace(/'[^']*'/g, '');
+  const out = new Set();
+  for (const m of stripped.matchAll(/\b([A-Za-z_][\w-]*):[A-Za-z_][\w-]*/g)) out.add(m[1]);
+  return out;
+}
+
+function cmdChainValidate(flags) {
+  let spec;
+  if (flags.library) {
+    spec = LIBRARY.find((c) => c.id === String(flags.library));
+    if (!spec) die(`chain validate: no LIBRARY entry with id "${flags.library}"`);
+  } else if (flags.f) {
+    spec = JSON.parse(readFileSync(String(flags.f), 'utf8'));
+  } else {
+    die('chain validate: pass `--library <id>` or `-f path/to/spec.json`');
+  }
+  const issues = [];
+  let stepsToRun;
+  try {
+    const normalised = normaliseChainSpec(spec);
+    stepsToRun = activeChainSteps(normalised);
+  } catch (e) {
+    issues.push({ step: -1, where: 'normaliser', error: e.message });
+    process.stdout.write(JSON.stringify({ ok: false, issues }, null, 2) + '\n');
+    process.exit(1);
+  }
+
+  let bundleType = '(none)';
+  // Rich-enough dummy to satisfy every template's requires(): Wikidata QID
+  // (Q\d+ regex) + an MNIS id (used by appg_officer and identity-bridge) +
+  // a DDP URI (used by si_laying_body).
+  const dummyItems = [{
+    uri:  'http://www.wikidata.org/entity/Q1',
+    mpid: '1',
+  }, {
+    uri:  'https://id.parliament.uk/AbCdEf12',
+  }];
+
+  // Legacy aliases the runner remaps before dispatching. Mirror that here
+  // so chains using the old chip names (pivot-bp / pivot-am) validate
+  // against the actual rel-template they end up running.
+  const PIVOT_ALIASES = {
+    'pivot-bp': { template: 'birthplaces', variant: 'default' },
+    'pivot-am': { template: 'alma_maters', variant: 'default' },
+  };
+
+  for (let i = 0; i < stepsToRun.length; i++) {
+    let step = stepsToRun[i];
+    if (step.kind === 'op' && PIVOT_ALIASES[step.op]) {
+      step = { kind: 'op', op: 'rel-pivot', ...PIVOT_ALIASES[step.op] };
+    }
+    const where = `step ${i + 1}`;
+    const checkSparql = (sparql, id) => {
+      try { assertNoAliasCollisions(sparql, id); }
+      catch (e) { issues.push({ step: i + 1, where: `${where}:${id}`, check: '§18.2.4.4', error: e.message }); }
+      const declared = declaredPrefixes(sparql);
+      const used = usedPrefixes(sparql);
+      for (const pfx of used) {
+        if (!declared.has(pfx)) issues.push({
+          step: i + 1, where: `${where}:${id}`, check: 'prefix-declared',
+          error: `uses "${pfx}:" but never declares it`,
+        });
+      }
+    };
+
+    if (step.kind === 'starter') {
+      const s = STARTERS.find((x) => x.id === step.id);
+      if (!s) { issues.push({ step: i + 1, where, error: `unknown starter "${step.id}"` }); continue; }
+      if (s.query) checkSparql(s.query, `starter:${s.id}`);
+      bundleType = s.type;
+    } else if (step.op === 'rel-pivot') {
+      const t = REL_TEMPLATES.find((x) => x.id === step.template);
+      if (!t) { issues.push({ step: i + 1, where, error: `unknown rel-pivot template "${step.template}"` }); continue; }
+      if (bundleType !== '(none)' && t.inputType !== bundleType && !(t.inputType === 'wd_thing')) {
+        issues.push({ step: i + 1, where, check: 'inputType',
+          error: `template ${t.id} expects ${t.inputType}; upstream is ${bundleType}` });
+      }
+      const v = t.variants.find((x) => x.id === step.variant);
+      if (!v) { issues.push({ step: i + 1, where, error: `template ${t.id} has no variant "${step.variant}"` }); continue; }
+      try { checkSparql(v.build(dummyItems), `${t.id}:${v.id}`); }
+      catch (e) { issues.push({ step: i + 1, where, error: `build() threw: ${e.message}` }); }
+      bundleType = t.outputType;
+    } else if (opFilters[step.op]) {
+      // pure-client; nothing to validate at SPARQL level
+    } else if (AUGMENT_OPS[step.op]) {
+      const a = AUGMENT_OPS[step.op];
+      try { checkSparql(a.query(dummyItems), `augment:${a.id}`); }
+      catch (e) { issues.push({ step: i + 1, where, error: `augment.query() threw: ${e.message}` }); }
+    } else {
+      issues.push({ step: i + 1, where, error: `unknown op "${step.op}" (not in any lib registry)` });
+    }
+  }
+
+  const ok = issues.length === 0;
+  process.stdout.write(JSON.stringify({
+    ok, checked: stepsToRun.length, issues,
+  }, null, 2) + '\n');
+  if (!ok) process.exit(1);
+}
+
 function cmdChainTrig(flags) {
   let spec;
   if (flags.id) {
@@ -639,7 +762,8 @@ async function main(argv) {
     if (sub === 'trig')       return cmdChainTrig(args.flags);
     if (sub === 'explain')    return cmdChainExplain(args.flags);
     if (sub === 'candidates') return cmdChainCandidates(args.flags);
-    die(`unknown 'chain' subcommand "${sub || ''}" — try 'run' | 'replay' | 'trig' | 'explain' | 'candidates'`);
+    if (sub === 'validate')   return cmdChainValidate(args.flags);
+    die(`unknown 'chain' subcommand "${sub || ''}" — try 'run' | 'replay' | 'trig' | 'explain' | 'candidates' | 'validate'`);
   }
   die(`unknown verb "${verb}" — try \`kgx --help\``);
 }
