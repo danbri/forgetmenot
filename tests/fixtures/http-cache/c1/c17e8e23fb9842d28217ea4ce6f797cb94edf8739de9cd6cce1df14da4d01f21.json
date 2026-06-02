@@ -1,0 +1,86 @@
+{
+  "meta": {
+    "method": "POST",
+    "url": "https://fpkg.fly.dev/kgx/query",
+    "recordedAt": "2026-06-02T16:52:13.530Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "p",
+    "ddpUri",
+    "wikidataQid",
+    "govukSlug",
+    "scrapedSite",
+    "sitePlatform",
+    "givenName",
+    "familyName"
+  ],
+  "rows": 399,
+  "bindHash": "sha256:1b68fe1819f8cbf36a7e05777404eca5934be0a64e6c75e504eb7fc3e74028a6",
+  "sample": [
+    {
+      "p": {
+        "type": "uri",
+        "value": "https://members-api.parliament.uk/api/Members/4391"
+      },
+      "ddpUri": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/MFgZbmwN"
+      },
+      "scrapedSite": {
+        "type": "literal",
+        "value": "third_party/data/sites/4391/"
+      },
+      "sitePlatform": {
+        "type": "literal",
+        "value": "Wix"
+      },
+      "givenName": {
+        "type": "literal",
+        "value": "Judith"
+      },
+      "familyName": {
+        "type": "literal",
+        "value": "Cummins"
+      }
+    },
+    {
+      "p": {
+        "type": "uri",
+        "value": "https://members-api.parliament.uk/api/Members/5189"
+      },
+      "ddpUri": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/xIpnzTcI"
+      },
+      "givenName": {
+        "type": "literal",
+        "value": "Gordon"
+      },
+      "familyName": {
+        "type": "literal",
+        "value": "McKee"
+      }
+    },
+    {
+      "p": {
+        "type": "uri",
+        "value": "https://members-api.parliament.uk/api/Members/5145"
+      },
+      "ddpUri": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/kvQ7Put8"
+      },
+      "givenName": {
+        "type": "literal",
+        "value": "Irene"
+      },
+      "familyName": {
+        "type": "literal",
+        "value": "Campbell"
+      }
+    }
+  ]
+}

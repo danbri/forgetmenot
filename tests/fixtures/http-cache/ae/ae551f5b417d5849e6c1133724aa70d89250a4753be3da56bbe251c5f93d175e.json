@@ -1,0 +1,100 @@
+{
+  "meta": {
+    "method": "POST",
+    "url": "https://api.parliament.uk/sparql",
+    "recordedAt": "2026-06-02T16:52:08.452Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json;charset=UTF-8",
+  "shape": "sparql-results-json",
+  "vars": [
+    "qid",
+    "constituency",
+    "parliamentParty",
+    "familyName",
+    "givenName",
+    "parliamentPerson"
+  ],
+  "rows": 134,
+  "bindHash": "sha256:4be2a032789c17677264c5cc6bf2f62d687924e9ec42e409d2eae143ca4ef9d0",
+  "sample": [
+    {
+      "qid": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q153454"
+      },
+      "constituency": {
+        "type": "literal",
+        "value": "Hackney North and Stoke Newington"
+      },
+      "parliamentParty": {
+        "type": "literal",
+        "value": "Labour"
+      },
+      "familyName": {
+        "type": "literal",
+        "value": "Abbott"
+      },
+      "givenName": {
+        "type": "literal",
+        "value": "Diane"
+      },
+      "parliamentPerson": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/43RHonMf"
+      }
+    },
+    {
+      "qid": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q16190632"
+      },
+      "constituency": {
+        "type": "literal",
+        "value": "Wythenshawe and Sale East"
+      },
+      "parliamentParty": {
+        "type": "literal",
+        "value": "Labour"
+      },
+      "familyName": {
+        "type": "literal",
+        "value": "Kane"
+      },
+      "givenName": {
+        "type": "literal",
+        "value": "Michael"
+      },
+      "parliamentPerson": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/jxzfDeiw"
+      }
+    },
+    {
+      "qid": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q16190712"
+      },
+      "constituency": {
+        "type": "literal",
+        "value": "South Shields"
+      },
+      "parliamentParty": {
+        "type": "literal",
+        "value": "Labour"
+      },
+      "familyName": {
+        "type": "literal",
+        "value": "Lewell-Buck"
+      },
+      "givenName": {
+        "type": "literal",
+        "value": "Emma"
+      },
+      "parliamentPerson": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/R3dBXlvo"
+      }
+    }
+  ]
+}

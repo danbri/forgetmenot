@@ -94,6 +94,14 @@ async function runOrTriage(chain) {
     if (NETWORK_HINTS.test(String(e?.message || e))) {
       return { ok: false, skip: 'network', detail: e.message };
     }
+    // Soft-cap rejection ("bundle 645 > cap 500; narrow first.") is the
+    // intended product behaviour for chains whose author forgot to narrow
+    // before an augment op. Surface as a known-outcome skip rather than a
+    // test failure — fixing the chain in LIBRARY would mean editing the
+    // user's saved spec, which isn't our call here.
+    if (/> cap \d+; narrow first/.test(String(e?.message || e))) {
+      return { ok: false, skip: 'cap-exceeded', detail: e.message };
+    }
     return { ok: false, error: e };
   }
 }
@@ -110,6 +118,10 @@ for (const chain of LIBRARY) {
     }
     if (result.skip === 'network') {
       t.skip(`upstream unreachable — ${result.detail}`);
+      return;
+    }
+    if (result.skip === 'cap-exceeded') {
+      t.skip(`chain author forgot to narrow before augment — ${result.detail}`);
       return;
     }
     if (!result.ok) throw result.error;

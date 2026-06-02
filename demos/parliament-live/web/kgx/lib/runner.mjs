@@ -30,11 +30,8 @@
 //   * op:party | decade | sitting | bridged   (lib/restrict.mjs::opFilters)
 //   * op:rel-pivot                            (lib/rel-templates.mjs)
 //
-// Op kinds NOT yet supported (raise UnsupportedOpError):
-//
-//   * op:enrich            — Wikidata facet fetch into item.extra
-//   * op:parl-enrich       — Parliament DDP facet fetch via rdfs:seeAlso
-//   * op:identity-bridge   — FPKG identity-graph cross-source resolve
+//   * op:enrich | parl-enrich | identity-bridge  via AUGMENT_OPS
+//                                                (lib/augment.mjs)
 //
 // Legacy aliases supported via redirect (the lib representation IS the
 // rel-template, the old standalone names are kept as user-facing chips):
@@ -51,6 +48,7 @@ import { Bundle } from './node-flow.mjs';
 import { opFilters } from './restrict.mjs';
 import { STARTERS } from './starters.mjs';
 import { REL_TEMPLATES } from './rel-templates.mjs';
+import { AUGMENT_OPS } from './augment.mjs';
 
 export class UnsupportedOpError extends Error {
   constructor(stepDescription) {
@@ -146,6 +144,27 @@ export async function runChainSpec(spec, ctx) {
         kind: 'op', op: 'rel-pivot', template: tpl.id, variant: variant.id,
         size: bundle.size, engineId: tpl.engineId, ms: res.ms, query: sparql,
         outputType: tpl.outputType,
+      });
+      continue;
+    }
+
+    // ── augment / federate (item.extra updates, same bundle type) ─────────
+    if (step.kind === 'op' && AUGMENT_OPS[step.op]) {
+      if (!bundle) throw new Error(`step ${describe(step)}: no upstream bundle`);
+      const aug = AUGMENT_OPS[step.op];
+      if (aug.requires && !aug.requires(bundle)) {
+        throw new Error(`step ${describe(step)}: requires() rejected upstream bundle`);
+      }
+      if (aug.cap && bundle.size > aug.cap) {
+        throw new Error(`step ${describe(step)}: bundle ${bundle.size} > cap ${aug.cap}; narrow first.`);
+      }
+      const sparql = aug.query(bundle.items);
+      const res    = await ctx.engine(aug.engineId).query(sparql, `${aug.id}(${bundle.size})`);
+      const newItems = aug.parse(res.json.results.bindings, bundle.items);
+      bundle = new Bundle(newItems, bundle.type, `${bundle.label} + ${aug.id}`);
+      beads.push({
+        kind: 'op', op: aug.id, size: bundle.size,
+        engineId: aug.engineId, ms: res.ms, query: sparql,
       });
       continue;
     }
