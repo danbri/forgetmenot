@@ -50,6 +50,17 @@ import { STARTERS } from './starters.mjs';
 import { REL_TEMPLATES } from './rel-templates.mjs';
 import { AUGMENT_OPS } from './augment.mjs';
 
+// Stable per-bead content hash over the sorted-unique uris of the bundle's
+// items. Same shape the http-cache assigns to summaries, so two records of
+// the "same chain step" produce identical bindHash (within Wikidata drift).
+// Returns null if crypto.subtle isn't available (older Node / no Web Crypto).
+async function bindHashOf(items) {
+  const uris = [...new Set((items || []).map((x) => x.uri).filter(Boolean))].sort().join('\n');
+  if (typeof globalThis.crypto?.subtle?.digest !== 'function') return null;
+  const buf = await globalThis.crypto.subtle.digest('SHA-256', new TextEncoder().encode(uris));
+  return 'sha256:' + [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 export class UnsupportedOpError extends Error {
   constructor(stepDescription) {
     super(`runChainSpec: unsupported op "${stepDescription}"`);
@@ -118,6 +129,7 @@ export async function runChainSpec(spec, ctx) {
         beads.push({
           kind: 'starter', id: s.id, type: s.type, size: bundle.size,
           engineId: 'parl-pq', ms: res.ms, query: s.pqTemplate,
+          bindHash: await bindHashOf(bundle.items),
         });
         continue;
       }
@@ -127,6 +139,7 @@ export async function runChainSpec(spec, ctx) {
       beads.push({
         kind: 'starter', id: s.id, type: s.type, size: bundle.size,
         engineId: s.engineId, ms: res.ms, query: s.query,
+        bindHash: await bindHashOf(bundle.items),
       });
       continue;
     }
@@ -136,7 +149,10 @@ export async function runChainSpec(spec, ctx) {
       if (!bundle) throw new Error(`step ${describe(step)}: no upstream bundle`);
       const fn = opFilters[step.op];
       bundle = (step.value === undefined) ? fn(bundle) : fn(bundle, step.value);
-      beads.push({ kind: 'op', op: step.op, value: step.value, size: bundle.size });
+      beads.push({
+        kind: 'op', op: step.op, value: step.value, size: bundle.size,
+        bindHash: await bindHashOf(bundle.items),
+      });
       continue;
     }
 
@@ -159,6 +175,7 @@ export async function runChainSpec(spec, ctx) {
         kind: 'op', op: 'rel-pivot', template: tpl.id, variant: variant.id,
         size: bundle.size, engineId: tpl.engineId, ms: res.ms, query: sparql,
         outputType: tpl.outputType,
+        bindHash: await bindHashOf(bundle.items),
       });
       continue;
     }
@@ -180,6 +197,7 @@ export async function runChainSpec(spec, ctx) {
       beads.push({
         kind: 'op', op: aug.id, size: bundle.size,
         engineId: aug.engineId, ms: res.ms, query: sparql,
+        bindHash: await bindHashOf(bundle.items),
       });
       continue;
     }
