@@ -324,6 +324,7 @@
   import { AUGMENT_OPS } from '/kgx/lib/augment.mjs';
   import { LIBRARY }     from '/kgx/lib/library.mjs';
   import { isVariantAllowedByPolicy, isOpAllowedByPolicy } from '/kgx/lib/quality.mjs';
+  import { chainToTrig } from '/kgx/lib/trig.mjs';
 
   function selectTab(id) {
     if (!['debug', 'library', 'ops'].includes(id)) id = 'debug';
@@ -341,10 +342,12 @@
   // --- Library panel: each LIBRARY[] entry as a tappable card.
   const libWrap = document.getElementById('library-cards');
   for (const chain of LIBRARY) {
-    const card = document.createElement('a');
+    const card = document.createElement('div');
     card.className = 'card';
-    card.href = '/kgx/daisychain/#library=' + encodeURIComponent(chain.id);
-    card.innerHTML = `
+    const link = document.createElement('a');
+    link.href = '/kgx/daisychain/#library=' + encodeURIComponent(chain.id);
+    link.style.cssText = 'color: inherit; text-decoration: none; display: block;';
+    link.innerHTML = `
       <p class="card-title">${chain.title}</p>
       <p class="card-desc">${chain.sub || ''}</p>
       <p class="card-meta"><code>${chain.steps.map((s) =>
@@ -352,6 +355,21 @@
         s.op === 'rel-pivot' ? `rel-pivot:${s.template}/${s.variant}` :
         s.op + (s.value !== undefined ? ':' + s.value : '')
       ).join(' → ')}</code></p>`;
+    card.appendChild(link);
+
+    // Per-card TriG copy button.
+    const trigBtn = document.createElement('button');
+    trigBtn.textContent = '📋 Copy TriG manifest';
+    trigBtn.style.cssText = 'margin-top: 8px; padding: 4px 10px; font-size: 13px; min-height: 32px; border-radius: 6px; border: 1px solid var(--rule); background: var(--bg); color: var(--ink); cursor: pointer;';
+    trigBtn.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const ttl = chainToTrig(chain);
+      try { await navigator.clipboard.writeText(ttl); trigBtn.textContent = '✓ copied'; }
+      catch { trigBtn.textContent = '⚠ clipboard denied'; }
+      setTimeout(() => { trigBtn.textContent = '📋 Copy TriG manifest'; }, 2200);
+    });
+    card.appendChild(trigBtn);
+
     libWrap.appendChild(card);
   }
 
