@@ -95,6 +95,10 @@ import {
   httpsify, commonsThumb, parsePoint, escapeHTML, valuesQids,
 } from '/kgx/lib/node-flow.mjs';
 import { REL_TEMPLATES, valuesMnisPersons } from '/kgx/lib/rel-templates.mjs';
+import {
+  opFilters, nameGender,
+  countBy, sortByKey, topCounts,
+} from '/kgx/lib/restrict.mjs';
 
 // The shared Bundle also exposes static union / intersect / difference
 // (previously only used by pivcab) — daisychain now has them too at no
@@ -262,71 +266,6 @@ function parseMpRows(bindings) {
   });
 }
 
-const opFilters = {
-  party:   (b, v) => new Bundle(b.items.filter((x) => x.parties.includes(v)), b.type, v),
-  decade:  (b, v) => new Bundle(b.items.filter((x) => x.decade === v),         b.type, v + ' '),
-  sitting: (b)    => new Bundle(b.items.filter((x) => x.sitting),              b.type, 'sitting now'),
-  bridged: (b)    => new Bundle(b.items.filter((x) => !!x.mpid),               b.type, 'has Members API id'),
-};
-
-// ============================================================================
-// First-name → gender heuristic dictionary. Used as a fallback only when
-// `x.gender` is unbound (e.g. items seeded from Parliament SPARQL, which
-// doesn't ship gender) — never as a replacement for an authoritative value.
-// Ambiguous names (Alex / Sam / Chris / Pat / Jamie / Lee / Robin / Kim / Jo /
-// Bobby / Jordan / Kit / Morgan / Taylor / Leslie) are deliberately omitted
-// so the heuristic returns null rather than guessing.
-// ============================================================================
-const GENDER_NAMES_FEMALE = new Set([
-  'abigail','aisha','alice','alison','allison','amanda','amy','angela','ann','anna','anne','annette',
-  'apsana','barbara','beatrice','beth','bridget','carla','carol','caroline','catherine','charlotte',
-  'cherilyn','christine','claire','clare','connie','cynthia','daisy','dawn','deborah','debbie',
-  'diana','diane','dorothy','eleanor','elizabeth','ellie','emily','emma','esther','eve','feryal',
-  'fiona','flick','florence','frances','geraldine','gillian','grace','hannah','harriet','hazel',
-  'heather','helen','helena','henrietta','hilary','holly','imogen','isabel','jacqueline','jane',
-  'janet','jean','jenna','jennifer','jess','jessica','joan','joanna','joanne','judith','julia',
-  'julie','justine','karen','karin','kate','katherine','kathleen','kathryn','katie','kelly',
-  'kerry','kim','laura','lauren','leigh','lesley','linda','lisa','liz','lola','lorna','louise',
-  'lucy','lyn','lynne','margaret','maria','marie','marion','marjorie','martha','mary','maureen',
-  'megan','meg','melanie','michelle','miriam','mona','nadia','naomi','natalie','nia','nicola',
-  'norma','olivia','pamela','patricia','paula','pauline','penelope','phyllis','polly','preet',
-  'priti','rachael','rachel','rebecca','rosemary','rosie','ruth','sally','samantha','sara',
-  'sarah','seema','sharon','sheryll','shirley','siobhan','sonia','sophia','sophie','stella',
-  'stephanie','susan','susanna','suzanne','sylvia','tabitha','tammy','tamara','tania','tessa',
-  'theresa','therese','toni','tracey','tracy','tulip','valerie','vanessa','vicki','victoria',
-  'virginia','wera','yasmin','yvette','yvonne','zara','zarah','zoe',
-]);
-const GENDER_NAMES_MALE = new Set([
-  'aaron','adam','adrian','afzal','alan','albert','alec','alex','alexander','alfred','alistair',
-  'alok','andrew','andy','angus','anthony','antony','archibald','arthur','asim','baillie','barry',
-  'ben','benjamin','bernard','bill','bob','boris','brendan','brian','bruce','bryan','callum',
-  'carl','cecil','charles','christopher','clive','colin','conor','craig','damian','daniel','danny',
-  'darren','dave','david','dean','dennis','derek','desmond','dominic','donald','douglas','drew',
-  'duncan','edward','elliot','eric','ernest','euan','felix','fred','frederick','gareth','gary',
-  'gavin','geoff','geoffrey','george','gerald','gerry','glenn','gordon','graham','greg','gregory',
-  'guy','harold','harry','henry','herbert','hugh','hugo','iain','ian','imran','ivan','jack',
-  'jacob','james','jason','jeff','jeffrey','jeremy','jim','jimmy','joe','john','johnny','jon',
-  'jonathan','joseph','josh','joshua','julian','justin','kasim','keir','keith','kenneth','kevin',
-  'khalid','kieran','kit','kris','kwasi','lawrence','leo','leonard','lewis','liam','lloyd',
-  'louis','luke','malcolm','marcus','mark','martin','marvin','matt','matthew','maurice','max',
-  'michael','mick','mike','mohammad','muhammad','nadhim','nathan','navendu','neal','neil',
-  'nicholas','nick','nigel','noah','norman','oliver','olly','owen','patrick','paul','pete',
-  'peter','phil','philip','phillip','quentin','raj','ralph','ranil','ray','raymond','reece',
-  'rehman','reuben','richard','rishi','rob','robert','roger','ronald','ross','roy','rupert',
-  'russell','sajid','sam','samuel','sandy','scott','sean','sebastian','sergei','shabana','shane',
-  'shaun','sid','simon','stanley','stephen','steve','steven','stewart','stuart','tan','ted',
-  'tej','terence','terry','theodore','thomas','tim','timothy','tobias','toby','tom','tommy',
-  'tony','tristan','trevor','vaughan','vernon','victor','vincent','virendra','walter','warren',
-  'wayne','wes','will','william','zac',
-]);
-function nameGender(label) {
-  if (!label) return null;
-  const first = String(label).trim().split(/[\s.,]+/)[0]?.toLowerCase();
-  if (!first) return null;
-  if (GENDER_NAMES_FEMALE.has(first)) return 'female';
-  if (GENDER_NAMES_MALE.has(first))   return 'male';
-  return null;
-}
 
 // ============================================================================
 // Enrich + pivot — every item is its own mini-graph (`item.extra`). Enrich
@@ -1122,17 +1061,6 @@ function cardinalityChips(bead, idx) {
   return out;
 }
 
-function countBy(items, field) {
-  const m = new Map();
-  for (const x of items) { const v = x[field]; if (v) m.set(v, (m.get(v) || 0) + 1); }
-  return [...m.entries()].sort((a, b) => b[1] - a[1]);
-}
-function sortByKey(pairs) { return [...pairs].sort((a, b) => a[0].localeCompare(b[0])); }
-function topCounts(strs) {
-  const m = new Map();
-  for (const s of strs) m.set(s, (m.get(s) || 0) + 1);
-  return [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30);
-}
 
 // ============================================================================
 // Starter gallery — kickoff sources. V1: just the post-1900 MPs seed.
