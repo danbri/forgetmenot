@@ -31,6 +31,7 @@ const ENRICH_MAX = 500;   // soft cap that the page already enforces
 // ---------------------------------------------------------------------------
 export const enrich = {
   id:        'enrich',
+  kind:      'enrich',                  // same-item facets, no cross-source join
   engineId:  'qlever-wikidata',
   role:      'primary',
   cap:       ENRICH_MAX,
@@ -104,6 +105,8 @@ export const enrich = {
 // ---------------------------------------------------------------------------
 export const parlEnrich = {
   id:        'parl-enrich',
+  kind:      'federate',                // cross-source join via rdfs:seeAlso
+  joinKey:   'rdfs:seeAlso(WikidataQID → DDPPerson)',
   engineId:  'parl-sparql',
   role:      'crossCheck',
   cap:       ENRICH_MAX,
@@ -170,6 +173,8 @@ export const parlEnrich = {
 // ---------------------------------------------------------------------------
 export const identityBridge = {
   id:        'identity-bridge',
+  kind:      'federate',                // 4-graph cross-source join via Members API id
+  joinKey:   'parl:memberId(MembersAPI → DDP/Wikidata/GOV.UK/scraped)',
   engineId:  'fpkg',
   role:      'crossCheck',
   cap:       ENRICH_MAX,

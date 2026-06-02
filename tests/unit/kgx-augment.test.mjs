@@ -21,7 +21,9 @@ function dummyItemsFor(aug) {
   return QID_ITEMS;
 }
 
-test('every AUGMENT_OP has the declarative-plan fields + a source role', () => {
+const VALID_KINDS = new Set(['enrich', 'federate']);
+
+test('every AUGMENT_OP has the declarative-plan fields + role + kind', () => {
   for (const [id, aug] of Object.entries(AUGMENT_OPS)) {
     assert.equal(aug.id, id,                          `${id}: id mismatch`);
     assert.ok(typeof aug.engineId === 'string',       `${id}: no engineId`);
@@ -31,6 +33,12 @@ test('every AUGMENT_OP has the declarative-plan fields + a source role', () => {
     assert.ok(typeof aug.note === 'string',           `${id}: no note`);
     assert.ok(VALID_ROLES.has(aug.role),
       `${id}: role="${aug.role}" not in {${[...VALID_ROLES].join(', ')}}`);
+    assert.ok(VALID_KINDS.has(aug.kind),
+      `${id}: kind="${aug.kind}" not in {${[...VALID_KINDS].join(', ')}}`);
+    if (aug.kind === 'federate') {
+      assert.ok(typeof aug.joinKey === 'string' && aug.joinKey.length,
+        `${id}: federate ops must declare a joinKey`);
+    }
     assert.ok(typeof aug.cap === 'number' && aug.cap > 0,
       `${id}: cap must be a positive number`);
   }

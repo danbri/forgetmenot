@@ -308,7 +308,7 @@
   <table id="ops-pivot"><thead><tr><th>id</th><th>type</th><th>engine</th><th>role</th><th>variants</th></tr></thead><tbody></tbody></table>
 
   <h2>Augment ops (<code>AUGMENT_OPS</code>)</h2>
-  <table id="ops-augment"><thead><tr><th>id</th><th>engine</th><th>role</th><th>cap</th><th>note</th></tr></thead><tbody></tbody></table>
+  <table id="ops-augment"><thead><tr><th>id</th><th>kind</th><th>engine</th><th>role</th><th>joinKey</th><th>cap</th></tr></thead><tbody></tbody></table>
 </section>
 
 <button class="clip-fab" id="clip-fab" title="Query wizard" aria-label="Open query wizard">📎</button>
@@ -392,7 +392,8 @@
   }
   for (const [id, aug] of Object.entries(AUGMENT_OPS)) {
     tagRow(makeRow(tbody('ops-augment'), [
-      id, aug.engineId, aug.role || '—', String(aug.cap || ''), aug.note || '',
+      id, aug.kind || 'enrich', aug.engineId, aug.role || '—',
+      aug.joinKey || '—', String(aug.cap || ''),
     ]), { role: aug.role || 'primary' });
   }
 
