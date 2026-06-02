@@ -65,6 +65,7 @@ import {
   isVariantAllowedByPolicy, isOpAllowedByPolicy,
   variantsAllowedByPolicy,
 } from '/kgx/lib/quality.mjs';
+import { normaliseChainSpec, activeChainSteps } from '/kgx/lib/branches.mjs';
 
 // Helper: which OPS chip ids are augment-shape (carry a role from
 // AUGMENT_OPS)? Picker hides these in `strict` mode (role: crossCheck).
@@ -2117,7 +2118,19 @@ class DaisyApp extends HTMLElement {
     state.beads = [];
     state.starter = null;
     publish();
-    for (const step of entry.steps || []) {
+    // Accept either {steps} (flat) or {branches} (tree). The flatten walks
+    // ancestor prefixes + the active branch — so a saved fork-shape chain
+    // loads as a linear spine on the page until the daisychain UI grows
+    // multi-branch state. The lib layer is what each pass goes through.
+    let stepsToRun = [];
+    try {
+      const normalised = normaliseChainSpec(entry);
+      stepsToRun = activeChainSteps(normalised) || [];
+    } catch (e) {
+      // Old-shape entries that fail normalisation: fall back to entry.steps.
+      stepsToRun = Array.isArray(entry.steps) ? entry.steps : [];
+    }
+    for (const step of stepsToRun) {
       try {
         if (step.kind === 'starter') {
           const s = STARTERS.find((x) => x.id === step.id);
