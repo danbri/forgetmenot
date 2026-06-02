@@ -169,6 +169,28 @@ export const LIBRARY = [
       { kind: 'op', op: 'name-contains', value: 'Select' },
     ],
   },
+  // -- Coverage chains — exercise op-API verbs that the main library
+  //    chains don't, so the LIBRARY iteration test surfaces a wider
+  //    slice of the runner + lib.
+  {
+    id: 'us-mps-by-citizenship',
+    title: 'UK MPs since 1900 · narrow by citizenship',
+    sub: 'Exercises the citizenship op (Wikidata wdt:P27 — filter on item.citizenships[]).',
+    steps: [
+      { kind: 'starter', id: 'uk-mps-1900' },
+      { kind: 'op', op: 'citizenship', value: 'United Kingdom' },
+    ],
+  },
+  {
+    id: 'parties-with-commons',
+    title: 'Parties with Commons membership · top by total size',
+    sub: 'Exercises the party-bundle ops: in-commons + top-by-size on a PQ-seeded bundle.',
+    steps: [
+      { kind: 'starter', id: 'pq-party-index' },
+      { kind: 'op', op: 'in-commons' },
+      { kind: 'op', op: 'top-by-size' },
+    ],
+  },
   // -- Parallax-style demonstrators
   {
     id: 'parallax-hk',
