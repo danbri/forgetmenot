@@ -60,6 +60,7 @@ import {
   POST1900_MPS_QUERY, parseMpRows, SEED_LIMIT,
 } from '/kgx/lib/starters.mjs';
 import { LIBRARY } from '/kgx/lib/library.mjs';
+import { AUGMENT_OPS } from '/kgx/lib/augment.mjs';
 
 // The shared Bundle also exposes static union / intersect / difference
 // (previously only used by pivcab) — daisychain now has them too at no
@@ -225,74 +226,6 @@ function valuesClause(uris) {
     .join(' ');
 }
 
-async function enrichHumans(bundle) {
-  const uris = bundle.items.map((x) => x.uri);
-  if (!uris.length) return bundle;
-  if (uris.length > ENRICH_MAX) {
-    throw new Error(`bundle of ${uris.length} is too big to enrich (cap ${ENRICH_MAX}); narrow first.`);
-  }
-  const q = `
-    PREFIX wd:   <http://www.wikidata.org/entity/>
-    PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?p
-      (SAMPLE(?bp)      AS ?birthplace)
-      (SAMPLE(?bpLbl)   AS ?birthplaceLabel)
-      (SAMPLE(?bpCoord) AS ?birthplaceCoord)
-      (SAMPLE(?ctryLbl) AS ?country)
-      (SAMPLE(?dobRaw)  AS ?dobOut)
-      (SAMPLE(?dodRaw)  AS ?dodOut)
-      (GROUP_CONCAT(DISTINCT ?amLbl;     separator="|") AS ?almaMaters)
-      (GROUP_CONCAT(DISTINCT ?spouseLbl; separator="|") AS ?spouses)
-      (GROUP_CONCAT(DISTINCT ?occLbl;    separator="|") AS ?occupations)
-    WHERE {
-      VALUES ?p { ${valuesClause(uris)} }
-      OPTIONAL { ?p wdt:P19 ?bp .
-                 OPTIONAL { ?bp rdfs:label ?bpLbl . FILTER(lang(?bpLbl)="en") }
-                 OPTIONAL { ?bp wdt:P625 ?bpCoord }
-                 OPTIONAL { ?bp wdt:P17 ?ctry .
-                            OPTIONAL { ?ctry rdfs:label ?ctryLbl . FILTER(lang(?ctryLbl)="en") } }
-      }
-      OPTIONAL { ?p wdt:P569 ?dobRaw }
-      OPTIONAL { ?p wdt:P570 ?dodRaw }
-      OPTIONAL { ?p wdt:P69  ?am .     OPTIONAL { ?am rdfs:label ?amLbl . FILTER(lang(?amLbl)="en") } }
-      OPTIONAL { ?p wdt:P26  ?sp .     OPTIONAL { ?sp rdfs:label ?spouseLbl . FILTER(lang(?spouseLbl)="en") } }
-      OPTIONAL { ?p wdt:P106 ?occ .    OPTIONAL { ?occ rdfs:label ?occLbl . FILTER(lang(?occLbl)="en") } }
-    }
-    GROUP BY ?p`;
-  const res = await sparql(QLEVER, q, `enrich(${uris.length})`);
-  const byUri = new Map();
-  for (const b of res.json.results.bindings) byUri.set(b.p.value, b);
-  // Mutate items in place — same identity, richer .extra.
-  const out = bundle.items.map((x) => {
-    const b = byUri.get(x.uri);
-    if (!b) return x;
-    const extra = {
-      dob:        b.dobOut?.value || null,
-      dod:        b.dodOut?.value || null,
-      birthplace: b.birthplace ? {
-        uri:    b.birthplace.value,
-        label:  b.birthplaceLabel?.value || null,
-        country:b.country?.value || null,
-        coords: parsePoint(b.birthplaceCoord?.value),
-      } : null,
-      almaMaters:  (b.almaMaters?.value  || '').split('|').filter(Boolean),
-      spouses:     (b.spouses?.value     || '').split('|').filter(Boolean),
-      occupations: (b.occupations?.value || '').split('|').filter(Boolean),
-    };
-    return { ...x, extra: { ...(x.extra || {}), ...extra } };
-  });
-  const enriched = new Bundle(out, bundle.type, `${bundle.label} + facts`);
-  enriched.enriched = true;
-  return {
-    bundle: enriched,
-    source: makeSource({
-      kind: 'enrich', endpoint: res.endpoint, engineId: res.engineId, query: res.query, ms: res.ms,
-      bindings: res.json.results.bindings,
-      note: 'P19 birthplace+P625+P17, P569/P570 dates, P69 alma maters, P26 spouses, P106 occupations',
-    }),
-  };
-}
 
 // Pivot from a human bundle to the set of their birthplaces. Each output
 // item is a `place` with its own coords / country / count-of-MPs-from-here.
@@ -458,157 +391,7 @@ async function applyRelation(template, variant, bundle) {
   };
 }
 
-// ----------------------------------------------------------------------------
-// Enrich from the UK Parliament SPARQL endpoint (not Wikidata). Each input
-// item carries a Wikidata QID URI; Parliament's `rdfs:seeAlso` bridge lets
-// us look up the corresponding parliament.uk Person and pull the current
-// constituency + party + name parts. The result lands in `item.extra.parl`
-// and the source is recorded with engineId='parl-sparql'. This is the
-// "not solely Wikidata" proof — same op interface, different engine,
-// different ontology (id.parliament.uk/schema/* instead of wdt:*).
-// ----------------------------------------------------------------------------
-async function enrichFromParliament(bundle) {
-  const uris = bundle.items.map((x) => x.uri).filter((u) => /Q\d+$/.test(u));
-  if (!uris.length) {
-    throw new Error('no Wikidata QIDs in this bundle — Parliament join needs the rdfs:seeAlso bridge');
-  }
-  if (uris.length > ENRICH_MAX) {
-    throw new Error(`bundle of ${uris.length} too big to enrich (cap ${ENRICH_MAX})`);
-  }
-  const values = uris.map((u) => `<${u}>`).join(' ');
-  const q = `
-    PREFIX schema: <https://id.parliament.uk/schema/>
-    PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?qid
-           (SAMPLE(?const)        AS ?constituency)
-           (SAMPLE(?party)        AS ?parliamentParty)
-           (SAMPLE(?fam)          AS ?familyName)
-           (SAMPLE(?giv)          AS ?givenName)
-           (SAMPLE(?personUri)    AS ?parliamentPerson)
-    WHERE {
-      VALUES ?qid { ${values} }
-      ?personUri rdfs:seeAlso ?qid ;
-                 a schema:Member ;
-                 schema:memberHasParliamentaryIncumbency ?in .
-      OPTIONAL {
-        ?in schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup/schema:constituencyGroupName ?const
-      }
-      OPTIONAL {
-        ?personUri schema:partyMemberHasPartyMembership ?pm .
-        FILTER NOT EXISTS { ?pm schema:partyMembershipEndDate ?pe }
-        ?pm schema:partyMembershipHasParty/schema:partyName ?party
-      }
-      OPTIONAL { ?personUri schema:personFamilyName ?fam }
-      OPTIONAL { ?personUri schema:personGivenName  ?giv }
-    }
-    GROUP BY ?qid`;
-  const res = await engine('parl-sparql').query(q, `parl-enrich(${uris.length})`);
-  const byQid = new Map();
-  for (const b of res.json.results.bindings) byQid.set(b.qid.value, b);
-  const out = bundle.items.map((x) => {
-    const b = byQid.get(x.uri);
-    if (!b) return x;
-    const parl = {
-      personUri:        b.parliamentPerson?.value || null,
-      constituency:     b.constituency?.value || null,
-      currentParty:     b.parliamentParty?.value || null,
-      familyName:       b.familyName?.value || null,
-      givenName:        b.givenName?.value || null,
-    };
-    return { ...x, extra: { ...(x.extra || {}), parl } };
-  });
-  const enriched = new Bundle(out, bundle.type, `${bundle.label} + DDP`);
-  enriched.enriched = true;
-  return {
-    bundle: enriched,
-    source: makeSource({
-      kind: 'parl-enrich', endpoint: res.endpoint, engineId: res.engineId,
-      query: res.query, ms: res.ms, bindings: res.json.results.bindings,
-      note: 'join via rdfs:seeAlso to UK Parliament DDP (current constituency + current party + name parts)',
-    }),
-  };
-}
 
-// ----------------------------------------------------------------------------
-// Enrich via the cross-source identity graph (fpkg engine, 7 named graphs).
-// Resolves each MP's Members API id to its DDP person URI, Wikidata QID,
-// GOV.UK people-page slug, and presence of a scraped per-MP website — all
-// in one query against the bundled Oxigraph. This is the principled bridge
-// the design note asks for: stop hand-rolling rdfs:seeAlso joins in every
-// template and route through `parl:memberId` as the canonical key.
-// ----------------------------------------------------------------------------
-async function enrichFromIdentity(bundle) {
-  const ids = [...new Set(bundle.items.map((x) => x.mpid).filter(Boolean))];
-  if (!ids.length) {
-    throw new Error('no Members API ids on the bundle — the identity bridge keys on parl:memberId');
-  }
-  if (ids.length > ENRICH_MAX) {
-    throw new Error(`bundle of ${ids.length} too big to enrich (cap ${ENRICH_MAX})`);
-  }
-  const values = ids
-    .map((id) => `<https://members-api.parliament.uk/api/Members/${id}>`)
-    .join(' ');
-  const q = `
-    PREFIX owl:    <http://www.w3.org/2002/07/owl#>
-    PREFIX schema: <http://schema.org/>
-    PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX fm:     <https://forgetmenot.local/vocab/>
-    SELECT ?p
-           (SAMPLE(?ddp)       AS ?ddpUri)
-           (SAMPLE(?wd)        AS ?wikidataQid)
-           (SAMPLE(?govuk)     AS ?govukSlug)
-           (SAMPLE(?site)      AS ?scrapedSite)
-           (SAMPLE(?platform)  AS ?sitePlatform)
-           (SAMPLE(?given)     AS ?givenName)
-           (SAMPLE(?family)    AS ?familyName)
-    WHERE {
-      VALUES ?p { ${values} }
-      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/ddp-sparql>  { ?p owl:sameAs ?ddp } }
-      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/wikidata>    { ?p owl:sameAs ?wd } }
-      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/govuk>       { ?p owl:sameAs ?govuk } }
-      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/scraped>     { ?p <https://forgetmenot.local/vocab#scrapedSiteDir> ?site } }
-      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/scraped>     { ?p <https://forgetmenot.local/vocab#sitePlatform>   ?platform } }
-      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/ddp-sparql>  { ?p schema:givenName  ?given } }
-      OPTIONAL { GRAPH <https://forgetmenot.local/graph/identity/ddp-sparql>  { ?p schema:familyName ?family } }
-    }
-    GROUP BY ?p`;
-  const res = await engine('fpkg').query(q, `identity-bridge(${ids.length})`);
-  const byMpid = new Map();
-  for (const b of res.json.results.bindings) {
-    const m = b.p.value.match(/Members\/(\d+)$/);
-    if (m) byMpid.set(m[1], b);
-  }
-  const out = bundle.items.map((x) => {
-    const b = x.mpid ? byMpid.get(String(x.mpid)) : null;
-    if (!b) return x;
-    const identity = {
-      ddpUri:        b.ddpUri?.value || null,
-      wikidataQid:   b.wikidataQid?.value || null,
-      govukSlug:     b.govukSlug?.value || null,
-      scrapedSite:   b.scrapedSite?.value || null,
-      sitePlatform:  b.sitePlatform?.value || null,
-      givenName:     b.givenName?.value || null,
-      familyName:    b.familyName?.value || null,
-    };
-    return { ...x, extra: { ...(x.extra || {}), identity } };
-  });
-  const enriched = new Bundle(out, bundle.type, `${bundle.label} + identity bridges`);
-  enriched.enriched = true;
-  return {
-    bundle: enriched,
-    source: makeSource({
-      kind: 'identity-bridge', endpoint: res.endpoint, engineId: res.engineId,
-      query: res.query, ms: res.ms, bindings: res.json.results.bindings,
-      namedGraphs: [
-        'https://forgetmenot.local/graph/identity/ddp-sparql',
-        'https://forgetmenot.local/graph/identity/wikidata',
-        'https://forgetmenot.local/graph/identity/govuk',
-        'https://forgetmenot.local/graph/identity/scraped',
-      ],
-      note: `joined ${ids.length} Members API ids across 4 identity graphs in fpkg (parl:memberId as canonical key)`,
-    }),
-  };
-}
 
 // ============================================================================
 // Op registry — keyed on bead type. Each op is one chip on the frontier bead.
@@ -682,11 +465,11 @@ const OPS = {
         b.type, `${b.label} · cit:${v}`) },
     { id: 'enrich',  label: 'enrich (Wikidata)', icon: '✨', kind: 'async',
       hint: 'Wikidata: birthplace + coords + dates + alma maters + spouses + occupations',
-      run: (b) => enrichHumans(b) },
+      run: (b) => runAugment('enrich', b) },
     { id: 'parl-enrich', label: 'enrich (Parliament)', icon: '🏛', kind: 'async',
       hint: 'UK Parliament SPARQL: current constituency + party via rdfs:seeAlso bridge',
       relevant: (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '') && (x.sitting || x.mpid)),
-      run: (b) => enrichFromParliament(b) },
+      run: (b) => runAugment('parl-enrich', b) },
     { id: 'pivot-bp',label: '→ birthplaces',    icon: '⌖',  kind: 'async',
       hint: 'walk P19 to a set of places',
       relevant: (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '')),
@@ -698,7 +481,7 @@ const OPS = {
     { id: 'identity-bridge', label: 'bridge (cross-source)', icon: '🔗', kind: 'async',
       hint: 'FPKG identity-graph: resolve to DDP person / Wikidata QID / GOV.UK slug / scraped site, all via parl:memberId',
       relevant: (b) => b.items.some((x) => x.mpid),
-      run: (b) => enrichFromIdentity(b) },
+      run: (b) => runAugment('identity-bridge', b) },
     { id: 'pivot', label: '→ pivot…', icon: '⇄', kind: 'rel-picker',
       hint: 'relation templates: tighten / broaden across Wikidata, Parliament DDP and FPKG NGs' },
   ],
@@ -974,6 +757,35 @@ async function loadStarter(s) {
     };
   }
   return s.fetch();
+}
+
+// Generic runner for AUGMENT ops (enrich / parl-enrich / identity-bridge).
+// Wraps the lib's pure plan with the page's engine() resolver + makeSource
+// + the .enriched flag the UI reads. Replaces the inline enrichHumans /
+// enrichFromParliament / enrichFromIdentity that used to live in this file.
+async function runAugment(opId, bundle) {
+  const aug = AUGMENT_OPS[opId];
+  if (!aug) throw new Error(`unknown augment op: ${opId}`);
+  if (aug.requires && !aug.requires(bundle)) {
+    throw new Error(`bundle does not satisfy requires() for "${opId}"`);
+  }
+  if (aug.cap && bundle.size > aug.cap) {
+    throw new Error(`bundle of ${bundle.size} too big to enrich (cap ${aug.cap})`);
+  }
+  const sparql = aug.query(bundle.items);
+  const res = await engine(aug.engineId).query(sparql, `${aug.id}(${bundle.size})`);
+  const newItems = aug.parse(res.json.results.bindings, bundle.items);
+  const enriched = new Bundle(newItems, bundle.type, `${bundle.label} + ${aug.id}`);
+  enriched.enriched = true;
+  return {
+    bundle: enriched,
+    source: makeSource({
+      kind: aug.id, endpoint: res.endpoint, engineId: res.engineId,
+      query: res.query, ms: res.ms, bindings: res.json.results.bindings,
+      note: aug.note,
+      namedGraphs: aug.namedGraphs || [],
+    }),
+  };
 }
 
 const STARTERS = [
