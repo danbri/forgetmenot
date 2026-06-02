@@ -42,7 +42,6 @@
 // from here"). Forks (V2) would let two chains share the prefix.
 // ============================================================================
 
-const QLEVER = 'https://qlever.dev/api/wikidata';
 // Substrate (Bloom, Bundle, helpers) lifted to /kgx/lib/node-flow.mjs.
 // pivcab imports the same module — single source of truth.
 // ============================================================================
@@ -61,81 +60,13 @@ import {
 } from '/kgx/lib/starters.mjs';
 import { LIBRARY } from '/kgx/lib/library.mjs';
 import { AUGMENT_OPS } from '/kgx/lib/augment.mjs';
+import { SparqlEngine, ENGINES, engine } from '/kgx/lib/engines.mjs';
 
 // The shared Bundle also exposes static union / intersect / difference
 // (previously only used by pivcab) — daisychain now has them too at no
 // extra cost, ready when a future op wants them.
 
-// ============================================================================
-// Net helper.
-// ============================================================================
-// ============================================================================
-// Engines — pluggable SPARQL execution. All queries (seed, enrich, pivot)
-// route through `engine.query()` so the engine can later be swapped between
-// HTTP (today: QLever, FPKG, Wikidata) and in-page Oxigraph wasm without
-// touching the op code. Beads record which engine produced each named graph.
-// ============================================================================
-class SparqlEngine {
-  constructor({ id, endpoint, label, kind = 'remote' }) {
-    this.id = id; this.endpoint = endpoint; this.label = label; this.kind = kind;
-  }
-  async query(query, queryLabel = 'sparql') {
-    if (this.kind !== 'remote') {
-      throw new Error(`engine ${this.id}: kind=${this.kind} not implemented`);
-    }
-    // `new URL(relative)` throws — pass the page origin as the base so
-    // engines that point at this server's own paths (`/kgx/query`,
-    // `/api/sparql`) resolve. Absolute URLs (qlever.dev, …) ignore the
-    // second arg, so this is safe for every engine in ENGINES.
-    const endpointUrl = new URL(this.endpoint, window.location.origin).toString();
-    const t0 = performance.now();
-    // GET fits in URL line; POST when the query is large enough to risk
-    // Cloudflare / server URL caps (~8 KB; URL-encoding inflates by ~1.5×,
-    // so 2 KB raw is the safe-ish threshold). Same shape as bin/kgx.mjs.
-    let r;
-    if (query.length > 2048) {
-      r = await fetch(endpointUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/sparql-query',
-          'Accept': 'application/sparql-results+json',
-        },
-        body: query,
-      });
-    } else {
-      const u = new URL(endpointUrl);
-      u.searchParams.set('query', query);
-      r = await fetch(u.toString(), {
-        headers: { 'Accept': 'application/sparql-results+json' },
-      });
-    }
-    if (!r.ok) throw new Error(`${queryLabel}: HTTP ${r.status}`);
-    const json = await r.json();
-    const ms = Math.round(performance.now() - t0);
-    console.log('[sparql]', this.id, queryLabel, { ms, rows: json.results.bindings.length });
-    return { json, query, endpoint: this.endpoint, engineId: this.id, ms, label: queryLabel };
-  }
-}
 
-const ENGINES = {
-  'qlever-wikidata': new SparqlEngine({
-    id: 'qlever-wikidata', endpoint: QLEVER, label: 'QLever ⇒ Wikidata' }),
-  'fpkg': new SparqlEngine({
-    id: 'fpkg', endpoint: '/kgx/query', label: 'FPKG (Oxigraph, server-side)' }),
-  // The official UK Parliament SPARQL (the DDP store). Routed through our
-  // proxy at /api/sparql per CLAUDE.md rule 3 — gives caching, TTL, and
-  // the OPL attribution header even though the upstream already sends CORS.
-  'parl-sparql': new SparqlEngine({
-    id: 'parl-sparql', endpoint: '/api/sparql', label: 'UK Parliament SPARQL (DDP)' }),
-  // Slot for V2: an in-page Oxigraph wasm engine that operates over each
-  // bead's union dataset. Today's ops don't use it, but the API is here.
-  // 'oxigraph-wasm': new SparqlEngine({ id: 'oxigraph-wasm', kind: 'wasm', label: 'Oxigraph (in-page wasm)' }),
-};
-function engine(id) {
-  const e = ENGINES[id];
-  if (!e) throw new Error('unknown engine: ' + id);
-  return e;
-}
 
 async function sparql(endpoint, query, label = 'sparql') {
   // Back-compat shim: most call sites still pass an endpoint URL.
