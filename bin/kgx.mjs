@@ -39,6 +39,8 @@ import { createHash } from 'node:crypto';
 import {
   assertNoAliasCollisions,
 } from '../demos/parliament-live/web/kgx/lib/sparql-validate.mjs';
+import { chainToTrig } from '../demos/parliament-live/web/kgx/lib/trig.mjs';
+import { LIBRARY }     from '../demos/parliament-live/web/kgx/lib/library.mjs';
 
 const ENGINES = {
   'qlever-wikidata': { endpoint: 'https://qlever.dev/api/wikidata',  label: 'QLever ⇒ Wikidata',         strict: true  },
@@ -98,6 +100,8 @@ kgx — SPARQL web-protocol client + ops dispatcher
                                        raw  = full JSON response untouched
        [--endpoint <url>]              override the engine's endpoint
        [--method get|post]             default post for >2 KB queries, else get
+  kgx chain trig --id <lib-id>         emit a TriG manifest for a LIBRARY entry
+  kgx chain trig -f path/to/spec.json   same, from a LIBRARY-shape JSON file
   kgx chain run -f chain.json          run a declarative chain spec, emit JSONL beads
        [--record path]                 also write a recording (chain + per-bead hashes)
   kgx chain replay -f recording.json   re-run the embedded chain, assert each bead's
@@ -344,6 +348,27 @@ async function runChain(chain) {
   return beads;
 }
 
+function cmdChainTrig(flags) {
+  let spec;
+  if (flags.id) {
+    spec = LIBRARY.find((c) => c.id === String(flags.id));
+    if (!spec) die(`chain trig: no LIBRARY entry with id "${flags.id}"`);
+  } else if (flags.f) {
+    spec = JSON.parse(readFileSync(String(flags.f), 'utf8'));
+  } else {
+    die('chain trig: pass `--id <library-id>` (from lib/library.mjs) or `-f path/to/spec.json`');
+  }
+  // LIBRARY shape uses { kind: 'starter' | 'op', ... } steps; the older
+  // bin/kgx.mjs chain-run format (id + query + bindVar) doesn't fit
+  // chainToTrig. Fail loud rather than emit nonsense.
+  const looksRight = spec?.steps?.[0] && typeof spec.steps[0].kind === 'string';
+  if (!looksRight) {
+    die('chain trig: spec must use LIBRARY shape (steps[].kind = "starter" | "op"). ' +
+        'The older bin/kgx.mjs chain-run inline-SPARQL format is not supported here.');
+  }
+  process.stdout.write(chainToTrig(spec));
+}
+
 async function cmdChainRun(flags) {
   if (!flags.f) die('chain run: pass `-f path/to/chain.json`');
   const chain = JSON.parse(readFileSync(String(flags.f), 'utf8'));
@@ -404,7 +429,8 @@ async function main(argv) {
     const sub = args._[1];
     if (sub === 'run')    return cmdChainRun(args.flags);
     if (sub === 'replay') return cmdChainReplay(args.flags);
-    die(`unknown 'chain' subcommand "${sub || ''}" — try 'run' or 'replay'`);
+    if (sub === 'trig')   return cmdChainTrig(args.flags);
+    die(`unknown 'chain' subcommand "${sub || ''}" — try 'run' | 'replay' | 'trig'`);
   }
   die(`unknown verb "${verb}" — try \`kgx --help\``);
 }
