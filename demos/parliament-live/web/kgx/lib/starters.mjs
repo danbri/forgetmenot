@@ -100,6 +100,79 @@ export function parseMpRows(bindings) {
   });
 }
 
+// -----------------------------------------------------------------------------
+// parl-current-mps: the FPKG-bundled DDP-shape projection built daily by
+// scripts/build-parl-current.mjs from the Members API. Uses fpkg's Oxigraph
+// store at /kgx/query against a named graph that contains the synthetic
+// current-MPs triples in DDP vocab.
+//
+// NB: the api.parliament.uk/sparql endpoint is a Parliament behind for
+// current-state questions; this starter exists because we need a
+// "what's the current Commons look like, RIGHT NOW" answer that the
+// official DDP store can't give. See /kgx/queries/08 + 09 for the
+// diagnosis.
+//
+// SPARQL hygiene fix during extraction: the inline version used the same
+// name for the SAMPLE source and the AS target (e.g. `(SAMPLE(?fam) AS ?fam)`).
+// Oxigraph accepts it; strict engines (api.parliament.uk/sparql, QLever)
+// don't. Renamed the WHERE-side variables (?famName / ?givName / ...) so
+// the AS targets stay short (?fam / ?giv / ...) and parse() doesn't need
+// to change.
+// -----------------------------------------------------------------------------
+export const PARL_CURRENT_MPS_QUERY = `
+PREFIX schema: <https://id.parliament.uk/schema/>
+SELECT ?p (SAMPLE(?famName)   AS ?fam)
+          (SAMPLE(?givName)   AS ?giv)
+          (SAMPLE(?constName) AS ?const)
+          (SAMPLE(?partyName) AS ?party)
+          (SAMPLE(?mid)       AS ?mpid)
+          (SAMPLE(?startDate) AS ?start)
+WHERE {
+  GRAPH ?g {
+    FILTER(CONTAINS(STR(?g), "parl-current/"))
+    ?p schema:memberHasParliamentaryIncumbency ?in .
+    ?in schema:seatIncumbencyHasHouseSeat ?seat .
+    ?seat schema:houseSeatHasHouse <https://id.parliament.uk/1AFu55Hs> .
+    ?seat schema:houseSeatHasConstituencyGroup/schema:constituencyGroupName ?constName .
+    FILTER NOT EXISTS { ?in schema:incumbencyEndDate ?e }
+    OPTIONAL { ?p schema:personGivenName  ?givName }
+    OPTIONAL { ?p schema:personFamilyName ?famName }
+    OPTIONAL { ?p schema:mnisId           ?mid }
+    OPTIONAL { ?in schema:parliamentaryIncumbencyStartDate ?startDate }
+    OPTIONAL {
+      ?p schema:partyMemberHasPartyMembership/schema:partyMembershipHasParty/schema:partyName ?partyName
+    }
+  }
+} GROUP BY ?p`;
+
+export function parseParlCurrentRows(bindings) {
+  return bindings.map((b) => {
+    const giv = b.giv?.value || '', fam = b.fam?.value || '';
+    const startYr = b.start?.value ? +b.start.value.slice(0, 4) : null;
+    return {
+      uri:     b.p.value,
+      label:   (giv + ' ' + fam).trim() || b.p.value.replace(/^.*\//, ''),
+      image:   null,
+      mpid:    b.mpid?.value || null,
+      firstYr: startYr, lastYr: null, latestStart: startYr, sitting: true,
+      parties: [b.party?.value].filter(Boolean),
+      gender:  null, citizenships: [],
+      decade:  '2020s',
+      // Pre-populated parl extra so the bead reads enriched without an
+      // explicit `enrich (Parliament)` step.
+      extra: {
+        parl: {
+          personUri:     b.p.value,
+          constituency:  b.const?.value || null,
+          currentParty:  b.party?.value || null,
+          familyName:    fam || null,
+          givenName:     giv || null,
+        },
+      },
+    };
+  });
+}
+
 // Registry of starters that live here (declarative). The daisychain page
 // merges this with its still-inline starters at import-time so the order
 // + IDs that the LIBRARY chains reference are preserved.
@@ -113,5 +186,16 @@ export const STARTERS = [
     query:     POST1900_MPS_QUERY,
     parse:     parseMpRows,
     note:      'Wikidata persons holding any position ⊑ Q16707842, with at least one term touching 1900+',
+  },
+  {
+    id:        'parl-current-mps',
+    label:     'Current MPs (live)',
+    sub:       'Members API → fresh DDP-shape synthetic graph in FPKG. 647 current Commons, dated 2024 cohort.',
+    type:      'human',
+    engineId:  'fpkg',
+    query:     PARL_CURRENT_MPS_QUERY,
+    parse:     parseParlCurrentRows,
+    note:      'FPKG sidecar: DDP-shaped projection of Members API current state. Built daily by scripts/build-parl-current.mjs; DDP endpoint itself is a Parliament behind — see /kgx/queries/08-… for the diagnosis.',
+    namedGraphs: ['https://forgetmenot.local/graph/parl-current/<date>'],
   },
 ];

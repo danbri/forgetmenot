@@ -14,6 +14,7 @@ import assert from 'node:assert/strict';
 
 import {
   STARTERS, POST1900_MPS_QUERY, SEED_LIMIT, parseMpRows,
+  PARL_CURRENT_MPS_QUERY, parseParlCurrentRows,
 } from '../../demos/parliament-live/web/kgx/lib/starters.mjs';
 import { assertNoAliasCollisions } from
   '../../demos/parliament-live/web/kgx/lib/sparql-validate.mjs';
@@ -144,6 +145,57 @@ test('parseMpRows handles missing optional fields (empty strings, null pipes)', 
   assert.deepEqual(item.parties, []);
   assert.deepEqual(item.citizenships, []);
   assert.equal(item.decade, null);
+});
+
+// ---------------------------------------------------------------------------
+// parl-current-mps: the DDP-shaped projection in FPKG's Oxigraph.
+// Lifted from the inline daisychain starter; AS-collision fixed.
+// ---------------------------------------------------------------------------
+
+const SAMPLE_PARL_ROW = {
+  p:     { type: 'uri',     value: 'https://id.parliament.uk/abc123' },
+  giv:   { type: 'literal', value: 'Alice' },
+  fam:   { type: 'literal', value: 'Adams' },
+  const: { type: 'literal', value: 'North Cornwall' },
+  party: { type: 'literal', value: 'Labour Party' },
+  mpid:  { type: 'literal', value: '4001' },
+  start: { type: 'literal', value: '2024-07-04' },
+};
+
+test('parl-current-mps query: no §18.2.4.4 collisions', () => {
+  // The previous inline version had `(SAMPLE(?fam) AS ?fam)` etc. — fixed
+  // by renaming WHERE-side variables.  Pin the fix here so it can't
+  // regress.
+  assertNoAliasCollisions(PARL_CURRENT_MPS_QUERY, 'parl-current-mps');
+});
+
+test('parseParlCurrentRows maps a DDP row into the human-bundle shape', () => {
+  const [item] = parseParlCurrentRows([SAMPLE_PARL_ROW]);
+  assert.equal(item.uri,     'https://id.parliament.uk/abc123');
+  assert.equal(item.label,   'Alice Adams');
+  assert.equal(item.image,   null);
+  assert.equal(item.mpid,    '4001');
+  assert.equal(item.firstYr, 2024);
+  assert.equal(item.lastYr,  null);
+  assert.equal(item.sitting, true);
+  assert.deepEqual(item.parties, ['Labour Party']);
+  assert.equal(item.decade,  '2020s');
+  // The pre-populated extra sidecar means the bead reads "enriched"
+  // without an explicit `enrich (Parliament)` op.
+  assert.equal(item.extra?.parl?.personUri,    'https://id.parliament.uk/abc123');
+  assert.equal(item.extra?.parl?.constituency, 'North Cornwall');
+  assert.equal(item.extra?.parl?.currentParty, 'Labour Party');
+  assert.equal(item.extra?.parl?.familyName,   'Adams');
+  assert.equal(item.extra?.parl?.givenName,    'Alice');
+});
+
+test('parseParlCurrentRows falls back to URI suffix when name fields are empty', () => {
+  const r = { p: { type: 'uri', value: 'https://id.parliament.uk/xyz789' } };
+  const [item] = parseParlCurrentRows([r]);
+  assert.equal(item.label, 'xyz789');
+  assert.equal(item.mpid,  null);
+  assert.deepEqual(item.parties, []);
+  assert.equal(item.extra?.parl?.familyName, null);
 });
 
 // ---------------------------------------------------------------------------
