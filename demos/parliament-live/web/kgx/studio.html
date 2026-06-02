@@ -286,6 +286,18 @@
     step can call.  Surfaced from the lib at page load — what's listed
     here is what's executable today.
   </p>
+  <p style="margin: 0 0 12px;">
+    Quality mode:
+    <label><input type="radio" name="quality-mode" value="strict">      strict</label>
+    <label><input type="radio" name="quality-mode" value="exploratory" checked> exploratory</label>
+    <label><input type="radio" name="quality-mode" value="recall">      recall</label>
+    <label><input type="radio" name="quality-mode" value="precision">   precision</label>
+    <br><span style="color: var(--ink-soft); font-size: 13px;">
+      strict = only primary + default-kind; exploratory = everything;
+      recall = default + broaden; precision = default + tighten + crossCheck.
+      Replay is unaffected — mode only filters the picker.
+    </span>
+  </p>
   <h2>Source ops (<code>STARTERS</code>)</h2>
   <table id="ops-starters"><thead><tr><th>id</th><th>type out</th><th>engine</th><th>role</th><th>label</th></tr></thead><tbody></tbody></table>
 
@@ -311,6 +323,7 @@
   import { opFilters }   from '/kgx/lib/restrict.mjs';
   import { AUGMENT_OPS } from '/kgx/lib/augment.mjs';
   import { LIBRARY }     from '/kgx/lib/library.mjs';
+  import { isVariantAllowedByPolicy, isOpAllowedByPolicy } from '/kgx/lib/quality.mjs';
 
   function selectTab(id) {
     if (!['debug', 'library', 'ops'].includes(id)) id = 'debug';
@@ -344,33 +357,64 @@
 
   // --- Ops panel: introspect each lib module.
   const tbody = (id) => document.querySelector(`#${id} tbody`);
-  function row(tb, ...cells) {
+  // Track each row's underlying op/variant so applyQualityMode() can dim
+  // disallowed ones in place. Tag rows with data-role + data-kinds.
+  function tagRow(tr, { role, kinds }) {
+    if (role)  tr.dataset.role  = role;
+    if (kinds) tr.dataset.kinds = kinds;
+    return tr;
+  }
+  function makeRow(tb, cells) {
     const tr = document.createElement('tr');
     for (const c of cells) {
       const td = document.createElement('td');
-      if (typeof c === 'string') td.textContent = c;
-      else td.appendChild(c);
+      if (c instanceof Node) td.appendChild(c); else td.textContent = c;
       tr.appendChild(td);
     }
     tb.appendChild(tr);
+    return tr;
   }
   for (const s of STARTERS) {
-    row(tbody('ops-starters'),
-        s.id, s.type, s.engineId || (s.pqTemplate ? 'parl-pq' : '?'),
-        s.role || '—', s.label);
+    tagRow(makeRow(tbody('ops-starters'), [
+      s.id, s.type, s.engineId || (s.pqTemplate ? 'parl-pq' : '?'),
+      s.role || '—', s.label,
+    ]), { role: s.role || 'primary' });
   }
   for (const [id, fn] of Object.entries(opFilters)) {
-    row(tbody('ops-restrict'), id, String(fn.length) + '-ary');
+    makeRow(tbody('ops-restrict'), [id, String(fn.length) + '-ary']);
   }
   for (const t of REL_TEMPLATES) {
-    row(tbody('ops-pivot'),
-        t.id, `${t.inputType} → ${t.outputType}`, t.engineId,
-        t.role || '—',
-        t.variants.map((v) => `${v.kind}:${v.id}`).join(', '));
+    tagRow(makeRow(tbody('ops-pivot'), [
+      t.id, `${t.inputType} → ${t.outputType}`, t.engineId,
+      t.role || '—',
+      t.variants.map((v) => `${v.kind}:${v.id}`).join(', '),
+    ]), { role: t.role || 'primary', kinds: t.variants.map((v) => v.kind).join(',') });
   }
   for (const [id, aug] of Object.entries(AUGMENT_OPS)) {
-    row(tbody('ops-augment'), id, aug.engineId, aug.role || '—', String(aug.cap || ''), aug.note || '');
+    tagRow(makeRow(tbody('ops-augment'), [
+      id, aug.engineId, aug.role || '—', String(aug.cap || ''), aug.note || '',
+    ]), { role: aug.role || 'primary' });
   }
+
+  function applyQualityMode(mode) {
+    // Dim rows whose op-role isn't allowed by mode, OR whose kinds
+    // list has no allowed variant. Restrict ops are pure-client filters
+    // and don't carry a role — always shown.
+    const allowsRole = (role) => isOpAllowedByPolicy(mode, { role });
+    const allowsAnyKind = (kindsStr) => (kindsStr || '').split(',').some(
+      (k) => isVariantAllowedByPolicy(mode, { kind: k }));
+    document.querySelectorAll('section[data-panel="ops"] tbody tr').forEach((tr) => {
+      const role  = tr.dataset.role;
+      const kinds = tr.dataset.kinds;
+      const ok = (!role || allowsRole(role))
+              && (!kinds || allowsAnyKind(kinds));
+      tr.style.opacity = ok ? '1' : '0.35';
+    });
+  }
+  document.querySelectorAll('input[name="quality-mode"]').forEach((r) => {
+    r.addEventListener('change', () => applyQualityMode(r.value));
+  });
+  applyQualityMode('exploratory');
 
   // --- Tab dispatch
   document.querySelectorAll('.tab').forEach((el) => {
