@@ -1,99 +1,122 @@
-# kgx node-flow — progress report (2026-05-28)
+# kgx node-flow — progress report
 
 > Status of what we've built under the
 > [`node-flow-design.md`](./node-flow-design.md) /
-> [`node-flow-sketch.md`](./node-flow-sketch.md) plan. Updated as work lands.
-> The honest checklist; complements the worklog. Edit in place.
+> [`node-flow-sketch.md`](./node-flow-sketch.md) plan. Updated as work
+> lands. The honest checklist; complements the worklog. Edit in place.
+>
+> Last update: 2026-06-02 (this session lifted ~960 lines of inline
+> daisychain code into `lib/`; LIBRARY iteration now runs 19 / 20 saved
+> chains through the lib's runChainSpec via `cachedFetch`; suite 165).
 
 ## Where we are
 
-Two demo pages now live, both UK-Parliament-flavoured, both built on the
-same `Bundle` + `Bloom` core:
+Two demo pages, both UK-Parliament-flavoured, both built on the same
+substrate now in **`/kgx/lib/`** — the canonical source the browser
+demos, the integrated studio, the CLI, and the unit tests all share:
+
+| Module | Exports | Notes |
+|---|---|---|
+| `node-flow.mjs` | `Bundle` `Bloom` `valuesQids` `parsePoint` … | the substrate |
+| `engines.mjs` | `SparqlEngine` `ENGINES` `engine(id)` | qlever / fpkg / parl-sparql; GET small, POST >2 KB |
+| `sparql-validate.mjs` | `assertNoAliasCollisions` | SPARQL 1.1 §18.2.4.4 hygiene gate |
+| `starters.mjs` | `STARTERS` (9: SPARQL + PQ shapes) | source ops |
+| `restrict.mjs` | `opFilters` (13 pure-client filters), `nameGender`, aggregators | restrict ops |
+| `rel-templates.mjs` | `REL_TEMPLATES` (12 templates, 18 variants), `valuesMnisPersons` | pivot ops |
+| `augment.mjs` | `AUGMENT_OPS` (enrich, parl-enrich, identity-bridge) | augment ops |
+| `library.mjs` | `LIBRARY` (20 saved chains) | data |
+| `runner.mjs` | `runChainSpec(spec, ctx)`, `UnsupportedOpError` | interpreter |
+
+Page surfaces:
 
 | Page | URL | Surface |
 |---|---|---|
-| **pivcab** | `/kgx/pivcab/` | DAG-first. Combine (A ∪ B / A ∩ B / A ∖ B) is the user-facing primitive. |
-| **daisychain** | `/kgx/daisychain/` | Notebook-spine-first. Combine deferred; pivot/enrich/types-as-bundles are the primitives. Four+one views of the same chain state. |
+| **daisychain** | `/kgx/daisychain/` | Notebook-spine. Tap a starter → grow the chain via op chips; tap an older bead to truncate. Same `Bundle` engine as pivcab. URL hash auto-syncs (`#g=<base64url>` permalink); `#library=<id>` deep-link rehydrates. |
+| **pivcab** | `/kgx/pivcab/` | DAG view of the same engine. Combine (∪ / ∩ / ∖) as the user-facing primitive. |
+| **studio** | `/kgx/studio` | Three tabs: Debug (catalogue + endpoint + editor), Library (every chain in LIBRARY, tap to deep-link into daisychain), Ops registry (introspects each lib module — what's executable today). |
 
-Engines are now an abstraction (`SparqlEngine`):
-
-| Engine id | Endpoint | Used by |
-|---|---|---|
-| `qlever-wikidata` | `https://qlever.dev/api/wikidata` | seed + Wikidata enrich + birthplaces/alma maters pivots |
-| `parl-sparql` | `/api/sparql` (proxied DDP) | "Current MPs" starter + 🏛 Parliament enrich |
-| `fpkg` | `/kgx/query` (bundled Oxigraph) | slotted, not yet wired into an op |
-| `oxigraph-wasm` | — | stub for V2 in-page execution |
-
-Each fetch (seed, enrich, pivot) and each client-side op mints a
-`Source` with a synthesised `urn:fmn:bead/<ts>/<seq>/<kind>` named-graph
-IRI. The bead's content is, formally, a SPARQL dataset whose named graphs
-come from its sources. ⓘ on any bead shows lineage + the SPARQL used +
-a TriG download.
+Plus `bin/kgx.mjs` — node CLI with `engines`, `validate`, `sparql`, `chain run`, `chain replay` verbs over the same lib.
 
 ## Design vocabulary vs. what's built
 
-Mapping against [`node-flow-design.md` § Node Kinds](./node-flow-design.md#node-kinds):
-
-| Design concept | pivcab | daisychain | Notes |
-|---|---|---|---|
-| **Source** | ✓ Cabinet seed | ✓ `STARTERS[]`: `uk-mps-1900`, `parl-current-mps` | |
-| **Filter** | ✓ via select+button | ✓ chip palette `OPS[bundle.type]` | |
-| **Pivot** | ✗ | ✓ `→ birthplaces` (P19), `→ alma maters` (P69) | hardcoded predicates, not yet relation templates |
-| **Federate** | ✗ | ⚠ implicit: 🏛 `enrich (Parliament)` is federate-via-rdfs:seeAlso | not yet a declared node kind with `{joinKey, sources[]}` |
-| **Combine** | ✓ A ∪ B / A ∩ B / A ∖ B | ✗ deferred | |
-| **Group** | ✓ | ⚠ minimal: `group by country` on places | no histogram-with-bar-view yet |
-| **View** | ✓ tilegrid only | ✓ spine / graph / table / tiles / map | daisychain implements design's Option B (view as projection) |
-| **Enrich** (later kind) | ✗ | ✓ ✨ Wikidata + 🏛 Parliament | per-item `extra` multigraph |
-| **Validate** | ✗ | ✗ | |
-| **Annotate** | ✗ | ✗ | |
-| **Materialise** | ✗ | ⚠ per-bead TriG export | not yet workflow-level manifest |
-| **Rank** | ✗ | ✗ | |
-
-Mapping against design supporting concepts:
+| Design concept | Status | Notes |
+|---|---|---|
+| **Source** | ✓ | `STARTERS`: uk-mps-1900 / parl-current-mps / hk-skyscrapers / us-presidents / recent-sis / 4 PQ-shape (constituency-current, party-index, formal-body-index, concept-index) |
+| **Filter / Restrict** | ✓ | `opFilters` with 13 entries (party, decade, sitting, bridged, gender + heuristic, citizenship, has-origin, by-mp-party, in-commons, in-lords, top-by-size, top-by-officer-count, name-contains) |
+| **Pivot** | ✓ | `REL_TEMPLATES` registry, 12 templates, 18 variants. `inputType → outputType` typed. tighten/broaden variants on `children`, `birthplaces`, `current_constituency`, `wd_instances_of`. |
+| **Federate / Augment** | ✓ | `AUGMENT_OPS`: enrich (Wikidata), parl-enrich (DDP via rdfs:seeAlso, role=crossCheck), identity-bridge (FPKG identity-graph, role=crossCheck) |
+| **Combine** | ✓ in pivcab | `Bundle.union/intersect/difference` in node-flow.mjs |
+| **Group** | ⚠ | minimal (`group by country`); no histogram-with-bar-view yet |
+| **View** | ✓ daisychain | spine / graph / table / tiles / map (4+1 toggle) |
+| **Validate** | ✓ | `sparql-validate.mjs::assertNoAliasCollisions` — gates every op's emitted SPARQL |
+| **Annotate** | ✗ | |
+| **Materialise** | ⚠ per-bead | each bead exports TriG; whole-workflow manifest still pending |
+| **Rank** | ✗ | |
 
 | Concept | Status | Notes |
 |---|---|---|
-| **Typed edges (bundle metadata)** | ✓ | `Bundle { items, type, label }`; ids set + lazy Bloom |
-| **Mobile-first vertical DAG** | ✓ | both pages 360 px first |
-| **Multiple engines** | ✓ | `SparqlEngine` abstraction, engineId on every Source |
-| **Read-only graph render** (MVP) | ✓ | pivcab + daisychain graph view |
-| **Provenance per bead** | ✓ | Source records: ng IRI, endpoint, engineId, query text, ms, row count, bindings, ts, note |
-| **TriG export** | ⚠ per-bead | each `<urn:fmn:bead/…>` block, one per source; no workflow-wide manifest yet |
-| **URL hash persistence** | ✗ | both pages lose state on reload |
-| **Library / saved workflows** | ⚠ | daisychain has `LIBRARY[]` + replay; not yet TriG-shaped |
+| **Typed edges (bundle metadata)** | ✓ | `Bundle { items, type, label }` |
+| **Mobile-first vertical** | ✓ | all surfaces 360 px first |
+| **Multiple engines** | ✓ | `engines.mjs` registry, engineId on every Source |
+| **Provenance per bead** | ✓ | `Source { ng, kind, endpoint, engineId, query, ms, bindings, ts, note, namedGraphs }` |
+| **TriG export** | ⚠ per-bead | per-bead block; workflow-wide TriG still pending |
+| **URL hash persistence** | ✓ | `#g=<base64url(spec)>` auto-syncs; `#library=<id>` deep-links |
+| **Library / saved workflows** | ✓ | `LIBRARY` in lib; daisychain `_replay` consumes; studio Library tab lists |
 | **Bloom filters for set algebra** | ✓ in-memory | not yet shareable across runs |
 | **Cache distinction (BundleDef / Run / CacheArtifact)** | ✗ | every chip click re-runs |
-| **Relation templates** (tighten/broaden, sons/family/associates) | ✗ | the named gap; pivots are raw predicates |
-| **Quality policies** (strict/exploratory/recall/precision) | ✗ | no policy gate; "no silent broadening" not enforced |
-| **Source roles** (primary/crossCheck/adapterEvidence/weak) | ✗ | engineId is just an id, no role taxonomy |
-| **Cardinality feedback** | ✗ | counts shown but no "tighten/broaden" affordance |
-| **Forks / named branches** | ✗ | daisychain single-chain; pivcab has implicit branching via Combine but no `branches[]` array |
+| **Relation templates** (tighten/broaden) | ✓ | 18 variants across 12 templates |
+| **Quality policies** (strict/exploratory/recall/precision) | ✗ | not enforced; the `kind` field on variants is the slot |
+| **Source roles** (primary/crossCheck/adapterEvidence/weak) | ✓ metadata | role on each STARTER / REL_TEMPLATE / AUGMENT_OP; pinned by contract tests; UI surface in studio Ops tab. Not yet surfaced on daisychain beads. |
+| **Cardinality feedback** | ⚠ partial | counts + the "⚠ large — see 🔧" hint exist; no principled tighten/broaden affordance yet |
+| **Forks / named branches** | ✗ | back-gesture truncates; no `branches[]` |
 | **SPARQL Anything adapter source** | ✗ | not wired |
+| **Facets, entities, descriptions (DATA/REFERENT split)** | ⚠ documented | design note `§ Facets, entities, descriptions` captures it; op-API metadata pending until a REFERENT op motivates it |
 
-## What's in the page that wasn't strictly in the design
+## Test coverage
 
-- **`daisychain` itself** — the spine-as-primary metaphor. The design called for read-only DAG render of the existing pivot notebook; we built a second metaphor in parallel.
-- **Engines registry** (`SparqlEngine` + `ENGINES`) — design implies multiple sources but didn't specify a class.
-- **`LIBRARY[]` of saved chains with replay** — fits "definitions should be stable and replayable" but wasn't called out as MVP.
-- **Four-view toggle** (spine/graph/table/tiles/map) — design said "for MVP, either [view-as-node or view-as-attachment] is fine"; we picked attachment and shipped multiple renderers.
-- **The 🏛 Parliament-DDP enrich** demonstrates federation across engines but isn't yet typed as a `Federate` node kind.
+Suite: **165 tests** (164 pass, 1 skip, 0 fail). Skip is `sitting-bridged-enriched` — chain author forgot to narrow before augment (cap exceeded; intended product behaviour).
+
+LIBRARY iteration test runs every saved chain through `runChainSpec`:
+
+- **19 / 20 PASS** live + cached (HK skyscrapers→architects→works, MPs since 1900 → Labour → sitting → current constituency, US Presidents → children → alma maters, …)
+- **1 SKIP** with diagnostic (the cap one above)
+- **+1 determinism cross-check** (`tory-sitting` bindHash stable across two runs)
+
+Two-tier HTTP cache (`tests/_lib/http-cache.mjs`): committed summary
+(~few KB per request, in `tests/fixtures/http-cache/`) + `/tmp` full
+body for fast local re-runs. Frozen-mode hermetic CI works from
+summary alone.
 
 ## What we'd next close, in priority order
 
-1. **Relation templates** (next). Replace raw `→ birthplaces` / `→ alma maters` ops with a `RelationTemplate` registry: `id`, `gloss`, `inputType`, `outputType`, `engineId`, optional `namedGraphs[]`, `variants[{id, kind: 'default'|'tighten'|'broaden', label, build(items)}]`. A `→ pivot…` picker chip surfaces them. Source records carry `relTemplate` + `variant` + `namedGraphs[]` so lineage and TriG read in design vocabulary. Initial set: `birthplace`, `educated_at`, `children` (showpiece: default + sons + daughters + first child + family), `current_constituency` (parl-sparql), `appg_officer` (fpkg `appg-register` named graph) — proves non-Wikidata sources at the relation level, not just the seed level.
-2. **Source roles**. Add `gog:role` per engine: primary / crossCheck / adapterEvidence / weakEnrichment. Render in the ⓘ panel.
-3. **Quality policies**. A page-level mode: strict / exploratory / recall / precision. Filter the `RelationTemplate.variants` shown in the picker based on the active policy.
-4. **URL hash persistence**. `#g=<base64url(gzip(chainSpec))>` — chains already serialise; just wire load.
-5. **Workflow-level TriG manifest**. Lift the per-bead TriG to a whole-page TriG dump with `gog:` ontology (bundle defs, runs, source bindings, cache hashes).
-6. **Federate as a node kind**. Declare the 🏛 op with `{joinKey: 'wikidataQid', sources: [{id, role}]}` shape.
-7. **Forks/branches**. Daisychain back-gesture truncates; should optionally fork instead, with named branches.
-8. **SPARQL Anything adapter source**. Wrap a JSON API (Members API list of MPs by constituency, e.g.) as RDF on demand.
+1. **Workflow-level TriG manifest**. Lift per-bead TriG to whole-chain
+   manifest with `gog:` ontology (bundle defs, runs, source bindings,
+   cache hashes). Real interchange artifact.
+2. **Quality policies**. Page-level mode toggle; filter REL_TEMPLATE
+   variants and AUGMENT_OPS by mode. Lib-side helper +
+   `qualityMode` field on chain spec.
+3. **Forks / branches**. State.beads becomes a tree; daisychain back-
+   gesture branches instead of truncating; named branches in spec.
+4. **Federate as a declared node kind**. parl-enrich + identity-bridge
+   are already AUGMENT_OPS with crossCheck role; promote to declared
+   `{ joinKey, sources: [{id, role}] }` shape so multi-source ops are
+   first-class.
+5. **SPARQL Anything adapter source**. Wrap a JSON API (Members API
+   list-by-constituency, e.g.) as RDF on demand. Carries
+   `adapterEvidence` role.
+6. **Cache distinction (BundleDef / Run / CacheArtifact)**. Today every
+   chip click re-runs; a content-addressed cache (hash of node-def +
+   inputs → cached bindings) would let `#g=…` permalinks load
+   instantly without re-fetching.
 
 ## Files
 
-- `demos/parliament-live/web/kgx/pivcab/index.html` — DAG demo
-- `demos/parliament-live/web/kgx/daisychain/index.html` — spine demo
-- `demos/parliament-live/web/kgx/index.html` — links both
-- `docs/kgx/node-flow-design.md` — the canonical design
-- `docs/kgx/node-flow-sketch.md` — the seed
+- `demos/parliament-live/web/kgx/lib/*.mjs` — the canonical library
+- `demos/parliament-live/web/kgx/{daisychain,pivcab,studio}/` — page surfaces
+- `bin/kgx.mjs` — node CLI
+- `tests/unit/kgx-*.test.mjs` — lib unit tests; LIBRARY iteration
+- `tests/_lib/http-cache.mjs` — two-tier record/replay
+- `tests/fixtures/http-cache/<aa>/<key>.json` — committed summaries
+- `docs/kgx/node-flow-design.md` — canonical design
+- `docs/kgx/node-flow-sketch.md` — seed
 - `docs/kgx/progress.md` — this file
