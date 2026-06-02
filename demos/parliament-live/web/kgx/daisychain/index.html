@@ -314,9 +314,7 @@ const OPS = {
     { id: 'citizenship', label: 'citizenship…', icon: '🌎', kind: 'picker',
       relevant: (b) => b.items.some((x) => x.citizenships && x.citizenships.length),
       values: (b) => topCounts(b.items.flatMap((x) => x.citizenships || [])),
-      run:    (b, v) => new Bundle(
-        b.items.filter((x) => (x.citizenships || []).includes(v)),
-        b.type, `${b.label} · cit:${v}`) },
+      run:    (b, v) => opFilters.citizenship(b, v) },
     { id: 'enrich',  label: 'enrich (Wikidata)', icon: '✨', kind: 'async',
       hint: 'Wikidata: birthplace + coords + dates + alma maters + spouses + occupations',
       run: (b) => runAugment('enrich', b) },
@@ -344,36 +342,24 @@ const OPS = {
   // doesn't bottom out at human/place/org.
   constituency: [
     { id: 'has-origin', label: 'top-weighted', icon: '★', kind: 'static',
-      run: (b) => new Bundle(
-        [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 50),
-        'constituency', `${b.label} · top 50`) },
+      run: (b) => opFilters['has-origin'](b) },
     // For constituency_current items (PQ-seeded), the embedded current MP's
     // party is on the item; offer a quick party narrow without a server hit.
     { id: 'by-mp-party', label: 'by current MP party…', icon: '⚑', kind: 'picker',
       values: (b) => topCounts(b.items.map((x) => x.currentMpParty).filter(Boolean)),
-      run:    (b, v) => new Bundle(
-        b.items.filter((x) => x.currentMpParty === v),
-        'constituency', `${b.label} · MP party=${v}`) },
+      run:    (b, v) => opFilters['by-mp-party'](b, v) },
   ],
   appg: [
     { id: 'top-by-officer-count', label: 'top by officer count', icon: '★', kind: 'static',
-      run: (b) => new Bundle(
-        [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 50),
-        'appg', `${b.label} · top 50`) },
+      run: (b) => opFilters['top-by-officer-count'](b) },
   ],
   party: [
     { id: 'in-commons', label: 'has Commons membership', icon: '◉', kind: 'static',
-      run: (b) => new Bundle(
-        b.items.filter((x) => (x.commonsCount || 0) > 0),
-        'party', `${b.label} · with Commons MPs`) },
+      run: (b) => opFilters['in-commons'](b) },
     { id: 'in-lords', label: 'has Lords membership', icon: '◈', kind: 'static',
-      run: (b) => new Bundle(
-        b.items.filter((x) => (x.lordsCount || 0) > 0),
-        'party', `${b.label} · with Lords peers`) },
+      run: (b) => opFilters['in-lords'](b) },
     { id: 'top-by-size', label: 'top by total members', icon: '★', kind: 'static',
-      run: (b) => new Bundle(
-        [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 25),
-        'party', `${b.label} · top 25`) },
+      run: (b) => opFilters['top-by-size'](b) },
   ],
   formal_body: [
     { id: 'name-contains', label: 'name contains…', icon: '🔍', kind: 'picker',
@@ -385,9 +371,7 @@ const OPS = {
         ['Board',       b.items.filter((x) => /Board/i.test(x.label)).length],
         ['Commission',  b.items.filter((x) => /Commission/i.test(x.label)).length],
       ].filter(([_, n]) => n),
-      run:    (b, v) => new Bundle(
-        b.items.filter((x) => new RegExp(v, 'i').test(x.label)),
-        'formal_body', `${b.label} · "${v}"`) },
+      run:    (b, v) => opFilters['name-contains'](b, v) },
   ],
   concept: [
     { id: 'name-contains', label: 'name contains…', icon: '🔍', kind: 'picker',
@@ -409,15 +393,13 @@ const OPS = {
   wd_thing: [
     { id: 'has-coord', label: 'has coords', icon: '⌖', kind: 'static',
       relevant: (b) => b.items.some((x) => x.coords),
-      run: (b) => new Bundle(b.items.filter((x) => x.coords), 'wd_thing', `${b.label} · located`) },
+      run: (b) => opFilters['has-coord'](b) },
     { id: 'has-img', label: 'has image', icon: '🖼', kind: 'static',
       relevant: (b) => b.items.some((x) => x.image),
-      run: (b) => new Bundle(b.items.filter((x) => x.image), 'wd_thing', `${b.label} · with photo`) },
+      run: (b) => opFilters['has-img'](b) },
     { id: 'country', label: 'by country…', icon: '🌐', kind: 'picker',
       values: (b) => topCounts(b.items.map((x) => x.country).filter(Boolean)),
-      run:    (b, v) => new Bundle(
-        b.items.filter((x) => x.country === v),
-        'wd_thing', `${b.label} · ${v}`) },
+      run:    (b, v) => opFilters.country(b, v) },
     { id: 'pivot', label: '→ pivot…', icon: '⇄', kind: 'rel-picker',
       hint: 'P31 to class, P17 to country, etc.' },
   ],
@@ -432,32 +414,24 @@ const OPS = {
   ],
   building: [
     { id: 'has-coord', label: 'has coords', icon: '⌖', kind: 'static',
-      run: (b) => new Bundle(b.items.filter((x) => x.coords), 'building', `${b.label} · located`) },
+      run: (b) => opFilters['has-coord'](b) },
     { id: 'has-img', label: 'has image', icon: '🖼', kind: 'static',
-      run: (b) => new Bundle(b.items.filter((x) => x.image), 'building', `${b.label} · with photo`) },
+      run: (b) => opFilters['has-img'](b) },
     { id: 'country', label: 'by country…', icon: '🌐', kind: 'picker',
       values: (b) => topCounts(b.items.map((x) => x.country).filter(Boolean)),
-      run:    (b, v) => new Bundle(
-        b.items.filter((x) => x.country === v),
-        'building', `${b.label} · ${v}`) },
+      run:    (b, v) => opFilters.country(b, v) },
     { id: 'pivot', label: '→ pivot…', icon: '⇄', kind: 'rel-picker',
       hint: 'relation templates applicable to building bundles' },
   ],
   si: [
     { id: 'year', label: 'year…', icon: '⌚', kind: 'picker',
       values: (b) => sortByKey(countBy(b.items, 'year')),
-      run:    (b, v) => new Bundle(
-        b.items.filter((x) => String(x.year) === String(v)),
-        'si', `${b.label} · ${v}`) },
+      run:    (b, v) => opFilters.year(b, v) },
     { id: 'decade', label: 'decade…', icon: '🗓', kind: 'picker',
       values: (b) => sortByKey(countBy(b.items, 'decade')),
-      run:    (b, v) => new Bundle(
-        b.items.filter((x) => x.decade === v),
-        'si', `${b.label} · ${v}`) },
+      run:    (b, v) => opFilters.decade(b, v) },
     { id: 'has-cif', label: 'has coming-into-force date', icon: '⚙', kind: 'static',
-      run: (b) => new Bundle(
-        b.items.filter((x) => x.comingIntoForce),
-        'si', `${b.label} · CIF known`) },
+      run: (b) => opFilters['has-cif'](b) },
     { id: 'pivot', label: '→ pivot…', icon: '⇄', kind: 'rel-picker',
       hint: 'relation templates applicable to SI bundles' },
   ],
@@ -465,11 +439,11 @@ const OPS = {
     { id: 'top-country', label: 'group by country', icon: '🌐', kind: 'static',
       run: (b) => groupBy(b, (x) => x.country, 'country') },
     { id: 'has-coord',   label: 'has coords', icon: '⌖', kind: 'static',
-      run: (b) => new Bundle(b.items.filter((x) => x.coords), 'place', `${b.label} · located`) },
+      run: (b) => opFilters['has-coord'](b) },
   ],
   org: [
     { id: 'has-coord',   label: 'has coords', icon: '⌖', kind: 'static',
-      run: (b) => new Bundle(b.items.filter((x) => x.coords), 'org', `${b.label} · located`) },
+      run: (b) => opFilters['has-coord'](b) },
   ],
 };
 

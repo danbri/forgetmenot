@@ -98,14 +98,25 @@ export const opFilters = {
     b.type, `${b.label} · "${v}"`),
 
   // --- generic data-shape filters (apply to any bundle whose items
-  //     carry a `coords` or `image` field — used by daisychain's
-  //     wd_thing / building / place / org chip palettes).
+  //     carry a `coords`, `image`, `country` etc. field — used by
+  //     daisychain's wd_thing / building / place / org chip palettes).
   'has-coord': (b) => new Bundle(
     b.items.filter((x) => x.coords),
     b.type, `${b.label} · located`),
   'has-img': (b) => new Bundle(
     b.items.filter((x) => x.image),
     b.type, `${b.label} · with photo`),
+  country: (b, v) => new Bundle(
+    b.items.filter((x) => x.country === v),
+    b.type, `${b.label} · ${v}`),
+
+  // --- statutory-instrument bundles ---
+  year: (b, v) => new Bundle(
+    b.items.filter((x) => String(x.year) === String(v)),
+    b.type, `${b.label} · ${v}`),
+  'has-cif': (b) => new Bundle(
+    b.items.filter((x) => x.comingIntoForce),
+    b.type, `${b.label} · CIF known`),
 };
 
 // ---------------------------------------------------------------------------
