@@ -222,6 +222,15 @@
   re-run. New here? Tap 📎.
 </p>
 
+<!-- ---- tab strip — picks one panel below; persisted in #tab=… ---- -->
+<nav class="tabs" id="tabs" aria-label="studio panels">
+  <a href="#tab=debug"   data-tab="debug"   class="tab tab-active">Debug</a>
+  <a href="#tab=library" data-tab="library" class="tab">Library</a>
+  <a href="#tab=ops"     data-tab="ops"     class="tab">Ops registry</a>
+</nav>
+
+<!-- ---- Debug tab: the existing studio surface ---- -->
+<section data-panel="debug">
 <div class="layout">
   <!-- ---- left: catalogue ---- -->
   <aside class="catalogue">
@@ -257,9 +266,161 @@
     <div class="results" id="results"></div>
   </section>
 </div>
+</section>
+
+<!-- ---- Library tab: saved chains, each links to daisychain ---- -->
+<section data-panel="library" hidden>
+  <p class="sub">
+    The named chains daisychain ships with. Each is a starter + a sequence
+    of ops. Tap a card to open the chain in daisychain. The chain JSON is
+    what gets exercised in <code>tests/unit/kgx-library.test.mjs</code> —
+    19 of 20 pass live + cached today.
+  </p>
+  <div class="cards" id="library-cards"></div>
+</section>
+
+<!-- ---- Ops registry tab: surfaces every op-kind in the lib ---- -->
+<section data-panel="ops" hidden>
+  <p class="sub">
+    The op-node API in <code>/kgx/lib/</code>. Each row is a verb a chain
+    step can call.  Surfaced from the lib at page load — what's listed
+    here is what's executable today.
+  </p>
+  <h2>Source ops (<code>STARTERS</code>)</h2>
+  <table id="ops-starters"><thead><tr><th>id</th><th>type out</th><th>engine</th><th>label</th></tr></thead><tbody></tbody></table>
+
+  <h2>Restrict ops (<code>opFilters</code>)</h2>
+  <table id="ops-restrict"><thead><tr><th>id</th><th>arity</th></tr></thead><tbody></tbody></table>
+
+  <h2>Pivot ops (<code>REL_TEMPLATES</code>)</h2>
+  <table id="ops-pivot"><thead><tr><th>id</th><th>type</th><th>engine</th><th>variants</th></tr></thead><tbody></tbody></table>
+
+  <h2>Augment ops (<code>AUGMENT_OPS</code>)</h2>
+  <table id="ops-augment"><thead><tr><th>id</th><th>engine</th><th>cap</th><th>note</th></tr></thead><tbody></tbody></table>
+</section>
 
 <button class="clip-fab" id="clip-fab" title="Query wizard" aria-label="Open query wizard">📎</button>
 <div class="clip-panel" id="clip-panel" role="dialog" aria-label="Query wizard"></div>
+
+<script type="module">
+  // ---- Tab strip + lib introspection. Keeps the existing studio JS
+  // (sparql-core.js + the inline catalogue render) untouched; adds tab
+  // toggling and populates the two new panels from the kgx library.
+  import { STARTERS }    from '/kgx/lib/starters.mjs';
+  import { REL_TEMPLATES } from '/kgx/lib/rel-templates.mjs';
+  import { opFilters }   from '/kgx/lib/restrict.mjs';
+  import { AUGMENT_OPS } from '/kgx/lib/augment.mjs';
+  import { LIBRARY }     from '/kgx/lib/library.mjs';
+
+  function selectTab(id) {
+    if (!['debug', 'library', 'ops'].includes(id)) id = 'debug';
+    document.querySelectorAll('[data-panel]').forEach((el) => {
+      el.hidden = el.dataset.panel !== id;
+    });
+    document.querySelectorAll('.tab').forEach((el) => {
+      el.classList.toggle('tab-active', el.dataset.tab === id);
+    });
+    if (location.hash !== '#tab=' + id) {
+      history.replaceState(null, '', '#tab=' + id);
+    }
+  }
+
+  // --- Library panel: each LIBRARY[] entry as a tappable card.
+  const libWrap = document.getElementById('library-cards');
+  for (const chain of LIBRARY) {
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = '/kgx/daisychain/#library=' + encodeURIComponent(chain.id);
+    card.innerHTML = `
+      <p class="card-title">${chain.title}</p>
+      <p class="card-desc">${chain.sub || ''}</p>
+      <p class="card-meta"><code>${chain.steps.map((s) =>
+        s.kind === 'starter' ? `starter:${s.id}` :
+        s.op === 'rel-pivot' ? `rel-pivot:${s.template}/${s.variant}` :
+        s.op + (s.value !== undefined ? ':' + s.value : '')
+      ).join(' → ')}</code></p>`;
+    libWrap.appendChild(card);
+  }
+
+  // --- Ops panel: introspect each lib module.
+  const tbody = (id) => document.querySelector(`#${id} tbody`);
+  function row(tb, ...cells) {
+    const tr = document.createElement('tr');
+    for (const c of cells) {
+      const td = document.createElement('td');
+      if (typeof c === 'string') td.textContent = c;
+      else td.appendChild(c);
+      tr.appendChild(td);
+    }
+    tb.appendChild(tr);
+  }
+  for (const s of STARTERS) {
+    row(tbody('ops-starters'), s.id, s.type, s.engineId || (s.pqTemplate ? 'parl-pq' : '?'), s.label);
+  }
+  for (const [id, fn] of Object.entries(opFilters)) {
+    row(tbody('ops-restrict'), id, String(fn.length) + '-ary');
+  }
+  for (const t of REL_TEMPLATES) {
+    row(tbody('ops-pivot'),
+        t.id, `${t.inputType} → ${t.outputType}`, t.engineId,
+        t.variants.map((v) => `${v.kind}:${v.id}`).join(', '));
+  }
+  for (const [id, aug] of Object.entries(AUGMENT_OPS)) {
+    row(tbody('ops-augment'), id, aug.engineId, String(aug.cap || ''), aug.note || '');
+  }
+
+  // --- Tab dispatch
+  document.querySelectorAll('.tab').forEach((el) => {
+    el.addEventListener('click', (ev) => {
+      ev.preventDefault();
+      selectTab(el.dataset.tab);
+    });
+  });
+  function tabFromHash() {
+    const m = location.hash.match(/[#&]tab=([a-z]+)/);
+    return m ? m[1] : 'debug';
+  }
+  selectTab(tabFromHash());
+  window.addEventListener('hashchange', () => selectTab(tabFromHash()));
+</script>
+
+<style>
+  /* Tab strip — 44 px high, single-row scroll on narrow viewports. */
+  .tabs {
+    display: flex; gap: 4px; margin: 12px 0 16px;
+    border-bottom: 1px solid var(--rule);
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .tab {
+    display: inline-flex; align-items: center; min-height: 44px;
+    padding: 0 14px; font: 600 14px inherit;
+    color: var(--ink-soft); text-decoration: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .tab-active { color: var(--ink); border-bottom-color: var(--accent); }
+  .tab:hover  { color: var(--ink); }
+
+  /* Library cards — same shape as the existing /kgx/ index cards. */
+  .cards { display: grid; gap: 10px; margin-bottom: 24px; }
+  a.card {
+    display: block; padding: 14px 16px;
+    background: var(--card, #fff); border: 1px solid var(--rule);
+    border-radius: 8px; text-decoration: none; color: var(--ink);
+  }
+  a.card:active { background: var(--code-bg); }
+  .card-title { font-weight: 600; margin: 0 0 4px; font-size: 16px; }
+  .card-desc  { color: var(--ink-soft); font-size: 14px; margin: 0; }
+  .card-meta  { margin: 8px 0 0; font-size: 12px; word-break: break-all; }
+  .card-meta code { font-size: 12px; }
+
+  /* Ops registry tables — full-width, mobile-readable. */
+  section[data-panel="ops"] h2 { font-size: 16px; margin: 22px 0 8px; }
+  section[data-panel="ops"] table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  section[data-panel="ops"] th { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--rule); color: var(--ink-soft); font-weight: 600; }
+  section[data-panel="ops"] td { padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; word-break: break-word; }
+  section[data-panel="ops"] tbody tr:nth-child(even) td { background: var(--row-alt); }
+</style>
 
 <footer>
   Contains Parliamentary information licensed under the
