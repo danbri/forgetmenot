@@ -61,6 +61,16 @@ import {
 import { LIBRARY } from '/kgx/lib/library.mjs';
 import { AUGMENT_OPS } from '/kgx/lib/augment.mjs';
 import { SparqlEngine, ENGINES, engine } from '/kgx/lib/engines.mjs';
+import {
+  isVariantAllowedByPolicy, isOpAllowedByPolicy,
+  variantsAllowedByPolicy,
+} from '/kgx/lib/quality.mjs';
+
+// Helper: which OPS chip ids are augment-shape (carry a role from
+// AUGMENT_OPS)? Picker hides these in `strict` mode (role: crossCheck).
+function augmentRoleFor(opId) {
+  return AUGMENT_OPS[opId]?.role || null;
+}
 
 // The shared Bundle also exposes static union / intersect / difference
 // (previously only used by pivcab) — daisychain now has them too at no
@@ -651,6 +661,8 @@ const state = {
   starter: null,         // STARTERS entry once chosen
   beads: [],             // [{ id, opLabel, opIcon, bundle }]  ordered
   view: 'spine',         // 'spine' | 'graph' | 'table' | 'tiles'
+  qualityMode: 'exploratory',   // filters chip-picker + rel-picker variants
+                                // (authoring concern only; replay ignores it)
 };
 const listeners = new Set();
 function publish() { for (const fn of listeners) fn(); }
@@ -1110,7 +1122,16 @@ class DaisyBead extends HTMLElement {
 
     if (front) {
       const chipRow = this.shadowRoot.querySelector('.chips');
-      const ops = (OPS[b.bundle?.type] || []).filter((op) => isRelevantOp(op, b.bundle));
+      const ops = (OPS[b.bundle?.type] || [])
+        .filter((op) => isRelevantOp(op, b.bundle))
+        .filter((op) => {
+          // Augment chips (enrich / parl-enrich / identity-bridge) carry
+          // a role from AUGMENT_OPS — gate them by the active quality
+          // policy. Other chips (restrict + rel-picker entry) always
+          // show; their fine-grain filtering happens in the picker.
+          const role = augmentRoleFor(op.id);
+          return role == null || isOpAllowedByPolicy(state.qualityMode, { role });
+        });
       for (const op of ops) {
         const chip = document.createElement('button');
         chip.className = 'chip';
@@ -1314,15 +1335,20 @@ class DaisyRelPicker extends HTMLElement {
     // (so the navigation primitives surface on building / human / wd_class /
     // anything Wikidata-shaped without per-type repetition).
     const hasQids = bundle.items.some((x) => /Q\d+$/.test(x.uri || ''));
+    const mode = state.qualityMode || 'exploratory';
     const applicable = REL_TEMPLATES.filter((t) =>
-      t.inputType === bundle.type ||
-      (t.inputType === 'wd_thing' && hasQids));
+      (t.inputType === bundle.type ||
+       (t.inputType === 'wd_thing' && hasQids))
+      && isOpAllowedByPolicy(mode, t));
     const enabledFor = (t) => !t.requires || t.requires(bundle);
     const KIND_LBL = { default: 'default', tighten: 'tighten', broaden: 'broaden' };
     const tplSections = applicable.map((t) => {
       const ok = enabledFor(t);
       const eng = ENGINES[t.engineId];
-      const rows = t.variants.map((v) => {
+      // Quality-mode filter: only show variants whose `kind` is allowed
+      // by the active policy (strict → default only; recall → default
+      // + broaden; precision → default + tighten; exploratory → all).
+      const rows = variantsAllowedByPolicy(mode, t).map((v) => {
         const ngHint = (v.namedGraphs && v.namedGraphs.length)
           ? `<div class="ngs">graph: <code>${v.namedGraphs.map(escapeHTML).join(', ')}</code></div>` : '';
         return `
@@ -1892,6 +1918,12 @@ class DaisyApp extends HTMLElement {
             <button id="v-tiles" data-v="tiles" title="full tile grid of the frontier bead">tiles</button>
             <button id="v-map"   data-v="map"   title="map of the frontier bead (when coords are known)">map</button>
           </div>
+          <select id="quality-mode" title="filter pickers by evidence policy (replay is unaffected)">
+            <option value="strict">strict</option>
+            <option value="exploratory" selected>exploratory</option>
+            <option value="recall">recall</option>
+            <option value="precision">precision</option>
+          </select>
           <button id="save-btn" title="copy this chain as JSON">⎘ save chain</button>
           <button id="reset-btn" title="start over">↺ reset</button>
         </div>
@@ -1917,6 +1949,10 @@ class DaisyApp extends HTMLElement {
     this.addEventListener('thing-open',   (e) => this._openThing(e.detail.item, e.detail.bundle?.type));
     this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => this._reset());
     this.shadowRoot.querySelector('#save-btn').addEventListener('click', () => this._saveChain());
+    this.shadowRoot.querySelector('#quality-mode').addEventListener('change', (e) => {
+      state.qualityMode = e.target.value;
+      publish();
+    });
     for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
       btn.addEventListener('click', () => { state.view = btn.dataset.v; publish(); });
     }
