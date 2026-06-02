@@ -96,6 +96,16 @@ export const opFilters = {
   'name-contains': (b, v) => new Bundle(
     b.items.filter((x) => new RegExp(v, 'i').test(x.label || '')),
     b.type, `${b.label} · "${v}"`),
+
+  // --- generic data-shape filters (apply to any bundle whose items
+  //     carry a `coords` or `image` field — used by daisychain's
+  //     wd_thing / building / place / org chip palettes).
+  'has-coord': (b) => new Bundle(
+    b.items.filter((x) => x.coords),
+    b.type, `${b.label} · located`),
+  'has-img': (b) => new Bundle(
+    b.items.filter((x) => x.image),
+    b.type, `${b.label} · with photo`),
 };
 
 // ---------------------------------------------------------------------------
