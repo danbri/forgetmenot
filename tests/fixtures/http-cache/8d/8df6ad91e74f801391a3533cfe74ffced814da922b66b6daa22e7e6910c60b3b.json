@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "method": "POST",
+    "url": "https://fpkg.fly.dev/kgx/query",
+    "recordedAt": "2026-06-02T16:35:41.626Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "appg",
+    "label",
+    "n"
+  ],
+  "rows": 522,
+  "bindHash": "sha256:92e437284d565e36cf364ee32a6baeaaaba6017f9b4116e180b6486caa99833d",
+  "sample": [
+    {
+      "appg": {
+        "type": "uri",
+        "value": "https://publications.parliament.uk/pa/cm/cmallparty/260413/sport-and-physical-activity.htm"
+      },
+      "label": {
+        "type": "literal",
+        "value": "All-Party Parliamentary Group for Sport and Physical Activity"
+      },
+      "n": {
+        "type": "literal",
+        "value": "3",
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    },
+    {
+      "appg": {
+        "type": "uri",
+        "value": "https://publications.parliament.uk/pa/cm/cmallparty/260413/defence-and-security-sectors-supporting-local-communities.htm"
+      },
+      "label": {
+        "type": "literal",
+        "value": "All-Party Parliamentary Group on the Defence and Security Sectors Supporting Local Communities"
+      },
+      "n": {
+        "type": "literal",
+        "value": "3",
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    },
+    {
+      "appg": {
+        "type": "uri",
+        "value": "https://publications.parliament.uk/pa/cm/cmallparty/260413/british-sign-language.htm"
+      },
+      "label": {
+        "type": "literal",
+        "value": "All-Party Parliamentary Group on British Sign Language"
+      },
+      "n": {
+        "type": "literal",
+        "value": "3",
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer"
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "method": "POST",
+    "url": "https://api.parliament.uk/sparql",
+    "recordedAt": "2026-06-02T16:35:43.151Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json;charset=UTF-8",
+  "shape": "sparql-results-json",
+  "vars": [
+    "cg",
+    "label",
+    "n"
+  ],
+  "rows": 221,
+  "bindHash": "sha256:5fb2a564ebc0639af3b436df9ce65af2ff9d853d39edf90484aa952323c24bd6",
+  "sample": [
+    {
+      "cg": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/08kc1YxN"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Newcastle upon Tyne North"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+        "type": "literal",
+        "value": "1"
+      }
+    },
+    {
+      "cg": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/09z40E7e"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Hackney South and Shoreditch"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+        "type": "literal",
+        "value": "1"
+      }
+    },
+    {
+      "cg": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/0OX0jIwd"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Birmingham, Edgbaston"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+        "type": "literal",
+        "value": "1"
+      }
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "meta": {
+    "method": "POST",
+    "url": "https://qlever.dev/api/wikidata",
+    "recordedAt": "2026-06-02T16:35:40.915Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "c",
+    "label",
+    "image",
+    "n"
+  ],
+  "rows": 313,
+  "bindHash": "sha256:bba94d7e8884ddc337f9cc7bc660f6792b9d497e3b6c940957cd686730a2af08",
+  "sample": [
+    {
+      "c": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q559022"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Fergus Ewing",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Cabinet%20Secretary%20for%20the%20Rural%20Economy%20and%20Connectivity%2C%20Fergus%20Ewing.png"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "2"
+      }
+    },
+    {
+      "c": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q75992678"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Isabel Geraldine Fowler",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "1"
+      }
+    },
+    {
+      "c": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q76016800"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Janet Lewis",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "1"
+      }
+    }
+  ]
+}
