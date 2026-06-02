@@ -43,6 +43,12 @@ import { chainToTrig } from '../demos/parliament-live/web/kgx/lib/trig.mjs';
 import { LIBRARY }     from '../demos/parliament-live/web/kgx/lib/library.mjs';
 import { runChainSpec, UnsupportedOpError } from
   '../demos/parliament-live/web/kgx/lib/runner.mjs';
+import { STARTERS }      from '../demos/parliament-live/web/kgx/lib/starters.mjs';
+import { REL_TEMPLATES } from '../demos/parliament-live/web/kgx/lib/rel-templates.mjs';
+import { opFilters }     from '../demos/parliament-live/web/kgx/lib/restrict.mjs';
+import { AUGMENT_OPS }   from '../demos/parliament-live/web/kgx/lib/augment.mjs';
+import { normaliseChainSpec, activeChainSteps } from
+  '../demos/parliament-live/web/kgx/lib/branches.mjs';
 
 const ENGINES = {
   'qlever-wikidata': { endpoint: 'https://qlever.dev/api/wikidata',  label: 'QLever ⇒ Wikidata',         strict: true  },
@@ -108,6 +114,12 @@ kgx — SPARQL web-protocol client + ops dispatcher
                                        runChainSpec; one JSONL bead per step
   kgx chain run -f chain.json          run a declarative chain spec, emit JSONL beads
                                        (inline-SPARQL shape; predates LIBRARY)
+  kgx chain explain --library <lib-id> describe what each step does, without running
+       [-f chain.json]                 same, from a LIBRARY-shape JSON file
+  kgx chain candidates --type <t>      list ops that apply to a bundle of type <t>
+  kgx ops                              dump every registry (STARTERS, REL_TEMPLATES,
+                                       opFilters, AUGMENT_OPS) as JSON
+  kgx library                          list every saved chain (id, title, op trace)
        [--record path]                 also write a recording (chain + per-bead hashes)
   kgx chain replay -f recording.json   re-run the embedded chain, assert each bead's
                                        content hash matches; exit 1 on mismatch.
@@ -353,6 +365,134 @@ async function runChain(chain) {
   return beads;
 }
 
+// -----------------------------------------------------------------------------
+// `kgx ops` — dump every op registry. Mirrors the studio Ops tab in JSON.
+// -----------------------------------------------------------------------------
+function cmdOps() {
+  const out = {
+    starters: STARTERS.map((s) => ({
+      id: s.id, type: s.type, engineId: s.engineId, pqTemplate: s.pqTemplate || null,
+      role: s.role, label: s.label,
+    })),
+    restrict: Object.keys(opFilters).map((id) => ({ id, arity: opFilters[id].length })),
+    relTemplates: REL_TEMPLATES.map((t) => ({
+      id: t.id, inputType: t.inputType, outputType: t.outputType,
+      engineId: t.engineId, role: t.role,
+      variants: t.variants.map((v) => ({ id: v.id, kind: v.kind, label: v.label })),
+    })),
+    augmentOps: Object.values(AUGMENT_OPS).map((aug) => ({
+      id: aug.id, kind: aug.kind, engineId: aug.engineId, role: aug.role,
+      joinKey: aug.joinKey || null, cap: aug.cap || null,
+    })),
+  };
+  process.stdout.write(JSON.stringify(out, null, 2) + '\n');
+}
+
+// -----------------------------------------------------------------------------
+// `kgx library` — list every saved chain with a one-line op-trace.
+// -----------------------------------------------------------------------------
+function cmdLibrary() {
+  const rows = LIBRARY.map((c) => {
+    const steps = activeChainSteps(normaliseChainSpec(c));
+    const trace = steps.map((s) =>
+      s.kind === 'starter' ? `starter:${s.id}` :
+      s.op === 'rel-pivot' ? `pivot:${s.template}/${s.variant}` :
+      s.op + (s.value !== undefined ? `:${s.value}` : '')
+    ).join(' → ');
+    return { id: c.id, title: c.title, sub: c.sub, trace };
+  });
+  process.stdout.write(JSON.stringify(rows, null, 2) + '\n');
+}
+
+// -----------------------------------------------------------------------------
+// `kgx chain explain` — describe each step in a chain in plain English,
+// without executing it. Demonstrates the spec is fully introspectable from
+// outside the page.
+// -----------------------------------------------------------------------------
+function cmdChainExplain(flags) {
+  let spec;
+  if (flags.library) {
+    spec = LIBRARY.find((c) => c.id === String(flags.library));
+    if (!spec) die(`chain explain: no LIBRARY entry with id "${flags.library}"`);
+  } else if (flags.f) {
+    spec = JSON.parse(readFileSync(String(flags.f), 'utf8'));
+  } else {
+    die('chain explain: pass `--library <id>` or `-f path/to/spec.json`');
+  }
+  const normalised = normaliseChainSpec(spec);
+  const stepsToRun = activeChainSteps(normalised);
+  const head = [
+    spec.title ? `# ${spec.title}` : `# chain (${normalised.activeBranch})`,
+    spec.sub ? `# ${spec.sub}` : null,
+    `# ${stepsToRun.length} step${stepsToRun.length === 1 ? '' : 's'}; active branch: ${normalised.activeBranch}`,
+  ].filter(Boolean).join('\n');
+  process.stdout.write(head + '\n\n');
+
+  let bundleType = '(none)';
+  for (let i = 0; i < stepsToRun.length; i++) {
+    const step = stepsToRun[i];
+    let line;
+    if (step.kind === 'starter') {
+      const s = STARTERS.find((x) => x.id === step.id);
+      if (!s) { line = `${i + 1}. starter ${step.id} — UNKNOWN (not in lib)`; bundleType = '?'; }
+      else {
+        const eng = s.engineId || (s.pqTemplate ? 'parl-pq' : '?');
+        line = `${i + 1}. SOURCE ${s.id} → ${s.type}   ` +
+               `(engine=${eng}, role=${s.role || 'primary'})\n   ${s.label} — ${s.sub || ''}`;
+        bundleType = s.type;
+      }
+    } else if (step.op === 'rel-pivot') {
+      const t = REL_TEMPLATES.find((x) => x.id === step.template);
+      if (!t) line = `${i + 1}. PIVOT ${step.template}/${step.variant} — UNKNOWN`;
+      else {
+        const v = t.variants.find((x) => x.id === step.variant);
+        line = `${i + 1}. PIVOT  ${t.id}/${step.variant} : ${t.inputType} → ${t.outputType}   ` +
+               `(engine=${t.engineId}, role=${t.role || 'primary'}, kind=${v?.kind || '?'})\n   ${t.gloss}`;
+        bundleType = t.outputType;
+      }
+    } else if (opFilters[step.op]) {
+      const valuePart = step.value !== undefined ? ` = ${JSON.stringify(step.value)}` : '';
+      line = `${i + 1}. RESTRICT ${step.op}${valuePart}   (pure-client filter on ${bundleType})`;
+    } else if (AUGMENT_OPS[step.op]) {
+      const a = AUGMENT_OPS[step.op];
+      line = `${i + 1}. ${a.kind.toUpperCase()} ${a.id}   ` +
+             `(engine=${a.engineId}, role=${a.role || 'primary'}, cap=${a.cap || '∞'}` +
+             `${a.joinKey ? `, joinKey=${a.joinKey}` : ''})\n   ${a.note}`;
+    } else {
+      line = `${i + 1}. UNKNOWN op "${step.op}" (not in any lib registry)`;
+    }
+    process.stdout.write(line + '\n');
+  }
+  process.stdout.write(`\n# final bundle type: ${bundleType}\n`);
+}
+
+// -----------------------------------------------------------------------------
+// `kgx chain candidates --type <bundle-type>` — list every op (restrict /
+// rel-template / augment) that can apply to a bundle of the given type.
+// -----------------------------------------------------------------------------
+function cmdChainCandidates(flags) {
+  const type = String(flags.type || '');
+  if (!type) die('chain candidates: pass `--type <bundle-type>` (e.g. human / building / constituency / appg / party / si / formal_body / concept / wd_thing / wd_class)');
+  // restrict ops are pure-client; they apply to any type (the chain author
+  // decides what makes sense). Pivots are typed by inputType.
+  const restrict = Object.keys(opFilters);
+  const pivots = REL_TEMPLATES.filter((t) =>
+    t.inputType === type || (t.inputType === 'wd_thing' && /Q\d+$/.test(type)));
+  const augments = Object.values(AUGMENT_OPS);
+  const out = {
+    type,
+    restrict,
+    relTemplates: pivots.map((t) => ({
+      id: t.id, outputType: t.outputType, role: t.role || 'primary',
+      variants: t.variants.map((v) => `${v.kind}:${v.id}`),
+    })),
+    augmentOps: augments.map((a) => ({
+      id: a.id, kind: a.kind, role: a.role || 'primary',
+    })),
+  };
+  process.stdout.write(JSON.stringify(out, null, 2) + '\n');
+}
+
 function cmdChainTrig(flags) {
   let spec;
   if (flags.id) {
@@ -490,12 +630,16 @@ async function main(argv) {
   if (verb === 'engines')  return cmdEngines();
   if (verb === 'validate') return cmdValidate(args.flags);
   if (verb === 'sparql')   return cmdSparql(args.flags);
+  if (verb === 'ops')      return cmdOps();
+  if (verb === 'library')  return cmdLibrary();
   if (verb === 'chain') {
     const sub = args._[1];
-    if (sub === 'run')    return cmdChainRun(args.flags);
-    if (sub === 'replay') return cmdChainReplay(args.flags);
-    if (sub === 'trig')   return cmdChainTrig(args.flags);
-    die(`unknown 'chain' subcommand "${sub || ''}" — try 'run' | 'replay' | 'trig'`);
+    if (sub === 'run')        return cmdChainRun(args.flags);
+    if (sub === 'replay')     return cmdChainReplay(args.flags);
+    if (sub === 'trig')       return cmdChainTrig(args.flags);
+    if (sub === 'explain')    return cmdChainExplain(args.flags);
+    if (sub === 'candidates') return cmdChainCandidates(args.flags);
+    die(`unknown 'chain' subcommand "${sub || ''}" — try 'run' | 'replay' | 'trig' | 'explain' | 'candidates'`);
   }
   die(`unknown verb "${verb}" — try \`kgx --help\``);
 }
