@@ -217,110 +217,6 @@ const ENRICH_MAX = 500;  // soft cap: bundles bigger than this won't enrich
 
 // parsePoint → /kgx/lib/node-flow.mjs (imported at top).
 
-function valuesClause(uris) {
-  // Turn ["http://www.wikidata.org/entity/Q1", ...] into "wd:Q1 wd:Q2 …"
-  return uris
-    .map((u) => u.match(/Q\d+$/)?.[0])
-    .filter(Boolean)
-    .map((q) => `wd:${q}`)
-    .join(' ');
-}
-
-
-// Pivot from a human bundle to the set of their birthplaces. Each output
-// item is a `place` with its own coords / country / count-of-MPs-from-here.
-async function pivotBirthplaces(bundle) {
-  const uris = bundle.items.map((x) => x.uri);
-  if (!uris.length) return new Bundle([], 'place', 'birthplaces');
-  if (uris.length > ENRICH_MAX) {
-    throw new Error(`bundle of ${uris.length} is too big to pivot (cap ${ENRICH_MAX}); narrow first.`);
-  }
-  const q = `
-    PREFIX wd:   <http://www.wikidata.org/entity/>
-    PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?bp
-      (SAMPLE(?bpLbl)   AS ?label)
-      (SAMPLE(?bpCoord) AS ?coord)
-      (SAMPLE(?img)     AS ?image)
-      (SAMPLE(?ctryLbl) AS ?country)
-      (COUNT(DISTINCT ?p) AS ?n)
-    WHERE {
-      VALUES ?p { ${valuesClause(uris)} }
-      ?p wdt:P19 ?bp .
-      OPTIONAL { ?bp rdfs:label ?bpLbl . FILTER(lang(?bpLbl)="en") }
-      OPTIONAL { ?bp wdt:P625 ?bpCoord }
-      OPTIONAL { ?bp wdt:P18  ?img }
-      OPTIONAL { ?bp wdt:P17  ?ctry .
-                 OPTIONAL { ?ctry rdfs:label ?ctryLbl . FILTER(lang(?ctryLbl)="en") } }
-    }
-    GROUP BY ?bp
-    ORDER BY DESC(?n)`;
-  const res = await sparql(QLEVER, q, `pivot:birthplaces(${uris.length})`);
-  const items = res.json.results.bindings.map((b) => ({
-    uri: b.bp.value,
-    label: b.label?.value || b.bp.value.replace(/^.*\//, ''),
-    image: b.image?.value || null,
-    country: b.country?.value || null,
-    coords: parsePoint(b.coord?.value),
-    originCount: +(b.n?.value || 0),
-  }));
-  return {
-    bundle: new Bundle(items, 'place', `birthplaces of ${bundle.label}`),
-    source: makeSource({
-      kind: 'pivot:P19', endpoint: res.endpoint, engineId: res.engineId, query: res.query, ms: res.ms,
-      bindings: res.json.results.bindings,
-      note: `walked P19 (place of birth) over ${uris.length} subjects`,
-    }),
-  };
-}
-
-// Pivot from a human bundle to their alma maters. Each item is an `org`.
-async function pivotAlmaMaters(bundle) {
-  const uris = bundle.items.map((x) => x.uri);
-  if (!uris.length) return new Bundle([], 'org', 'alma maters');
-  if (uris.length > ENRICH_MAX) {
-    throw new Error(`bundle of ${uris.length} is too big to pivot (cap ${ENRICH_MAX}); narrow first.`);
-  }
-  const q = `
-    PREFIX wd:   <http://www.wikidata.org/entity/>
-    PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    SELECT ?am
-      (SAMPLE(?amLbl)   AS ?label)
-      (SAMPLE(?img)     AS ?image)
-      (SAMPLE(?coord)   AS ?coord)
-      (SAMPLE(?ctryLbl) AS ?country)
-      (COUNT(DISTINCT ?p) AS ?n)
-    WHERE {
-      VALUES ?p { ${valuesClause(uris)} }
-      ?p wdt:P69 ?am .
-      OPTIONAL { ?am rdfs:label ?amLbl . FILTER(lang(?amLbl)="en") }
-      OPTIONAL { ?am wdt:P18  ?img }
-      OPTIONAL { ?am wdt:P625 ?coord }
-      OPTIONAL { ?am wdt:P17  ?ctry .
-                 OPTIONAL { ?ctry rdfs:label ?ctryLbl . FILTER(lang(?ctryLbl)="en") } }
-    }
-    GROUP BY ?am
-    ORDER BY DESC(?n)`;
-  const res = await sparql(QLEVER, q, `pivot:almaMaters(${uris.length})`);
-  const items = res.json.results.bindings.map((b) => ({
-    uri: b.am.value,
-    label: b.label?.value || b.am.value.replace(/^.*\//, ''),
-    image: b.image?.value || null,
-    country: b.country?.value || null,
-    coords: parsePoint(b.coord?.value),
-    originCount: +(b.n?.value || 0),
-  }));
-  return {
-    bundle: new Bundle(items, 'org', `alma maters of ${bundle.label}`),
-    source: makeSource({
-      kind: 'pivot:P69', endpoint: res.endpoint, engineId: res.engineId, query: res.query, ms: res.ms,
-      bindings: res.json.results.bindings,
-      note: `walked P69 (educated at) over ${uris.length} subjects`,
-    }),
-  };
-}
 
 // ============================================================================
 // Relation Templates — the design's `relationTemplate` concept made concrete.
@@ -389,6 +285,17 @@ async function applyRelation(template, variant, bundle) {
       note: `${template.gloss} · variant=${variant.kind}:${variant.id}`,
     }),
   };
+}
+
+// Small lookup-by-id wrapper around applyRelation. Used by the legacy
+// pivot-bp / pivot-am OPS entries that predate the REL_TEMPLATES registry
+// (the two rel templates exist in lib/rel-templates.mjs; this just saves
+// the OPS row from spelling out the .find chain).
+async function runRelPivot(templateId, variantId, bundle) {
+  const tpl = REL_TEMPLATES.find((t) => t.id === templateId);
+  const variant = tpl?.variants.find((v) => v.id === variantId);
+  if (!tpl || !variant) throw new Error(`unknown rel-pivot: ${templateId}:${variantId}`);
+  return applyRelation(tpl, variant, bundle);
 }
 
 
@@ -473,11 +380,11 @@ const OPS = {
     { id: 'pivot-bp',label: '→ birthplaces',    icon: '⌖',  kind: 'async',
       hint: 'walk P19 to a set of places',
       relevant: (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '')),
-      run: (b) => pivotBirthplaces(b) },
+      run: (b) => runRelPivot('birthplaces', 'default', b) },
     { id: 'pivot-am',label: '→ alma maters',    icon: '🎓', kind: 'async',
       hint: 'walk P69 to a set of institutions',
       relevant: (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '')),
-      run: (b) => pivotAlmaMaters(b) },
+      run: (b) => runRelPivot('alma_maters', 'default', b) },
     { id: 'identity-bridge', label: 'bridge (cross-source)', icon: '🔗', kind: 'async',
       hint: 'FPKG identity-graph: resolve to DDP person / Wikidata QID / GOV.UK slug / scraped site, all via parl:memberId',
       relevant: (b) => b.items.some((x) => x.mpid),
