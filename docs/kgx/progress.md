@@ -59,13 +59,13 @@ Plus `bin/kgx.mjs` — node CLI with `engines`, `validate`, `sparql`, `chain run
 | **Mobile-first vertical** | ✓ | all surfaces 360 px first |
 | **Multiple engines** | ✓ | `engines.mjs` registry, engineId on every Source |
 | **Provenance per bead** | ✓ | `Source { ng, kind, endpoint, engineId, query, ms, bindings, ts, note, namedGraphs }` |
-| **TriG export** | ⚠ per-bead | per-bead block; workflow-wide TriG still pending |
+| **TriG export** | ✓ workflow-level | per-bead block + `chainToTrig(spec)` workflow manifest; studio Library has "📋 Copy TriG" per card. Vocab: `kgx:SourceBundle` / `kgx:FilterBundle` / `kgx:PivotBundle` / `kgx:AugmentBundle` under `https://forgetmenot.local/vocab/kgx/`. Execution records (prov:Run) still TODO. |
 | **URL hash persistence** | ✓ | `#g=<base64url(spec)>` auto-syncs; `#library=<id>` deep-links |
 | **Library / saved workflows** | ✓ | `LIBRARY` in lib; daisychain `_replay` consumes; studio Library tab lists |
 | **Bloom filters for set algebra** | ✓ in-memory | not yet shareable across runs |
 | **Cache distinction (BundleDef / Run / CacheArtifact)** | ✗ | every chip click re-runs |
 | **Relation templates** (tighten/broaden) | ✓ | 18 variants across 12 templates |
-| **Quality policies** (strict/exploratory/recall/precision) | ✗ | not enforced; the `kind` field on variants is the slot |
+| **Quality policies** (strict/exploratory/recall/precision) | ✓ lib + studio | `quality.mjs::isVariantAllowedByPolicy / isOpAllowedByPolicy`; studio Ops tab mode-toggle dims disallowed rows. Daisychain chip-picker integration deferred. Replay is intentionally NOT gated by mode — authoring concern only. |
 | **Source roles** (primary/crossCheck/adapterEvidence/weak) | ✓ metadata | role on each STARTER / REL_TEMPLATE / AUGMENT_OP; pinned by contract tests; UI surface in studio Ops tab. Not yet surfaced on daisychain beads. |
 | **Cardinality feedback** | ⚠ partial | counts + the "⚠ large — see 🔧" hint exist; no principled tighten/broaden affordance yet |
 | **Forks / named branches** | ✗ | back-gesture truncates; no `branches[]` |
@@ -89,25 +89,24 @@ summary alone.
 
 ## What we'd next close, in priority order
 
-1. **Workflow-level TriG manifest**. Lift per-bead TriG to whole-chain
-   manifest with `gog:` ontology (bundle defs, runs, source bindings,
-   cache hashes). Real interchange artifact.
-2. **Quality policies**. Page-level mode toggle; filter REL_TEMPLATE
-   variants and AUGMENT_OPS by mode. Lib-side helper +
-   `qualityMode` field on chain spec.
-3. **Forks / branches**. State.beads becomes a tree; daisychain back-
+1. **Forks / branches**. State.beads becomes a tree; daisychain back-
    gesture branches instead of truncating; named branches in spec.
-4. **Federate as a declared node kind**. parl-enrich + identity-bridge
-   are already AUGMENT_OPS with crossCheck role; promote to declared
-   `{ joinKey, sources: [{id, role}] }` shape so multi-source ops are
-   first-class.
-5. **SPARQL Anything adapter source**. Wrap a JSON API (Members API
-   list-by-constituency, e.g.) as RDF on demand. Carries
-   `adapterEvidence` role.
-6. **Cache distinction (BundleDef / Run / CacheArtifact)**. Today every
+   Sizeable state + UI refactor.
+2. **SPARQL Anything adapter source**. Wrap a JSON API (Members API
+   list-by-constituency, e.g.) as RDF on demand. Adds a new engine
+   kind with `role: 'adapterEvidence'`.
+3. **Cache distinction (BundleDef / Run / CacheArtifact)**. Today every
    chip click re-runs; a content-addressed cache (hash of node-def +
    inputs → cached bindings) would let `#g=…` permalinks load
    instantly without re-fetching.
+4. **TriG execution records**. The static manifest is shipped; the
+   per-execution variant (`prov:Run` / `gog:Run` / `gog:CacheArtifact`)
+   is the obvious next layer once chains have been run.
+5. **Source roles in daisychain bead provenance**. Lib carries the
+   role; the ⓘ panel doesn't yet surface it. UI add.
+6. **Daisychain quality-mode toggle**. Lib gate is in place; chip-picker
+   needs to filter REL_TEMPLATE variants and AUGMENT_OPS by mode at
+   authoring time.
 
 ## Files
 
