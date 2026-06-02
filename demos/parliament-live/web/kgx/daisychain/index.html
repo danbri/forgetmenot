@@ -858,9 +858,15 @@ class DaisyStarter extends HTMLElement {
     }
     const lg = this.shadowRoot.querySelector('#library');
     for (const entry of LIBRARY) {
+      // Both flat ({steps}) and tree ({branches}) shapes count steps via
+      // the lib's active-branch flatten. A tree-shape chain saved with
+      // forks shows up here with the active branch's effective length.
+      let stepCount = 0;
+      try { stepCount = activeChainSteps(normaliseChainSpec(entry)).length; }
+      catch { stepCount = (entry.steps || []).length; }
       const c = document.createElement('button');
       c.className = 'card lib';
-      c.innerHTML = `<div class="title"><span class="badge">${entry.steps.length} steps</span><span class="t"></span></div><div class="sub"></div>`;
+      c.innerHTML = `<div class="title"><span class="badge">${stepCount} steps</span><span class="t"></span></div><div class="sub"></div>`;
       c.querySelector('.t').textContent = entry.title;
       c.querySelector('.sub').textContent = entry.sub;
       c.addEventListener('click', () => {
