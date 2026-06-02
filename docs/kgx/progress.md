@@ -89,13 +89,16 @@ summary alone.
 
 ## What we'd next close, in priority order
 
-The three substantive items left, all sized as multi-commit feature
-work:
-
-1. **Forks / branches**. State.beads becomes a tree; daisychain back-
-   gesture branches instead of truncating; named branches in spec.
-   Sizeable state + UI refactor. Pairs with the URL hash work — a
-   forked chain's permalink would need to encode the branch head.
+1. **Forks / branches — UI layer.** Lib foundation is in place
+   (`lib/branches.mjs` + tree-shape acceptance in runner, trig,
+   daisychain `_replay`, CLI `chain run --library`). LIBRARY has a
+   `fork-demo` entry that round-trips through every surface.
+   Still TODO: daisychain `state` model gains `branches[]` +
+   `activeBranch`; back-gesture long-press creates a branch instead
+   of truncating; spine view shows the active-branch indicator;
+   graph view renders the whole tree; URL hash carries `activeBranch`
+   alongside the spec. Sizeable UX decisions about where the fork
+   affordance lives.
 2. **SPARQL Anything adapter source**. Wrap a JSON API (Members API
    list-by-constituency, e.g.) as RDF on demand. Adds a new engine
    kind with `role: 'adapterEvidence'`. The role slot is already in
