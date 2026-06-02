@@ -717,6 +717,41 @@ const state = {
 const listeners = new Set();
 function publish() { for (const fn of listeners) fn(); }
 
+// ---------------------------------------------------------------------------
+// URL hash persistence. The chain spec serialises to base64url JSON so the
+// page URL is always a shareable permalink. State-change handlers below
+// call writeChainToHash(); on init the constructor reads it back.
+// Hash forms recognised:
+//   #library=<id>    deep-link to a saved chain (studio Library tab)
+//   #g=<base64url>   arbitrary chain spec, serialised on save / change
+// ---------------------------------------------------------------------------
+function encodeSpec(payload) {
+  const s = JSON.stringify(payload);
+  // utf-8 → latin-1 → base64 → base64url
+  return btoa(unescape(encodeURIComponent(s)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+function decodeSpec(s) {
+  try {
+    const b64 = String(s || '').replace(/-/g, '+').replace(/_/g, '/');
+    const padded = b64 + '='.repeat((4 - (b64.length % 4)) % 4);
+    return JSON.parse(decodeURIComponent(escape(atob(padded))));
+  } catch (e) {
+    console.warn('[hash] decodeSpec failed', e);
+    return null;
+  }
+}
+function writeChainToHash() {
+  const steps = currentChainSpec();
+  if (!steps.length) {
+    if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    return;
+  }
+  const encoded = encodeSpec({ steps });
+  const want = '#g=' + encoded;
+  if (location.hash !== want) history.replaceState(null, '', want);
+}
+
 let _ids = 0;
 function pushBead(opLabel, opIcon, bundle, sources = [], spec = null) {
   state.beads.push({
@@ -1946,16 +1981,25 @@ class DaisyApp extends HTMLElement {
       btn.addEventListener('click', () => { state.view = btn.dataset.v; publish(); });
     }
     listeners.add(() => this._render());
+    // Keep the URL hash in sync with the current chain spec so every chain
+    // is a shareable permalink without pressing Save. State-change → write
+    // #g=<base64url(spec JSON)>. Empty chain → clear hash.
+    listeners.add(() => writeChainToHash());
     this._render();
 
-    // Auto-load a chain when arrived at via /kgx/daisychain/#library=<id>
-    // — used by the studio Library tab to deep-link straight into a saved
-    // chain. Falls back silently if the hash is missing or unknown.
-    const m = String(location.hash || '').match(/[#&]library=([^&]+)/);
-    if (m) {
-      const id = decodeURIComponent(m[1]);
+    // Auto-load a chain when arrived at via:
+    //   /kgx/daisychain/#library=<id>  — studio Library tab deep-link
+    //   /kgx/daisychain/#g=<base64url> — permalink from a previous session
+    const lib = String(location.hash || '').match(/[#&]library=([^&]+)/);
+    if (lib) {
+      const id = decodeURIComponent(lib[1]);
       const entry = LIBRARY.find((x) => x.id === id);
-      if (entry) queueMicrotask(() => this._replay(entry));
+      if (entry) { queueMicrotask(() => this._replay(entry)); return; }
+    }
+    const g = String(location.hash || '').match(/[#&]g=([^&]+)/);
+    if (g) {
+      const spec = decodeSpec(g[1]);
+      if (spec?.steps?.length) queueMicrotask(() => this._replay(spec));
     }
   }
 
@@ -2160,12 +2204,13 @@ class DaisyApp extends HTMLElement {
     if (!spec.length) return;
     const payload = { title: 'untitled chain', steps: spec };
     const text = JSON.stringify(payload, null, 2);
-    try {
-      navigator.clipboard?.writeText(text);
-    } catch {}
+    const url  = location.origin + location.pathname + '#g=' + encodeSpec({ steps: spec });
+    try { navigator.clipboard?.writeText(url); } catch {}
     const lead = this.shadowRoot.querySelector('#lead');
-    lead.innerHTML = `✓ chain copied to clipboard — <b>${spec.length}</b> steps. `
-      + `<details style="display:inline"><summary>show JSON</summary><pre style="white-space:pre-wrap;font:11px ui-monospace,Menlo,monospace;">${escapeHTML(text)}</pre></details>`;
+    lead.innerHTML = `✓ permalink copied — <b>${spec.length}</b> steps. `
+      + `<details style="display:inline"><summary>show JSON</summary>`
+      + `<pre style="white-space:pre-wrap;font:11px ui-monospace,Menlo,monospace;">${escapeHTML(text)}</pre>`
+      + `</details>`;
   }
 
   _undoTo(idx) { truncateTo(idx); }
