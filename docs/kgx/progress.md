@@ -89,24 +89,33 @@ summary alone.
 
 ## What we'd next close, in priority order
 
+The three substantive items left, all sized as multi-commit feature
+work:
+
 1. **Forks / branches**. State.beads becomes a tree; daisychain back-
    gesture branches instead of truncating; named branches in spec.
-   Sizeable state + UI refactor.
+   Sizeable state + UI refactor. Pairs with the URL hash work — a
+   forked chain's permalink would need to encode the branch head.
 2. **SPARQL Anything adapter source**. Wrap a JSON API (Members API
    list-by-constituency, e.g.) as RDF on demand. Adds a new engine
-   kind with `role: 'adapterEvidence'`.
+   kind with `role: 'adapterEvidence'`. The role slot is already in
+   the lib's quality gate; it just needs an op that uses it.
 3. **Cache distinction (BundleDef / Run / CacheArtifact)**. Today every
    chip click re-runs; a content-addressed cache (hash of node-def +
    inputs → cached bindings) would let `#g=…` permalinks load
-   instantly without re-fetching.
-4. **TriG execution records**. The static manifest is shipped; the
-   per-execution variant (`prov:Run` / `gog:Run` / `gog:CacheArtifact`)
-   is the obvious next layer once chains have been run.
-5. **Source roles in daisychain bead provenance**. Lib carries the
-   role; the ⓘ panel doesn't yet surface it. UI add.
-6. **Daisychain quality-mode toggle**. Lib gate is in place; chip-picker
-   needs to filter REL_TEMPLATE variants and AUGMENT_OPS by mode at
-   authoring time.
+   instantly without re-fetching. The two-tier http-cache in
+   `tests/_lib/http-cache.mjs` is the test-side analogue; production-
+   side a similar idea applies.
+
+Plus polish items that surface as testing exposes them:
+
+4. **bindHash on every runner-emitted bead**. The lib has the helper
+   pattern; the runner doesn't compute it inline today. Would make
+   TriG execution records carry stable content hashes for free.
+5. **Larger LIBRARY chains**. The 20 today are a good baseline;
+   parallax-style chains across more entity types (legislation,
+   committees, treaties) would exercise more of the rel-template +
+   augment surface.
 
 ## Files
 
