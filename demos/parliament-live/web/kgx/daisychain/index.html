@@ -1947,6 +1947,16 @@ class DaisyApp extends HTMLElement {
     }
     listeners.add(() => this._render());
     this._render();
+
+    // Auto-load a chain when arrived at via /kgx/daisychain/#library=<id>
+    // — used by the studio Library tab to deep-link straight into a saved
+    // chain. Falls back silently if the hash is missing or unknown.
+    const m = String(location.hash || '').match(/[#&]library=([^&]+)/);
+    if (m) {
+      const id = decodeURIComponent(m[1]);
+      const entry = LIBRARY.find((x) => x.id === id);
+      if (entry) queueMicrotask(() => this._replay(entry));
+    }
   }
 
   async _kickoff(starter) {
