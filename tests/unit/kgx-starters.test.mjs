@@ -26,14 +26,22 @@ import { cachedFetch, readSummary } from '../_lib/http-cache.mjs';
 
 test('every starter carries the declarative-plan fields', () => {
   for (const s of STARTERS) {
-    assert.ok(typeof s.id === 'string' && s.id.length,        `missing id`);
-    assert.ok(typeof s.label === 'string',                    `${s.id}: no label`);
-    assert.ok(typeof s.type === 'string',                     `${s.id}: no output type`);
-    assert.ok(typeof s.engineId === 'string',                 `${s.id}: no engineId`);
-    assert.ok(typeof s.query === 'string' && s.query.length,  `${s.id}: no query`);
-    assert.equal(typeof s.parse, 'function',                  `${s.id}: parse() must be a function`);
+    assert.ok(typeof s.id === 'string' && s.id.length, `missing id`);
+    assert.ok(typeof s.label === 'string',             `${s.id}: no label`);
+    assert.ok(typeof s.type === 'string',              `${s.id}: no output type`);
+    assert.equal(typeof s.parse, 'function',           `${s.id}: parse() must be a function`);
+    // Two shapes: SPARQL-engine + query, OR PQ template.
+    const sparqlShape = typeof s.engineId === 'string' && typeof s.query === 'string' && s.query.length;
+    const pqShape     = typeof s.pqTemplate === 'string' && s.pqTemplate.length;
+    assert.ok(sparqlShape || pqShape,
+      `${s.id}: must be either SPARQL-shape (engineId+query) or PQ-shape (pqTemplate)`);
   }
 });
+
+// Filter helper — SPARQL hygiene only runs on SPARQL-shape starters; PQ
+// starters use named templates served by api.parliament.uk/query/, not
+// inline SPARQL of our own.
+const SPARQL_STARTERS = STARTERS.filter((s) => typeof s.query === 'string');
 
 // ---------------------------------------------------------------------------
 // SPARQL hygiene on the query — same gates the rel-templates tests pin.
@@ -53,8 +61,8 @@ function usedPrefixes(sparql) {
   return out;
 }
 
-test('every starter.query passes the §18.2.4.4 alias-collision gate', () => {
-  for (const s of STARTERS) {
+test('every SPARQL starter.query passes the §18.2.4.4 alias-collision gate', () => {
+  for (const s of SPARQL_STARTERS) {
     assert.doesNotThrow(
       () => assertNoAliasCollisions(s.query, s.id),
       `${s.id}: emits a §18.2.4.4 violation`,
@@ -62,8 +70,8 @@ test('every starter.query passes the §18.2.4.4 alias-collision gate', () => {
   }
 });
 
-test('every starter.query declares every PNAME prefix it uses', () => {
-  for (const s of STARTERS) {
+test('every SPARQL starter.query declares every PNAME prefix it uses', () => {
+  for (const s of SPARQL_STARTERS) {
     const declared = declaredPrefixes(s.query);
     const used     = usedPrefixes(s.query);
     for (const pfx of used) {

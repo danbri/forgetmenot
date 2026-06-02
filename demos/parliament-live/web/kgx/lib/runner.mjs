@@ -106,6 +106,21 @@ export async function runChainSpec(spec, ctx) {
     if (step.kind === 'starter') {
       const s = STARTERS.find((x) => x.id === step.id);
       if (!s) throw new UnsupportedOpError(`starter:${step.id} (not in lib)`);
+
+      // SPARQL-shape (engineId + query) vs PQ-shape (pqTemplate)
+      if (s.pqTemplate) {
+        if (typeof ctx.pq !== 'function') {
+          throw new UnsupportedOpError(`starter:${s.id} needs ctx.pq() (PQ host)`);
+        }
+        const res = await ctx.pq(s.pqTemplate);
+        const items = s.parse(res.rows || res.json?.['@graph'] || []);
+        bundle = new Bundle(items, s.type, s.label);
+        beads.push({
+          kind: 'starter', id: s.id, type: s.type, size: bundle.size,
+          engineId: 'parl-pq', ms: res.ms, query: s.pqTemplate,
+        });
+        continue;
+      }
       const res = await ctx.engine(s.engineId).query(s.query, `seed:${s.id}`);
       const items = s.parse(res.json.results.bindings);
       bundle = new Bundle(items, s.type, s.label);

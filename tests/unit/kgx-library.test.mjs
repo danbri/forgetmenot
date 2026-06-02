@@ -45,6 +45,18 @@ const ENDPOINTS = {
   'parl-sparql':     'https://api.parliament.uk/sparql',
 };
 
+// PQ host — api.parliament.uk/query/<template>, JSON-LD response.
+// CORS-open, no auth. Used by the pq-* starters in lib.
+async function pqHost(template) {
+  const url = 'https://api.parliament.uk/query/' + template;
+  const t0  = performance.now();
+  const res = await cachedFetch(url, { headers: { 'Accept': 'application/json' } });
+  if (!res.ok) throw new Error(`pq:${template}: HTTP ${res.status}`);
+  const json = await res.json();
+  const rows = Array.isArray(json['@graph']) ? json['@graph'] : [];
+  return { json, rows, ms: Math.round(performance.now() - t0), endpoint: url, engineId: 'parl-pq' };
+}
+
 function engineResolver(id) {
   const endpoint = ENDPOINTS[id];
   if (!endpoint) throw new Error(`no test endpoint mapping for engineId "${id}"`);
@@ -86,7 +98,7 @@ const NETWORK_HINTS = /HTTP 5\d\d|HTTP 000|ENOTFOUND|ECONNRESET|ECONNREFUSED|ETI
 
 async function runOrTriage(chain) {
   try {
-    return { ok: true, ...await runChainSpec(chain, { engine: engineResolver }) };
+    return { ok: true, ...await runChainSpec(chain, { engine: engineResolver, pq: pqHost }) };
   } catch (e) {
     if (e instanceof UnsupportedOpError) {
       return { ok: false, skip: 'op-not-in-lib', detail: e.step };

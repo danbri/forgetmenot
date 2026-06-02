@@ -267,6 +267,60 @@ export function parseSiRows(bindings) {
   }));
 }
 
+// -----------------------------------------------------------------------------
+// PQ ("parameterised query") starters — Parliament's named-template service
+// at api.parliament.uk/query/<template>. Returns JSON-LD with `@graph` rows
+// rather than SPARQL bindings. Each PQ starter declares `pqTemplate`
+// instead of `query`; the runner takes that as a signal to call
+// `ctx.pq(template)` rather than `ctx.engine(...).query(sparql)`.
+//
+// The page goes through its `/api/query/<t>` proxy route (public, no
+// auth); node tests go directly to api.parliament.uk/query/<t>
+// (also public, CORS-open).
+// -----------------------------------------------------------------------------
+
+export function parsePqConstituencyCurrentRows(rows) {
+  return rows.map((g) => {
+    const inc = g.constituencyGroupHasHouseSeat?.houseSeatHasSeatIncumbency;
+    const mp  = inc?.parliamentaryIncumbencyHasMember;
+    const ptyName = mp?.partyMemberHasPartyMembership?.partyMembershipHasParty?.partyName || null;
+    return {
+      uri:   'https://id.parliament.uk/' + g['@id'],
+      label: g.constituencyGroupName || g['@id'],
+      image: null, country: null, coords: null,
+      currentMpName:  mp ? `${mp.personGivenName || ''} ${mp.personFamilyName || ''}`.trim() : null,
+      currentMpParty: ptyName,
+    };
+  });
+}
+
+export function parsePqPartyIndexRows(rows) {
+  return rows.map((g) => ({
+    uri:   'https://id.parliament.uk/' + g['@id'],
+    label: g.partyName || g['@id'],
+    image: null, country: null, coords: null,
+    commonsCount: +g.commonsCount || 0,
+    lordsCount:   +g.lordsCount   || 0,
+    originCount:  (+g.commonsCount || 0) + (+g.lordsCount || 0),
+  }));
+}
+
+export function parsePqFormalBodyIndexRows(rows) {
+  return rows.map((g) => ({
+    uri:   'https://id.parliament.uk/' + g['@id'],
+    label: g.formalBodyName || g['@id'],
+    image: null, country: null, coords: null,
+  }));
+}
+
+export function parsePqConceptIndexRows(rows) {
+  return rows.map((g) => ({
+    uri:   'https://id.parliament.uk/' + g['@id'],
+    label: g.prefLabel || g['@id'],
+    image: null, country: null, coords: null,
+  }));
+}
+
 // Registry of starters that live here (declarative). The daisychain page
 // merges this with its still-inline starters at import-time so the order
 // + IDs that the LIBRARY chains reference are preserved.
@@ -321,5 +375,43 @@ export const STARTERS = [
     query:     RECENT_SIS_QUERY,
     parse:     parseSiRows,
     note:      'DDP class schema:StatutoryInstrumentPaper, newest first, capped 1500.',
+  },
+  // -- PQ-shape starters — runner dispatches via ctx.pq(template) instead
+  //    of ctx.engine(id).query(sparql).
+  {
+    id:         'pq-constituency-current',
+    label:      'Current Commons constituencies (PQ)',
+    sub:        '674 ConstituencyGroups, each with current MP + party',
+    type:       'constituency',
+    pqTemplate: 'constituency_current',
+    parse:      parsePqConstituencyCurrentRows,
+    note:       'PQ template constituency_current — Commons-current constituencies with sitting MP + party.',
+  },
+  {
+    id:         'pq-party-index',
+    label:      'Parliament parties · with Commons + Lords counts (PQ)',
+    sub:        '73 Party records, current state',
+    type:       'party',
+    pqTemplate: 'party_index',
+    parse:      parsePqPartyIndexRows,
+    note:       'PQ template party_index — each party with current Commons + Lords membership counts.',
+  },
+  {
+    id:         'pq-formal-body-index',
+    label:      'Parliament formal bodies · committees + boards (PQ)',
+    sub:        '399 FormalBody records — Select, Joint, General Committees, Boards',
+    type:       'formal_body',
+    pqTemplate: 'formal_body_index',
+    parse:      parsePqFormalBodyIndexRows,
+    note:       'PQ template formal_body_index — every formal body (Select / Joint / General Committees, Boards, …).',
+  },
+  {
+    id:         'pq-concept-index',
+    label:      'Top thesaurus concepts (PQ)',
+    sub:        '108 SKOS Concept top-terms from the Parliament Thesaurus',
+    type:       'concept',
+    pqTemplate: 'concept_index',
+    parse:      parsePqConceptIndexRows,
+    note:       'PQ template concept_index — top-term SKOS concepts in the Parliament Thesaurus.',
   },
 ];

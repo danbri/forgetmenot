@@ -946,6 +946,19 @@ function cardinalityChips(bead, idx) {
 // inline `fetch:` closure. Either shape produces `{ items, source }`. As
 // more starters migrate to lib, the `fetch:` branch goes away.
 async function loadStarter(s) {
+  if (s.pqTemplate && s.parse) {
+    const res = await pqFetch(s.pqTemplate, {}, `pq:${s.pqTemplate}`);
+    return {
+      items: s.parse(res.rows),
+      source: makeSource({
+        kind: `seed:${s.id}`,
+        endpoint: res.endpoint, engineId: res.engineId,
+        query: res.query, ms: res.ms,
+        bindings: res.rows,
+        note: s.note,
+      }),
+    };
+  }
   if (s.query && s.parse) {
     const res = await engine(s.engineId).query(s.query, `seed:${s.id}`);
     return {
@@ -964,108 +977,7 @@ async function loadStarter(s) {
 }
 
 const STARTERS = [
-  ...LIB_STARTERS,         // declarative: uk-mps-1900 + parl-current-mps; PQ + scenic starters still inline
-  // -- PQ pump (api.parliament.uk/query) — parameterless catalogue templates.
-  // Each starter wraps a single canonical named query; DDP coverage; the
-  // returned @graph rows become the bundle's items.
-  {
-    id: 'pq-constituency-current',
-    label: 'Current Commons constituencies (PQ)',
-    sub: '674 ConstituencyGroups, each with current MP + party',
-    type: 'constituency',
-    fetch: async () => {
-      const res = await pqFetch('constituency_current', {}, 'pq:constituency_current');
-      const items = res.rows.map((g) => {
-        const inc = g.constituencyGroupHasHouseSeat?.houseSeatHasSeatIncumbency;
-        const mp  = inc?.parliamentaryIncumbencyHasMember;
-        const ptyName = mp?.partyMemberHasPartyMembership?.partyMembershipHasParty?.partyName || null;
-        return {
-          uri:   'https://id.parliament.uk/' + g['@id'],
-          label: g.constituencyGroupName || g['@id'],
-          image: null, country: null, coords: null,
-          currentMpName: mp ? `${mp.personGivenName || ''} ${mp.personFamilyName || ''}`.trim() : null,
-          currentMpParty: ptyName,
-        };
-      });
-      return {
-        items,
-        source: makeSource({
-          kind: 'seed:pq-constituency-current', endpoint: '/api/query/constituency_current',
-          engineId: 'parl-query', query: res.query, ms: res.ms, bindings: res.rows,
-          note: 'PQ template constituency_current — Commons-current constituencies with sitting MP + party.',
-        }),
-      };
-    },
-  },
-  {
-    id: 'pq-party-index',
-    label: 'Parliament parties · with Commons + Lords counts (PQ)',
-    sub: '73 Party records, current state',
-    type: 'party',
-    fetch: async () => {
-      const res = await pqFetch('party_index', {}, 'pq:party_index');
-      const items = res.rows.map((g) => ({
-        uri:   'https://id.parliament.uk/' + g['@id'],
-        label: g.partyName || g['@id'],
-        image: null, country: null, coords: null,
-        commonsCount: +g.commonsCount || 0,
-        lordsCount:   +g.lordsCount   || 0,
-        originCount:  (+g.commonsCount || 0) + (+g.lordsCount || 0),
-      }));
-      return {
-        items,
-        source: makeSource({
-          kind: 'seed:pq-party-index', endpoint: '/api/query/party_index',
-          engineId: 'parl-query', query: res.query, ms: res.ms, bindings: res.rows,
-          note: 'PQ template party_index — each party with current Commons + Lords membership counts.',
-        }),
-      };
-    },
-  },
-  {
-    id: 'pq-formal-body-index',
-    label: 'Parliament formal bodies · committees + boards (PQ)',
-    sub: '399 FormalBody records — Select, Joint, General Committees, Boards',
-    type: 'formal_body',
-    fetch: async () => {
-      const res = await pqFetch('formal_body_index', {}, 'pq:formal_body_index');
-      const items = res.rows.map((g) => ({
-        uri:   'https://id.parliament.uk/' + g['@id'],
-        label: g.formalBodyName || g['@id'],
-        image: null, country: null, coords: null,
-      }));
-      return {
-        items,
-        source: makeSource({
-          kind: 'seed:pq-formal-body-index', endpoint: '/api/query/formal_body_index',
-          engineId: 'parl-query', query: res.query, ms: res.ms, bindings: res.rows,
-          note: 'PQ template formal_body_index — every formal body (Select / Joint / General Committees, Boards, …).',
-        }),
-      };
-    },
-  },
-  {
-    id: 'pq-concept-index',
-    label: 'Top thesaurus concepts (PQ)',
-    sub: '108 SKOS Concept top-terms from the Parliament Thesaurus',
-    type: 'concept',
-    fetch: async () => {
-      const res = await pqFetch('concept_index', {}, 'pq:concept_index');
-      const items = res.rows.map((g) => ({
-        uri:   'https://id.parliament.uk/' + g['@id'],
-        label: g.prefLabel || g['@id'],
-        image: null, country: null, coords: null,
-      }));
-      return {
-        items,
-        source: makeSource({
-          kind: 'seed:pq-concept-index', endpoint: '/api/query/concept_index',
-          engineId: 'parl-query', query: res.query, ms: res.ms, bindings: res.rows,
-          note: 'PQ template concept_index — top-term SKOS concepts in the Parliament Thesaurus.',
-        }),
-      };
-    },
-  },
+  ...LIB_STARTERS,         // declarative: every starter in lib/starters.mjs (SPARQL + PQ)
 ];
 
 // ============================================================================
