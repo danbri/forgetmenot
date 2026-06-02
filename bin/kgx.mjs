@@ -116,7 +116,9 @@ kgx — SPARQL web-protocol client + ops dispatcher
                                        (inline-SPARQL shape; predates LIBRARY)
   kgx chain explain --library <lib-id> describe what each step does, without running
        [-f chain.json]                 same, from a LIBRARY-shape JSON file
-  kgx chain candidates --type <t>      list ops that apply to a bundle of type <t>
+  kgx chain candidates --type <t>      list ops applicable to a bundle of type <t>
+       [-f spec.json | --stdin]         …or derive the type from a partial chain spec
+                                        (the chat-UI / LLM-agent loop)
   kgx chain validate --library <id>    run every lib hygiene gate (§18.2.4.4 + prefix
        [-f chain.json]                  declarations + bundle-type contract + variant
                                         membership). Exit 0 = clean; 1 = issues found.
@@ -470,20 +472,65 @@ function cmdChainExplain(flags) {
 }
 
 // -----------------------------------------------------------------------------
-// `kgx chain candidates --type <bundle-type>` — list every op (restrict /
-// rel-template / augment) that can apply to a bundle of the given type.
+// `kgx chain candidates` — list ops that can extend a chain.
+//
+// Two forms:
+//   --type <t>             list ops applicable to a hypothetical bundle of type <t>
+//   -f <spec> | --stdin    parse a chain spec; derive the type from its last step
+//                          and list ops that could be added as step N+1
+//
+// The second form is the chat-UI / LLM-agent loop: feed a partial chain
+// in, get the next valid step's candidates out.
 // -----------------------------------------------------------------------------
+function lastBundleType(stepsToRun) {
+  let type = '(none)';
+  for (let i = 0; i < stepsToRun.length; i++) {
+    let step = stepsToRun[i];
+    if (step.kind === 'op' && PIVOT_ALIASES_LITE[step.op]) {
+      step = { kind: 'op', op: 'rel-pivot', ...PIVOT_ALIASES_LITE[step.op] };
+    }
+    if (step.kind === 'starter') {
+      const s = STARTERS.find((x) => x.id === step.id);
+      if (s) type = s.type;
+    } else if (step.op === 'rel-pivot') {
+      const t = REL_TEMPLATES.find((x) => x.id === step.template);
+      if (t) type = t.outputType;
+    }
+    // restrict / augment leave the bundle type unchanged
+  }
+  return type;
+}
+const PIVOT_ALIASES_LITE = {
+  'pivot-bp': { template: 'birthplaces', variant: 'default' },
+  'pivot-am': { template: 'alma_maters', variant: 'default' },
+};
+
 function cmdChainCandidates(flags) {
-  const type = String(flags.type || '');
-  if (!type) die('chain candidates: pass `--type <bundle-type>` (e.g. human / building / constituency / appg / party / si / formal_body / concept / wd_thing / wd_class)');
-  // restrict ops are pure-client; they apply to any type (the chain author
-  // decides what makes sense). Pivots are typed by inputType.
+  let type = String(flags.type || '');
+  let lastStep = null;
+  if (flags.f || flags.stdin) {
+    let spec;
+    if (flags.stdin) {
+      spec = JSON.parse(readFileSync(0, 'utf8'));
+    } else {
+      spec = JSON.parse(readFileSync(String(flags.f), 'utf8'));
+    }
+    const normalised = normaliseChainSpec(spec);
+    const stepsToRun = activeChainSteps(normalised) || [];
+    type = lastBundleType(stepsToRun);
+    lastStep = stepsToRun[stepsToRun.length - 1] || null;
+  }
+  if (!type) {
+    die('chain candidates: pass `--type <bundle-type>` ' +
+        'or `-f path/to/chain.json` / `--stdin` to derive the type from a partial chain');
+  }
   const restrict = Object.keys(opFilters);
   const pivots = REL_TEMPLATES.filter((t) =>
     t.inputType === type || (t.inputType === 'wd_thing' && /Q\d+$/.test(type)));
   const augments = Object.values(AUGMENT_OPS);
   const out = {
-    type,
+    upstreamType: type,
+    upstreamStep: lastStep,
     restrict,
     relTemplates: pivots.map((t) => ({
       id: t.id, outputType: t.outputType, role: t.role || 'primary',
