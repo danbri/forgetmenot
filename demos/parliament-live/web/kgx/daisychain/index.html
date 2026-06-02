@@ -110,7 +110,7 @@ function newNG(kind) {
   const ts = new Date().toISOString().replace(/[:.]/g, '-');
   return `urn:fmn:bead/${ts}/${_ngSeq}/${kind}`;
 }
-function makeSource({ kind, endpoint = null, engineId = null, query = null, ms = 0, bindings = [], note = null, relTemplate = null, variant = null, namedGraphs = [] }) {
+function makeSource({ kind, endpoint = null, engineId = null, query = null, ms = 0, bindings = [], note = null, relTemplate = null, variant = null, namedGraphs = [], role = null }) {
   return {
     ng: newNG(kind),
     kind,                  // 'seed' | 'enrich' | 'rel:children:sons' | …
@@ -122,6 +122,10 @@ function makeSource({ kind, endpoint = null, engineId = null, query = null, ms =
     bindings,              // kept verbatim so we can render TriG without refetching
     ts: Date.now(),
     note,
+    role,                  // 'primary' | 'crossCheck' | 'adapterEvidence' | 'weakEnrichment'
+                           // — what evidential status the bead's data carries.
+                           // Sourced from the lib's STARTERS / REL_TEMPLATES /
+                           // AUGMENT_OPS metadata (see lib/quality.mjs).
     // Relation-template provenance (set when this Source came from a
     // RelationTemplate variant — see REL_TEMPLATES below). Makes the chain
     // legible in the design's vocabulary: "via template 'children', variant
@@ -214,6 +218,7 @@ async function applyRelation(template, variant, bundle) {
       relTemplate: template.id, variant: variant.id,
       namedGraphs: variant.namedGraphs || [],
       note: `${template.gloss} · variant=${variant.kind}:${variant.id}`,
+      role: template.role || 'primary',
     }),
   };
 }
@@ -577,6 +582,7 @@ async function loadStarter(s) {
         query: res.query, ms: res.ms,
         bindings: res.rows,
         note: s.note,
+        role: s.role || 'primary',
       }),
     };
   }
@@ -622,6 +628,7 @@ async function runAugment(opId, bundle) {
       query: res.query, ms: res.ms, bindings: res.json.results.bindings,
       note: aug.note,
       namedGraphs: aug.namedGraphs || [],
+      role: aug.role || 'primary',
     }),
   };
 }
@@ -746,6 +753,7 @@ function beadToTrig(bead) {
   ];
   for (const src of bead.sources || []) {
     lines.push(`# ${src.kind} — endpoint=${src.endpoint || '(client)'} ms=${src.ms} rows=${src.rowCount} ts=${new Date(src.ts).toISOString()}`);
+    if (src.role)  lines.push(`# role: ${src.role}`);
     if (src.note)  lines.push(`# note: ${src.note}`);
     if (src.query) lines.push('# query:' + src.query.split('\n').map((l) => '\n#   ' + l).join(''));
     lines.push(`<${src.ng}> {`);
@@ -1453,7 +1461,8 @@ class DaisyInfoSheet extends HTMLElement {
         </div>
         <div class="src-meta">
           endpoint: <code>${s.endpoint ? escapeHTML(s.endpoint) : '(client-side op)'}</code>
-          ${s.engineId ? ` · engine: <code>${escapeHTML(s.engineId)}</code>` : ''}<br>
+          ${s.engineId ? ` · engine: <code>${escapeHTML(s.engineId)}</code>` : ''}
+          ${s.role     ? ` · role: <code>${escapeHTML(s.role)}</code>`         : ''}<br>
           fetched: ${new Date(s.ts).toISOString()}
           ${s.relTemplate ? `<br>relation: <code>${escapeHTML(s.relTemplate)}</code> · variant: <code>${escapeHTML(s.variant || '')}</code>` : ''}
           ${(s.namedGraphs && s.namedGraphs.length) ? `<br>named graph${s.namedGraphs.length === 1 ? '' : 's'}: ${s.namedGraphs.map((g) => `<code>${escapeHTML(g)}</code>`).join(', ')}` : ''}
