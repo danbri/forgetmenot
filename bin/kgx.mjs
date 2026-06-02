@@ -41,6 +41,8 @@ import {
 } from '../demos/parliament-live/web/kgx/lib/sparql-validate.mjs';
 import { chainToTrig } from '../demos/parliament-live/web/kgx/lib/trig.mjs';
 import { LIBRARY }     from '../demos/parliament-live/web/kgx/lib/library.mjs';
+import { runChainSpec, UnsupportedOpError } from
+  '../demos/parliament-live/web/kgx/lib/runner.mjs';
 
 const ENGINES = {
   'qlever-wikidata': { endpoint: 'https://qlever.dev/api/wikidata',  label: 'QLever ⇒ Wikidata',         strict: true  },
@@ -102,7 +104,10 @@ kgx — SPARQL web-protocol client + ops dispatcher
        [--method get|post]             default post for >2 KB queries, else get
   kgx chain trig --id <lib-id>         emit a TriG manifest for a LIBRARY entry
   kgx chain trig -f path/to/spec.json   same, from a LIBRARY-shape JSON file
+  kgx chain run --library <lib-id>     run a LIBRARY entry through the lib's
+                                       runChainSpec; one JSONL bead per step
   kgx chain run -f chain.json          run a declarative chain spec, emit JSONL beads
+                                       (inline-SPARQL shape; predates LIBRARY)
        [--record path]                 also write a recording (chain + per-bead hashes)
   kgx chain replay -f recording.json   re-run the embedded chain, assert each bead's
                                        content hash matches; exit 1 on mismatch.
@@ -369,8 +374,68 @@ function cmdChainTrig(flags) {
   process.stdout.write(chainToTrig(spec));
 }
 
+// LIBRARY-shape engine resolver + PQ host for the CLI. Uses live fetch
+// (no http-cache in the CLI today — that's a tests-side concern).
+function libEngineResolver(id) {
+  const map = {
+    'qlever-wikidata': 'https://qlever.dev/api/wikidata',
+    'fpkg':            'https://fpkg.fly.dev/kgx/query',
+    'parl-sparql':     'https://api.parliament.uk/sparql',
+  };
+  const endpoint = map[id];
+  if (!endpoint) throw new Error(`no CLI endpoint mapping for engineId "${id}"`);
+  return {
+    id, endpoint,
+    async query(sparql, label) {
+      const t0 = performance.now();
+      const method = sparql.length > 2048 ? 'POST' : 'GET';
+      const res = method === 'POST'
+        ? await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/sparql-query', 'Accept': 'application/sparql-results+json' },
+            body: sparql,
+          })
+        : await fetch(endpoint + '?query=' + encodeURIComponent(sparql), {
+            headers: { 'Accept': 'application/sparql-results+json' },
+          });
+      if (!res.ok) throw new Error(`${label}: HTTP ${res.status}`);
+      return {
+        json: await res.json(), query: sparql, endpoint, engineId: id,
+        ms: Math.round(performance.now() - t0), label,
+      };
+    },
+  };
+}
+async function libPqHost(template) {
+  const url = 'https://api.parliament.uk/query/' + template;
+  const t0 = performance.now();
+  const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+  if (!res.ok) throw new Error(`pq:${template}: HTTP ${res.status}`);
+  const json = await res.json();
+  return {
+    json, rows: Array.isArray(json['@graph']) ? json['@graph'] : [],
+    ms: Math.round(performance.now() - t0), endpoint: url, engineId: 'parl-pq',
+  };
+}
+
 async function cmdChainRun(flags) {
-  if (!flags.f) die('chain run: pass `-f path/to/chain.json`');
+  // --library <id> path: run a LIBRARY-shape chain through the lib's
+  // runChainSpec. JSONL out — one bead per step.
+  if (flags.library) {
+    const chain = LIBRARY.find((c) => c.id === String(flags.library));
+    if (!chain) die(`chain run: no LIBRARY entry with id "${flags.library}"`);
+    try {
+      const { beads, bundle } = await runChainSpec(chain, { engine: libEngineResolver, pq: libPqHost });
+      for (const b of beads) process.stdout.write(JSON.stringify(b) + '\n');
+      process.stderr.write(`# final bundle: ${bundle.size} ${bundle.type}\n`);
+      return;
+    } catch (e) {
+      if (e instanceof UnsupportedOpError) die(e.message, 1);
+      throw e;
+    }
+  }
+  // Legacy -f path (inline-SPARQL shape; predates LIBRARY).
+  if (!flags.f) die('chain run: pass `--library <id>` or `-f path/to/chain.json`');
   const chain = JSON.parse(readFileSync(String(flags.f), 'utf8'));
   const beads = await runChain(chain);
   for (const b of beads) {
