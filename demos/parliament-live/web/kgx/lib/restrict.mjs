@@ -33,12 +33,69 @@ import { Bundle } from './node-flow.mjs';
 // ---------------------------------------------------------------------------
 // Filter registry — used directly by daisychain's OPS[].run(), and by the
 // chain interpreter that walks { kind: 'op', op: <id>, value? } steps.
+//
+// All entries are pure functions Bundle<T> → Bundle<T>: no engine call,
+// no DOM, no side effects (the legacy `_opNote` stash is dropped — the
+// page's source-bead UI now reads counts from the Source, not the
+// bundle).
+//
+// Type-specific ops (e.g. `by-mp-party` only makes sense on a
+// `constituency` bundle) live here regardless of type. The runner
+// matches on op id only; an op applied to the wrong bundle type yields
+// an empty bundle, which surfaces in the UI as a visible-broken
+// "no items match" state — by design (CLAUDE.md rule 11, honesty).
 // ---------------------------------------------------------------------------
+
+// Gender resolver shared by daisychain's picker UI and the lib runner.
+// The picker offers two ROW shapes:
+//   "female (exact P21)"             → exact match on item.gender
+//   "female (+ first-name heuristic)" → exact OR nameGender(label) match
+// Legacy LIBRARY entries used plain 'female' / 'male' — treated as exact.
+function genderFilter(b, v) {
+  const legacy = (v === 'female' || v === 'male');
+  const m = legacy ? [null, v] : v.match(/^(female|male)\b/);
+  const g = m?.[1];
+  if (!g) return new Bundle([], b.type, `${b.label} · ${v}`);
+  const useHeuristic = /heuristic/.test(v);
+  const filtered = b.items.filter((x) =>
+    x.gender === g ||
+    (useHeuristic && !x.gender && nameGender(x.label) === g));
+  return new Bundle(filtered, b.type, `${b.label} · ${v}`);
+}
+
 export const opFilters = {
-  party:   (b, v) => new Bundle(b.items.filter((x) => x.parties?.includes(v)), b.type, v),
-  decade:  (b, v) => new Bundle(b.items.filter((x) => x.decade === v),          b.type, v + ' '),
-  sitting: (b)    => new Bundle(b.items.filter((x) => x.sitting),               b.type, 'sitting now'),
-  bridged: (b)    => new Bundle(b.items.filter((x) => !!x.mpid),                b.type, 'has Members API id'),
+  // --- human bundles ---
+  party:       (b, v) => new Bundle(b.items.filter((x) => x.parties?.includes(v)), b.type, v),
+  decade:      (b, v) => new Bundle(b.items.filter((x) => x.decade === v),          b.type, v + ' '),
+  sitting:     (b)    => new Bundle(b.items.filter((x) => x.sitting),               b.type, 'sitting now'),
+  bridged:     (b)    => new Bundle(b.items.filter((x) => !!x.mpid),                b.type, 'has Members API id'),
+  gender:      genderFilter,
+  citizenship: (b, v) => new Bundle(b.items.filter((x) => (x.citizenships || []).includes(v)), b.type, `cit:${v}`),
+
+  // --- constituency bundles ---
+  'has-origin': (b) => new Bundle(
+    [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 50),
+    b.type, `${b.label} · top 50`),
+  'by-mp-party': (b, v) => new Bundle(
+    b.items.filter((x) => x.currentMpParty === v),
+    b.type, `${b.label} · MP party=${v}`),
+
+  // --- party bundles ---
+  'in-commons': (b) => new Bundle(b.items.filter((x) => (x.commonsCount || 0) > 0), b.type, `${b.label} · with Commons MPs`),
+  'in-lords':   (b) => new Bundle(b.items.filter((x) => (x.lordsCount   || 0) > 0), b.type, `${b.label} · with Lords peers`),
+  'top-by-size': (b) => new Bundle(
+    [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 25),
+    b.type, `${b.label} · top 25`),
+
+  // --- appg bundles ---
+  'top-by-officer-count': (b) => new Bundle(
+    [...b.items].sort((a, b2) => (b2.originCount || 0) - (a.originCount || 0)).slice(0, 50),
+    b.type, `${b.label} · top 50`),
+
+  // --- formal_body / concept bundles ---
+  'name-contains': (b, v) => new Bundle(
+    b.items.filter((x) => new RegExp(v, 'i').test(x.label || '')),
+    b.type, `${b.label} · "${v}"`),
 };
 
 // ---------------------------------------------------------------------------

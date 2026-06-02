@@ -361,6 +361,71 @@ Example:
 The UI should expose this as **relation refinement**, not force the user
 to edit SPARQL directly.
 
+## Facets, entities, descriptions — the data/referent split
+
+Each hop in a chain reads like a faceted browser: pick a chip, restrict
+the bundle. But "restrict" silently spans two distinct meanings, and the
+chain reader needs to know which one is in play.
+
+1. **Data-level restrict.** Filter on the *property values that exist
+   in the items' descriptions*. "Items where `wdt:P19` is `wd:Q215`
+   (Slovenia)." Mechanically a SPARQL filter on already-bound triples,
+   or a JS `Array.filter` over an in-memory bundle.
+
+2. **Referent-level restrict.** Filter on what the entities *are* in
+   the world. "Items where the person was born in what is today
+   Slovenia." May require traversing several Wikidata Q-items to
+   handle dissolution / renaming / change-of-administrative-area:
+   a person born in 1985 in Ljubljana might have `wdt:P19 wd:Q215`
+   (Slovenia) directly, or `wdt:P19 wd:Q36704` (Yugoslavia), or
+   `wdt:P19 wd:Q437` (Ljubljana, then `wdt:P131*` upward) — depending
+   on the editor who entered the triple.
+
+The two looks-the-same UI restrict "born in Slovenia" produces different
+sets. A data-level chip misses anyone tagged at the city or the SFRY
+parent; a referent-level chip needs the closure walk.
+
+This intersects with property cardinality:
+
+- **Functional properties** (`owl:FunctionalProperty`): one value per
+  subject. Most "X of Y" relations (date of birth, mother) — though
+  Wikidata often models these as multivalued so a `pq:` qualifier
+  ("date this assertion is true at") can ride along.
+- **Inverse-functional** (`owl:InverseFunctionalProperty`): one
+  subject per value. Identifiers — ISBN, ORCID, Wikidata QID,
+  Members API MNIS id. Restricting via these is identity-like: the
+  result is at most one item, and the value uniquely names a
+  referent across descriptions.
+- **Neither (most properties).** A person can have several `wdt:P19`
+  values (Ljubljana, Slovenia, Yugoslavia) representing different
+  granularities or different historical states of the same place.
+  Restrict has to pick one of: "any of these", "the most specific",
+  "the value at time T".
+
+Time-indexed values add another layer. `?p wdt:P19 ?place .
+?stmt pq:P582 ?dateAtTime` — "place of birth as recorded at the
+date the statement was true". Most chains today ignore the qualifier
+entirely; the chip palette can surface it as an explicit tighten
+("at time of birth", "currently") rather than silently picking.
+
+### Implications for the op-API
+
+The four-verb taxonomy (restrict / augment / process / combine)
+isn't enough by itself; each op should flag the layer it operates on:
+
+- **DATA**: works on recorded triples / in-memory bundle items. Most
+  current chips. Cheap, no closure walk. The set is exactly "what's
+  written down in the property values we already have".
+- **REFERENT**: requires traversal or external closure. Country-of-
+  birth via `wdt:P19/wdt:P131*` to handle child→parent place chains;
+  "born under a successor state of Yugoslavia" via
+  `wdt:P150*`/`wdt:P749*` for political dissolution; identifier
+  bridging across sources via inverse-functional links.
+
+Plus an explicit time-qualifier axis on any property that records a
+state-at-a-time. Not built today; flagged here so it doesn't get
+designed away by the smaller-scoped current implementation.
+
 ## Cardinality Feedback
 
 Cardinality should become first-class. If a node produces too many or

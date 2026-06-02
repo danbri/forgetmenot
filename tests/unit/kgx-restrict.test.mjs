@@ -26,7 +26,7 @@ const HUMANS = new Bundle([
   { uri: 'wd:Q3', label: 'Carol Clark',  parties: ['Labour Party'],       sitting: false, mpid: null,   decade: '2010s', gender: 'female' },
   { uri: 'wd:Q4', label: 'Dave Davies',  parties: ['Liberal Democrats'],  sitting: true,  mpid: '4004', decade: '2020s', gender: 'male'   },
   { uri: 'wd:Q5', label: 'Eve Edwards',  parties: ['Labour Party','Co-operative Party'], sitting: false, mpid: '4005', decade: '2010s', gender: 'female' },
-  { uri: 'wd:Q6', label: 'Frank Fisher', parties: [],                     sitting: false, mpid: null,   decade: null,    gender: null     },
+  { uri: 'wd:Q6', label: 'George Fisher', parties: [],                    sitting: false, mpid: null,   decade: null,    gender: null     },
 ], 'human', 'sample MPs');
 
 // ---------------------------------------------------------------------------
@@ -78,6 +78,109 @@ test('every opFilters entry preserves bundle type and refuses to mutate input', 
     assert.equal(HUMANS.items.length, before, `${id}: mutated input bundle`);
     assert.ok(out !== HUMANS, `${id}: returned same Bundle reference (must be fresh)`);
   }
+});
+
+// ---------------------------------------------------------------------------
+// gender — legacy plain-string + picker rows + heuristic
+// ---------------------------------------------------------------------------
+
+test('opFilters.gender — legacy "female" / "male" matches exact P21 only', () => {
+  const out = opFilters.gender(HUMANS, 'female');
+  assert.deepEqual(out.items.map((x) => x.uri).sort(), ['wd:Q1', 'wd:Q3', 'wd:Q5']);
+});
+
+test('opFilters.gender — picker "female (exact P21)" matches exact P21 only', () => {
+  const out = opFilters.gender(HUMANS, 'female (exact P21)');
+  assert.deepEqual(out.items.map((x) => x.uri).sort(), ['wd:Q1', 'wd:Q3', 'wd:Q5']);
+});
+
+test('opFilters.gender — picker "+ first-name heuristic" extends matching only to items with no gender', () => {
+  // George Fisher has no .gender; nameGender('George Fisher') = 'male'.
+  // Heuristic match adds him to the male set.
+  const out = opFilters.gender(HUMANS, 'male (+ first-name heuristic)');
+  const uris = out.items.map((x) => x.uri).sort();
+  assert.deepEqual(uris, ['wd:Q2', 'wd:Q4', 'wd:Q6']);   // Bob, Dave (exact) + George (heuristic)
+});
+
+test('opFilters.gender — unknown value returns empty bundle of same type', () => {
+  const out = opFilters.gender(HUMANS, 'unknown');
+  assert.equal(out.size, 0);
+  assert.equal(out.type, 'human');
+});
+
+// ---------------------------------------------------------------------------
+// citizenship / has-origin / by-mp-party / in-commons / in-lords /
+// top-by-size / top-by-officer-count / name-contains
+// ---------------------------------------------------------------------------
+
+test('opFilters.citizenship — Array.includes on .citizenships', () => {
+  const HUMANS_W_CITZ = new Bundle([
+    { uri: 'a', citizenships: ['United Kingdom'] },
+    { uri: 'b', citizenships: ['United Kingdom', 'Ireland'] },
+    { uri: 'c', citizenships: [] },
+    { uri: 'd' },  // no field at all
+  ], 'human', 'x');
+  const uk = opFilters.citizenship(HUMANS_W_CITZ, 'United Kingdom');
+  assert.deepEqual(uk.items.map((x) => x.uri).sort(), ['a', 'b']);
+  const ie = opFilters.citizenship(HUMANS_W_CITZ, 'Ireland');
+  assert.deepEqual(ie.items.map((x) => x.uri), ['b']);
+});
+
+test('opFilters.by-mp-party — filter constituencies by their currentMpParty field', () => {
+  const SEATS = new Bundle([
+    { uri: 'c1', currentMpParty: 'Labour' },
+    { uri: 'c2', currentMpParty: 'Conservative' },
+    { uri: 'c3', currentMpParty: 'Labour' },
+    { uri: 'c4' },                          // no field
+  ], 'constituency', 'seats');
+  const lab = opFilters['by-mp-party'](SEATS, 'Labour');
+  assert.deepEqual(lab.items.map((x) => x.uri).sort(), ['c1', 'c3']);
+  assert.equal(lab.type, 'constituency');
+});
+
+test('opFilters.in-commons / in-lords — keep items with positive count fields', () => {
+  const PARTIES = new Bundle([
+    { uri: 'p1', commonsCount: 5,  lordsCount: 0 },
+    { uri: 'p2', commonsCount: 0,  lordsCount: 3 },
+    { uri: 'p3', commonsCount: 10, lordsCount: 10 },
+    { uri: 'p4', commonsCount: 0,  lordsCount: 0 },
+  ], 'party', 'parties');
+  const c = opFilters['in-commons'](PARTIES);
+  assert.deepEqual(c.items.map((x) => x.uri).sort(), ['p1', 'p3']);
+  const l = opFilters['in-lords'](PARTIES);
+  assert.deepEqual(l.items.map((x) => x.uri).sort(), ['p2', 'p3']);
+});
+
+test('opFilters.has-origin / top-by-size / top-by-officer-count — sort + slice', () => {
+  const ITEMS = new Bundle(
+    Array.from({ length: 60 }, (_, i) => ({ uri: `i${i}`, originCount: i })),
+    'appg', 'x');
+  const t50 = opFilters['has-origin'](ITEMS);
+  assert.equal(t50.size, 50);
+  // descending by originCount → first item has originCount 59
+  assert.equal(t50.items[0].uri, 'i59');
+  // top-by-officer-count is the same sort+slice (50)
+  const officer = opFilters['top-by-officer-count'](ITEMS);
+  assert.equal(officer.size, 50);
+  // top-by-size caps at 25
+  const sz = opFilters['top-by-size'](ITEMS);
+  assert.equal(sz.size, 25);
+  assert.equal(sz.items[0].uri, 'i59');
+});
+
+test('opFilters.name-contains — case-insensitive regex on .label', () => {
+  const BODIES = new Bundle([
+    { uri: 'b1', label: 'Foreign Affairs Committee' },
+    { uri: 'b2', label: 'Joint Committee on Human Rights' },
+    { uri: 'b3', label: 'Public Accounts Commission' },
+    { uri: 'b4', label: 'Sub-Committee on Whatever' },
+    { uri: 'b5', label: 'Select Committee on Health' },
+    { uri: 'b6', label: 'Foreign Affairs Sub-Committee' },
+  ], 'formal_body', 'x');
+  assert.equal(opFilters['name-contains'](BODIES, 'Committee').size, 5);
+  assert.equal(opFilters['name-contains'](BODIES, 'Sub-Committee').size, 2);
+  assert.equal(opFilters['name-contains'](BODIES, 'Select').size, 1);
+  assert.equal(opFilters['name-contains'](BODIES, 'committee').size, 5);  // case-insensitive
 });
 
 // ---------------------------------------------------------------------------
