@@ -1,0 +1,43 @@
+# CI gate — runs the full unit suite on every push.
+#
+# Frozen mode (KGX_HTTP_CACHE_MODE=frozen) means the kgx-* tests replay
+# from the committed http-cache summaries instead of hitting QLever /
+# Parliament SPARQL live — keeps CI hermetic + fast. Drift detection
+# happens at re-record time (developer runs `rm -rf
+# tests/fixtures/http-cache && npm test` to refresh), not on every push.
+
+name: test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [claude/main, main]
+  pull_request:
+    branches: [claude/main, main]
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      KGX_HTTP_CACHE_MODE: frozen
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+        # First-run repos may not have a lockfile; fall back to `npm install`.
+        # Both honor the package.json bin entries needed by `npm test`.
+        continue-on-error: false
+
+      - name: Run unit suite (frozen mode)
+        run: npm test
