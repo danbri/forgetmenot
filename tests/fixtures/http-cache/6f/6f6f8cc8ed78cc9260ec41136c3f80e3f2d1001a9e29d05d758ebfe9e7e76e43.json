@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "method": "POST",
+    "url": "https://qlever.dev/api/wikidata",
+    "recordedAt": "2026-06-02T16:49:47.007Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "bp",
+    "label",
+    "coord",
+    "image",
+    "country",
+    "n"
+  ],
+  "rows": 180,
+  "bindHash": "sha256:075289f697860c257b8f6f320f023dd4fd9a15d119f8795745e0ac831cb97e16",
+  "sample": [
+    {
+      "bp": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q84"
+      },
+      "label": {
+        "type": "literal",
+        "value": "London",
+        "xml:lang": "en"
+      },
+      "coord": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(-0.127500 51.507222)"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/London%20Skyline%20%28125508655%29.jpeg"
+      },
+      "country": {
+        "type": "literal",
+        "value": "United Kingdom",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "8"
+      }
+    },
+    {
+      "bp": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q24826"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Liverpool",
+        "xml:lang": "en"
+      },
+      "coord": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(-2.991667 53.407222)"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Liverpool%20Montage.jpg"
+      },
+      "country": {
+        "type": "literal",
+        "value": "United Kingdom",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "6"
+      }
+    },
+    {
+      "bp": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q2256"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Birmingham",
+        "xml:lang": "en"
+      },
+      "coord": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(-1.902500 52.480000)"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Birmingham-Skyline-from-Edgbaston-crop.jpg"
+      },
+      "country": {
+        "type": "literal",
+        "value": "United Kingdom",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "6"
+      }
+    }
+  ]
+}

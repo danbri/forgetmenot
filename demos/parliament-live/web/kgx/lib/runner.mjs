@@ -35,10 +35,12 @@
 //   * op:enrich            — Wikidata facet fetch into item.extra
 //   * op:parl-enrich       — Parliament DDP facet fetch via rdfs:seeAlso
 //   * op:identity-bridge   — FPKG identity-graph cross-source resolve
-//   * op:pivot-bp          — birthplaces (now subsumed by rel-pivot 'birthplaces')
-//   * op:pivot-am          — alma maters (no rel-template yet)
-//   * op:gender | citizenship | name-contains | by-mp-party   — picker ops
-//     whose run: closures still live in daisychain/index.html's OPS table
+//
+// Legacy aliases supported via redirect (the lib representation IS the
+// rel-template, the old standalone names are kept as user-facing chips):
+//
+//   * op:pivot-bp  →  rel-pivot template=birthplaces variant=default
+//   * op:pivot-am  →  rel-pivot template=alma_maters variant=default
 //
 // As each extraction lands, add a case here.  Test harness skips
 // chains that hit an unsupported op so coverage grows incrementally
@@ -90,7 +92,18 @@ export async function runChainSpec(spec, ctx) {
   const beads = [];
   let bundle = null;
 
-  for (const step of spec.steps) {
+  // Legacy aliases that predate REL_TEMPLATES. Map at the top of the loop
+  // so the rest of the dispatcher only sees rel-pivot — preserves
+  // backward-compat with LIBRARY entries authored before the registry.
+  const PIVOT_ALIASES = {
+    'pivot-bp': { template: 'birthplaces', variant: 'default' },
+    'pivot-am': { template: 'alma_maters', variant: 'default' },
+  };
+
+  for (let step of spec.steps) {
+    if (step.kind === 'op' && PIVOT_ALIASES[step.op]) {
+      step = { kind: 'op', op: 'rel-pivot', ...PIVOT_ALIASES[step.op] };
+    }
     // ── starter ────────────────────────────────────────────────────────────
     if (step.kind === 'starter') {
       const s = STARTERS.find((x) => x.id === step.id);

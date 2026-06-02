@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "method": "POST",
+    "url": "https://qlever.dev/api/wikidata",
+    "recordedAt": "2026-06-02T16:49:48.264Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "am",
+    "label",
+    "image",
+    "coords",
+    "country",
+    "n"
+  ],
+  "rows": 169,
+  "bindHash": "sha256:18b1d814453b4675a7c674e286b98c23e1c9eaa8d06817e9711748b5d61b1c93",
+  "sample": [
+    {
+      "am": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q174570"
+      },
+      "label": {
+        "type": "literal",
+        "value": "London School of Economics and Political Science",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/LondonSchoolofEconomics%20cford.jpg"
+      },
+      "coords": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(-0.116667 51.513889)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "United Kingdom",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "3"
+      }
+    },
+    {
+      "am": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q745967"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Christ Church",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/UK-2014-Oxford-Christ%20Church%2001.jpg"
+      },
+      "coords": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(-1.255850 51.750200)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "United Kingdom",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "3"
+      }
+    },
+    {
+      "am": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q192088"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Eton College",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Eton%20College%20front%204.jpg"
+      },
+      "coords": {
+        "datatype": "http://www.opengis.net/ont/geosparql#wktLiteral",
+        "type": "literal",
+        "value": "POINT(-0.609444 51.491667)"
+      },
+      "country": {
+        "type": "literal",
+        "value": "United Kingdom",
+        "xml:lang": "en"
+      },
+      "n": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#int",
+        "type": "literal",
+        "value": "3"
+      }
+    }
+  ]
+}

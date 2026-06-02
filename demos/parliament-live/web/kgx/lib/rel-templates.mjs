@@ -82,6 +82,48 @@ export function valuesMnisPersons(items) {
 
 export const REL_TEMPLATES = [
   {
+    id: 'alma_maters',
+    label: 'alma maters',
+    gloss: 'institutions these people were educated at (Wikidata P69)',
+    inputType: 'human', outputType: 'org',
+    engineId: 'qlever-wikidata',
+    requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: 'P69 — educated at',
+        gloss: 'one institution per (person, statement); de-duped + counted',
+        namedGraphs: [],
+        build: (items) => `
+          PREFIX wd:   <http://www.wikidata.org/entity/>
+          PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+          SELECT ?am
+            (SAMPLE(?amLbl)   AS ?label)
+            (SAMPLE(?img)     AS ?image)
+            (SAMPLE(?coord)   AS ?coords)
+            (SAMPLE(?ctryLbl) AS ?country)
+            (COUNT(DISTINCT ?p) AS ?n)
+          WHERE {
+            VALUES ?p { ${valuesQids(items)} }
+            ?p wdt:P69 ?am .
+            OPTIONAL { ?am rdfs:label ?amLbl . FILTER(lang(?amLbl)="en") }
+            OPTIONAL { ?am wdt:P18  ?img }
+            OPTIONAL { ?am wdt:P625 ?coord }
+            OPTIONAL { ?am wdt:P17  ?ctry .
+                       OPTIONAL { ?ctry rdfs:label ?ctryLbl . FILTER(lang(?ctryLbl)="en") } }
+          } GROUP BY ?am ORDER BY DESC(?n)`,
+        parse: (rows) => rows.map((b) => ({
+          uri:   b.am.value,
+          label: b.label?.value || b.am.value.replace(/^.*\//, ''),
+          image: b.image?.value || null,
+          country: b.country?.value || null,
+          coords: parsePoint(b.coords?.value),
+          originCount: +(b.n?.value || 0),
+        })),
+      },
+    ],
+  },
+  {
     id: 'birthplaces',
     label: 'birthplaces',
     gloss: 'places of birth (Wikidata P19)',
