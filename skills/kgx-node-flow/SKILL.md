@@ -38,7 +38,8 @@ beads.
 | `starters.mjs` | `STARTERS` (9 entries — 5 SPARQL + 4 PQ shape), per-starter parse functions, `POST1900_MPS_QUERY`, `SEED_LIMIT` | pure data + pure parse |
 | `augment.mjs` | `AUGMENT_OPS` (enrich / parl-enrich / identity-bridge) | pure data + pure query/parse |
 | `quality.mjs` | `isVariantAllowedByPolicy`, `isOpAllowedByPolicy`, `variantsAllowedByPolicy`, `VALID_MODES` | pure |
-| `library.mjs` | `LIBRARY` (20 saved chains) | pure data |
+| `library.mjs` | `LIBRARY` (23 saved chains incl. a fork-demo) | pure data |
+| `branches.mjs` | `normaliseChainSpec(spec)`, `activeChainSteps(normalised)` | pure |
 | `trig.mjs` | `chainToTrig(spec)` → TriG manifest string | pure |
 | `runner.mjs` | `runChainSpec(spec, ctx)`, `UnsupportedOpError` | runtime (calls ctx.engine / ctx.pq) |
 
@@ -193,6 +194,8 @@ const { beads, bundle } = await runChainSpec(spec, ctx);
 
 ## Saved chain spec shape
 
+**Flat (legacy single branch)** — accepted everywhere:
+
 ```jsonc
 {
   "title": "…",
@@ -207,6 +210,34 @@ const { beads, bundle } = await runChainSpec(spec, ctx);
   ]
 }
 ```
+
+**Tree (forks)** — also accepted:
+
+```jsonc
+{
+  "title": "…",
+  "activeBranch": "with-bp",
+  "branches": [
+    { "id": "main", "steps": [
+        { "kind": "starter", "id": "uk-mps-1900" },
+        { "kind": "op", "op": "party", "value": "Labour Party" },
+        { "kind": "op", "op": "sitting" }
+      ] },
+    { "id": "with-bp",
+      "forkedFrom": { "branch": "main", "beadIdx": 2 },
+      "steps": [
+        { "kind": "op", "op": "rel-pivot", "template": "birthplaces", "variant": "default" }
+      ] }
+  ]
+}
+```
+
+Both shapes pass through `branches.mjs::normaliseChainSpec(spec)`;
+`activeChainSteps(normalised)` flattens the active branch's walk
+(ancestor prefix up to each fork point + the active branch's own
+steps). The runner, the TriG manifest emitter, the daisychain
+`_replay`, and the CLI `chain run --library` all consume both shapes
+identically.
 
 Legacy aliases the runner accepts:
 
