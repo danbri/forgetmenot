@@ -87,6 +87,7 @@ export const REL_TEMPLATES = [
     gloss: 'institutions these people were educated at (Wikidata P69)',
     inputType: 'human', outputType: 'org',
     engineId: 'qlever-wikidata',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {
@@ -129,6 +130,7 @@ export const REL_TEMPLATES = [
     gloss: 'places of birth (Wikidata P19)',
     inputType: 'human', outputType: 'place',
     engineId: 'qlever-wikidata',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {
@@ -197,6 +199,7 @@ export const REL_TEMPLATES = [
     gloss: 'design showpiece: Wikidata P40 with tighten/broaden',
     inputType: 'human', outputType: 'human',
     engineId: 'qlever-wikidata',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {
@@ -276,6 +279,7 @@ export const REL_TEMPLATES = [
     gloss: 'Parliament DDP via rdfs:seeAlso bridge — non-Wikidata source',
     inputType: 'human', outputType: 'constituency',
     engineId: 'parl-sparql',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {
@@ -337,6 +341,7 @@ export const REL_TEMPLATES = [
     gloss: 'FPKG named graph (transparency#graph/appg-register) — bridge via P10428 → MNIS id',
     inputType: 'human', outputType: 'appg',
     engineId: 'fpkg',
+    role: 'primary',
     requires: (b) => b.items.some((x) => x.mpid),
     variants: [
       {
@@ -368,6 +373,7 @@ export const REL_TEMPLATES = [
     gloss: 'designers of these buildings (Wikidata P84)',
     inputType: 'building', outputType: 'human',
     engineId: 'qlever-wikidata',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {
@@ -403,6 +409,7 @@ export const REL_TEMPLATES = [
     gloss: 'buildings these architects designed (Wikidata ^P84)',
     inputType: 'human', outputType: 'building',
     engineId: 'qlever-wikidata',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {
@@ -442,6 +449,7 @@ export const REL_TEMPLATES = [
     gloss: 'government body that laid these SIs (DDP)',
     inputType: 'si', outputType: 'org',
     engineId: 'parl-sparql',
+    role: 'primary',
     requires: (b) => b.items.some((x) => x.uri.startsWith('https://id.parliament.uk/')),
     variants: [
       {
@@ -481,6 +489,7 @@ export const REL_TEMPLATES = [
     gloss: 'What type / class is this thing?',
     inputType: 'wd_thing', outputType: 'wd_class',
     engineId: 'qlever-wikidata',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {
@@ -515,6 +524,7 @@ export const REL_TEMPLATES = [
     gloss: 'narrower classes that are direct subclasses of this one',
     inputType: 'wd_class', outputType: 'wd_class',
     engineId: 'qlever-wikidata',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {
@@ -547,6 +557,7 @@ export const REL_TEMPLATES = [
     gloss: 'broader classes that this is a subclass of',
     inputType: 'wd_class', outputType: 'wd_class',
     engineId: 'qlever-wikidata',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {
@@ -579,6 +590,7 @@ export const REL_TEMPLATES = [
     gloss: 'all things Wikidata records as instances of these classes',
     inputType: 'wd_class', outputType: 'wd_thing',
     engineId: 'qlever-wikidata',
+    role: 'primary',
     requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
     variants: [
       {

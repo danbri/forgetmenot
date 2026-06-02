@@ -32,6 +32,7 @@ const ENRICH_MAX = 500;   // soft cap that the page already enforces
 export const enrich = {
   id:        'enrich',
   engineId:  'qlever-wikidata',
+  role:      'primary',
   cap:       ENRICH_MAX,
   requires:  (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '')),
   note:      'Wikidata: birthplace + coords + dates + alma maters + spouses + occupations',
@@ -104,6 +105,7 @@ export const enrich = {
 export const parlEnrich = {
   id:        'parl-enrich',
   engineId:  'parl-sparql',
+  role:      'crossCheck',
   cap:       ENRICH_MAX,
   requires:  (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '') && (x.sitting || x.mpid)),
   note:      'join via rdfs:seeAlso to UK Parliament DDP (current constituency + current party + name parts)',
@@ -169,6 +171,7 @@ export const parlEnrich = {
 export const identityBridge = {
   id:        'identity-bridge',
   engineId:  'fpkg',
+  role:      'crossCheck',
   cap:       ENRICH_MAX,
   requires:  (b) => b.items.some((x) => x.mpid),
   note:      'joined across 4 identity named graphs in fpkg (parl:memberId as canonical key)',

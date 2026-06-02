@@ -56,7 +56,9 @@ function dummyItemsFor(inputType, engineId) {
 // Contract: shape of REL_TEMPLATES
 // ---------------------------------------------------------------------------
 
-test('every REL_TEMPLATE has the typed-edge contract fields', () => {
+const VALID_ROLES = new Set(['primary', 'crossCheck', 'adapterEvidence', 'weakEnrichment']);
+
+test('every REL_TEMPLATE has the typed-edge contract fields + a source role', () => {
   for (const t of REL_TEMPLATES) {
     assert.ok(typeof t.id === 'string' && t.id.length, `template missing id`);
     assert.ok(typeof t.inputType  === 'string', `${t.id}: inputType missing`);
@@ -66,6 +68,8 @@ test('every REL_TEMPLATE has the typed-edge contract fields', () => {
               `${t.id}: must have at least one variant`);
     assert.ok(typeof t.requires === 'function',
               `${t.id}: requires() must be a function (gate on input shape)`);
+    assert.ok(VALID_ROLES.has(t.role),
+      `${t.id}: role="${t.role}" not in {${[...VALID_ROLES].join(', ')}}`);
   }
 });
 

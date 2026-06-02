@@ -287,16 +287,16 @@
     here is what's executable today.
   </p>
   <h2>Source ops (<code>STARTERS</code>)</h2>
-  <table id="ops-starters"><thead><tr><th>id</th><th>type out</th><th>engine</th><th>label</th></tr></thead><tbody></tbody></table>
+  <table id="ops-starters"><thead><tr><th>id</th><th>type out</th><th>engine</th><th>role</th><th>label</th></tr></thead><tbody></tbody></table>
 
   <h2>Restrict ops (<code>opFilters</code>)</h2>
   <table id="ops-restrict"><thead><tr><th>id</th><th>arity</th></tr></thead><tbody></tbody></table>
 
   <h2>Pivot ops (<code>REL_TEMPLATES</code>)</h2>
-  <table id="ops-pivot"><thead><tr><th>id</th><th>type</th><th>engine</th><th>variants</th></tr></thead><tbody></tbody></table>
+  <table id="ops-pivot"><thead><tr><th>id</th><th>type</th><th>engine</th><th>role</th><th>variants</th></tr></thead><tbody></tbody></table>
 
   <h2>Augment ops (<code>AUGMENT_OPS</code>)</h2>
-  <table id="ops-augment"><thead><tr><th>id</th><th>engine</th><th>cap</th><th>note</th></tr></thead><tbody></tbody></table>
+  <table id="ops-augment"><thead><tr><th>id</th><th>engine</th><th>role</th><th>cap</th><th>note</th></tr></thead><tbody></tbody></table>
 </section>
 
 <button class="clip-fab" id="clip-fab" title="Query wizard" aria-label="Open query wizard">📎</button>
@@ -355,7 +355,9 @@
     tb.appendChild(tr);
   }
   for (const s of STARTERS) {
-    row(tbody('ops-starters'), s.id, s.type, s.engineId || (s.pqTemplate ? 'parl-pq' : '?'), s.label);
+    row(tbody('ops-starters'),
+        s.id, s.type, s.engineId || (s.pqTemplate ? 'parl-pq' : '?'),
+        s.role || '—', s.label);
   }
   for (const [id, fn] of Object.entries(opFilters)) {
     row(tbody('ops-restrict'), id, String(fn.length) + '-ary');
@@ -363,10 +365,11 @@
   for (const t of REL_TEMPLATES) {
     row(tbody('ops-pivot'),
         t.id, `${t.inputType} → ${t.outputType}`, t.engineId,
+        t.role || '—',
         t.variants.map((v) => `${v.kind}:${v.id}`).join(', '));
   }
   for (const [id, aug] of Object.entries(AUGMENT_OPS)) {
-    row(tbody('ops-augment'), id, aug.engineId, String(aug.cap || ''), aug.note || '');
+    row(tbody('ops-augment'), id, aug.engineId, aug.role || '—', String(aug.cap || ''), aug.note || '');
   }
 
   // --- Tab dispatch

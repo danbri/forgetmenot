@@ -333,6 +333,7 @@ export const STARTERS = [
     engineId:  'qlever-wikidata',
     query:     POST1900_MPS_QUERY,
     parse:     parseMpRows,
+    role:      'primary',
     note:      'Wikidata persons holding any position ⊑ Q16707842, with at least one term touching 1900+',
   },
   {
@@ -343,6 +344,7 @@ export const STARTERS = [
     engineId:  'fpkg',
     query:     PARL_CURRENT_MPS_QUERY,
     parse:     parseParlCurrentRows,
+    role:      'primary',
     note:      'FPKG sidecar: DDP-shaped projection of Members API current state. Built daily by scripts/build-parl-current.mjs; DDP endpoint itself is a Parliament behind — see /kgx/queries/08-… for the diagnosis.',
     namedGraphs: ['https://forgetmenot.local/graph/parl-current/<date>'],
   },
@@ -354,6 +356,7 @@ export const STARTERS = [
     engineId:  'qlever-wikidata',
     query:     HK_SKYSCRAPERS_QUERY,
     parse:     parseHkSkyscraperRows,
+    role:      'primary',
     note:      'Wikidata: instances of skyscraper (Q11303) or high-rise (Q18142) inside HK SAR (Q8646) via wdt:P131*',
   },
   {
@@ -364,6 +367,7 @@ export const STARTERS = [
     engineId:  'qlever-wikidata',
     query:     US_PRESIDENTS_QUERY,
     parse:     parseUsPresidentRows,
+    role:      'primary',
     note:      'Wikidata: humans holding position P39 = wd:Q11696 (President of the USA)',
   },
   {
@@ -374,6 +378,7 @@ export const STARTERS = [
     engineId:  'parl-sparql',
     query:     RECENT_SIS_QUERY,
     parse:     parseSiRows,
+    role:      'primary',
     note:      'DDP class schema:StatutoryInstrumentPaper, newest first, capped 1500.',
   },
   // -- PQ-shape starters — runner dispatches via ctx.pq(template) instead
@@ -385,6 +390,7 @@ export const STARTERS = [
     type:       'constituency',
     pqTemplate: 'constituency_current',
     parse:      parsePqConstituencyCurrentRows,
+    role:       'primary',
     note:       'PQ template constituency_current — Commons-current constituencies with sitting MP + party.',
   },
   {
@@ -394,6 +400,7 @@ export const STARTERS = [
     type:       'party',
     pqTemplate: 'party_index',
     parse:      parsePqPartyIndexRows,
+    role:       'primary',
     note:       'PQ template party_index — each party with current Commons + Lords membership counts.',
   },
   {
@@ -403,6 +410,7 @@ export const STARTERS = [
     type:       'formal_body',
     pqTemplate: 'formal_body_index',
     parse:      parsePqFormalBodyIndexRows,
+    role:       'primary',
     note:       'PQ template formal_body_index — every formal body (Select / Joint / General Committees, Boards, …).',
   },
   {
@@ -412,6 +420,7 @@ export const STARTERS = [
     type:       'concept',
     pqTemplate: 'concept_index',
     parse:      parsePqConceptIndexRows,
+    role:       'primary',
     note:       'PQ template concept_index — top-term SKOS concepts in the Parliament Thesaurus.',
   },
 ];

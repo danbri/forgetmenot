@@ -24,7 +24,9 @@ import { cachedFetch, readSummary } from '../_lib/http-cache.mjs';
 // Registry shape
 // ---------------------------------------------------------------------------
 
-test('every starter carries the declarative-plan fields', () => {
+const VALID_ROLES = new Set(['primary', 'crossCheck', 'adapterEvidence', 'weakEnrichment']);
+
+test('every starter carries the declarative-plan fields + a source role', () => {
   for (const s of STARTERS) {
     assert.ok(typeof s.id === 'string' && s.id.length, `missing id`);
     assert.ok(typeof s.label === 'string',             `${s.id}: no label`);
@@ -35,6 +37,8 @@ test('every starter carries the declarative-plan fields', () => {
     const pqShape     = typeof s.pqTemplate === 'string' && s.pqTemplate.length;
     assert.ok(sparqlShape || pqShape,
       `${s.id}: must be either SPARQL-shape (engineId+query) or PQ-shape (pqTemplate)`);
+    assert.ok(VALID_ROLES.has(s.role),
+      `${s.id}: role="${s.role}" not in {${[...VALID_ROLES].join(', ')}}`);
   }
 });
 
