@@ -626,13 +626,16 @@ function cmdChainTrig(flags) {
   } else {
     die('chain trig: pass `--id <library-id>` (from lib/library.mjs) or `-f path/to/spec.json`');
   }
-  // LIBRARY shape uses { kind: 'starter' | 'op', ... } steps; the older
-  // bin/kgx.mjs chain-run format (id + query + bindVar) doesn't fit
-  // chainToTrig. Fail loud rather than emit nonsense.
-  const looksRight = spec?.steps?.[0] && typeof spec.steps[0].kind === 'string';
-  if (!looksRight) {
-    die('chain trig: spec must use LIBRARY shape (steps[].kind = "starter" | "op"). ' +
-        'The older bin/kgx.mjs chain-run inline-SPARQL format is not supported here.');
+  // LIBRARY shape uses { kind: 'starter' | 'op', ... } steps, or the
+  // tree shape `branches: [...]`. The older bin/kgx.mjs chain-run format
+  // (id + query + bindVar) doesn't fit chainToTrig — fail loud rather
+  // than emit nonsense.
+  const flatLib  = Array.isArray(spec?.steps) && spec.steps[0] && typeof spec.steps[0].kind === 'string';
+  const treeLib  = Array.isArray(spec?.branches) && spec.branches.length;
+  if (!flatLib && !treeLib) {
+    die('chain trig: spec must use LIBRARY shape (steps[].kind = "starter" | "op", ' +
+        'OR branches[].steps[].kind). The older bin/kgx.mjs chain-run ' +
+        'inline-SPARQL format is not supported here.');
   }
   process.stdout.write(chainToTrig(spec));
 }
