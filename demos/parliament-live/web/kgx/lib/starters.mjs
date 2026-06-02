@@ -228,7 +228,12 @@ export function parseUsPresidentRows(bindings) {
       uri:    b.p.value,
       label:  b.label?.value || b.p.value.replace(/^.*\//, ''),
       image:  b.image?.value || null,
-      firstYr, lastYr, latestStart: firstYr, sitting: !lastYr,
+      // `sitting` is UK-Parliament terminology (an open SeatIncumbency).
+      // It does not apply to US presidents — never set it for them, even
+      // though the page palette's `sitting now` chip otherwise lights up
+      // for every living ex-president (Biden, Obama, Bush, Clinton, …).
+      // `alive` is the honest analogue if a future op wants it.
+      firstYr, lastYr, latestStart: firstYr, sitting: null, alive: !lastYr,
       parties: [], gender: null, citizenships: [], mpid: null,
       decade: lastYr ? `${Math.floor(lastYr / 10) * 10}s` : null,
     };
