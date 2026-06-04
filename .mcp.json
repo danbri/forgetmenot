@@ -6,9 +6,10 @@
       "// what":  "Drives a headless Chrome via the Chrome DevTools Protocol. Exposes screenshot, accessibility tree, network monitor, page navigation, console capture as MCP tools — tighter and faster than DOM scraping.",
       "// docs":  "https://github.com/ChromeDevTools/chrome-devtools-mcp",
       "// when":  "Use when an audit / screenshot / a11y-tree task needs CDP-level access to the demo at fpkg.fly.dev.",
+      "// setup": "Chrome itself and the egress-proxy CA (imported into Chrome's NSS trust store) are installed by .claude/hooks/session-start.sh on every web session. --headless + --chromeArg=--no-sandbox are required because the container runs as root with no display; --isolated uses a throwaway profile, avoiding lock contention across server restarts.",
       "type":    "stdio",
       "command": "npx",
-      "args":    ["-y", "chrome-devtools-mcp@latest"]
+      "args":    ["-y", "chrome-devtools-mcp@latest", "--headless", "--isolated", "--executablePath", "/usr/bin/google-chrome", "--chromeArg=--no-sandbox"]
     }
   }
 }
