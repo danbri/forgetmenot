@@ -119,22 +119,22 @@ function makeRoot() {
 const colorRoot = makeRoot();
 document.getElementById('total').textContent = fmt(colorRoot.value);
 const hostOf = (d) => { let n = d; while (n.depth > 1) n = n.parent; return n.data.name; };
-// Colour each cell by which immediate child-of-focus it belongs to, so every
-// drill level is visually varied (at the root that's the host; inside e.g. cm
-// it's the cm* sections) instead of one flat hue.
-let colorOf = () => '#4f8fdb';
-function buildColor(focusNode) {
-  const kids = (focusNode.children || []).map(c => c.data.name);
-  const scale = d3.scaleOrdinal(kids,
-    d3.quantize(t => d3.interpolateRainbow(0.04 + t * 0.92), Math.max(3, kids.length)));
-  return (d) => {
-    if (d.depth === 0 || d === focusNode) return '#3b5168';
-    let n = d; while (n.parent && n.parent !== focusNode) n = n.parent;
-    return scale(n.data.name);
-  };
-}
-const fillOf = (d) => colorOf(d);
-const opacOf = (d) => d.data.rollup ? 0.45 : (d.data.self ? 0.7 : 0.95);
+// Colour by a mid-depth section (≈ depth 4 — the cm*/section codes) with
+// golden-angle hue spacing, so even the publications-dominated ROOT view is
+// varied rather than one flat host colour. Colours are stable across zoom.
+const COLOR_DEPTH = 4;
+const colorKey = (d) => {
+  const chain = d.ancestors().reverse();
+  const a = chain[Math.min(COLOR_DEPTH, d.depth)];
+  return a.data.path || a.data.name || 'root';
+};
+const _keyIdx = (() => {
+  const keys = [...new Set(makeRoot().descendants().filter(d => d.depth >= 1).map(colorKey))];
+  return new Map(keys.map((k, i) => [k, i]));
+})();
+const fillOf = (d) => d.depth === 0 ? '#3b5168'
+  : d3.interpolateTurbo((((_keyIdx.get(colorKey(d)) ?? 0) * 0.61803398875) % 1) * 0.92 + 0.04);
+const opacOf = (d) => d.data.rollup ? 0.5 : (d.data.self ? 0.72 : 0.95);
 
 const urlFor = (d) => {
   if (d.depth < 1) return null;
@@ -181,7 +181,6 @@ function render() {
   svg.selectAll('*').remove();
   const root = makeRoot();
   focus = focus ? (root.descendants().find(d => d.data === focus.data) || root) : root;
-  colorOf = buildColor(focus);
   if (layout === 'icicle') renderIcicle(root);
   else if (layout === 'treemap') renderTreemap(root);
   else renderSunburst(root);
