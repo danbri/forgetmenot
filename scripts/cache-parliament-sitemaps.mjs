@@ -1,0 +1,126 @@
+#!/usr/bin/env node
+// Cache the UK Parliament web-estate sitemaps under third_party/.
+//
+// Recurses every reachable sitemap (index -> index -> urlset), saving each raw
+// sitemap XML (gzipped) plus a flat URL list, a manifest of the tree, and the
+// host+path hierarchy used by browser/sitemap-tree.html.
+//
+// Output: third_party/data/parliament-sitemap/
+//   raw/<host>/<file>.xml.gz   each sitemap exactly as fetched
+//   urls.jsonl.gz              every <loc> (+ lastmod), one JSON object per line
+//   manifest.json             the sitemap tree (loc, host, depth, type, count, bytes, sha256)
+//   hierarchy.json            host -> path-segment aggregation (counts)
+//   README.md
+//
+// Polite: sequential with a delay. Re-run to refresh (idempotent overwrite).
+// NB: parliament web hosts are Cloudflare-gated; Node's fetch passes for these
+// sitemap URLs (see skills/fetch-sitemap). We send an honest UA; no spoofing.
+import { rawFetch } from '../lib/http.mjs';
+import * as sm from '../lib/facilities/fetch-sitemap.mjs';
+import { mkdirSync, writeFileSync } from 'node:fs';
+import { gzipSync } from 'node:zlib';
+import { createHash } from 'node:crypto';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const OUT = `${ROOT}/third_party/data/parliament-sitemap`;
+const DELAY_MS = Number(process.env.DELAY_MS ?? 250);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+const ROOTS = [
+  'https://www.parliament.uk/sitemapindex.xml',
+  'https://publications.parliament.uk/sitemap.xml',
+  'https://members.parliament.uk/sitemap.xml',
+  'https://hansard.parliament.uk/sitemap.xml',
+  'https://commonslibrary.parliament.uk/sitemap.xml',
+  'https://lordslibrary.parliament.uk/sitemap.xml',
+];
+
+const manifest = { fetchedAt: new Date().toISOString(), roots: ROOTS, sitemaps: [], notes: [] };
+const allUrls = [];
+const seen = new Set();
+
+function rawPath(u) {
+  const url = new URL(u);
+  const base = url.pathname.replace(/^\//, '').replace(/\//g, '_') || 'root.xml';
+  return { host: url.host, file: `raw/${url.host}/${base}.gz` };
+}
+
+async function walk(loc, depth) {
+  if (seen.has(loc)) return;
+  seen.add(loc);
+  let r;
+  try { r = await rawFetch(loc, { method: 'GET' }, { accept: 'application/xml, text/xml, */*', timeoutMs: 60000, retries: 1 }); }
+  catch (e) { manifest.sitemaps.push({ loc, depth, error: e.message }); process.stderr.write(`  ! ${loc}: ${e.message}\n`); return; }
+  const xml = typeof r.body === 'string' ? r.body : new TextDecoder().decode(new Uint8Array(r.body || []));
+  let parsed;
+  try { parsed = sm.parse(xml); }
+  catch (e) { manifest.sitemaps.push({ loc, depth, error: e.message }); process.stderr.write(`  ! ${loc}: ${e.message}\n`); return; }
+
+  const { host, file } = rawPath(loc);
+  mkdirSync(`${OUT}/raw/${host}`, { recursive: true });
+  writeFileSync(`${OUT}/${file}`, gzipSync(xml));
+  const sha256 = createHash('sha256').update(xml).digest('hex');
+
+  if (parsed.type === 'index') {
+    manifest.sitemaps.push({ loc, depth, type: 'index', children: parsed.sitemaps.length, bytes: xml.length, sha256, file });
+    process.stderr.write(`  [index ${parsed.sitemaps.length}] ${loc}\n`);
+    for (const s of parsed.sitemaps) { await sleep(DELAY_MS); await walk(s.loc, depth + 1); }
+  } else {
+    manifest.sitemaps.push({ loc, depth, type: 'urlset', urls: parsed.urls.length, bytes: xml.length, sha256, file });
+    process.stderr.write(`  [urlset ${parsed.urls.length}] ${loc}\n`);
+    for (const u of parsed.urls) allUrls.push(u);
+  }
+}
+
+mkdirSync(OUT, { recursive: true });
+for (const root of ROOTS) { await sleep(DELAY_MS); await walk(root, 0); }
+
+// urls.jsonl.gz
+writeFileSync(`${OUT}/urls.jsonl.gz`, gzipSync(allUrls.map((u) => JSON.stringify(u)).join('\n') + '\n'));
+
+// hierarchy.json (+ a copy for the browser viz)
+const hierarchy = sm.pathHierarchy(allUrls, { maxDepth: 4, minCount: 8 });
+writeFileSync(`${OUT}/hierarchy.json`, JSON.stringify(hierarchy));
+writeFileSync(`${ROOT}/browser/sitemap-tree.json`, JSON.stringify(hierarchy));
+
+// totals + manifest
+const urlsets = manifest.sitemaps.filter((s) => s.type === 'urlset');
+manifest.totals = {
+  sitemaps: manifest.sitemaps.length,
+  urlsets: urlsets.length,
+  indexes: manifest.sitemaps.filter((s) => s.type === 'index').length,
+  errors: manifest.sitemaps.filter((s) => s.error).length,
+  urls: allUrls.length,
+};
+manifest.notes.push('publications.parliament.uk/sitemap.xml is a flat urlset capped at the 50,000-URL protocol limit — it is TRUNCATED; the host has more documents than appear here.');
+manifest.notes.push('hansard/bills/committees/questions-statements/whatson have no usable /sitemap.xml (404 or a 15-URL stub) — that content is API-only.');
+writeFileSync(`${OUT}/manifest.json`, JSON.stringify(manifest, null, 2));
+
+writeFileSync(`${OUT}/README.md`, `# Cached UK Parliament web-estate sitemaps
+
+Generated by \`scripts/cache-parliament-sitemaps.mjs\` (re-run to refresh).
+Fetched ${manifest.fetchedAt}.
+
+- \`raw/<host>/<file>.xml.gz\` — each sitemap exactly as fetched (${manifest.totals.sitemaps} files).
+- \`urls.jsonl.gz\` — every \`<loc>\` (+ \`lastmod\`), one JSON object per line (${manifest.totals.urls} URLs).
+- \`manifest.json\` — the sitemap tree with per-file type/count/bytes/sha256.
+- \`hierarchy.json\` — host → path-segment aggregation (also at \`browser/sitemap-tree.json\` for the D3 view).
+
+## Coverage
+
+${manifest.totals.urls} URLs across ${manifest.totals.urlsets} urlsets. \`publications\` is
+truncated at the 50k protocol cap. \`bills\`/\`committees\`/\`questions-statements\`/\`hansard\`
+have no real sitemap — that content is reachable only via the wrapped APIs.
+
+## Access note
+
+Parliament web hosts sit behind a Cloudflare managed challenge; curl and headless
+browsers are 403'd, but Node's \`fetch\` passes for these sitemap URLs. We use an
+honest User-Agent and never spoof a browser or solve the challenge — a sitemap is
+published for crawlers. See \`skills/fetch-sitemap/\`.
+`);
+
+console.log(JSON.stringify(manifest.totals));
+console.log('cached under', OUT.replace(ROOT + '/', ''));

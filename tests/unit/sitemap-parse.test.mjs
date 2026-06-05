@@ -58,10 +58,27 @@ test('enumerate() recurses an index via an injected fetch and respects --limit',
     text: async () => bodies[url] ?? (() => { throw new Error('no stub for ' + url); })(),
   });
   const out = await enumerate('https://x/index.xml', { limit: 3 }, { fetch: fakeFetch, retries: 0 });
-  assert.equal(out.kind, 'index');
-  assert.equal(out.childSitemaps, 2);
+  assert.equal(out.sitemapsVisited, 3);   // index + its 2 child urlsets
   assert.equal(out.urlCount, 3);          // capped by limit (2 + 2 = 4 available)
   assert.equal(out.urlsTruncated, true);
+  assert.equal(out.sitemaps[0].type, 'index');
+  assert.equal(out.sitemaps.filter(s => s.type === 'urlset').length, 2);
+});
+
+test('enumerate() recurses nested indexes (index -> index -> urlset)', async () => {
+  const bodies = {
+    'https://x/top.xml': `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>https://x/mid.xml</loc></sitemap></sitemapindex>`,
+    'https://x/mid.xml': `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>https://x/leaf.xml</loc></sitemap></sitemapindex>`,
+    'https://x/leaf.xml': URLSET,
+  };
+  const fakeFetch = async (url) => ({
+    ok: true, status: 200, url,
+    headers: new Map([['content-type', 'application/xml']]),
+    text: async () => bodies[url],
+  });
+  const out = await enumerate('https://x/top.xml', {}, { fetch: fakeFetch, retries: 0 });
+  assert.equal(out.sitemapsVisited, 3);   // top + mid + leaf — two levels of indexing
+  assert.equal(out.urlCount, 2);          // the leaf urlset's 2 urls
 });
 
 test('byHost() groups and counts', () => {
