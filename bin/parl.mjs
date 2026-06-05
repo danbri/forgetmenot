@@ -48,6 +48,8 @@ const FACILITIES = {
   'ddpd':                          F.dataParliamentUkDatasets,
   'data-parliament-uk-datasets':   F.dataParliamentUkDatasets,
   'appg':                          F.appg,
+  'sitemap':                       F.sitemap,
+  'fetch-sitemap':                 F.sitemap,
 };
 
 // Per-facility command map. Each entry is:
@@ -287,6 +289,18 @@ const COMMANDS = {
     'contents-url':     { fn: 'contentsUrlCmd',        args: [],            help: 'URL of contents.htm for an edition. --edition YYMMDD' },
     'resolve':          { fn: '__appgResolve__',      args: [],            help: 'Crawl + resolve every APPG officer to a Members API id. --edition --out dir [--wikidata]' },
   },
+  'sitemap': {
+    'hosts':       { fn: 'hosts',        args: [],      help: 'Known Parliament sitemap entry points (static; works offline).' },
+    'fetch':       { fn: 'fetchSitemap', args: ['url'], help: 'Fetch + parse one sitemap/sitemapindex. NB parliament web hosts are Cloudflare-403 from automated clients.' },
+    'enumerate':   { fn: 'enumerate',    args: ['url'], help: 'Recurse a sitemap index into child sitemaps and list every <loc>. --max-sitemaps --limit --delay-ms' },
+    'parse-file':  { fn: 'parseFile',    args: ['path'],help: 'Parse a local sitemap XML file (the offline path: save the XML from a browser that passed the challenge).' },
+  },
+  'fetch-sitemap': {
+    'hosts':       { fn: 'hosts',        args: [],      help: 'Known Parliament sitemap entry points (static; works offline).' },
+    'fetch':       { fn: 'fetchSitemap', args: ['url'], help: 'Fetch + parse one sitemap/sitemapindex. NB parliament web hosts are Cloudflare-403 from automated clients.' },
+    'enumerate':   { fn: 'enumerate',    args: ['url'], help: 'Recurse a sitemap index into child sitemaps and list every <loc>. --max-sitemaps --limit --delay-ms' },
+    'parse-file':  { fn: 'parseFile',    args: ['path'],help: 'Parse a local sitemap XML file (the offline path: save the XML from a browser that passed the challenge).' },
+  },
 };
 
 // ---------- main ----------
@@ -467,6 +481,7 @@ Facilities (canonical names; aliases in parens):
   members-data-platform  (alias: mnis)
   data-parliament-uk-datasets  (alias: ddpd)
   appg                         (All-Party Parliamentary Groups, scraped HTML)
+  sitemap                      (fetch-sitemap; XML sitemaps of the web estate)
 
 Run 'parl <facility>' to list its commands.
 Run 'parl <facility> <command> --help' for command help.

@@ -55,6 +55,7 @@ verbatim API response, `--out path` for binary downloads).
 | `mnis` | [`skills/members-data-platform`](skills/members-data-platform/SKILL.md) | Legacy Members Data Platform. |
 | `ddpd` | [`skills/data-parliament-uk-datasets`](skills/data-parliament-uk-datasets/SKILL.md) | Catalogue of the 19 explore.data.parliament.uk datasets. |
 | `appg` | [`skills/appg`](skills/appg/SKILL.md) | All-Party Parliamentary Groups — scraped from the Register on publications.parliament.uk; no JSON API. |
+| `sitemap` | [`skills/fetch-sitemap`](skills/fetch-sitemap/SKILL.md) | XML sitemaps of the Parliament web estate — enumerate public page URLs (incl. the many web-only pages with no API). Entry: `www.parliament.uk/sitemapindex.xml`. |
 
 ## Idiomatic chains
 
