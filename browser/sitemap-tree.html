@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>Shape of the UK Parliament web estate — sitemap structure</title>
 <style>
   :root { --bg:#faf8f3; --ink:#1a1a1a; --ink-soft:#4a4a4a; --accent:#2a4f76; --rule:#d8d4ca; --card:#fff; }
@@ -118,10 +119,22 @@ function makeRoot() {
 const colorRoot = makeRoot();
 document.getElementById('total').textContent = fmt(colorRoot.value);
 const hostOf = (d) => { let n = d; while (n.depth > 1) n = n.parent; return n.data.name; };
-const color = d3.scaleOrdinal((data.children || []).map(c => c.name),
-  d3.quantize(d3.interpolateRainbow, (data.children?.length || 6) + 1));
-const fillOf = (d) => d.depth === 0 ? '#2a4f76' : color(hostOf(d));
-const opacOf = (d) => d.data.rollup ? 0.4 : (d.data.self ? 0.62 : 0.9);
+// Colour each cell by which immediate child-of-focus it belongs to, so every
+// drill level is visually varied (at the root that's the host; inside e.g. cm
+// it's the cm* sections) instead of one flat hue.
+let colorOf = () => '#4f8fdb';
+function buildColor(focusNode) {
+  const kids = (focusNode.children || []).map(c => c.data.name);
+  const scale = d3.scaleOrdinal(kids,
+    d3.quantize(t => d3.interpolateRainbow(0.04 + t * 0.92), Math.max(3, kids.length)));
+  return (d) => {
+    if (d.depth === 0 || d === focusNode) return '#3b5168';
+    let n = d; while (n.parent && n.parent !== focusNode) n = n.parent;
+    return scale(n.data.name);
+  };
+}
+const fillOf = (d) => colorOf(d);
+const opacOf = (d) => d.data.rollup ? 0.45 : (d.data.self ? 0.7 : 0.95);
 
 const urlFor = (d) => {
   if (d.depth < 1) return null;
@@ -168,6 +181,7 @@ function render() {
   svg.selectAll('*').remove();
   const root = makeRoot();
   focus = focus ? (root.descendants().find(d => d.data === focus.data) || root) : root;
+  colorOf = buildColor(focus);
   if (layout === 'icicle') renderIcicle(root);
   else if (layout === 'treemap') renderTreemap(root);
   else renderSunburst(root);
