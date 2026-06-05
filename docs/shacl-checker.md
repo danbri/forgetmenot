@@ -120,6 +120,18 @@ alongside studio / playground / flint / yasgui. It reads the shared
   in the procedural DD store, off the public endpoint.
 - **Parliament DDP · Person** and **· Party**.
 
+### Reporting: which entity failed
+
+schemarama's own result mapping keeps only `{property, message, shape, severity}`
+— it drops `sh:focusNode`, so you can't tell *which* resource failed. The glue
+therefore runs the raw `rdf-validate-shacl` validator (exposed from the rebuilt
+bundle) and keeps the **focus node**. The pinned validator also never populates
+`sh:value`, so for each failure the glue looks up the actual value(s) at
+`(focusNode, path)` in the data and reports them. So a `precededBy` breach shows
+the focus paper *and the two papers it's wrongly linked to* (clickable); a
+clock-frozen breach shows `True False`. This is general — every check now names
+the offending entity and the values present at the failing property.
+
 ### Data-integrity audits (single-valued properties)
 
 Three presets check that properties the DDP data model treats as single-valued

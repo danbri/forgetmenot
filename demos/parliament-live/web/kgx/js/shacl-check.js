@@ -61,14 +61,44 @@ export async function parse(rdfText, format = 'turtle') {
 }
 
 // Validate an already-built Store against SHACL shapes (Turtle string).
-export async function validateStore(store, shapesTurtle, annotations = {}) {
-  const validator = new (schemarama().ShaclValidator)(shapesTurtle, { annotations });
-  const report = await validator.validate(store);
-  return {
-    triples: store.getQuads().length,
-    conforms: report.failures.length === 0,
-    failures: report.failures,
-  };
+// Uses the raw rdf-validate-shacl validator (not schemarama's wrapper) so each
+// failure keeps the focus node (the offending entity) and value — schemarama's
+// own mapping drops both, leaving you unable to tell *which* resource failed.
+const SEVERITY = {
+  'http://www.w3.org/ns/shacl#Info': 'info',
+  'http://www.w3.org/ns/shacl#Warning': 'warning',
+};
+const termStr = (t) => (t && t.value != null) ? t.value : undefined;
+
+export async function validateStore(store, shapesTurtle /*, annotations */) {
+  const s = schemarama();
+  const quads = store.getQuads();
+  // Index (subject, predicate) -> [object values] so we can show the actual
+  // value(s) at the focus node's path. The pinned rdf-validate-shacl doesn't
+  // populate sh:value, and for a cardinality breach there is no single value
+  // anyway — the *list* (e.g. the two papers a node is wrongly preceded by) is
+  // the evidence. Empty list = nothing there (e.g. a minCount breach).
+  const bySP = new Map();
+  for (const q of quads) {
+    const k = q.subject.value + '\t' + q.predicate.value;
+    (bySP.get(k) || bySP.set(k, []).get(k)).push(q.object.value);
+  }
+  const shapes = s.parseTurtle(shapesTurtle);
+  const validator = new s.SHACLValidator(shapes.getQuads());
+  const results = validator.validate(quads).results;
+  const failures = results.map((r) => {
+    const focus = termStr(r.focusNode);          // the offending entity (URI / bnode)
+    const path = termStr(r.path);                 // the property at fault (simple paths)
+    return {
+      focus,
+      path,
+      values: (focus && path) ? (bySP.get(focus + '\t' + path) || []) : [],  // actual value(s) there
+      message: (r.message || []).map((m) => m.value).join('. ') || undefined,
+      severity: SEVERITY[termStr(r.severity)] || 'error',
+      shape: termStr(r.sourceShape) ?? (r.sourceShape && r.sourceShape.id),
+    };
+  });
+  return { triples: quads.length, conforms: failures.length === 0, failures };
 }
 
 // CONSTRUCT/DESCRIBE -> subgraph text. The endpoints we use send CORS, so this

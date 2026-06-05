@@ -219,16 +219,24 @@ $('run').onclick = async () => {
   try {
     const { triples, conforms, failures } = await check($('query').value, $('shapes').value);
     status.textContent = '';
+    const shortId = (u) => !u ? '' : (String(u).split(/[/#]/).pop() || u);
+    const cell = (t) => (t == null || t === '') ? '—'
+      : (/^https?:\/\//.test(t)
+          ? `<a href="${esc(t)}" target="_blank" rel="noopener" title="${esc(t)}"><code>${esc(shortId(t))}</code></a>`
+          : `<code title="${esc(t)}">${esc(t)}</code>`);
+    const valuesCell = (vs) => (!vs || !vs.length) ? '—'
+      : vs.slice(0,5).map(cell).join(' ') + (vs.length>5 ? ` (+${vs.length-5} more)` : '');
     let html = conforms
       ? `<div class="banner ok">✓ Conforms — ${triples} triples extracted, no violations.</div>`
-      : `<div class="banner bad">✗ ${failures.length} issue(s) over ${triples} extracted triples.</div>`;
+      : `<div class="banner bad">✗ ${failures.length} issue(s) over ${triples} extracted triples. The <strong>focus node</strong> is the entity needing attention.</div>`;
     if (failures.length) {
-      html += '<table><thead><tr><th>Severity</th><th>Property</th><th>Message</th><th>Shape</th></tr></thead><tbody>';
+      html += '<table><thead><tr><th>Severity</th><th>Focus node</th><th>Property</th><th>Value(s) present</th><th>Message</th></tr></thead><tbody>';
       for (const f of failures) {
         html += `<tr><td class="sev-${esc(f.severity)}">${esc(f.severity)}</td>`
-             +  `<td><code>${esc(f.property || '—')}</code></td>`
-             +  `<td>${esc(f.message || '')}</td>`
-             +  `<td><code>${esc((f.shape || '').replace('https://id.parliament.uk/schema/',''))}</code></td></tr>`;
+             +  `<td>${cell(f.focus)}</td>`
+             +  `<td><code>${esc(shortId(f.path) || '—')}</code></td>`
+             +  `<td>${valuesCell(f.values)}</td>`
+             +  `<td>${esc(f.message || '')}</td></tr>`;
       }
       html += '</tbody></table>';
     }
