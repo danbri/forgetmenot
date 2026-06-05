@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>forgetmenot — public SHACL checker for the UK Parliament endpoint</title>
+  <style>
+    body { font-family: ui-sans-serif, system-ui, sans-serif; margin: 2em auto; max-width: 64em; padding: 0 1em; line-height: 1.5; }
+    h1 { font-size: 1.4em; }
+    h2 { font-size: 1.05em; margin: 1.4em 0 0.3em; }
+    textarea { width: 100%; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 0.85em; box-sizing: border-box; }
+    .qbox { height: 7em; } .sbox { height: 16em; }
+    button, select { padding: 0.4em 0.8em; font-size: 1em; }
+    .controls { display: flex; gap: 0.6em; align-items: center; flex-wrap: wrap; margin: 0.8em 0; }
+    .muted { color: #555; }
+    code { background: #f4f4f4; padding: 0.1em 0.4em; border-radius: 3px; }
+    .banner { padding: 0.6em 0.9em; border-radius: 4px; margin: 0.8em 0; font-weight: 600; }
+    .ok { background: #e7f6e7; border-left: 4px solid #2e7d32; }
+    .bad { background: #fdecea; border-left: 4px solid #c62828; }
+    .err { background: #fff3cd; border-left: 4px solid #d4b000; white-space: pre-wrap; font-family: ui-monospace, monospace; font-size: 0.85em; }
+    table { border-collapse: collapse; width: 100%; font-size: 0.9em; margin-top: 0.5em; }
+    th, td { border: 1px solid #ddd; padding: 0.4em 0.6em; text-align: left; vertical-align: top; }
+    th { background: #f4f4f4; }
+    .sev-error { color: #c62828; font-weight: 600; }
+    .sev-warning { color: #b26a00; font-weight: 600; }
+    .sev-info { color: #1565c0; font-weight: 600; }
+    .caveat { background: #fff7cc; padding: 0.6em; border-left: 4px solid #d4b000; font-size: 0.92em; }
+  </style>
+</head>
+<body>
+
+<h1>Public SHACL checker — UK Parliament SPARQL endpoint</h1>
+
+<p>Validate live data from the public Parliament triple store
+(<code>api.parliament.uk/sparql</code>) against
+<a href="https://www.w3.org/TR/shacl/">SHACL</a> shapes, entirely in your
+browser. Built on Google's
+<a href="https://github.com/google/schemarama">schemarama</a> (vendored under
+<code>third_party/schemarama</code>).</p>
+
+<p class="caveat"><strong>How do you SHACL-check a <em>database</em> rather than
+a web page?</strong> You don't validate the whole store. A SPARQL
+<code>CONSTRUCT</code>/<code>DESCRIBE</code> query carves out the
+<em>subgraph</em> you care about — one resource, or a sample of a class — and
+returns it as an RDF document. <em>That</em> document is what SHACL validates.
+The extraction query below is the scoping knob: change it to check a different
+"bit" of the database.</p>
+
+<div class="controls">
+  <label>Preset:
+    <select id="preset">
+      <option value="treaty">Treaty — single (Seoul Tobacco Protocol)</option>
+      <option value="treaty-sample">Treaty — sample of 20</option>
+      <option value="person">Person — single (Ken Clarke)</option>
+      <option value="constituency">Constituency — single (Cities of London &amp; Westminster)</option>
+      <option value="party-sample">Party — sample of 20</option>
+    </select>
+  </label>
+  <button id="run">Validate</button>
+  <span id="status" class="muted"></span>
+</div>
+
+<h2>1. Extraction query — the "bit" of the database to check
+  <span class="muted">(SPARQL CONSTRUCT / DESCRIBE)</span></h2>
+<textarea id="query" class="qbox" spellcheck="false"></textarea>
+
+<h2>2. SHACL shapes <span class="muted">(Turtle)</span></h2>
+<textarea id="shapes" class="sbox" spellcheck="false"></textarea>
+
+<div id="result"></div>
+
+<!-- Locally rebuilt schemarama bundle (adds parseTurtle); sets global `schemarama`.
+     Built by scripts/build-schemarama-bundle.sh from the third_party/schemarama submodule. -->
+<script src="./third_party/schemarama.bundle.min.js"></script>
+
+<!-- Presets live in non-executing script blocks so the page is self-contained.
+     All data is live from the public Parliament store; extracted as Turtle. -->
+<script type="application/sparql-query" id="q-treaty">
+DESCRIBE &lt;https://id.parliament.uk/p4J3kpGD&gt;
+</script>
+<script type="application/sparql-query" id="q-treaty-sample">
+CONSTRUCT { ?t ?p ?o }
+WHERE {
+  ?t a &lt;https://id.parliament.uk/schema/Treaty&gt; ; ?p ?o .
+  { SELECT ?t WHERE { ?t a &lt;https://id.parliament.uk/schema/Treaty&gt; } LIMIT 20 }
+}
+</script>
+<script type="application/sparql-query" id="q-person">
+DESCRIBE &lt;https://id.parliament.uk/TyNGhslR&gt;
+</script>
+<script type="application/sparql-query" id="q-constituency">
+DESCRIBE &lt;https://id.parliament.uk/AEyWGYaP&gt;
+</script>
+<script type="application/sparql-query" id="q-party-sample">
+CONSTRUCT { ?p ?pred ?o }
+WHERE {
+  ?p a &lt;https://id.parliament.uk/schema/Party&gt; ; ?pred ?o .
+  { SELECT ?p WHERE { ?p a &lt;https://id.parliament.uk/schema/Party&gt; } LIMIT 20 }
+}
+</script>
+
+<script type="text/turtle" id="s-treaty">
+@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
+
+# What we expect a well-formed CRaG-era Treaty record to look like.
+p:TreatyShape a sh:NodeShape ;
+  sh:targetClass p:Treaty ;
+  sh:property [
+    sh:path p:treatyName ; sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A Treaty must carry a treatyName." ] ;
+  sh:property [
+    sh:path p:treatyHasLeadGovernmentOrganisation ; sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A Treaty should name a lead government organisation." ] ;
+  sh:property [
+    sh:path p:treatyCommandPaperNumber ; sh:maxCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Expected at most one command-paper number." ] ;
+  sh:property [
+    sh:path p:laidThingHasLaying ; sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "A treaty laid under CRaG should have at least one laying." ] .
+</script>
+<script type="text/turtle" id="s-person">
+@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
+
+p:PersonShape a sh:NodeShape ;
+  sh:targetClass p:Person ;
+  sh:property [
+    sh:path p:personGivenName ; sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A Person must have a personGivenName." ] ;
+  sh:property [
+    sh:path p:personFamilyName ; sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A Person must have a personFamilyName." ] ;
+  sh:property [
+    sh:path p:memberMnisId ; sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Expected an MNIS id to cross-reference the Members API." ] .
+</script>
+<script type="text/turtle" id="s-constituency">
+@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
+
+p:ConstituencyGroupShape a sh:NodeShape ;
+  sh:targetClass p:ConstituencyGroup ;
+  sh:property [
+    sh:path p:constituencyGroupName ; sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A constituency must have a constituencyGroupName." ] ;
+  sh:property [
+    sh:path p:constituencyGroupOnsCode ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Expected exactly one ONS GSS code (to join to ONS geography)." ] ;
+  sh:property [
+    sh:path p:constituencyGroupStartDate ; sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Expected a start date for the constituency period." ] .
+</script>
+<script type="text/turtle" id="s-party">
+@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
+
+p:PartyShape a sh:NodeShape ;
+  sh:targetClass p:Party ;
+  sh:property [
+    sh:path p:partyName ; sh:minCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A Party must have a partyName." ] ;
+  sh:property [
+    sh:path p:partyMnisId ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Expected exactly one MNIS party id." ] .
+</script>
+
+<script type="module">
+import { check } from './shacl-check.js';
+
+// Decode the HTML-escaped text in a preset <script> block.
+const decode = (id) => {
+  const el = document.getElementById(id);
+  const t = document.createElement('textarea');
+  t.innerHTML = el.textContent.trim();
+  return t.value;
+};
+
+const PRESETS = {
+  'treaty':        { q: 'q-treaty',        s: 's-treaty' },
+  'treaty-sample': { q: 'q-treaty-sample', s: 's-treaty' },
+  'person':        { q: 'q-person',        s: 's-person' },
+  'constituency':  { q: 'q-constituency',  s: 's-constituency' },
+  'party-sample':  { q: 'q-party-sample',  s: 's-party' },
+};
+
+const $ = (id) => document.getElementById(id);
+const loadPreset = (name) => {
+  const p = PRESETS[name];
+  $('query').value = decode(p.q);
+  $('shapes').value = decode(p.s);
+  $('result').innerHTML = '';
+};
+$('preset').onchange = (e) => loadPreset(e.target.value);
+loadPreset('treaty');
+
+const esc = (s) => String(s ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+$('run').onclick = async () => {
+  const status = $('status'), result = $('result');
+  status.textContent = 'extracting subgraph + validating…';
+  result.innerHTML = '';
+  try {
+    const { triples, conforms, failures } = await check($('query').value, $('shapes').value);
+    status.textContent = '';
+    let html = conforms
+      ? `<div class="banner ok">✓ Conforms — ${triples} triples extracted, no violations.</div>`
+      : `<div class="banner bad">✗ ${failures.length} issue(s) over ${triples} extracted triples.</div>`;
+    if (failures.length) {
+      html += '<table><thead><tr><th>Severity</th><th>Property</th><th>Message</th><th>Shape</th></tr></thead><tbody>';
+      for (const f of failures) {
+        html += `<tr><td class="sev-${esc(f.severity)}">${esc(f.severity)}</td>`
+             +  `<td><code>${esc(f.property || '—')}</code></td>`
+             +  `<td>${esc(f.message || '')}</td>`
+             +  `<td><code>${esc((f.shape || '').replace('https://id.parliament.uk/schema/',''))}</code></td></tr>`;
+      }
+      html += '</tbody></table>';
+    }
+    result.innerHTML = html;
+  } catch (e) {
+    status.textContent = '';
+    result.innerHTML = `<div class="banner err">ERROR\n${esc(e.message || e)}</div>`;
+  }
+};
+</script>
+</body>
+</html>
