@@ -143,6 +143,7 @@ vocabulary and populations were probed on the live endpoint first:
 | Question has ≤1 asking person | `questionHasAskingPerson` (`Question`) | 142,624 | conforms (0) |
 | SI paper preceded by ≤1 paper | `precededBy` (`StatutoryInstrumentPaper`) | 378 | **3 violations** |
 | Clock-frozen not both true & false | `workPackageIsClockFrozen` (`WorkPackage`) | 6,415 | **2 violations** |
+| Clock-frozen is valid `xsd:boolean` | `workPackageIsClockFrozen` lexical form | 6,415 | **1,203 violations** (`True`/`False`) |
 
 The latter two extract the *whole* population of the property (not a `LIMIT`
 sample), so the audit actually catches the bad subjects — e.g. two WorkPackages

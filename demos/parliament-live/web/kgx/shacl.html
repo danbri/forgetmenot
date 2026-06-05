@@ -99,6 +99,7 @@
         <option value="ddp-q-asking">DDP · Question has ≤1 asking person (clean)</option>
         <option value="ddp-si-preceded">DDP · SI paper preceded by ≤1 paper (finds 3)</option>
         <option value="ddp-wp-clock">DDP · WorkPackage clock-frozen not both true &amp; false (finds 2)</option>
+        <option value="ddp-wp-bool">DDP · WorkPackage clock-frozen is valid xsd:boolean (finds 1,203)</option>
       </optgroup>
     </select>
   </div>
@@ -357,6 +358,27 @@ p:WorkPackageClockShape a sh:NodeShape ;
     sh:message "A WorkPackage must not assert its clock-frozen flag as both true and false." ] .
 </script>
 
+<script type="application/sparql-query" id="q-ddp-wp-bool">
+PREFIX p: &lt;https://id.parliament.uk/schema/&gt;
+# Whole population of the only boolean property in the public schema.
+CONSTRUCT { ?s a p:WorkPackage ; p:workPackageIsClockFrozen ?b }
+WHERE { ?s a p:WorkPackage ; p:workPackageIsClockFrozen ?b }
+</script>
+<script type="text/turtle" id="s-ddp-wp-bool">
+@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
+
+# sh:datatype xsd:boolean would PASS these — the values ARE typed xsd:boolean,
+# they just use the invalid capitalised lexical forms "True"/"False" (valid
+# xsd:boolean is true|false|1|0). So we check the lexical form with sh:pattern.
+p:WorkPackageBoolShape a sh:NodeShape ;
+  sh:targetClass p:WorkPackage ;
+  sh:property [ sh:path p:workPackageIsClockFrozen ;
+    sh:pattern "^(true|false|1|0)$" ;
+    sh:severity sh:Violation ;
+    sh:message "clock-frozen value is not a valid xsd:boolean lexical form (expected true/false/1/0)." ] .
+</script>
+
 <script type="module">
 import { check, fetchQuery, parse, validateStore } from './js/shacl-check.js';
 
@@ -377,6 +399,7 @@ const PRESETS = {
   'ddp-q-asking':    { q: 'q-ddp-q-asking',    s: 's-ddp-q-asking',    endpoint: 'parliament-ddp' },
   'ddp-si-preceded': { q: 'q-ddp-si-preceded', s: 's-ddp-si-preceded', endpoint: 'parliament-ddp' },
   'ddp-wp-clock':    { q: 'q-ddp-wp-clock',    s: 's-ddp-wp-clock',    endpoint: 'parliament-ddp' },
+  'ddp-wp-bool':     { q: 'q-ddp-wp-bool',     s: 's-ddp-wp-bool',     endpoint: 'parliament-ddp' },
 };
 
 let REGISTRY = { endpoints: [] };
@@ -438,8 +461,10 @@ function renderResult(res, label, extra) {
     ? `<div class="banner ok">✓ Conforms — ${triples} triples${extra || ''} from <code>${esc(label)}</code>, no violations.</div>`
     : `<div class="banner bad">✗ ${failures.length} issue(s) over ${triples} triples${extra || ''} from <code>${esc(label)}</code>. The <strong>focus node</strong> is the entity needing attention.</div>`;
   if (failures.length) {
+    const CAP = 200;
+    const shown = failures.slice(0, CAP);
     html += '<table><thead><tr><th>Severity</th><th>Focus node</th><th>Property</th><th>Value(s) present</th><th>Message</th></tr></thead><tbody>';
-    for (const f of failures) {
+    for (const f of shown) {
       html += `<tr><td class="sev-${esc(f.severity)}">${esc(f.severity)}</td>`
            +  `<td>${termCell(f.focus)}</td>`
            +  `<td><code>${esc(shortId(f.path) || '—')}</code></td>`
@@ -447,6 +472,7 @@ function renderResult(res, label, extra) {
            +  `<td>${esc(f.message || '')}</td></tr>`;
     }
     html += '</tbody></table>';
+    if (failures.length > CAP) html += `<p class="lede">Showing first ${CAP} of ${failures.length} — narrow the extraction query to see the rest.</p>`;
   }
   $('result').innerHTML = html;
 }
