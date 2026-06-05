@@ -17,7 +17,7 @@ is only the first child capped at the 50k protocol limit. `bills`/`committees`/
 
 ## Update tracking
 
-`feeds.json` lists RSS/Atom feeds (Commons/Lords Library WordPress feeds, Bills API RSS) for
+`feeds.json` and `feeds.ttl` are a concrete catalogue of 918 RSS/Atom feeds (Commons/Lords Library per topic/type/tag/author WordPress feeds + Bills API RSS) for spotting recent changes without re-crawling the whole 1M-URL set. Regenerate with scripts/build-parliament-feeds.mjs.
 spotting recent changes without re-crawling the whole 1M-URL set.
 
 ## Access note
