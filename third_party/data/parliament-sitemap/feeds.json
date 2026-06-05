@@ -1,0 +1,29 @@
+{
+  "note": "RSS/Atom feeds across the UK Parliament web estate useful for UPDATE TRACKING (knowing which pages changed without re-crawling the whole sitemap). Probed 2026-06-05 via Node fetch (passes the Cloudflare challenge). Sitemaps give the full URL set; these feeds give the recent deltas.",
+  "feeds": [
+    { "url": "https://commonslibrary.parliament.uk/feed/", "type": "RSS", "status": 200, "covers": "Commons Library — latest posts (all types)" },
+    { "url": "https://commonslibrary.parliament.uk/type/research-briefing/feed/", "type": "RSS", "status": 200, "covers": "Commons Library — research briefings only" },
+    { "url": "https://lordslibrary.parliament.uk/feed/", "type": "RSS", "status": 200, "covers": "Lords Library — latest posts" },
+    { "url": "https://lordslibrary.parliament.uk/type/research-briefing/feed/", "type": "RSS", "status": 200, "covers": "Lords Library — research briefings only" },
+    { "url": "https://bills-api.parliament.uk/api/v1/Rss/allbills.rss", "type": "RSS", "status": 200, "covers": "All Bills (Bills API) — wrapped by the `bills` facility (`parl bills rss`)" }
+  ],
+  "wordpressFeedConventions": {
+    "note": "The Library hosts run WordPress, so the standard WP feed routes are available for finer-grained tracking:",
+    "patterns": [
+      "<host>/feed/                          (all posts)",
+      "<host>/type/<post-type>/feed/         (one custom post type, e.g. research-briefing)",
+      "<host>/topic/<topic-slug>/feed/       (one topic)",
+      "<host>/author/<author-slug>/feed/     (one author)",
+      "<host>/comments/feed/                 (comments)"
+    ]
+  },
+  "alsoWrapped": {
+    "library-feeds": "api.parliament.uk/library-feeds — aggregator of Commons/Lords Library + POST feeds; wrapped by the `library-feeds` skill.",
+    "bills": "bills-api RSS (all/public/private + per-bill) — wrapped by the `bills` facility.",
+    "members-news": "per-MP blog/news RSS harvested by `parl members news`."
+  },
+  "notFound": [
+    { "url": "https://www.parliament.uk/business/news/feed/", "status": 404 },
+    { "url": "https://api.parliament.uk/library-feeds/feeds", "status": 404, "note": "wrong path; see the library-feeds skill for the correct routes" }
+  ]
+}

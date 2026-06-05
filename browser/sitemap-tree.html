@@ -5,18 +5,35 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Shape of the UK Parliament web estate — sitemap structure</title>
 <style>
-  :root { --bg:#faf8f3; --ink:#1a1a1a; --ink-soft:#4a4a4a; --accent:#2a4f76; --rule:#d8d4ca; }
+  :root { --bg:#faf8f3; --ink:#1a1a1a; --ink-soft:#4a4a4a; --accent:#2a4f76; --rule:#d8d4ca; --card:#fff; }
   * { box-sizing: border-box; }
   body { margin:0; padding:16px; background:var(--bg); color:var(--ink);
          font:16px/1.5 -apple-system, BlinkMacSystemFont, system-ui, "Segoe UI", sans-serif; }
   h1 { font-size:20px; margin:0 0 4px; }
-  p.lede { color:var(--ink-soft); font-size:14px; margin:0 0 8px; max-width:60em; }
+  p.lede { color:var(--ink-soft); font-size:14px; margin:0 0 6px; max-width:62em; }
+  .controls { display:flex; gap:8px; align-items:center; flex-wrap:wrap; margin:8px 0; }
+  .controls .seg { display:inline-flex; border:1px solid var(--rule); border-radius:6px; overflow:hidden; }
+  .controls .seg button { border:0; background:#fff; color:var(--accent); font:inherit; font-size:14px; padding:6px 12px; cursor:pointer; }
+  .controls .seg button.on { background:var(--accent); color:#fff; }
+  .hint { color:var(--ink-soft); font-size:13px; }
   a { color:var(--accent); }
-  #crumb { font:13px ui-monospace, Menlo, monospace; color:var(--ink-soft); margin:8px 0; min-height:1.2em; }
-  #chart { width:100%; }
-  rect { cursor:pointer; }
-  .lbl { font:12px ui-monospace, Menlo, monospace; pointer-events:none; fill:#fff; }
-  .lbl-dark { fill:#1a1a1a; }
+  #crumb { font:13px ui-monospace, Menlo, monospace; color:var(--ink-soft); margin:6px 0 4px; min-height:1.2em; word-break:break-all; cursor:pointer; }
+  #chart { width:100%; height:auto; display:block; }
+  rect, path.arc { cursor:pointer; }
+  .lbl { paint-order:stroke; stroke:rgba(255,255,255,.85); stroke-width:3px; stroke-linejoin:round;
+         fill:#1a1a1a; font:12px ui-monospace, Menlo, monospace; pointer-events:none; }
+  #panel { margin-top:12px; border:1px solid var(--rule); border-radius:8px; background:var(--card); padding:12px 14px; display:none; }
+  #panel.show { display:block; }
+  .p-path { font:13px/1.5 ui-monospace, Menlo, monospace; word-break:break-all; margin:0 0 6px; }
+  .p-path b { color:var(--ink); } .p-path .exp { color:var(--ink-soft); }
+  .p-meta { color:var(--ink-soft); font-size:13px; margin:0 0 10px; }
+  .p-actions { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .btn { font:inherit; font-size:14px; padding:7px 12px; border:1px solid var(--accent); border-radius:6px;
+         background:var(--accent); color:#fff; cursor:pointer; text-decoration:none; display:inline-block; }
+  .btn.ghost { background:#fff; color:var(--accent); }
+  .frame-note { color:var(--ink-soft); font-size:12px; margin:8px 0 0; }
+  #frameWrap { display:none; margin-top:10px; } #frameWrap.show { display:block; }
+  iframe { width:100%; height:55vh; min-height:320px; border:1px solid var(--rule); border-radius:6px; background:#fff; }
   footer { margin-top:16px; padding-top:10px; border-top:1px solid var(--rule); color:var(--ink-soft); font-size:12px; }
   code { background:#efece4; padding:1px 5px; border-radius:4px; font-size:12px; }
 </style>
@@ -25,89 +42,223 @@
 <h1>Shape of the UK Parliament web estate</h1>
 <p class="lede">
   Every public page in the <a href="https://www.parliament.uk/sitemapindex.xml">XML sitemaps</a>
-  of the Parliament web hosts, aggregated by host &rarr; URL path. Width = number of pages.
-  Click a block to zoom in; click the top bar to zoom out. Built from
-  <code>third_party/data/parliament-sitemap/</code> (<span id="total">…</span> URLs).
-  Most of these pages have <strong>no API</strong> — they exist only as web pages.
+  of the Parliament web hosts, by host &rarr; URL path. Area/width = number of pages
+  (<span id="total">…</span> total). Most have <strong>no API</strong>. Cryptic path codes are
+  expanded in the panel when you select a block.
 </p>
+<div class="controls">
+  <span class="seg" id="layoutSeg">
+    <button data-layout="icicle" class="on">Icicle</button>
+    <button data-layout="treemap">Treemap</button>
+    <button data-layout="sunburst">Sunburst</button>
+  </span>
+  <span class="hint">Tap a block to select &amp; drill in. Tap the breadcrumb to go up.</span>
+</div>
 <div id="crumb"></div>
 <svg id="chart"></svg>
+
+<div id="panel">
+  <p class="p-path" id="pPath"></p>
+  <p class="p-meta" id="pMeta"></p>
+  <div class="p-actions">
+    <a class="btn" id="pOpen" target="_blank" rel="noopener">Open in new tab ↗</a>
+    <button class="btn ghost" id="pPreview">Preview here ▾</button>
+  </div>
+  <div id="frameWrap">
+    <iframe id="pFrame" title="page preview" referrerpolicy="no-referrer" sandbox="allow-scripts allow-same-origin allow-popups allow-forms"></iframe>
+    <p class="frame-note">Some Parliament pages briefly show a “Just a moment…” bot check inside the frame, or refuse to embed — if the preview doesn’t settle, use <strong>Open in new tab</strong>.</p>
+  </div>
+</div>
 
 <footer>
   Contains Parliamentary information licensed under the
   <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
   Data source: UK Parliament sitemaps. Third-party prototype; not endorsed by the UK Parliament.
-  <code>publications</code> is truncated at the sitemap protocol's 50k cap.
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
 <script type="module">
-// Canonical zoomable icicle (after Mike Bostock). Horizontal: depth = columns
-// (y0..y1), page-count = vertical extent (x0..x1). Click to zoom; click the
-// focused/root block to zoom out.
+// Glossary of cryptic path codes (mostly publications.parliament.uk).
+const GLOSSARY = {
+  pa:"Parliamentary papers root", cm:"House of Commons", ld:"House of Lords", jt:"Joint Committee",
+  cmregmem:"Register of Members' Interests", caregmem:"Register of Members' Interests",
+  cmallparty:"Register of All-Party Groups", cmselect:"Commons Select Committee",
+  ldselect:"Lords Select Committee", jtselect:"Joint Committee reports",
+  cmhansrd:"Commons Hansard (debates)", ldhansrd:"Lords Hansard (debates)",
+  cmbills:"Commons Bills", ldbills:"Lords Bills", pabills:"Public Bills",
+  cmpublic:"Public Bill Committee", cmstand:"Standing Committee debates",
+  cmstords:"Commons Standing Orders", cmvote:"Votes and Proceedings", cmvp:"Votes and Proceedings",
+  cmorder:"Orders of Business / Order Book", cmordbk:"Order Book (Questions)", cmob:"Order Book",
+  cmagenda:"Summary Agenda / Order of Business", cmwhall:"Westminster Hall debates",
+  cmwib:"Weekly Information Bulletin", cmedm:"Early Day Motions", cmsilist:"Statutory Instruments list",
+  cmsi:"Statutory Instruments", cmpribl:"Private Bills", privbill:"Private Bills",
+  cmpb:"Public Bill (committee papers)", cmbk:"Business / Order Book", cmhn:"Commons Notices",
+  cmsa:"Summary Agenda papers", cmin:"Commons information / index", cmop:"Order Paper",
+  ldreg:"Lords Register of Interests", ldordpap:"Lords Order Paper", ldjudgmt:"Lords Judgments",
+  ldcomp:"Lords Companion to Standing Orders", cmproced:"Procedure Committee",
+  cmstnprv:"Standards & Privileges Committee", cmpubacc:"Public Accounts Committee",
+  cmpubadm:"Public Administration Committee", img:"Image assets",
+  business:"Parliamentary business", about:"About Parliament", "site-information":"Site information",
+  "mps-lords-and-offices":"MPs, Lords and offices", "get-involved":"Get involved",
+  visiting:"Visiting Parliament", "research-briefings":"Library research briefings",
+  authors:"Briefing authors", topic:"Topic index",
+};
+const expand = (name) => GLOSSARY[name];
+
 const data = await fetch('./sitemap-tree.json').then(r => r.json());
 const fmt = d3.format(',');
-
 const width = Math.min(1160, (document.body.clientWidth || 1160) - 32);
-const H = 760;                                   // vertical extent (page-count axis)
+const H = 760;
 
-const root = d3.hierarchy(data)
-  .sum(d => (d.children && d.children.length) ? 0 : (d.count || 0))
-  .sort((a, b) => b.value - a.value);
-
-d3.partition().size([H, width])(root);           // x0,x1 ∈ [0,H]; y0,y1 ∈ [0,width]
-document.getElementById('total').textContent = fmt(root.value);
-
-const hostOf = (d) => { let n = d; while (n.depth > 1) n = n.parent; return n.data.name; };
-const color = d3.scaleOrdinal(
-  (data.children || []).map(c => c.name),
-  d3.quantize(d3.interpolateRainbow, (data.children?.length || 6) + 1));
-
-const svg = d3.select('#chart')
-  .attr('viewBox', [0, 0, width, H]).attr('width', width).attr('height', H)
-  .style('font', '12px ui-monospace, Menlo, monospace');
-const crumb = document.getElementById('crumb');
-
-const cell = svg.selectAll('g').data(root.descendants()).join('g')
-  .attr('transform', d => `translate(${d.y0},${d.x0})`)
-  .style('cursor', 'pointer')
-  .on('click', (event, d) => clicked(d));
-
-const rect = cell.append('rect')
-  .attr('width', d => Math.max(0, d.y1 - d.y0 - 1))
-  .attr('height', d => Math.max(0, d.x1 - d.x0 - 1))
-  .attr('fill', d => d.depth === 0 ? '#2a4f76' : color(hostOf(d)))
-  .attr('fill-opacity', d => d.data.rollup ? 0.4 : (d.data.self ? 0.65 : 0.9));
-
-cell.append('title').text(d =>
-  `${d.ancestors().map(a => a.data.name).reverse().join(' / ')}\n${fmt(d.value)} pages`);
-
-const text = cell.append('text')
-  .attr('class', 'lbl')
-  .attr('x', 4).attr('y', 14)
-  .attr('fill', d => d.depth === 0 ? '#fff' : '#1a1a1a')
-  .attr('fill-opacity', d => (d.x1 - d.x0) > 15 ? 1 : 0);
-text.append('tspan').text(d => d.data.name);
-text.append('tspan').attr('fill-opacity', 0.6).text(d => `  ${fmt(d.value)}`);
-
-let focus = root;
-function clicked(p) {
-  focus = (focus === p) ? (p = p.parent || root) : p;
-  crumb.textContent = focus.ancestors().map(a => a.data.name).reverse().join('  /  ');
-  root.each(d => d.target = {
-    x0: (d.x0 - p.x0) / (p.x1 - p.x0) * H,
-    x1: (d.x1 - p.x0) / (p.x1 - p.x0) * H,
-    y0: d.y0 - p.y0,
-    y1: d.y1 - p.y0,
-  });
-  const t = cell.transition().duration(620)
-    .attr('transform', d => `translate(${d.target.y0},${d.target.x0})`);
-  rect.transition(t)
-    .attr('height', d => Math.max(0, d.target.x1 - d.target.x0 - 1))
-    .attr('width', d => Math.max(0, d.target.y1 - d.target.y0 - 1));
-  text.transition(t).attr('fill-opacity', d => (d.target.x1 - d.target.x0) > 15 ? 1 : 0);
+function makeRoot() {
+  return d3.hierarchy(data)
+    .sum(d => (d.children && d.children.length) ? 0 : (d.count || 0))
+    .sort((a, b) => b.value - a.value);
 }
-crumb.textContent = root.data.name;
+const colorRoot = makeRoot();
+document.getElementById('total').textContent = fmt(colorRoot.value);
+const hostOf = (d) => { let n = d; while (n.depth > 1) n = n.parent; return n.data.name; };
+const color = d3.scaleOrdinal((data.children || []).map(c => c.name),
+  d3.quantize(d3.interpolateRainbow, (data.children?.length || 6) + 1));
+const fillOf = (d) => d.depth === 0 ? '#2a4f76' : color(hostOf(d));
+const opacOf = (d) => d.data.rollup ? 0.4 : (d.data.self ? 0.62 : 0.9);
+
+const urlFor = (d) => {
+  if (d.depth < 1) return null;
+  const chain = d.ancestors().reverse();
+  const host = chain[1].data.name;
+  if (!/\./.test(host)) return null;
+  const segs = chain.slice(2).filter(n => !n.data.self && !n.data.rollup).map(n => n.data.name);
+  const scheme = host.startsWith('www.publications') ? 'https' : 'https';
+  return `${scheme}://${host}/${segs.length ? segs.join('/') + '/' : ''}`;
+};
+
+const svg = d3.select('#chart').style('font', '12px ui-monospace, Menlo, monospace');
+const crumb = document.getElementById('crumb');
+const panel = document.getElementById('panel');
+const pPath = document.getElementById('pPath'), pMeta = document.getElementById('pMeta');
+const pOpen = document.getElementById('pOpen'), pPreview = document.getElementById('pPreview');
+const frameWrap = document.getElementById('frameWrap'), pFrame = document.getElementById('pFrame');
+
+function select(d) {
+  const url = urlFor(d);
+  pPath.innerHTML = d.ancestors().reverse().map(a => {
+    const e = expand(a.data.name);
+    return `<b>${a.data.name}</b>${e ? ` <span class="exp">(${e})</span>` : ''}`;
+  }).join(' / ');
+  const leaf = !(d.children && d.children.length);
+  pMeta.textContent = `${fmt(d.value)} page${d.value === 1 ? '' : 's'}` + (leaf ? '' : ' below this section') + (url ? '' : ' — no single URL');
+  if (url) { pOpen.href = url; pOpen.style.display = ''; pPreview.style.display = '';
+    pOpen.textContent = (d.value === 1 ? 'Open page' : 'Open section') + ' in new tab ↗'; }
+  else { pOpen.style.display = 'none'; pPreview.style.display = 'none'; }
+  frameWrap.classList.remove('show'); pFrame.removeAttribute('src');
+  panel.classList.add('show'); panel.dataset.url = url || '';
+}
+pPreview.onclick = () => { const u = panel.dataset.url; if (!u) return;
+  frameWrap.classList.toggle('show');
+  if (frameWrap.classList.contains('show')) pFrame.src = u; else pFrame.removeAttribute('src'); };
+
+let layout = 'icicle';
+let focus = null;            // current drill root (a node in a fresh hierarchy)
+function setCrumb(node) {
+  crumb.textContent = node.ancestors().reverse().map(a => a.data.name).join('  /  ');
+}
+
+function render() {
+  svg.selectAll('*').remove();
+  const root = makeRoot();
+  focus = focus ? (root.descendants().find(d => d.data === focus.data) || root) : root;
+  if (layout === 'icicle') renderIcicle(root);
+  else if (layout === 'treemap') renderTreemap(root);
+  else renderSunburst(root);
+  setCrumb(focus);
+}
+crumb.onclick = () => { if (focus && focus.parent) { focus = focus.parent; render(); } };
+
+// ---------- ICICLE ----------
+function renderIcicle(root) {
+  d3.partition().size([H, width])(root);
+  svg.attr('viewBox', [0, 0, width, H]).attr('width', width).attr('height', H);
+  const p = focus;
+  const x = (v) => (v - p.x0) / (p.x1 - p.x0) * H;
+  const y = (v) => v - p.y0;
+  const cell = svg.selectAll('g').data(root.descendants()).join('g')
+    .attr('transform', d => `translate(${y(d.y0)},${x(d.x0)})`)
+    .style('cursor', 'pointer').on('click', (e, d) => { select(d); if (d.children) { focus = d; render(); } });
+  cell.append('rect').attr('width', d => Math.max(0, y(d.y1) - y(d.y0) - 1))
+    .attr('height', d => Math.max(0, x(d.x1) - x(d.x0) - 1))
+    .attr('fill', fillOf).attr('fill-opacity', opacOf).attr('stroke', '#faf8f3');
+  cell.append('title').text(titleOf);
+  const t = cell.append('text').attr('class', 'lbl').attr('x', 4).attr('y', 15)
+    .attr('fill-opacity', d => (x(d.x1) - x(d.x0)) > 15 ? 1 : 0);
+  t.append('tspan').text(d => d.data.name);
+  t.append('tspan').attr('fill-opacity', .65).text(d => `  ${fmt(d.value)}`);
+}
+
+// ---------- TREEMAP (drill: render only focus + its descendants) ----------
+function renderTreemap(root) {
+  const node = focus;
+  d3.treemap().size([width, H]).paddingInner(1).paddingTop(d => d === node ? 0 : 16).round(true)(
+    d3.hierarchy(node.data).sum(d => (d.children && d.children.length) ? 0 : (d.count || 0)).sort((a, b) => b.value - a.value)
+  );
+  // rebuild a hierarchy rooted at focus so x0/y0 are local
+  const local = d3.hierarchy(node.data).sum(d => (d.children && d.children.length) ? 0 : (d.count || 0)).sort((a, b) => b.value - a.value);
+  d3.treemap().size([width, H]).paddingInner(1).paddingOuter(2).round(true)(local);
+  svg.attr('viewBox', [0, 0, width, H]).attr('width', width).attr('height', H);
+  const cell = svg.selectAll('g').data(local.descendants().filter(d => d.depth > 0)).join('g')
+    .attr('transform', d => `translate(${d.x0},${d.y0})`)
+    .style('cursor', 'pointer')
+    .on('click', (e, d) => { const real = mapLocal(d, node); select(real); if (real.children) { focus = real; render(); } });
+  cell.append('rect').attr('width', d => Math.max(0, d.x1 - d.x0)).attr('height', d => Math.max(0, d.y1 - d.y0))
+    .attr('fill', d => fillOf(mapLocal(d, node))).attr('fill-opacity', d => opacOf(mapLocal(d, node))).attr('stroke', '#faf8f3');
+  cell.append('title').text(d => titleOf(mapLocal(d, node)));
+  cell.append('text').attr('class', 'lbl').attr('x', 4).attr('y', 14)
+    .attr('fill-opacity', d => (d.x1 - d.x0) > 40 && (d.y1 - d.y0) > 16 ? 1 : 0)
+    .text(d => `${d.data.name} ${fmt(d.value)}`);
+}
+// map a node in the local (focus-rooted) hierarchy back to the real hierarchy node
+function mapLocal(local, focusReal) {
+  let real = focusReal;
+  const names = local.ancestors().reverse().slice(1).map(n => n.data.name);
+  for (const nm of names) { real = (real.children || []).find(c => c.data.name === nm) || real; }
+  return real;
+}
+
+// ---------- SUNBURST ----------
+function renderSunburst(root) {
+  const radius = Math.min(width, H) / 2;
+  d3.partition().size([2 * Math.PI, radius])(root);
+  const p = focus;
+  const arc = d3.arc().startAngle(d => d.a0).endAngle(d => d.a1)
+    .padAngle(.003).padRadius(radius / 2)
+    .innerRadius(d => d.r0).outerRadius(d => Math.max(d.r0, d.r1 - 1));
+  const ang = (v) => Math.max(0, Math.min(2 * Math.PI, (v - p.x0) / (p.x1 - p.x0) * 2 * Math.PI));
+  const rad = (depth) => Math.max(0, (depth - p.depth)) * (radius / (root.height - p.depth + 1));
+  root.each(d => { d.a0 = ang(d.x0); d.a1 = ang(d.x1); d.r0 = rad(d.depth); d.r1 = rad(d.depth + 1); });
+  svg.attr('viewBox', [-width / 2, -H / 2, width, H]).attr('width', width).attr('height', H);
+  const g = svg.append('g');
+  g.selectAll('path').data(root.descendants().filter(d => d.depth >= p.depth && d.a1 - d.a0 > 0.002)).join('path')
+    .attr('class', 'arc').attr('d', arc).attr('fill', fillOf).attr('fill-opacity', opacOf)
+    .attr('stroke', '#faf8f3').style('cursor', 'pointer')
+    .on('click', (e, d) => { select(d); if (d.children) { focus = d; render(); } })
+    .append('title').text(titleOf);
+  svg.append('circle').attr('r', radius * 0).attr('fill', 'none');
+}
+
+function titleOf(d) {
+  const e = expand(d.data.name);
+  return `${d.ancestors().map(a => a.data.name).reverse().join(' / ')}${e ? `\n${d.data.name} = ${e}` : ''}\n${fmt(d.value)} pages`;
+}
+
+document.getElementById('layoutSeg').addEventListener('click', (ev) => {
+  const b = ev.target.closest('button'); if (!b) return;
+  layout = b.dataset.layout;
+  [...ev.currentTarget.children].forEach(c => c.classList.toggle('on', c === b));
+  focus = makeRoot();   // reset drill on layout change
+  render();
+});
+
+render();
 </script>
 </body>
 </html>

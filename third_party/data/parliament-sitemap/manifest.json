@@ -1,8 +1,8 @@
 {
-  "fetchedAt": "2026-06-05T19:09:05.635Z",
+  "fetchedAt": "2026-06-05T19:56:23.758Z",
   "roots": [
     "https://www.parliament.uk/sitemapindex.xml",
-    "https://publications.parliament.uk/sitemap.xml",
+    "http://www.publications.parliament.uk/sitemap_index.xml",
     "https://members.parliament.uk/sitemap.xml",
     "https://hansard.parliament.uk/sitemap.xml",
     "https://commonslibrary.parliament.uk/sitemap.xml",
@@ -73,13 +73,202 @@
       "file": "raw/www.parliament.uk/site-informationsitemap.xml.gz"
     },
     {
-      "loc": "https://publications.parliament.uk/sitemap.xml",
+      "loc": "http://www.publications.parliament.uk/sitemap_index.xml",
       "depth": 0,
+      "type": "index",
+      "children": 21,
+      "bytes": 3046,
+      "sha256": "a30809ca614029c601eb50afbeeef8dcf61d7ba4c42552a250cc73babf88765d",
+      "file": "raw/www.publications.parliament.uk/sitemap_index.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap.xml",
+      "depth": 1,
       "type": "urlset",
       "urls": 50000,
       "bytes": 8835646,
       "sha256": "efe9f038c3adaffd61b0bfe7f319497b41d0b0b64997e86acbb4443e525148ad",
-      "file": "raw/publications.parliament.uk/sitemap.xml.gz"
+      "file": "raw/www.publications.parliament.uk/sitemap.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap1.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 8965085,
+      "sha256": "4516f83f66ae40e69949da6f7721d2583e9c88707974fda712be3b6daebffc96",
+      "file": "raw/www.publications.parliament.uk/sitemap1.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap2.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9168846,
+      "sha256": "4631548454386d3f486f5a95018d8767df7a085165570f3a327ca24449c48596",
+      "file": "raw/www.publications.parliament.uk/sitemap2.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap3.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9048693,
+      "sha256": "59791ed9efe48b57a0ca1619e35f352cd353bde06f04ba6f86c998e121318d6d",
+      "file": "raw/www.publications.parliament.uk/sitemap3.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap4.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9143084,
+      "sha256": "8ca8e1742810182575044a50e488f23be2e0d421c63f8bdcfa9d5f618fea4d69",
+      "file": "raw/www.publications.parliament.uk/sitemap4.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap5.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9120210,
+      "sha256": "419128bd7fb7fdd99b50f984c91d880f1019cf50be37b7031fcc12893f8f533c",
+      "file": "raw/www.publications.parliament.uk/sitemap5.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap6.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9183455,
+      "sha256": "aa619e3eb3d9337cb0f439886635608afae36838e95d40c4c81db64fe454934c",
+      "file": "raw/www.publications.parliament.uk/sitemap6.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap7.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9051612,
+      "sha256": "14ec5aba0088af6b45441f299af9f55344852b8006d9380e5f65740c97b75d76",
+      "file": "raw/www.publications.parliament.uk/sitemap7.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap8.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9148837,
+      "sha256": "9d88597911f7a4a9a8682c0cbc2997b88b16c2ed23522a92d79204247752c938",
+      "file": "raw/www.publications.parliament.uk/sitemap8.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap9.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9251731,
+      "sha256": "5dbc9efd8b65833652c34bfccf056e97a44051a1d547276ef56b014153c56592",
+      "file": "raw/www.publications.parliament.uk/sitemap9.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap10.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9261052,
+      "sha256": "1d2ad69083f05a77c2f48759cdefba60669d0ff95da66b6f9ae8492aa369a064",
+      "file": "raw/www.publications.parliament.uk/sitemap10.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap11.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9270571,
+      "sha256": "396600a5c6936b128da7b6400ae2bf7ba091c6afe2633bb40cd445991e25eb44",
+      "file": "raw/www.publications.parliament.uk/sitemap11.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap12.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9302469,
+      "sha256": "73c0736329bcd9f41cda0bee2e27a34f35f3e0a796aa718fb82b3cb6b2e59fc1",
+      "file": "raw/www.publications.parliament.uk/sitemap12.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap13.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9236649,
+      "sha256": "96697aca99f918b68fc5aabca35dbd6242f91ae34dace7699c12167b346ebf93",
+      "file": "raw/www.publications.parliament.uk/sitemap13.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap14.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9269772,
+      "sha256": "a7b09d1132c6116732e798bff1c5cdaa2bf35bb54912e7b287011f2432455b33",
+      "file": "raw/www.publications.parliament.uk/sitemap14.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap15.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9100132,
+      "sha256": "e12ee51006b320bc21857a5b49141e69bbcbf4ee014e7b0b004ff42193b7bede",
+      "file": "raw/www.publications.parliament.uk/sitemap15.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap16.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9192573,
+      "sha256": "809ef622b564b2ba6b74d22d2da93f61c92fe932229b0fb5df87628ca4d09b96",
+      "file": "raw/www.publications.parliament.uk/sitemap16.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap17.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9274192,
+      "sha256": "f83cd2dd8342e9be5edfa829da6125ea1f784165c9cedd6626f26865aa884f9e",
+      "file": "raw/www.publications.parliament.uk/sitemap17.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap18.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9348878,
+      "sha256": "671d3dc5a2b63d8c4374f20aa7076e86e3736da003df05a69fcf12a9d548eced",
+      "file": "raw/www.publications.parliament.uk/sitemap18.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap19.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 50000,
+      "bytes": 9426317,
+      "sha256": "17e5ece5f7fb86fca9873db7591fddbf62889a8f8c998b6ce800c2fe9a30de48",
+      "file": "raw/www.publications.parliament.uk/sitemap19.xml.gz"
+    },
+    {
+      "loc": "http://www.publications.parliament.uk/sitemap20.xml",
+      "depth": 1,
+      "type": "urlset",
+      "urls": 41256,
+      "bytes": 7882368,
+      "sha256": "29e77e792ad797a49c38250d03ad6e0a491b1cdbd121020cb5523dd962cb0f9a",
+      "file": "raw/www.publications.parliament.uk/sitemap20.xml.gz"
     },
     {
       "loc": "https://members.parliament.uk/sitemap.xml",
@@ -105,7 +294,7 @@
       "type": "index",
       "children": 20,
       "bytes": 3208,
-      "sha256": "e7515932c7eef97a9da02f4385e9c30433ffb1a837d4aca01fc55fadbabb5bba",
+      "sha256": "bbe2ce9dc8632fe4cff55fd8467a0059cb9b692e8759ee5c6e2965a8617869a8",
       "file": "raw/commonslibrary.parliament.uk/sitemap.xml.gz"
     },
     {
@@ -141,7 +330,7 @@
       "type": "urlset",
       "urls": 995,
       "bytes": 291745,
-      "sha256": "865f55fa3caf0982e9796d698836166e6a1fdc8c207a740c740846b28aa5609a",
+      "sha256": "d867a9a48445ed6341f3fa89fadb7ffdfb9aca1b178006d323575aa2021553f8",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap.xml.gz"
     },
     {
@@ -149,8 +338,8 @@
       "depth": 1,
       "type": "urlset",
       "urls": 998,
-      "bytes": 293894,
-      "sha256": "6fb697ef740d7dd8ab21aaad70ec37250c16197add0ed408e9f23bea05c9ccc3",
+      "bytes": 293887,
+      "sha256": "885e162eea65635f12c7d1d20cb220c36e6fa8bdd87ddca36947dfc717b7ed7c",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap2.xml.gz"
     },
     {
@@ -167,8 +356,8 @@
       "depth": 1,
       "type": "urlset",
       "urls": 999,
-      "bytes": 288767,
-      "sha256": "7f7c11aa84749b78b1ad4e75c1f0c528ed19ce1ea616360467f88b81494cd5a5",
+      "bytes": 288769,
+      "sha256": "1e0b09c928dc5d15452fb121337ab164cbceb994eb9ea79306a08317edb50702",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap4.xml.gz"
     },
     {
@@ -176,8 +365,8 @@
       "depth": 1,
       "type": "urlset",
       "urls": 1000,
-      "bytes": 278850,
-      "sha256": "a00394e4bac061f0da182874c60d01f49ac26a7cdfa34090cb1df6e507be0d20",
+      "bytes": 278839,
+      "sha256": "1168afeb5e13d112538dfbc51abd01462fd7b656a8b1d78ddb1fbfbc25879fac",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap5.xml.gz"
     },
     {
@@ -185,8 +374,8 @@
       "depth": 1,
       "type": "urlset",
       "urls": 998,
-      "bytes": 276793,
-      "sha256": "1bbfd13ebc8de515df31d7f45398325875796341f081a510faf3670a84398072",
+      "bytes": 276790,
+      "sha256": "5647ef02a4a325d0764ddb720c49cdd4076d3bc4026d5d9d6b30ccde40a2db65",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap6.xml.gz"
     },
     {
@@ -194,8 +383,8 @@
       "depth": 1,
       "type": "urlset",
       "urls": 1000,
-      "bytes": 277048,
-      "sha256": "a12d69ab41b5060c2a33db1762eab0a9836e2ae1c60e7dd32b6d6a58e2c0cf2c",
+      "bytes": 277052,
+      "sha256": "ab46648954b982f5fc9e99d3940dd43425fb52204b2652dfcb02e1a320a0c6ed",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap7.xml.gz"
     },
     {
@@ -203,8 +392,8 @@
       "depth": 1,
       "type": "urlset",
       "urls": 1000,
-      "bytes": 276735,
-      "sha256": "2e6284836b62514b92dea46ef16cc90bd939719fd3fc2cc7a31c172bf6ac08f5",
+      "bytes": 276752,
+      "sha256": "0fa6ca5d6c7bc85176cd3c86198cef3762ac949c5147e421968ab91f36127b5e",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap8.xml.gz"
     },
     {
@@ -212,8 +401,8 @@
       "depth": 1,
       "type": "urlset",
       "urls": 1000,
-      "bytes": 275799,
-      "sha256": "140eabf85c9beb3b4256dd442120cee75e859d78fc0c04f7f6f88f448efedd5c",
+      "bytes": 275777,
+      "sha256": "9af6241f92585a96312a4af56060f36c4c78541961b35ed4fc232f415f14386d",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap9.xml.gz"
     },
     {
@@ -221,8 +410,8 @@
       "depth": 1,
       "type": "urlset",
       "urls": 1000,
-      "bytes": 253168,
-      "sha256": "c90bb68e5b3c7a8de2bc3df36b37ea6e3e73d5debabd8bc55a30e3924747993e",
+      "bytes": 253174,
+      "sha256": "6dd639335d5a7b15dfa9a347147e073b5c4450399daf3eab6191c5323dca1bce",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap10.xml.gz"
     },
     {
@@ -230,8 +419,8 @@
       "depth": 1,
       "type": "urlset",
       "urls": 707,
-      "bytes": 136590,
-      "sha256": "ef5fd1cf5a1f84ca47ff7d6e7d8793dc69299d28e04d5b3d80168096538ccecf",
+      "bytes": 136622,
+      "sha256": "192454d5e63eac562983643703c8f8b5911887f3ea997eb953f3345e0547c393",
       "file": "raw/commonslibrary.parliament.uk/research-briefing-sitemap11.xml.gz"
     },
     {
@@ -249,7 +438,7 @@
       "type": "urlset",
       "urls": 31,
       "bytes": 4786,
-      "sha256": "125e439e61980b40221efaf1ca181d9d1d279a74e701700e275282892bf63456",
+      "sha256": "1c13c4469e7c8d59793613bed4665d1d2ff40256b01e291591aa1b60bf07b8bd",
       "file": "raw/commonslibrary.parliament.uk/post_tag-sitemap.xml.gz"
     },
     {
@@ -258,7 +447,7 @@
       "type": "urlset",
       "urls": 5,
       "bytes": 1293,
-      "sha256": "9e2b67bc4ced61a371c80a45188bd12a712d864d675a77d824cb2628bead8254",
+      "sha256": "8b0d6577478e7eb875df4448953f1f535078729e4604c941ac97ce7b308e0042",
       "file": "raw/commonslibrary.parliament.uk/rb_types-sitemap.xml.gz"
     },
     {
@@ -267,7 +456,7 @@
       "type": "urlset",
       "urls": 104,
       "bytes": 16750,
-      "sha256": "d81ccabb954a4917c1d53e2c2e9a091699ce55d667e41e8d8223e33be9983202",
+      "sha256": "d35b30697cc9901e55987f2cb0908c3daa6c706f0668c9fd6345335e7338ad38",
       "file": "raw/commonslibrary.parliament.uk/rb_topics-sitemap.xml.gz"
     },
     {
@@ -276,7 +465,7 @@
       "type": "urlset",
       "urls": 637,
       "bytes": 86950,
-      "sha256": "745b4ac669bccb0eddfea61805c10e1133f2fabaadaebee6c44d41a5312913c2",
+      "sha256": "f6d56eafd590f1c1d34a92ffb836706fd87b8991e71abdc6b7090f7e068383eb",
       "file": "raw/commonslibrary.parliament.uk/rb_authors-sitemap.xml.gz"
     },
     {
@@ -294,7 +483,7 @@
       "type": "index",
       "children": 10,
       "bytes": 1685,
-      "sha256": "fde96308bf172729c0dfe221c16e6666ba9a2fbadb5ef58f15a3850e0a5f913e",
+      "sha256": "f951c78682b723081961c7c7fb76c4701e6176027296d1217ca484319a76d11f",
       "file": "raw/lordslibrary.parliament.uk/sitemap.xml.gz"
     },
     {
@@ -330,7 +519,7 @@
       "type": "urlset",
       "urls": 1001,
       "bytes": 291494,
-      "sha256": "56dea64289aae2cbc0392f50ef59183c16ce3f0bed050d063b8a29ef62ae3c02",
+      "sha256": "6157322db458862991b77cb747f92c2fd6f6f84132d8a132602f77152011f209",
       "file": "raw/lordslibrary.parliament.uk/research-briefing-sitemap.xml.gz"
     },
     {
@@ -339,7 +528,7 @@
       "type": "urlset",
       "urls": 414,
       "bytes": 117921,
-      "sha256": "4e226fb58ef81ff602ef951ecc36e5ca0a056f922e62fc043303c91ea1d00ad7",
+      "sha256": "49518c24480d8520f53651097fffbeca0020f3d136346f2e3d3d573c8eb317f6",
       "file": "raw/lordslibrary.parliament.uk/research-briefing-sitemap2.xml.gz"
     },
     {
@@ -357,7 +546,7 @@
       "type": "urlset",
       "urls": 4,
       "bytes": 1153,
-      "sha256": "0350aec11dec216c947a183653bfb17b9f1d78eef0340efafd6087730a725d43",
+      "sha256": "22b1c0b6e2916636b001fce96e404a8d408c412c065c5b777d1abeed437fbe02",
       "file": "raw/lordslibrary.parliament.uk/rb_types-sitemap.xml.gz"
     },
     {
@@ -366,7 +555,7 @@
       "type": "urlset",
       "urls": 39,
       "bytes": 6669,
-      "sha256": "b6b10a129b9a2264d2f71eea7a5eb25ada1c71486da3211cec92a90b053ec5db",
+      "sha256": "0dd1b231dab197916a8c6fc81388eb20d6f31cc205064dca8a2e125a94527f39",
       "file": "raw/lordslibrary.parliament.uk/rb_topics-sitemap.xml.gz"
     },
     {
@@ -375,7 +564,7 @@
       "type": "urlset",
       "urls": 92,
       "bytes": 12906,
-      "sha256": "7a2d24026b986dabcb26c040affff6082732f758513441cd118263b3e620b201",
+      "sha256": "7e5cccbf5720b38420263fd53d575b659ae239e1c14087f357dd68da3dc98fcc",
       "file": "raw/lordslibrary.parliament.uk/rb_authors-sitemap.xml.gz"
     },
     {
@@ -389,14 +578,15 @@
     }
   ],
   "notes": [
-    "publications.parliament.uk/sitemap.xml is a flat urlset capped at the 50,000-URL protocol limit — it is TRUNCATED; the host has more documents than appear here.",
-    "hansard/bills/committees/questions-statements/whatson have no usable /sitemap.xml (404 or a 15-URL stub) — that content is API-only."
+    "publications.parliament.uk is fetched via sitemap_index.xml (21 child sitemaps, ~1.04M URLs). The bare sitemap.xml is only the first child, capped at the 50k protocol limit — do NOT use it as the root.",
+    "hansard/bills/committees/questions-statements have no usable sitemap (404 or a 15-URL stub) — that content is API-only.",
+    "RSS/Atom feeds for update-tracking are listed in feeds.json (Commons/Lords Library WordPress feeds + Bills API RSS)."
   ],
   "totals": {
-    "sitemaps": 42,
-    "urlsets": 39,
-    "indexes": 3,
+    "sitemaps": 63,
+    "urlsets": 59,
+    "indexes": 4,
     "errors": 0,
-    "urls": 96937
+    "urls": 1088193
   }
 }

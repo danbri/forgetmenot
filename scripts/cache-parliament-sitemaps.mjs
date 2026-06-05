@@ -30,7 +30,9 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 const ROOTS = [
   'https://www.parliament.uk/sitemapindex.xml',
-  'https://publications.parliament.uk/sitemap.xml',
+  // publications: the index lists 21 child sitemaps (~1.04M URLs). The bare
+  // sitemap.xml is only the first, capped at the 50k protocol limit.
+  'http://www.publications.parliament.uk/sitemap_index.xml',
   'https://members.parliament.uk/sitemap.xml',
   'https://hansard.parliament.uk/sitemap.xml',
   'https://commonslibrary.parliament.uk/sitemap.xml',
@@ -94,8 +96,9 @@ manifest.totals = {
   errors: manifest.sitemaps.filter((s) => s.error).length,
   urls: allUrls.length,
 };
-manifest.notes.push('publications.parliament.uk/sitemap.xml is a flat urlset capped at the 50,000-URL protocol limit — it is TRUNCATED; the host has more documents than appear here.');
-manifest.notes.push('hansard/bills/committees/questions-statements/whatson have no usable /sitemap.xml (404 or a 15-URL stub) — that content is API-only.');
+manifest.notes.push('publications.parliament.uk is fetched via sitemap_index.xml (21 child sitemaps, ~1.04M URLs). The bare sitemap.xml is only the first child, capped at the 50k protocol limit — do NOT use it as the root.');
+manifest.notes.push('hansard/bills/committees/questions-statements have no usable sitemap (404 or a 15-URL stub) — that content is API-only.');
+manifest.notes.push('RSS/Atom feeds for update-tracking are listed in feeds.json (Commons/Lords Library WordPress feeds + Bills API RSS).');
 writeFileSync(`${OUT}/manifest.json`, JSON.stringify(manifest, null, 2));
 
 writeFileSync(`${OUT}/README.md`, `# Cached UK Parliament web-estate sitemaps
@@ -110,9 +113,16 @@ Fetched ${manifest.fetchedAt}.
 
 ## Coverage
 
-${manifest.totals.urls} URLs across ${manifest.totals.urlsets} urlsets. \`publications\` is
-truncated at the 50k protocol cap. \`bills\`/\`committees\`/\`questions-statements\`/\`hansard\`
-have no real sitemap — that content is reachable only via the wrapped APIs.
+${manifest.totals.urls} URLs across ${manifest.totals.urlsets} urlsets. \`publications\` is the
+bulk (~1.04M), fetched via its \`sitemap_index.xml\` (21 child sitemaps) — NOT the bare
+\`sitemap.xml\`, which is only the first child capped at the 50k protocol limit.
+\`bills\`/\`committees\`/\`questions-statements\`/\`hansard\` have no real sitemap — that content
+is reachable only via the wrapped APIs.
+
+## Update tracking
+
+\`feeds.json\` lists RSS/Atom feeds (Commons/Lords Library WordPress feeds, Bills API RSS)
+for spotting *recent changes* without re-crawling the whole 1M-URL set.
 
 ## Access note
 
