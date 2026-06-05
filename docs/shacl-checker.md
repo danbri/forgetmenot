@@ -120,6 +120,27 @@ alongside studio / playground / flint / yasgui. It reads the shared
   in the procedural DD store, off the public endpoint.
 - **Parliament DDP · Person** and **· Party**.
 
+### Data-integrity audits (single-valued properties)
+
+Three presets check that properties the DDP data model treats as single-valued
+really are — `sh:maxCount 1`, so any subject with two values is flagged. The
+vocabulary and populations were probed on the live endpoint first:
+
+| Preset | Predicate (class) | Population | Result |
+|---|---|---|---|
+| Question has ≤1 asking person | `questionHasAskingPerson` (`Question`) | 142,624 | conforms (0) |
+| SI paper preceded by ≤1 paper | `precededBy` (`StatutoryInstrumentPaper`) | 378 | **3 violations** |
+| Clock-frozen not both true & false | `workPackageIsClockFrozen` (`WorkPackage`) | 6,415 | **2 violations** |
+
+The latter two extract the *whole* population of the property (not a `LIMIT`
+sample), so the audit actually catches the bad subjects — e.g. two WorkPackages
+assert their scrutiny-clock flag as both `True` and `False`. Note the public DDP
+has no explanatory-memorandum boolean (that lives in the non-public DD procedural
+store), so the clock-frozen flag is the public boolean analog of that idea.
+
+For a maxCount audit to be meaningful the extraction must pull *all* values per
+subject; a bare `DESCRIBE` or a too-small `LIMIT` can hide violations.
+
 ### Federation (FPKG → Wikidata) and why it's two-step
 
 Server-side SPARQL `SERVICE` from the bundled Oxigraph aborts at the proxy's 30s

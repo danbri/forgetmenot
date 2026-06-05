@@ -95,6 +95,11 @@
       <option value="ddp-treaty">Parliament DDP · Treaty (+ nested laying)</option>
       <option value="ddp-person">Parliament DDP · Person</option>
       <option value="ddp-party">Parliament DDP · Party (sample)</option>
+      <optgroup label="Data-integrity audits — single-valued properties (sh:maxCount 1)">
+        <option value="ddp-q-asking">DDP · Question has ≤1 asking person (clean)</option>
+        <option value="ddp-si-preceded">DDP · SI paper preceded by ≤1 paper (finds 3)</option>
+        <option value="ddp-wp-clock">DDP · WorkPackage clock-frozen not both true &amp; false (finds 2)</option>
+      </optgroup>
     </select>
   </div>
   <div class="field">
@@ -290,6 +295,68 @@ p:PartyShape a sh:NodeShape ;
     sh:severity sh:Warning ; sh:message "Expected exactly one MNIS party id." ] .
 </script>
 
+<!-- Data-integrity audits: single-valued ("functional") properties. The shape is
+     sh:maxCount 1; any subject with two values is a data error. Grounded in the
+     real DDP vocabulary, with verified populations. -->
+<script type="application/sparql-query" id="q-ddp-q-asking">
+PREFIX p: &lt;https://id.parliament.uk/schema/&gt;
+# Sample 200 written questions and pull every asking person for each.
+# (Full-population audit shows 0 of 142,624 questions have more than one.)
+CONSTRUCT { ?q a p:Question ; p:questionHasAskingPerson ?person }
+WHERE {
+  ?q a p:Question ; p:questionHasAskingPerson ?person .
+  { SELECT ?q WHERE { ?q a p:Question } LIMIT 200 }
+}
+</script>
+<script type="text/turtle" id="s-ddp-q-asking">
+@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
+
+p:QuestionAskingPersonShape a sh:NodeShape ;
+  sh:targetClass p:Question ;
+  sh:property [ sh:path p:questionHasAskingPerson ; sh:maxCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A question must not have more than one asking person." ] .
+</script>
+
+<script type="application/sparql-query" id="q-ddp-si-preceded">
+PREFIX p: &lt;https://id.parliament.uk/schema/&gt;
+# Whole population: every statutory-instrument paper's precededBy links.
+# A paper should be preceded by at most one paper.
+CONSTRUCT { ?s a p:StatutoryInstrumentPaper ; p:precededBy ?o }
+WHERE { ?s a p:StatutoryInstrumentPaper ; p:precededBy ?o }
+</script>
+<script type="text/turtle" id="s-ddp-si-preceded">
+@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
+
+p:SIPaperPrecededByShape a sh:NodeShape ;
+  sh:targetClass p:StatutoryInstrumentPaper ;
+  sh:property [ sh:path p:precededBy ; sh:maxCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A statutory-instrument paper must not be preceded by more than one paper." ] .
+</script>
+
+<script type="application/sparql-query" id="q-ddp-wp-clock">
+PREFIX p: &lt;https://id.parliament.uk/schema/&gt;
+# Whole population: every WorkPackage's clock-frozen flag value(s). The DDP has
+# no explanatory-memorandum boolean (that lives in the non-public DD procedural
+# store); this is the public boolean analog — a scrutiny-clock flag that must be
+# a single true/false, not both.
+CONSTRUCT { ?s a p:WorkPackage ; p:workPackageIsClockFrozen ?b }
+WHERE { ?s a p:WorkPackage ; p:workPackageIsClockFrozen ?b }
+</script>
+<script type="text/turtle" id="s-ddp-wp-clock">
+@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
+
+p:WorkPackageClockShape a sh:NodeShape ;
+  sh:targetClass p:WorkPackage ;
+  sh:property [ sh:path p:workPackageIsClockFrozen ; sh:maxCount 1 ;
+    sh:severity sh:Violation ;
+    sh:message "A WorkPackage must not assert its clock-frozen flag as both true and false." ] .
+</script>
+
 <script type="module">
 import { check, fetchQuery, parse, validateStore } from './js/shacl-check.js';
 
@@ -307,6 +374,9 @@ const PRESETS = {
   'ddp-treaty':    { q: 'q-ddp-treaty',    s: 's-ddp-treaty',    endpoint: 'parliament-ddp' },
   'ddp-person':    { q: 'q-ddp-person',    s: 's-ddp-person',    endpoint: 'parliament-ddp' },
   'ddp-party':     { q: 'q-ddp-party',     s: 's-ddp-party',     endpoint: 'parliament-ddp' },
+  'ddp-q-asking':    { q: 'q-ddp-q-asking',    s: 's-ddp-q-asking',    endpoint: 'parliament-ddp' },
+  'ddp-si-preceded': { q: 'q-ddp-si-preceded', s: 's-ddp-si-preceded', endpoint: 'parliament-ddp' },
+  'ddp-wp-clock':    { q: 'q-ddp-wp-clock',    s: 's-ddp-wp-clock',    endpoint: 'parliament-ddp' },
 };
 
 let REGISTRY = { endpoints: [] };
