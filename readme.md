@@ -10,6 +10,13 @@ without further documentation lookup.
 Starting point: the catalogue at <https://explore.data.parliament.uk/>
 and the developer hub at <https://developer.parliament.uk/>.
 
+## Live demo
+
+A deployed instance — **Forgetmeknot Palace** — runs at
+<https://fpkg.fly.dev/>. Its SPARQL developer hub — a bundled read-only
+endpoint over openly-published RDF, query editors, and a public
+in-browser SHACL checker — is at **<https://fpkg.fly.dev/kgx/>**.
+
 ## Layout
 
 ```
