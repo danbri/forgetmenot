@@ -1,0 +1,78 @@
+# Nightly refresh of the Parliament RSS-feed liveness survey + reader snapshot.
+#
+# Runs scripts/probe-feed-liveness.mjs (fetches all ~918 catalogued feeds,
+# records item counts + latest dates, and writes the reader's served snapshot),
+# commits the changed JSON, and redeploys fpkg so /kgx/feeds shows fresh items.
+#
+# State written (see docs/data-state.md):
+#   third_party/data/parliament-sitemap/feeds-liveness.json   per-feed status
+#   third_party/data/parliament-sitemap/feeds-items.json      full item snapshot
+#   demos/parliament-live/web/kgx/feeds-items.json            served (active <365d)
+#
+# Needs the FLY_API_TOKEN repo secret (same one deploy-fpkg.yml uses).
+
+name: refresh-feeds
+
+on:
+  schedule:
+    # 03:17 UTC daily — small offset off the top of the hour to avoid the
+    # cron stampede; well after the weekday Parliament publishing cycle.
+    - cron: '17 3 * * *'
+  workflow_dispatch:        # manual trigger from the GH UI
+  push:
+    branches: [claude/main]
+    paths:
+      # Editing this workflow or the crawler kicks a run (handy "run now").
+      - '.github/workflows/refresh-feeds.yml'
+      - 'scripts/probe-feed-liveness.mjs'
+
+permissions:
+  contents: write           # to push the refreshed snapshot JSON
+
+concurrency:
+  group: refresh-feeds
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Survey feed liveness + rebuild reader snapshot
+        run: node scripts/probe-feed-liveness.mjs
+
+      - name: Commit refreshed snapshot
+        run: |
+          git config user.name  "forgetmenot-bot"
+          git config user.email "forgetmenot-bot@users.noreply.github.com"
+          git add -A third_party/data/parliament-sitemap/feeds-liveness.json \
+                     third_party/data/parliament-sitemap/feeds-items.json \
+                     demos/parliament-live/web/kgx/feeds-items.json
+          if git diff --cached --quiet; then
+            echo "no changes to commit"; exit 0
+          fi
+          git commit -m "auto: nightly feed-liveness refresh (run ${{ github.run_id }})"
+          git push
+
+      # Redeploy so the live reader picks up the new snapshot. (A GITHUB_TOKEN
+      # push does not trigger deploy-fpkg.yml's path filter, so deploy here.)
+      - name: Set up flyctl
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy to fly.io
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          flyctl deploy . \
+            --config demos/parliament-live/fly.toml \
+            --remote-only \
+            --strategy immediate

@@ -1,6 +1,6 @@
 ---
 name: fetch-sitemap
-description: Fetch, parse and recurse XML sitemaps (the Sitemaps 0.9 protocol — sitemap.xml / sitemapindex.xml) for the UK Parliament web presence, and enumerate every public page URL. Use when you need the inventory of public web pages rather than structured API records — especially the many pages with NO JSON/REST API (corporate "About"/living-heritage, visiting, get-involved, site-information, Library landing pages, guidance), to know what the wrapped Members/Bills/Hansard/SPARQL facilities do NOT cover. The entry point is www.parliament.uk/sitemapindex.xml (a sitemap index → 6 child sitemaps; the root sitemap.xml alone lists ~16k URLs). Parses offline from a saved file too. Generic — works on any site's sitemap.
+description: Fetch, parse and recurse XML sitemaps (the Sitemaps 0.9 protocol — sitemap.xml / sitemapindex.xml) for the UK Parliament web presence, enumerate every public page URL (~1.09M across the estate), and track updates via the RSS/Atom feeds. Use when you need the inventory of public web pages rather than structured API records — especially the many pages with NO JSON/REST API (corporate "About"/living-heritage, visiting, get-involved, site-information, Library landing pages, guidance), to know what the wrapped Members/Bills/Hansard/SPARQL facilities do NOT cover. Entry: www.parliament.uk/sitemapindex.xml; publications via www.publications.parliament.uk/sitemap_index.xml (21 child sitemaps, ~1.04M URLs). A cached snapshot, a concrete 918-feed catalogue, a liveness survey, a D3 web-estate map (/kgx/sitemap-tree) and a feed reader (/kgx/feeds) are all committed — see docs/data-state.md. Parses offline from a saved file too. Generic — works on any site's sitemap.
 license: Open Parliament Licence v3.0 (Crown copyright; Parliament-operated) for parliament.uk content; the sitemap protocol itself is sitemaps.org (CC-BY-SA).
 metadata:
   provenance:
@@ -22,24 +22,24 @@ get-involved, site-information, guidance, Library landing pages) are web-only,
 with no JSON/REST representation. A sitemap is the authoritative way to
 inventory them.
 
-## Entry point
+## Entry points & scale (~1.09M URLs)
 
-`https://www.parliament.uk/sitemapindex.xml` (declared in that host's
-robots.txt) is a **sitemap index** pointing at 6 child sitemaps:
+The whole reachable estate is **1,088,193 URLs across 63 sitemaps** (probed
+2026-06-05). Roots:
 
-```
-sitemap.xml               ← the big one: ~15,966 URLs (incl. living-heritage)
-aboutsitemap.xml
-visitingsitemap.xml
-businesssitemap.xml
-get-involvedsitemap.xml
-site-informationsitemap.xml
-```
+- `https://www.parliament.uk/sitemapindex.xml` → 6 child sitemaps = 30,915 URLs
+  (sitemap.xml 15,966 · business 9,552 · about 3,798 · site-info 1,047 ·
+  visiting 293 · get-involved 259).
+- **`http://www.publications.parliament.uk/sitemap_index.xml` → 21 child
+  sitemaps = 1,041,256 URLs.** Use the *index*, not the bare `sitemap.xml`,
+  which is only the first child capped at the 50k protocol limit.
+- `commonslibrary.` (index → 20, ~13k) and `lordslibrary.` (index → 10, ~2.9k)
+  are WordPress; `members.` 67; `hansard.` a 15-URL stub.
+- `bills.`/`committees.`/`questions-statements.` have **no** sitemap — that
+  content is API-only.
 
-Other web hosts (`hansard.`, `bills.`, `committees.`, `members.`,
-`publications.`, the Library sites, `whatson.`) each have their own
-`/sitemap.xml`; `parl sitemap hosts` lists the conventional entry points. The
-authoritative location for any host is the `Sitemap:` line in its robots.txt.
+The authoritative location for any host is the `Sitemap:` line in its
+robots.txt (readable via Node fetch). `parl sitemap hosts` lists entry points.
 
 ## CLI
 
@@ -55,8 +55,10 @@ of every `<loc>` (with `lastmod`). It is **sequential and polite** — pass
 `--delay-ms` to space out child fetches, and `--limit` to cap the URL count.
 
 ```sh
-# full corporate-site inventory (mind it's ~16k+ URLs — use --limit while exploring)
+# corporate-site inventory (~31k URLs — use --limit while exploring)
 parl sitemap enumerate https://www.parliament.uk/sitemapindex.xml --delay-ms 300 --limit 50
+# the big one — publications via its index (~1.04M; cache it, don't hold in memory)
+parl sitemap enumerate http://www.publications.parliament.uk/sitemap_index.xml --limit 50
 ```
 
 ## Cloudflare reality (read this)
@@ -88,6 +90,26 @@ public pages that have **no** API representation (the original motivation):
 `/about/`, `/visiting/`, `/get-involved/`, `/site-information/`,
 `commonslibrary.`/`lordslibrary.` landing pages, etc. is web-only. The library
 exposes `byHost(urls)` for a quick host breakdown.
+
+## Cached state, feeds & reader
+
+The whole estate is **cached and committed** so you don't need to re-crawl — see
+[`docs/data-state.md`](../../docs/data-state.md) for the full map. Headlines:
+
+- `third_party/data/parliament-sitemap/` — `raw/*.xml.gz` (every sitemap as
+  fetched), `urls.jsonl.gz` (all 1.09M `<loc>`), `manifest.json`, `hierarchy.json`.
+  Built by `scripts/cache-parliament-sitemaps.mjs`.
+- **Feeds for update-tracking** — `feeds.json` / `feeds.ttl`: a concrete
+  catalogue of **918 RSS/Atom feeds** (Commons/Lords Library per
+  topic/type/tag/author + Bills API) with metadata (host, chamber, scope, group,
+  tags, facet counts). Built by `scripts/build-parliament-feeds.mjs` from the
+  cached taxonomy sitemaps. Sitemaps give the full URL set; feeds give the deltas.
+- **Liveness** — `feeds-liveness.json` + `feeds-items.json`: of 918 feeds, all
+  return 200 and 917 have items, but only ~**419 are active in the last year**
+  (the author feeds are mostly dormant). Built by `scripts/probe-feed-liveness.mjs`,
+  refreshed **nightly** by `.github/workflows/refresh-feeds.yml` (03:17 UTC).
+- **UIs on fpkg**: `/kgx/sitemap-tree` (D3 icicle/treemap/sunburst of the estate)
+  and `/kgx/feeds` (a search/filter feed reader over the 419 live feeds).
 
 See [`reference.md`](reference.md) for the data shapes and the full host list.
 

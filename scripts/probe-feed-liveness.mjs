@@ -34,10 +34,23 @@ for (const f of feeds) {
   if (i % 100 === 0) process.stderr.write(`  ${i}/${feeds.length}\n`);
   await sleep(120);
 }
+// Safety: if most fetches failed (e.g. an outage, or a CI runner IP that the
+// Library hosts' Cloudflare blocks), refuse to overwrite the good committed
+// snapshot — exit non-zero so CI keeps the previous data.
+const ok = liveness.filter(r => r.status === 200).length;
+if (ok < liveness.length * 0.5) {
+  console.error(`Only ${ok}/${liveness.length} feeds fetched OK — refusing to overwrite the snapshot (block/outage?).`);
+  process.exit(1);
+}
 writeFileSync(`${DIR}/feeds-liveness.json`, JSON.stringify(liveness));
 writeFileSync(`${DIR}/feeds-items.json`, JSON.stringify(items));
 const now = Date.now(), DAY = 864e5;
+// Served reader copy: feeds active in the last 365 days (the ones with signs of
+// life). The full snapshot stays under third_party/; this lighter copy is what
+// demos/parliament-live/web/kgx/feeds.html loads. Refreshed nightly by CI.
+const activeServed = items.filter(f => { const d = Date.parse(f.items[0]?.date); return d && (now - d) < 365 * DAY; });
+writeFileSync('demos/parliament-live/web/kgx/feeds-items.json', JSON.stringify(activeServed));
 const alive = liveness.filter(r => r.items > 0);
 const rec = d => alive.filter(r => r.latest && (now - Date.parse(r.latest)) < d * DAY).length;
 const byScope = liveness.reduce((a, r) => { if (r.items > 0) a[r.scope] = (a[r.scope] || 0) + 1; return a; }, {});
-console.log(JSON.stringify({ total: liveness.length, withItems: alive.length, last90d: rec(90), last365d: rec(365), aliveByScope: byScope, itemsFileFeeds: items.length }, null, 1));
+console.log(JSON.stringify({ total: liveness.length, withItems: alive.length, last90d: rec(90), last365d: rec(365), activeServed: activeServed.length, aliveByScope: byScope }, null, 1));
