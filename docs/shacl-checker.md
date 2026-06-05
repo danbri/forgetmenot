@@ -93,6 +93,29 @@ p:TreatyShape a sh:NodeShape ;
     sh:severity sh:Violation ; sh:message "A Treaty should name a lead government organisation." ] .
 ```
 
+## Deployed in the kgx hub (fpkg)
+
+The same checker is wired into the FPKG kgx developer hub as a first-class
+SPARQL client at **`/kgx/shacl`**
+([`demos/parliament-live/web/kgx/shacl.html`](../demos/parliament-live/web/kgx/shacl.html)),
+alongside studio / playground / flint / yasgui. It reads the shared
+[`/kgx/endpoints.json`](../demos/parliament-live/web/kgx/endpoints.json) registry
+(so it's multi-endpoint — bundled store, Parliament DDP, Wikidata, …; supports
+`?endpoints=<url>` like the other clients) and ships three presets:
+
+- **FPKG · SKOS Concept** (default) — validates `skos:Concept`s in the bundled
+  Oxigraph store (`prefLabel` required, `inScheme` warned). Note: the extraction
+  query uses `SELECT DISTINCT` because the bundled store holds each concept in
+  many named graphs — without `DISTINCT`, `LIMIT 20` returns 20 duplicate rows
+  of a single concept.
+- **Parliament DDP · Treaty** and **· Person** — against `api.parliament.uk/sparql`.
+
+The deploy image only ships `demos/parliament-live/web/`, so the bundle is
+copied there too (`web/kgx/third_party/`); `scripts/build-schemarama-bundle.sh`
+writes both locations. A push to `claude/main` touching
+`demos/parliament-live/**` triggers the `deploy-fpkg.yml` GitHub Action, which
+deploys to fly.io (app `fpkg`) using the repo's `FLY_API_TOKEN` secret.
+
 ## Caveats
 
 - **Sampling is not exhaustive.** `LIMIT n` checks a slice. To validate a whole

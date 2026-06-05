@@ -25,4 +25,14 @@ echo "==> installing schemarama core build deps"
 echo "==> webpacking Turtle-capable bundle -> browser/third_party/"
 ( cd "$CORE" && npx webpack --config "$CFG" )
 
-echo "==> done: $ROOT/browser/third_party/schemarama.bundle.min.js"
+# The fpkg deploy image only ships demos/parliament-live/web/, so the kgx SHACL
+# client needs its own copy of the bundle inside that tree.
+KGX_TP="$ROOT/demos/parliament-live/web/kgx/third_party"
+echo "==> copying bundle -> demos/parliament-live/web/kgx/third_party/"
+mkdir -p "$KGX_TP"
+cp "$ROOT/browser/third_party/schemarama.bundle.min.js" "$KGX_TP/"
+cp "$ROOT/browser/third_party/schemarama.bundle.min.js.LICENSE.txt" "$KGX_TP/" 2>/dev/null || true
+
+echo "==> done:"
+echo "    $ROOT/browser/third_party/schemarama.bundle.min.js"
+echo "    $KGX_TP/schemarama.bundle.min.js"
