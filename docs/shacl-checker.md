@@ -101,14 +101,37 @@ SPARQL client at **`/kgx/shacl`**
 alongside studio / playground / flint / yasgui. It reads the shared
 [`/kgx/endpoints.json`](../demos/parliament-live/web/kgx/endpoints.json) registry
 (so it's multi-endpoint — bundled store, Parliament DDP, Wikidata, …; supports
-`?endpoints=<url>` like the other clients) and ships three presets:
+`?endpoints=<url>` like the other clients) and ships these presets:
 
-- **FPKG · SKOS Concept** (default) — validates `skos:Concept`s in the bundled
-  Oxigraph store (`prefLabel` required, `inScheme` warned). Note: the extraction
-  query uses `SELECT DISTINCT` because the bundled store holds each concept in
-  many named graphs — without `DISTINCT`, `LIMIT 20` returns 20 duplicate rows
-  of a single concept.
-- **Parliament DDP · Treaty** and **· Person** — against `api.parliament.uk/sparql`.
+- **FPKG · SKOS Concept** (default) — `skos:Concept`s in the bundled store
+  (`prefLabel` required, `inScheme` warned). The extraction query uses
+  `SELECT DISTINCT` because the store holds each concept in many named graphs —
+  without it, `LIMIT 20` returns 20 duplicate rows of one concept.
+- **FPKG · Identity mapping** — validates the join keys we serve: every
+  `schema:Person` must carry an MNIS id (`Violation`); `wikidataQid` is a
+  `Warning`, so unreconciled members surface as a coverage gap (≈45 of a 60-row
+  sample today).
+- **FPKG → Wikidata (federated)** — joins the bundled store to Wikidata through
+  the identity mappings, then validates the *merged* graph. See below.
+- **Parliament DDP · Treaty** — extracts the treaty **and each laying's own
+  properties** (a bare `DESCRIBE` wouldn't include them) and checks the layings
+  with a nested `sh:node` shape. The message is explicit that this is structural,
+  not "laid under CRaG" — CRaG-ness isn't typed on the Treaty or Laying; it lives
+  in the procedural DD store, off the public endpoint.
+- **Parliament DDP · Person** and **· Party**.
+
+### Federation (FPKG → Wikidata) and why it's two-step
+
+Server-side SPARQL `SERVICE` from the bundled Oxigraph aborts at the proxy's 30s
+cap (recorded in `skills/kgx-infra-cloud-containers/reference.md`). So the
+federated preset does the join **client-side, in two fetches**: (1) CONSTRUCT a
+base subgraph from FPKG (members + `owl:sameAs` to their Wikidata entity);
+(2) CONSTRUCT birth dates from Wikidata for the QIDs found, keyed back to the
+*same* `https://www.wikidata.org/entity/…` URI the store uses; merge; then
+validate with a SHACL **sequence path** `( owl:sameAs schema:birthDate )`. The
+glue exposes `fetchQuery` / `parse` / `validateStore` (and a `checkFederated`
+convenience) for this. `queries/10-fpkg-wikidata-join.rq` and
+`11-fpkg-ddp-join.rq` document the raw two-step recipes.
 
 The deploy image only ships `demos/parliament-live/web/`, so the bundle is
 copied there too (`web/kgx/third_party/`); `scripts/build-schemarama-bundle.sh`

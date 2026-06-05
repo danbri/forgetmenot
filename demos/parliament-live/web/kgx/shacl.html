@@ -6,16 +6,9 @@
 <title>FPKG — SHACL checker</title>
 <style>
   :root {
-    --bg: #faf8f3;
-    --ink: #1a1a1a;
-    --ink-soft: #4a4a4a;
-    --accent: #2a4f76;
-    --rule: #d8d4ca;
-    --card: #ffffff;
-    --code-bg: #efece4;
-    --ok: #2e7d32;
-    --bad: #c62828;
-    --warn: #b26a00;
+    --bg: #faf8f3; --ink: #1a1a1a; --ink-soft: #4a4a4a; --accent: #2a4f76;
+    --rule: #d8d4ca; --card: #ffffff; --code-bg: #efece4;
+    --ok: #2e7d32; --bad: #c62828; --warn: #b26a00;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -29,10 +22,7 @@
   h1 { font-size: 22px; margin: 0 0 6px; }
   h2 { font-size: 16px; margin: 22px 0 8px; }
   .lede { color: var(--ink-soft); font-size: 14px; margin: 0 0 8px; }
-  .note {
-    background: #fff7e6; border-left: 4px solid #d4b000;
-    padding: 10px 12px; font-size: 14px; border-radius: 4px; margin: 10px 0;
-  }
+  .note { background: #fff7e6; border-left: 4px solid #d4b000; padding: 10px 12px; font-size: 14px; border-radius: 4px; margin: 10px 0; }
   label { font-size: 14px; }
   select, button {
     font: inherit; font-size: 15px; padding: 7px 10px;
@@ -48,8 +38,9 @@
     background: var(--card); color: var(--ink); border: 1px solid var(--rule);
     border-radius: 6px; padding: 8px; box-sizing: border-box;
   }
-  .qbox { height: 7em; } .sbox { height: 15em; }
+  .qbox { height: 8em; } .sbox { height: 14em; } .ebox { height: 7em; }
   .endpoint-note { font-size: 13px; color: var(--ink-soft); margin: 4px 0 0; }
+  .hidden { display: none; }
   .banner { padding: 10px 12px; border-radius: 6px; margin: 12px 0; font-weight: 600; }
   .banner.ok  { background: #e7f6e7; border-left: 4px solid var(--ok); }
   .banner.bad { background: #fdecea; border-left: 4px solid var(--bad); }
@@ -77,8 +68,8 @@
 <h1>SHACL checker</h1>
 <p class="lede">
   Validate live data from a SPARQL endpoint against
-  <a href="https://www.w3.org/TR/shacl/">SHACL</a> shapes, in the browser.
-  Built on Google's <a href="https://github.com/google/schemarama">schemarama</a>.
+  <a href="https://www.w3.org/TR/shacl/">SHACL</a> shapes, in the browser
+  (Google <a href="https://github.com/google/schemarama">schemarama</a>).
   Defaults to this server's bundled store; switch to UK Parliament's DDP
   endpoint or any other from the <a href="/kgx/endpoints.json">registry</a>.
 </p>
@@ -86,9 +77,12 @@
 <p class="note">
   <strong>You don't validate a whole database — you validate a subgraph.</strong>
   A SPARQL <code>CONSTRUCT</code>/<code>DESCRIBE</code> carves out the slice you
-  care about (one resource, or a sample of a class) and returns it as RDF; that
-  is what SHACL checks. The extraction query below is the scoping knob.
-  Sampling with <code>LIMIT</code> is a spot-check, not a full-store audit.
+  care about and returns it as RDF; that is what SHACL checks. The extraction
+  query is the scoping knob. To check related nodes, the query must pull them in
+  (a bare <code>DESCRIBE</code> won't). The <em>FPKG → Wikidata</em> preset goes
+  further: it joins the bundled store to Wikidata through the identity mappings
+  we serve, then validates the merged graph. Sampling with <code>LIMIT</code> is
+  a spot-check, not a full-store audit.
 </p>
 
 <div class="controls">
@@ -96,8 +90,11 @@
     <span>Preset</span>
     <select id="preset">
       <option value="fpkg-concept">FPKG · SKOS Concept (bundled store)</option>
-      <option value="ddp-treaty">Parliament DDP · Treaty</option>
+      <option value="fpkg-identity">FPKG · Identity mapping (the join keys we serve)</option>
+      <option value="fpkg-wikidata">FPKG → Wikidata · reconciled member has a birth date (federated)</option>
+      <option value="ddp-treaty">Parliament DDP · Treaty (+ nested laying)</option>
       <option value="ddp-person">Parliament DDP · Person</option>
+      <option value="ddp-party">Parliament DDP · Party (sample)</option>
     </select>
   </div>
   <div class="field">
@@ -112,7 +109,12 @@
 <h2>1. Extraction query <span class="lede">— the subgraph to check (CONSTRUCT / DESCRIBE)</span></h2>
 <textarea id="query" class="qbox" spellcheck="false"></textarea>
 
-<h2>2. SHACL shapes <span class="lede">— Turtle</span></h2>
+<div id="enrich-section" class="hidden">
+  <h2>2. Wikidata enrichment <span class="lede">— CONSTRUCT; <code>{{ENTITIES}}</code> is replaced with the QIDs found above</span></h2>
+  <textarea id="enrich" class="ebox" spellcheck="false"></textarea>
+</div>
+
+<h2 id="shapes-h">2. SHACL shapes <span class="lede">— Turtle</span></h2>
 <textarea id="shapes" class="sbox" spellcheck="false"></textarea>
 
 <div id="result"></div>
@@ -120,8 +122,10 @@
 <footer>
   Contains Parliamentary information licensed under the
   <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/">Open Parliament Licence v3.0</a>.
-  Data source: UK Parliament. This site is a third-party prototype and
-  is not endorsed by, or affiliated with, the UK Parliament.
+  Data source: UK Parliament. Wikidata content under
+  <a href="https://creativecommons.org/publicdomain/zero/1.0/">CC0</a>.
+  This site is a third-party prototype and is not endorsed by, or affiliated
+  with, the UK Parliament.
 </footer>
 
 <!-- Locally rebuilt schemarama bundle (adds parseTurtle); sets global `schemarama`. -->
@@ -141,22 +145,89 @@ WHERE {
 @prefix sh:   &lt;http://www.w3.org/ns/shacl#&gt; .
 @prefix skos: &lt;http://www.w3.org/2004/02/skos/core#&gt; .
 
-# Every SKOS concept in the bundled store should carry a preferred label
-# and sit in a concept scheme.
 skos:ConceptShape a sh:NodeShape ;
   sh:targetClass skos:Concept ;
-  sh:property [
-    sh:path skos:prefLabel ; sh:minCount 1 ;
+  sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ;
+    sh:severity sh:Violation ; sh:message "A skos:Concept must have a skos:prefLabel." ] ;
+  sh:property [ sh:path skos:inScheme ; sh:minCount 1 ;
+    sh:severity sh:Warning ; sh:message "A skos:Concept should be skos:inScheme some scheme." ] .
+</script>
+
+<script type="application/sparql-query" id="q-fpkg-identity">
+PREFIX sc:   &lt;http://schema.org/&gt;
+PREFIX parl: &lt;https://id.parliament.uk/schema/&gt;
+PREFIX v:    &lt;https://forgetmenot.local/vocab#&gt;
+CONSTRUCT { ?m a sc:Person ; parl:mnisId ?mnis ; sc:name ?name ; v:wikidataQid ?qid }
+WHERE {
+  ?m a sc:Person ; parl:mnisId ?mnis ; sc:name ?name .
+  OPTIONAL { ?m v:wikidataQid ?qid }
+} LIMIT 60
+</script>
+<script type="text/turtle" id="s-fpkg-identity">
+@prefix sh:   &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix sc:   &lt;http://schema.org/&gt; .
+@prefix parl: &lt;https://id.parliament.uk/schema/&gt; .
+@prefix v:    &lt;https://forgetmenot.local/vocab#&gt; .
+
+# Validate the identity mappings the bundled store serves.
+v:MappingShape a sh:NodeShape ;
+  sh:targetClass sc:Person ;
+  sh:property [ sh:path parl:mnisId ; sh:minCount 1 ;
     sh:severity sh:Violation ;
-    sh:message "A skos:Concept must have a skos:prefLabel." ] ;
-  sh:property [
-    sh:path skos:inScheme ; sh:minCount 1 ;
+    sh:message "Every person in the identity graph must carry an MNIS id (the stable join key)." ] ;
+  sh:property [ sh:path v:wikidataQid ; sh:minCount 1 ;
     sh:severity sh:Warning ;
-    sh:message "A skos:Concept should be skos:inScheme some scheme." ] .
+    sh:message "Not yet reconciled to Wikidata (no wikidataQid) — a coverage gap, not an error." ] .
+</script>
+
+<script type="application/sparql-query" id="q-fpkg-wikidata">
+PREFIX v:   &lt;https://forgetmenot.local/vocab#&gt;
+PREFIX owl: &lt;http://www.w3.org/2002/07/owl#&gt;
+PREFIX sc:  &lt;http://schema.org/&gt;
+# Base: members the bundled store has reconciled to Wikidata, with the
+# owl:sameAs link to their Wikidata entity. The federated step enriches these.
+CONSTRUCT { ?m a sc:Person ; sc:name ?name ; owl:sameAs ?wd }
+WHERE {
+  ?m v:wikidataQid ?qid ; sc:name ?name ; owl:sameAs ?wd .
+  FILTER(STRSTARTS(STR(?wd), "https://www.wikidata.org/"))
+} LIMIT 15
+</script>
+<script type="application/sparql-query" id="e-fpkg-wikidata">
+PREFIX wd:  &lt;http://www.wikidata.org/entity/&gt;
+PREFIX wdt: &lt;http://www.wikidata.org/prop/direct/&gt;
+PREFIX sc:  &lt;http://schema.org/&gt;
+# Pull each member's date of birth from Wikidata, keyed back to the SAME
+# https URI the bundled store uses (so the sequence path below joins).
+CONSTRUCT { ?w sc:birthDate ?dob }
+WHERE {
+  VALUES ?wd { {{ENTITIES}} }
+  ?wd wdt:P569 ?dob .
+  BIND(IRI(REPLACE(STR(?wd), "http://www.wikidata.org", "https://www.wikidata.org")) AS ?w)
+}
+</script>
+<script type="text/turtle" id="s-fpkg-wikidata">
+@prefix sh:  &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix sc:  &lt;http://schema.org/&gt; .
+@prefix owl: &lt;http://www.w3.org/2002/07/owl#&gt; .
+
+# Sequence path: follow owl:sameAs into Wikidata, then schema:birthDate.
+# Validates the merged (FPKG + Wikidata) graph.
+sc:ReconciledPersonShape a sh:NodeShape ;
+  sh:targetClass sc:Person ;
+  sh:property [ sh:path ( owl:sameAs sc:birthDate ) ; sh:minCount 1 ;
+    sh:severity sh:Warning ;
+    sh:message "Reconciled member should resolve, via owl:sameAs into Wikidata, to a date of birth." ] .
 </script>
 
 <script type="application/sparql-query" id="q-ddp-treaty">
-DESCRIBE &lt;https://id.parliament.uk/p4J3kpGD&gt;
+PREFIX p: &lt;https://id.parliament.uk/schema/&gt;
+# Pull the treaty AND each laying's own properties, so the nested LayingShape
+# has something to check (a bare DESCRIBE of the treaty would not include them).
+CONSTRUCT { &lt;https://id.parliament.uk/p4J3kpGD&gt; ?tp ?to . ?laying ?lp ?lo }
+WHERE {
+  &lt;https://id.parliament.uk/p4J3kpGD&gt; ?tp ?to .
+  OPTIONAL { &lt;https://id.parliament.uk/p4J3kpGD&gt; p:laidThingHasLaying ?laying . ?laying ?lp ?lo }
+}
 </script>
 <script type="text/turtle" id="s-ddp-treaty">
 @prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
@@ -164,18 +235,22 @@ DESCRIBE &lt;https://id.parliament.uk/p4J3kpGD&gt;
 
 p:TreatyShape a sh:NodeShape ;
   sh:targetClass p:Treaty ;
-  sh:property [
-    sh:path p:treatyName ; sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "A Treaty must carry a treatyName." ] ;
-  sh:property [
-    sh:path p:treatyHasLeadGovernmentOrganisation ; sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "A Treaty should name a lead government organisation." ] ;
-  sh:property [
-    sh:path p:laidThingHasLaying ; sh:minCount 1 ;
+  sh:property [ sh:path p:treatyName ; sh:minCount 1 ;
+    sh:severity sh:Violation ; sh:message "A Treaty must carry a treatyName." ] ;
+  sh:property [ sh:path p:treatyHasLeadGovernmentOrganisation ; sh:minCount 1 ;
+    sh:severity sh:Violation ; sh:message "A Treaty should name a lead government organisation." ] ;
+  # NB: this checks the laying is structurally well-formed, NOT that it was laid
+  # under CRaG. "Under CRaG" is not typed on the Treaty or the Laying; it lives
+  # one hop out, in the procedural DD store, which is off the public endpoint.
+  sh:property [ sh:path p:laidThingHasLaying ; sh:minCount 1 ; sh:node p:LayingShape ;
     sh:severity sh:Warning ;
-    sh:message "A treaty laid under CRaG should have at least one laying." ] .
+    sh:message "A Treaty should have at least one well-formed laying (date + laying body)." ] .
+
+p:LayingShape a sh:NodeShape ;
+  sh:property [ sh:path p:layingDate ; sh:minCount 1 ;
+    sh:severity sh:Warning ; sh:message "A laying should have a layingDate." ] ;
+  sh:property [ sh:path p:layingHasLayingBody ; sh:minCount 1 ;
+    sh:severity sh:Warning ; sh:message "A laying should record which House laid it (layingHasLayingBody)." ] .
 </script>
 
 <script type="application/sparql-query" id="q-ddp-person">
@@ -187,36 +262,56 @@ DESCRIBE &lt;https://id.parliament.uk/TyNGhslR&gt;
 
 p:PersonShape a sh:NodeShape ;
   sh:targetClass p:Person ;
-  sh:property [
-    sh:path p:personGivenName ; sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "A Person must have a personGivenName." ] ;
-  sh:property [
-    sh:path p:personFamilyName ; sh:minCount 1 ;
-    sh:severity sh:Violation ;
-    sh:message "A Person must have a personFamilyName." ] ;
-  sh:property [
-    sh:path p:memberMnisId ; sh:minCount 1 ;
-    sh:severity sh:Warning ;
-    sh:message "Expected an MNIS id to cross-reference the Members API." ] .
+  sh:property [ sh:path p:personGivenName ; sh:minCount 1 ;
+    sh:severity sh:Violation ; sh:message "A Person must have a personGivenName." ] ;
+  sh:property [ sh:path p:personFamilyName ; sh:minCount 1 ;
+    sh:severity sh:Violation ; sh:message "A Person must have a personFamilyName." ] ;
+  sh:property [ sh:path p:memberMnisId ; sh:minCount 1 ;
+    sh:severity sh:Warning ; sh:message "Expected an MNIS id to cross-reference the Members API." ] .
+</script>
+
+<script type="application/sparql-query" id="q-ddp-party">
+PREFIX p: &lt;https://id.parliament.uk/schema/&gt;
+CONSTRUCT { ?party ?pred ?o }
+WHERE {
+  ?party a p:Party ; ?pred ?o .
+  { SELECT ?party WHERE { ?party a p:Party } LIMIT 20 }
+}
+</script>
+<script type="text/turtle" id="s-ddp-party">
+@prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
+@prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
+
+p:PartyShape a sh:NodeShape ;
+  sh:targetClass p:Party ;
+  sh:property [ sh:path p:partyName ; sh:minCount 1 ;
+    sh:severity sh:Violation ; sh:message "A Party must have a partyName." ] ;
+  sh:property [ sh:path p:partyMnisId ; sh:minCount 1 ; sh:maxCount 1 ;
+    sh:severity sh:Warning ; sh:message "Expected exactly one MNIS party id." ] .
 </script>
 
 <script type="module">
-import { check } from './js/shacl-check.js';
+import { check, fetchQuery, parse, validateStore } from './js/shacl-check.js';
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
 const decode = (id) => { const t = document.createElement('textarea'); t.innerHTML = $(id).textContent.trim(); return t.value; };
 
-// Each preset names its query block, shapes block, and preferred endpoint id.
+// Each preset: query block, shapes block, base endpoint, and (federated only)
+// an enrichment query block + enrichment endpoint id.
 const PRESETS = {
-  'fpkg-concept': { q: 'q-fpkg-concept', s: 's-fpkg-concept', endpoint: 'fpkg' },
-  'ddp-treaty':   { q: 'q-ddp-treaty',   s: 's-ddp-treaty',   endpoint: 'parliament-ddp' },
-  'ddp-person':   { q: 'q-ddp-person',   s: 's-ddp-person',   endpoint: 'parliament-ddp' },
+  'fpkg-concept':  { q: 'q-fpkg-concept',  s: 's-fpkg-concept',  endpoint: 'fpkg' },
+  'fpkg-identity': { q: 'q-fpkg-identity', s: 's-fpkg-identity', endpoint: 'fpkg' },
+  'fpkg-wikidata': { q: 'q-fpkg-wikidata', s: 's-fpkg-wikidata', endpoint: 'fpkg',
+                     e: 'e-fpkg-wikidata', enrichEndpoint: 'wikidata' },
+  'ddp-treaty':    { q: 'q-ddp-treaty',    s: 's-ddp-treaty',    endpoint: 'parliament-ddp' },
+  'ddp-person':    { q: 'q-ddp-person',    s: 's-ddp-person',    endpoint: 'parliament-ddp' },
+  'ddp-party':     { q: 'q-ddp-party',     s: 's-ddp-party',     endpoint: 'parliament-ddp' },
 };
 
 let REGISTRY = { endpoints: [] };
 const epById = (id) => REGISTRY.endpoints.find(e => e.id === id);
+const epUrl  = (id, fallback) => (epById(id)?.url) || fallback;
 
 async function loadRegistry() {
   const params = new URLSearchParams(location.search);
@@ -235,48 +330,70 @@ async function loadRegistry() {
 
 function updateEndpointNote() {
   const e = epById($('endpoint').value);
-  const note = $('endpoint-note');
-  if (!e) { note.textContent = ''; return; }
-  note.innerHTML = `<code>${esc(e.url)}</code>${e.notes ? ' — ' + esc(e.notes) : ''}`;
+  $('endpoint-note').innerHTML = e ? `<code>${esc(e.url)}</code>${e.notes ? ' — ' + esc(e.notes) : ''}` : '';
 }
 
+let CURRENT = null;
 function loadPreset(name) {
-  const p = PRESETS[name];
+  const p = PRESETS[name]; CURRENT = p;
   $('query').value = decode(p.q);
   $('shapes').value = decode(p.s);
+  const federated = !!p.e;
+  $('enrich-section').classList.toggle('hidden', !federated);
+  $('shapes-h').firstChild.textContent = federated ? '3. SHACL shapes ' : '2. SHACL shapes ';
+  if (federated) $('enrich').value = decode(p.e);
   if (epById(p.endpoint)) $('endpoint').value = p.endpoint;
   updateEndpointNote();
   $('result').innerHTML = '';
 }
-
 $('preset').onchange = (e) => loadPreset(e.target.value);
+
+function renderResult(res, label, extra) {
+  const { triples, conforms, failures } = res;
+  let html = conforms
+    ? `<div class="banner ok">✓ Conforms — ${triples} triples${extra || ''} from <code>${esc(label)}</code>, no violations.</div>`
+    : `<div class="banner bad">✗ ${failures.length} issue(s) over ${triples} triples${extra || ''} from <code>${esc(label)}</code>.</div>`;
+  if (failures.length) {
+    html += '<table><thead><tr><th>Severity</th><th>Property</th><th>Message</th><th>Shape</th></tr></thead><tbody>';
+    for (const f of failures) {
+      html += `<tr><td class="sev-${esc(f.severity)}">${esc(f.severity)}</td>`
+           +  `<td><code>${esc((f.property || '—').split(/[/#]/).pop())}</code></td>`
+           +  `<td>${esc(f.message || '')}</td>`
+           +  `<td><code>${esc((f.shape || '').split(/[/#]/).pop())}</code></td></tr>`;
+    }
+    html += '</tbody></table>';
+  }
+  $('result').innerHTML = html;
+}
 
 $('run').onclick = async () => {
   const e = epById($('endpoint').value);
   if (!e) { $('result').innerHTML = '<div class="banner err">No endpoint selected.</div>'; return; }
   if (e.cors === false) {
-    $('result').innerHTML = `<div class="banner err">Endpoint "${esc(e.label)}" does not send CORS headers, so the browser cannot read its responses directly. Pick a CORS-enabled endpoint (FPKG or Parliament DDP).</div>`;
+    $('result').innerHTML = `<div class="banner err">Endpoint "${esc(e.label)}" does not send CORS headers; the browser cannot read its responses. Pick a CORS-enabled endpoint.</div>`;
     return;
   }
-  $('status').textContent = 'extracting subgraph + validating…';
+  $('status').textContent = CURRENT?.e ? 'extracting + federating + validating…' : 'extracting subgraph + validating…';
   $('result').innerHTML = '';
   try {
-    const { triples, conforms, failures } = await check($('query').value, $('shapes').value, { endpoint: e.url });
-    $('status').textContent = '';
-    let html = conforms
-      ? `<div class="banner ok">✓ Conforms — ${triples} triples extracted from <code>${esc(e.label)}</code>, no violations.</div>`
-      : `<div class="banner bad">✗ ${failures.length} issue(s) over ${triples} extracted triples from <code>${esc(e.label)}</code>.</div>`;
-    if (failures.length) {
-      html += '<table><thead><tr><th>Severity</th><th>Property</th><th>Message</th><th>Shape</th></tr></thead><tbody>';
-      for (const f of failures) {
-        html += `<tr><td class="sev-${esc(f.severity)}">${esc(f.severity)}</td>`
-             +  `<td><code>${esc((f.property || '—').split(/[/#]/).pop())}</code></td>`
-             +  `<td>${esc(f.message || '')}</td>`
-             +  `<td><code>${esc((f.shape || '').split(/[/#]/).pop())}</code></td></tr>`;
+    if (CURRENT?.e) {
+      // Federated: extract base from FPKG, enrich from Wikidata via the QIDs found, merge, validate.
+      const baseTtl = await fetchQuery(e.url, $('query').value, 'turtle');
+      const store = await parse(baseTtl, 'turtle');
+      const qids = [...new Set([...baseTtl.matchAll(/wikidata\.org\/entity\/(Q\d+)/g)].map(m => m[1]))];
+      let extra = '';
+      if (qids.length) {
+        const wdUrl = epUrl(CURRENT.enrichEndpoint, 'https://query.wikidata.org/sparql');
+        const enrichQ = $('enrich').value.replace('{{ENTITIES}}', qids.map(q => 'wd:' + q).join(' '));
+        const enrichTtl = await fetchQuery(wdUrl, enrichQ, 'turtle');
+        for (const q of (await parse(enrichTtl, 'turtle')).getQuads()) store.addQuad(q);
+        extra = ` (FPKG joined to ${qids.length} Wikidata entities)`;
       }
-      html += '</tbody></table>';
+      renderResult(await validateStore(store, $('shapes').value), e.label, extra);
+    } else {
+      renderResult(await check($('query').value, $('shapes').value, { endpoint: e.url }), e.label);
     }
-    $('result').innerHTML = html;
+    $('status').textContent = '';
   } catch (err) {
     $('status').textContent = '';
     $('result').innerHTML = `<div class="banner err">ERROR\n${esc(err.message || err)}</div>`;

@@ -103,7 +103,11 @@ WHERE {
 @prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .
 @prefix p:  &lt;https://id.parliament.uk/schema/&gt; .
 
-# What we expect a well-formed CRaG-era Treaty record to look like.
+# Minimal completeness expectations for a Treaty record. NB: the laying check
+# below is plain cardinality ("has a laying"), NOT "laid under CRaG" — CRaG-ness
+# is not typed on the Treaty or the Laying; it lives in the procedural DD store,
+# off the public endpoint. (The deployed /kgx/shacl Treaty preset additionally
+# checks each laying is well-formed via a nested shape.)
 p:TreatyShape a sh:NodeShape ;
   sh:targetClass p:Treaty ;
   sh:property [
@@ -121,7 +125,7 @@ p:TreatyShape a sh:NodeShape ;
   sh:property [
     sh:path p:laidThingHasLaying ; sh:minCount 1 ;
     sh:severity sh:Warning ;
-    sh:message "A treaty laid under CRaG should have at least one laying." ] .
+    sh:message "A Treaty should have at least one laying (cardinality only, not 'under CRaG')." ] .
 </script>
 <script type="text/turtle" id="s-person">
 @prefix sh: &lt;http://www.w3.org/ns/shacl#&gt; .

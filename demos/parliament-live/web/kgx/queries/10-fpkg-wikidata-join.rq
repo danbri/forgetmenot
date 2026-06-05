@@ -1,0 +1,35 @@
+# Endpoint: /kgx/query  (FPKG, bundled)
+# Verified: 2026-06-05 against fpkg.fly.dev
+#
+# JOIN: bundled identity mappings  ->  Wikidata, by Wikidata QID.
+#
+# The bundled identity graph reconciles each member to a Wikidata entity
+# (owl:sameAs + a forgetmenot:wikidataQid literal). This query is the FPKG
+# *side* of the join: it returns members with the QID you carry across.
+#
+# Server-side SERVICE federation from our Oxigraph aborts at the proxy's 30s
+# cap (see skills/kgx-infra-cloud-containers/reference.md), so do the join in
+# two steps: run this, then feed the QIDs into the Wikidata query below.
+#
+# Step 1 — FPKG (this query):
+PREFIX v:   <https://forgetmenot.local/vocab#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX sc:  <http://schema.org/>
+SELECT ?name ?qid ?wd WHERE {
+  ?m v:wikidataQid ?qid ; sc:name ?name ; owl:sameAs ?wd .
+  FILTER(STRSTARTS(STR(?wd), "https://www.wikidata.org/"))
+} ORDER BY ?name LIMIT 15
+#
+# Step 2 — Wikidata (https://query.wikidata.org/sparql), with the QIDs above:
+#
+#   PREFIX wd:  <http://www.wikidata.org/entity/>
+#   PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+#   SELECT ?item ?itemLabel ?dob ?partyLabel WHERE {
+#     VALUES ?item { wd:Q19868483 wd:Q24703078 wd:Q30234239 wd:Q126848013 }
+#     OPTIONAL { ?item wdt:P569 ?dob. }
+#     OPTIONAL { ?item wdt:P102 ?party. }
+#     SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+#   }
+#
+# The /kgx/shacl "FPKG -> Wikidata" preset does this join + a SHACL check
+# of the merged graph (sequence path owl:sameAs / schema:birthDate) for you.

@@ -1,24 +1,27 @@
-// SHACL checker glue for the UK Parliament SPARQL endpoint.
+// SHACL checker glue for SPARQL endpoints.
 //
 // The conceptual bit: SHACL validates an RDF *graph* (historically, the
-// structured data on one web page). Our data lives in a *database* — the
-// public DDP triple store behind api.parliament.uk/sparql. You don't hand a
-// whole store to a validator; you carve out the part you care about.
+// structured data on one web page). Our data lives in a *database* — a SPARQL
+// endpoint. You don't hand a whole store to a validator; you carve out the part
+// you care about.
 //
 // The bridge is SPARQL CONSTRUCT / DESCRIBE: the query selects a *subgraph*
-// ("the bit of the database to check") and the endpoint returns it as an RDF
-// document — exactly the input schemarama validates:
+// ("the bit to check") and the endpoint returns it as an RDF document — exactly
+// the input schemarama validates:
 //
 //     pick a bit  ->  SPARQL CONSTRUCT/DESCRIBE  ->  RDF subgraph  ->  SHACL
 //
-// In practice you sample (DESCRIBE one resource, or CONSTRUCT ... LIMIT n for a
-// class) or pipeline RDF that some other API already produced (validateRdf).
+// You sample (DESCRIBE one resource, or CONSTRUCT ... LIMIT n), pipeline RDF
+// another API produced (validateRdf), or *federate*: extract a base subgraph
+// from one endpoint, enrich it with a CONSTRUCT against another (e.g. Wikidata,
+// joined via the identity mappings we serve), merge, and validate the union
+// (fetchQuery + parse + validateStore).
 //
-// Turtle support: schemarama's string auto-parser (stringToQuads) only sniffs
-// JSON-LD / microdata / RDFa, and its exported parseNQuads is strict N-Quads
-// (rejects @prefix). SPARQL CONSTRUCT and most RDF APIs emit *Turtle*, so we
-// use a locally rebuilt bundle (browser/third_party, see scripts/build-
-// schemarama-bundle.sh) that additionally exports parseTurtle.
+// Turtle: schemarama's string auto-parser only sniffs JSON-LD / microdata /
+// RDFa, and its exported parseNQuads is strict N-Quads (rejects @prefix). SPARQL
+// CONSTRUCT/DESCRIBE and most RDF APIs emit Turtle, so we use a locally rebuilt
+// bundle (browser/third_party, see scripts/build-schemarama-bundle.sh) that also
+// exports parseTurtle.
 
 export const ENDPOINT = 'https://api.parliament.uk/sparql';
 
@@ -38,6 +41,18 @@ function schemarama() {
   return s;
 }
 
+// Run a query and return the response body as text in `format`.
+// (Note: browsers set User-Agent themselves; WDQS accepts browser requests.)
+export async function fetchQuery(endpoint, query, format = 'turtle') {
+  const f = FORMATS[format];
+  if (!f) throw new Error(`unknown RDF format: ${format}`);
+  const url = `${endpoint}?query=${encodeURIComponent(query)}`;
+  const r = await fetch(url, { headers: { Accept: f.accept } });
+  const body = await r.text();
+  if (!r.ok) throw new Error(`SPARQL ${r.status} from ${endpoint}: ${body.slice(0, 300)}`);
+  return body;
+}
+
 // Parse an RDF string (Turtle by default) into a schemarama/n3 Store.
 export async function parse(rdfText, format = 'turtle') {
   const f = FORMATS[format];
@@ -45,21 +60,8 @@ export async function parse(rdfText, format = 'turtle') {
   return await f.parse(schemarama(), rdfText);
 }
 
-// Run a CONSTRUCT/DESCRIBE and return the subgraph as text in `format`.
-// The endpoint sends Access-Control-Allow-Origin: *, so this works from any
-// static page with no proxy.
-export async function extract(constructQuery, { endpoint = ENDPOINT, format = 'turtle' } = {}) {
-  const url = `${endpoint}?query=${encodeURIComponent(constructQuery)}`;
-  const r = await fetch(url, { headers: { Accept: FORMATS[format].accept } });
-  const body = await r.text();
-  if (!r.ok) throw new Error(`SPARQL ${r.status}: ${body.slice(0, 300)}`);
-  return body;
-}
-
-// Validate RDF you already have (e.g. piped from another API) against SHACL
-// shapes (Turtle string). Returns { triples, conforms, failures }.
-export async function validateRdf(rdfText, shapesTurtle, { format = 'turtle', annotations = {} } = {}) {
-  const store = await parse(rdfText, format);
+// Validate an already-built Store against SHACL shapes (Turtle string).
+export async function validateStore(store, shapesTurtle, annotations = {}) {
   const validator = new (schemarama().ShaclValidator)(shapesTurtle, { annotations });
   const report = await validator.validate(store);
   return {
@@ -69,9 +71,41 @@ export async function validateRdf(rdfText, shapesTurtle, { format = 'turtle', an
   };
 }
 
-// Convenience: extract a subgraph from the endpoint, then validate it.
+// CONSTRUCT/DESCRIBE -> subgraph text. The endpoints we use send CORS, so this
+// works from any static page with no proxy.
+export async function extract(constructQuery, { endpoint = ENDPOINT, format = 'turtle' } = {}) {
+  return fetchQuery(endpoint, constructQuery, format);
+}
+
+// Validate RDF you already have (e.g. piped from another API).
+export async function validateRdf(rdfText, shapesTurtle, { format = 'turtle', annotations = {} } = {}) {
+  return validateStore(await parse(rdfText, format), shapesTurtle, annotations);
+}
+
+// Extract a subgraph from one endpoint, then validate it.
 export async function check(constructQuery, shapesTurtle, opts = {}) {
   const format = opts.format || 'turtle';
   const rdf = await extract(constructQuery, { endpoint: opts.endpoint || ENDPOINT, format });
   return validateRdf(rdf, shapesTurtle, { format, annotations: opts.annotations });
+}
+
+// Federated check: extract a base subgraph, enrich it from a second endpoint
+// (whose CONSTRUCT is built from entity ids found in the base graph), merge, and
+// validate the union. `enrich.entityRegex` pulls ids (e.g. Wikidata QIDs) out of
+// the base Turtle; `enrich.build(ids)` returns the enrichment CONSTRUCT.
+export async function checkFederated(baseQuery, shapesTurtle, opts = {}) {
+  const baseEndpoint = opts.endpoint || ENDPOINT;
+  const baseTtl = await fetchQuery(baseEndpoint, baseQuery, 'turtle');
+  const store = await parse(baseTtl, 'turtle');
+  let enrichedFrom = null;
+  if (opts.enrich) {
+    const ids = [...new Set([...baseTtl.matchAll(opts.enrich.entityRegex)].map(m => m[1] || m[0]))];
+    if (ids.length) {
+      const enrichTtl = await fetchQuery(opts.enrich.endpoint, opts.enrich.build(ids), 'turtle');
+      for (const q of (await parse(enrichTtl, 'turtle')).getQuads()) store.addQuad(q);
+      enrichedFrom = { endpoint: opts.enrich.endpoint, ids: ids.length };
+    }
+  }
+  const res = await validateStore(store, shapesTurtle, opts.annotations || {});
+  return { ...res, enrichedFrom };
 }

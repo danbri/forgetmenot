@@ -1,0 +1,29 @@
+# Endpoint: /kgx/query  (FPKG, bundled)
+# Verified: 2026-06-05 against fpkg.fly.dev
+#
+# JOIN: bundled identity mappings  ->  UK Parliament DDP, by person URI.
+#
+# The bundled identity graph links each member to their DDP person URI
+# (owl:sameAs <https://id.parliament.uk/{localId}>). Step 1 returns those URIs;
+# step 2 dereferences them against the public DDP SPARQL endpoint.
+#
+# Step 1 — FPKG (this query):
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX sc:  <http://schema.org/>
+SELECT ?name ?ddp WHERE {
+  ?m sc:name ?name ; owl:sameAs ?ddp .
+  FILTER(STRSTARTS(STR(?ddp), "https://id.parliament.uk/"))
+} ORDER BY ?name LIMIT 15
+#
+# Step 2 — UK Parliament DDP (https://api.parliament.uk/sparql), with those URIs:
+#
+#   PREFIX p: <https://id.parliament.uk/schema/>
+#   SELECT ?person ?given ?family WHERE {
+#     VALUES ?person { <https://id.parliament.uk/UjhH5qiw> <https://id.parliament.uk/ANZPwclO> }
+#     OPTIONAL { ?person p:personGivenName  ?given }
+#     OPTIONAL { ?person p:personFamilyName ?family }
+#   }
+#
+# Worth seeing: the DDP "given name" can differ from the common name in the
+# bundled store (e.g. DDP "Michael" vs "Alex" Burghart) — the URI bridge
+# reconciles records the strings alone would not.

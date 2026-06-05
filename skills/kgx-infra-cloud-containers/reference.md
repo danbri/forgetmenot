@@ -426,6 +426,36 @@ alternatively force callers to write `GRAPH ?g { ?s ?p ?o }`, but the
 union default is friendlier for a public endpoint.
 
 
+### Server-side SPARQL `SERVICE` federation aborts at the proxy's 30s cap
+
+**Seen 2026-06-05.** Tried a one-row federated query from the bundled
+endpoint — `… ?m v:wikidataQid ?qid . BIND(IRI(CONCAT("http://www.wikidata.org/entity/", ?qid)) AS ?wd) SERVICE <https://query.wikidata.org/sparql> { ?wd wdt:P569 ?dob }` — via `/kgx/query`. It returns:
+
+```json
+{"error":"upstream_failure","detail":"This operation was aborted"}
+```
+
+at almost exactly 30 s. The `server.mjs` proxy aborts upstream fetches
+with an `AbortController` after `30_000` ms (the same cap every proxied
+route uses), so a slow/variable WDQS round-trip inside a SERVICE clause
+blows the budget regardless of whether Oxigraph's federation works.
+
+**Fix / pattern:** don't federate server-side through the proxy. Do the
+join in **two steps, client-side** — exactly what the `/kgx/shacl`
+"FPKG → Wikidata" preset and `queries/10-fpkg-wikidata-join.rq` do:
+
+1. CONSTRUCT the base subgraph from FPKG (members + their `wikidataQid`
+   / `owl:sameAs`), fast and local.
+2. Build a Wikidata CONSTRUCT with `VALUES { wd:Q… }` from those QIDs,
+   keyed back to the **same** `https://www.wikidata.org/entity/…` URI the
+   bundled store uses (`BIND(IRI(REPLACE(STR(?wd),"http://www.wikidata.org","https://www.wikidata.org")) …)`), and merge in the browser.
+
+A SHACL sequence path (`owl:sameAs / schema:birthDate`) then validates
+the merged graph. If you ever *do* want server-side SERVICE, raise the
+per-route timeout in `server.mjs` for `/kgx/query` only — but two-step
+is more robust and doesn't hold a proxy socket open for 30 s.
+
+
 ### Oxigraph 0.5.8 `load` rejects malformed scraped URLs in `identity.nq`
 
 **Seen 2026-05-28.** identity-graph data was missing from fpkg.fly.dev
