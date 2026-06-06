@@ -41,7 +41,7 @@ import {
 } from '../demos/parliament-live/web/kgx/lib/sparql-validate.mjs';
 import { chainToTrig } from '../demos/parliament-live/web/kgx/lib/trig.mjs';
 import { LIBRARY }     from '../demos/parliament-live/web/kgx/lib/library.mjs';
-import { runChainSpec, UnsupportedOpError } from
+import { runChainSpec, UnsupportedOpError, resolveOpStep } from
   '../demos/parliament-live/web/kgx/lib/runner.mjs';
 import { STARTERS }      from '../demos/parliament-live/web/kgx/lib/starters.mjs';
 import { REL_TEMPLATES } from '../demos/parliament-live/web/kgx/lib/rel-templates.mjs';
@@ -435,7 +435,7 @@ function cmdChainExplain(flags) {
 
   let bundleType = '(none)';
   for (let i = 0; i < stepsToRun.length; i++) {
-    const step = stepsToRun[i];
+    const step = resolveOpStep(stepsToRun[i]);
     let line;
     if (step.kind === 'starter') {
       const s = STARTERS.find((x) => x.id === step.id);
@@ -485,10 +485,7 @@ function cmdChainExplain(flags) {
 function lastBundleType(stepsToRun) {
   let type = '(none)';
   for (let i = 0; i < stepsToRun.length; i++) {
-    let step = stepsToRun[i];
-    if (step.kind === 'op' && PIVOT_ALIASES_LITE[step.op]) {
-      step = { kind: 'op', op: 'rel-pivot', ...PIVOT_ALIASES_LITE[step.op] };
-    }
+    const step = resolveOpStep(stepsToRun[i]);
     if (step.kind === 'starter') {
       const s = STARTERS.find((x) => x.id === step.id);
       if (s) type = s.type;
@@ -500,10 +497,6 @@ function lastBundleType(stepsToRun) {
   }
   return type;
 }
-const PIVOT_ALIASES_LITE = {
-  'pivot-bp': { template: 'birthplaces', variant: 'default' },
-  'pivot-am': { template: 'alma_maters', variant: 'default' },
-};
 
 function cmdChainCandidates(flags) {
   let type = String(flags.type || '');
@@ -601,19 +594,11 @@ function cmdChainValidate(flags) {
     uri:  'https://id.parliament.uk/AbCdEf12',
   }];
 
-  // Legacy aliases the runner remaps before dispatching. Mirror that here
-  // so chains using the old chip names (pivot-bp / pivot-am) validate
-  // against the actual rel-template they end up running.
-  const PIVOT_ALIASES = {
-    'pivot-bp': { template: 'birthplaces', variant: 'default' },
-    'pivot-am': { template: 'alma_maters', variant: 'default' },
-  };
-
   for (let i = 0; i < stepsToRun.length; i++) {
-    let step = stepsToRun[i];
-    if (step.kind === 'op' && PIVOT_ALIASES[step.op]) {
-      step = { kind: 'op', op: 'rel-pivot', ...PIVOT_ALIASES[step.op] };
-    }
+    // Canonicalise legacy aliases (pivot-bp / pivot-am) exactly as the
+    // runner does, so chains using the old chip names validate against the
+    // actual rel-template they end up running. Shared via resolveOpStep.
+    const step = resolveOpStep(stepsToRun[i]);
     const where = `step ${i + 1}`;
     const checkSparql = (sparql, id) => {
       try { assertNoAliasCollisions(sparql, id); }

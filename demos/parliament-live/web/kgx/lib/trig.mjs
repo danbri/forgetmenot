@@ -26,6 +26,7 @@
 // =============================================================================
 
 import { normaliseChainSpec, activeChainSteps } from './branches.mjs';
+import { resolveOpStep } from './runner.mjs';
 
 const PREFIXES = [
   ['kgx',   'https://forgetmenot.local/vocab/kgx/'],
@@ -135,7 +136,10 @@ export function chainToTrig(spec, opts = {}) {
   lines.push('');
   let prev = null;
   for (let i = 0; i < stepsToRun.length; i++) {
-    lines.push(stepTriples(stepsToRun[i], i, prev));
+    // Canonicalise legacy aliases (pivot-bp / pivot-am → rel-pivot) so the
+    // manifest tags the bead a PivotBundle with its relTemplate — matching
+    // what the runner actually executes — rather than a bare FilterBundle.
+    lines.push(stepTriples(resolveOpStep(stepsToRun[i]), i, prev));
     prev = bundleId(i);
   }
   // If we have beads, emit prov:Activity records alongside the bundle defs.

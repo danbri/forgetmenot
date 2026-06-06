@@ -30,6 +30,7 @@ import { REL_TEMPLATES } from '../../demos/parliament-live/web/kgx/lib/rel-templ
 import { AUGMENT_OPS }   from '../../demos/parliament-live/web/kgx/lib/augment.mjs';
 import { opFilters }     from '../../demos/parliament-live/web/kgx/lib/restrict.mjs';
 import { chainToTrig }   from '../../demos/parliament-live/web/kgx/lib/trig.mjs';
+import { resolveOpStep } from '../../demos/parliament-live/web/kgx/lib/runner.mjs';
 import { normaliseChainSpec, activeChainSteps } from
   '../../demos/parliament-live/web/kgx/lib/branches.mjs';
 
@@ -44,14 +45,14 @@ function runKgx(args) {
   }
 }
 
-// Resolve every step against the registries. Same logic the validator
-// uses, plus pivot-alias mapping. Returns true iff every step is in
-// the lib.
-const PIVOT_ALIASES = { 'pivot-bp': 'birthplaces', 'pivot-am': 'alma_maters' };
-function stepInLib(step) {
+// Resolve every step against the registries. Uses the lib's own
+// resolveOpStep so legacy aliases (pivot-bp / pivot-am) are canonicalised
+// the same way the runner, explain and trig do — no second copy of the
+// alias table to drift. Returns true iff every step is in the lib.
+function stepInLib(rawStep) {
+  const step = resolveOpStep(rawStep);
   if (step.kind === 'starter') return STARTERS.some((s) => s.id === step.id);
   if (step.kind !== 'op') return false;
-  if (PIVOT_ALIASES[step.op]) return REL_TEMPLATES.some((t) => t.id === PIVOT_ALIASES[step.op]);
   if (step.op === 'rel-pivot') {
     const t = REL_TEMPLATES.find((x) => x.id === step.template);
     return !!t && t.variants.some((v) => v.id === step.variant);
@@ -104,6 +105,25 @@ for (const chain of LIBRARY) {
     for (let i = 1; i <= expectedLength; i++) {
       assert.match(e.stdout, new RegExp(`^${i}\\. `, 'm'),
         `${chain.id}: chain explain missing step ${i}`);
+    }
+    // The paper trail must never disown a step the runner would execute.
+    // A LIBRARY chain is, by construction, fully in-lib — so explain
+    // describing any step as UNKNOWN means a surface drifted (this is how
+    // the pivot-am alias regression slipped in: run resolved it, explain
+    // didn't).
+    assert.doesNotMatch(e.stdout, /UNKNOWN/,
+      `${chain.id}: chain explain disowned a step the runner would run:\n${e.stdout}`);
+
+    // Alias consistency: every legacy pivot alias (pivot-bp / pivot-am)
+    // in this chain must surface as a PIVOT in explain and a PivotBundle
+    // in trig — never a bare RESTRICT / FilterBundle.
+    const aliasSteps = stepsToRun.filter(
+      (s) => s.kind === 'op' && resolveOpStep(s).op === 'rel-pivot' && s.op !== 'rel-pivot');
+    if (aliasSteps.length) {
+      const pivotLines = (e.stdout.match(/^\d+\. PIVOT /mg) || []).length;
+      const declaredPivots = stepsToRun.filter((s) => resolveOpStep(s).op === 'rel-pivot').length;
+      assert.equal(pivotLines, declaredPivots,
+        `${chain.id}: explain shows ${pivotLines} PIVOT lines, expected ${declaredPivots}`);
     }
 
     // Surface 6: `kgx chain trig --id <id>` matches the lib's chainToTrig

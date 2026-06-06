@@ -72,6 +72,32 @@ export class UnsupportedOpError extends Error {
 
 const RESTRICT_OPS = new Set(Object.keys(opFilters));
 
+// Legacy op aliases that predate REL_TEMPLATES. The daisychain palette
+// surfaces these as one-tap chips (`→ birthplaces`, `→ alma maters`);
+// LIBRARY entries authored before the registry still carry the alias id.
+// Each is sugar for a specific rel-pivot template+variant.
+//
+// Exported so every surface that interprets a step — the runner (which
+// executes it), `chain explain` (which narrates the paper trail), and
+// chainToTrig (which serialises it as RDF) — resolves the alias the SAME
+// way. Without this, the paper trail diverges from what actually ran: the
+// runner pivots while explain prints "UNKNOWN op" and trig mislabels the
+// bead a FilterBundle. A paper trail that doesn't match the run is worse
+// than none.
+export const OP_ALIASES = {
+  'pivot-bp': { op: 'rel-pivot', template: 'birthplaces', variant: 'default' },
+  'pivot-am': { op: 'rel-pivot', template: 'alma_maters', variant: 'default' },
+};
+
+// Canonicalise one step: expand a known alias to its rel-pivot form,
+// otherwise return the step unchanged. Pure; safe to call on any step.
+export function resolveOpStep(step) {
+  if (step?.kind === 'op' && OP_ALIASES[step.op]) {
+    return { kind: 'op', ...OP_ALIASES[step.op] };
+  }
+  return step;
+}
+
 function describe(step) {
   if (step.kind === 'starter') return `starter:${step.id}`;
   if (step.kind === 'op')      return step.op + (step.value !== undefined ? `:${step.value}` : '');
@@ -106,18 +132,11 @@ export async function runChainSpec(spec, ctx) {
   const beads = [];
   let bundle = null;
 
-  // Legacy aliases that predate REL_TEMPLATES. Map at the top of the loop
-  // so the rest of the dispatcher only sees rel-pivot — preserves
-  // backward-compat with LIBRARY entries authored before the registry.
-  const PIVOT_ALIASES = {
-    'pivot-bp': { template: 'birthplaces', variant: 'default' },
-    'pivot-am': { template: 'alma_maters', variant: 'default' },
-  };
-
   for (let step of stepsToRun) {
-    if (step.kind === 'op' && PIVOT_ALIASES[step.op]) {
-      step = { kind: 'op', op: 'rel-pivot', ...PIVOT_ALIASES[step.op] };
-    }
+    // Canonicalise legacy aliases (pivot-bp / pivot-am → rel-pivot) so the
+    // rest of the dispatcher only sees rel-pivot. Shared with explain + trig
+    // via the exported resolveOpStep — see OP_ALIASES.
+    step = resolveOpStep(step);
     // ── starter ────────────────────────────────────────────────────────────
     if (step.kind === 'starter') {
       const s = STARTERS.find((x) => x.id === step.id);
