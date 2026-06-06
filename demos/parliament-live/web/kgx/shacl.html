@@ -381,10 +381,10 @@ p:WorkPackageBoolShape a sh:NodeShape ;
 </script>
 
 <script type="module">
-import { check, fetchQuery, parse, validateStore } from './js/shacl-check.js';
+import { check, checkFederated } from './js/shacl-check.js';
 
 const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s ?? '').replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const decode = (id) => { const t = document.createElement('textarea'); t.innerHTML = $(id).textContent.trim(); return t.value; };
 
 // Each preset: query block, shapes block, base endpoint, and (federated only)
@@ -489,19 +489,18 @@ $('run').onclick = async () => {
   $('result').innerHTML = '';
   try {
     if (CURRENT?.e) {
-      // Federated: extract base from FPKG, enrich from Wikidata via the QIDs found, merge, validate.
-      const baseTtl = await fetchQuery(e.url, $('query').value, 'turtle');
-      const store = await parse(baseTtl, 'turtle');
-      const qids = [...new Set([...baseTtl.matchAll(/wikidata\.org\/entity\/(Q\d+)/g)].map(m => m[1]))];
-      let extra = '';
-      if (qids.length) {
-        const wdUrl = epUrl(CURRENT.enrichEndpoint, 'https://query.wikidata.org/sparql');
-        const enrichQ = $('enrich').value.replace('{{ENTITIES}}', qids.map(q => 'wd:' + q).join(' '));
-        const enrichTtl = await fetchQuery(wdUrl, enrichQ, 'turtle');
-        for (const q of (await parse(enrichTtl, 'turtle')).getQuads()) store.addQuad(q);
-        extra = ` (FPKG joined to ${qids.length} Wikidata entities)`;
-      }
-      renderResult(await validateStore(store, $('shapes').value), e.label, extra);
+      // Federated: extract base from this endpoint, enrich from Wikidata via the
+      // QIDs found, merge, validate — all in the shared checkFederated().
+      const res = await checkFederated($('query').value, $('shapes').value, {
+        endpoint: e.url,
+        enrich: {
+          endpoint: epUrl(CURRENT.enrichEndpoint, 'https://query.wikidata.org/sparql'),
+          entityRegex: /wikidata\.org\/entity\/(Q\d+)/g,
+          build: (ids) => $('enrich').value.replace('{{ENTITIES}}', ids.map(q => 'wd:' + q).join(' ')),
+        },
+      });
+      const extra = res.enrichedFrom ? ` (joined to ${res.enrichedFrom.ids} Wikidata entities)` : '';
+      renderResult(res, e.label, extra);
     } else {
       renderResult(await check($('query').value, $('shapes').value, { endpoint: e.url }), e.label);
     }
