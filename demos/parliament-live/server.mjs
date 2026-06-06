@@ -66,9 +66,19 @@ const ROUTES = [
     upstreamPath: '/data/' },
 
   // /api/sparql?query=...  ->  https://api.parliament.uk/sparql?query=...
+  // Marked `public` like the sibling /api/query/ and /kgx/query: all three
+  // front openly-published parliamentary RDF (the DDP store) under OPL
+  // v3.0, and the upstream api.parliament.uk/sparql is itself CORS-open
+  // and unauthenticated (see CLAUDE.md rule 3 table). Gating our wrapper
+  // protected nothing the upstream doesn't already expose, while breaking
+  // the only page paths that use raw SPARQL — the `recent-sis` starter and
+  // the `parl-enrich` augment, both via the `parl-sparql` engine. Per-host
+  // rate limiting still applies. The caching + attribution + CORS that rule
+  // 3 wants from the proxy remain in force regardless of the auth flag.
   { prefix: '/api/sparql',
     upstreamHost: 'api.parliament.uk',
     upstreamPath: '/sparql',
+    public: true,
     exact: true },
 
   // /api/query/<template>?p=v...  ->  https://api.parliament.uk/query/<template>?p=v...

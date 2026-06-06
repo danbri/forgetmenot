@@ -76,10 +76,18 @@ describe('matchRoute', () => {
     const r = ROUTES.find(x => x.prefix === '/kgx/query');
     assert.equal(r?.local, 'oxigraph');
     assert.equal(r?.public, true);
-    // Sister route /api/sparql remains gated like the other /api/* routes
-    const r2 = ROUTES.find(x => x.prefix === '/api/sparql');
-    assert.ok(r2);
-    assert.notEqual(r2.public, true);
+  });
+
+  test('/api/sparql and /api/query/ are public (openly-published DDP RDF, OPL v3.0)', () => {
+    // All three RDF-fronting routes (/kgx/query, /api/sparql, /api/query/)
+    // serve openly-published parliamentary RDF and the upstream SPARQL
+    // endpoint is itself CORS-open + unauthenticated, so gating our wrapper
+    // protects nothing while breaking the recent-sis starter + parl-enrich
+    // augment. See the route comment in server.mjs.
+    const sparql = ROUTES.find(x => x.prefix === '/api/sparql');
+    const query  = ROUTES.find(x => x.prefix === '/api/query/');
+    assert.equal(sparql?.public, true);
+    assert.equal(query?.public, true);
   });
 
   test('legacy /sparql is no longer a registered route (handler redirects instead)', () => {
