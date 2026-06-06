@@ -33,7 +33,8 @@ beads.
 | `node-flow.mjs` | `Bundle`, `Bloom`, `valuesQids`, `parsePoint`, `httpsify`, `commonsThumb`, `escapeHTML` | pure data + helpers |
 | `engines.mjs` | `SparqlEngine` class, `ENGINES` registry, `engine(id)` resolver | runtime (fetch) |
 | `sparql-validate.mjs` | `assertNoAliasCollisions(query, label)` | pure |
-| `restrict.mjs` | `opFilters` (13 pure-client filters), `nameGender`, `countBy`, `sortByKey`, `topCounts`, `GENDER_NAMES_FEMALE/_MALE` | pure |
+| `restrict.mjs` | `opFilters` (18 pure-client filters), `nameGender`, `countBy`, `sortByKey`, `topCounts`, `GENDER_NAMES_FEMALE/_MALE` | pure |
+| `frontier.mjs` | `frontierOf(bundle)` → `{type,size,facets,presence,uniform}` — data-driven "what can I slice here" (backs `kgx chain frontier`) | pure |
 | `rel-templates.mjs` | `REL_TEMPLATES` (12 templates, 18 variants), `valuesMnisPersons` | pure data + pure build/parse |
 | `starters.mjs` | `STARTERS` (9 entries — 5 SPARQL + 4 PQ shape), per-starter parse functions, `POST1900_MPS_QUERY`, `SEED_LIMIT` | pure data + pure parse |
 | `augment.mjs` | `AUGMENT_OPS` (enrich / parl-enrich / identity-bridge) | pure data + pure query/parse |
@@ -41,7 +42,22 @@ beads.
 | `library.mjs` | `LIBRARY` (23 saved chains incl. a fork-demo) | pure data |
 | `branches.mjs` | `normaliseChainSpec(spec)`, `activeChainSteps(normalised)` | pure |
 | `trig.mjs` | `chainToTrig(spec)` → TriG manifest string | pure |
-| `runner.mjs` | `runChainSpec(spec, ctx)`, `UnsupportedOpError` | runtime (calls ctx.engine / ctx.pq) |
+| `runner.mjs` | `runChainSpec(spec, ctx)`, `UnsupportedOpError`, `OP_ALIASES`, `resolveOpStep(step)` | runtime (calls ctx.engine / ctx.pq) |
+
+**Op aliases:** legacy chip ids (`pivot-bp`, `pivot-am`) are sugar for
+rel-pivot templates. `resolveOpStep(step)` canonicalises them and is the
+single source every surface routes through — runner (execute), `chain
+explain` (narrate), `chainToTrig` (serialise), `chain validate` /
+`candidates` (introspect). Never hand-roll a fifth copy of the alias
+table; the paper trail must match the run.
+
+**CLI exploration loop:** `kgx chain explain` (preview, no fetch) →
+`candidates` (ops applicable to a bundle TYPE, blind) → `frontier` (RUN,
+then report which slices the fetched data actually supports + their facet
+counts — the frontier bead from the CLI) → `run` (JSONL beads, each with a
+`bindHash` content hash) → `trig` (RDF manifest with `prov:Activity`
+records). `frontier` is data-driven (reads the bundle, no per-op
+metadata) so it surfaces fields the page palette doesn't hard-code.
 
 The page (`daisychain/index.html`) adds: state management, custom-element
 UI, `loadStarter`, `runAugment`, `runRelPivot`, `applyRelation` (the

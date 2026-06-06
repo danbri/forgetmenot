@@ -46,6 +46,7 @@ import { runChainSpec, UnsupportedOpError, resolveOpStep } from
 import { STARTERS }      from '../demos/parliament-live/web/kgx/lib/starters.mjs';
 import { REL_TEMPLATES } from '../demos/parliament-live/web/kgx/lib/rel-templates.mjs';
 import { opFilters }     from '../demos/parliament-live/web/kgx/lib/restrict.mjs';
+import { frontierOf }    from '../demos/parliament-live/web/kgx/lib/frontier.mjs';
 import { AUGMENT_OPS }   from '../demos/parliament-live/web/kgx/lib/augment.mjs';
 import { normaliseChainSpec, activeChainSteps } from
   '../demos/parliament-live/web/kgx/lib/branches.mjs';
@@ -119,6 +120,11 @@ kgx — SPARQL web-protocol client + ops dispatcher
   kgx chain candidates --type <t>      list ops applicable to a bundle of type <t>
        [-f spec.json | --stdin]         …or derive the type from a partial chain spec
                                         (the chat-UI / LLM-agent loop)
+  kgx chain frontier --library <id>    RUN the chain, then report the live frontier:
+       [-f spec.json | --stdin]         which slices the fetched data supports and
+       [--json]                         into what buckets (party→Labour 199/…), which
+                                        presence filters bite, which pivots lead onward.
+                                        The CLI form of the daisychain frontier bead.
   kgx chain validate --library <id>    run every lib hygiene gate (§18.2.4.4 + prefix
        [-f chain.json]                  declarations + bundle-type contract + variant
                                         membership). Exit 0 = clean; 1 = issues found.
@@ -537,6 +543,83 @@ function cmdChainCandidates(flags) {
 }
 
 // -----------------------------------------------------------------------------
+// `kgx chain frontier` — run a chain, then report the LIVE frontier: which
+// slices the resulting data actually supports and into what buckets. This is
+// the CLI form of the daisychain frontier bead — the difference between
+// `candidates` (every op the registry knows for this TYPE, blind) and "here,
+// `party` splits into Labour 199 / Conservative 121, and `year` does nothing
+// because this isn't SI data". The thing that makes slicing from the CLI feel
+// like exploration rather than guessing the data shape in advance.
+//
+// Honest by construction: every facet / presence count comes from the bytes
+// just fetched (frontierOf reads the bundle, no per-op metadata), so it can't
+// claim a slice the data won't support. Pairs with `candidates` for pivots /
+// augments (which need a target bundle that doesn't exist yet) and with
+// `explain` (which previews without fetching).
+// -----------------------------------------------------------------------------
+async function cmdChainFrontier(flags) {
+  let spec;
+  if (flags.library) {
+    spec = LIBRARY.find((c) => c.id === String(flags.library));
+    if (!spec) die(`chain frontier: no LIBRARY entry with id "${flags.library}"`);
+  } else if (flags.stdin) {
+    spec = JSON.parse(readFileSync(0, 'utf8'));
+  } else if (flags.f) {
+    spec = JSON.parse(readFileSync(String(flags.f), 'utf8'));
+  } else {
+    die('chain frontier: pass `--library <id>`, `-f path/to/chain.json`, or `--stdin`');
+  }
+
+  let bundle;
+  try {
+    ({ bundle } = await runChainSpec(spec, { engine: libEngineResolver, pq: libPqHost }));
+  } catch (e) {
+    if (e instanceof UnsupportedOpError) die(e.message, 1);
+    throw e;
+  }
+
+  const front = frontierOf(bundle);
+
+  // Pivots / augments reachable from this bundle type — these extend the
+  // chain into NEW data, so they belong on the frontier too (candidates
+  // computes them; reuse that view).
+  const pivots = REL_TEMPLATES
+    .filter((t) => t.inputType === front.type || (t.inputType === 'wd_thing' && /Q\d+$/.test(front.type)))
+    .map((t) => ({ id: t.id, outputType: t.outputType, role: t.role || 'primary' }));
+
+  const out = { ...front, pivots };
+
+  if (flags.json) { process.stdout.write(JSON.stringify(out, null, 2) + '\n'); return; }
+
+  // Default: a human-legible frontier, the shape a person (or Claude)
+  // reads to decide the next hop.
+  const L = [];
+  L.push(`# frontier: ${front.size} ${front.type}${front.label ? ` — ${front.label}` : ''}`);
+  if (front.facets.length) {
+    L.push('\n## slice into buckets (restrict by a value):');
+    for (const f of front.facets) {
+      const head = `  ${f.field}${f.multi ? ' (multi)' : ''}` +
+        `${f.coversAll ? '' : ' [some lack it]'} — ${f.distinct} values`;
+      L.push(head);
+      L.push('    ' + f.values.map((v) => `${v.value} ${v.count}`).join(' · '));
+    }
+  }
+  if (front.presence.length) {
+    L.push('\n## keep only items that HAVE a field (presence filter):');
+    for (const p of front.presence) L.push(`  ${p.field} — ${p.present} have it, ${p.absent} don't`);
+  }
+  if (pivots.length) {
+    L.push('\n## pivot into related data (new fetch):');
+    for (const p of pivots) L.push(`  → ${p.id} : ${front.type} → ${p.outputType}`);
+  }
+  if (front.uniform.length) {
+    L.push('\n## uniform — every item shares this, not sliceable:');
+    for (const u of front.uniform) L.push(`  ${u.field} = ${u.value}`);
+  }
+  process.stdout.write(L.join('\n') + '\n');
+}
+
+// -----------------------------------------------------------------------------
 // `kgx chain validate` — run every lib hygiene gate on a chain spec without
 // executing. Useful for pre-flighting an LLM-composed chain before paying
 // network cost.
@@ -797,8 +880,9 @@ async function main(argv) {
     if (sub === 'trig')       return cmdChainTrig(args.flags);
     if (sub === 'explain')    return cmdChainExplain(args.flags);
     if (sub === 'candidates') return cmdChainCandidates(args.flags);
+    if (sub === 'frontier')   return cmdChainFrontier(args.flags);
     if (sub === 'validate')   return cmdChainValidate(args.flags);
-    die(`unknown 'chain' subcommand "${sub || ''}" — try 'run' | 'replay' | 'trig' | 'explain' | 'candidates' | 'validate'`);
+    die(`unknown 'chain' subcommand "${sub || ''}" — try 'run' | 'replay' | 'trig' | 'explain' | 'candidates' | 'frontier' | 'validate'`);
   }
   die(`unknown verb "${verb}" — try \`kgx --help\``);
 }
