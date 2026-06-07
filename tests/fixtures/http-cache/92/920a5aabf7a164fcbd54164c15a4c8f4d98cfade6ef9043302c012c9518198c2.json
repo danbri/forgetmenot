@@ -2,62 +2,62 @@
   "meta": {
     "method": "POST",
     "url": "https://api.parliament.uk/sparql",
-    "recordedAt": "2026-06-07T11:00:09.515Z"
+    "recordedAt": "2026-06-07T11:01:40.531Z"
   },
   "status": 200,
   "contentType": "application/sparql-results+json;charset=UTF-8",
   "shape": "sparql-results-json",
   "vars": [
-    "cg",
+    "lb",
     "label",
     "n"
   ],
-  "rows": 221,
-  "bindHash": "sha256:5fb2a564ebc0639af3b436df9ce65af2ff9d853d39edf90484aa952323c24bd6",
+  "rows": 22,
+  "bindHash": "sha256:86a8b6c8798a862b389f7f3c8f7f8831f26727c600a4f8beb052584e53d23ce5",
   "sample": [
     {
-      "cg": {
+      "lb": {
         "type": "uri",
-        "value": "https://id.parliament.uk/08kc1YxN"
+        "value": "https://id.parliament.uk/HYfypSOE"
       },
       "label": {
         "type": "literal",
-        "value": "Newcastle upon Tyne North"
+        "value": "HM Treasury"
       },
       "n": {
         "datatype": "http://www.w3.org/2001/XMLSchema#integer",
         "type": "literal",
-        "value": "1"
+        "value": "244"
       }
     },
     {
-      "cg": {
+      "lb": {
         "type": "uri",
-        "value": "https://id.parliament.uk/09z40E7e"
+        "value": "https://id.parliament.uk/NDZSYjeE"
       },
       "label": {
         "type": "literal",
-        "value": "Hackney South and Shoreditch"
+        "value": "Home Office"
       },
       "n": {
         "datatype": "http://www.w3.org/2001/XMLSchema#integer",
         "type": "literal",
-        "value": "1"
+        "value": "119"
       }
     },
     {
-      "cg": {
+      "lb": {
         "type": "uri",
-        "value": "https://id.parliament.uk/0OX0jIwd"
+        "value": "https://id.parliament.uk/BRTNQywN"
       },
       "label": {
         "type": "literal",
-        "value": "Birmingham, Edgbaston"
+        "value": "Ministry of Justice"
       },
       "n": {
         "datatype": "http://www.w3.org/2001/XMLSchema#integer",
         "type": "literal",
-        "value": "1"
+        "value": "114"
       }
     }
   ]

@@ -2,7 +2,7 @@
   "meta": {
     "method": "GET",
     "url": "https://qlever.dev/api/wikidata?query=%0APREFIX%20wd%3A%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fentity%2F%3E%0APREFIX%20wdt%3A%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2Fdirect%2F%3E%0APREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0ASELECT%20%3Fb%20(SAMPLE(%3Flbl)%20%20%20%20AS%20%3Flabel)%0A%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fimg)%20%20%20%20AS%20%3Fimage)%0A%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3FcoordL)%20AS%20%3Fcoord)%0A%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fyr)%20%20%20%20%20AS%20%3Fyear)%0AWHERE%20%7B%0A%20%20%7B%20%3Fb%20wdt%3AP31%20wd%3AQ11303%20%7D%20UNION%20%7B%20%3Fb%20wdt%3AP31%20wd%3AQ18142%20%7D%0A%20%20%3Fb%20wdt%3AP131*%20wd%3AQ8646%20.%0A%20%20OPTIONAL%20%7B%20%3Fb%20wdt%3AP18%20%20%3Fimg%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fb%20wdt%3AP625%20%3FcoordL%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fb%20wdt%3AP1619%20%3FyrLit%20.%20BIND(YEAR(%3FyrLit)%20AS%20%3Fyr)%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fb%20rdfs%3Alabel%20%3Flbl%20.%20FILTER(lang(%3Flbl)%3D%22en%22)%20%7D%0A%7D%20GROUP%20BY%20%3Fb",
-    "recordedAt": "2026-06-02T16:55:37.028Z"
+    "recordedAt": "2026-06-07T11:01:19.557Z"
   },
   "status": 200,
   "contentType": "application/sparql-results+json",

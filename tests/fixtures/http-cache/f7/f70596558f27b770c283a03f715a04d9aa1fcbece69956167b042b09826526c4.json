@@ -2,7 +2,7 @@
   "meta": {
     "method": "GET",
     "url": "https://api.parliament.uk/sparql?query=%0APREFIX%20schema%3A%20%3Chttps%3A%2F%2Fid.parliament.uk%2Fschema%2F%3E%0ASELECT%20%3Fsi%20(SAMPLE(%3Fname)%20%20%20AS%20%3Flabel)%0A%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fyr)%20%20%20%20%20AS%20%3Fyear)%0A%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fnum)%20%20%20%20AS%20%3Fnumber)%0A%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fmade)%20%20%20AS%20%3FmadeDate)%0A%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fcif)%20%20%20%20AS%20%3FcomingIntoForce)%0AWHERE%20%7B%0A%20%20%3Fsi%20a%20schema%3AStatutoryInstrumentPaper%20%3B%0A%20%20%20%20%20%20schema%3AstatutoryInstrumentPaperName%20%3Fname%20.%0A%20%20OPTIONAL%20%7B%20%3Fsi%20schema%3AstatutoryInstrumentPaperYear%20%20%20%20%20%3Fyr%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fsi%20schema%3AstatutoryInstrumentPaperNumber%20%20%20%3Fnum%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fsi%20schema%3AstatutoryInstrumentPaperMadeDate%20%3Fmade%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fsi%20schema%3AstatutoryInstrumentPaperComingIntoForceDate%20%3Fcif%20%7D%0A%7D%20GROUP%20BY%20%3Fsi%20ORDER%20BY%20DESC(%3FmadeDate)%20LIMIT%201500",
-    "recordedAt": "2026-06-02T16:55:44.314Z"
+    "recordedAt": "2026-06-07T11:01:40.274Z"
   },
   "status": 200,
   "contentType": "application/sparql-results+json;charset=UTF-8",
@@ -16,16 +16,16 @@
     "comingIntoForce"
   ],
   "rows": 1500,
-  "bindHash": "sha256:bf726418c2ea524fc324f61dbc4d53a25a8209792909496312fa9109178dfd8b",
+  "bindHash": "sha256:0af934d372a8b3384babba6b7dba37795af2cc1136cc30e5ee67b53251235b2c",
   "sample": [
     {
       "si": {
         "type": "uri",
-        "value": "https://id.parliament.uk/AdmvUa8L"
+        "value": "https://id.parliament.uk/cOIxUbZv"
       },
       "label": {
         "type": "literal",
-        "value": "Housing Health and Safety Rating System (England) (Amendment) Regulations 2026"
+        "value": "Successful Legacy Appeals Schemes (Income Tax Exemption)  Regulations 2026"
       },
       "year": {
         "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
@@ -35,57 +35,52 @@
       "number": {
         "datatype": "http://www.w3.org/2001/XMLSchema#integer",
         "type": "literal",
-        "value": "571"
+        "value": "584"
       },
       "madeDate": {
         "datatype": "http://www.w3.org/2001/XMLSchema#date",
         "type": "literal",
-        "value": "2026-06-01+01:00"
+        "value": "2026-06-03+01:00"
       },
       "comingIntoForce": {
         "datatype": "http://www.w3.org/2001/XMLSchema#date",
         "type": "literal",
-        "value": "2026-06-23+01:00"
+        "value": "2026-06-25+01:00"
       }
     },
     {
       "si": {
         "type": "uri",
-        "value": "https://id.parliament.uk/8fh2wWAd"
+        "value": "https://id.parliament.uk/aWjRKkny"
       },
       "label": {
         "type": "literal",
-        "value": "Customs (Tariff and Miscellaneous Amendments) (No. 4)  Regulations 2026"
+        "value": "Greater Cambridge Development Corporation (Establishment) Order 2026"
       },
       "year": {
         "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
         "type": "literal",
         "value": "2026"
       },
-      "number": {
-        "datatype": "http://www.w3.org/2001/XMLSchema#integer",
-        "type": "literal",
-        "value": "572"
-      },
       "madeDate": {
         "datatype": "http://www.w3.org/2001/XMLSchema#date",
         "type": "literal",
-        "value": "2026-06-01+01:00"
+        "value": "2026-06-03+01:00"
       },
       "comingIntoForce": {
         "datatype": "http://www.w3.org/2001/XMLSchema#date",
         "type": "literal",
-        "value": "2026-07-01+01:00"
+        "value": "2026-07-23+01:00"
       }
     },
     {
       "si": {
         "type": "uri",
-        "value": "https://id.parliament.uk/rlOttgUV"
+        "value": "https://id.parliament.uk/dk9FHek1"
       },
       "label": {
         "type": "literal",
-        "value": "Anti-avoidance Information Notices (Resolution of Disputes as to Privilege) Regulations 2026"
+        "value": "Education (Student Support for Postgraduate Provision) (Amendment) Regulations 2026"
       },
       "year": {
         "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
@@ -95,17 +90,17 @@
       "number": {
         "datatype": "http://www.w3.org/2001/XMLSchema#integer",
         "type": "literal",
-        "value": "560"
+        "value": "581"
       },
       "madeDate": {
         "datatype": "http://www.w3.org/2001/XMLSchema#date",
         "type": "literal",
-        "value": "2026-05-27+01:00"
+        "value": "2026-06-02+01:00"
       },
       "comingIntoForce": {
         "datatype": "http://www.w3.org/2001/XMLSchema#date",
         "type": "literal",
-        "value": "2026-06-19+01:00"
+        "value": "2026-06-25+01:00"
       }
     }
   ]
