@@ -12,7 +12,7 @@ import assert from 'node:assert/strict';
 import { Bundle } from
   '../../demos/parliament-live/web/kgx/lib/node-flow.mjs';
 import {
-  opFilters, nameGender,
+  opFilters, OP_FIELDS, opsRelevantTo, nameGender,
   GENDER_NAMES_FEMALE, GENDER_NAMES_MALE,
   countBy, sortByKey, topCounts,
 } from '../../demos/parliament-live/web/kgx/lib/restrict.mjs';
@@ -251,4 +251,59 @@ test('topCounts caps at 30 entries', () => {
   const strs = [];
   for (let i = 0; i < 60; i++) strs.push('v' + i);   // 60 distinct values
   assert.equal(topCounts(strs).length, 30);
+});
+
+// ---------------------------------------------------------------------------
+// OP_FIELDS + opsRelevantTo — the data-shape relevance map used by
+// `kgx chain candidates` so the LLM/chat-UI loop sees a typed subset rather
+// than the full registry.
+// ---------------------------------------------------------------------------
+
+test('OP_FIELDS has an entry for every opFilters key (no silent omission)', () => {
+  for (const id of Object.keys(opFilters)) {
+    assert.ok(OP_FIELDS[id], `op "${id}" missing from OP_FIELDS`);
+    assert.ok(typeof OP_FIELDS[id].field === 'string', `op "${id}" missing field name`);
+    assert.ok(Array.isArray(OP_FIELDS[id].types) && OP_FIELDS[id].types.length > 0,
+      `op "${id}" must declare at least one applicable bundle type`);
+  }
+});
+
+test('opsRelevantTo("human") returns the human-bundle palette only', () => {
+  const ops = opsRelevantTo('human');
+  // Must include the human-only ops.
+  for (const id of ['party', 'decade', 'sitting', 'bridged', 'gender', 'citizenship']) {
+    assert.ok(ops.includes(id), `${id} should be relevant to human`);
+  }
+  // Must EXCLUDE SI-only and constituency-only ops — that was the bug.
+  for (const id of ['year', 'has-cif', 'has-origin', 'by-mp-party', 'in-commons']) {
+    assert.ok(!ops.includes(id), `${id} should NOT be relevant to human`);
+  }
+});
+
+test('opsRelevantTo("si") returns year + has-cif + decade only', () => {
+  assert.deepEqual(opsRelevantTo('si').sort(), ['decade', 'has-cif', 'year']);
+});
+
+test('opsRelevantTo("party") returns the party-bundle palette only', () => {
+  assert.deepEqual(opsRelevantTo('party').sort(), ['in-commons', 'in-lords', 'top-by-size']);
+});
+
+test('opsRelevantTo on an unknown type yields an empty list (no spurious ops)', () => {
+  assert.deepEqual(opsRelevantTo('unknown'), []);
+});
+
+test('every OP_FIELDS type is one the daisychain actually produces', () => {
+  // Allowlist mirrors the page's per-type OPS palette plus the generic
+  // Wikidata bundle types pivots emit. If a typo sneaks in here ('humn'
+  // instead of 'human'), the LLM would silently get an empty palette for
+  // that op — catch it now.
+  const KNOWN = new Set([
+    'human', 'constituency', 'party', 'appg', 'formal_body', 'concept', 'si',
+    'wd_thing', 'wd_class', 'building', 'place', 'org',
+  ]);
+  for (const [id, { types }] of Object.entries(OP_FIELDS)) {
+    for (const t of types) {
+      assert.ok(KNOWN.has(t), `op "${id}" declares unknown bundle type "${t}"`);
+    }
+  }
 });

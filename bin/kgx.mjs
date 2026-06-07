@@ -45,7 +45,7 @@ import { runChainSpec, UnsupportedOpError, resolveOpStep } from
   '../demos/parliament-live/web/kgx/lib/runner.mjs';
 import { STARTERS }      from '../demos/parliament-live/web/kgx/lib/starters.mjs';
 import { REL_TEMPLATES } from '../demos/parliament-live/web/kgx/lib/rel-templates.mjs';
-import { opFilters }     from '../demos/parliament-live/web/kgx/lib/restrict.mjs';
+import { opFilters, OP_FIELDS, opsRelevantTo } from '../demos/parliament-live/web/kgx/lib/restrict.mjs';
 import { frontierOf }    from '../demos/parliament-live/web/kgx/lib/frontier.mjs';
 import { AUGMENT_OPS }   from '../demos/parliament-live/web/kgx/lib/augment.mjs';
 import { normaliseChainSpec, activeChainSteps } from
@@ -119,7 +119,9 @@ kgx — SPARQL web-protocol client + ops dispatcher
        [-f chain.json]                 same, from a LIBRARY-shape JSON file
   kgx chain candidates --type <t>      list ops applicable to a bundle of type <t>
        [-f spec.json | --stdin]         …or derive the type from a partial chain spec
-                                        (the chat-UI / LLM-agent loop)
+       [--all]                          (the chat-UI / LLM-agent loop). Restrict ops
+                                        are filtered by data-shape relevance by
+                                        default — pass --all for the blind registry.
   kgx chain frontier --library <id>    RUN the chain, then report the live frontier:
        [-f spec.json | --stdin]         which slices the fetched data supports and
        [--json]                         into what buckets (party→Labour 199/…), which
@@ -523,14 +525,24 @@ function cmdChainCandidates(flags) {
     die('chain candidates: pass `--type <bundle-type>` ' +
         'or `-f path/to/chain.json` / `--stdin` to derive the type from a partial chain');
   }
-  const restrict = Object.keys(opFilters);
+  // Restrict ops: default to type-relevant subset (so an LLM-driven chain
+  // sees `party / decade / sitting / …` on a human bundle, not the full
+  // 18 including SI-only `year`/`has-cif`). `--all` opts back to the blind
+  // registry dump if a caller needs it.
+  const restrict = flags.all ? Object.keys(opFilters) : opsRelevantTo(type);
   const pivots = REL_TEMPLATES.filter((t) =>
     t.inputType === type || (t.inputType === 'wd_thing' && /Q\d+$/.test(type)));
+  // Augment ops: keep an `applicableTo` field on each so the LLM can tell
+  // why an op might miss (e.g. parl-enrich wants a Wikidata-shape human
+  // with mpid). Today these gates live inline in the page's `relevant(b)`
+  // closures; surfacing them on the candidates view is left as an explicit
+  // follow-up — for now we report kind+role like before.
   const augments = Object.values(AUGMENT_OPS);
   const out = {
     upstreamType: type,
     upstreamStep: lastStep,
     restrict,
+    restrictFiltered: !flags.all,
     relTemplates: pivots.map((t) => ({
       id: t.id, outputType: t.outputType, role: t.role || 'primary',
       variants: t.variants.map((v) => `${v.kind}:${v.id}`),

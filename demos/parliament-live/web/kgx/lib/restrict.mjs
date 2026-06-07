@@ -119,6 +119,57 @@ export const opFilters = {
     b.type, `${b.label} · CIF known`),
 };
 
+// -----------------------------------------------------------------------------
+// `OP_FIELDS` — for each opFilters entry, the single item field the filter
+// reads from, plus the bundle types where that field is plausible. Used by
+// `kgx chain candidates` to filter the registry to ops with a chance of
+// firing on the upstream bundle type, instead of dumping all 18 every time.
+//
+// `types` follows the daisychain's per-type OPS palette:
+//   - 'human'         starters: uk-mps-1900, parl-current-mps, us-presidents
+//   - 'constituency'  pq-constituency-current; rel-pivot current_constituency
+//   - 'party'         pq-party-index
+//   - 'appg'          rel-pivot appg_officer
+//   - 'formal_body'   pq-formal-body-index
+//   - 'concept'       pq-concept-index
+//   - 'si'            recent-sis
+//   - 'wd_thing' / 'building' / 'place' / 'org' — generic Wikidata shapes
+//     produced by pivots; the data-shape filters (has-coord, has-img,
+//     country) apply broadly.
+//
+// `null` types means "any bundle whose items might carry this field" —
+// kept conservative: the type list reflects what the page OPS palette
+// actually surfaces today, NOT every theoretically-possible type.
+// -----------------------------------------------------------------------------
+export const OP_FIELDS = {
+  party:       { field: 'parties',         types: ['human'] },
+  decade:      { field: 'decade',          types: ['human', 'si'] },
+  sitting:     { field: 'sitting',         types: ['human'] },
+  bridged:     { field: 'mpid',            types: ['human'] },
+  gender:      { field: 'gender',          types: ['human'] },
+  citizenship: { field: 'citizenships',    types: ['human'] },
+  'has-origin':            { field: 'originCount',    types: ['constituency'] },
+  'by-mp-party':           { field: 'currentMpParty', types: ['constituency'] },
+  'in-commons':            { field: 'commonsCount',   types: ['party'] },
+  'in-lords':              { field: 'lordsCount',     types: ['party'] },
+  'top-by-size':           { field: 'originCount',    types: ['party', 'wd_class'] },
+  'top-by-officer-count':  { field: 'originCount',    types: ['appg'] },
+  'name-contains': { field: 'label', types: ['formal_body', 'concept'] },
+  'has-coord':     { field: 'coords',  types: ['wd_thing', 'building', 'place', 'org'] },
+  'has-img':       { field: 'image',   types: ['wd_thing', 'building'] },
+  country:         { field: 'country', types: ['wd_thing', 'building', 'place', 'org'] },
+  year:            { field: 'year',            types: ['si'] },
+  'has-cif':       { field: 'comingIntoForce', types: ['si'] },
+};
+
+// Returns the subset of opFilters keys that are plausibly relevant for
+// a bundle of `type`. Used by `kgx chain candidates` so the LLM/chat-UI
+// loop sees `party / decade / sitting / …` on a human bundle and
+// `year / has-cif / decade` on an SI bundle — not the full 18 every time.
+export function opsRelevantTo(type) {
+  return Object.keys(OP_FIELDS).filter((id) => OP_FIELDS[id].types.includes(type));
+}
+
 // ---------------------------------------------------------------------------
 // First-name → gender heuristic dictionary.
 // Used as a FALLBACK when an item has no explicit `gender` (Wikidata P21).
