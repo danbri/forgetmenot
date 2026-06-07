@@ -94,6 +94,15 @@ describe('matchRoute', () => {
     const r = ROUTES.find(x => x.prefix === '/sparql');
     assert.equal(r, undefined);
   });
+
+  test('/api/osm-tile/ is registered, public, and points at OSMF tile server', () => {
+    const r = ROUTES.find(x => x.prefix === '/api/osm-tile/');
+    assert.ok(r, 'expected /api/osm-tile/ route');
+    assert.equal(r.upstreamHost, 'tile.openstreetmap.org');
+    assert.equal(r.public, true,
+      'OSM tile route is public: no Parliament-data sensitivity, ' +
+      'just raster bytes; gating would break the daisychain basemap for unauthed visitors.');
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -167,6 +176,17 @@ describe('buildUpstreamUrl', () => {
     const r = ROUTES.find(x => x.prefix === '/api/members/');
     const url = buildUpstreamUrl(r, 'Members/Search', '?Name=Cooper');
     assert.equal(url, 'https://members-api.parliament.uk/api/Members/Search?Name=Cooper');
+  });
+
+  test('osm-tile route: TTL is 7 days (effectively immutable raster bytes)', () => {
+    const r = ROUTES.find(x => x.prefix === '/api/osm-tile/');
+    assert.equal(ttlMsFor(r, '12/2048/1361.png'), 7 * 86_400_000);
+  });
+
+  test('osm-tile route: builds upstream URL with the tile path appended', () => {
+    const r = ROUTES.find(x => x.prefix === '/api/osm-tile/');
+    const url = buildUpstreamUrl(r, '12/2048/1361.png', '');
+    assert.equal(url, 'https://tile.openstreetmap.org/12/2048/1361.png');
   });
 
   test('exact route (sparql): ignores tail, keeps search', () => {

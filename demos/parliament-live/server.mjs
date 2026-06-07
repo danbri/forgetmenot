@@ -105,6 +105,33 @@ const ROUTES = [
     local: 'oxigraph',
     public: true,
     exact: true },
+
+  // /api/osm-tile/<z>/<x>/<y>.png  ->  https://tile.openstreetmap.org/<z>/<x>/<y>.png
+  //
+  // OSM Foundation public tile server, backing the daisychain map view's
+  // basemap (the SVG points overlay sits on top of these). Per the OSMF
+  // tile usage policy:
+  //   - Identify as a real client via a meaningful User-Agent
+  //     (we send "FPKG-prototype/1.0 (+https://fpkg.fly.dev)")
+  //   - Don't hot-link at high volume — our cache + the global per-host
+  //     rate limit (perHostMinGapMs) keep us well below the policy's bar.
+  //   - Display attribution: "© OpenStreetMap contributors" with a link
+  //     to https://www.openstreetmap.org/copyright — surfaced on every
+  //     page that uses the basemap. The OSMF basemap is ODbL-licensed,
+  //     separate from the OPL attribution required for Parliament data.
+  //
+  // CORS `*` upstream — we proxy anyway for the same reasons we proxy
+  // already-CORS-open routes (rule 3): caching, TTL, per-host throttle,
+  // single point of attribution control. Marked `public` because there's
+  // no Parliament-data sensitivity here — just OSM raster bytes.
+  //
+  // TTL: tiles are effectively immutable at a given (z,x,y) for our
+  // purposes (OSMF advertises max-age ~6d; the underlying data changes
+  // slowly), so 7d. ttlMsFor() handles this prefix specifically.
+  { prefix: '/api/osm-tile/',
+    upstreamHost: 'tile.openstreetmap.org',
+    upstreamPath: '/',
+    public: true },
 ];
 
 export function matchRoute(reqPath) {
@@ -171,6 +198,13 @@ export function ttlMsFor(route, tail) {
     // because cache lives in-process.
     return 600_000;
   }
+  if (route.prefix === '/api/osm-tile/') {
+    // OSMF tile.openstreetmap.org sends max-age ~6d for raster tiles.
+    // The underlying data changes slowly and at a given (z,x,y) the
+    // visual impact is small. 7 days keeps us well under the upstream
+    // bound and inside the OSMF policy's "be nice" expectation.
+    return 7 * 86_400_000;
+  }
   return 30_000;
 }
 
@@ -226,7 +260,13 @@ async function fetchUpstream(url, acceptHeader) {
   const ac = new AbortController();
   const t  = setTimeout(() => ac.abort(), 30_000);
   try {
-    const headers = {};
+    const headers = {
+      // Some upstreams reject generic UAs (OSMF tile policy explicitly
+      // forbids them); carry a real one identifying the proxy + a contact
+      // link. Same UA is sent to every upstream — Parliament APIs don't
+      // mind, OSM requires it.
+      'user-agent': 'FPKG-prototype/1.0 (+https://fpkg.fly.dev)',
+    };
     if (acceptHeader) headers['accept'] = acceptHeader;
     const res = await fetch(url, { signal: ac.signal, redirect: 'follow', headers });
     const buf = Buffer.from(await res.arrayBuffer());

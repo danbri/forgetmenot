@@ -1849,21 +1849,31 @@ class DaisyApp extends HTMLElement {
           background: color-mix(in oklab, var(--accent) 5%, transparent);
         }
 
-        /* map view: equirectangular projection over auto-fit bbox */
+        /* map view: OSM raster tiles (Web Mercator) + SVG overlay for points */
         .map-wrap { background: var(--surface); border: 1px solid var(--rule-soft);
                     border-radius: 12px; padding: 8px; }
         .map-head { display: flex; gap: 8px; align-items: baseline;
                     padding: 4px 8px 8px; font-size: 12px; color: var(--ink-mute); }
         .map-head .n { color: var(--ink); font-weight: 700; }
-        .map-svg { width: 100%; height: 460px; display: block;
-                   background: linear-gradient(180deg,
-                     color-mix(in oklab, var(--accent) 6%, var(--surface)) 0%,
-                     color-mix(in oklab, var(--accent) 3%, var(--surface)) 100%);
-                   border-radius: 8px; }
-        .map-svg circle { fill: var(--accent); fill-opacity: 0.7;
+        .map-frame { position: relative; width: 100%; height: 460px;
+                     border-radius: 8px; overflow: hidden;
+                     background: color-mix(in oklab, var(--accent) 3%, var(--surface)); }
+        .map-tiles, .map-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .map-tiles img { position: absolute; width: 256px; height: 256px;
+                         /* hide broken tiles (e.g. 404 past zoom) silently */
+                         outline: none; }
+        .map-svg { pointer-events: none; }
+        .map-svg circle { pointer-events: auto;
+                          fill: var(--accent); fill-opacity: 0.7;
                           stroke: var(--surface); stroke-width: 1; cursor: pointer; }
         .map-svg circle:hover { fill: var(--good); fill-opacity: 0.95; }
         .map-svg .label { font: 11px ui-monospace, Menlo, monospace; fill: var(--ink); }
+        .map-attrib { position: absolute; right: 6px; bottom: 4px;
+                      font-size: 11px; color: var(--ink-soft);
+                      background: color-mix(in oklab, var(--surface) 80%, transparent);
+                      padding: 2px 6px; border-radius: 4px;
+                      backdrop-filter: blur(2px); }
+        .map-attrib a { color: var(--ink-soft); }
 
         /* tiles view: full grid of the frontier bead */
         .tiles-head { font-size: 13px; color: var(--ink-soft);
@@ -2414,21 +2424,72 @@ class DaisyApp extends HTMLElement {
     }
     // Inject the fallback note before the map header (added below).
     wrap.dataset.fallbackNote = fallbackNote;
-    // Auto-fit bbox with padding.
+
+    // Web Mercator projection — the convention every slippy tile server
+    // uses. Tile (z,x,y) covers lonLeft=x/2^z·360-180 to lonRight=(x+1)/…,
+    // and a corresponding latitude band derived from the inverse Mercator.
+    // Same math as Leaflet / MapLibre, ~30 lines instead of a 40 KB dep.
+    const TILE = 256;
+    const W = 1200, H = 460;       // viewport in CSS px; SVG viewBox scales
+    const lonToX = (lon, z) => ((lon + 180) / 360) * (1 << z);
+    const latToY = (lat, z) => {
+      const r = lat * Math.PI / 180;
+      return ((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2) * (1 << z);
+    };
+
+    // Auto-fit bbox with padding, then pick the deepest zoom level that
+    // still fits all points inside the viewport. Floor at 1 (full world),
+    // cap at 14 (street-ish; OSM tile policy discourages aggressive zoom
+    // pre-fetching).
     let minLat = +Infinity, maxLat = -Infinity, minLon = +Infinity, maxLon = -Infinity;
     for (const p of points) {
       if (p.lat < minLat) minLat = p.lat; if (p.lat > maxLat) maxLat = p.lat;
       if (p.lon < minLon) minLon = p.lon; if (p.lon > maxLon) maxLon = p.lon;
     }
-    const padLat = Math.max(0.5, (maxLat - minLat) * 0.08);
-    const padLon = Math.max(0.5, (maxLon - minLon) * 0.08);
-    minLat -= padLat; maxLat += padLat;
-    minLon -= padLon; maxLon += padLon;
-    const W = 1200, H = 600;
+    const padFrac = 0.12;
+    const padLat = Math.max(0.5, (maxLat - minLat) * padFrac);
+    const padLon = Math.max(0.5, (maxLon - minLon) * padFrac);
+    minLat = Math.max(-85.0, minLat - padLat); maxLat = Math.min(85.0, maxLat + padLat);
+    minLon = Math.max(-180,  minLon - padLon); maxLon = Math.min(180,  maxLon + padLon);
+
+    let zoom = 1;
+    for (let z = 14; z >= 1; z--) {
+      const wPx = (lonToX(maxLon, z) - lonToX(minLon, z)) * TILE;
+      const hPx = (latToY(minLat, z) - latToY(maxLat, z)) * TILE;
+      if (wPx <= W && hPx <= H) { zoom = z; break; }
+    }
+
+    // Centre of the bbox, in tile-space at the chosen zoom.
+    const cxTile = (lonToX(minLon, zoom) + lonToX(maxLon, zoom)) / 2;
+    const cyTile = (latToY(minLat, zoom) + latToY(maxLat, zoom)) / 2;
+    // Top-left pixel offset of the viewport, relative to the world.
+    const originPx = { x: cxTile * TILE - W / 2, y: cyTile * TILE - H / 2 };
+
+    // Convert lat/lon to viewport pixel.
     const proj = (lat, lon) => ({
-      x: ((lon - minLon) / (maxLon - minLon)) * W,
-      y: ((maxLat - lat) / (maxLat - minLat)) * H,
+      x: lonToX(lon, zoom) * TILE - originPx.x,
+      y: latToY(lat, zoom) * TILE - originPx.y,
     });
+
+    // Which tiles intersect the viewport? Clamp y to valid range; wrap x.
+    const tileMin = { x: Math.floor(originPx.x / TILE), y: Math.floor(originPx.y / TILE) };
+    const tileMax = {
+      x: Math.floor((originPx.x + W - 1) / TILE),
+      y: Math.floor((originPx.y + H - 1) / TILE),
+    };
+    const tiles = [];
+    const Z = 1 << zoom;
+    for (let ty = Math.max(0, tileMin.y); ty <= Math.min(Z - 1, tileMax.y); ty++) {
+      for (let tx = tileMin.x; tx <= tileMax.x; tx++) {
+        const wrappedX = ((tx % Z) + Z) % Z;
+        tiles.push({
+          src: `/api/osm-tile/${zoom}/${wrappedX}/${ty}.png`,
+          left: tx * TILE - originPx.x,
+          top:  ty * TILE - originPx.y,
+        });
+      }
+    }
+
     const maxWt = points.reduce((m, p) => Math.max(m, p.weight), 1);
     const radius = (w) => 3 + Math.sqrt(w / maxWt) * 14;
     // Cluster identical (lat,lon) so coincident pins stack visibly.
@@ -2440,19 +2501,30 @@ class DaisyApp extends HTMLElement {
     }
     const dots = [...byKey.values()].sort((a, b) => b.weight - a.weight).map((p) => {
       const { x, y } = proj(p.lat, p.lon);
+      // Skip dots projected outside the viewport (rare; can happen near
+      // poles after clamping). Keeps the overlay clean.
+      if (x < -20 || x > W + 20 || y < -20 || y > H + 20) return '';
       const r = radius(p.weight);
       const title = `${p.members.length === 1 ? p.label : `${p.label} (+${p.members.length - 1} co-located)`} — ${p.weight}`;
       return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}"><title>${escapeHTML(title)}</title></circle>`;
     }).join('');
+
+    const tileImgs = tiles.map((t) =>
+      `<img src="${t.src}" style="left:${t.left}px;top:${t.top}px" loading="lazy" decoding="async" alt="">`).join('');
+
     wrap.innerHTML = `
       ${wrap.dataset.fallbackNote || ''}
       <div class="map-head">
         <span class="n">${points.length.toLocaleString()}</span>
-        <span>points · bbox ${minLat.toFixed(1)}…${maxLat.toFixed(1)} N, ${minLon.toFixed(1)}…${maxLon.toFixed(1)} E</span>
+        <span>points · bbox ${minLat.toFixed(1)}…${maxLat.toFixed(1)} N, ${minLon.toFixed(1)}…${maxLon.toFixed(1)} E · zoom ${zoom}</span>
       </div>
-      <svg class="map-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
-        ${dots}
-      </svg>
+      <div class="map-frame">
+        <div class="map-tiles">${tileImgs}</div>
+        <svg class="map-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+          ${dots}
+        </svg>
+        <div class="map-attrib">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</div>
+      </div>
     `;
     root.appendChild(wrap);
   }
