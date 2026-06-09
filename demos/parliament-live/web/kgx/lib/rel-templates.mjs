@@ -539,6 +539,72 @@ export const REL_TEMPLATES = [
       },
     ],
   },
+  // -- DDP cross-source bridge: an external legislation.gov.uk URL → the
+  // Parliament WorkPackagedThing that wraps it. Inverse of the
+  // `:workPackagedThingHasWorkPackagedThingWebLink` edge, probed against
+  // the public DDP endpoint 2026-06-09: a single leg.gov.uk URL resolves
+  // to one StatutoryInstrumentPaper with the full DDP id triple set
+  // (a Resource, NamedThing, WebLinkedThing, WorkPackagedThing, LaidThing,
+  // EnabledThing, StatutoryInstrumentPaper). Output type 'si' so the
+  // SI-bundle ops (year / has-cif / decade) all bite downstream.
+  {
+    id: 'parl-wraps',
+    label: 'Parliament wrapper',
+    gloss: 'inverse webLink — given a leaf URL (legislation.gov.uk, etc.) find the DDP WorkPackagedThing that wraps it',
+    inputType: 'wd_thing', outputType: 'si',
+    engineId: 'parl-sparql',
+    role: 'crossCheck',
+    // Fire only on bundles whose items carry an external URL DDP knows
+    // about. legislation.gov.uk dominates today; other leg-site hosts can
+    // join this regex when they're probed and confirmed.
+    requires: (b) => b.items.some((x) =>
+      /^https?:\/\/(www\.)?legislation\.gov\.uk\//.test(String(x.uri || ''))),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: 'inverse webLink',
+        gloss: 'StatutoryInstrumentPaper that has webLink == the external URL',
+        namedGraphs: [],
+        build: (items) => {
+          // Filter to items with a legislation.gov.uk URI (the relevance
+          // gate above is permissive; build() only emits the ones that
+          // actually carry one).
+          const urls = items
+            .map((x) => String(x.uri || ''))
+            .filter((u) => /^https?:\/\/(www\.)?legislation\.gov\.uk\//.test(u))
+            .map((u) => `<${u}>`).join(' ');
+          return `
+            PREFIX schema: <https://id.parliament.uk/schema/>
+            SELECT ?si (SAMPLE(?name)   AS ?label)
+                       (SAMPLE(?yr)     AS ?year)
+                       (SAMPLE(?num)    AS ?number)
+                       (SAMPLE(?made)   AS ?madeDate)
+                       (SAMPLE(?cif)    AS ?comingIntoForce)
+                       (SAMPLE(?leaf)   AS ?webLink)
+            WHERE {
+              VALUES ?leaf { ${urls} }
+              ?si a schema:WorkPackagedThing ;
+                  schema:workPackagedThingHasWorkPackagedThingWebLink ?leaf .
+              OPTIONAL { ?si schema:statutoryInstrumentPaperName            ?name }
+              OPTIONAL { ?si schema:statutoryInstrumentPaperYear            ?yr }
+              OPTIONAL { ?si schema:statutoryInstrumentPaperNumber          ?num }
+              OPTIONAL { ?si schema:statutoryInstrumentPaperMadeDate        ?made }
+              OPTIONAL { ?si schema:statutoryInstrumentPaperComingIntoForceDate ?cif }
+            } GROUP BY ?si`;
+        },
+        parse: (rows) => rows.map((b) => ({
+          uri:    b.si.value,
+          label:  b.label?.value || b.si.value.replace(/^.*\//, ''),
+          image:  null,
+          year:   b.year?.value ? +b.year.value : null,
+          number: b.number?.value || null,
+          madeDate:        b.madeDate?.value        || null,
+          comingIntoForce: b.comingIntoForce?.value || null,
+          webLink:         b.webLink?.value         || null,
+          decade: b.year?.value ? `${Math.floor((+b.year.value) / 10) * 10}s` : null,
+        })),
+      },
+    ],
+  },
 
   // -- Wikidata navigation primitives ----------------------------------------
   // "I have a thing. What is it? What else is like it? Narrow by where."

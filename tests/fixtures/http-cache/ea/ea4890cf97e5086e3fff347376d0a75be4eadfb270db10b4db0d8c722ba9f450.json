@@ -1,0 +1,110 @@
+{
+  "meta": {
+    "method": "GET",
+    "url": "https://api.parliament.uk/sparql?query=%0A%20%20%20%20%20%20%20%20%20%20%20%20PREFIX%20schema%3A%20%3Chttps%3A%2F%2Fid.parliament.uk%2Fschema%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%20%20SELECT%20%3Fsi%20(SAMPLE(%3Fname)%20%20%20AS%20%3Flabel)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fyr)%20%20%20%20%20AS%20%3Fyear)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fnum)%20%20%20%20AS%20%3Fnumber)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fmade)%20%20%20AS%20%3FmadeDate)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fcif)%20%20%20%20AS%20%3FcomingIntoForce)%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20(SAMPLE(%3Fleaf)%20%20%20AS%20%3FwebLink)%0A%20%20%20%20%20%20%20%20%20%20%20%20WHERE%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20VALUES%20%3Fleaf%20%7B%20%3Chttps%3A%2F%2Fwww.legislation.gov.uk%2Fukdsi%2F2018%2F9780111169162%3E%20%3Chttps%3A%2F%2Fwww.legislation.gov.uk%2Fuksi%2F2018%2F560%2Fmade%3E%20%3Chttps%3A%2F%2Fwww.legislation.gov.uk%2Fuksi%2F2018%2F517%2Fmade%3E%20%3Chttps%3A%2F%2Fwww.legislation.gov.uk%2Fuksi%2F2018%2F566%2Fmade%3E%20%3Chttps%3A%2F%2Fwww.legislation.gov.uk%2Fuksi%2F2018%2F488%2Fmade%3E%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%3Fsi%20a%20schema%3AWorkPackagedThing%20%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20schema%3AworkPackagedThingHasWorkPackagedThingWebLink%20%3Fleaf%20.%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fsi%20schema%3AstatutoryInstrumentPaperName%20%20%20%20%20%20%20%20%20%20%20%20%3Fname%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fsi%20schema%3AstatutoryInstrumentPaperYear%20%20%20%20%20%20%20%20%20%20%20%20%3Fyr%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fsi%20schema%3AstatutoryInstrumentPaperNumber%20%20%20%20%20%20%20%20%20%20%3Fnum%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fsi%20schema%3AstatutoryInstrumentPaperMadeDate%20%20%20%20%20%20%20%20%3Fmade%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%20%20OPTIONAL%20%7B%20%3Fsi%20schema%3AstatutoryInstrumentPaperComingIntoForceDate%20%3Fcif%20%7D%0A%20%20%20%20%20%20%20%20%20%20%20%20%7D%20GROUP%20BY%20%3Fsi",
+    "recordedAt": "2026-06-09T23:48:58.290Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json;charset=UTF-8",
+  "shape": "sparql-results-json",
+  "vars": [
+    "si",
+    "label",
+    "year",
+    "number",
+    "madeDate",
+    "comingIntoForce",
+    "webLink"
+  ],
+  "rows": 5,
+  "bindHash": "sha256:60c68d41b965490d9414cc04acc5223262f4969d120badf1179fdd20280ae81f",
+  "sample": [
+    {
+      "si": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/QmvfCS3N"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Client Money Protection Schemes for Property Agents (Approval and Designation of Schemes) Regulations 2018"
+      },
+      "year": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+        "type": "literal",
+        "value": "2018"
+      },
+      "webLink": {
+        "type": "uri",
+        "value": "https://www.legislation.gov.uk/ukdsi/2018/9780111169162"
+      }
+    },
+    {
+      "si": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/HJ7BlYte"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Fire and Rescue Authorities (National Framework) (England) Order 2018"
+      },
+      "year": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+        "type": "literal",
+        "value": "2018"
+      },
+      "number": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+        "type": "literal",
+        "value": "560"
+      },
+      "madeDate": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#date",
+        "type": "literal",
+        "value": "2018-05-02+01:00"
+      },
+      "comingIntoForce": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#date",
+        "type": "literal",
+        "value": "2018-06-01+01:00"
+      },
+      "webLink": {
+        "type": "uri",
+        "value": "https://www.legislation.gov.uk/uksi/2018/560/made"
+      }
+    },
+    {
+      "si": {
+        "type": "uri",
+        "value": "https://id.parliament.uk/keUmDe6y"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Special Restrictions on Adoptions from Abroad (Ethiopia) Order 2018"
+      },
+      "year": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#gYear",
+        "type": "literal",
+        "value": "2018"
+      },
+      "number": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#integer",
+        "type": "literal",
+        "value": "517"
+      },
+      "madeDate": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#date",
+        "type": "literal",
+        "value": "2018-04-18+01:00"
+      },
+      "comingIntoForce": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#date",
+        "type": "literal",
+        "value": "2018-05-21+01:00"
+      },
+      "webLink": {
+        "type": "uri",
+        "value": "https://www.legislation.gov.uk/uksi/2018/517/made"
+      }
+    }
+  ]
+}

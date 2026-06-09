@@ -31,12 +31,18 @@ test('every starter carries the declarative-plan fields + a source role', () => 
     assert.ok(typeof s.id === 'string' && s.id.length, `missing id`);
     assert.ok(typeof s.label === 'string',             `${s.id}: no label`);
     assert.ok(typeof s.type === 'string',              `${s.id}: no output type`);
-    assert.equal(typeof s.parse, 'function',           `${s.id}: parse() must be a function`);
-    // Two shapes: SPARQL-engine + query, OR PQ template.
+    // Three shapes: SPARQL (engineId+query) / PQ (pqTemplate) / inline
+    // (items[] baked into the entry — useful for demo seeds).
     const sparqlShape = typeof s.engineId === 'string' && typeof s.query === 'string' && s.query.length;
     const pqShape     = typeof s.pqTemplate === 'string' && s.pqTemplate.length;
-    assert.ok(sparqlShape || pqShape,
-      `${s.id}: must be either SPARQL-shape (engineId+query) or PQ-shape (pqTemplate)`);
+    const inlineShape = Array.isArray(s.items) && s.items.length > 0;
+    assert.ok(sparqlShape || pqShape || inlineShape,
+      `${s.id}: must be SPARQL-shape (engineId+query) / PQ-shape (pqTemplate) / inline (items[])`);
+    // SPARQL + PQ starters parse server bindings; inline starters carry
+    // their own already-shaped items, so parse() is optional there.
+    if (sparqlShape || pqShape) {
+      assert.equal(typeof s.parse, 'function', `${s.id}: parse() must be a function`);
+    }
     assert.ok(VALID_ROLES.has(s.role),
       `${s.id}: role="${s.role}" not in {${[...VALID_ROLES].join(', ')}}`);
   }

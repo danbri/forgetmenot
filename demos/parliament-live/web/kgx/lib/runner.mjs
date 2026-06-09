@@ -142,6 +142,21 @@ export async function runChainSpec(spec, ctx) {
       const s = STARTERS.find((x) => x.id === step.id);
       if (!s) throw new UnsupportedOpError(`starter:${step.id} (not in lib)`);
 
+      // Three starter shapes: SPARQL (engineId + query), PQ (pqTemplate),
+      // or inline (items[] baked into the lib). Inline starters give us a
+      // deterministic seed of a few items — useful for "I have a specific
+      // external URL, find what wraps it" demos where you'd otherwise need
+      // an upstream fetch just to introduce a known constant.
+      if (Array.isArray(s.items)) {
+        const items = s.parse ? s.parse(s.items) : s.items;
+        bundle = new Bundle(items, s.type, s.label);
+        beads.push({
+          kind: 'starter', id: s.id, type: s.type, size: bundle.size,
+          engineId: 'inline', ms: 0, query: null,
+          bindHash: await bindHashOf(bundle.items),
+        });
+        continue;
+      }
       // SPARQL-shape (engineId + query) vs PQ-shape (pqTemplate)
       if (s.pqTemplate) {
         if (typeof ctx.pq !== 'function') {

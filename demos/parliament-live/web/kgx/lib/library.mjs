@@ -276,4 +276,13 @@ export const LIBRARY = [
       { kind: 'op', op: 'rel-pivot', template: 'si_laying_body', variant: 'default' },
     ],
   },
+  {
+    id: 'leg-url-to-parl-wrapper',
+    title: 'legislation.gov.uk URL → Parliament SI wrapper',
+    sub: 'Inverse webLink pivot — given a leg.gov.uk SI URL, find what Parliament calls it. The cross-source bridge the user query expressed as SPARQL.',
+    steps: [
+      { kind: 'starter', id: 'legislation-gov-uk-sample' },
+      { kind: 'op', op: 'rel-pivot', template: 'parl-wraps', variant: 'default' },
+    ],
+  },
 ];

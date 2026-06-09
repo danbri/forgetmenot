@@ -457,6 +457,33 @@ export const STARTERS = [
     role:      'primary',
     note:      'DDP class schema:StatutoryInstrumentPaper, newest first, capped 1500.',
   },
+  // -- Inline starter — a hand-curated seed of legislation.gov.uk SI URLs.
+  //    Demos the `parl-wraps` rel-template (inverse webLink → Parliament
+  //    WorkPackagedThing). The chain is "I have a leg.gov.uk URL — what
+  //    does Parliament call this?" and answers it without any pre-fetch.
+  //    The handful of URLs were probed against the DDP endpoint 2026-06-09
+  //    and confirmed to round-trip via the SI.webLink edge.
+  {
+    id:        'legislation-gov-uk-sample',
+    label:     'Sample legislation.gov.uk SI URLs',
+    sub:       '5 hand-picked legislation.gov.uk SI URLs that DDP wraps — demo seed for the parl-wraps inverse-pivot.',
+    type:      'wd_thing',
+    role:      'primary',
+    note:      'Inline data — no network. Round-tripped through SI.webLink on 2026-06-09.',
+    items: [
+      { uri: 'https://www.legislation.gov.uk/ukdsi/2018/9780111169162',
+        label: 'Client Money Protection Schemes for Property Agents (Approval) Regulations 2018' },
+      { uri: 'https://www.legislation.gov.uk/uksi/2018/560/made',
+        label: 'Fire and Rescue Authorities (National Framework) (England) Order 2018' },
+      { uri: 'https://www.legislation.gov.uk/uksi/2018/517/made',
+        label: 'Special Restrictions on Adoptions from Abroad (Ethiopia) Order 2018' },
+      { uri: 'https://www.legislation.gov.uk/uksi/2018/566/made',
+        label: 'Town and Country Planning (Pre-commencement Conditions) Regulations 2018' },
+      { uri: 'https://www.legislation.gov.uk/uksi/2018/488/made',
+        label: 'Civil Enforcement of Traffic Contraventions (Consequential Amendments) Regulations 2018' },
+    ],
+  },
+
   // -- PQ-shape starters — runner dispatches via ctx.pq(template) instead
   //    of ctx.engine(id).query(sparql).
   {
