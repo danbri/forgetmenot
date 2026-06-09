@@ -66,6 +66,7 @@ import {
   variantsAllowedByPolicy,
 } from '/kgx/lib/quality.mjs';
 import { normaliseChainSpec, activeChainSteps } from '/kgx/lib/branches.mjs';
+import { frontierOf } from '/kgx/lib/frontier.mjs';
 
 // Helper: which OPS chip ids are augment-shape (carry a role from
 // AUGMENT_OPS)? Picker hides these in `strict` mode (role: crossCheck).
@@ -533,6 +534,69 @@ function isRelevantOp(op, bundle) {
   } catch { return true; }
 }
 
+// Data-driven chips: feed the bundle through lib/frontier.mjs's
+// frontierOf() to discover every sliceable field, then emit chips for
+// the ones the hand-coded OPS palette didn't already cover (matched by
+// op.id == field-name or by op.id being the existing canonical name for
+// that field e.g. 'party' for 'parties'). Two op kinds emerge:
+//
+//   * facet  → picker chip; values() returns the top buckets with counts,
+//              run() does an array-OR-equality filter.
+//   * presence → static chip; run() keeps items where the field is truthy.
+//
+// Naming: chips use a `data-` prefix on the op id so they never collide
+// with hand-coded ops in the chain JSON / URL hash. That keeps the chain
+// spec replayable elsewhere even if the registry later adds a hand-coded
+// chip for the same field — the lib's opFilters won't know the data-*
+// op, and the chain validate / explain surfaces will flag it. We accept
+// that trade for now: data chips are *navigation*, not promotion to
+// first-class library ops; if one earns its place, lift it explicitly
+// into opFilters.
+const HAND_CODED_OP_FIELDS = {
+  // op.id  →  the bundle field it filters on, so frontierOf-discovered
+  // facets/presences for these fields don't double up.
+  party: 'parties', decade: 'decade', sitting: 'sitting', bridged: 'mpid',
+  gender: 'gender', citizenship: 'citizenships',
+  'has-origin': 'originCount', 'by-mp-party': 'currentMpParty',
+  'top-by-officer-count': 'originCount',
+  'in-commons': 'commonsCount', 'in-lords': 'lordsCount', 'top-by-size': 'originCount',
+  'name-contains': 'label', 'has-coord': 'coords', 'has-img': 'image',
+  country: 'country', year: 'year', 'has-cif': 'comingIntoForce',
+  'born-century': 'firstYr', 'min-sitelinks': 'sitelinks',
+  'desc-contains': 'description',
+};
+function dataDrivenChips(bundle, handCoded) {
+  if (!bundle?.items?.length) return [];
+  const covered = new Set();
+  for (const op of handCoded) {
+    const f = HAND_CODED_OP_FIELDS[op.id];
+    if (f) covered.add(f);
+  }
+  const front = frontierOf(bundle);
+  const chips = [];
+  for (const f of front.facets) {
+    if (covered.has(f.field)) continue;
+    chips.push({
+      id: `data-${f.field}`, label: `${f.field}…`, icon: '◇', kind: 'picker',
+      values: () => f.values.map((v) => [String(v.value), v.count]),
+      run: (b, v) => {
+        const matches = f.multi
+          ? (x) => Array.isArray(x[f.field]) && x[f.field].map(String).includes(String(v))
+          : (x) => String(x[f.field]) === String(v);
+        return new Bundle(b.items.filter(matches), b.type, `${b.label} · ${f.field}=${v}`);
+      },
+    });
+  }
+  for (const p of front.presence) {
+    if (covered.has(p.field)) continue;
+    chips.push({
+      id: `data-has-${p.field}`, label: `has ${p.field}`, icon: '◉', kind: 'static',
+      run: (b) => new Bundle(b.items.filter((x) => x[p.field]), b.type, `${b.label} · has ${p.field}`),
+    });
+  }
+  return chips;
+}
+
 function cardinalityChips(bead, idx) {
   const out = [];
   const n = bead?.bundle?.size || 0;
@@ -660,10 +724,25 @@ const STARTERS = [
 const state = {
   starter: null,         // STARTERS entry once chosen
   beads: [],             // [{ id, opLabel, opIcon, bundle }]  ordered
-  view: 'spine',         // 'spine' | 'graph' | 'table' | 'tiles'
+  view: 'spine',         // 'spine' | 'graph' | 'table' | 'tiles' | 'map'
+  // Focus is the index of the bead whose CONTENT downstream views show
+  // (tiles, map). It defaults to "follow the frontier" — null means the
+  // last bead — so existing chains feel unchanged. Click an older bead in
+  // any view to inspect its bundle without truncating the chain; the
+  // frontier (chips, chain-growth) is unchanged.
+  focusIdx: null,
   qualityMode: 'exploratory',   // filters chip-picker + rel-picker variants
                                 // (authoring concern only; replay ignores it)
 };
+function focusedIdx() {
+  if (!state.beads.length) return -1;
+  if (state.focusIdx == null) return state.beads.length - 1;
+  return Math.min(state.focusIdx, state.beads.length - 1);
+}
+function focusedBead() {
+  const i = focusedIdx();
+  return i >= 0 ? state.beads[i] : null;
+}
 const listeners = new Set();
 function publish() { for (const fn of listeners) fn(); }
 
@@ -961,11 +1040,27 @@ class DaisyBead extends HTMLElement {
         }
         .meta { font-size: 12px; color: var(--ink-mute); margin-top: 6px;
                 display: flex; gap: 8px; flex-wrap: wrap; }
-        .hist-hint {
-          font-size: 11px; color: var(--ink-mute); margin-top: 8px;
-          cursor: pointer;
+        /* Older-bead footer: tap-anywhere to FOCUS the bead (inspect its
+           data in tiles / map without truncating); explicit small ↺ button
+           to destructively undo back to that bead. Two affordances, two
+           different actions — clicking the card never silently nukes work. */
+        .hist-actions { display: flex; gap: 10px; align-items: center;
+                        margin-top: 8px; font-size: 12px; }
+        .hist-actions .focus-hint { color: var(--ink-mute); }
+        .hist-actions .focus-hint .kbd { color: var(--ink-soft); font-weight: 600; }
+        .hist-actions .undo-btn {
+          margin-left: auto;
+          appearance: none; background: transparent; cursor: pointer;
+          border: 1px solid var(--rule-soft); border-radius: 6px;
+          padding: 4px 8px; font: inherit; color: var(--ink-soft);
         }
-        .hist-hint:hover { color: var(--ink-soft); }
+        .hist-actions .undo-btn:hover {
+          background: color-mix(in oklab, #c04020 12%, transparent);
+          border-color: color-mix(in oklab, #c04020 40%, var(--rule));
+          color: var(--ink);
+        }
+        :host([focus]) .card { box-shadow: 0 0 0 2px var(--accent) inset; }
+        :host([focus]) .head .idx { color: var(--accent); }
         .grow {
           margin-top: 10px; padding: 8px 0 0;
           border-top: 1px dashed var(--rule-soft);
@@ -983,7 +1078,10 @@ class DaisyBead extends HTMLElement {
         <div class="strip"></div>
         <div class="meta"></div>
         ${front ? `<div class="grow">tap a chip to grow the chain</div><div class="chips"></div>`
-                : `<div class="hist-hint">↺ tap to undo back to here</div>`}
+                : `<div class="hist-actions">
+                     <span class="focus-hint">tap card to <span class="kbd">focus</span> this bead in tiles / map</span>
+                     <button class="undo-btn" title="discard every bead after this one">↺ undo to here</button>
+                   </div>`}
       </div>
     `;
     if (front) this.setAttribute('frontier', ''); else this.removeAttribute('frontier');
@@ -1128,7 +1226,7 @@ class DaisyBead extends HTMLElement {
 
     if (front) {
       const chipRow = this.shadowRoot.querySelector('.chips');
-      const ops = (OPS[b.bundle?.type] || [])
+      const handCoded = (OPS[b.bundle?.type] || [])
         .filter((op) => isRelevantOp(op, b.bundle))
         .filter((op) => {
           // Augment chips (enrich / parl-enrich / identity-bridge) carry
@@ -1138,6 +1236,13 @@ class DaisyBead extends HTMLElement {
           const role = augmentRoleFor(op.id);
           return role == null || isOpAllowedByPolicy(state.qualityMode, { role });
         });
+      // Layer in DATA-DRIVEN chips from frontierOf: any facet or
+      // presence field the data carries that the hand-coded palette
+      // doesn't already cover gets a generic chip. This is how a
+      // bundle gains a `firstYr` or `latestStart` picker without the
+      // OPS table having heard of it — the data is the source of
+      // truth for navigation options, not a static registry.
+      const ops = [...handCoded, ...dataDrivenChips(b.bundle, handCoded)];
       for (const op of ops) {
         const chip = document.createElement('button');
         chip.className = 'chip';
@@ -1173,10 +1278,19 @@ class DaisyBead extends HTMLElement {
         chipRow.appendChild(chip);
       }
     } else {
-      // Tapping an older bead truncates the chain back to it — except when
-      // the click landed on the .info button (handled above).
+      // Two-affordance footer: tap-card-anywhere focuses the bead for the
+      // tiles / map views (non-destructive — leaves the chain intact and
+      // the frontier where it is); only the explicit ↺ button truncates.
+      // .info is the lineage button (handled above) and the undo button is
+      // routed separately, so the broad card listener skips both.
       this.shadowRoot.querySelector('.card').addEventListener('click', (e) => {
-        if (e.target.closest('.info')) return;
+        if (e.target.closest('.info, .undo-btn')) return;
+        this.dispatchEvent(new CustomEvent('bead-focus', {
+          detail: { index: idx }, bubbles: true, composed: true,
+        }));
+      });
+      this.shadowRoot.querySelector('.undo-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
         this.dispatchEvent(new CustomEvent('bead-undo', {
           detail: { index: idx }, bubbles: true, composed: true,
         }));
@@ -1830,6 +1944,8 @@ class DaisyApp extends HTMLElement {
           display: flex; flex-direction: column; gap: 6px;
           position: relative; z-index: 1;
         }
+        .gnode.focused { box-shadow: 0 0 0 2px var(--accent) inset; }
+        table.beads tr.focused td { box-shadow: inset 2px 0 0 var(--accent); }
         .gnode.frontier { border-color: var(--accent);
           box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent),
                       var(--shadow-lift); }
@@ -1924,6 +2040,15 @@ class DaisyApp extends HTMLElement {
         .map-attrib a { color: var(--ink-soft); }
 
         /* tiles view: full grid of the frontier bead */
+        .tiles-head .wired-from {
+          margin-left: 8px;
+          appearance: none; background: color-mix(in oklab, var(--accent) 14%, transparent);
+          color: var(--ink); border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--rule));
+          border-radius: 999px; padding: 3px 10px; font: inherit; font-size: 12px; cursor: pointer;
+        }
+        .tiles-head .wired-from:hover {
+          background: color-mix(in oklab, var(--accent) 22%, transparent);
+        }
         .tiles-head { font-size: 13px; color: var(--ink-soft);
                       padding: 4px 4px 10px; display: flex; gap: 8px; align-items: baseline; }
         .tiles-head .n { font-weight: 700; color: var(--ink); }
@@ -1954,15 +2079,9 @@ class DaisyApp extends HTMLElement {
             <button id="v-spine" data-v="spine" class="on" title="vertical bead spine">spine</button>
             <button id="v-graph" data-v="graph" title="DAG of the chain">graph</button>
             <button id="v-table" data-v="table" title="bead table">table</button>
-            <button id="v-tiles" data-v="tiles" title="full tile grid of the frontier bead">tiles</button>
-            <button id="v-map"   data-v="map"   title="map of the frontier bead (when coords are known)">map</button>
+            <button id="v-tiles" data-v="tiles" title="tile grid of the focused bead (defaults to the frontier)">tiles</button>
+            <button id="v-map"   data-v="map"   title="map the focused bead (when coords are known)">map</button>
           </div>
-          <select id="quality-mode" title="filter pickers by evidence policy (replay is unaffected)">
-            <option value="strict">strict</option>
-            <option value="exploratory" selected>exploratory</option>
-            <option value="recall">recall</option>
-            <option value="precision">precision</option>
-          </select>
           <button id="save-btn" title="copy this chain as JSON">⎘ save chain</button>
           <button id="reset-btn" title="start over">↺ reset</button>
         </div>
@@ -1984,14 +2103,20 @@ class DaisyApp extends HTMLElement {
     this.addEventListener('library-pick', (e) => this._replay(e.detail));
     this.addEventListener('op-tap',       (e) => this._onOp(e.detail));
     this.addEventListener('bead-undo',    (e) => this._undoTo(e.detail.index));
+    this.addEventListener('bead-focus',   (e) => this._focusTo(e.detail.index));
+    this.addEventListener('bead-tiles',   (e) => this._focusToView(e.detail.index, 'tiles'));
+    this.addEventListener('bead-map',     (e) => this._focusToView(e.detail.index, 'map'));
     this.addEventListener('card-chip',    (e) => this._onCardChip(e.detail));
     this.addEventListener('thing-open',   (e) => this._openThing(e.detail.item, e.detail.bundle?.type));
     this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => this._reset());
     this.shadowRoot.querySelector('#save-btn').addEventListener('click', () => this._saveChain());
-    this.shadowRoot.querySelector('#quality-mode').addEventListener('change', (e) => {
-      state.qualityMode = e.target.value;
-      publish();
-    });
+    // The strict/exploratory/recall/precision dropdown was removed from the
+    // header — it ate mobile real estate without telling anyone what it meant.
+    // state.qualityMode stays at the 'exploratory' default so the picker
+    // policy filter still respects the contract; the policy CLI surfaces
+    // (kgx ops, kgx chain candidates) are the place to exercise the other
+    // modes. If we re-surface this control later it belongs in studio.html
+    // (the registry / debug page), not on every navigation.
     for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
       btn.addEventListener('click', () => { state.view = btn.dataset.v; publish(); });
     }
@@ -2191,8 +2316,16 @@ class DaisyApp extends HTMLElement {
                      { kind: 'op', op: 'rel-pivot', template: tpl.id, variant: v.id });
             continue;
           }
-          const ops = OPS[front.bundle.type] || [];
-          const op = ops.find((o) => o.id === step.op);
+          // Replay lookup: hand-coded OPS first, then the data-driven chip
+          // pool (data-<field> / data-has-<field>). The chain spec records
+          // the synthetic id; data-driven chips don't need OPS membership
+          // to round-trip, but they DO need to be discoverable here.
+          const handCodedOps = OPS[front.bundle.type] || [];
+          let op = handCodedOps.find((o) => o.id === step.op);
+          if (!op && /^data-/.test(step.op)) {
+            const dataOps = dataDrivenChips(front.bundle, handCodedOps);
+            op = dataOps.find((o) => o.id === step.op);
+          }
           if (!op) throw new Error(`op "${step.op}" not in OPS[${front.bundle.type}]`);
           if (op.kind === 'static') {
             await this._onOp({ op, bundle: front.bundle });
@@ -2241,6 +2374,19 @@ class DaisyApp extends HTMLElement {
   }
 
   _undoTo(idx) { truncateTo(idx); }
+  _focusTo(idx) {
+    // Setting the focus to the last bead == "follow the frontier" (null);
+    // this keeps URL hash + chain growth identical to the pre-focus world.
+    const last = state.beads.length - 1;
+    state.focusIdx = (idx >= last) ? null : idx;
+    publish();
+  }
+  _focusToView(idx, view) {
+    const last = state.beads.length - 1;
+    state.focusIdx = (idx >= last) ? null : idx;
+    state.view = view;
+    publish();
+  }
 
   _reset() {
     state.starter = null;
@@ -2293,21 +2439,27 @@ class DaisyApp extends HTMLElement {
     const spine = document.createElement('div');
     spine.className = 'spine';
     const last = state.beads.length - 1;
+    const focus = focusedIdx();
     for (let i = 0; i <= last; i++) {
       const wrap = document.createElement('div');
       wrap.className = 'bead-wrap';
-      if (i === last) wrap.setAttribute('frontier', '');
+      if (i === last)  wrap.setAttribute('frontier', '');
+      if (i === focus) wrap.setAttribute('focused',  '');
       const bead = document.createElement('daisy-bead');
       bead.bead = state.beads[i];
       bead.index = i;
       bead.frontier = (i === last);
+      if (i === focus && i !== last) bead.setAttribute('focus', '');
       wrap.appendChild(bead);
       spine.appendChild(wrap);
     }
     root.appendChild(spine);
     requestAnimationFrame(() => {
-      const last = spine.querySelector('.bead-wrap[frontier]');
-      if (last) last.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      // Scroll to the focused bead if it's not the frontier — that's the
+      // one the user just clicked. Otherwise reveal the frontier as before.
+      const target = spine.querySelector('.bead-wrap[focused]')
+                  || spine.querySelector('.bead-wrap[frontier]');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
   }
 
@@ -2337,9 +2489,12 @@ class DaisyApp extends HTMLElement {
       card.querySelector('.cnt').textContent = (b.bundle?.size ?? 0).toLocaleString();
       card.addEventListener('click', () => {
         if (i === last) return;
-        // Same back-gesture as spine: tap an older node to truncate.
-        this._undoTo(i);
+        // Same non-destructive focus gesture as spine — chain stays intact,
+        // tiles/map will show this node. Destructive undo lives behind the
+        // small ↺ button on the spine view's bead cards.
+        this._focusTo(i);
       });
+      if (i === focusedIdx()) card.classList.add('focused');
       for (const img of card.querySelectorAll('img[data-src]')) tileIo.observe(img);
       g.appendChild(card);
     }
@@ -2417,20 +2572,22 @@ class DaisyApp extends HTMLElement {
     for (const tr of wrap.querySelectorAll('tbody tr')) {
       tr.addEventListener('click', () => {
         const idx = +tr.dataset.i;
-        if (idx !== last) this._undoTo(idx);
+        if (idx !== last) this._focusTo(idx);
       });
+      if (+tr.dataset.i === focusedIdx()) tr.classList.add('focused');
     }
     root.appendChild(wrap);
   }
 
   _renderMap(root) {
-    // Pick the most-recent bead that actually carries coordinates. This
-    // matters once a chain pivots through an "intermediate" type that
-    // has no coords (e.g. building → architect): the user still wants
-    // to see the BUILDINGS on the map, not nothing. Falls back through
-    // the chain until it finds a mappable bead.
+    // Map is wired to the focused bead by default, with a coords-aware
+    // fallback for the common "pivoted past the mappable bead" case
+    // (buildings → architects: still show the buildings). Start the
+    // search at the focus index and walk BACKWARDS through ancestors
+    // — same fallback as before, just anchored at focus, not frontier.
+    const startAt = focusedIdx();
     let last = null, idxUsed = -1;
-    for (let i = state.beads.length - 1; i >= 0; i--) {
+    for (let i = startAt; i >= 0; i--) {
       const items = state.beads[i].bundle?.items || [];
       if (items.some((x) => x.coords || x.extra?.birthplace?.coords)) {
         last = state.beads[i]; idxUsed = i; break;
@@ -2455,14 +2612,27 @@ class DaisyApp extends HTMLElement {
     }
     const wrap = document.createElement('div');
     wrap.className = 'map-wrap';
-    // If the frontier wasn't the source of coords, tell the user which
-    // bead we're showing — useful when the chain just pivoted away
-    // from a mappable type.
-    const fallbackNote = (idxUsed !== state.beads.length - 1)
+    // Two reasons we might be showing a non-focused bead: (a) the focus
+    // is the frontier and a chain pivoted past coordinates (buildings →
+    // architects), (b) the user focused a bead that has no coords. Either
+    // way name the source bead, and offer a one-tap clear when focus drove
+    // the choice — symmetrical to the tiles header.
+    const showingDifferent = (idxUsed !== startAt);
+    const focusOverride    = (startAt !== state.beads.length - 1);
+    const fallbackNote = showingDifferent
       ? `<div style="padding:6px 8px;color:var(--ink-mute);font-size:12px;">
-          ↪ frontier bead has no coords; showing bead ${idxUsed + 1}
+          ↪ focused bead has no coords; showing bead ${idxUsed + 1}
           (${escapeHTML(last.bundle.label)}).
-        </div>` : '';
+        </div>`
+      : (focusOverride
+          ? `<div style="padding:6px 8px;color:var(--ink-mute);font-size:12px;">
+              ↪ wired from bead ${startAt + 1}.
+              <button class="wired-from clear-focus" type="button"
+                style="margin-left:6px;background:none;border:1px solid var(--rule-soft);border-radius:6px;padding:2px 8px;color:var(--ink-soft);cursor:pointer;font:inherit;font-size:11px;">
+                follow frontier
+              </button>
+            </div>`
+          : '');
     if (!points.length) {
       wrap.innerHTML = `${fallbackNote}<div style="padding:16px;color:var(--ink-mute);font-size:13px;">
         No coords on the frontier bead yet — try ✨ enrich (on a human bead)
@@ -2527,6 +2697,13 @@ class DaisyApp extends HTMLElement {
       </div>
     `;
     root.appendChild(wrap);
+    const clearFocusBtn = wrap.querySelector('.clear-focus');
+    if (clearFocusBtn) {
+      clearFocusBtn.addEventListener('click', () => {
+        state.focusIdx = null;
+        publish();
+      });
+    }
     const frame   = wrap.querySelector('.map-frame');
     const tilesEl = wrap.querySelector('.map-tiles');
     const svgEl   = wrap.querySelector('.map-svg');
@@ -2716,8 +2893,10 @@ class DaisyApp extends HTMLElement {
   }
 
   _renderTiles(root) {
-    // The frontier bundle, full grid. Older beads accessible via the
-    // table / spine; this view is about the live result.
+    // Tiles is a NODE viewer wired to the focused bead — defaults to the
+    // frontier, but tap any older bead in spine/graph/table to focus it
+    // and tiles re-renders for that bundle. Same data invariants as
+    // before (chain stays intact, hash unchanged).
     //
     // 3000 tiles built synchronously was a ~2–4s paint stall on mid-tier
     // mobile. Two changes keep the painter responsive without changing the
@@ -2727,15 +2906,27 @@ class DaisyApp extends HTMLElement {
     //      (one viewport) lands immediately, the rest stream in.
     //   2. Event delegation: one click listener on the grid, not one per
     //      tile (matters when items is 3000).
-    const last = state.beads[state.beads.length - 1];
+    const focusI = focusedIdx();
+    const last = state.beads[focusI];
     if (!last?.bundle) return;
+    const isFrontier = (focusI === state.beads.length - 1);
     const head = document.createElement('div');
     head.className = 'tiles-head';
+    // Pill names the wired bead so it's obvious WHICH node the tiles
+    // are showing; click it to follow the frontier again. Hidden when
+    // tiles is already showing the frontier (the common case).
     head.innerHTML = `
       <span class="n">${last.bundle.size.toLocaleString()}</span>
       <span>${escapeHTML(last.bundle.label)}</span>
+      ${isFrontier ? '' : `<button class="wired-from" title="tiles wired from bead ${focusI + 1}; tap to follow the frontier again">wired from bead ${focusI + 1} · clear</button>`}
     `;
     root.appendChild(head);
+    if (!isFrontier) {
+      head.querySelector('.wired-from').addEventListener('click', () => {
+        state.focusIdx = null;
+        publish();
+      });
+    }
     const grid = document.createElement('div');
     grid.className = 'tiles';
     const slice = last.bundle.items.slice(0, 3000);
