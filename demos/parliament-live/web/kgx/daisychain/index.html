@@ -732,6 +732,9 @@ const state = {
   view: null,
   chainView:   'spine',
   contentView: 'tiles',
+  // PivotViewer's bin axis: a field name (decade, country, party, …).
+  // null = auto-pick the strongest facet on the bundle.
+  pivotField:  null,
   // Mobile single-pane swap (≤860px shows ONE of nav/chain/content). Empty
   // chain → starts on 'nav'; once beads exist we auto-advance to 'chain'.
   mobilePane: 'nav',
@@ -2228,6 +2231,61 @@ class DaisyApp extends HTMLElement {
                     -webkit-box-orient: vertical; overflow: hidden; }
         .tile .mt { font-size: 10px; color: var(--ink-mute); margin-top: 2px;
                     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        /* PivotViewer-style image histogram. The frontier's facets become
+           bins; each bin is a vertical column of thumbnails (one per item
+           in the bin), so the SHAPE of the column matches the bin's size
+           — a 1995 column of 200 thumbs reads instantly as "this is where
+           the mass is", without any axis labels. Sticking with the
+           Microsoft Live Labs PivotViewer (2010) spirit: image-first,
+           data revealed by arrangement. */
+        .pivot-head { font-size: 12px; color: var(--ink-soft);
+                      padding: 2px 2px 6px; display: flex; gap: 8px;
+                      align-items: baseline; flex-wrap: wrap; }
+        .pivot-head .n { font-weight: 700; color: var(--ink); }
+        .pivot-head .facet-pick { display: inline-flex; align-items: center;
+                                  gap: 4px; }
+        .pivot-head select {
+          background: var(--surface); color: var(--ink);
+          border: 1px solid var(--rule); border-radius: 6px;
+          padding: 3px 6px; font: 12px/1 inherit;
+        }
+        .pivot-grid {
+          display: flex; gap: 6px; align-items: flex-end;
+          overflow-x: auto; overflow-y: visible;
+          padding-bottom: 8px; min-height: 220px;
+        }
+        .pivot-col {
+          flex: 0 0 auto; display: flex; flex-direction: column;
+          align-items: center; gap: 0;
+          padding: 4px; border-radius: 8px;
+          background: color-mix(in oklab, var(--accent) 4%, transparent);
+        }
+        .pivot-col:hover { background: color-mix(in oklab, var(--accent) 10%, transparent); }
+        .pivot-col .stack {
+          display: flex; flex-direction: column-reverse;
+          gap: 1px; align-items: center; width: 100%;
+        }
+        .pivot-col .stack button.thumb {
+          appearance: none; background: var(--surface-2);
+          width: 28px; height: 28px; min-height: 28px;
+          padding: 0; margin: 0; border: 0; border-radius: 3px;
+          overflow: hidden; cursor: pointer;
+        }
+        .pivot-col .stack button.thumb img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+        }
+        .pivot-col .stack button.thumb.dotless {
+          background: color-mix(in oklab, var(--accent) 32%, var(--surface-2));
+        }
+        .pivot-col .stack button.thumb:hover {
+          outline: 2px solid var(--accent); outline-offset: -1px; z-index: 1;
+        }
+        .pivot-col .lbl {
+          font-size: 11px; color: var(--ink); padding-top: 6px;
+          text-align: center; max-width: 80px;
+          word-break: break-word; line-height: 1.25;
+        }
+        .pivot-col .ct { color: var(--ink-mute); font-size: 10px; }
       </style>
       <header>
         <h1>daisychain</h1>
@@ -2242,6 +2300,7 @@ class DaisyApp extends HTMLElement {
           <span class="seg-label">node</span>
           <div class="seg" role="tablist" aria-label="node content view">
             <button id="v-tiles" data-v="tiles" data-pane="content" class="on" title="tile grid of the focused bead (defaults to the frontier)">tiles</button>
+            <button id="v-pivot" data-v="pivot" data-pane="content" title="PivotViewer-style image histogram — bin by a facet, stack thumbs by count">pivot</button>
             <button id="v-map"   data-v="map"   data-pane="content" title="map the focused bead (when coords are known)">map</button>
           </div>
           <button id="save-btn" title="copy this chain as JSON">⎘ save</button>
@@ -2674,10 +2733,13 @@ class DaisyApp extends HTMLElement {
       case 'table': this._renderTable(chainRoot); break;
       default:      this._renderSpine(chainRoot); break;
     }
-    // Content pane: tiles / map (map auto-falls-back to tiles if no coords
-    // ANYWHERE in the chain — no point staring at an empty disabled view).
-    if (state.contentView === 'map' && hasCoords) this._renderMap(contentRoot);
-    else                                          this._renderTiles(contentRoot);
+    // Content pane: tiles / map / pivot (pivot = PivotViewer-style image
+    // histogram — bin items by a facet from frontierOf, render each bin
+    // as a vertical stack of thumbnails scaled by count). Map auto-falls-
+    // back to tiles when no bead in the chain has coords.
+    if      (state.contentView === 'map' && hasCoords) this._renderMap(contentRoot);
+    else if (state.contentView === 'pivot')            this._renderPivot(contentRoot);
+    else                                               this._renderTiles(contentRoot);
   }
 
   // Nav pane — Finder's sidebar. One-tap to start a new chain or replay a
@@ -3211,6 +3273,113 @@ class DaisyApp extends HTMLElement {
     zoutBtn.addEventListener('click', () => zoomAt(W / 2, H / 2, -1));
 
     renderViewport();
+  }
+
+  // PivotViewer-style image histogram. Pick a facet (decade, country,
+  // party, …) via the dropdown — items group into columns; each column is
+  // a vertical thumb stack, so the COLUMN HEIGHT matches the bin's count.
+  // Clicking a thumb opens the thing-sheet (the new Quick-Look popover).
+  // Caps thumbnails per column to keep mid-tier mobile responsive.
+  _renderPivot(root) {
+    const focusI = focusedIdx();
+    const bead = state.beads[focusI];
+    if (!bead?.bundle?.items?.length) return;
+
+    const front = frontierOf(bead.bundle);
+    const facets = front.facets || [];
+    // Auto-pick the strongest facet (most distinct values, capped) the
+    // first time we render; user override via state.pivotField sticks.
+    let field = state.pivotField;
+    if (!field || !facets.some((f) => f.field === field)) {
+      field = facets[0]?.field || null;
+    }
+    const isFrontier = (focusI === state.beads.length - 1);
+
+    const head = document.createElement('div');
+    head.className = 'pivot-head';
+    if (!field) {
+      head.innerHTML = `<span>${bead.bundle.size.toLocaleString()} ${escapeHTML(bead.bundle.label)} — no faceted axes on this bundle yet (try ✨ enrich first).</span>`;
+      root.appendChild(head);
+      return;
+    }
+    head.innerHTML = `
+      <span class="n">${bead.bundle.size.toLocaleString()}</span>
+      <span>${escapeHTML(bead.bundle.label)} ·</span>
+      <span class="facet-pick">
+        <label for="pivot-axis">bin by</label>
+        <select id="pivot-axis">${facets.map((f) =>
+          `<option value="${escapeHTML(f.field)}"${f.field === field ? ' selected' : ''}>${escapeHTML(f.field)} (${f.distinct})</option>`
+        ).join('')}</select>
+      </span>
+      ${isFrontier ? '' : `<button class="wired-from" title="pivot wired from bead ${focusI + 1}; tap to follow frontier">wired from bead ${focusI + 1} · clear</button>`}
+    `;
+    root.appendChild(head);
+    head.querySelector('#pivot-axis').addEventListener('change', (e) => {
+      state.pivotField = e.target.value;
+      publish();
+    });
+    const clearFocus = head.querySelector('.wired-from');
+    if (clearFocus) clearFocus.addEventListener('click', () => {
+      state.focusIdx = null; publish();
+    });
+
+    // Bin the items. Multi-valued fields (parties[], citizenships[]) put
+    // an item in every matching bin; everyone-else single-valued.
+    const facetRec = facets.find((f) => f.field === field);
+    const multi    = facetRec?.multi;
+    const bins = new Map();
+    const put = (k, item) => {
+      const key = String(k);
+      if (!bins.has(key)) bins.set(key, []);
+      bins.get(key).push(item);
+    };
+    for (const x of bead.bundle.items) {
+      const v = x[field];
+      if (v == null || v === '' || v === false) continue;
+      if (Array.isArray(v)) for (const vi of v) put(vi, x);
+      else put(v, x);
+    }
+    const sorted = [...bins.entries()]
+      .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+
+    // Render columns. Cap thumbs per column to keep DOM size sane on
+    // long tails — the column HEIGHT communicates the count, the visible
+    // thumbs are a sample; total is displayed on hover and inline.
+    const COL_MAX_THUMBS = 60;
+    const grid = document.createElement('div');
+    grid.className = 'pivot-grid';
+    for (const [bin, items] of sorted) {
+      const col = document.createElement('div');
+      col.className = 'pivot-col';
+      col.title = `${bin} — ${items.length}`;
+      const stack = document.createElement('div');
+      stack.className = 'stack';
+      const shown = items.slice(0, COL_MAX_THUMBS);
+      for (const x of shown) {
+        const t = document.createElement('button');
+        t.className = 'thumb' + (x.image ? '' : ' dotless');
+        if (x.image) t.innerHTML = `<img alt="" data-src="${commonsThumb(x.image, 48)}">`;
+        t.title = x.label || x.uri || '';
+        t.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          this.dispatchEvent(new CustomEvent('thing-open', {
+            detail: { item: x, bundle: bead.bundle },
+            bubbles: true, composed: true,
+          }));
+        });
+        stack.appendChild(t);
+      }
+      col.appendChild(stack);
+      const lbl = document.createElement('div');
+      lbl.className = 'lbl';
+      lbl.innerHTML = `${escapeHTML(bin)} <span class="ct">${items.length}${items.length > COL_MAX_THUMBS ? '*' : ''}</span>`;
+      col.appendChild(lbl);
+      grid.appendChild(col);
+    }
+    root.appendChild(grid);
+    // Lazy-load thumbnails — re-use the IntersectionObserver from tiles
+    // grid via the same tileIo handle.
+    for (const img of grid.querySelectorAll('img[data-src]')) tileIo.observe(img);
   }
 
   _renderTiles(root) {
