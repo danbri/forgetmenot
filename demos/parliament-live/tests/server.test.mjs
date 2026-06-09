@@ -103,6 +103,19 @@ describe('matchRoute', () => {
       'OSM tile route is public: no Parliament-data sensitivity, ' +
       'just raster bytes; gating would break the daisychain basemap for unauthed visitors.');
   });
+
+  test('chain-store routes — query + update both local, public, exact', () => {
+    const q = ROUTES.find(x => x.prefix === '/kgx/chains-query');
+    const u = ROUTES.find(x => x.prefix === '/kgx/chains-update');
+    assert.ok(q, 'expected /kgx/chains-query route');
+    assert.ok(u, 'expected /kgx/chains-update route');
+    for (const r of [q, u]) {
+      assert.equal(r.local, 'oxigraph-chains',
+        'should route to the writable side Oxigraph, not the bundled read-only one');
+      assert.equal(r.public, true, 'chain store is OPL-licensed user data; public is correct');
+      assert.equal(r.exact, true, 'both routes are exact paths, not prefixes');
+    }
+  });
 });
 
 // ---------------------------------------------------------------------------
@@ -187,6 +200,25 @@ describe('buildUpstreamUrl', () => {
     const r = ROUTES.find(x => x.prefix === '/api/osm-tile/');
     const url = buildUpstreamUrl(r, '12/2048/1361.png', '');
     assert.equal(url, 'https://tile.openstreetmap.org/12/2048/1361.png');
+  });
+
+  test('chain-store routes: TTL = 0 (writes invalidate; reads are cheap)', () => {
+    for (const prefix of ['/kgx/chains-query', '/kgx/chains-update']) {
+      const r = ROUTES.find(x => x.prefix === prefix);
+      assert.equal(ttlMsFor(r, ''), 0, `${prefix}: must not cache user-mutable data`);
+    }
+  });
+
+  test('chain-store: query route forwards to writable Oxigraph /query endpoint', () => {
+    const r = ROUTES.find(x => x.prefix === '/kgx/chains-query');
+    const url = buildUpstreamUrl(r, '', '?query=ASK%20%7B%7D');
+    assert.match(url, /^http:\/\/127\.0\.0\.1:7879\/query\?query=ASK/);
+  });
+
+  test('chain-store: update route forwards to writable Oxigraph /update endpoint', () => {
+    const r = ROUTES.find(x => x.prefix === '/kgx/chains-update');
+    const url = buildUpstreamUrl(r, '', '');
+    assert.equal(url, 'http://127.0.0.1:7879/update');
   });
 
   test('exact route (sparql): ignores tail, keeps search', () => {

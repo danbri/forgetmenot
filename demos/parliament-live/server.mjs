@@ -106,6 +106,25 @@ const ROUTES = [
     public: true,
     exact: true },
 
+  // /kgx/chains-query    ->  http://OXIGRAPH_CHAINS_BIND/query
+  // /kgx/chains-update   ->  http://OXIGRAPH_CHAINS_BIND/update
+  // A second Oxigraph instance — WRITABLE — dedicated to user-saved
+  // chain manifests. Each chain is INSERTed into its own named graph
+  // (urn:kgx:flow:<uuid>) via the chainToTrig output wrapped in
+  // INSERT DATA. The bundled (read-only) store stays untouched.
+  //
+  // public + local-routed (no upstream rate limit). The store is
+  // ephemeral on stop/start with no fly volume mounted — see
+  // entrypoint.sh for the persistence-volume migration path.
+  { prefix: '/kgx/chains-query',
+    local: 'oxigraph-chains',
+    public: true,
+    exact: true },
+  { prefix: '/kgx/chains-update',
+    local: 'oxigraph-chains',
+    public: true,
+    exact: true },
+
   // /api/osm-tile/<z>/<x>/<y>.png  ->  https://tile.openstreetmap.org/<z>/<x>/<y>.png
   //
   // OSM Foundation public tile server, backing the daisychain map view's
@@ -198,6 +217,11 @@ export function ttlMsFor(route, tail) {
     // because cache lives in-process.
     return 600_000;
   }
+  if (route.prefix === '/kgx/chains-query' || route.prefix === '/kgx/chains-update') {
+    // User chain store mutates on every save; never cache. Reads stay
+    // cheap (a single Oxigraph query) so no caching is fine.
+    return 0;
+  }
   if (route.prefix === '/api/osm-tile/') {
     // OSMF tile.openstreetmap.org sends max-age ~6d for raster tiles.
     // The underlying data changes slowly and at a given (z,x,y) the
@@ -220,13 +244,20 @@ setInterval(() => {
 
 // Local bind for the bundled Oxigraph (when route.local === 'oxigraph').
 // Container-internal address; never reachable from the public internet.
-const OXIGRAPH_BIND = process.env.OXIGRAPH_BIND || '127.0.0.1:7878';
+const OXIGRAPH_BIND        = process.env.OXIGRAPH_BIND        || '127.0.0.1:7878';
+const OXIGRAPH_CHAINS_BIND = process.env.OXIGRAPH_CHAINS_BIND || '127.0.0.1:7879';
 
 export function buildUpstreamUrl(route, tail, search) {
   if (route.local === 'oxigraph') {
     // Oxigraph's query endpoint lives at /query; we expose /sparql to
     // callers because that's the conventional public path.
     return `http://${OXIGRAPH_BIND}/query${search || ''}`;
+  }
+  if (route.local === 'oxigraph-chains') {
+    // Two endpoints on the writable side store: /query (read) and
+    // /update (write). The route prefix decides which.
+    const ep = route.prefix === '/kgx/chains-update' ? '/update' : '/query';
+    return `http://${OXIGRAPH_CHAINS_BIND}${ep}${search || ''}`;
   }
   const host = route.upstreamHost;
   const base = route.upstreamPath;
@@ -431,7 +462,9 @@ const server = http.createServer(async (req, res) => {
       const u = new URL(req.url, `http://localhost:${PORT}`);
       const mPost = matchRoute(u.pathname);
       const isAllowedPost = mPost && (
-        mPost.route.local === 'oxigraph' || mPost.route.prefix === '/api/sparql'
+        mPost.route.local === 'oxigraph'
+        || mPost.route.local === 'oxigraph-chains'
+        || mPost.route.prefix === '/api/sparql'
       );
       if (!isAllowedPost) {
         setCommonHeaders(res);

@@ -45,6 +45,10 @@ export function normaliseChainSpec(input) {
       title: input.title || null,
       sub:   input.sub   || null,
       id:    input.id    || null,
+      // `_ts` carries a save timestamp set by the chain-store save intent.
+      // Pass through so chainToTrig can emit dct:created. Underscored to
+      // signal it's metadata about the spec, not part of the chain shape.
+      _ts:   input._ts   || null,
       activeBranch: 'main',
       branches: [branch],
       branchesInTopoOrder: [branch],
@@ -106,6 +110,7 @@ export function normaliseChainSpec(input) {
     title: input.title || null,
     sub:   input.sub   || null,
     id:    input.id    || null,
+    _ts:   input._ts   || null,
     activeBranch,
     branches: input.branches,
     branchesInTopoOrder: ordered,

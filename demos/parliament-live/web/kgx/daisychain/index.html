@@ -68,6 +68,7 @@ import {
 import { normaliseChainSpec, activeChainSteps } from '/kgx/lib/branches.mjs';
 import { frontierOf } from '/kgx/lib/frontier.mjs';
 import { entityIntentsFor, bundleIntentsFor } from '/kgx/lib/intents.mjs';
+import { buildListQuery, parseChainList, buildLoadQuery } from '/kgx/lib/chain-store.mjs';
 
 // Helper: which OPS chip ids are augment-shape (carry a role from
 // AUGMENT_OPS)? Picker hides these in `strict` mode (role: crossCheck).
@@ -2742,8 +2743,17 @@ class DaisyApp extends HTMLElement {
       this._status('no chain yet — start one from the chains pane');
       return;
     }
+    // Title: prefer the library entry's, fall back to "untitled" — the id
+    // (if known) lives in dct:identifier so saved-chains list can show
+    // either or both.
+    const libEntry = state.activeChainId && LIBRARY.find((x) => x.id === state.activeChainId);
     const ctx = {
-      chainSpec: { title: state.activeChainId || 'untitled chain', steps: spec },
+      chainSpec: {
+        title: libEntry?.title || (state.activeChainId ? `chain ${state.activeChainId}` : 'untitled chain'),
+        sub:   libEntry?.sub   || null,
+        id:    state.activeChainId || null,
+        steps: spec,
+      },
       permalink: location.origin + location.pathname + '#g=' + encodeSpec({ steps: spec }),
       kgxId:     state.activeChainId,
     };
@@ -2763,6 +2773,29 @@ class DaisyApp extends HTMLElement {
         else if (action.kind === 'copy') {
           try { await navigator.clipboard.writeText(action.text); } catch {}
           this._status(`✓ ${escapeHTML(intent.label)}`);
+        }
+        else if (action.kind === 'post') {
+          // The FPKG chain-store save lands here. Body is a SPARQL Update;
+          // success is the 204 Oxigraph returns on a clean INSERT DATA.
+          // Surfaces both success and failure honestly — no silent swallow.
+          this._status(`saving — ${escapeHTML(intent.label)} …`);
+          try {
+            const r = await fetch(action.href, {
+              method: 'POST',
+              headers: { 'content-type': action.contentType || 'application/octet-stream' },
+              body: action.body,
+            });
+            if (r.ok || r.status === (action.successStatus || 204)) {
+              this._status(`✓ saved to FPKG chain store`);
+              // Refresh the nav pane to show the new entry.
+              publish();
+            } else {
+              const txt = await r.text().catch(() => '');
+              this._status(`save failed — HTTP ${r.status}${txt ? ': ' + escapeHTML(txt.slice(0, 100)) : ''}`, true);
+            }
+          } catch (e) {
+            this._status(`save failed — ${escapeHTML(e.message)}`, true);
+          }
         }
         pop.remove();
       });
@@ -2883,6 +2916,60 @@ class DaisyApp extends HTMLElement {
   // Nav pane — Finder's sidebar. One-tap to start a new chain or replay a
   // saved one. Branches of the active chain (forks) will land here too once
   // their UI lands; for now the active LIBRARY entry is highlighted.
+  // Fetch the saved-chains list from /kgx/chains-query and render each
+  // as a nav row. Tap a row → load that chain's TriG back, parse it into
+  // a step spec, and replay. Fails silently (just leaves the section
+  // empty) — the chain store is auxiliary, not core navigation.
+  async _loadSavedChains(container) {
+    container.innerHTML = '';
+    const q = buildListQuery();
+    let bindings = [];
+    try {
+      const r = await fetch('/kgx/chains-query?query=' + encodeURIComponent(q),
+        { headers: { accept: 'application/sparql-results+json' } });
+      if (!r.ok) return;
+      const json = await r.json();
+      bindings = json.results?.bindings || [];
+    } catch { return; }
+    const list = parseChainList(bindings);
+    if (!list.length) {
+      const empty = document.createElement('div');
+      empty.style.cssText = 'font-size:11px;color:var(--ink-mute);padding:4px 6px;font-style:italic;';
+      empty.textContent = 'nothing saved yet — use ⋯ → Save to FPKG';
+      container.appendChild(empty);
+      return;
+    }
+    for (const row of list) {
+      const b = document.createElement('button');
+      b.className = 'nav-item';
+      b.innerHTML = `<div class="nm"></div><div class="sub"></div>`;
+      b.querySelector('.nm').textContent = row.title || row.flowIri;
+      b.querySelector('.sub').textContent = row.ts
+        ? `saved ${row.ts.slice(0, 19).replace('T', ' ')}`
+        : (row.id || '');
+      b.addEventListener('click', () => this._loadChainFromStore(row));
+      container.appendChild(b);
+    }
+  }
+
+  // Resolve a saved-chain row back into a runnable spec. Strategy: the
+  // chain manifest in the store is the same TriG chainToTrig() emits, so
+  // it carries dct:identifier (the library id when known) — for now we
+  // prefer the library short-form when the id matches a LIBRARY entry,
+  // and fall back to a "not yet hydratable" status otherwise.
+  // Full TriG → spec reverse-parse is a follow-up — needs an N3 / Turtle
+  // parser the lib doesn't ship today. Documented as "load by library id".
+  async _loadChainFromStore(row) {
+    const libEntry = row.id && LIBRARY.find((x) => x.id === row.id);
+    if (libEntry) {
+      this.dispatchEvent(new CustomEvent('library-pick', {
+        detail: libEntry, bubbles: true, composed: true,
+      }));
+      return;
+    }
+    this._status(`saved chain "${escapeHTML(row.title || row.flowIri)}" — full TriG → spec rehydrate is a follow-up; load by library id works today`, true);
+  }
+
   _renderNav(root) {
     const newBtn = document.createElement('button');
     newBtn.className = 'nav-item new';
@@ -2891,6 +2978,20 @@ class DaisyApp extends HTMLElement {
       this.dispatchEvent(new CustomEvent('chain-new', { bubbles: true, composed: true }));
     });
     root.appendChild(newBtn);
+
+    // SAVED CHAINS section — pulls from the writable side Oxigraph via
+    // /kgx/chains-query. The fetch is async + non-blocking; the section
+    // renders empty first and populates when the SELECT comes back. A
+    // failure (chain store down, no data yet) leaves the section silent
+    // — by design, since this is auxiliary navigation, not core flow.
+    const savedSec = document.createElement('div');
+    savedSec.className = 'nav-section';
+    savedSec.textContent = 'saved in fpkg';
+    root.appendChild(savedSec);
+    const savedList = document.createElement('div');
+    savedList.id = 'saved-chains-list';
+    root.appendChild(savedList);
+    this._loadSavedChains(savedList);
 
     // BRANCHES section — only present when the active chain is a tree-shape
     // library entry. Each branch is one tap to switch the active lane; the

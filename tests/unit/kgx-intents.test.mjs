@@ -83,18 +83,27 @@ const flatSpec = {
   ],
 };
 
-test('Bundle intents fire when a chainSpec is supplied; permalink/spec/trig/cli plans return copy actions', () => {
+test('Bundle intents fire when a chainSpec is supplied; copy intents emit copy actions, save-to-fpkg emits a post action', () => {
   const ctx = {
     chainSpec: flatSpec,
     permalink: 'http://example/#g=abc',
     kgxId: 'lab-sitting',
   };
   const ids = bundleIntentsFor({}, ctx).map((i) => i.id);
-  assert.deepEqual(ids.sort(), ['copy-kgx-cli', 'copy-permalink', 'copy-spec', 'copy-trig'].sort());
+  assert.deepEqual(ids.sort(),
+    ['copy-kgx-cli', 'copy-permalink', 'copy-spec', 'copy-trig', 'save-to-fpkg'].sort());
   for (const intent of bundleIntentsFor({}, ctx)) {
     const action = intent.plan({}, ctx);
-    assert.equal(action.kind, 'copy', `${intent.id}: should be a copy action`);
-    assert.ok(action.text && action.text.length, `${intent.id}: plan must produce text`);
+    if (intent.id === 'save-to-fpkg') {
+      assert.equal(action.kind, 'post', `${intent.id}: should POST the SPARQL Update`);
+      assert.equal(action.href, '/kgx/chains-update');
+      assert.equal(action.contentType, 'application/sparql-update');
+      assert.ok(action.body && action.body.length, `${intent.id}: must carry a body`);
+      assert.match(action.body, /INSERT DATA \{\s*GRAPH <urn:kgx:flow:/);
+    } else {
+      assert.equal(action.kind, 'copy', `${intent.id}: should be a copy action`);
+      assert.ok(action.text && action.text.length, `${intent.id}: plan must produce text`);
+    }
   }
 });
 

@@ -27,10 +27,17 @@
 // `ctx` for entity intents is { bundle } (the source bundle); for bundle
 // intents it's { chainSpec, permalink, kgxId } (the saved chain context).
 //
+// Plan action kinds:
+//   { kind: 'url',  href }                    — open in a new tab
+//   { kind: 'copy', text }                    — clipboard write
+//   { kind: 'post', href, body, contentType,  — HTTP POST (e.g. save chain
+//      successStatus }                          to the FPKG chain store)
+//
 // The PAGE chooses the dispatch UI; the CLI just `console.log`s the plan.
 // =============================================================================
 
 import { chainToTrig } from './trig.mjs';
+import { buildSaveUpdate } from './chain-store.mjs';
 
 // ---------------------------------------------------------------------------
 // Entity intents — applicable to a single thing.
@@ -151,6 +158,33 @@ const BUNDLE_INTENTS = [
     scope: 'bundle',
     applicable: (_bd, ctx) => !!ctx?.chainSpec,
     plan: (_bd, ctx) => ({ kind: 'copy', text: chainToTrig(ctx.chainSpec) }),
+  },
+  {
+    // Persist the chain into the fpkg writable Oxigraph side store, one
+    // named graph per chain (urn:kgx:flow:<uuid>). The save endpoint is
+    // /kgx/chains-update and accepts application/sparql-update. Same
+    // RDF the "Copy as TriG" intent emits — just routed through a
+    // DROP SILENT + INSERT DATA so re-saves replace cleanly.
+    id: 'save-to-fpkg',
+    label: 'Save to FPKG (named graph in the kg)',
+    icon: '💾',
+    scope: 'bundle',
+    applicable: (_bd, ctx) => !!ctx?.chainSpec,
+    plan: (_bd, ctx) => {
+      // Stamp the spec with a title and a creation timestamp so the chain
+      // list endpoint can sort by recency and surface a human-readable
+      // label without forcing the user to name the chain first.
+      const stamped = { ...ctx.chainSpec, _ts: new Date().toISOString() };
+      const trig = chainToTrig(stamped);
+      const body = buildSaveUpdate(trig);
+      return {
+        kind: 'post',
+        href: '/kgx/chains-update',
+        contentType: 'application/sparql-update',
+        body,
+        successStatus: 204,
+      };
+    },
   },
   {
     id: 'copy-kgx-cli',

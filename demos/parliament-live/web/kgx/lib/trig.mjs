@@ -133,6 +133,10 @@ export function chainToTrig(spec, opts = {}) {
   if (normalised.title) lines.push(`  ${flowG} dct:title ${ttlString(normalised.title)} .`);
   if (normalised.sub)   lines.push(`  ${flowG} dct:description ${ttlString(normalised.sub)} .`);
   if (normalised.id)    lines.push(`  ${flowG} dct:identifier ${ttlString(normalised.id)} .`);
+  // dct:created carries the save timestamp when the page stamps `_ts`
+  // before serialising. Used by the chain-store nav pane to sort
+  // recently-saved chains first.
+  if (normalised._ts) lines.push(`  ${flowG} dct:created "${normalised._ts}"^^<http://www.w3.org/2001/XMLSchema#dateTime> .`);
   lines.push('');
   let prev = null;
   for (let i = 0; i < stepsToRun.length; i++) {

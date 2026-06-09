@@ -53,6 +53,26 @@ oxigraph serve-read-only \
     --union-default-graph &
 OXI_PID=$!
 
+# ---------------------------------------------------------------------------
+# Second Oxigraph — a WRITABLE side store dedicated to user-saved chains,
+# each in its own named graph (urn:kgx:flow:<uuid>). The main store stays
+# read-only for the fast cold-start path; user mutations land here so
+# we don't have to teach the bundled RocksDB to honour LOAD / INSERT.
+#
+# Storage path: /tmp/oxi-chains — EPHEMERAL on stop/start with no fly
+# volume mounted. Persistence is a follow-up: mount a volume to /data and
+# point OXIGRAPH_CHAINS_DB at it. Documented in fly.toml.
+# ---------------------------------------------------------------------------
+CHAINS_DB_DIR="${OXIGRAPH_CHAINS_DB:-/tmp/oxi-chains}"
+CHAINS_BIND="${OXIGRAPH_CHAINS_BIND:-127.0.0.1:7879}"
+mkdir -p "$CHAINS_DB_DIR"
+echo "[fpkg] starting oxigraph serve (writable) on $CHAINS_BIND at $CHAINS_DB_DIR …"
+oxigraph serve \
+    --location "$CHAINS_DB_DIR" \
+    --bind "$CHAINS_BIND" \
+    --cors &
+OXI_CHAINS_PID=$!
+
 # Brief readiness loop; with a pre-baked store this should pass on the
 # first or second poll.
 for i in $(seq 1 60); do
@@ -67,6 +87,20 @@ for i in $(seq 1 60); do
     sleep 1
 done
 
+# Wait for the chains store too — but it's empty + writable, so this is
+# usually instant. If it dies that's still fatal.
+for i in $(seq 1 30); do
+    if wget -qO- "http://$CHAINS_BIND/query?query=ASK%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D" >/dev/null 2>&1; then
+        echo "[fpkg] oxigraph (chains) ready after ${i}s"
+        break
+    fi
+    if ! kill -0 "$OXI_CHAINS_PID" 2>/dev/null; then
+        echo "[fpkg] oxigraph (chains) died during startup" >&2
+        exit 1
+    fi
+    sleep 1
+done
+
 echo "[fpkg] starting node server.mjs on ${HOST:-0.0.0.0}:${PORT:-8080} …"
 node /app/server.mjs &
 NODE_PID=$!
@@ -74,7 +108,7 @@ NODE_PID=$!
 # If either child dies, exit so fly restarts the whole machine. Without
 # this, oxigraph dying mid-flight leaves node up but every query 502s
 # forever ("fetch failed" against 127.0.0.1:7878).
-wait -n "$OXI_PID" "$NODE_PID" 2>/dev/null || true
+wait -n "$OXI_PID" "$OXI_CHAINS_PID" "$NODE_PID" 2>/dev/null || true
 echo "[fpkg] a child process exited — bailing out so fly restarts the machine" >&2
-kill -TERM "$OXI_PID" "$NODE_PID" 2>/dev/null || true
+kill -TERM "$OXI_PID" "$OXI_CHAINS_PID" "$NODE_PID" 2>/dev/null || true
 exit 1
