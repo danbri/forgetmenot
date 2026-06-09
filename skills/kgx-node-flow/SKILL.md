@@ -35,6 +35,7 @@ beads.
 | `sparql-validate.mjs` | `assertNoAliasCollisions(query, label)` | pure |
 | `restrict.mjs` | `opFilters` (21 pure-client filters), `OP_FIELDS` (op→{field,types[]}), `opsRelevantTo(type)`, `nameGender`, `countBy`, `sortByKey`, `topCounts`, `GENDER_NAMES_FEMALE/_MALE` | pure |
 | `frontier.mjs` | `frontierOf(bundle)` → `{type,size,facets,presence,uniform}` — data-driven "what can I slice here" (backs `kgx chain frontier`) | pure |
+| `intents.mjs` | `INTENTS`, `entityIntentsFor(item)`, `bundleIntentsFor(bundle, ctx)` — Android-style intent registry (open Wikidata/OSM/TheyWorkForYou/Hansard for entities; copy permalink/spec/TriG/CLI for chains). plan() returns `{kind:'url'|'copy', href|text}` so the page + CLI can both dispatch. | pure (DOM-free) |
 | `rel-templates.mjs` | `REL_TEMPLATES` (13 templates, 19 variants), `valuesMnisPersons` | pure data + pure build/parse |
 | `starters.mjs` | `STARTERS` (10 entries — 6 SPARQL + 4 PQ shape), per-starter parse functions, `POST1900_MPS_QUERY`, `SEED_LIMIT` | pure data + pure parse |
 | `augment.mjs` | `AUGMENT_OPS` (enrich / parl-enrich / identity-bridge), each with declarative `applicableTo` ({types, requiresFields/anyOfFields, uriPattern}) | pure data + pure query/parse |

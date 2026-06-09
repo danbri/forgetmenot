@@ -67,6 +67,7 @@ import {
 } from '/kgx/lib/quality.mjs';
 import { normaliseChainSpec, activeChainSteps } from '/kgx/lib/branches.mjs';
 import { frontierOf } from '/kgx/lib/frontier.mjs';
+import { entityIntentsFor, bundleIntentsFor } from '/kgx/lib/intents.mjs';
 
 // Helper: which OPS chip ids are augment-shape (carry a role from
 // AUGMENT_OPS)? Picker hides these in `strict` mode (role: crossCheck).
@@ -1842,13 +1843,15 @@ class DaisyThingSheet extends HTMLElement {
         .links { margin-top: 10px; padding-top: 8px;
                  border-top: 1px solid var(--rule-soft);
                  display: flex; gap: 6px; flex-wrap: wrap; }
-        .links a {
+        .links a, .links .linklike {
+          appearance: none; cursor: pointer;
           background: var(--surface-2); color: var(--ink);
           border: 1px solid var(--rule-soft); border-radius: 6px;
           padding: 4px 8px; font: 11px/1 inherit;
           text-decoration: none;
+          display: inline-flex; align-items: center; gap: 4px;
         }
-        .links a:hover {
+        .links a:hover, .links .linklike:hover {
           background: color-mix(in oklab, var(--accent) 10%, var(--surface-2));
           border-color: var(--accent);
         }
@@ -1867,13 +1870,31 @@ class DaisyThingSheet extends HTMLElement {
           </div>
           <dl>${rowsHTML}</dl>
         </div>
-        <div class="links">
-          ${wdUrl    ? `<a href="${wdUrl}"    target="_blank" rel="noopener">Wikidata ↗</a>` : ''}
-          ${item.uri ? `<a href="${item.uri}" target="_blank" rel="noopener">URI ↗</a>`   : ''}
-          ${item.image ? `<a href="${commonsThumb(item.image, 1200)}" target="_blank" rel="noopener">full image ↗</a>` : ''}
-        </div>
+        <div class="links" id="intents"></div>
       </div>
     `;
+    // Entity intents — applicable filtered, dispatched on click. Each
+    // intent's plan() declares the side effect (open URL, copy text); the
+    // dispatcher runs it and (for copy) emits a brief "copied" pill.
+    const intents = entityIntentsFor(item);
+    const intentsRoot = this.shadowRoot.querySelector('#intents');
+    for (const intent of intents) {
+      const b = document.createElement('button');
+      b.className = 'linklike';
+      b.title = intent.label;
+      b.innerHTML = `<span>${intent.icon}</span> ${escapeHTML(intent.label)}`;
+      b.addEventListener('click', async () => {
+        const action = intent.plan(item, { bundle: bundleType });
+        if (action.kind === 'url') window.open(action.href, '_blank', 'noopener');
+        else if (action.kind === 'copy') {
+          try { await navigator.clipboard.writeText(action.text); } catch {}
+          b.innerHTML = `<span>✓</span> copied`;
+          setTimeout(() => { b.innerHTML = `<span>${intent.icon}</span> ${escapeHTML(intent.label)}`; }, 1200);
+        }
+      });
+      intentsRoot.appendChild(b);
+    }
+    if (!intents.length) intentsRoot.style.display = 'none';
     this.shadowRoot.querySelector('.close').addEventListener('click', () => this.remove());
     // Outside-click and ESC close. Since the popover doesn't cover the page,
     // we attach listeners to the document — and detach on disconnect.
@@ -1924,6 +1945,36 @@ class DaisyApp extends HTMLElement {
           border: 1px solid var(--rule); border-radius: 6px;
           padding: 4px 8px; font: 12px/1 inherit; cursor: pointer;
         }
+        #intents-btn { padding: 4px 6px; min-width: 30px; }
+        /* Bundle-intents popover — Android-share-style menu of services
+           applicable to the current chain. Anchored under the ⋯ button,
+           closes on outside-click. The lib filters which intents are
+           applicable; this just renders + dispatches the planned action. */
+        header { position: relative; }
+        .intent-popover {
+          position: absolute; top: 100%; right: 0; z-index: 50;
+          margin-top: 4px;
+          background: var(--surface); color: var(--ink);
+          border: 1px solid var(--rule); border-radius: 8px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+          min-width: 220px; padding: 4px;
+        }
+        .intent-popover .intent-head {
+          font-size: 10px; color: var(--ink-mute);
+          text-transform: uppercase; letter-spacing: 0.05em;
+          padding: 4px 8px;
+        }
+        .intent-popover .intent-item {
+          display: flex; align-items: center; gap: 8px;
+          width: 100%; padding: 6px 8px; margin: 0;
+          background: transparent; color: var(--ink);
+          border: 0; border-radius: 4px;
+          font: 12px/1.2 inherit; text-align: left; cursor: pointer;
+        }
+        .intent-popover .intent-item:hover {
+          background: color-mix(in oklab, var(--accent) 12%, transparent);
+        }
+        .intent-popover .ic { width: 18px; text-align: center; }
         /* Two seg groups: pane-A (chain structure) + pane-B (node content).
            Each labelled so the dual-pane intent is legible without prose. */
         .seg {
@@ -2322,6 +2373,7 @@ class DaisyApp extends HTMLElement {
             <button id="v-map"   data-v="map"   data-pane="content" title="map the focused bead (when coords are known)">map</button>
           </div>
           <button id="save-btn" title="copy this chain as JSON">⎘ save</button>
+          <button id="intents-btn" title="services / intents for this chain" aria-label="intents">⋯</button>
           <button id="reset-btn" title="start over">↺ reset</button>
         </div>
       </header>
@@ -2381,6 +2433,7 @@ class DaisyApp extends HTMLElement {
     this.addEventListener('thing-open',   (e) => this._openThing(e.detail.item, e.detail.bundle?.type));
     this.shadowRoot.querySelector('#reset-btn').addEventListener('click', () => this._reset());
     this.shadowRoot.querySelector('#save-btn').addEventListener('click', () => this._saveChain());
+    this.shadowRoot.querySelector('#intents-btn').addEventListener('click', (e) => this._openBundleIntents(e));
     // The strict/exploratory/recall/precision dropdown was removed from the
     // header — it ate mobile real estate without telling anyone what it meant.
     // state.qualityMode stays at the 'exploratory' default so the picker
@@ -2675,6 +2728,57 @@ class DaisyApp extends HTMLElement {
     const url  = location.origin + location.pathname + '#g=' + encodeSpec({ steps: spec });
     try { navigator.clipboard?.writeText(url); } catch {}
     this._status(`✓ permalink copied — <b>${spec.length}</b> steps`);
+  }
+
+  // Bundle-scope intents — open a small popover anchored near the ⋯ button
+  // listing every intent applicable to the current chain. Clicking one runs
+  // its planned action (open URL / copy text); the popover closes after.
+  _openBundleIntents(ev) {
+    // Close any existing intent popover (toggle).
+    const existing = this.shadowRoot.querySelector('.intent-popover');
+    if (existing) { existing.remove(); return; }
+    const spec = currentChainSpec();
+    if (!spec.length) {
+      this._status('no chain yet — start one from the chains pane');
+      return;
+    }
+    const ctx = {
+      chainSpec: { title: state.activeChainId || 'untitled chain', steps: spec },
+      permalink: location.origin + location.pathname + '#g=' + encodeSpec({ steps: spec }),
+      kgxId:     state.activeChainId,
+    };
+    const frontier = state.beads[state.beads.length - 1]?.bundle;
+    const intents = bundleIntentsFor(frontier, ctx);
+    if (!intents.length) { this._status('no intents available for this chain'); return; }
+    const pop = document.createElement('div');
+    pop.className = 'intent-popover';
+    pop.innerHTML = `<div class="intent-head">chain intents</div>`;
+    for (const intent of intents) {
+      const b = document.createElement('button');
+      b.className = 'intent-item';
+      b.innerHTML = `<span class="ic">${intent.icon}</span><span>${escapeHTML(intent.label)}</span>`;
+      b.addEventListener('click', async () => {
+        const action = intent.plan(frontier, ctx);
+        if (action.kind === 'url') window.open(action.href, '_blank', 'noopener');
+        else if (action.kind === 'copy') {
+          try { await navigator.clipboard.writeText(action.text); } catch {}
+          this._status(`✓ ${escapeHTML(intent.label)}`);
+        }
+        pop.remove();
+      });
+      pop.appendChild(b);
+    }
+    // Anchor near the ⋯ button. The header is in the shadow root; we
+    // append the popover inside the shadow so its z-index is local.
+    this.shadowRoot.querySelector('header').appendChild(pop);
+    // Outside-click close (capture phase so it fires before child clicks).
+    const onDoc = (e) => {
+      if (!pop.contains(e.target) && e.target !== this.shadowRoot.querySelector('#intents-btn')) {
+        pop.remove();
+        document.removeEventListener('click', onDoc, { capture: true });
+      }
+    };
+    setTimeout(() => document.addEventListener('click', onDoc, { capture: true }), 0);
   }
 
   _undoTo(idx) { truncateTo(idx); }
