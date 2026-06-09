@@ -1,0 +1,79 @@
+# Weekly refresh of the kgx http-cache test fixtures.
+#
+# The committed summaries under tests/fixtures/http-cache/ record upstream
+# responses (QLever Wikidata, Parliament SPARQL/PQ, fpkg /kgx/query) that
+# drift over time; left alone they desync from live data and frozen-mode CI
+# (test.yml) starts failing on fresh runners. This workflow re-records them:
+# run the suite once in 'cache' mode (live fetches, rewrites summaries),
+# prove the refreshed summaries replay in 'frozen' mode with the /tmp body
+# tier wiped (exactly what a cold CI runner sees), then commit only
+# tests/fixtures/. A red live run fails the workflow without committing —
+# never push fixtures from a broken run.
+
+name: refresh-fixtures
+
+on:
+  schedule:
+    # 41 4 UTC Sundays — small offset off the top of the hour to avoid the
+    # cron stampede; quiet time for the upstream APIs we re-fetch.
+    - cron: '41 4 * * 0'
+  workflow_dispatch:        # manual trigger from the GH UI
+
+permissions:
+  contents: write           # to push the refreshed fixture summaries
+
+concurrency:
+  group: refresh-fixtures
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/main
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      # Live re-record: with no /tmp body tier on a fresh runner, 'cache'
+      # mode fetches every cached URL live and rewrites both tiers,
+      # including the committed summaries. If upstream is broken the suite
+      # goes red here and we stop — nothing gets committed.
+      - name: Re-record fixtures (cache mode, live fetches)
+        env:
+          KGX_HTTP_CACHE_MODE: cache
+        run: |
+          rm -rf /tmp/kgx-http-cache
+          npm test
+
+      # Replay check: wipe the /tmp full-body tier so frozen mode must
+      # synthesize from the committed summaries alone — the same cold-start
+      # path test.yml's runners take. Never push fixtures that don't replay.
+      - name: Verify fixtures replay (frozen mode, summaries only)
+        env:
+          KGX_HTTP_CACHE_MODE: frozen
+        run: |
+          rm -rf /tmp/kgx-http-cache
+          npm test
+
+      - name: Commit refreshed fixtures
+        run: |
+          git config user.name  "forgetmenot-bot"
+          git config user.email "forgetmenot-bot@users.noreply.github.com"
+          git add -A tests/fixtures/
+          if git diff --cached --quiet; then
+            echo "no changes to commit"; exit 0
+          fi
+          git commit -m "auto: weekly http-cache fixture refresh (run ${{ github.run_id }})"
+          git push
