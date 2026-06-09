@@ -743,6 +743,12 @@ const state = {
   // the selected sidebar folder. null while a chain is freshly composed by
   // chip-tapping rather than replayed.
   activeChainId: null,
+  // For TREE-shape chains (library entries with branches[]), the page
+  // remembers the SOURCE library entry plus which branch is active so the
+  // nav pane can render siblings as tap-to-switch buttons. null while a
+  // flat chain is active.
+  activeTreeEntry: null,
+  activeBranchId:  null,
   // Focus is the index of the bead whose CONTENT downstream views show
   // (tiles, map). It defaults to "follow the frontier" — null means the
   // last bead — so existing chains feel unchanged. Click an older bead in
@@ -2007,6 +2013,18 @@ class DaisyApp extends HTMLElement {
         #nav-root .nav-item .nm { font-weight: 600; font-size: 12px; }
         #nav-root .nav-item .sub { color: var(--ink-mute); font-size: 11px;
                                    margin-top: 2px; line-height: 1.35; }
+        #nav-root .nav-item.branch {
+          margin-left: 10px; position: relative;
+          border-left: 2px solid var(--rule);
+          border-radius: 0 6px 6px 0;
+        }
+        #nav-root .nav-item.branch.active {
+          border-left-color: var(--accent);
+        }
+        #nav-root .nav-item.branch::before {
+          content: ''; position: absolute; left: -2px; top: 50%;
+          width: 6px; height: 2px; background: var(--rule);
+        }
         #view-root { padding: 0; }   /* legacy, kept until callers stop targeting it */
         #status {
           font-size: 12px; color: var(--ink-soft);
@@ -2536,9 +2554,11 @@ class DaisyApp extends HTMLElement {
   }
 
   // Replay a saved chain step-by-step. Awaits async ops; surfaces failures.
-  async _replay(entry) {
+  async _replay(entry, opts = {}) {
     state.beads = [];
     state.starter = null;
+    state.activeTreeEntry = null;
+    state.activeBranchId  = null;
     publish();
     // Accept either {steps} (flat) or {branches} (tree). The flatten walks
     // ancestor prefixes + the active branch — so a saved fork-shape chain
@@ -2546,8 +2566,20 @@ class DaisyApp extends HTMLElement {
     // multi-branch state. The lib layer is what each pass goes through.
     let stepsToRun = [];
     try {
-      const normalised = normaliseChainSpec(entry);
+      // opts.activeBranch overrides the entry's default — used by the nav
+      // pane's branch-switcher. We feed it back through normaliseChainSpec
+      // so validation runs each time.
+      const overlaid = (opts.activeBranch && Array.isArray(entry.branches))
+        ? { ...entry, activeBranch: opts.activeBranch }
+        : entry;
+      const normalised = normaliseChainSpec(overlaid);
       stepsToRun = activeChainSteps(normalised) || [];
+      // Remember the tree + active branch so the nav pane can offer
+      // siblings. Only meaningful for tree-shape entries with > 1 branch.
+      if (Array.isArray(entry.branches) && entry.branches.length > 1) {
+        state.activeTreeEntry = entry;
+        state.activeBranchId  = normalised.activeBranch;
+      }
     } catch (e) {
       // Old-shape entries that fail normalisation: fall back to entry.steps.
       stepsToRun = Array.isArray(entry.steps) ? entry.steps : [];
@@ -2668,6 +2700,8 @@ class DaisyApp extends HTMLElement {
     state.beads = [];
     state.focusIdx = null;
     state.activeChainId = null;
+    state.activeTreeEntry = null;
+    state.activeBranchId  = null;
     this._status(null);
     publish();
   }
@@ -2754,6 +2788,36 @@ class DaisyApp extends HTMLElement {
     });
     root.appendChild(newBtn);
 
+    // BRANCHES section — only present when the active chain is a tree-shape
+    // library entry. Each branch is one tap to switch the active lane; the
+    // shared prefix isn't re-fetched at the lib level (replay runs from
+    // scratch today, but the lib's bead-hash cache reuses the prefix beads).
+    if (state.activeTreeEntry?.branches?.length > 1) {
+      const branchSec = document.createElement('div');
+      branchSec.className = 'nav-section';
+      branchSec.textContent = `branches of ${state.activeTreeEntry.title}`;
+      root.appendChild(branchSec);
+      for (const br of state.activeTreeEntry.branches) {
+        const b = document.createElement('button');
+        b.className = 'nav-item branch'
+          + (state.activeBranchId === br.id ? ' active' : '');
+        b.innerHTML = `<div class="nm"></div><div class="sub"></div>`;
+        // The forkedFrom: { branch, beadIdx } tells the user where this
+        // branch diverges from its parent — `→ from main @ bead 3` style.
+        // Root branches (no forkedFrom) show "root".
+        const where = br.forkedFrom
+          ? `← from ${br.forkedFrom.branch} @ bead ${br.forkedFrom.beadIdx + 1}`
+          : 'root';
+        b.querySelector('.nm').textContent = `${br.label || br.id}`;
+        b.querySelector('.sub').textContent = where;
+        b.addEventListener('click', () => {
+          if (state.activeBranchId === br.id) return;
+          this._replay(state.activeTreeEntry, { activeBranch: br.id });
+        });
+        root.appendChild(b);
+      }
+    }
+
     // Library — saved chains.
     const sec = document.createElement('div');
     sec.className = 'nav-section';
@@ -2766,8 +2830,13 @@ class DaisyApp extends HTMLElement {
       catch { stepCount = (entry.steps || []).length; }
       const b = document.createElement('button');
       b.className = 'nav-item' + (state.activeChainId === entry.id ? ' active' : '');
+      // Tree-shape entries get a tiny "branches: N" hint so the user knows
+      // there's more to explore once they pick it.
+      const branchHint = Array.isArray(entry.branches)
+        ? ` · ${entry.branches.length} branches`
+        : '';
       b.innerHTML = `<div class="nm"></div><div class="sub"></div>`;
-      b.querySelector('.nm').textContent = `${stepCount}· ${entry.title}`;
+      b.querySelector('.nm').textContent = `${stepCount}· ${entry.title}${branchHint}`;
       b.querySelector('.sub').textContent = entry.sub || '';
       b.addEventListener('click', () => {
         this.dispatchEvent(new CustomEvent('library-pick', {
