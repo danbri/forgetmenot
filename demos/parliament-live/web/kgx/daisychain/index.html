@@ -724,7 +724,14 @@ const STARTERS = [
 const state = {
   starter: null,         // STARTERS entry once chosen
   beads: [],             // [{ id, opLabel, opIcon, bundle }]  ordered
-  view: 'spine',         // 'spine' | 'graph' | 'table' | 'tiles' | 'map'
+  // The page has TWO simultaneous panes — the chain pane (spine/graph/table)
+  // and the node-content pane (tiles/map). Each carries its own active view.
+  // `view` is kept for one-shot callers (e.g. _focusToView) that want to
+  // FOCUS A BEAD AND switch to a specific content view; they set this and
+  // _render routes it into chainView or contentView.
+  view: null,
+  chainView:   'spine',
+  contentView: 'tiles',
   // Focus is the index of the bead whose CONTENT downstream views show
   // (tiles, map). It defaults to "follow the frontier" — null means the
   // last bead — so existing chains feel unchanged. Click an older bead in
@@ -979,16 +986,16 @@ class DaisyBead extends HTMLElement {
         :host { display: block; position: relative; }
         .card {
           background: var(--surface); border: 1px solid var(--rule-soft);
-          border-radius: 14px; padding: 12px 14px;
+          border-radius: 10px; padding: 8px 10px;
           box-shadow: var(--shadow);
           position: relative;
         }
         :host([frontier]) .card {
           border-color: var(--accent);
-          box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent),
+          box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 18%, transparent),
                       var(--shadow-lift);
         }
-        .head { display: flex; gap: 8px; align-items: baseline; }
+        .head { display: flex; gap: 6px; align-items: baseline; }
         .idx { font-size: 11px; color: var(--ink-mute); width: 18px; flex: 0 0 18px;
                font-variant-numeric: tabular-nums; }
         .op { font-size: 12px; color: var(--ink-mute); }
@@ -1001,7 +1008,7 @@ class DaisyBead extends HTMLElement {
                 font-size: 14px; cursor: pointer; padding: 2px 6px;
                 border-radius: 4px; margin-left: 6px; }
         .info:hover { color: var(--accent); background: var(--surface-2); }
-        .strip { display: flex; gap: 4px; margin-top: 10px; flex-wrap: wrap; }
+        .strip { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
         .strip .thumb-btn {
           padding: 0; border: 0; background: none; cursor: pointer;
           border-radius: 6px; overflow: hidden;
@@ -1015,7 +1022,7 @@ class DaisyBead extends HTMLElement {
                      background: var(--surface-2); opacity: 0;
                      transition: opacity 0.4s; display: block; }
         .strip img.loaded { opacity: 1; }
-        .chips { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+        .chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
         .chip {
           background: var(--surface-2); color: var(--ink);
           border: 1px solid var(--rule-soft);
@@ -1040,19 +1047,17 @@ class DaisyBead extends HTMLElement {
         }
         .meta { font-size: 12px; color: var(--ink-mute); margin-top: 6px;
                 display: flex; gap: 8px; flex-wrap: wrap; }
-        /* Older-bead footer: tap-anywhere to FOCUS the bead (inspect its
-           data in tiles / map without truncating); explicit small ↺ button
-           to destructively undo back to that bead. Two affordances, two
-           different actions — clicking the card never silently nukes work. */
-        .hist-actions { display: flex; gap: 10px; align-items: center;
-                        margin-top: 8px; font-size: 12px; }
-        .hist-actions .focus-hint { color: var(--ink-mute); }
-        .hist-actions .focus-hint .kbd { color: var(--ink-soft); font-weight: 600; }
+        /* Older-bead footer: tap-anywhere on the CARD focuses the bead
+           (inspect its data in tiles / map without truncating); the small
+           ↺ button beside it destructively undoes back to that bead. Two
+           affordances, two different actions — clicking the card never
+           silently nukes work. */
+        .hist-actions { display: flex; justify-content: flex-end;
+                        margin-top: 4px; font-size: 12px; }
         .hist-actions .undo-btn {
-          margin-left: auto;
           appearance: none; background: transparent; cursor: pointer;
           border: 1px solid var(--rule-soft); border-radius: 6px;
-          padding: 4px 8px; font: inherit; color: var(--ink-soft);
+          padding: 2px 6px; font: inherit; font-size: 11px; color: var(--ink-soft);
         }
         .hist-actions .undo-btn:hover {
           background: color-mix(in oklab, #c04020 12%, transparent);
@@ -1061,11 +1066,6 @@ class DaisyBead extends HTMLElement {
         }
         :host([focus]) .card { box-shadow: 0 0 0 2px var(--accent) inset; }
         :host([focus]) .head .idx { color: var(--accent); }
-        .grow {
-          margin-top: 10px; padding: 8px 0 0;
-          border-top: 1px dashed var(--rule-soft);
-          font-size: 12px; color: var(--ink-mute);
-        }
       </style>
       <div class="card">
         <div class="head">
@@ -1077,10 +1077,9 @@ class DaisyBead extends HTMLElement {
         </div>
         <div class="strip"></div>
         <div class="meta"></div>
-        ${front ? `<div class="grow">tap a chip to grow the chain</div><div class="chips"></div>`
+        ${front ? `<div class="chips"></div>`
                 : `<div class="hist-actions">
-                     <span class="focus-hint">tap card to <span class="kbd">focus</span> this bead in tiles / map</span>
-                     <button class="undo-btn" title="discard every bead after this one">↺ undo to here</button>
+                     <button class="undo-btn" title="discard every bead after this one">↺ undo</button>
                    </div>`}
       </div>
     `;
@@ -1869,53 +1868,85 @@ class DaisyApp extends HTMLElement {
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.innerHTML = `
       <style>
-        :host { display: block; max-width: 920px; margin: 0 auto;
-                padding: 12px 12px calc(48px + env(safe-area-inset-bottom));
+        :host { display: block; max-width: 1200px; margin: 0 auto;
+                padding: 6px 8px calc(28px + env(safe-area-inset-bottom));
                 min-height: 100vh; }
-        header { display: flex; gap: 10px; align-items: baseline;
-                 padding: 8px 4px 12px; border-bottom: 1px solid var(--rule-soft);
+        header { display: flex; gap: 6px 10px; align-items: center;
+                 padding: 4px 2px 6px; border-bottom: 1px solid var(--rule-soft);
                  flex-wrap: wrap; }
-        h1 { font-size: 17px; margin: 0; }
-        .crumb { font-size: 12px; color: var(--ink-mute); }
+        h1 { font-size: 15px; margin: 0; line-height: 1; }
+        .crumb { font-size: 11px; color: var(--ink-mute); margin-left: -4px; }
         .crumb a { color: var(--accent); text-decoration: none; }
-        .actions { margin-left: auto; display: flex; gap: 6px; align-items: center; }
+        .actions { margin-left: auto; display: flex; gap: 6px; align-items: center;
+                   flex-wrap: wrap; }
         .actions button {
           background: var(--surface); color: var(--ink);
           border: 1px solid var(--rule); border-radius: 6px;
-          padding: 5px 10px; font: 12px/1 inherit; cursor: pointer;
+          padding: 4px 8px; font: 12px/1 inherit; cursor: pointer;
         }
+        /* Two seg groups: pane-A (chain structure) + pane-B (node content).
+           Each labelled so the dual-pane intent is legible without prose. */
         .seg {
-          display: inline-flex; border: 1px solid var(--rule); border-radius: 8px;
+          display: inline-flex; border: 1px solid var(--rule); border-radius: 7px;
           overflow: hidden; background: var(--surface);
         }
         .seg button {
           background: var(--surface); color: var(--ink-soft);
           border: 0; border-right: 1px solid var(--rule);
-          padding: 6px 10px; font: 12px/1 inherit; cursor: pointer;
+          padding: 4px 8px; font: 12px/1 inherit; cursor: pointer;
         }
         .seg button:last-child { border-right: 0; }
-        .seg button.on {
-          background: var(--accent); color: var(--accent-on);
-          font-weight: 600;
+        .seg button.on { background: var(--accent); color: var(--accent-on); font-weight: 600; }
+        .seg-label { font-size: 10px; color: var(--ink-mute); margin-right: -2px;
+                     text-transform: uppercase; letter-spacing: 0.04em; }
+        /* Two simultaneous panes — chain (spine/graph/table) on top, node
+           content (tiles/map) below. Side-by-side ≥860px so the chain you
+           just clicked and the content it reveals are in the same view.
+           Mobile-first: stacked, content pane below the chain pane. */
+        #panes {
+          display: grid; gap: 10px;
+          grid-template-columns: 1fr; padding-top: 6px;
         }
-        .lead { font-size: 13px; color: var(--ink-mute);
-                padding: 12px 4px 4px; line-height: 1.5; }
-        #view-root { padding: 8px 0 0; }
-        .empty { padding: 28px 4px; }
+        @media (min-width: 860px) {
+          #panes { grid-template-columns: minmax(260px, 1fr) minmax(0, 1.4fr); }
+        }
+        .pane {
+          background: color-mix(in oklab, var(--surface) 70%, transparent);
+          border: 1px solid var(--rule-soft); border-radius: 8px;
+          padding: 6px;
+          min-height: 0;       /* allow grid children to shrink */
+        }
+        .pane-head {
+          display: flex; gap: 6px; align-items: center;
+          padding: 2px 2px 6px; font-size: 11px; color: var(--ink-mute);
+          text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        #view-root { padding: 0; }   /* legacy, kept until callers stop targeting it */
+        #status {
+          font-size: 12px; color: var(--ink-soft);
+          padding: 4px 8px; margin: 4px 0 0;
+          background: color-mix(in oklab, var(--accent) 6%, transparent);
+          border: 1px solid var(--rule-soft); border-radius: 6px;
+        }
+        #status[hidden] { display: none; }
+        #status.err { color: #c33;
+                      background: color-mix(in oklab, #c33 6%, transparent);
+                      border-color: color-mix(in oklab, #c33 25%, var(--rule-soft)); }
+        .empty { padding: 16px 4px; }
         .foot { font-size: 11px; color: var(--ink-mute);
-                padding: 32px 4px 0; line-height: 1.55; }
+                padding: 14px 4px 0; line-height: 1.55; }
         .foot a { color: var(--ink-soft); }
         .err { color: #c33; padding: 16px; }
 
         /* spine view */
-        .spine { position: relative; padding: 8px 0 0; }
+        .spine { position: relative; padding: 0; }
         .spine::before {
-          content: ''; position: absolute; left: 22px; top: 18px; bottom: 18px;
+          content: ''; position: absolute; left: 18px; top: 14px; bottom: 14px;
           width: 2px; background: var(--spine); border-radius: 1px;
         }
-        .bead-wrap { padding: 8px 0 8px 36px; position: relative; }
+        .bead-wrap { padding: 5px 0 5px 30px; position: relative; }
         .bead-wrap::before {
-          content: ''; position: absolute; left: 17px; top: 24px;
+          content: ''; position: absolute; left: 13px; top: 17px;
           width: 12px; height: 12px; border-radius: 50%;
           background: var(--surface);
           border: 2px solid var(--spine);
@@ -1996,7 +2027,7 @@ class DaisyApp extends HTMLElement {
         .map-head { display: flex; gap: 8px; align-items: baseline;
                     padding: 4px 8px 8px; font-size: 12px; color: var(--ink-mute); }
         .map-head .n { color: var(--ink); font-weight: 700; }
-        .map-frame { position: relative; width: 100%; height: 460px;
+        .map-frame { position: relative; width: 100%; height: 380px;
                      border-radius: 8px; overflow: hidden;
                      background: color-mix(in oklab, var(--accent) 3%, var(--surface));
                      /* drag pans, wheel/pinch zooms — the browser must not
@@ -2050,11 +2081,12 @@ class DaisyApp extends HTMLElement {
           background: color-mix(in oklab, var(--accent) 22%, transparent);
         }
         .tiles-head { font-size: 13px; color: var(--ink-soft);
-                      padding: 4px 4px 10px; display: flex; gap: 8px; align-items: baseline; }
+                      padding: 2px 2px 6px; display: flex; gap: 6px;
+                      align-items: baseline; flex-wrap: wrap; }
         .tiles-head .n { font-weight: 700; color: var(--ink); }
         .tiles {
-          display: grid; gap: 8px;
-          grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+          display: grid; gap: 6px;
+          grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
         }
         .tile {
           background: var(--surface); border: 1px solid var(--rule-soft);
@@ -2075,23 +2107,26 @@ class DaisyApp extends HTMLElement {
         <h1>daisychain</h1>
         <span class="crumb">· <a href="/kgx/">kgx</a></span>
         <div class="actions">
-          <div class="seg" role="tablist" aria-label="view">
-            <button id="v-spine" data-v="spine" class="on" title="vertical bead spine">spine</button>
-            <button id="v-graph" data-v="graph" title="DAG of the chain">graph</button>
-            <button id="v-table" data-v="table" title="bead table">table</button>
-            <button id="v-tiles" data-v="tiles" title="tile grid of the focused bead (defaults to the frontier)">tiles</button>
-            <button id="v-map"   data-v="map"   title="map the focused bead (when coords are known)">map</button>
+          <span class="seg-label">chain</span>
+          <div class="seg" role="tablist" aria-label="chain view">
+            <button id="v-spine" data-v="spine" data-pane="chain" class="on" title="vertical bead spine">spine</button>
+            <button id="v-graph" data-v="graph" data-pane="chain" title="DAG of the chain">graph</button>
+            <button id="v-table" data-v="table" data-pane="chain" title="bead table">table</button>
           </div>
-          <button id="save-btn" title="copy this chain as JSON">⎘ save chain</button>
+          <span class="seg-label">node</span>
+          <div class="seg" role="tablist" aria-label="node content view">
+            <button id="v-tiles" data-v="tiles" data-pane="content" class="on" title="tile grid of the focused bead (defaults to the frontier)">tiles</button>
+            <button id="v-map"   data-v="map"   data-pane="content" title="map the focused bead (when coords are known)">map</button>
+          </div>
+          <button id="save-btn" title="copy this chain as JSON">⎘ save</button>
           <button id="reset-btn" title="start over">↺ reset</button>
         </div>
       </header>
-      <p class="lead" id="lead">
-        A chain of beads. Each bead is a typed set; each chip on the frontier
-        bead grows the chain. Four views of the same chain: spine, graph,
-        table, tiles.
-      </p>
-      <div id="view-root"></div>
+      <div id="status" hidden></div>
+      <div id="panes">
+        <div class="pane" id="pane-chain"><div id="chain-root"></div></div>
+        <div class="pane" id="pane-content"><div id="content-root"></div></div>
+      </div>
       <div class="foot">
         Contains Parliamentary information licensed under the
         <a href="https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/"
@@ -2118,7 +2153,12 @@ class DaisyApp extends HTMLElement {
     // modes. If we re-surface this control later it belongs in studio.html
     // (the registry / debug page), not on every navigation.
     for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
-      btn.addEventListener('click', () => { state.view = btn.dataset.v; publish(); });
+      btn.addEventListener('click', () => {
+        const pane = btn.dataset.pane;
+        if (pane === 'content') state.contentView = btn.dataset.v;
+        else                    state.chainView   = btn.dataset.v;
+        publish();
+      });
     }
     listeners.add(() => this._render());
     // Keep the URL hash in sync with the current chain spec so every chain
@@ -2143,23 +2183,30 @@ class DaisyApp extends HTMLElement {
     }
   }
 
+  // Lightweight status banner — replaces the old lead paragraph. Pass
+  // null/empty to hide; second arg flags an error state.
+  _status(msg, err = false) {
+    const el = this.shadowRoot.querySelector('#status');
+    if (!el) return;
+    if (!msg) { el.hidden = true; el.innerHTML = ''; el.classList.remove('err'); return; }
+    el.hidden = false;
+    el.innerHTML = msg;
+    el.classList.toggle('err', !!err);
+  }
+
   async _kickoff(starter) {
     state.starter = starter;
-    const lead = this.shadowRoot.querySelector('#lead');
-    lead.textContent = `loading ${starter.label} …`;
+    this._status(`loading ${escapeHTML(starter.label)} …`);
     try {
       const { items, source } = await loadStarter(starter);
       const bundle = new Bundle(items, starter.type, starter.label);
       pushBead('source', '●', bundle, [source], { kind: 'starter', id: starter.id });
-      const sitting = items.filter((x) => x.sitting).length;
-      const bridged = items.filter((x) => x.mpid).length;
-      lead.innerHTML = `<b>${items.length.toLocaleString()}</b> ${starter.type}s loaded · `
-        + `<b>${sitting.toLocaleString()}</b> sitting now · `
-        + `<b>${bridged.toLocaleString()}</b> bridged to the Members API. `
-        + `Tap a chip on the bottom bead to grow the chain.`;
+      // Loaded state: clear the status — the bead now carries the count
+      // and the chain pane shows the chips. The "sitting / bridged" detail
+      // is in the bead's meta line below the title.
+      this._status(null);
     } catch (err) {
-      this.shadowRoot.querySelector('#view-root').innerHTML =
-        `<div class="err">load failed: ${err.message}</div>`;
+      this._status(`load failed: ${escapeHTML(err.message)}`, true);
     }
   }
 
@@ -2174,17 +2221,15 @@ class DaisyApp extends HTMLElement {
       return;
     }
     if (op.kind === 'async') {
-      const lead = this.shadowRoot.querySelector('#lead');
-      const prev = lead.innerHTML;
-      lead.textContent = `${op.icon} ${op.label} — running over ${bundle.size.toLocaleString()} ${bundle.type}s…`;
+      this._status(`${op.icon} ${escapeHTML(op.label)} — running over ${bundle.size.toLocaleString()} ${bundle.type}s…`);
       try {
         const out = await op.run(bundle);
         const newBundle = out instanceof Bundle ? out : out.bundle;
         const sources = out instanceof Bundle ? [] : [out.source];
         pushBead(op.label, op.icon, newBundle, sources, { kind: 'op', op: op.id });
-        lead.innerHTML = prev;
+        this._status(null);
       } catch (err) {
-        lead.innerHTML = `<span style="color:#c33">${escapeHTML(op.label)} failed: ${escapeHTML(err.message)}</span>`;
+        this._status(`${escapeHTML(op.label)} failed: ${escapeHTML(err.message)}`, true);
       }
       return;
     }
@@ -2192,18 +2237,16 @@ class DaisyApp extends HTMLElement {
       const sheet = document.createElement('daisy-rel-picker');
       sheet.addEventListener('rel-pick', async (e) => {
         const { template, variant } = e.detail;
-        const lead = this.shadowRoot.querySelector('#lead');
-        const prev = lead.innerHTML;
-        lead.textContent = `⇄ ${template.label} · ${variant.label} (${variant.kind}) — running…`;
+        this._status(`⇄ ${escapeHTML(template.label)} · ${escapeHTML(variant.label)} (${variant.kind}) — running…`);
         try {
           const out = await applyRelation(template, variant, bundle);
           pushBead(`${template.label} · ${variant.label}`, '⇄',
                    out.bundle, [out.source],
                    { kind: 'op', op: 'rel-pivot',
                      template: template.id, variant: variant.id });
-          lead.innerHTML = prev;
+          this._status(null);
         } catch (err) {
-          lead.innerHTML = `<span style="color:#c33">${escapeHTML(template.label)} / ${escapeHTML(variant.label)} failed: ${escapeHTML(err.message)}</span>`;
+          this._status(`${escapeHTML(template.label)} / ${escapeHTML(variant.label)} failed: ${escapeHTML(err.message)}`, true);
         }
       });
       sheet.open(bundle);
@@ -2238,18 +2281,16 @@ class DaisyApp extends HTMLElement {
     if (cc.kind === 'broaden-variant') {
       const parent = state.beads[cc.parentIdx];
       if (!parent?.bundle) return;
-      const lead = this.shadowRoot.querySelector('#lead');
-      const prev = lead.innerHTML;
-      lead.textContent = `🔧 broaden ${cc.template.label} → ${cc.variant.label} (re-running over ${parent.bundle.size.toLocaleString()} ${parent.bundle.type}s)…`;
+      this._status(`🔧 broaden ${escapeHTML(cc.template.label)} → ${escapeHTML(cc.variant.label)} (re-running over ${parent.bundle.size.toLocaleString()} ${parent.bundle.type}s)…`);
       try {
         const out = await applyRelation(cc.template, cc.variant, parent.bundle);
         pushBead(`${cc.template.label} · ${cc.variant.label}`, '⇄',
                  out.bundle, [out.source],
                  { kind: 'op', op: 'rel-pivot',
                    template: cc.template.id, variant: cc.variant.id });
-        lead.innerHTML = prev;
+        this._status(null);
       } catch (err) {
-        lead.innerHTML = `<span style="color:#c33">broaden failed: ${escapeHTML(err.message)}</span>`;
+        this._status(`broaden failed: ${escapeHTML(err.message)}`, true);
       }
       return;
     }
@@ -2351,12 +2392,29 @@ class DaisyApp extends HTMLElement {
           }
         }
       } catch (err) {
-        const lead = this.shadowRoot.querySelector('#lead');
-        lead.innerHTML = `<span style="color:#c33">replay failed at ${escapeHTML(step.kind)} ${escapeHTML(step.op || step.id || '')}: ${escapeHTML(err.message)}</span>`;
+        // The lead paragraph used to sit at the top of the page; replay
+        // errors landed there. With the lead gone, surface the same
+        // message inline at the top of the chain pane (root prepends so
+        // it survives the next _render). The chain pane is the right
+        // place — the error is about THIS chain.
+        const chainRoot = this.shadowRoot.querySelector('#chain-root');
+        if (chainRoot) {
+          const banner = document.createElement('div');
+          banner.style.cssText = 'color:#c33;font-size:12px;padding:4px 6px;border-radius:4px;background:color-mix(in oklab,#c33 6%,transparent);';
+          banner.textContent = `replay failed at ${step.kind} ${step.op || step.id || ''}: ${err.message}`;
+          chainRoot.prepend(banner);
+        }
         return;
       }
     }
-    if (entry.suggestView) { state.view = entry.suggestView; publish(); }
+    if (entry.suggestView) {
+      const v = entry.suggestView;
+      // LIBRARY entries' suggestView routes into the appropriate pane;
+      // 'map' / 'tiles' go to content, 'spine' / 'graph' / 'table' to chain.
+      if (v === 'map' || v === 'tiles') state.contentView = v;
+      else                              state.chainView   = v;
+      publish();
+    }
   }
 
   _saveChain() {
@@ -2366,11 +2424,7 @@ class DaisyApp extends HTMLElement {
     const text = JSON.stringify(payload, null, 2);
     const url  = location.origin + location.pathname + '#g=' + encodeSpec({ steps: spec });
     try { navigator.clipboard?.writeText(url); } catch {}
-    const lead = this.shadowRoot.querySelector('#lead');
-    lead.innerHTML = `✓ permalink copied — <b>${spec.length}</b> steps. `
-      + `<details style="display:inline"><summary>show JSON</summary>`
-      + `<pre style="white-space:pre-wrap;font:11px ui-monospace,Menlo,monospace;">${escapeHTML(text)}</pre>`
-      + `</details>`;
+    this._status(`✓ permalink copied — <b>${spec.length}</b> steps`);
   }
 
   _undoTo(idx) { truncateTo(idx); }
@@ -2384,55 +2438,68 @@ class DaisyApp extends HTMLElement {
   _focusToView(idx, view) {
     const last = state.beads.length - 1;
     state.focusIdx = (idx >= last) ? null : idx;
-    state.view = view;
+    // Route the requested view to the right pane — these come from
+    // bead-tiles / bead-map events so the call always names a content view.
+    if (view === 'tiles' || view === 'map') state.contentView = view;
+    else state.chainView = view;
     publish();
   }
 
   _reset() {
     state.starter = null;
     state.beads = [];
+    state.focusIdx = null;
+    this._status(null);
     publish();
-    this.shadowRoot.querySelector('#lead').textContent =
-      'A chain of beads. Tap a starter to begin.';
   }
 
   _render() {
-    // Sync the view-segment buttons to current state.
+    // Sync the view-segment buttons to current state. The chain group is
+    // independent of the content group, so they get separate `.on` marks.
     for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
-      btn.classList.toggle('on', btn.dataset.v === state.view);
+      const expect = btn.dataset.pane === 'content' ? state.contentView : state.chainView;
+      btn.classList.toggle('on', btn.dataset.v === expect);
     }
-    const root = this.shadowRoot.querySelector('#view-root');
-    root.innerHTML = '';
+    const chainRoot   = this.shadowRoot.querySelector('#chain-root');
+    const contentRoot = this.shadowRoot.querySelector('#content-root');
+    const panes       = this.shadowRoot.querySelector('#panes');
+    chainRoot.innerHTML = '';
+    contentRoot.innerHTML = '';
+    // No chain yet → show the starter+library gallery in a single full-width
+    // column so it has room to breathe. Hide the empty content pane entirely.
     if (!state.beads.length) {
+      panes.style.gridTemplateColumns = '1fr';
+      this.shadowRoot.querySelector('#pane-content').style.display = 'none';
       const starter = document.createElement('daisy-starter');
       const empty = document.createElement('div');
       empty.className = 'empty';
       empty.appendChild(starter);
-      root.appendChild(empty);
+      chainRoot.appendChild(empty);
       return;
     }
-    // Map view button greys out unless the frontier has any item with coords.
-    const front = state.beads[state.beads.length - 1];
-    // Map button stays lit if ANY bead in the chain has coords — the
-    // renderer falls back to the most-recent mappable bead, so a chain
-    // that pivoted from buildings to architects can still show the
-    // buildings on the map.
+    panes.style.gridTemplateColumns = '';
+    this.shadowRoot.querySelector('#pane-content').style.display = '';
+    // Map button greys out unless SOME bead has coords — the renderer
+    // falls back to the most-recent mappable bead, so a chain that
+    // pivoted from buildings → architects still shows buildings on map.
     const hasCoords = state.beads.some((bd) =>
       bd.bundle?.items?.some((x) => x.coords || x.extra?.birthplace?.coords));
     const mapBtn = this.shadowRoot.querySelector('#v-map');
     mapBtn.disabled = !hasCoords;
     mapBtn.style.opacity = hasCoords ? '1' : '0.45';
     mapBtn.title = hasCoords
-      ? 'map the frontier bead'
-      : 'enrich (✨) the bead or pivot to places to populate this view';
-    switch (state.view) {
-      case 'graph':  this._renderGraph(root); break;
-      case 'table':  this._renderTable(root); break;
-      case 'tiles':  this._renderTiles(root); break;
-      case 'map':    this._renderMap(root);   break;
-      case 'spine':
-      default:       this._renderSpine(root); break;
+      ? 'map the focused bead'
+      : 'enrich (✨) or pivot to places to populate this view';
+    // Chain pane: spine / graph / table.
+    switch (state.chainView) {
+      case 'graph': this._renderGraph(chainRoot); break;
+      case 'table': this._renderTable(chainRoot); break;
+      default:      this._renderSpine(chainRoot); break;
     }
+    // Content pane: tiles / map (map auto-falls-back to tiles if no coords
+    // ANYWHERE in the chain — no point staring at an empty disabled view).
+    if (state.contentView === 'map' && hasCoords) this._renderMap(contentRoot);
+    else                                          this._renderTiles(contentRoot);
   }
 
   _renderSpine(root) {
@@ -2581,18 +2648,21 @@ class DaisyApp extends HTMLElement {
 
   _renderMap(root) {
     // Map is wired to the focused bead by default, with a coords-aware
-    // fallback for the common "pivoted past the mappable bead" case
-    // (buildings → architects: still show the buildings). Start the
-    // search at the focus index and walk BACKWARDS through ancestors
-    // — same fallback as before, just anchored at focus, not frontier.
+    // fallback by NEAREST mappable bead — walk outward (backward then
+    // forward) from focus so the user always sees terrain when the chain
+    // has any. Symmetric: focus a bead AFTER the mappable one and the
+    // map still finds it forward; focus a bead BEFORE and it finds it
+    // backward. Honesty (rule 11): we name which bead we ended up on.
     const startAt = focusedIdx();
     let last = null, idxUsed = -1;
-    for (let i = startAt; i >= 0; i--) {
-      const items = state.beads[i].bundle?.items || [];
-      if (items.some((x) => x.coords || x.extra?.birthplace?.coords)) {
-        last = state.beads[i]; idxUsed = i; break;
-      }
+    const has = (i) => state.beads[i]?.bundle?.items?.some(
+      (x) => x.coords || x.extra?.birthplace?.coords);
+    for (let d = 0; d < state.beads.length; d++) {
+      const back = startAt - d, fwd = startAt + d;
+      if (back >= 0 && has(back))                  { idxUsed = back; break; }
+      if (d > 0 && fwd < state.beads.length && has(fwd)) { idxUsed = fwd; break; }
     }
+    if (idxUsed >= 0) last = state.beads[idxUsed];
     if (!last?.bundle) {
       const wrap = document.createElement('div');
       wrap.className = 'map-wrap';
