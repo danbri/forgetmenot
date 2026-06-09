@@ -241,6 +241,66 @@ export function parseUsPresidentRows(bindings) {
 }
 
 // -----------------------------------------------------------------------------
+// whig-pms-1700s — Whig Prime Ministers whose FIRST term began before 1800.
+//
+// Probed 2026-06-09 against QLever: P39 ∈ {Q3656834 "Prime Minister of
+// Great Britain", Q14211 "Prime Minister of the United Kingdom"} ∧
+// P102 = Q108700 (Whigs) gives 15 people; the HAVING < 1800 cut keeps the
+// 11 from Walpole (1721) to Portland (1783) and drops the 4 19th-century
+// Whig PMs (Grey 1830, Melbourne, Russell, Palmerston). Both position
+// QIDs matter: the pre-1801 office is a distinct Wikidata item.
+// -----------------------------------------------------------------------------
+export const WHIG_PMS_1700S_QUERY = `
+PREFIX wd:   <http://www.wikidata.org/entity/>
+PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+PREFIX p:    <http://www.wikidata.org/prop/>
+PREFIX ps:   <http://www.wikidata.org/prop/statement/>
+PREFIX pq:   <http://www.wikidata.org/prop/qualifier/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?pm (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)
+           (MIN(?startLit) AS ?firstStart)
+           (MIN(?dobLit)   AS ?dob) (MAX(?dodLit) AS ?dod)
+WHERE {
+  VALUES ?pos { wd:Q3656834 wd:Q14211 }
+  ?pm p:P39 ?st . ?st ps:P39 ?pos .
+  ?st pq:P580 ?startLit .
+  ?pm wdt:P102 wd:Q108700 .
+  OPTIONAL { ?pm rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+  OPTIONAL { ?pm wdt:P18  ?img }
+  OPTIONAL { ?pm wdt:P569 ?dobLit }
+  OPTIONAL { ?pm wdt:P570 ?dodLit }
+} GROUP BY ?pm
+HAVING (YEAR(MIN(?startLit)) < 1800)
+ORDER BY ?firstStart`;
+
+// Year extractor that survives Wikidata's unknown-value nodes: dob/dod can
+// bind a bnode-ish URI instead of a dateTime, so regex the leading year
+// rather than slicing blindly.
+function yearOf(lit) {
+  const m = /^(-?\d{4})/.exec(lit || '');
+  return m ? +m[1] : null;
+}
+
+export function parseWhigPmRows(bindings) {
+  return bindings.map((b) => {
+    const firstYr = yearOf(b.dob?.value);
+    const lastYr  = yearOf(b.dod?.value);
+    return {
+      uri:    b.pm.value,
+      label:  b.label?.value || b.pm.value.replace(/^.*\//, ''),
+      image:  b.image?.value || null,
+      // All eleven died in the 1700s–1800s — `sitting` (open SeatIncumbency)
+      // does not apply; same null-not-false honesty as us-presidents.
+      firstYr, lastYr, latestStart: yearOf(b.firstStart?.value),
+      sitting: null, alive: !lastYr,
+      // P102 = Q108700 is a query constraint, so the party is data-backed.
+      parties: ['Whigs'], gender: null, citizenships: [], mpid: null,
+      decade: lastYr ? `${Math.floor(lastYr / 10) * 10}s` : null,
+    };
+  });
+}
+
+// -----------------------------------------------------------------------------
 // recent-sis — every Statutory Instrument in the DDP, newest first, capped 1500.
 // -----------------------------------------------------------------------------
 export const RECENT_SIS_QUERY = `
@@ -374,6 +434,17 @@ export const STARTERS = [
     parse:     parseUsPresidentRows,
     role:      'primary',
     note:      'Wikidata: humans holding position P39 = wd:Q11696 (President of the USA)',
+  },
+  {
+    id:        'whig-pms-1700s',
+    label:     'Whig PMs of the 1700s (Wikidata)',
+    sub:       '11 Whig Prime Ministers whose first term began before 1800 — Walpole (1721) to Portland (1783).',
+    type:      'human',
+    engineId:  'qlever-wikidata',
+    query:     WHIG_PMS_1700S_QUERY,
+    parse:     parseWhigPmRows,
+    role:      'primary',
+    note:      'Wikidata: P39 ∈ {PM of Great Britain, PM of the UK} ∧ P102 = Whigs, HAVING first start < 1800',
   },
   {
     id:        'recent-sis',

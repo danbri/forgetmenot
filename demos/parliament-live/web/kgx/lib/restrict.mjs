@@ -117,6 +117,30 @@ export const opFilters = {
   'has-cif': (b) => new Bundle(
     b.items.filter((x) => x.comingIntoForce),
     b.type, `${b.label} · CIF known`),
+
+  // --- era / notability / blurb filters (descendants-shape humans) ---
+  // born-century: proper centuries — value '20' (or '20th') keeps people
+  // born 1901–2000 (ceil(year/100) === 20). 1900 is the 19th century.
+  'born-century': (b, v) => {
+    const c = parseInt(String(v), 10);
+    return new Bundle(
+      b.items.filter((x) => x.firstYr && Math.ceil(x.firstYr / 100) === c),
+      b.type, `${b.label} · born ${c}th c.`);
+  },
+  // min-sitelinks: notability proxy — Wikipedia-language coverage. The
+  // honest framing: "has ≥ N Wikipedia sitelinks", not "is notable".
+  'min-sitelinks': (b, v) => new Bundle(
+    b.items.filter((x) => (x.sitelinks || 0) >= +v),
+    b.type, `${b.label} · ≥${v} sitelinks`),
+  // desc-contains: case-insensitive substring on the English Wikidata
+  // description (the short blurb shown in Wikipedia search/mobile —
+  // NOT the article lead paragraph; that's a different API).
+  'desc-contains': (b, v) => {
+    const needle = String(v).toLowerCase();
+    return new Bundle(
+      b.items.filter((x) => (x.description || '').toLowerCase().includes(needle)),
+      b.type, `${b.label} · “${v}”`);
+  },
 };
 
 // -----------------------------------------------------------------------------
@@ -160,6 +184,9 @@ export const OP_FIELDS = {
   country:         { field: 'country', types: ['wd_thing', 'building', 'place', 'org'] },
   year:            { field: 'year',            types: ['si'] },
   'has-cif':       { field: 'comingIntoForce', types: ['si'] },
+  'born-century':  { field: 'firstYr',         types: ['human'] },
+  'min-sitelinks': { field: 'sitelinks',       types: ['human'] },
+  'desc-contains': { field: 'description',     types: ['human'] },
 };
 
 // Returns the subset of opFilters keys that are plausibly relevant for

@@ -315,6 +315,31 @@ const OPS = {
       relevant: (b) => b.items.some((x) => x.citizenships && x.citizenships.length),
       values: (b) => topCounts(b.items.flatMap((x) => x.citizenships || [])),
       run:    (b, v) => opFilters.citizenship(b, v) },
+    // Era / notability / blurb chips — these bite on descendants-shape
+    // bundles (the P40+ pivot carries firstYr + sitelinks + description).
+    { id: 'born-century', label: 'born century…', icon: '🗓', kind: 'picker',
+      relevant: (b) => b.items.some((x) => x.firstYr),
+      values: (b) => sortByKey(countBy(
+        b.items.filter((x) => x.firstYr)
+               .map((x) => ({ c: `${Math.ceil(x.firstYr / 100)}` })), 'c')),
+      run:    (b, v) => opFilters['born-century'](b, v) },
+    { id: 'min-sitelinks', label: 'min sitelinks…', icon: '🔢', kind: 'picker',
+      relevant: (b) => b.items.some((x) => (x.sitelinks || 0) > 0),
+      values: (b) => [1, 5, 10, 25, 50]
+        .map((t) => [String(t), b.items.filter((x) => (x.sitelinks || 0) >= t).length])
+        .filter(([, n]) => n),
+      run:    (b, v) => opFilters['min-sitelinks'](b, v) },
+    { id: 'desc-contains', label: 'blurb contains…', icon: '🔍', kind: 'picker',
+      relevant: (b) => b.items.some((x) => x.description),
+      // Top informative words from the English Wikidata descriptions —
+      // data-driven suggestion list (≥5 chars, crude stopword cut).
+      values: (b) => {
+        const stop = new Set(['british', 'english', 'politician', 'member']);
+        return topCounts(b.items.flatMap((x) =>
+          (x.description || '').toLowerCase().match(/[a-z]{5,}/g) || []
+        ).filter((w) => !stop.has(w))).slice(0, 20);
+      },
+      run:    (b, v) => opFilters['desc-contains'](b, v) },
     { id: 'enrich',  label: 'enrich (Wikidata)', icon: '✨', kind: 'async',
       hint: 'Wikidata: birthplace + coords + dates + alma maters + spouses + occupations',
       run: (b) => runAugment('enrich', b) },

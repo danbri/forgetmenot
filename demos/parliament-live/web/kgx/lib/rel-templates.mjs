@@ -274,6 +274,69 @@ export const REL_TEMPLATES = [
     ],
   },
   {
+    id: 'descendants',
+    label: 'descendants',
+    gloss: 'transitive P40+ — every known descendant, any number of generations',
+    inputType: 'human', outputType: 'human',
+    engineId: 'qlever-wikidata',
+    role: 'primary',
+    requires: (b) => b.items.some((x) => /Q\d+$/.test(x.uri)),
+    variants: [
+      {
+        id: 'default', kind: 'default', label: 'P40+ — all descendants',
+        gloss: 'children, grandchildren, … via property-path closure. Carries ' +
+               'birth/death years, the English Wikidata description, and the ' +
+               'sitelink count so century / notability / blurb filters can bite ' +
+               'downstream. Capped at 5000 by descending sitelinks.',
+        namedGraphs: [],
+        // Probed 2026-06-09: from the 11 Whig PMs of the 1700s this closure
+        // returns ~13.4k people in ~1.4s on QLever; schema:description and
+        // wikibase:sitelinks are both served. dob/dod can bind Wikidata
+        // unknown-value URIs instead of dateTimes — parse() regexes the year.
+        build: (items) => `
+          PREFIX wd:       <http://www.wikidata.org/entity/>
+          PREFIX wdt:      <http://www.wikidata.org/prop/direct/>
+          PREFIX rdfs:     <http://www.w3.org/2000/01/rdf-schema#>
+          PREFIX schema:   <http://schema.org/>
+          PREFIX wikibase: <http://wikiba.se/ontology#>
+          SELECT ?d (SAMPLE(?lbl) AS ?label) (SAMPLE(?img) AS ?image)
+                 (SAMPLE(?descLit) AS ?description)
+                 (MIN(?dobLit) AS ?dob) (MAX(?dodLit) AS ?dod)
+                 (SAMPLE(?links) AS ?sitelinks)
+                 (COUNT(DISTINCT ?p) AS ?n)
+          WHERE {
+            VALUES ?p { ${valuesQids(items)} }
+            ?p wdt:P40+ ?d .
+            OPTIONAL { ?d rdfs:label ?lbl . FILTER(lang(?lbl)="en") }
+            OPTIONAL { ?d schema:description ?descLit . FILTER(lang(?descLit)="en") }
+            OPTIONAL { ?d wdt:P18  ?img }
+            OPTIONAL { ?d wdt:P569 ?dobLit }
+            OPTIONAL { ?d wdt:P570 ?dodLit }
+            OPTIONAL { ?d wikibase:sitelinks ?links }
+          } GROUP BY ?d ORDER BY DESC(?sitelinks) LIMIT 5000`,
+        parse: (rows) => rows.map((b) => {
+          const yr = (lit) => { const m = /^(-?\d{4})/.exec(lit || ''); return m ? +m[1] : null; };
+          const firstYr = yr(b.dob?.value);
+          const lastYr  = yr(b.dod?.value);
+          return {
+            uri:   b.d.value,
+            label: b.label?.value || b.d.value.replace(/^.*\//, ''),
+            image: b.image?.value || null,
+            description: b.description?.value || null,
+            sitelinks:   b.sitelinks?.value ? +b.sitelinks.value : 0,
+            firstYr, lastYr, latestStart: firstYr,
+            sitting: null, alive: firstYr ? !lastYr : null,
+            // birth decade (not last-seen decade): the downstream slices on
+            // this bundle are era-of-birth questions.
+            decade: firstYr ? `${Math.floor(firstYr / 10) * 10}s` : null,
+            parties: [], gender: null, citizenships: [], mpid: null,
+            originCount: +(b.n?.value || 0),
+          };
+        }),
+      },
+    ],
+  },
+  {
     id: 'current_constituency',
     label: 'current constituency',
     gloss: 'Parliament DDP via rdfs:seeAlso bridge — non-Wikidata source',

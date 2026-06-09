@@ -307,3 +307,42 @@ test('every OP_FIELDS type is one the daisychain actually produces', () => {
     }
   }
 });
+
+// ---------------------------------------------------------------------------
+// born-century / min-sitelinks / desc-contains — the descendants-shape
+// filters behind the whig-pm-descendants-royal chain.
+// ---------------------------------------------------------------------------
+
+const DESCENDANTS = new Bundle([
+  { uri: 'wd:D1', label: 'Diana',  firstYr: 1961, sitelinks: 151, description: 'member of the British royal family and Princess of Wales (1961–1997)' },
+  { uri: 'wd:D2', label: 'Edge00', firstYr: 1900, sitelinks: 10,  description: 'Royal Navy officer' },
+  { uri: 'wd:D3', label: 'Edge01', firstYr: 1901, sitelinks: 3,   description: 'landowner' },
+  { uri: 'wd:D4', label: 'Edge99', firstYr: 2000, sitelinks: 0,   description: null },
+  { uri: 'wd:D5', label: 'NoDob',  firstYr: null, sitelinks: 7,   description: 'ROYAL household courtier' },
+], 'human', 'descendants');
+
+test('born-century: proper centuries — 1900 is 19th, 1901 and 2000 are 20th', () => {
+  const c20 = opFilters['born-century'](DESCENDANTS, '20');
+  assert.deepEqual(c20.items.map((x) => x.uri).sort(), ['wd:D1', 'wd:D3', 'wd:D4']);
+  const c19 = opFilters['born-century'](DESCENDANTS, '19');
+  assert.deepEqual(c19.items.map((x) => x.uri), ['wd:D2']);
+});
+
+test('born-century: accepts ordinal-suffixed values and drops dob-less items', () => {
+  const c20 = opFilters['born-century'](DESCENDANTS, '20th');
+  assert.deepEqual(c20.items.map((x) => x.uri).sort(), ['wd:D1', 'wd:D3', 'wd:D4'],
+    'NoDob (firstYr null) must not pass any century filter');
+});
+
+test('min-sitelinks: inclusive threshold, missing field counts as 0', () => {
+  const out = opFilters['min-sitelinks'](DESCENDANTS, '10');
+  assert.deepEqual(out.items.map((x) => x.uri).sort(), ['wd:D1', 'wd:D2']);
+  assert.equal(opFilters['min-sitelinks'](DESCENDANTS, '1').size, 4);
+});
+
+test('desc-contains: case-insensitive substring, null description never matches', () => {
+  const out = opFilters['desc-contains'](DESCENDANTS, 'royal');
+  assert.deepEqual(out.items.map((x) => x.uri).sort(), ['wd:D1', 'wd:D2', 'wd:D5'],
+    'matches lowercase, capitalised, and all-caps; skips null');
+  assert.equal(opFilters['desc-contains'](DESCENDANTS, 'ROYAL').size, 3);
+});

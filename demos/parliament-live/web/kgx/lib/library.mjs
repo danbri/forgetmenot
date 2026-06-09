@@ -256,6 +256,18 @@ export const LIBRARY = [
     ],
   },
   {
+    id: 'whig-pm-descendants-royal',
+    title: 'Whig PMs of the 1700s → 20th-century descendants with “royal” blurbs',
+    sub: '11 Whig PMs (Walpole 1721 → Portland 1783) → P40+ descendants → born 1901–2000 → ≥5 sitelinks → description contains “royal”. Diana, Princess of Wales tops the list.',
+    steps: [
+      { kind: 'starter', id: 'whig-pms-1700s' },
+      { kind: 'op', op: 'rel-pivot', template: 'descendants', variant: 'default' },
+      { kind: 'op', op: 'born-century',  value: '20' },
+      { kind: 'op', op: 'min-sitelinks', value: '5' },
+      { kind: 'op', op: 'desc-contains', value: 'royal' },
+    ],
+  },
+  {
     id: 'sis-by-laying-body',
     title: 'SIs → laying body (DDP)',
     sub: 'Statutory Instruments → walk via Laying → LayingBody. Government departments ranked by how many SIs they laid.',

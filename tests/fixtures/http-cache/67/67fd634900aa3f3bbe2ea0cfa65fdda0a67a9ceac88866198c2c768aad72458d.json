@@ -1,0 +1,112 @@
+{
+  "meta": {
+    "method": "GET",
+    "url": "https://qlever.dev/api/wikidata?query=%0APREFIX%20wd%3A%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fentity%2F%3E%0APREFIX%20wdt%3A%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2Fdirect%2F%3E%0APREFIX%20p%3A%20%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2F%3E%0APREFIX%20ps%3A%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2Fstatement%2F%3E%0APREFIX%20pq%3A%20%20%20%3Chttp%3A%2F%2Fwww.wikidata.org%2Fprop%2Fqualifier%2F%3E%0APREFIX%20rdfs%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F2000%2F01%2Frdf-schema%23%3E%0ASELECT%20%3Fpm%20(SAMPLE(%3Flbl)%20AS%20%3Flabel)%20(SAMPLE(%3Fimg)%20AS%20%3Fimage)%0A%20%20%20%20%20%20%20%20%20%20%20(MIN(%3FstartLit)%20AS%20%3FfirstStart)%0A%20%20%20%20%20%20%20%20%20%20%20(MIN(%3FdobLit)%20%20%20AS%20%3Fdob)%20(MAX(%3FdodLit)%20AS%20%3Fdod)%0AWHERE%20%7B%0A%20%20VALUES%20%3Fpos%20%7B%20wd%3AQ3656834%20wd%3AQ14211%20%7D%0A%20%20%3Fpm%20p%3AP39%20%3Fst%20.%20%3Fst%20ps%3AP39%20%3Fpos%20.%0A%20%20%3Fst%20pq%3AP580%20%3FstartLit%20.%0A%20%20%3Fpm%20wdt%3AP102%20wd%3AQ108700%20.%0A%20%20OPTIONAL%20%7B%20%3Fpm%20rdfs%3Alabel%20%3Flbl%20.%20FILTER(lang(%3Flbl)%3D%22en%22)%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fpm%20wdt%3AP18%20%20%3Fimg%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fpm%20wdt%3AP569%20%3FdobLit%20%7D%0A%20%20OPTIONAL%20%7B%20%3Fpm%20wdt%3AP570%20%3FdodLit%20%7D%0A%7D%20GROUP%20BY%20%3Fpm%0AHAVING%20(YEAR(MIN(%3FstartLit))%20%3C%201800)%0AORDER%20BY%20%3FfirstStart",
+    "recordedAt": "2026-06-09T19:58:32.837Z"
+  },
+  "status": 200,
+  "contentType": "application/sparql-results+json",
+  "shape": "sparql-results-json",
+  "vars": [
+    "pm",
+    "label",
+    "image",
+    "firstStart",
+    "dob",
+    "dod"
+  ],
+  "rows": 11,
+  "bindHash": "sha256:6d7fbedac50c1a47fef70c224cceed1768d29d11ef1eb196b91cf60be809aeb2",
+  "sample": [
+    {
+      "pm": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q104190"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Robert Walpole",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Retuched%20Painting%20of%20Robert%20Walpole.jpg"
+      },
+      "firstStart": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1721-04-15T00:00:00Z"
+      },
+      "dob": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1676-09-05T00:00:00Z"
+      },
+      "dod": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1745-03-29T00:00:00Z"
+      }
+    },
+    {
+      "pm": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q270415"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Spencer Compton, 1st Earl of Wilmington",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Spencer%20Compton%201st%20Earl%20of%20Wilmington.jpg"
+      },
+      "firstStart": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1742-02-16T00:00:00Z"
+      },
+      "dob": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1674-01-01T00:00:00Z"
+      },
+      "dod": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1743-07-13T00:00:00Z"
+      }
+    },
+    {
+      "pm": {
+        "type": "uri",
+        "value": "http://www.wikidata.org/entity/Q244766"
+      },
+      "label": {
+        "type": "literal",
+        "value": "Henry Pelham",
+        "xml:lang": "en"
+      },
+      "image": {
+        "type": "uri",
+        "value": "http://commons.wikimedia.org/wiki/Special:FilePath/Henry%20Pelham%20by%20William%20Hoare.jpg"
+      },
+      "firstStart": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1743-08-27T00:00:00Z"
+      },
+      "dob": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1694-09-25T00:00:00Z"
+      },
+      "dod": {
+        "datatype": "http://www.w3.org/2001/XMLSchema#dateTime",
+        "type": "literal",
+        "value": "1754-03-06T00:00:00Z"
+      }
+    }
+  ]
+}
