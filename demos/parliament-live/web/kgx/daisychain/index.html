@@ -732,6 +732,14 @@ const state = {
   view: null,
   chainView:   'spine',
   contentView: 'tiles',
+  // Mobile single-pane swap (≤860px shows ONE of nav/chain/content). Empty
+  // chain → starts on 'nav'; once beads exist we auto-advance to 'chain'.
+  mobilePane: 'nav',
+  // The library id (or starter id) that originated the current chain. Used
+  // by the nav pane to mark which entry is "active" — like Finder highlighting
+  // the selected sidebar folder. null while a chain is freshly composed by
+  // chip-tapping rather than replayed.
+  activeChainId: null,
   // Focus is the index of the bead whose CONTENT downstream views show
   // (tiles, map). It defaults to "follow the frontier" — null means the
   // last bead — so existing chains feel unchanged. Click an older bead in
@@ -1899,16 +1907,45 @@ class DaisyApp extends HTMLElement {
         .seg button.on { background: var(--accent); color: var(--accent-on); font-weight: 600; }
         .seg-label { font-size: 10px; color: var(--ink-mute); margin-right: -2px;
                      text-transform: uppercase; letter-spacing: 0.04em; }
-        /* Two simultaneous panes — chain (spine/graph/table) on top, node
-           content (tiles/map) below. Side-by-side ≥860px so the chain you
-           just clicked and the content it reveals are in the same view.
-           Mobile-first: stacked, content pane below the chain pane. */
+        /* Three simultaneous Finder-style panes: NAV (saved chains + new chain
+           starter) | CHAIN (active daisychain — spine/graph/table) | CONTENT
+           (focused-node viewer — tiles/map/etc.). They're interdependent: pick
+           a chain in NAV → CHAIN re-renders; focus a bead in CHAIN → CONTENT
+           re-renders for that bead. Same model as Mac Finder's column view,
+           Windows Explorer's tree+list+preview, etc., but the "files" are
+           typed entity sets at arbitrary points in a chain.
+
+           Mobile-first: ≤860px shows ONE pane at a time with a top tab
+           switcher (state.mobilePane). At ≥860px all three are visible side
+           by side with a narrow nav rail. */
         #panes {
           display: grid; gap: 10px;
           grid-template-columns: 1fr; padding-top: 6px;
         }
+        #panes.no-content { grid-template-columns: 1fr !important; }
+        .pane-tabs {
+          display: flex; gap: 0; margin-bottom: 6px;
+          border: 1px solid var(--rule); border-radius: 7px;
+          overflow: hidden; background: var(--surface);
+        }
+        .pane-tabs button {
+          flex: 1; background: var(--surface); color: var(--ink-soft);
+          border: 0; border-right: 1px solid var(--rule);
+          padding: 6px 4px; font: 12px/1 inherit; cursor: pointer;
+        }
+        .pane-tabs button:last-child { border-right: 0; }
+        .pane-tabs button.on { background: var(--accent); color: var(--accent-on);
+                               font-weight: 600; }
+        @media (max-width: 859px) {
+          /* Single visible pane swap. Hidden panes don't render their content
+             at all (display:none) so the page only does the work of one. */
+          .pane { display: none; }
+          .pane.show { display: block; }
+        }
         @media (min-width: 860px) {
-          #panes { grid-template-columns: minmax(260px, 1fr) minmax(0, 1.4fr); }
+          .pane-tabs { display: none; }
+          #panes { grid-template-columns: minmax(220px, 0.7fr) minmax(280px, 1fr) minmax(0, 1.5fr); }
+          #panes.no-content { grid-template-columns: minmax(240px, 1fr) minmax(0, 2.4fr) !important; }
         }
         .pane {
           background: color-mix(in oklab, var(--surface) 70%, transparent);
@@ -1921,6 +1958,29 @@ class DaisyApp extends HTMLElement {
           padding: 2px 2px 6px; font-size: 11px; color: var(--ink-mute);
           text-transform: uppercase; letter-spacing: 0.04em;
         }
+        /* Nav pane — library list with one-tap replay + new-chain entry. */
+        #nav-root .nav-section {
+          font-size: 10px; color: var(--ink-mute); margin: 4px 4px 2px;
+          text-transform: uppercase; letter-spacing: 0.06em;
+        }
+        #nav-root .nav-item {
+          display: block; width: 100%;
+          background: var(--surface); color: var(--ink);
+          border: 1px solid var(--rule-soft); border-radius: 6px;
+          padding: 5px 8px; margin: 0 0 4px; cursor: pointer; text-align: left;
+          font: 12px/1.3 inherit;
+        }
+        #nav-root .nav-item:hover { background: color-mix(in oklab, var(--accent) 8%, var(--surface)); }
+        #nav-root .nav-item.new {
+          border-style: dashed; color: var(--accent); font-weight: 600;
+        }
+        #nav-root .nav-item.active {
+          border-color: var(--accent);
+          box-shadow: 0 0 0 1px var(--accent) inset;
+        }
+        #nav-root .nav-item .nm { font-weight: 600; font-size: 12px; }
+        #nav-root .nav-item .sub { color: var(--ink-mute); font-size: 11px;
+                                   margin-top: 2px; line-height: 1.35; }
         #view-root { padding: 0; }   /* legacy, kept until callers stop targeting it */
         #status {
           font-size: 12px; color: var(--ink-soft);
@@ -2123,9 +2183,15 @@ class DaisyApp extends HTMLElement {
         </div>
       </header>
       <div id="status" hidden></div>
+      <div class="pane-tabs" role="tablist" aria-label="visible pane">
+        <button data-mp="nav"     class="on">chains</button>
+        <button data-mp="chain"  >chain</button>
+        <button data-mp="content">node</button>
+      </div>
       <div id="panes">
-        <div class="pane" id="pane-chain"><div id="chain-root"></div></div>
-        <div class="pane" id="pane-content"><div id="content-root"></div></div>
+        <div class="pane show" id="pane-nav"><div id="nav-root"></div></div>
+        <div class="pane"      id="pane-chain"><div id="chain-root"></div></div>
+        <div class="pane"      id="pane-content"><div id="content-root"></div></div>
       </div>
       <div class="foot">
         Contains Parliamentary information licensed under the
@@ -2134,8 +2200,35 @@ class DaisyApp extends HTMLElement {
         Wikidata content via QLever, CC0.
       </div>
     `;
-    this.addEventListener('starter-pick', (e) => this._kickoff(e.detail));
-    this.addEventListener('library-pick', (e) => this._replay(e.detail));
+    this.addEventListener('starter-pick', (e) => {
+      state.activeChainId = `starter:${e.detail?.id || ''}`;
+      this._kickoff(e.detail);
+      // On mobile, auto-advance from nav → chain once a starter fires.
+      if (window.matchMedia('(max-width: 859px)').matches) {
+        state.mobilePane = 'chain';
+        publish();
+      }
+    });
+    this.addEventListener('library-pick', (e) => {
+      state.activeChainId = e.detail?.id || null;
+      this._replay(e.detail);
+      if (window.matchMedia('(max-width: 859px)').matches) {
+        state.mobilePane = 'chain';
+        publish();
+      }
+    });
+    // "+ new chain" — clear everything and show the nav pane's starter list.
+    this.addEventListener('chain-new', () => {
+      this._reset();
+      state.mobilePane = 'nav';
+      publish();
+    });
+    for (const tab of this.shadowRoot.querySelectorAll('.pane-tabs button')) {
+      tab.addEventListener('click', () => {
+        state.mobilePane = tab.dataset.mp;
+        publish();
+      });
+    }
     this.addEventListener('op-tap',       (e) => this._onOp(e.detail));
     this.addEventListener('bead-undo',    (e) => this._undoTo(e.detail.index));
     this.addEventListener('bead-focus',   (e) => this._focusTo(e.detail.index));
@@ -2449,6 +2542,7 @@ class DaisyApp extends HTMLElement {
     state.starter = null;
     state.beads = [];
     state.focusIdx = null;
+    state.activeChainId = null;
     this._status(null);
     publish();
   }
@@ -2460,16 +2554,35 @@ class DaisyApp extends HTMLElement {
       const expect = btn.dataset.pane === 'content' ? state.contentView : state.chainView;
       btn.classList.toggle('on', btn.dataset.v === expect);
     }
+    // Sync the mobile pane-tab strip (visible at ≤860px).
+    for (const tab of this.shadowRoot.querySelectorAll('.pane-tabs button')) {
+      tab.classList.toggle('on', tab.dataset.mp === state.mobilePane);
+    }
+    // Mobile single-pane swap: only the selected pane carries `.show`. CSS
+    // hides the others. Above 860px the media query overrides this and all
+    // three are visible.
+    for (const pane of this.shadowRoot.querySelectorAll('.pane')) {
+      const which = pane.id.replace('pane-', '');
+      pane.classList.toggle('show', which === state.mobilePane);
+    }
+
+    const navRoot     = this.shadowRoot.querySelector('#nav-root');
     const chainRoot   = this.shadowRoot.querySelector('#chain-root');
     const contentRoot = this.shadowRoot.querySelector('#content-root');
     const panes       = this.shadowRoot.querySelector('#panes');
+    navRoot.innerHTML = '';
     chainRoot.innerHTML = '';
     contentRoot.innerHTML = '';
-    // No chain yet → show the starter+library gallery in a single full-width
-    // column so it has room to breathe. Hide the empty content pane entirely.
+
+    // The nav pane (chains list + "new chain" starter access) renders
+    // regardless of whether there's an active chain.
+    this._renderNav(navRoot);
+
+    // Empty chain → middle pane shows the prominent starter gallery; right
+    // pane goes away entirely (it has nothing to show). At desktop widths
+    // the panes grid drops to two columns via the `.no-content` modifier.
     if (!state.beads.length) {
-      panes.style.gridTemplateColumns = '1fr';
-      this.shadowRoot.querySelector('#pane-content').style.display = 'none';
+      panes.classList.add('no-content');
       const starter = document.createElement('daisy-starter');
       const empty = document.createElement('div');
       empty.className = 'empty';
@@ -2477,8 +2590,7 @@ class DaisyApp extends HTMLElement {
       chainRoot.appendChild(empty);
       return;
     }
-    panes.style.gridTemplateColumns = '';
-    this.shadowRoot.querySelector('#pane-content').style.display = '';
+    panes.classList.remove('no-content');
     // Map button greys out unless SOME bead has coords — the renderer
     // falls back to the most-recent mappable bead, so a chain that
     // pivoted from buildings → architects still shows buildings on map.
@@ -2500,6 +2612,42 @@ class DaisyApp extends HTMLElement {
     // ANYWHERE in the chain — no point staring at an empty disabled view).
     if (state.contentView === 'map' && hasCoords) this._renderMap(contentRoot);
     else                                          this._renderTiles(contentRoot);
+  }
+
+  // Nav pane — Finder's sidebar. One-tap to start a new chain or replay a
+  // saved one. Branches of the active chain (forks) will land here too once
+  // their UI lands; for now the active LIBRARY entry is highlighted.
+  _renderNav(root) {
+    const newBtn = document.createElement('button');
+    newBtn.className = 'nav-item new';
+    newBtn.textContent = '+ new chain';
+    newBtn.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('chain-new', { bubbles: true, composed: true }));
+    });
+    root.appendChild(newBtn);
+
+    // Library — saved chains.
+    const sec = document.createElement('div');
+    sec.className = 'nav-section';
+    sec.textContent = `library (${LIBRARY.length})`;
+    root.appendChild(sec);
+
+    for (const entry of LIBRARY) {
+      let stepCount = 0;
+      try { stepCount = activeChainSteps(normaliseChainSpec(entry)).length; }
+      catch { stepCount = (entry.steps || []).length; }
+      const b = document.createElement('button');
+      b.className = 'nav-item' + (state.activeChainId === entry.id ? ' active' : '');
+      b.innerHTML = `<div class="nm"></div><div class="sub"></div>`;
+      b.querySelector('.nm').textContent = `${stepCount}· ${entry.title}`;
+      b.querySelector('.sub').textContent = entry.sub || '';
+      b.addEventListener('click', () => {
+        this.dispatchEvent(new CustomEvent('library-pick', {
+          detail: entry, bubbles: true, composed: true,
+        }));
+      });
+      root.appendChild(b);
+    }
   }
 
   _renderSpine(root) {
