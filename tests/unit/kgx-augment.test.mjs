@@ -6,10 +6,24 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 
 import { AUGMENT_OPS } from '../../demos/parliament-live/web/kgx/lib/augment.mjs';
 import { assertNoAliasCollisions } from
   '../../demos/parliament-live/web/kgx/lib/sparql-validate.mjs';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const KGX = path.join(__dirname, '..', '..', 'bin', 'kgx.mjs');
+
+function runKgx(args) {
+  try {
+    return { ok: true, stdout: execFileSync('node', [KGX, ...args], { encoding: 'utf8', timeout: 15_000 }), code: 0 };
+  } catch (e) {
+    return { ok: false, stdout: e.stdout?.toString() || '', stderr: e.stderr?.toString() || '', code: e.status };
+  }
+}
 
 const VALID_ROLES = new Set(['primary', 'crossCheck', 'adapterEvidence', 'weakEnrichment']);
 
@@ -84,4 +98,97 @@ test('enrich + parl-enrich expect Wikidata QID URIs; identity-bridge expects .mp
   assert.equal(AUGMENT_OPS.enrich.requires(sittingWithMpid),          true);
   assert.equal(AUGMENT_OPS['parl-enrich'].requires(sittingWithMpid),  true);
   assert.equal(AUGMENT_OPS['identity-bridge'].requires(sittingWithMpid), true);
+});
+
+// ---------------------------------------------------------------------------
+// applicableTo — the declarative twin of the page's relevant(b) closures,
+// used by `kgx chain candidates` to filter augments by upstream bundle type.
+// Mirrors the OP_FIELDS guards in kgx-restrict.test.mjs.
+// ---------------------------------------------------------------------------
+
+test('every AUGMENT_OP declares applicableTo with at least one type', () => {
+  for (const [id, aug] of Object.entries(AUGMENT_OPS)) {
+    assert.ok(aug.applicableTo, `${id}: missing applicableTo`);
+    assert.ok(Array.isArray(aug.applicableTo.types) && aug.applicableTo.types.length > 0,
+      `${id}: applicableTo must declare at least one bundle type`);
+  }
+});
+
+test('every applicableTo type is one the daisychain actually produces', () => {
+  // Same allowlist as the OP_FIELDS guard in kgx-restrict.test.mjs: the
+  // page's per-type OPS palette plus the generic Wikidata bundle types
+  // pivots emit. A typo here ('humn') would silently hide the op from
+  // `kgx chain candidates` for every type — catch it now.
+  const KNOWN = new Set([
+    'human', 'constituency', 'party', 'appg', 'formal_body', 'concept', 'si',
+    'wd_thing', 'wd_class', 'building', 'place', 'org',
+  ]);
+  for (const [id, { applicableTo }] of Object.entries(AUGMENT_OPS)) {
+    for (const t of applicableTo.types) {
+      assert.ok(KNOWN.has(t), `op "${id}" declares unknown bundle type "${t}"`);
+    }
+    // Field lists, when present, must be non-empty string arrays.
+    for (const key of ['requiresFields', 'anyOfFields']) {
+      const fields = applicableTo[key];
+      if (fields === undefined) continue;
+      assert.ok(Array.isArray(fields) && fields.length > 0 &&
+        fields.every((f) => typeof f === 'string'),
+        `op "${id}": applicableTo.${key} must be a non-empty string array`);
+    }
+    if (applicableTo.uriPattern !== undefined) {
+      assert.ok(typeof applicableTo.uriPattern === 'string' && applicableTo.uriPattern.length,
+        `op "${id}": applicableTo.uriPattern must be a non-empty string`);
+      // Documented pattern, but it must at least compile as a RegExp.
+      assert.doesNotThrow(() => new RegExp(applicableTo.uriPattern),
+        `op "${id}": applicableTo.uriPattern is not a valid regex`);
+    }
+  }
+});
+
+test('applicableTo gates mirror the page relevant(b) closures', () => {
+  // enrich: human bundle with Q-URIs (no field gate on the page).
+  assert.deepEqual(AUGMENT_OPS.enrich.applicableTo,
+    { types: ['human'], uriPattern: 'Q\\d+$' });
+  // parl-enrich: Q-URI AND (sitting || mpid).
+  assert.deepEqual(AUGMENT_OPS['parl-enrich'].applicableTo,
+    { types: ['human'], uriPattern: 'Q\\d+$', anyOfFields: ['sitting', 'mpid'] });
+  // identity-bridge: items with mpid.
+  assert.deepEqual(AUGMENT_OPS['identity-bridge'].applicableTo,
+    { types: ['human'], requiresFields: ['mpid'] });
+});
+
+// ---------------------------------------------------------------------------
+// `kgx chain candidates` — augments are filtered by applicableTo.types by
+// default; `--all` restores the blind registry dump.
+// ---------------------------------------------------------------------------
+
+test('chain candidates --type human surfaces all augments with applicableTo', () => {
+  const r = runKgx(['chain', 'candidates', '--type', 'human']);
+  assert.equal(r.code, 0, r.stderr || r.stdout);
+  const o = JSON.parse(r.stdout);
+  assert.equal(o.augmentsFiltered, true);
+  assert.deepEqual(o.augmentOps.map((a) => a.id).sort(),
+    Object.keys(AUGMENT_OPS).sort());
+  for (const a of o.augmentOps) {
+    assert.ok(a.applicableTo && Array.isArray(a.applicableTo.types),
+      `${a.id}: candidates output must carry applicableTo`);
+    assert.ok(a.applicableTo.types.includes('human'),
+      `${a.id}: surfaced on human but does not declare it`);
+  }
+});
+
+test('chain candidates --type si surfaces NO augments (all three are human-only)', () => {
+  const r = runKgx(['chain', 'candidates', '--type', 'si']);
+  assert.equal(r.code, 0, r.stderr || r.stdout);
+  const o = JSON.parse(r.stdout);
+  assert.deepEqual(o.augmentOps, []);
+});
+
+test('chain candidates --type si --all restores the blind augment dump', () => {
+  const r = runKgx(['chain', 'candidates', '--type', 'si', '--all']);
+  assert.equal(r.code, 0, r.stderr || r.stdout);
+  const o = JSON.parse(r.stdout);
+  assert.equal(o.augmentsFiltered, false);
+  assert.deepEqual(o.augmentOps.map((a) => a.id).sort(),
+    Object.keys(AUGMENT_OPS).sort());
 });

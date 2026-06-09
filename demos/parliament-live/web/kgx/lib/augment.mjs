@@ -16,10 +16,24 @@
 //
 //   {
 //     id, engineId, requires(bundle), cap, note,
+//     applicableTo  : { types, ... }          // declarative gate (see below)
 //     query(items)  -> string                 // SPARQL with VALUES filled
 //     parse(bindings, items) -> newItems     // merge bindings back by uri/mpid
 //     namedGraphs?  : string[]                // for provenance
 //   }
+//
+// `applicableTo` is the declarative twin of the daisychain page's inline
+// `relevant(b)` closures and of this file's `requires(b)` runtime guard —
+// pure data so `kgx chain candidates` can filter augments by upstream
+// bundle TYPE without executing anything:
+//
+//   types          : bundle types the op makes sense on (the page only
+//                    surfaces these three ops in OPS.human today)
+//   requiresFields : item fields that must ALL be present on some item
+//   anyOfFields    : item fields of which AT LEAST ONE must be present
+//   uriPattern     : documented regex (as a string) that item.uri must
+//                    match — NOT executed here; `requires(b)` is the
+//                    runtime check, this is the introspectable note
 // =============================================================================
 
 const ENRICH_MAX = 500;   // soft cap that the page already enforces
@@ -36,6 +50,9 @@ export const enrich = {
   role:      'primary',
   cap:       ENRICH_MAX,
   requires:  (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '')),
+  // Page has no relevant() gate for enrich; applicability = human bundle
+  // whose items carry Wikidata Q-URIs (same shape requires() checks).
+  applicableTo: { types: ['human'], uriPattern: 'Q\\d+$' },
   note:      'Wikidata: birthplace + coords + dates + alma maters + spouses + occupations',
   namedGraphs: [],
 
@@ -111,6 +128,8 @@ export const parlEnrich = {
   role:      'crossCheck',
   cap:       ENRICH_MAX,
   requires:  (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '') && (x.sitting || x.mpid)),
+  // Mirrors the page's relevant(): Wikidata Q-URI AND (sitting || mpid).
+  applicableTo: { types: ['human'], uriPattern: 'Q\\d+$', anyOfFields: ['sitting', 'mpid'] },
   note:      'join via rdfs:seeAlso to UK Parliament DDP (current constituency + current party + name parts)',
   namedGraphs: [],
 
@@ -179,6 +198,8 @@ export const identityBridge = {
   role:      'crossCheck',
   cap:       ENRICH_MAX,
   requires:  (b) => b.items.some((x) => x.mpid),
+  // Mirrors the page's relevant(): items with a Members API id (mpid).
+  applicableTo: { types: ['human'], requiresFields: ['mpid'] },
   note:      'joined across 4 identity named graphs in fpkg (parl:memberId as canonical key)',
   namedGraphs: [
     'https://forgetmenot.local/graph/identity/ddp-sparql',

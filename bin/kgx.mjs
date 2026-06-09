@@ -532,12 +532,16 @@ function cmdChainCandidates(flags) {
   const restrict = flags.all ? Object.keys(opFilters) : opsRelevantTo(type);
   const pivots = REL_TEMPLATES.filter((t) =>
     t.inputType === type || (t.inputType === 'wd_thing' && /Q\d+$/.test(type)));
-  // Augment ops: keep an `applicableTo` field on each so the LLM can tell
-  // why an op might miss (e.g. parl-enrich wants a Wikidata-shape human
-  // with mpid). Today these gates live inline in the page's `relevant(b)`
-  // closures; surfacing them on the candidates view is left as an explicit
-  // follow-up — for now we report kind+role like before.
-  const augments = Object.values(AUGMENT_OPS);
+  // Augment ops: each AUGMENT_OPS entry now carries declarative
+  // `applicableTo` metadata ({ types, requiresFields / anyOfFields,
+  // uriPattern }) — the pure-data twin of the page's inline `relevant(b)`
+  // closures. Filter to augments whose declared types include the
+  // upstream bundle type (all three are human-only today, so an SI
+  // bundle gets none), and surface the metadata so the LLM can tell why
+  // an op might miss (e.g. parl-enrich wants a Wikidata-shape human
+  // with sitting/mpid). `--all` opts back to the blind dump.
+  const augments = Object.values(AUGMENT_OPS).filter((a) =>
+    flags.all || (a.applicableTo?.types || []).includes(type));
   const out = {
     upstreamType: type,
     upstreamStep: lastStep,
@@ -549,7 +553,9 @@ function cmdChainCandidates(flags) {
     })),
     augmentOps: augments.map((a) => ({
       id: a.id, kind: a.kind, role: a.role || 'primary',
+      applicableTo: a.applicableTo || null,
     })),
+    augmentsFiltered: !flags.all,
   };
   process.stdout.write(JSON.stringify(out, null, 2) + '\n');
 }

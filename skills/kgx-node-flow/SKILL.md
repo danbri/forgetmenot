@@ -37,7 +37,7 @@ beads.
 | `frontier.mjs` | `frontierOf(bundle)` → `{type,size,facets,presence,uniform}` — data-driven "what can I slice here" (backs `kgx chain frontier`) | pure |
 | `rel-templates.mjs` | `REL_TEMPLATES` (12 templates, 18 variants), `valuesMnisPersons` | pure data + pure build/parse |
 | `starters.mjs` | `STARTERS` (9 entries — 5 SPARQL + 4 PQ shape), per-starter parse functions, `POST1900_MPS_QUERY`, `SEED_LIMIT` | pure data + pure parse |
-| `augment.mjs` | `AUGMENT_OPS` (enrich / parl-enrich / identity-bridge) | pure data + pure query/parse |
+| `augment.mjs` | `AUGMENT_OPS` (enrich / parl-enrich / identity-bridge), each with declarative `applicableTo` ({types, requiresFields/anyOfFields, uriPattern}) | pure data + pure query/parse |
 | `quality.mjs` | `isVariantAllowedByPolicy`, `isOpAllowedByPolicy`, `variantsAllowedByPolicy`, `VALID_MODES` | pure |
 | `library.mjs` | `LIBRARY` (23 saved chains incl. a fork-demo) | pure data |
 | `branches.mjs` | `normaliseChainSpec(spec)`, `activeChainSteps(normalised)` | pure |
@@ -54,7 +54,10 @@ table; the paper trail must match the run.
 **CLI exploration loop:** `kgx chain explain` (preview, no fetch) →
 `candidates` (ops applicable to a bundle TYPE — restrict-ops filtered by
 `OP_FIELDS`'s applicable-type list so an SI bundle gets `year/has-cif/
-decade` not the full 18; pass `--all` for the blind dump) → `frontier`
+decade` not the full 18, and augment-ops filtered by each entry's
+`applicableTo.types` so an SI bundle gets no augments (all three are
+human-only today), with the `applicableTo` metadata surfaced per op;
+pass `--all` for the blind dump) → `frontier`
 (RUN, then report which slices the fetched data actually supports + their
 facet counts — the frontier bead from the CLI) → `run` (JSONL beads, each
 with a `bindHash` content hash) → `trig` (RDF manifest with
@@ -184,7 +187,12 @@ export const myAugment = {
   engineId:  'qlever-wikidata',
   role:      'crossCheck',            // primary / crossCheck / adapterEvidence / weakEnrichment
   cap:       500,
-  requires:  (b) => …,
+  requires:  (b) => …,                // runtime guard on the actual bundle
+  applicableTo: {                     // declarative twin of requires() — pure
+    types: ['human'],                 //   data, used by `kgx chain candidates`
+    requiresFields: ['mpid'],         //   to filter augments by bundle type;
+    // anyOfFields / uriPattern also supported (see module doc)
+  },                                  //   guard-tested in kgx-augment.test.mjs
   note:      '…',
   namedGraphs: [],
   query:     (items) => `…SPARQL with VALUES { ${items.map(…)} }…`,
