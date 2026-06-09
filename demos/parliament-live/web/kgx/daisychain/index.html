@@ -1784,60 +1784,67 @@ class DaisyThingSheet extends HTMLElement {
 
     this.shadowRoot.innerHTML = `
       <style>
-        :host { position: fixed; inset: 0; z-index: 100;
-                background: color-mix(in oklab, var(--ink) 55%, transparent);
-                display: flex; align-items: flex-end; justify-content: center;
-                animation: fade 0.18s ease-out; }
-        @keyframes fade  { from { opacity: 0 } to { opacity: 1 } }
-        @keyframes slide { from { transform: translateY(20px) } to { transform: translateY(0) } }
-        .sheet {
-          width: 100%; max-width: 700px;
-          background: var(--surface); color: var(--ink);
-          border-radius: 14px 14px 0 0;
-          padding: 14px 16px;
-          max-height: 90vh; overflow-y: auto;
-          box-shadow: 0 -8px 20px rgba(0,0,0,0.18);
-          animation: slide 0.22s ease-out;
+        /* Quick-Look-style popover, not a modal — never covers the whole
+           viewport, never blocks the 3-pane layout behind it. Anchored at
+           the bottom-right at desktop widths, slides up from the bottom on
+           mobile. ESC / × / clicking outside still closes it; we also wire
+           a 'thing-replace' static method so the next thing-open replaces
+           the contents in place rather than stacking. */
+        :host { position: fixed; z-index: 100; bottom: 12px; right: 12px;
+                width: min(420px, calc(100vw - 24px));
+                max-height: calc(100vh - 24px);
+                background: var(--surface); color: var(--ink);
+                border: 1px solid var(--rule); border-radius: 12px;
+                box-shadow: 0 8px 28px rgba(0,0,0,0.22);
+                display: flex; flex-direction: column;
+                overflow: hidden;
+                animation: slide 0.18s ease-out; }
+        @media (max-width: 540px) {
+          :host { left: 8px; right: 8px; bottom: 8px; width: auto;
+                  max-height: 70vh; border-radius: 12px 12px 0 0; }
         }
+        @keyframes slide { from { transform: translateY(8px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
+        .scroll { overflow-y: auto; padding: 10px 12px; }
         .h { display: flex; align-items: baseline; gap: 8px;
-             padding-bottom: 10px; border-bottom: 1px solid var(--rule-soft); }
-        .title { font-weight: 700; font-size: 16px; }
-        .sub { color: var(--ink-mute); font-size: 12px; }
+             padding-bottom: 8px; border-bottom: 1px solid var(--rule-soft); }
+        .title { font-weight: 700; font-size: 14px; }
+        .sub { color: var(--ink-mute); font-size: 11px; }
         .close { margin-left: auto; background: none; border: 0; color: var(--ink-mute);
-                 font-size: 20px; cursor: pointer; padding: 4px 8px; }
-        .body { padding-top: 12px; display: grid;
-                grid-template-columns: 1fr; gap: 14px; }
+                 font-size: 18px; cursor: pointer; padding: 2px 6px; line-height: 1; }
+        .close:hover { color: var(--ink); }
+        .body { padding-top: 8px; display: grid;
+                grid-template-columns: 1fr; gap: 10px; }
         @media (min-width: 540px) {
-          .body { grid-template-columns: 220px 1fr; }
+          .body { grid-template-columns: 140px 1fr; }
         }
         .hero {
-          background: var(--surface-2); border-radius: 10px;
-          overflow: hidden; min-height: 160px;
+          background: var(--surface-2); border-radius: 8px;
+          overflow: hidden; min-height: 100px;
           display: flex; align-items: center; justify-content: center;
         }
-        .hero img { width: 100%; height: auto; max-height: 260px;
+        .hero img { width: 100%; height: auto; max-height: 200px;
                     object-fit: cover; display: block; }
-        .hero .placeholder { color: var(--ink-mute); font-size: 13px;
-                             padding: 24px; text-align: center; }
-        dl { margin: 0; display: grid; grid-template-columns: 130px 1fr;
-             gap: 4px 12px; font-size: 13px; }
+        .hero .placeholder { color: var(--ink-mute); font-size: 12px;
+                             padding: 18px; text-align: center; }
+        dl { margin: 0; display: grid; grid-template-columns: 100px 1fr;
+             gap: 3px 10px; font-size: 12px; }
         dt { color: var(--ink-mute); font-weight: 600; }
         dd { margin: 0; color: var(--ink); overflow-wrap: anywhere; }
-        .links { margin-top: 14px; padding-top: 10px;
+        .links { margin-top: 10px; padding-top: 8px;
                  border-top: 1px solid var(--rule-soft);
-                 display: flex; gap: 8px; flex-wrap: wrap; }
-        .links a, .links button.linklike {
+                 display: flex; gap: 6px; flex-wrap: wrap; }
+        .links a {
           background: var(--surface-2); color: var(--ink);
           border: 1px solid var(--rule-soft); border-radius: 6px;
-          padding: 6px 10px; font: 12px/1 inherit;
-          text-decoration: none; cursor: pointer;
+          padding: 4px 8px; font: 11px/1 inherit;
+          text-decoration: none;
         }
-        .links a:hover, .links button.linklike:hover {
+        .links a:hover {
           background: color-mix(in oklab, var(--accent) 10%, var(--surface-2));
           border-color: var(--accent);
         }
       </style>
-      <div class="sheet">
+      <div class="scroll">
         <div class="h">
           <span class="title">${escapeHTML(item.label || item.uri || 'item')}</span>
           <span class="sub">${escapeHTML(bundleType || '')}</span>
@@ -1852,18 +1859,34 @@ class DaisyThingSheet extends HTMLElement {
           <dl>${rowsHTML}</dl>
         </div>
         <div class="links">
-          ${wdUrl    ? `<a href="${wdUrl}"    target="_blank" rel="noopener">view on Wikidata ↗</a>` : ''}
-          ${item.uri ? `<a href="${item.uri}" target="_blank" rel="noopener">canonical URI ↗</a>`   : ''}
+          ${wdUrl    ? `<a href="${wdUrl}"    target="_blank" rel="noopener">Wikidata ↗</a>` : ''}
+          ${item.uri ? `<a href="${item.uri}" target="_blank" rel="noopener">URI ↗</a>`   : ''}
           ${item.image ? `<a href="${commonsThumb(item.image, 1200)}" target="_blank" rel="noopener">full image ↗</a>` : ''}
         </div>
       </div>
     `;
     this.shadowRoot.querySelector('.close').addEventListener('click', () => this.remove());
-    this.addEventListener('click', (e) => { if (e.target === this) this.remove(); });
+    // Outside-click and ESC close. Since the popover doesn't cover the page,
+    // we attach listeners to the document — and detach on disconnect.
+    this._onDocClick = (e) => {
+      if (!this.contains(e.target) && !e.composedPath().includes(this)) this.remove();
+    };
+    this._onKey = (e) => { if (e.key === 'Escape') this.remove(); };
+    setTimeout(() => {
+      document.addEventListener('click', this._onDocClick, { capture: true });
+      document.addEventListener('keydown', this._onKey);
+    }, 0);
+    // If another thing-sheet is already open, replace its contents in
+    // place — keeps the popover stable so quick-look behaviour feels right.
+    const existing = document.querySelector('daisy-thing-sheet');
+    if (existing && existing !== this) existing.remove();
     document.body.appendChild(this);
-    setupModalA11y(this);
   }
-  disconnectedCallback() { this._modalCleanup?.(); }
+  disconnectedCallback() {
+    document.removeEventListener('click',   this._onDocClick, { capture: true });
+    document.removeEventListener('keydown', this._onKey);
+    this._modalCleanup?.();
+  }
 }
 customElements.define('daisy-thing-sheet', DaisyThingSheet);
 
@@ -2123,6 +2146,49 @@ class DaisyApp extends HTMLElement {
                           stroke: var(--surface); stroke-width: 1; cursor: pointer; }
         .map-svg circle:hover { fill: var(--good); fill-opacity: 0.95; }
         .map-svg .label { font: 11px ui-monospace, Menlo, monospace; fill: var(--ink); }
+        /* Image+label map markers — Finder-style "thingies" on a tile.
+           Anchored at the lat/lon point via the bottom-centre of the
+           circular image; the label sits beside the image like a sticky
+           pin. Clickable: opens the daisy-thing-sheet popover anchored at
+           the corner, never displacing the map. Pinned over the SVG/tile
+           layers so cluster overlaps still resolve to the topmost. */
+        .map-markers { position: absolute; inset: 0;
+                       pointer-events: none; z-index: 3; }
+        .map-marker {
+          position: absolute; transform: translate(-12px, -100%);
+          display: inline-flex; align-items: center; gap: 4px;
+          padding: 0; margin: 0; background: transparent;
+          border: 0; font: inherit; cursor: pointer;
+          pointer-events: auto;
+        }
+        .map-marker .img {
+          width: 28px; height: 28px; border-radius: 50%;
+          background: var(--accent) 50% 50% / cover no-repeat;
+          border: 2px solid var(--surface);
+          box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+          flex: none;
+        }
+        .map-marker.dotless .img {
+          width: 14px; height: 14px; border-radius: 50%;
+          background: var(--accent);
+          margin-left: 7px;   /* keep anchor under circle centre */
+        }
+        .map-marker .lbl {
+          background: color-mix(in oklab, var(--surface) 92%, transparent);
+          color: var(--ink); border-radius: 4px;
+          padding: 2px 6px; font-size: 11px; line-height: 1.2;
+          max-width: 130px;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+          box-shadow: 0 1px 2px rgba(0,0,0,0.18);
+          backdrop-filter: blur(2px);
+        }
+        .map-marker .lbl .ct { color: var(--ink-mute); margin-left: 4px; }
+        .map-marker:hover { z-index: 4; }
+        .map-marker:hover .img { border-color: var(--accent); }
+        .map-marker:hover .lbl { background: var(--surface); font-weight: 600; }
+        .map-marker.cluster .img {
+          box-shadow: 0 0 0 2px var(--accent), 0 1px 3px rgba(0,0,0,0.3);
+        }
         .map-attrib { position: absolute; right: 6px; bottom: 4px;
                       font-size: 11px; color: var(--ink-soft);
                       background: color-mix(in oklab, var(--surface) 80%, transparent);
@@ -2826,7 +2892,11 @@ class DaisyApp extends HTMLElement {
       if (!c) continue;
       const lbl = x.label || x.extra?.birthplace?.label || '';
       const wt  = x.originCount || 1;
-      points.push({ ...c, label: lbl, weight: wt, uri: x.uri });
+      // Carry image + the source item itself — the new image+label markers
+      // render the image as a circular thumb, and clicking dispatches
+      // thing-open with this item.
+      points.push({ ...c, label: lbl, weight: wt, uri: x.uri,
+                    image: x.image || null, item: x });
     }
     const wrap = document.createElement('div');
     wrap.className = 'map-wrap';
@@ -2907,6 +2977,7 @@ class DaisyApp extends HTMLElement {
       <div class="map-frame">
         <div class="map-tiles"></div>
         <svg class="map-svg"></svg>
+        <div class="map-markers"></div>
         <div class="map-zoom">
           <button class="zin"  aria-label="zoom in"  title="zoom in">+</button>
           <button class="zout" aria-label="zoom out" title="zoom out">−</button>
@@ -2925,6 +2996,7 @@ class DaisyApp extends HTMLElement {
     const frame   = wrap.querySelector('.map-frame');
     const tilesEl = wrap.querySelector('.map-tiles');
     const svgEl   = wrap.querySelector('.map-svg');
+    const markersEl = wrap.querySelector('.map-markers');
     const zoomLbl = wrap.querySelector('.map-head .z');
     const zinBtn  = wrap.querySelector('.zin');
     const zoutBtn = wrap.querySelector('.zout');
@@ -2998,17 +3070,48 @@ class DaisyApp extends HTMLElement {
       // nearest the viewport (panning across the antimeridian keeps pins).
       // Skip dots outside the viewport, with margin so a half-visible
       // circle still draws.
+      // Markers are image+label divs in a layer ABOVE the tile mosaic and
+      // OVER the (still empty) SVG. Clicking one dispatches thing-open with
+      // the item — the daisy-thing-sheet popover takes it from there, no
+      // navigation loss. Falls back to a small accent dot when the item has
+      // no image.
+      svgEl.innerHTML = '';
       const worldPx = Zn * TILE;
-      svgEl.innerHTML = clusters.map((p) => {
+      markersEl.innerHTML = '';
+      const frag = document.createDocumentFragment();
+      for (const p of clusters) {
         let x = lonToX(p.lon, z) * TILE - originPx.x;
         x = ((x % worldPx) + worldPx) % worldPx;
         if (x > W + 20 && x - worldPx >= -20) x -= worldPx;
         const y = latToY(p.lat, z) * TILE - originPx.y;
-        if (x < -20 || x > W + 20 || y < -20 || y > H + 20) return '';
-        const r = radius(p.weight);
-        const title = `${p.members.length === 1 ? p.label : `${p.label} (+${p.members.length - 1} co-located)`} — ${p.weight}`;
-        return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}"><title>${escapeHTML(title)}</title></circle>`;
-      }).join('');
+        if (x < -32 || x > W + 32 || y < -32 || y > H + 32) continue;
+        const m = document.createElement('button');
+        m.className = 'map-marker' + (p.image ? '' : ' dotless');
+        if (p.members.length > 1) m.classList.add('cluster');
+        m.style.left = x.toFixed(1) + 'px';
+        m.style.top  = y.toFixed(1) + 'px';
+        m.dataset.uri = p.uri || '';
+        const subtitle = p.members.length > 1 ? `+${p.members.length - 1}` : '';
+        m.innerHTML = `
+          <div class="img"${p.image ? ` style="background-image:url('${commonsThumb(p.image, 60)}')"` : ''}></div>
+          <div class="lbl">
+            <span class="nm">${escapeHTML(p.label)}</span>
+            ${subtitle ? `<span class="ct">${subtitle}</span>` : ''}
+          </div>`;
+        m.title = `${p.label}${p.members.length > 1 ? ` (+${p.members.length - 1} co-located)` : ''} — ${p.weight}`;
+        m.addEventListener('click', (ev) => {
+          ev.stopPropagation();
+          // For a cluster, open the first member's underlying item. The
+          // thing-sheet popover takes it from there — non-modal so the
+          // map stays visible. Future: a cluster sub-list to pick from.
+          this.dispatchEvent(new CustomEvent('thing-open', {
+            detail: { item: p.members[0].item, bundle: last.bundle },
+            bubbles: true, composed: true,
+          }));
+        });
+        frag.appendChild(m);
+      }
+      markersEl.appendChild(frag);
       zoomLbl.textContent = z;
       zinBtn.disabled  = z >= ZMAX;
       zoutBtn.disabled = z <= ZMIN;
