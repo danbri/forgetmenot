@@ -69,6 +69,7 @@ import { normaliseChainSpec, activeChainSteps } from '/kgx/lib/branches.mjs';
 import { frontierOf } from '/kgx/lib/frontier.mjs';
 import { entityIntentsFor, bundleIntentsFor, beadIntentsFor } from '/kgx/lib/intents.mjs';
 import { buildListQuery, parseChainList, buildLoadQuery } from '/kgx/lib/chain-store.mjs';
+import { gpuPivotCapabilities, PivotAtlas, PivotRenderer } from '/kgx/lib/pivot-gpu.mjs';
 
 // Helper: which OPS chip ids are augment-shape (carry a role from
 // AUGMENT_OPS)? Picker hides these in `strict` mode (role: crossCheck).
@@ -811,6 +812,15 @@ const state = {
   // Pinch-/wheel-driven zoom multiplier on the pivot stage. 1.0 = native.
   // Persists across re-renders so axis/mode switches preserve the zoom.
   pivotZoom:   1.0,
+  // Pivot rendering engine.
+  //   'dom'    — compositor-friendly DOM pool, current default
+  //   'webgl2' — instanced point sprites against a texture atlas
+  //              (gpuPivotCapabilities() picks this when supported and
+  //              the bundle has >= GPU_AUTO_THRESHOLD items)
+  //   'webgpu' — same pipeline conceptually, future when widely shipped
+  // Auto-selects on first pivot render based on capabilities and size;
+  // user can override via the engine toggle in the pivot head.
+  pivotEngine: 'dom',
   // Mobile single-pane swap (≤860px shows ONE of nav/chain/content). Empty
   // chain → starts on 'nav'; once beads exist we auto-advance to 'chain'.
   mobilePane: 'nav',
@@ -2455,6 +2465,20 @@ class DaisyApp extends HTMLElement {
           text-overflow: ellipsis;
         }
         .pivot-head .pin { flex: 0 0 auto; }
+        /* Engine indicator (𝐃 DOM / 𝐆 GPU). One-tap cycles among the
+           engines the current device supports. Same look as .pin so it
+           reads as a stateful indicator rather than a hidden control. */
+        .pivot-head .engine {
+          flex: 0 0 auto;
+          background: var(--surface); color: var(--ink);
+          border: 1px solid var(--rule); border-radius: 6px;
+          padding: 3px 7px; font: 12px/1 inherit; cursor: pointer;
+        }
+        .pivot-head .engine:hover { background: color-mix(in oklab, var(--accent) 10%, var(--surface)); }
+        /* The GL canvas sits absolutely on the stage and is repositioned
+           on scroll so it always covers the visible viewport. The DOM
+           pool is hidden behind it when GPU mode is active. */
+        .pivot-stage canvas.pivot-gl { position: absolute; z-index: 2; }
 
         /* Pivot mode toggle — histogram | scatter | treemap. Compact pill
            segment in the head; selection persists via state.pivotMode. */
@@ -3980,6 +4004,156 @@ class DaisyApp extends HTMLElement {
   // Wire pinch (touch) + ctrl-wheel + grab-pan + the +/-/fit buttons.
   // One pointer drags to pan (scrollLeft/Top); two pointers pinch zoom;
   // wheel + ctrl/⌘ zooms; the fit button restores zoom=1 and recentres.
+  // GPU pivot draw — instanced quads against a per-bundle texture atlas.
+  // Atlas build is async (image fetches); we draw immediately with whatever
+  // atlas exists for THIS bundle (showing placeholders during the first
+  // build) and re-draw once the atlas resolves. Picking via 1×1 readback
+  // on pointermove translates a hit to the matching item key.
+  async _pivotRenderGPU(P, bundle, targets, stageW, vh, Z) {
+    if (!P.glCanvas) {
+      const cv = document.createElement('canvas');
+      cv.className = 'pivot-gl';
+      cv.style.position = 'absolute';
+      cv.style.left = '0'; cv.style.top = '0';
+      cv.style.pointerEvents = 'none';
+      P.stage.appendChild(cv);
+      P.glCanvas = cv;
+      try {
+        P.renderer = new PivotRenderer(cv);
+      } catch (e) {
+        // Couldn't initialise WebGL2 — fall back to DOM permanently for
+        // this session. The button stays so the user can retry.
+        console.warn('[pivot] GPU init failed:', e.message);
+        state.pivotEngine = 'dom';
+        state.pivotEngineUserSet = true;
+        publish();
+        return;
+      }
+    }
+    P.glCanvas.style.display = '';
+    const cv = P.glCanvas;
+    const W = Math.max(1, Math.floor(stageW * Z));
+    const H = Math.max(1, Math.floor(vh * Z));
+    cv.style.width  = W + 'px';
+    cv.style.height = H + 'px';
+    cv.width  = W; cv.height = H;
+
+    // DOM pool still has nodes from a previous DOM render — hide them so
+    // the canvas is the only visible surface. (Cheaper than removing.)
+    for (const el of P.pool.values()) el.style.display = 'none';
+
+    // Atlas: keyed by bundle identity + the item set. We rebuild whenever
+    // the bundle changes; the build is async, draws begin with whatever
+    // atlas exists (or none) and refresh on completion.
+    if (P.lastAtlasBundle !== bundle) {
+      P.lastAtlasBundle = bundle;
+      const items = bundle.items.map((x) => ({
+        key: x.uri || ('label:' + (x.label || '')),
+        imageUrl: x.image ? commonsThumb(x.image, 48) : null,
+      }));
+      P.atlasBuilding = (async () => {
+        try {
+          const atlas = new PivotAtlas(items, { cellW: 48, cellH: 48 });
+          const { canvas, slices, layout } = await atlas.build();
+          P.atlasSlices = slices;
+          P.atlasLayout = layout;
+          if (P.renderer) P.renderer.setAtlas({ canvas, layout });
+          // Re-issue the draw with the same targets — instances buffer
+          // already accounts for these slices via _pivotGpuInstances.
+          if (P.baseTargets) {
+            const inst = this._pivotGpuInstances(P, P.baseTargets);
+            P.renderer.setInstances(inst.data, inst.count);
+            this._pivotGpuDraw(P);
+          }
+        } catch (e) {
+          console.warn('[pivot] atlas build failed:', e.message);
+        }
+      })();
+    }
+    // Build the instance buffer for the current layout (no atlas yet on
+    // first frame; the slice lookup falls back to a 0×0 slot which the
+    // shader samples as the placeholder colour we baked into the atlas).
+    const inst = this._pivotGpuInstances(P, targets);
+    P.renderer.setInstances(inst.data, inst.count);
+    this._pivotGpuDraw(P);
+    this._pivotGpuBindHover(P, bundle);
+  }
+
+  _pivotGpuInstances(P, targets) {
+    const slices = P.atlasSlices || new Map();
+    const data = new Float32Array(targets.size * 12);
+    let i = 0, id = 0;
+    P.gpuIdToKey = new Map();
+    for (const [key, t] of targets) {
+      const s = slices.get(key) || { x: 0, y: 0, w: 48, h: 48 };
+      const o = i * 12;
+      data[o + 0] = t.x;
+      data[o + 1] = t.y;
+      data[o + 2] = t.s;
+      data[o + 3] = 0;
+      data[o + 4] = s.x;
+      data[o + 5] = s.y;
+      data[o + 6] = s.w;
+      data[o + 7] = s.h;
+      // Encode id starting at 1 so 0 reads as a miss in the picking pass.
+      const slotId = id + 1;
+      data[o + 8] = slotId;
+      P.gpuIdToKey.set(slotId, { key, item: t.item });
+      i++; id++;
+    }
+    return { data, count: i };
+  }
+
+  _pivotGpuDraw(P) {
+    const Z = state.pivotZoom || 1.0;
+    const vp = P.viewport;
+    const W = vp.clientWidth, H = vp.clientHeight;
+    P.glCanvas.style.width  = W + 'px';
+    P.glCanvas.style.height = H + 'px';
+    P.glCanvas.width  = W; P.glCanvas.height = H;
+    // Pin the canvas to the visible viewport, scroll-relative. We update
+    // .left/.top on scroll so the canvas IS the visible window over the
+    // (much larger) virtual stage.
+    P.glCanvas.style.left = vp.scrollLeft + 'px';
+    P.glCanvas.style.top  = vp.scrollTop  + 'px';
+    P.renderer.draw({
+      viewW: W, viewH: H,
+      offsetX: vp.scrollLeft, offsetY: vp.scrollTop,
+      zoom: Z,
+    });
+  }
+
+  _pivotGpuBindHover(P, bundle) {
+    // One scroll listener that keeps the canvas pinned + redraws.
+    // One pointermove that runs the picking pass and emits thing-open
+    // when the pointer transitions over an item with a positive id.
+    if (P.gpuBound) return;
+    P.gpuBound = true;
+    const vp = P.viewport;
+    vp.addEventListener('scroll', () => { if (P.glCanvas && P.glCanvas.style.display !== 'none') this._pivotGpuDraw(P); }, { passive: true });
+    vp.addEventListener('click', (e) => {
+      if (P.glCanvas?.style.display === 'none') return;
+      const r = vp.getBoundingClientRect();
+      const px = Math.floor(e.clientX - r.left);
+      const py = Math.floor(e.clientY - r.top);
+      const Z = state.pivotZoom || 1.0;
+      const id = P.renderer.pick({
+        viewW: vp.clientWidth, viewH: vp.clientHeight,
+        offsetX: vp.scrollLeft, offsetY: vp.scrollTop,
+        zoom: Z, px, py,
+      });
+      if (id <= 0) return;
+      // After pick we cleared the framebuffer back to the default — redraw.
+      this._pivotGpuDraw(P);
+      const hit = P.gpuIdToKey?.get(id);
+      if (!hit) return;
+      this.dispatchEvent(new CustomEvent('thing-open', {
+        detail: { item: hit.item, bundle: P.lastBundle || bundle },
+        bubbles: true, composed: true,
+      }));
+    });
+  }
+
   _pivotBindGestures(P) {
     const vp = P.viewport;
     const localXY = (e) => {
@@ -4071,6 +4245,18 @@ class DaisyApp extends HTMLElement {
     const pinned = state.focusIdx != null;
     const mode = state.pivotMode || 'histogram';
 
+    // Auto-select renderer: DOM is fine up to ~5k items; above that the
+    // compositor starts struggling and the GPU path (instanced quads on
+    // a shared atlas) pulls ahead. User can override via the engine
+    // toggle in the head — sticks across mode/axis/bead switches.
+    const GPU_AUTO_THRESHOLD = 5000;
+    if (!state.pivotEngineUserSet) {
+      const caps = (this._gpuCaps ||= gpuPivotCapabilities());
+      state.pivotEngine = (caps.recommended !== 'none'
+                          && bead.bundle.items.length >= GPU_AUTO_THRESHOLD)
+        ? caps.recommended : 'dom';
+    }
+
     const head = document.createElement('div');
     head.className = 'pivot-head';
     if (!field) {
@@ -4099,6 +4285,7 @@ class DaisyApp extends HTMLElement {
         }).join('')}</select>
       </span>` : ''}
       <span class="pivot-modes">${modeBtns}</span>
+      <button class="engine" title="render engine: ${state.pivotEngine}; click to switch">${state.pivotEngine === 'dom' ? '🅓' : '🅖'}</button>
       <button class="pin${pinned ? ' on' : ''}" title="${pinned
         ? 'unpin — follow the frontier as the chain grows'
         : 'pin this bead — keep viewing it while you tweak the chain'}">📌${focusI + 1}</button>
@@ -4121,6 +4308,16 @@ class DaisyApp extends HTMLElement {
     }
     head.querySelector('.pin').addEventListener('click', () => {
       state.focusIdx = pinned ? null : focusI;
+      publish();
+    });
+    head.querySelector('.engine').addEventListener('click', () => {
+      // Manual override sticks across re-renders. Cycle dom → webgl2
+      // (and webgpu when available).
+      const caps = (this._gpuCaps ||= gpuPivotCapabilities());
+      const ring = ['dom', caps.webgl2 ? 'webgl2' : null, caps.webgpu ? 'webgpu' : null].filter(Boolean);
+      const next = ring[(ring.indexOf(state.pivotEngine) + 1) % ring.length];
+      state.pivotEngine = next;
+      state.pivotEngineUserSet = true;
       publish();
     });
 
@@ -4259,16 +4456,27 @@ class DaisyApp extends HTMLElement {
     P.baseTargets = targets;
     P.baseStageW = stageW;
     P.baseStageH = vh;
+    P.lastBundle = bead.bundle;
     const Z = state.pivotZoom || 1.0;
 
-    // Apply: size the stage (with zoom), swap the deco layer + scale it,
-    // retarget every thumb (scaled).
+    // Apply: size the stage (with zoom), swap the deco layer + scale it.
     P.stage.style.width  = (stageW * Z).toFixed(1) + 'px';
     P.stage.style.height = (vh * Z).toFixed(1) + 'px';
     P.stage.classList.toggle('gridlines', gridlines);
     P.deco.innerHTML = decoHTML;
     P.deco.style.transformOrigin = '0 0';
     P.deco.style.transform = `scale(${Z})`;
+
+    // GPU path: instanced quads against a shared atlas. Hide the DOM
+    // pool, schedule an atlas build for this bundle (cached on the
+    // bundle's identity), and draw.
+    if (state.pivotEngine !== 'dom') {
+      this._pivotRenderGPU(P, bead.bundle, targets, stageW, vh, Z);
+      return;
+    }
+    // DOM path (the default below 5k items): hide the GPU canvas, retarget
+    // every thumb in the pool.
+    if (P.glCanvas) P.glCanvas.style.display = 'none';
     const seen = new Set();
     for (const [key, t] of targets) {
       seen.add(key);
