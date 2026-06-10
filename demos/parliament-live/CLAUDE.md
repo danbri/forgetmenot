@@ -36,21 +36,33 @@ immediately visible bugs rather than masquerading as boring real data.
 The page must always go through the proxy at `/api/...` (or absolute
 `http://localhost:8787/api/...` when loaded outside its origin). The
 proxy is the place that applies TTL policy, the attribution header, and
-CORS. CORS support across Parliament's APIs is uneven (probed
-2026-05-27):
+CORS. CORS support across Parliament's APIs is uneven (re-probed
+2026-06-10):
 
-| Host | CORS on GET | Proxy required? |
-|---|---|---|
-| `members-api.parliament.uk` | `*` | no (but proxy gives caching + TTL) |
-| `commonsvotes-api.parliament.uk` | `*` | no (but proxy gives caching + TTL) |
-| `api.parliament.uk/sparql` | `*` | no (HEAD 404s; GET fine) |
-| `now-api.parliament.uk` | none | **yes** |
-| `hansard-api.parliament.uk` | none | **yes** |
-| `lordsvotes-api.parliament.uk` | preflight `*`, GET none | **yes** (browser blocks the response even though preflight passes) |
+| Host | GET (with Origin) | HEAD | Proxy required? |
+|---|---|---|---|
+| `members-api.parliament.uk` | `ACAO: *` | 200 | no (but proxy gives caching + TTL) |
+| `commonsvotes-api.parliament.uk` | `ACAO: *` | 200 | no (but proxy gives caching + TTL) |
+| `lordsvotes-api.parliament.uk` | `ACAO: *` | **405** | no — but never pre-probe with HEAD (kills CORS for that origin) |
+| `api.parliament.uk/sparql` | `ACAO: *` | 404 | no (HEAD 404s; GET fine) |
+| `now-api.parliament.uk` | no ACAO | 200 | **yes** |
+| `hansard-api.parliament.uk` | no ACAO | 405 | **yes** |
+
+The 2026-05-27 note that lordsvotes "preflight `*`, GET none" no longer
+holds — that probe was confounded by a HEAD pre-check. Today GET is
+fine; only HEAD is 405.
 
 Even where CORS is open, route through the proxy so caching, TTL,
 rate-limit-per-host and attribution stay consistent. Do not start
 mixing direct + proxied calls from the page.
+
+**Exception — `<img>` tags.** Image embeds don't trigger CORS, the
+browser caches them by URL, `X-Attribution` only reaches `fetch()`
+callers (not `<img>`), and the proxy's auth gate would break shared
+links the moment the cookie expires. Member thumbnails / portraits
+go direct to `https://members-api.parliament.uk/api/Members/<id>/Thumbnail`
+(or `/Portrait`). The visible OPL string in the page footer satisfies
+rule 6 for the image source.
 
 ### 4. TTL policy lives in `server.mjs`.
 

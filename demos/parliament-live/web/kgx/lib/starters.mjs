@@ -154,12 +154,12 @@ export function parseParlCurrentRows(bindings) {
       uri:     b.p.value,
       label:   (giv + ' ' + fam).trim() || b.p.value.replace(/^.*\//, ''),
       // Parliament Members API serves a portrait thumbnail per member at
-      // /Members/<id>/Thumbnail (probed 2026-06-10: 200, image/jpeg, ~230KB).
-      // We populate `image` so the tile / pivot / map markers render the
-      // actual photo instead of a placeholder cell. Routed through the
-      // proxy per CLAUDE.md rule 3; auth cookie inherits from the page
-      // session.
-      image:   mpid ? `/api/members/Members/${mpid}/Thumbnail` : null,
+      // /api/Members/<id>/Thumbnail (probed 2026-06-10: 200, image/jpeg,
+      // ~230KB). Hit upstream directly — <img> doesn't trigger CORS, and
+      // proxying buys nothing (browser caches by URL; X-Attribution is
+      // for fetch() callers, not image embeds; auth gate would block
+      // shared links). CLAUDE.md rule 3 carve-out covers this.
+      image:   mpid ? `https://members-api.parliament.uk/api/Members/${mpid}/Thumbnail` : null,
       mpid,
       firstYr: startYr, lastYr: null, latestStart: startYr, sitting: true,
       parties: [b.party?.value].filter(Boolean),
