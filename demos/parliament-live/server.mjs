@@ -406,8 +406,20 @@ function notFound(res) {
   res.end('not found\n');
 }
 
+// Members API portrait images — Thumbnail + Portrait — are zero-PII
+// public photos, and the upstream endpoint does NOT send ACAO so callers
+// need our proxy. Bypass the auth gate for these specific paths so:
+//   - <img> in shared links renders without the password gate;
+//   - the WebGL2 pivot atlas's crossOrigin="anonymous" path can fetch
+//     them under CORS-mode and treat them as same-origin for textures.
+// Everything else under /api/members/ (JSON member data) stays gated.
+function isPublicImagePath(url) {
+  return /^\/api\/members\/.*\/(Thumbnail|Portrait)(\?|$)/.test(url);
+}
+
 function authOk(req) {
   if (!PROXY_PASSWORD) return true;
+  if (isPublicImagePath(req.url || '')) return true;
   const h = req.headers['authorization'] || '';
   if (h.startsWith('Bearer ')) {
     if (h.slice(7) === PROXY_PASSWORD) return true;

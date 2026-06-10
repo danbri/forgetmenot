@@ -153,13 +153,18 @@ export function parseParlCurrentRows(bindings) {
     return {
       uri:     b.p.value,
       label:   (giv + ' ' + fam).trim() || b.p.value.replace(/^.*\//, ''),
-      // Parliament Members API serves a portrait thumbnail per member at
-      // /api/Members/<id>/Thumbnail (probed 2026-06-10: 200, image/jpeg,
-      // ~230KB). Hit upstream directly — <img> doesn't trigger CORS, and
-      // proxying buys nothing (browser caches by URL; X-Attribution is
-      // for fetch() callers, not image embeds; auth gate would block
-      // shared links). CLAUDE.md rule 3 carve-out covers this.
-      image:   mpid ? `https://members-api.parliament.uk/api/Members/${mpid}/Thumbnail` : null,
+      // Members API serves a portrait thumbnail per member at
+      // /api/Members/<id>/Thumbnail (probed 2026-06-10: 200, image/jpeg
+      // ~230KB). Goes through OUR proxy because:
+      //   1) the upstream Thumbnail endpoint does NOT send ACAO (only
+      //      the JSON /Members/<id> route does), so the WebGL2 atlas's
+      //      `crossOrigin="anonymous"` path fails on direct URLs;
+      //   2) the proxy adds ACAO=*, so both <img> and CORS-mode loads
+      //      succeed;
+      //   3) the proxy auth-gate is bypassed for Thumbnail/Portrait
+      //      (server.mjs `isPublicImagePath`), so shared links work
+      //      without the password.
+      image:   mpid ? `/api/members/Members/${mpid}/Thumbnail` : null,
       mpid,
       firstYr: startYr, lastYr: null, latestStart: startYr, sitting: true,
       parties: [b.party?.value].filter(Boolean),

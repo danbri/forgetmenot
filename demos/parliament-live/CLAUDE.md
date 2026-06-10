@@ -56,13 +56,17 @@ Even where CORS is open, route through the proxy so caching, TTL,
 rate-limit-per-host and attribution stay consistent. Do not start
 mixing direct + proxied calls from the page.
 
-**Exception — `<img>` tags.** Image embeds don't trigger CORS, the
-browser caches them by URL, `X-Attribution` only reaches `fetch()`
-callers (not `<img>`), and the proxy's auth gate would break shared
-links the moment the cookie expires. Member thumbnails / portraits
-go direct to `https://members-api.parliament.uk/api/Members/<id>/Thumbnail`
-(or `/Portrait`). The visible OPL string in the page footer satisfies
-rule 6 for the image source.
+**Member portrait images.** Probed 2026-06-10: the upstream
+`/api/Members/<id>/Thumbnail` and `/Portrait` endpoints do NOT send
+`Access-Control-Allow-Origin` (unlike the sibling JSON `/Members/<id>`
+which does). Plain `<img>` works direct, but the WebGL2 pivot atlas
+loads thumbnails with `crossOrigin="anonymous"` so it can sample them
+into a texture for the picking pass — that path needs CORS and breaks
+on direct URLs. So we route portraits through OUR proxy
+(`/api/members/Members/<id>/Thumbnail`), which adds `ACAO: *`, and we
+bypass the password gate for the `Thumbnail` / `Portrait` sub-paths
+(`server.mjs isPublicImagePath`) so shared links still render for
+unauth'd visitors. JSON member data under the same prefix stays gated.
 
 ### 4. TTL policy lives in `server.mjs`.
 

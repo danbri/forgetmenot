@@ -191,10 +191,11 @@ test('parseParlCurrentRows maps a DDP row into the human-bundle shape', () => {
   const [item] = parseParlCurrentRows([SAMPLE_PARL_ROW]);
   assert.equal(item.uri,     'https://id.parliament.uk/abc123');
   assert.equal(item.label,   'Alice Adams');
-  // Members API serves a per-mpid thumbnail; hit upstream directly —
-  // <img> doesn't trigger CORS and the proxy adds nothing useful for
-  // image embeds. Items without an mpid fall back to null.
-  assert.equal(item.image,   'https://members-api.parliament.uk/api/Members/4001/Thumbnail');
+  // Members API thumbnail routed through OUR proxy: upstream Thumbnail
+  // doesn't send ACAO (probed 2026-06-10), so the WebGL2 atlas's
+  // crossOrigin="anonymous" path needs the proxy. server.mjs bypasses
+  // auth for Thumbnail/Portrait so shared links still render.
+  assert.equal(item.image,   '/api/members/Members/4001/Thumbnail');
   assert.equal(item.mpid,    '4001');
   assert.equal(item.firstYr, 2024);
   assert.equal(item.lastYr,  null);

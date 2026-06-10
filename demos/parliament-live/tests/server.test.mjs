@@ -300,6 +300,25 @@ describe('integration', { concurrency: false }, () => {
     assert.equal(r.status, 401);
   });
 
+  test('/api/members/.../Thumbnail bypasses auth (public images)', async () => {
+    // Member portrait paths are zero-PII public photos and the upstream
+    // doesn't send ACAO, so we must proxy them; gating them would break
+    // shared links AND the WebGL2 atlas's crossOrigin="anonymous" path.
+    // JSON member data under the same /api/members/ prefix stays gated.
+    const r = await fetch(`${baseUrl}/api/members/Members/172/Thumbnail`);
+    assert.notEqual(r.status, 401, 'Thumbnail should NOT require auth');
+    // ACAO must be present so a CORS-mode <img> on a third-party origin
+    // can read pixels (the WebGL2 atlas does this for the picking pass).
+    assert.equal(r.headers.get('access-control-allow-origin'), '*');
+
+    const r2 = await fetch(`${baseUrl}/api/members/Members/172/Portrait`);
+    assert.notEqual(r2.status, 401, 'Portrait should NOT require auth');
+
+    // But sibling JSON paths under the same prefix remain gated.
+    const r3 = await fetch(`${baseUrl}/api/members/Members/172`);
+    assert.equal(r3.status, 401, 'JSON Members data should still require auth');
+  });
+
   test('/_cache requires auth', async () => {
     const r1 = await fetch(`${baseUrl}/_cache`);
     assert.equal(r1.status, 401);
