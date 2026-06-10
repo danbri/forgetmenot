@@ -2002,22 +2002,27 @@ class DaisyApp extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>
         :host { display: block; max-width: 1200px; margin: 0 auto;
-                padding: 6px 8px calc(28px + env(safe-area-inset-bottom));
-                min-height: 100vh; }
-        header { display: flex; gap: 6px 10px; align-items: center;
-                 padding: 4px 2px 6px; border-bottom: 1px solid var(--rule-soft);
-                 flex-wrap: wrap; }
-        h1 { font-size: 15px; margin: 0; line-height: 1; }
+                padding: 4px 8px calc(20px + env(safe-area-inset-bottom));
+                min-height: 100svh; }
+        /* Tight global header — brand on the left, three icon-only action
+           buttons on the right. View-segs (spine/graph/table, tiles/pivot/
+           map) live INSIDE their respective pane heads, not here — they
+           only apply when that pane is on screen. Keeps the topmost row
+           to ~30px on mobile so the chain spine + pivot stage stay above
+           the fold. */
+        header { display: flex; gap: 8px; align-items: center;
+                 padding: 4px 2px 4px; border-bottom: 1px solid var(--rule-soft);
+                 min-height: 28px; }
+        h1 { font-size: 14px; margin: 0; line-height: 1; }
         .crumb { font-size: 11px; color: var(--ink-mute); margin-left: -4px; }
         .crumb a { color: var(--accent); text-decoration: none; }
-        .actions { margin-left: auto; display: flex; gap: 6px; align-items: center;
-                   flex-wrap: wrap; }
+        .actions { margin-left: auto; display: flex; gap: 4px; align-items: center; }
         .actions button {
           background: var(--surface); color: var(--ink);
           border: 1px solid var(--rule); border-radius: 6px;
-          padding: 4px 8px; font: 12px/1 inherit; cursor: pointer;
+          padding: 3px 7px; font: 13px/1 inherit; cursor: pointer;
+          min-width: 30px;
         }
-        #intents-btn { padding: 4px 6px; min-width: 30px; }
         /* Bundle-intents popover — Android-share-style menu of services
            applicable to the current chain. Anchored under the ⋯ button,
            closes on outside-click. The lib filters which intents are
@@ -2047,8 +2052,10 @@ class DaisyApp extends HTMLElement {
           background: color-mix(in oklab, var(--accent) 12%, transparent);
         }
         .intent-popover .ic { width: 18px; text-align: center; }
-        /* Two seg groups: pane-A (chain structure) + pane-B (node content).
-           Each labelled so the dual-pane intent is legible without prose. */
+        /* View selectors live in each pane's own .pane-head — never in
+           the global header. The chain pane gets spine/graph/table; the
+           content pane gets tiles/pivot/map. This means the visible
+           buttons always apply to what's on screen, no decision noise. */
         .seg {
           display: inline-flex; border: 1px solid var(--rule); border-radius: 7px;
           overflow: hidden; background: var(--surface);
@@ -2056,12 +2063,10 @@ class DaisyApp extends HTMLElement {
         .seg button {
           background: var(--surface); color: var(--ink-soft);
           border: 0; border-right: 1px solid var(--rule);
-          padding: 4px 8px; font: 12px/1 inherit; cursor: pointer;
+          padding: 4px 9px; font: 12px/1 inherit; cursor: pointer;
         }
         .seg button:last-child { border-right: 0; }
         .seg button.on { background: var(--accent); color: var(--accent-on); font-weight: 600; }
-        .seg-label { font-size: 10px; color: var(--ink-mute); margin-right: -2px;
-                     text-transform: uppercase; letter-spacing: 0.04em; }
         /* Three simultaneous Finder-style panes: NAV (saved chains + new chain
            starter) | CHAIN (active daisychain — spine/graph/table) | CONTENT
            (focused-node viewer — tiles/map/etc.). They're interdependent: pick
@@ -2074,19 +2079,21 @@ class DaisyApp extends HTMLElement {
            switcher (state.mobilePane). At ≥860px all three are visible side
            by side with a narrow nav rail. */
         #panes {
-          display: grid; gap: 10px;
-          grid-template-columns: 1fr; padding-top: 6px;
+          display: grid; gap: 8px;
+          grid-template-columns: 1fr; padding-top: 4px;
         }
         #panes.no-content { grid-template-columns: 1fr !important; }
+        /* Pane tabs — the PRIMARY mobile nav (hidden on desktop where all
+           three panes show side-by-side). Compact 28px row. */
         .pane-tabs {
-          display: flex; gap: 0; margin-bottom: 6px;
+          display: flex; gap: 0; margin-bottom: 4px;
           border: 1px solid var(--rule); border-radius: 7px;
           overflow: hidden; background: var(--surface);
         }
         .pane-tabs button {
           flex: 1; background: var(--surface); color: var(--ink-soft);
           border: 0; border-right: 1px solid var(--rule);
-          padding: 6px 4px; font: 12px/1 inherit; cursor: pointer;
+          padding: 5px 4px; font: 12px/1 inherit; cursor: pointer;
         }
         .pane-tabs button:last-child { border-right: 0; }
         .pane-tabs button.on { background: var(--accent); color: var(--accent-on);
@@ -2105,14 +2112,26 @@ class DaisyApp extends HTMLElement {
         .pane {
           background: color-mix(in oklab, var(--surface) 70%, transparent);
           border: 1px solid var(--rule-soft); border-radius: 8px;
-          padding: 6px;
+          padding: 5px;
           min-height: 0;       /* allow grid children to shrink */
+          min-width:  0;       /* defeat grid's default min-content sizing
+                                  — otherwise a wide pivot-stage inside an
+                                  overflow:auto viewport still expands the
+                                  pane and creates horizontal page scroll */
         }
+        /* Per-pane head — the seg group + (optionally) a count/pin/extras
+           row, baked into the pane itself. Always-on, always shows the
+           controls that apply to what's visible right now. */
         .pane-head {
           display: flex; gap: 6px; align-items: center;
-          padding: 2px 2px 6px; font-size: 11px; color: var(--ink-mute);
-          text-transform: uppercase; letter-spacing: 0.04em;
+          padding: 0 2px 5px;
+          border-bottom: 1px solid var(--rule-soft);
+          margin-bottom: 5px;
         }
+        .pane-head .seg button { padding: 4px 8px; }
+        /* Empty chain → nav pane absorbs the starter gallery; hide the
+           chain-head + content-head row when there's no chain at all. */
+        #panes.no-content .pane-head { display: none; }
         /* Nav pane — library list with one-tap replay + new-chain entry. */
         #nav-root .nav-section {
           font-size: 10px; color: var(--ink-mute); margin: 4px 4px 2px;
@@ -2167,9 +2186,12 @@ class DaisyApp extends HTMLElement {
         #status[hidden] { display: none; }
         #status.err { color: #c33;
                       border-color: color-mix(in oklab, #c33 40%, var(--rule)); }
-        /* Content pane keeps a stable minimum height so switching between
-           tiles / pivot / map doesn't reflow the whole page. */
-        #pane-content { min-height: 460px; }
+        /* Content pane: stable minimum height so switching between tiles /
+           pivot / map doesn't reflow the page. Sized on viewport units so
+           the pivot stage stays usable on mobile without overflowing the
+           visible area or pushing the chain pane's controls off-screen. */
+        #pane-content { min-height: 360px; }
+        @media (min-width: 860px) { #pane-content { min-height: 460px; } }
         .empty { padding: 16px 4px; }
         .foot { font-size: 11px; color: var(--ink-mute);
                 padding: 14px 4px 0; line-height: 1.55; }
@@ -2390,17 +2412,25 @@ class DaisyApp extends HTMLElement {
            the mass is", without any axis labels. Sticking with the
            Microsoft Live Labs PivotViewer (2010) spirit: image-first,
            data revealed by arrangement. */
+        /* Pivot head fits on one row even at 360px: count, axis select,
+           mode icons, pin. Axis select truncates with ellipsis at narrow
+           widths rather than wrapping to a second row. */
         .pivot-head { font-size: 12px; color: var(--ink-soft);
-                      padding: 2px 2px 6px; display: flex; gap: 8px;
-                      align-items: baseline; flex-wrap: wrap; }
-        .pivot-head .n { font-weight: 700; color: var(--ink); }
+                      padding: 2px 2px 5px; display: flex; gap: 5px;
+                      align-items: center; flex-wrap: nowrap;
+                      overflow: hidden; }
+        .pivot-head .n { font-weight: 700; color: var(--ink); flex: 0 0 auto; }
         .pivot-head .facet-pick { display: inline-flex; align-items: center;
-                                  gap: 4px; }
+                                  gap: 3px; min-width: 0; flex: 1 1 auto; }
+        .pivot-head .facet-pick .x-mark { color: var(--ink-mute); font-size: 12px; }
         .pivot-head select {
           background: var(--surface); color: var(--ink);
           border: 1px solid var(--rule); border-radius: 6px;
-          padding: 3px 6px; font: 12px/1 inherit;
+          padding: 3px 5px; font: 12px/1 inherit;
+          max-width: 100%; min-width: 0;
+          text-overflow: ellipsis;
         }
+        .pivot-head .pin { flex: 0 0 auto; }
 
         /* Pivot mode toggle — histogram | scatter | treemap. Compact pill
            segment in the head; selection persists via state.pivotMode. */
@@ -2411,7 +2441,7 @@ class DaisyApp extends HTMLElement {
         .pivot-modes button {
           appearance: none; background: var(--surface); color: var(--ink-soft);
           border: 0; border-right: 1px solid var(--rule);
-          padding: 3px 8px; font: 11px/1 inherit; cursor: pointer;
+          padding: 3px 7px; font: 14px/1 inherit; cursor: pointer;
         }
         .pivot-modes button:last-child { border-right: 0; }
         .pivot-modes button.on { background: var(--accent); color: var(--accent-on);
@@ -2437,11 +2467,12 @@ class DaisyApp extends HTMLElement {
            makes switching feel accelerated rather than rebuilt. */
         .pivot-viewport {
           position: relative; overflow: auto;
-          height: 400px;
+          height: 320px;
           border: 1px solid var(--rule-soft); border-radius: 8px;
           background: var(--surface);
           margin: 4px 0;
         }
+        @media (min-width: 860px) { .pivot-viewport { height: 400px; } }
         .pivot-stage { position: relative; min-width: 100%; height: 100%; }
         .pivot-stage.gridlines {
           background-image:
@@ -2457,8 +2488,11 @@ class DaisyApp extends HTMLElement {
           appearance: none; background: var(--surface-2);
           padding: 0; margin: 0; border: 0; border-radius: 3px;
           overflow: hidden; cursor: pointer;
-          transition: transform 0.55s cubic-bezier(0.22, 0.9, 0.26, 1),
-                      opacity   0.3s ease;
+          /* Slower transition so the morph reads as an explanation of the
+             layout change rather than a flicker. Same compositor-only
+             properties as before — pure GPU cost. */
+          transition: transform 0.85s cubic-bezier(0.22, 0.9, 0.26, 1),
+                      opacity   0.5s ease;
         }
         .pthumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .pthumb.dotless {
@@ -2503,21 +2537,9 @@ class DaisyApp extends HTMLElement {
         <h1>daisychain</h1>
         <span class="crumb">· <a href="/kgx/">kgx</a></span>
         <div class="actions">
-          <span class="seg-label">chain</span>
-          <div class="seg" role="tablist" aria-label="chain view">
-            <button id="v-spine" data-v="spine" data-pane="chain" class="on" title="vertical bead spine">spine</button>
-            <button id="v-graph" data-v="graph" data-pane="chain" title="DAG of the chain">graph</button>
-            <button id="v-table" data-v="table" data-pane="chain" title="bead table">table</button>
-          </div>
-          <span class="seg-label">node</span>
-          <div class="seg" role="tablist" aria-label="node content view">
-            <button id="v-tiles" data-v="tiles" data-pane="content" class="on" title="tile grid of the focused bead (defaults to the frontier)">tiles</button>
-            <button id="v-pivot" data-v="pivot" data-pane="content" title="PivotViewer-style image histogram — bin by a facet, stack thumbs by count">pivot</button>
-            <button id="v-map"   data-v="map"   data-pane="content" title="map the focused bead (when coords are known)">map</button>
-          </div>
-          <button id="save-btn" title="copy this chain as JSON">⎘ save</button>
+          <button id="save-btn" title="copy this chain as JSON" aria-label="save chain">⎘</button>
           <button id="intents-btn" title="services / intents for this chain" aria-label="intents">⋯</button>
-          <button id="reset-btn" title="start over">↺ reset</button>
+          <button id="reset-btn" title="start over" aria-label="reset">↺</button>
         </div>
       </header>
       <div id="status" hidden></div>
@@ -2528,8 +2550,26 @@ class DaisyApp extends HTMLElement {
       </div>
       <div id="panes">
         <div class="pane show" id="pane-nav"><div id="nav-root"></div></div>
-        <div class="pane"      id="pane-chain"><div id="chain-root"></div></div>
-        <div class="pane"      id="pane-content"><div id="content-root"></div></div>
+        <div class="pane"      id="pane-chain">
+          <div class="pane-head chain-head">
+            <div class="seg" role="tablist" aria-label="chain view">
+              <button id="v-spine" data-v="spine" data-pane="chain" class="on" title="vertical bead spine">spine</button>
+              <button id="v-graph" data-v="graph" data-pane="chain" title="DAG of the chain">graph</button>
+              <button id="v-table" data-v="table" data-pane="chain" title="bead table">table</button>
+            </div>
+          </div>
+          <div id="chain-root"></div>
+        </div>
+        <div class="pane"      id="pane-content">
+          <div class="pane-head content-head">
+            <div class="seg" role="tablist" aria-label="node content view">
+              <button id="v-tiles" data-v="tiles" data-pane="content" class="on" title="tile grid of the focused bead (defaults to the frontier)">tiles</button>
+              <button id="v-pivot" data-v="pivot" data-pane="content" title="PivotViewer-style image histogram — bin by a facet, stack thumbs by count">pivot</button>
+              <button id="v-map"   data-v="map"   data-pane="content" title="map the focused bead (when coords are known)">map</button>
+            </div>
+          </div>
+          <div id="content-root"></div>
+        </div>
       </div>
       <div class="foot">
         Contains Parliamentary information licensed under the
@@ -3767,21 +3807,22 @@ class DaisyApp extends HTMLElement {
       root.appendChild(head);
       return;
     }
+    // Mode icons — terser than the words on mobile. ▥ histogram (vertical
+    // bars), ⊞ treemap (grid), ⋯ scatter (dots).
+    const modeIcon = { histogram: '▥', scatter: '⁂', treemap: '⊞' };
     const modeBtns = ['histogram', 'scatter', 'treemap']
-      .map((m) => `<button data-mode="${m}"${m === mode ? ' class="on"' : ''}>${m}</button>`).join('');
+      .map((m) => `<button data-mode="${m}" title="${m}"${m === mode ? ' class="on"' : ''}>${modeIcon[m]}</button>`).join('');
     head.innerHTML = `
       <span class="n">${bead.bundle.size.toLocaleString()}</span>
-      <span>${escapeHTML(bead.bundle.label)} ·</span>
       <span class="facet-pick">
-        <label for="pivot-axis">${mode === 'scatter' ? 'y' : 'bin by'}</label>
-        <select id="pivot-axis">${facets.map((f) =>
+        <select id="pivot-axis" title="${mode === 'scatter' ? 'y axis' : 'bin by'}">${facets.map((f) =>
           `<option value="${escapeHTML(f.field)}"${f.field === field ? ' selected' : ''}>${escapeHTML(f.field)} (${f.distinct})</option>`
         ).join('')}</select>
       </span>
       ${mode === 'scatter' ? `
       <span class="facet-pick">
-        <label for="pivot-x">x</label>
-        <select id="pivot-x">${facets.map((f) => {
+        <span class="x-mark">×</span>
+        <select id="pivot-x" title="x axis">${facets.map((f) => {
           const sel = f.field === (state.pivotXField || facets.find((g) => g.field !== field)?.field);
           return `<option value="${escapeHTML(f.field)}"${sel ? ' selected' : ''}>${escapeHTML(f.field)} (${f.distinct})</option>`;
         }).join('')}</select>
@@ -3789,7 +3830,7 @@ class DaisyApp extends HTMLElement {
       <span class="pivot-modes">${modeBtns}</span>
       <button class="pin${pinned ? ' on' : ''}" title="${pinned
         ? 'unpin — follow the frontier as the chain grows'
-        : 'pin this bead — keep viewing it while you tweak the chain'}">📌 bead ${focusI + 1}</button>
+        : 'pin this bead — keep viewing it while you tweak the chain'}">📌${focusI + 1}</button>
     `;
     root.appendChild(head);
     head.querySelector('#pivot-axis').addEventListener('change', (e) => {
@@ -3911,14 +3952,19 @@ class DaisyApp extends HTMLElement {
       }
       decoHTML = cells.join('');
     } else {
-      // histogram
-      const T = 22, GAP = 8, COLW = T + 6, LBLH = 26;
-      // Cap each stack to what FITS the fixed-height stage — overflowing
-      // the viewport upward isn't scrollable and reads as breakage. The
-      // label's count carries the true total; '*' marks truncation.
-      const CAP = Math.max(3, Math.floor((vh - LBLH - 6) / (T + 1)));
+      // histogram — fit all bins to the viewport when we can. Surprise
+      // horizontal scroll on a mobile pivot was the real issue in the
+      // screenshot. We pick the largest thumb size T (within 10..22) that
+      // still fits every bin in the visible width; only when sorted.length
+      // is so big that even T=10 overflows do we fall through to scroll.
+      const GAP = 6, LBLH = 26;
       const sorted = [...bins.entries()]
         .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+      const fitW = vw - GAP * 2;
+      const idealT = Math.floor(fitW / sorted.length) - GAP;
+      const T = Math.max(10, Math.min(22, idealT));
+      const COLW = T + 4;
+      const CAP = Math.max(3, Math.floor((vh - LBLH - 6) / (T + 1)));
       stageW = Math.max(vw, sorted.length * (COLW + GAP) + GAP);
       let cx = GAP;
       const labels = [];
@@ -3966,7 +4012,9 @@ class DaisyApp extends HTMLElement {
       if (seen.has(key)) continue;
       P.pool.delete(key);
       el.style.opacity = '0';
-      setTimeout(() => el.remove(), 350);
+      // Wait the opacity transition (550ms) before removing — keeps the
+      // fade-out smooth instead of cutting off mid-tween.
+      setTimeout(() => el.remove(), 580);
     }
   }
 
