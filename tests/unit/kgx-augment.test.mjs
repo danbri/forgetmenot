@@ -10,7 +10,7 @@ import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
-import { AUGMENT_OPS } from '../../demos/parliament-live/web/kgx/lib/augment.mjs';
+import { AUGMENT_OPS, effectiveWikidataUri } from '../../demos/parliament-live/web/kgx/lib/augment.mjs';
 import { assertNoAliasCollisions } from
   '../../demos/parliament-live/web/kgx/lib/sparql-validate.mjs';
 
@@ -98,6 +98,46 @@ test('enrich + parl-enrich expect Wikidata QID URIs; identity-bridge expects .mp
   assert.equal(AUGMENT_OPS.enrich.requires(sittingWithMpid),          true);
   assert.equal(AUGMENT_OPS['parl-enrich'].requires(sittingWithMpid),  true);
   assert.equal(AUGMENT_OPS['identity-bridge'].requires(sittingWithMpid), true);
+});
+
+test('effectiveWikidataUri: native QID OR bridged QID OR null', () => {
+  // Native: item's own URI is already a Wikidata QID (QLever-seeded chains).
+  assert.equal(
+    effectiveWikidataUri({ uri: 'http://www.wikidata.org/entity/Q9682' }),
+    'http://www.wikidata.org/entity/Q9682');
+
+  // Bridged: parl-current-mps item with a DDP URI; identity-bridge has set
+  // extra.identity.wikidataQid. enrich must follow the bridge to enrich
+  // Wikidata facets without forging the item's primary URI.
+  assert.equal(
+    effectiveWikidataUri({
+      uri: 'https://id.parliament.uk/abc123',
+      extra: { identity: { wikidataQid: 'http://www.wikidata.org/entity/Q42' } },
+    }),
+    'http://www.wikidata.org/entity/Q42');
+
+  // No QID, no bridge → null (enrich requires() returns false for the bundle).
+  assert.equal(
+    effectiveWikidataUri({ uri: 'https://id.parliament.uk/xyz789' }),
+    null);
+  assert.equal(effectiveWikidataUri({}),            null);
+  assert.equal(effectiveWikidataUri({ extra: {} }), null);
+});
+
+test('enrich.requires() admits the identity-bridge case (DDP URI + extra.identity.wikidataQid)', () => {
+  // The Tory MPs chain bug: parl-current-mps items have DDP URIs, not QIDs;
+  // after `bridge`, extra.identity.wikidataQid is set. Pre-fix enrich
+  // returned false here and rejected the bundle.
+  const bridged = { items: [{
+    uri: 'https://id.parliament.uk/abc123',
+    extra: { identity: { wikidataQid: 'http://www.wikidata.org/entity/Q42' } },
+  }] };
+  assert.equal(AUGMENT_OPS.enrich.requires(bridged), true);
+
+  // And query() must emit the bridged QID, not the DDP URI, in VALUES.
+  const sparql = AUGMENT_OPS.enrich.query(bridged.items);
+  assert.match(sparql, /<http:\/\/www\.wikidata\.org\/entity\/Q42>/);
+  assert.doesNotMatch(sparql, /id\.parliament\.uk/);
 });
 
 // ---------------------------------------------------------------------------

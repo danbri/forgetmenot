@@ -149,11 +149,18 @@ export function parseParlCurrentRows(bindings) {
   return bindings.map((b) => {
     const giv = b.giv?.value || '', fam = b.fam?.value || '';
     const startYr = b.start?.value ? +b.start.value.slice(0, 4) : null;
+    const mpid = b.mpid?.value || null;
     return {
       uri:     b.p.value,
       label:   (giv + ' ' + fam).trim() || b.p.value.replace(/^.*\//, ''),
-      image:   null,
-      mpid:    b.mpid?.value || null,
+      // Parliament Members API serves a portrait thumbnail per member at
+      // /Members/<id>/Thumbnail (probed 2026-06-10: 200, image/jpeg, ~230KB).
+      // We populate `image` so the tile / pivot / map markers render the
+      // actual photo instead of a placeholder cell. Routed through the
+      // proxy per CLAUDE.md rule 3; auth cookie inherits from the page
+      // session.
+      image:   mpid ? `/api/members/Members/${mpid}/Thumbnail` : null,
+      mpid,
       firstYr: startYr, lastYr: null, latestStart: startYr, sitting: true,
       parties: [b.party?.value].filter(Boolean),
       gender:  null, citizenships: [],

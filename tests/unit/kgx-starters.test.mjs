@@ -191,7 +191,9 @@ test('parseParlCurrentRows maps a DDP row into the human-bundle shape', () => {
   const [item] = parseParlCurrentRows([SAMPLE_PARL_ROW]);
   assert.equal(item.uri,     'https://id.parliament.uk/abc123');
   assert.equal(item.label,   'Alice Adams');
-  assert.equal(item.image,   null);
+  // Members API serves a per-mpid thumbnail; routed through the proxy
+  // (CLAUDE.md rule 3). Items without an mpid fall back to null.
+  assert.equal(item.image,   '/api/members/Members/4001/Thumbnail');
   assert.equal(item.mpid,    '4001');
   assert.equal(item.firstYr, 2024);
   assert.equal(item.lastYr,  null);
@@ -212,6 +214,8 @@ test('parseParlCurrentRows falls back to URI suffix when name fields are empty',
   const [item] = parseParlCurrentRows([r]);
   assert.equal(item.label, 'xyz789');
   assert.equal(item.mpid,  null);
+  // No mpid → no Members API thumbnail URL.
+  assert.equal(item.image, null);
   assert.deepEqual(item.parties, []);
   assert.equal(item.extra?.parl?.familyName, null);
 });

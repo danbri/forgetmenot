@@ -43,24 +43,42 @@ const ENRICH_MAX = 500;   // soft cap that the page already enforces
 // P69 alma maters, P26 spouses, P106 occupations). Merges flat into
 // item.extra alongside any pre-existing sidecars (parl, identity, …).
 // ---------------------------------------------------------------------------
+// Effective Wikidata QID URI for an item: either its own URI (if already a
+// Wikidata QID — the native case for QLever-seeded chains) or its bridged
+// QID set by `identity-bridge` on extra.identity.wikidataQid (the case for
+// parl-current-mps / parl-sparql-seeded chains that aren't Wikidata-native).
+//
+// Exported so the runner's relevance check + the page's chip palette can
+// share one definition with the lib — and so adding a new bridge source
+// later (e.g. an MNIS → Wikidata join) lands in one place.
+export function effectiveWikidataUri(x) {
+  if (/Q\d+$/.test(x.uri || '')) return x.uri;
+  const q = x.extra?.identity?.wikidataQid;
+  if (q && /Q\d+$/.test(q)) return q;
+  return null;
+}
+
 export const enrich = {
   id:        'enrich',
   kind:      'enrich',                  // same-item facets, no cross-source join
   engineId:  'qlever-wikidata',
   role:      'primary',
   cap:       ENRICH_MAX,
-  requires:  (b) => b.items.some((x) => /Q\d+$/.test(x.uri || '')),
+  requires:  (b) => b.items.some((x) => !!effectiveWikidataUri(x)),
   // Page has no relevant() gate for enrich; applicability = human bundle
-  // whose items carry Wikidata Q-URIs (same shape requires() checks).
+  // whose items carry Wikidata Q-URIs. `requires()` admits the bridged
+  // case too (extra.identity.wikidataQid set by identity-bridge), but
+  // applicableTo is the CLI-side declarative twin used only by
+  // `kgx chain candidates` filtering — that retains the original shape.
   applicableTo: { types: ['human'], uriPattern: 'Q\\d+$' },
   note:      'Wikidata: birthplace + coords + dates + alma maters + spouses + occupations',
   namedGraphs: [],
 
   query: (items) => {
-    const values = items
-      .filter((x) => /Q\d+$/.test(x.uri || ''))
-      .map((x) => `<${x.uri}>`)
-      .join(' ');
+    const uris = items
+      .map(effectiveWikidataUri)
+      .filter(Boolean);
+    const values = [...new Set(uris)].map((u) => `<${u}>`).join(' ');
     return `
       PREFIX wd:   <http://www.wikidata.org/entity/>
       PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
@@ -91,11 +109,15 @@ export const enrich = {
       } GROUP BY ?p`;
   },
 
+  // Match bindings to items via the effective QID — same lookup the build
+  // used. Items without a QID (DDP-only, no bridge yet) pass through
+  // unchanged.
   parse: (bindings, items) => {
     const byUri = new Map();
     for (const b of bindings) byUri.set(b.p.value, b);
     return items.map((x) => {
-      const b = byUri.get(x.uri);
+      const qUri = effectiveWikidataUri(x);
+      const b = qUri && byUri.get(qUri);
       if (!b) return x;
       const extra = {
         dob:        b.dobOut?.value || null,
