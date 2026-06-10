@@ -67,7 +67,7 @@ import {
 } from '/kgx/lib/quality.mjs';
 import { normaliseChainSpec, activeChainSteps } from '/kgx/lib/branches.mjs';
 import { frontierOf } from '/kgx/lib/frontier.mjs';
-import { entityIntentsFor, bundleIntentsFor } from '/kgx/lib/intents.mjs';
+import { entityIntentsFor, bundleIntentsFor, beadIntentsFor } from '/kgx/lib/intents.mjs';
 import { buildListQuery, parseChainList, buildLoadQuery } from '/kgx/lib/chain-store.mjs';
 
 // Helper: which OPS chip ids are augment-shape (carry a role from
@@ -1097,10 +1097,12 @@ class DaisyBead extends HTMLElement {
                  overflow: hidden; text-overflow: ellipsis; }
         .count { margin-left: auto; font-variant-numeric: tabular-nums;
                  font-size: 13px; color: var(--ink-soft); font-weight: 600; }
-        .info { background: none; border: 0; color: var(--ink-mute);
+        .info, .bead-intents { background: none; border: 0; color: var(--ink-mute);
                 font-size: 14px; cursor: pointer; padding: 2px 6px;
-                border-radius: 4px; margin-left: 6px; }
-        .info:hover { color: var(--accent); background: var(--surface-2); }
+                border-radius: 4px; margin-left: 2px; }
+        .info { margin-left: 6px; }
+        .info:hover, .bead-intents:hover { color: var(--accent); background: var(--surface-2); }
+        .bead-intents { font-size: 13px; line-height: 1; }
         .strip { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
         .strip .thumb-btn {
           padding: 0; border: 0; background: none; cursor: pointer;
@@ -1167,6 +1169,7 @@ class DaisyBead extends HTMLElement {
           <span class="title"></span>
           <span class="count"></span>
           <button class="info" title="lineage / named graphs / TriG" aria-label="info">ⓘ</button>
+          <button class="bead-intents" title="actions for this bead" aria-label="actions for this bead">⋯</button>
         </div>
         <div class="strip"></div>
         <div class="meta"></div>
@@ -1313,6 +1316,20 @@ class DaisyBead extends HTMLElement {
         e.stopPropagation();
         const sheet = document.createElement('daisy-info-sheet');
         sheet.open(b);
+      });
+    }
+    // ⋯ — open per-bead intents (focus, copy permalink to here, copy
+    // prefix spec / TriG, undo-to-here). The app-level handler builds
+    // the ctx with the chain prefix and prefix-permalink so the lib's
+    // bead intents fire with everything they need.
+    const intBtn = this.shadowRoot.querySelector('.bead-intents');
+    if (intBtn) {
+      intBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.dispatchEvent(new CustomEvent('bead-intents', {
+          detail: { index: idx, bead: b, anchor: intBtn },
+          bubbles: true, composed: true,
+        }));
       });
     }
 
@@ -2039,6 +2056,10 @@ class DaisyApp extends HTMLElement {
           box-shadow: 0 4px 16px rgba(0,0,0,0.18);
           min-width: 220px; padding: 4px;
         }
+        /* bead-pop is appended to document.body and anchored via the
+           position:fixed style set inline. Same look as the chain-level
+           popover, just floats on top of the page. */
+        .intent-popover.bead-pop { z-index: 100; }
         .intent-popover .intent-head {
           font-size: 10px; color: var(--ink-mute);
           text-transform: uppercase; letter-spacing: 0.05em;
@@ -2642,6 +2663,7 @@ class DaisyApp extends HTMLElement {
     this.addEventListener('op-tap',       (e) => this._onOp(e.detail));
     this.addEventListener('bead-undo',    (e) => this._undoTo(e.detail.index));
     this.addEventListener('bead-focus',   (e) => this._focusTo(e.detail.index));
+    this.addEventListener('bead-intents', (e) => this._openBeadIntents(e.detail));
     this.addEventListener('bead-tiles',   (e) => this._focusToView(e.detail.index, 'tiles'));
     this.addEventListener('bead-map',     (e) => this._focusToView(e.detail.index, 'map'));
     this.addEventListener('card-chip',    (e) => this._onCardChip(e.detail));
@@ -3021,6 +3043,86 @@ class DaisyApp extends HTMLElement {
     // Outside-click close (capture phase so it fires before child clicks).
     const onDoc = (e) => {
       if (!pop.contains(e.target) && e.target !== this.shadowRoot.querySelector('#intents-btn')) {
+        pop.remove();
+        document.removeEventListener('click', onDoc, { capture: true });
+      }
+    };
+    setTimeout(() => document.addEventListener('click', onDoc, { capture: true }), 0);
+  }
+
+  // Per-bead intents popover, anchored to the bead's ⋯ button. Same
+  // mechanism as _openBundleIntents but with a bead-scoped ctx: we hand
+  // the lib a `prefixSpec` (the chain truncated at this bead) and the
+  // matching `prefixPermalink`, so intents like "Copy permalink to this
+  // point" emit a share-URL of the partial chain, not the whole thing.
+  _openBeadIntents({ index, bead, anchor }) {
+    const existing = this.shadowRoot.querySelector('.intent-popover');
+    if (existing) { existing.remove(); return; }
+    const fullSpec = currentChainSpec();
+    if (!fullSpec.length) return;
+    // The bead's prefix spec ends WITH the step that produced this bead.
+    // The starter is step 0, the n-th bead corresponds to fullSpec[n] in
+    // a 1-based read since pushBead is called after each step runs.
+    const prefixSteps = fullSpec.slice(0, index + 1);
+    const libEntry = state.activeChainId && LIBRARY.find((x) => x.id === state.activeChainId);
+    const ctx = {
+      bead, beadIdx: index, totalBeads: state.beads.length,
+      chainSpec: {
+        title: libEntry?.title || (state.activeChainId ? `chain ${state.activeChainId}` : 'untitled chain'),
+        sub:   libEntry?.sub   || null,
+        id:    state.activeChainId || null,
+        steps: fullSpec,
+      },
+      permalink: location.origin + location.pathname + '#g=' + encodeSpec({ steps: fullSpec }),
+      prefixSpec: {
+        title: `${libEntry?.title || 'chain'} (up to bead ${index + 1})`,
+        sub:   bead.bundle?.label || null,
+        id:    null,
+        steps: prefixSteps,
+      },
+      prefixPermalink: location.origin + location.pathname + '#g=' + encodeSpec({ steps: prefixSteps }),
+    };
+    const intents = beadIntentsFor(bead, ctx);
+    if (!intents.length) { this._status('no intents for this bead'); return; }
+    const pop = document.createElement('div');
+    pop.className = 'intent-popover bead-pop';
+    pop.innerHTML = `<div class="intent-head">bead ${index + 1} intents</div>`;
+    for (const intent of intents) {
+      const b = document.createElement('button');
+      b.className = 'intent-item';
+      b.innerHTML = `<span class="ic">${intent.icon}</span><span>${escapeHTML(intent.label)}</span>`;
+      b.addEventListener('click', async () => {
+        const action = intent.plan(bead, ctx);
+        if (action.kind === 'copy') {
+          try { await navigator.clipboard.writeText(action.text); } catch {}
+          this._status(`✓ ${escapeHTML(intent.label)}`);
+        } else if (action.kind === 'url') {
+          window.open(action.href, '_blank', 'noopener');
+        } else if (action.kind === 'focus') {
+          // Focus the bead + flip the mobile pane swap to content so the
+          // user sees the result of focusing right away.
+          state.focusIdx = (action.beadIdx >= state.beads.length - 1) ? null : action.beadIdx;
+          state.mobilePane = 'content';
+          publish();
+        } else if (action.kind === 'undo-to') {
+          truncateTo(action.beadIdx);
+        }
+        pop.remove();
+      });
+      pop.appendChild(b);
+    }
+    // Anchor near the clicked bead's ⋯. position:fixed is viewport-
+    // relative even inside a shadow root, and the daisy-app shadow root
+    // owns the .intent-popover CSS — so we append HERE (not to body)
+    // so the styling applies.
+    const r = anchor.getBoundingClientRect();
+    pop.style.position = 'fixed';
+    pop.style.right = (window.innerWidth - r.right) + 'px';
+    pop.style.top   = (r.bottom + 4) + 'px';
+    pop.style.left  = 'auto';
+    this.shadowRoot.appendChild(pop);
+    const onDoc = (e) => {
+      if (!pop.contains(e.target)) {
         pop.remove();
         document.removeEventListener('click', onDoc, { capture: true });
       }

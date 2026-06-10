@@ -28,10 +28,14 @@
 // intents it's { chainSpec, permalink, kgxId } (the saved chain context).
 //
 // Plan action kinds:
-//   { kind: 'url',  href }                    — open in a new tab
-//   { kind: 'copy', text }                    — clipboard write
-//   { kind: 'post', href, body, contentType,  — HTTP POST (e.g. save chain
-//      successStatus }                          to the FPKG chain store)
+//   { kind: 'url',     href }                  — open in a new tab
+//   { kind: 'copy',    text }                  — clipboard write
+//   { kind: 'post',    href, body,             — HTTP POST (e.g. save chain
+//      contentType, successStatus }              to the FPKG chain store)
+//   { kind: 'focus',   beadIdx }               — page-only: set focusIdx +
+//                                                flip to the content pane
+//   { kind: 'undo-to', beadIdx }               — page-only: discard every
+//                                                bead after beadIdx
 //
 // The PAGE chooses the dispatch UI; the CLI just `console.log`s the plan.
 // =============================================================================
@@ -204,12 +208,69 @@ const BUNDLE_INTENTS = [
 ];
 
 // ---------------------------------------------------------------------------
+// Bead intents — applicable to a specific bead in the active chain. ctx
+// carries { bead, beadIdx, chainSpec, permalink, prefixSpec, prefixPermalink,
+// totalBeads }, where prefixSpec is the chain truncated AT this bead (one
+// step less than the full chain when this is the frontier; the trimmed
+// chain for any older bead). prefixPermalink is the share-URL form of
+// prefixSpec — handy for "send this earlier point to a collaborator".
+// ---------------------------------------------------------------------------
+
+const BEAD_INTENTS = [
+  {
+    id: 'bead-focus-here',
+    label: 'Focus this bead in tiles / pivot / map',
+    icon: '📌',
+    scope: 'bead',
+    applicable: (_b, ctx) => !!ctx?.bead,
+    // Plan returns kind:'focus' so the page knows to set state.focusIdx
+    // + flip to the content pane. CLI consumers (if any) treat it as a
+    // noop — there's no analog there.
+    plan: (_b, ctx) => ({ kind: 'focus', beadIdx: ctx.beadIdx }),
+  },
+  {
+    id: 'bead-copy-permalink',
+    label: 'Copy permalink to this point',
+    icon: '🔗',
+    scope: 'bead',
+    applicable: (_b, ctx) => !!ctx?.prefixPermalink,
+    plan: (_b, ctx) => ({ kind: 'copy', text: ctx.prefixPermalink }),
+  },
+  {
+    id: 'bead-copy-prefix-spec',
+    label: 'Copy chain prefix (JSON)',
+    icon: '{}',
+    scope: 'bead',
+    applicable: (_b, ctx) => !!ctx?.prefixSpec,
+    plan: (_b, ctx) => ({ kind: 'copy', text: JSON.stringify(ctx.prefixSpec, null, 2) }),
+  },
+  {
+    id: 'bead-copy-trig',
+    label: 'Copy this point as TriG',
+    icon: '⏧',
+    scope: 'bead',
+    applicable: (_b, ctx) => !!ctx?.prefixSpec,
+    plan: (_b, ctx) => ({ kind: 'copy', text: chainToTrig(ctx.prefixSpec) }),
+  },
+  {
+    id: 'bead-undo-to-here',
+    label: 'Discard every bead after this one',
+    icon: '↺',
+    scope: 'bead',
+    // Frontier doesn't need an "undo to here" — it's already the end.
+    applicable: (_b, ctx) => !!ctx?.bead && ctx.beadIdx < (ctx.totalBeads - 1),
+    plan: (_b, ctx) => ({ kind: 'undo-to', beadIdx: ctx.beadIdx }),
+  },
+];
+
+// ---------------------------------------------------------------------------
 // Public surface.
 // ---------------------------------------------------------------------------
 
 export const INTENTS = {
   entity: ENTITY_INTENTS,
   bundle: BUNDLE_INTENTS,
+  bead:   BEAD_INTENTS,
 };
 
 export function entityIntentsFor(item) {
@@ -218,4 +279,8 @@ export function entityIntentsFor(item) {
 
 export function bundleIntentsFor(bundle, ctx) {
   return BUNDLE_INTENTS.filter((i) => i.applicable(bundle, ctx));
+}
+
+export function beadIntentsFor(bead, ctx) {
+  return BEAD_INTENTS.filter((i) => i.applicable(bead, ctx));
 }
