@@ -808,6 +808,9 @@ const state = {
   pivotMode:   'histogram',
   pivotXField: null,     // scatter X axis (defaults to first facet)
   pivotYField: null,     // scatter Y axis (defaults to second facet)
+  // Pinch-/wheel-driven zoom multiplier on the pivot stage. 1.0 = native.
+  // Persists across re-renders so axis/mode switches preserve the zoom.
+  pivotZoom:   1.0,
   // Mobile single-pane swap (≤860px shows ONE of nav/chain/content). Empty
   // chain → starts on 'nav'; once beads exist we auto-advance to 'chain'.
   mobilePane: 'nav',
@@ -2471,8 +2474,37 @@ class DaisyApp extends HTMLElement {
           border: 1px solid var(--rule-soft); border-radius: 8px;
           background: var(--surface);
           margin: 4px 0;
+          /* Disable browser touch gestures so our pointer events can
+             implement drag-to-pan + pinch-zoom without scroll jitter. */
+          touch-action: none;
+          cursor: grab; user-select: none;
         }
+        .pivot-viewport.grabbing { cursor: grabbing; }
         @media (min-width: 860px) { .pivot-viewport { height: 400px; } }
+        /* Zoom controls overlay — top-right corner, two square buttons +
+           fit-reset. Sticky-positioned so they ride with scroll. */
+        .pivot-zoom-ctl {
+          position: sticky; top: 4px;
+          float: right;          /* sticky+float pins to the scroll-right edge */
+          margin: 4px 4px 0 0;
+          display: flex; flex-direction: column; gap: 2px;
+          z-index: 5;
+        }
+        .pivot-zoom-ctl button {
+          appearance: none; cursor: pointer;
+          width: 28px; height: 28px;
+          background: var(--surface); color: var(--ink);
+          border: 1px solid var(--rule); border-radius: 6px;
+          font: 14px/1 inherit;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+        }
+        .pivot-zoom-ctl button:hover { background: color-mix(in oklab, var(--accent) 10%, var(--surface)); }
+        /* Zoom transitions: the stage's width/height + deco scale should
+           animate to match the thumbs so the whole layout grows/shrinks
+           in concert during +/− / fit. Direct gestures (wheel, pinch)
+           override the transition by setting it 'none' while pinching. */
+        .pivot-stage { transition: width 0.25s ease, height 0.25s ease; }
+        .pivot-stage .deco { transition: transform 0.25s ease; }
         .pivot-stage { position: relative; min-width: 100%; height: 100%; }
         .pivot-stage.gridlines {
           background-image:
@@ -3781,8 +3813,145 @@ class DaisyApp extends HTMLElement {
     deco.className = 'deco';
     stage.appendChild(deco);
     viewport.appendChild(stage);
-    this._pivot = { viewport, stage, deco, pool: new Map() };
+    // Overlay zoom controls. Position-fixed within the viewport so they
+    // ride along the scroll surface (no anchoring drift on touch pan).
+    const zoomCtl = document.createElement('div');
+    zoomCtl.className = 'pivot-zoom-ctl';
+    zoomCtl.innerHTML = `<button class="zin" title="zoom in" aria-label="zoom in">+</button><button class="zout" title="zoom out" aria-label="zoom out">−</button><button class="zfit" title="fit to viewport" aria-label="fit">⛶</button>`;
+    viewport.appendChild(zoomCtl);
+    this._pivot = {
+      viewport, stage, deco, zoomCtl,
+      pool: new Map(),
+      // Base layout — positions/scales at zoom = 1. Applied with the
+      // current zoom multiplier per render and on every gesture step.
+      baseTargets: new Map(),
+      baseStageW: 0, baseStageH: 0,
+      // Pointer / gesture state.
+      pointers: new Map(),
+      pinch: null,
+      dragging: false,
+      dragStart: null,
+    };
+    this._pivotBindGestures(this._pivot);
     return this._pivot;
+  }
+
+  // Anchor a zoom step under a viewport-relative point (vx, vy). The
+  // world point under the gesture stays fixed: we compute it in the
+  // OLD zoom, apply the new zoom (DOM update), then adjust scrollLeft /
+  // scrollTop so the same world point is again under the gesture.
+  _pivotSetZoom(z, vx, vy) {
+    const P = this._pivot; if (!P) return;
+    const Zmin = 0.4, Zmax = 4.0;
+    z = Math.max(Zmin, Math.min(Zmax, z));
+    if (Math.abs(z - state.pivotZoom) < 0.005) return;
+    const vp = P.viewport;
+    const oldZ = state.pivotZoom;
+    // Where in the unscaled (base) coordinate space is the gesture?
+    const worldX = (vp.scrollLeft + vx) / oldZ;
+    const worldY = (vp.scrollTop  + vy) / oldZ;
+    state.pivotZoom = z;
+    // Retarget without a full layout pass — only multiply base targets.
+    this._pivotApplyZoom();
+    // Adjust scroll so worldX/Y land under (vx, vy) again.
+    vp.scrollLeft = Math.max(0, worldX * z - vx);
+    vp.scrollTop  = Math.max(0, worldY * z - vy);
+  }
+
+  _pivotApplyZoom() {
+    const P = this._pivot; if (!P) return;
+    const Z = state.pivotZoom;
+    P.stage.style.width  = (P.baseStageW * Z).toFixed(1) + 'px';
+    P.stage.style.height = (P.baseStageH * Z).toFixed(1) + 'px';
+    for (const [key, t] of P.baseTargets) {
+      const el = P.pool.get(key);
+      if (!el) continue;
+      el.style.transform = `translate3d(${(t.x * Z).toFixed(1)}px, ${(t.y * Z).toFixed(1)}px, 0) scale(${(t.s * Z).toFixed(3)})`;
+    }
+    // Decorations (column labels, treemap cells, axis labels) also need
+    // to scale with the stage — they live in absolute pixel coords from
+    // layout, so we wrap them in a transform on the deco container.
+    P.deco.style.transformOrigin = '0 0';
+    P.deco.style.transform = `scale(${Z})`;
+  }
+
+  // Wire pinch (touch) + ctrl-wheel + grab-pan + the +/-/fit buttons.
+  // One pointer drags to pan (scrollLeft/Top); two pointers pinch zoom;
+  // wheel + ctrl/⌘ zooms; the fit button restores zoom=1 and recentres.
+  _pivotBindGestures(P) {
+    const vp = P.viewport;
+    const localXY = (e) => {
+      const r = vp.getBoundingClientRect();
+      return { vx: e.clientX - r.left, vy: e.clientY - r.top };
+    };
+    vp.addEventListener('wheel', (e) => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      e.preventDefault();
+      const { vx, vy } = localXY(e);
+      const factor = Math.exp(-e.deltaY * 0.0015);
+      this._pivotSetZoom(state.pivotZoom * factor, vx, vy);
+    }, { passive: false });
+    vp.addEventListener('pointerdown', (e) => {
+      // Skip if the gesture started on a thumb / control — those have
+      // their own click semantics. The stage and deco act as drag surface.
+      if (e.target.closest('.pthumb, .pivot-zoom-ctl button')) return;
+      P.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      try { vp.setPointerCapture(e.pointerId); } catch { /* state race */ }
+      if (P.pointers.size === 2) {
+        const [a, b] = [...P.pointers.values()];
+        P.pinch = {
+          dist:   Math.hypot(a.x - b.x, a.y - b.y),
+          startZ: state.pivotZoom,
+          mid:    localXY({ clientX: (a.x + b.x) / 2, clientY: (a.y + b.y) / 2 }),
+        };
+        P.dragging = false;
+      } else if (P.pointers.size === 1) {
+        P.dragging = true;
+        P.dragStart = { x: e.clientX, y: e.clientY,
+                        sx: vp.scrollLeft, sy: vp.scrollTop };
+        vp.classList.add('grabbing');
+      }
+    });
+    vp.addEventListener('pointermove', (e) => {
+      if (!P.pointers.has(e.pointerId)) return;
+      P.pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (P.pinch && P.pointers.size === 2) {
+        const [a, b] = [...P.pointers.values()];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d > 8) {
+          this._pivotSetZoom(P.pinch.startZ * (d / P.pinch.dist),
+                             P.pinch.mid.vx, P.pinch.mid.vy);
+        }
+      } else if (P.dragging && P.pointers.size === 1) {
+        vp.scrollLeft = P.dragStart.sx - (e.clientX - P.dragStart.x);
+        vp.scrollTop  = P.dragStart.sy - (e.clientY - P.dragStart.y);
+      }
+    });
+    const end = (e) => {
+      P.pointers.delete(e.pointerId);
+      if (P.pointers.size < 2) P.pinch = null;
+      if (P.pointers.size === 0) {
+        P.dragging = false;
+        vp.classList.remove('grabbing');
+      }
+    };
+    vp.addEventListener('pointerup', end);
+    vp.addEventListener('pointercancel', end);
+    // Button affordances.
+    P.zoomCtl.querySelector('.zin').addEventListener('click', () => {
+      const r = vp.getBoundingClientRect();
+      this._pivotSetZoom(state.pivotZoom * 1.3, r.width / 2, r.height / 2);
+    });
+    P.zoomCtl.querySelector('.zout').addEventListener('click', () => {
+      const r = vp.getBoundingClientRect();
+      this._pivotSetZoom(state.pivotZoom / 1.3, r.width / 2, r.height / 2);
+    });
+    P.zoomCtl.querySelector('.zfit').addEventListener('click', () => {
+      const r = vp.getBoundingClientRect();
+      state.pivotZoom = 1.0;
+      this._pivotApplyZoom();
+      vp.scrollLeft = 0; vp.scrollTop = 0;
+    });
   }
 
   _renderPivot(root) {
@@ -3983,28 +4152,36 @@ class DaisyApp extends HTMLElement {
       decoHTML = labels.join('');
     }
 
-    // Apply: size the stage, swap the deco layer, retarget every thumb.
-    P.stage.style.width  = stageW + 'px';
-    P.stage.style.height = vh + 'px';
+    // Stash base targets — _pivotApplyZoom will scale them on demand for
+    // pinch/wheel events without re-running layout.
+    P.baseTargets = targets;
+    P.baseStageW = stageW;
+    P.baseStageH = vh;
+    const Z = state.pivotZoom || 1.0;
+
+    // Apply: size the stage (with zoom), swap the deco layer + scale it,
+    // retarget every thumb (scaled).
+    P.stage.style.width  = (stageW * Z).toFixed(1) + 'px';
+    P.stage.style.height = (vh * Z).toFixed(1) + 'px';
     P.stage.classList.toggle('gridlines', gridlines);
     P.deco.innerHTML = decoHTML;
+    P.deco.style.transformOrigin = '0 0';
+    P.deco.style.transform = `scale(${Z})`;
     const seen = new Set();
     for (const [key, t] of targets) {
       seen.add(key);
+      const tx = t.x * Z, ty = t.y * Z, ts = t.s * Z;
       let el = P.pool.get(key);
       if (!el) {
         el = this._makePThumb(t.item, bead.bundle, key);
         P.pool.set(key, el);
-        // Initial state set BEFORE first paint: at target, invisible. The
-        // opacity flip on the next frame fades it in place (transform set
-        // pre-insertion never transitions).
-        el.style.transform = `translate3d(${t.x.toFixed(1)}px, ${t.y.toFixed(1)}px, 0) scale(${t.s.toFixed(3)})`;
+        el.style.transform = `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0) scale(${ts.toFixed(3)})`;
         el.style.opacity = '0';
         P.stage.appendChild(el);
         requestAnimationFrame(() => { el.style.opacity = '1'; });
       } else {
         el.style.opacity = '1';
-        el.style.transform = `translate3d(${t.x.toFixed(1)}px, ${t.y.toFixed(1)}px, 0) scale(${t.s.toFixed(3)})`;
+        el.style.transform = `translate3d(${tx.toFixed(1)}px, ${ty.toFixed(1)}px, 0) scale(${ts.toFixed(3)})`;
       }
     }
     // Anything in the pool but not in this layout fades out, then leaves.
