@@ -2149,16 +2149,27 @@ class DaisyApp extends HTMLElement {
           width: 6px; height: 2px; background: var(--rule);
         }
         #view-root { padding: 0; }   /* legacy, kept until callers stop targeting it */
+        /* Status is a fixed toast — it must NEVER shift the pane layout
+           (appearing/disappearing inline banners were a major source of
+           the page feeling jumpy). */
         #status {
-          font-size: 12px; color: var(--ink-soft);
-          padding: 4px 8px; margin: 4px 0 0;
-          background: color-mix(in oklab, var(--accent) 6%, transparent);
-          border: 1px solid var(--rule-soft); border-radius: 6px;
+          position: fixed; left: 50%; bottom: 14px;
+          transform: translateX(-50%);
+          z-index: 90;
+          max-width: min(92vw, 560px);
+          font-size: 12px; color: var(--ink);
+          padding: 7px 12px;
+          background: var(--surface);
+          border: 1px solid color-mix(in oklab, var(--accent) 35%, var(--rule));
+          border-radius: 8px;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.18);
         }
         #status[hidden] { display: none; }
         #status.err { color: #c33;
-                      background: color-mix(in oklab, #c33 6%, transparent);
-                      border-color: color-mix(in oklab, #c33 25%, var(--rule-soft)); }
+                      border-color: color-mix(in oklab, #c33 40%, var(--rule)); }
+        /* Content pane keeps a stable minimum height so switching between
+           tiles / pivot / map doesn't reflow the whole page. */
+        #pane-content { min-height: 460px; }
         .empty { padding: 16px 4px; }
         .foot { font-size: 11px; color: var(--ink-mute);
                 padding: 14px 4px 0; line-height: 1.55; }
@@ -2390,43 +2401,6 @@ class DaisyApp extends HTMLElement {
           border: 1px solid var(--rule); border-radius: 6px;
           padding: 3px 6px; font: 12px/1 inherit;
         }
-        .pivot-grid {
-          display: flex; gap: 6px; align-items: flex-end;
-          overflow-x: auto; overflow-y: visible;
-          padding-bottom: 8px; min-height: 220px;
-        }
-        .pivot-col {
-          flex: 0 0 auto; display: flex; flex-direction: column;
-          align-items: center; gap: 0;
-          padding: 4px; border-radius: 8px;
-          background: color-mix(in oklab, var(--accent) 4%, transparent);
-        }
-        .pivot-col:hover { background: color-mix(in oklab, var(--accent) 10%, transparent); }
-        .pivot-col .stack {
-          display: flex; flex-direction: column-reverse;
-          gap: 1px; align-items: center; width: 100%;
-        }
-        .pivot-col .stack button.thumb {
-          appearance: none; background: var(--surface-2);
-          width: 28px; height: 28px; min-height: 28px;
-          padding: 0; margin: 0; border: 0; border-radius: 3px;
-          overflow: hidden; cursor: pointer;
-        }
-        .pivot-col .stack button.thumb img {
-          width: 100%; height: 100%; object-fit: cover; display: block;
-        }
-        .pivot-col .stack button.thumb.dotless {
-          background: color-mix(in oklab, var(--accent) 32%, var(--surface-2));
-        }
-        .pivot-col .stack button.thumb:hover {
-          outline: 2px solid var(--accent); outline-offset: -1px; z-index: 1;
-        }
-        .pivot-col .lbl {
-          font-size: 11px; color: var(--ink); padding-top: 6px;
-          text-align: center; max-width: 80px;
-          word-break: break-word; line-height: 1.25;
-        }
-        .pivot-col .ct { color: var(--ink-mute); font-size: 10px; }
 
         /* Pivot mode toggle — histogram | scatter | treemap. Compact pill
            segment in the head; selection persists via state.pivotMode. */
@@ -2442,108 +2416,88 @@ class DaisyApp extends HTMLElement {
         .pivot-modes button:last-child { border-right: 0; }
         .pivot-modes button.on { background: var(--accent); color: var(--accent-on);
                                  font-weight: 600; }
-
-        /* GPU-friendly transforms — translateZ(0) forces a layer so the
-           browser can composite without repaint. The transform/opacity
-           transitions stay on the compositor thread (no layout cost) and
-           run at 60fps on mid-tier mobile even for 5k items.
-
-           FLIP animations carry items between modes/axes: a thumb keeps
-           its DOM identity (via data-uri) across re-renders, so we can
-           translate it from its old position to the new in one pass. */
-        .pivot-thumb {
-          /* the unit shared across all three modes — a button.thumb with
-             a circle/square image, absolutely positioned in scatter/treemap
-             and flex-stacked in histogram */
-          appearance: none; background: var(--surface-2);
-          padding: 0; margin: 0; border: 0; border-radius: 3px;
-          overflow: hidden; cursor: pointer;
-          will-change: transform, opacity;
-          transform: translateZ(0);     /* promote to its own layer */
+        /* Pin toggle — keep the node viewer on THIS bead while the chain
+           grows. Shared by pivot + tiles heads. */
+        .pivot-head .pin, .tiles-head .pin {
+          appearance: none; background: var(--surface); color: var(--ink-soft);
+          border: 1px solid var(--rule); border-radius: 6px;
+          padding: 2px 7px; font: 11px/1.4 inherit; cursor: pointer;
         }
-        .pivot-thumb img {
-          width: 100%; height: 100%; object-fit: cover; display: block;
-        }
-        .pivot-thumb.dotless {
-          background: color-mix(in oklab, var(--accent) 32%, var(--surface-2));
-        }
-        .pivot-thumb:hover {
-          outline: 2px solid var(--accent); outline-offset: -1px; z-index: 1;
+        .pivot-head .pin.on, .tiles-head .pin.on {
+          background: var(--accent); color: var(--accent-on);
+          border-color: var(--accent);
         }
 
-        /* Scatter — two axes, items absolutely placed. The bg gridlines
-           are pure CSS, no DOM cost. Axis labels in tiny text at the edges. */
-        .pivot-scatter {
-          position: relative; width: 100%;
-          height: 360px;
+        /* Persistent pivot stage. ONE pool of absolutely-positioned thumb
+           elements survives every re-render (the pool lives on the app
+           instance, not the DOM tree) — mode / axis / bead changes only
+           retarget each element's translate3d+scale, so the always-on CSS
+           transition animates the move ON THE COMPOSITOR, and the <img>
+           nodes never die → zero re-loading, zero re-decode. This is what
+           makes switching feel accelerated rather than rebuilt. */
+        .pivot-viewport {
+          position: relative; overflow: auto;
+          height: 400px;
+          border: 1px solid var(--rule-soft); border-radius: 8px;
+          background: var(--surface);
+          margin: 4px 0;
+        }
+        .pivot-stage { position: relative; min-width: 100%; height: 100%; }
+        .pivot-stage.gridlines {
           background-image:
             linear-gradient(to right, color-mix(in oklab, var(--rule) 50%, transparent) 1px, transparent 1px),
             linear-gradient(to bottom, color-mix(in oklab, var(--rule) 50%, transparent) 1px, transparent 1px);
           background-size: 20% 20%;
-          border: 1px solid var(--rule-soft); border-radius: 8px;
-          margin: 4px 0;
-          overflow: hidden;
         }
-        .pivot-scatter .pivot-thumb {
-          position: absolute;
-          width: 20px; height: 20px;
+        .pivot-stage .deco { position: absolute; inset: 0; pointer-events: none; }
+        .pthumb {
+          position: absolute; left: 0; top: 0;
+          width: 24px; height: 24px;
+          transform-origin: 0 0;
+          appearance: none; background: var(--surface-2);
+          padding: 0; margin: 0; border: 0; border-radius: 3px;
+          overflow: hidden; cursor: pointer;
+          transition: transform 0.55s cubic-bezier(0.22, 0.9, 0.26, 1),
+                      opacity   0.3s ease;
         }
-        .pivot-scatter .axis-x, .pivot-scatter .axis-y {
+        .pthumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .pthumb.dotless {
+          background: color-mix(in oklab, var(--accent) 36%, var(--surface-2));
+          border-radius: 50%;
+        }
+        .pthumb:hover { outline: 2px solid var(--accent); outline-offset: -1px; z-index: 5; }
+        /* Decorations — labels under histogram columns, treemap cells,
+           scatter axes. Rebuilt per layout (cheap; few dozen nodes). */
+        .deco .col-lbl {
+          position: absolute; font-size: 9px; color: var(--ink);
+          text-align: center; line-height: 1.2;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .deco .col-lbl .ct { color: var(--ink-mute); }
+        .deco .tm-cell {
+          position: absolute; box-sizing: border-box;
+          background: color-mix(in oklab, var(--accent) 5%, transparent);
+          border: 1px solid var(--rule-soft); border-radius: 4px;
+        }
+        .deco .tm-lbl {
+          position: absolute; font-size: 9px; color: var(--ink);
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+          padding: 1px 3px;
+        }
+        .deco .tm-lbl .ct { color: var(--ink-mute); margin-left: 3px; }
+        .deco .axis-x, .deco .axis-y {
           position: absolute; font-size: 10px;
-          color: var(--ink-mute); pointer-events: none;
+          color: var(--ink-mute);
           background: color-mix(in oklab, var(--surface) 85%, transparent);
           padding: 1px 4px; border-radius: 3px;
         }
-        .pivot-scatter .axis-x { bottom: 4px; right: 8px; }
-        .pivot-scatter .axis-y { top: 4px; left: 8px; writing-mode: vertical-rl;
-                                 transform: rotate(180deg); }
-
-        /* Treemap — squarified bin rectangles, area proportional to count.
-           Each cell wraps its label + the thumbs that fit. */
-        .pivot-treemap {
-          position: relative; width: 100%; height: 360px;
-          border: 1px solid var(--rule-soft); border-radius: 8px;
-          overflow: hidden; margin: 4px 0;
-        }
-        .pivot-cell {
-          position: absolute; box-sizing: border-box;
-          background: color-mix(in oklab, var(--accent) 6%, transparent);
-          border: 1px solid var(--rule-soft);
-          padding: 2px;
-          overflow: hidden;
-          display: flex; flex-direction: column;
-          transition: background 0.18s ease;
-          will-change: transform;
-        }
-        .pivot-cell:hover { background: color-mix(in oklab, var(--accent) 14%, transparent); }
-        .pivot-cell .cell-head {
-          font-size: 10px; color: var(--ink);
-          padding: 1px 2px;
-          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-        }
-        .pivot-cell .cell-head .ct { color: var(--ink-mute); margin-left: 4px; }
-        .pivot-cell .cell-thumbs {
-          flex: 1; display: grid; gap: 1px;
-          grid-template-columns: repeat(auto-fill, minmax(18px, 1fr));
-          grid-auto-rows: 18px;
-          overflow: hidden;
-        }
-        .pivot-cell .pivot-thumb { width: 100%; height: 100%; }
-
-        /* Animation tier — applied to all .pivot-thumb during transitions.
-           transform-only so it stays on the compositor. The .animating class
-           is added/removed by the FLIP wrapper around each re-render. */
-        .pivot-thumb.animating {
-          transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
-                      opacity   0.35s ease;
-        }
-        .pivot-cell.animating {
-          transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
-                      width 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
-                      height 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
-                      left 0.45s cubic-bezier(0.2, 0.8, 0.2, 1),
-                      top 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-        }
+        .deco .axis-x { bottom: 4px; right: 8px; }
+        .deco .axis-y { top: 4px; left: 8px; writing-mode: vertical-rl;
+                        transform: rotate(180deg); }
+        .deco .axis-note { position: absolute; bottom: 22px; right: 8px;
+                           font-size: 10px; color: var(--ink-mute);
+                           background: color-mix(in oklab, var(--surface) 85%, transparent);
+                           padding: 1px 4px; border-radius: 3px; }
       </style>
       <header>
         <h1>daisychain</h1>
@@ -3032,6 +2986,24 @@ class DaisyApp extends HTMLElement {
   }
 
   _render() {
+    // Chain STRUCTURE changes (bead added / removed / branch switched)
+    // animate via the View Transitions API where available: each bead
+    // wrap carries a stable view-transition-name (its bead id), so the
+    // browser morphs surviving beads to their new positions and fades
+    // adds/removes. Non-structural renders (mode/axis/focus changes) skip
+    // it — the pivot stage runs its own compositor transitions and a
+    // whole-page snapshot would mask them.
+    const beadSig = state.beads.map((b) => b.id).join(',');
+    const structural = this._lastBeadSig !== undefined && beadSig !== this._lastBeadSig;
+    this._lastBeadSig = beadSig;
+    if (structural && typeof document.startViewTransition === 'function') {
+      try { document.startViewTransition(() => this._renderNow()); return; }
+      catch { /* fall through to plain render */ }
+    }
+    this._renderNow();
+  }
+
+  _renderNow() {
     // Sync the view-segment buttons to current state. The chain group is
     // independent of the content group, so they get separate `.on` marks.
     for (const btn of this.shadowRoot.querySelectorAll('.seg button')) {
@@ -3248,6 +3220,9 @@ class DaisyApp extends HTMLElement {
     for (let i = 0; i <= last; i++) {
       const wrap = document.createElement('div');
       wrap.className = 'bead-wrap';
+      // Stable per-bead name lets the View Transitions wrapper in _render
+      // morph surviving beads when the chain structure changes.
+      try { wrap.style.viewTransitionName = 'bead-' + state.beads[i].id; } catch {}
       if (i === last)  wrap.setAttribute('frontier', '');
       if (i === focus) wrap.setAttribute('focused',  '');
       const bead = document.createElement('daisy-bead');
@@ -3742,6 +3717,34 @@ class DaisyApp extends HTMLElement {
   // a vertical thumb stack, so the COLUMN HEIGHT matches the bin's count.
   // Clicking a thumb opens the thing-sheet (the new Quick-Look popover).
   // Caps thumbnails per column to keep mid-tier mobile responsive.
+  // ---------------- pivot: persistent GPU stage ----------------
+  //
+  // The previous implementation FLIP-animated across full DOM rebuilds —
+  // but _render() clears the content pane BEFORE the renderer could
+  // snapshot old positions, so nothing ever animated and every <img>
+  // re-loaded on each switch. The fix is architectural: ONE pool of
+  // absolutely-positioned thumb elements keyed by item uri lives on the
+  // app instance (this._pivot), surviving innerHTML wipes (we hold the
+  // references; re-append the same nodes). Mode / bin-by / bead changes
+  // only recompute target {x, y, scale} per element and retarget its
+  // translate3d — the always-on CSS transition animates the move on the
+  // compositor, and the image nodes never die so nothing re-fetches or
+  // re-decodes. Bead-to-bead changes morph too: items shared between the
+  // old and new bundle slide to their new positions, dropped items fade.
+  _pivotEnsure() {
+    if (this._pivot) return this._pivot;
+    const viewport = document.createElement('div');
+    viewport.className = 'pivot-viewport';
+    const stage = document.createElement('div');
+    stage.className = 'pivot-stage';
+    const deco = document.createElement('div');
+    deco.className = 'deco';
+    stage.appendChild(deco);
+    viewport.appendChild(stage);
+    this._pivot = { viewport, stage, deco, pool: new Map() };
+    return this._pivot;
+  }
+
   _renderPivot(root) {
     const focusI = focusedIdx();
     const bead = state.beads[focusI];
@@ -3754,19 +3757,9 @@ class DaisyApp extends HTMLElement {
       field = facets[0]?.field || null;
     }
     const isFrontier = (focusI === state.beads.length - 1);
+    const pinned = state.focusIdx != null;
     const mode = state.pivotMode || 'histogram';
 
-    // Snapshot per-item DOM rects BEFORE the rebuild so the FLIP wrapper
-    // can translate persistent items from old position to new — keyed by
-    // the data-uri attribute we set on every thumb.
-    const oldRects = new Map();
-    for (const el of root.querySelectorAll('[data-uri]')) {
-      const r = el.getBoundingClientRect();
-      oldRects.set(el.dataset.uri, { x: r.left, y: r.top, w: r.width, h: r.height });
-    }
-
-    // Head: count + axis dropdown + mode toggle. Build a single time so
-    // the dropdown's focus survives axis switches as much as possible.
     const head = document.createElement('div');
     head.className = 'pivot-head';
     if (!field) {
@@ -3794,9 +3787,10 @@ class DaisyApp extends HTMLElement {
         }).join('')}</select>
       </span>` : ''}
       <span class="pivot-modes">${modeBtns}</span>
-      ${isFrontier ? '' : `<button class="wired-from" title="pivot wired from bead ${focusI + 1}; tap to follow frontier">wired from bead ${focusI + 1} · clear</button>`}
+      <button class="pin${pinned ? ' on' : ''}" title="${pinned
+        ? 'unpin — follow the frontier as the chain grows'
+        : 'pin this bead — keep viewing it while you tweak the chain'}">📌 bead ${focusI + 1}</button>
     `;
-    root.innerHTML = '';
     root.appendChild(head);
     head.querySelector('#pivot-axis').addEventListener('change', (e) => {
       state.pivotField = e.target.value;
@@ -3813,216 +3807,179 @@ class DaisyApp extends HTMLElement {
         publish();
       });
     }
-    const clearFocus = head.querySelector('.wired-from');
-    if (clearFocus) clearFocus.addEventListener('click', () => {
-      state.focusIdx = null; publish();
+    head.querySelector('.pin').addEventListener('click', () => {
+      state.focusIdx = pinned ? null : focusI;
+      publish();
     });
 
-    // Bin the items once — every mode consumes the same bins/items map.
-    const facetRec = facets.find((f) => f.field === field);
+    // Bin items by FIRST value. The pool keys one element per item, so an
+    // item can only occupy one spot — multi-valued fields bin by their
+    // first value here (the histogram's old duplicate-into-every-bin
+    // behaviour conflicts with element identity, which is what buys the
+    // cross-layout animation; tradeoff noted in the head's tooltip).
     const bins = new Map();
-    const put = (k, item) => {
-      const key = String(k);
-      if (!bins.has(key)) bins.set(key, []);
-      bins.get(key).push(item);
-    };
     for (const x of bead.bundle.items) {
-      const v = x[field];
+      let v = x[field];
+      if (Array.isArray(v)) v = v[0];
       if (v == null || v === '' || v === false) continue;
-      if (Array.isArray(v)) for (const vi of v) put(vi, x);
-      else put(v, x);
+      const key = String(v);
+      if (!bins.has(key)) bins.set(key, []);
+      bins.get(key).push(x);
     }
 
-    // Mode dispatch. Each sub-renderer returns the DOM root of its surface.
-    let surface;
+    const P = this._pivotEnsure();
+    root.appendChild(P.viewport);
+    const vw = P.viewport.clientWidth || 640;
+    const vh = P.viewport.clientHeight || 400;
+
+    const keyOf = (it) => it.uri || ('label:' + (it.label || ''));
+    const S = 24;                          // base thumb px; scale = want/S
+    let targets = new Map();               // key -> {x, y, s, item}
+    let decoHTML = '';
+    let stageW = vw;
+    let gridlines = false;
+
     if (mode === 'scatter') {
       const xField = state.pivotXField && facets.some((f) => f.field === state.pivotXField)
         ? state.pivotXField
         : (facets.find((f) => f.field !== field)?.field || field);
-      surface = this._renderPivotScatter(bead.bundle, xField, field);
-    } else if (mode === 'treemap') {
-      surface = this._renderPivotTreemap(bead.bundle, field, bins);
-    } else {
-      surface = this._renderPivotHistogram(bead.bundle, field, bins);
-    }
-    root.appendChild(surface);
-
-    // FLIP — items that existed before AND after re-render slide from
-    // their old position to their new one. Items that didn't exist before
-    // fade in; items that vanished do nothing (their DOM is gone).
-    requestAnimationFrame(() => {
-      const animTargets = surface.querySelectorAll('[data-uri]');
-      for (const el of animTargets) {
-        const oldP = oldRects.get(el.dataset.uri);
-        if (!oldP) {
-          el.style.opacity = '0';
-          el.classList.add('animating');
-          requestAnimationFrame(() => { el.style.opacity = ''; });
-          continue;
+      const T = 18, PAD = 26, CAP = 1500;
+      const axisPlan = (vals) => {
+        const numeric = vals.every((v) => v == null || typeof v === 'number' || !Number.isNaN(+v));
+        if (numeric) {
+          const nums = vals.map(Number).filter((v) => Number.isFinite(v));
+          const lo = Math.min(...nums), hi = Math.max(...nums);
+          const span = hi - lo || 1;
+          return { kind: 'numeric', project: (v) => (Number(v) - lo) / span, lo, hi };
         }
-        const r = el.getBoundingClientRect();
-        const dx = oldP.x - r.left, dy = oldP.y - r.top;
-        if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) continue;
-        el.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-        // Force the browser to commit the transform before the next frame,
-        // then clear it so the CSS transition kicks in.
-        // eslint-disable-next-line no-unused-expressions
-        el.offsetWidth;
-        el.classList.add('animating');
-        requestAnimationFrame(() => { el.style.transform = ''; });
+        const set = [...new Set(vals.filter((v) => v != null && v !== ''))]
+          .sort((a, b) => String(a).localeCompare(String(b)));
+        const ix = new Map(set.map((s, i) => [String(s), i]));
+        return { kind: 'ordinal',
+                 project: (v) => (set.length > 1 ? ix.get(String(v)) / (set.length - 1) : 0.5),
+                 values: set };
+      };
+      const first = (it, f) => Array.isArray(it[f]) ? it[f][0] : it[f];
+      const xv = bead.bundle.items.map((it) => first(it, xField));
+      const yv = bead.bundle.items.map((it) => first(it, field));
+      const xa = axisPlan(xv), ya = axisPlan(yv);
+      let skipped = 0, capped = 0;
+      for (let i = 0; i < bead.bundle.items.length; i++) {
+        const it = bead.bundle.items[i];
+        const x = xv[i], y = yv[i];
+        if (x == null || x === '' || y == null || y === '') { skipped++; continue; }
+        const px = xa.project(x), py = ya.project(y);
+        if (!Number.isFinite(px) || !Number.isFinite(py)) { skipped++; continue; }
+        if (targets.size >= CAP) { capped++; continue; }
+        targets.set(keyOf(it), {
+          x: PAD + px * (vw - 2 * PAD - T),
+          y: PAD + (1 - py) * (vh - 2 * PAD - T),
+          s: T / S, item: it,
+        });
       }
-      // Clean up after the transition so subsequent renders start fresh.
-      setTimeout(() => {
-        for (const el of animTargets) el.classList.remove('animating');
-      }, 600);
-    });
-
-    // Lazy-load every thumb image — same tileIo observer the tile grid uses.
-    for (const img of surface.querySelectorAll('img[data-src]')) tileIo.observe(img);
-  }
-
-  // ---------------- pivot sub-renderers ----------------
-
-  // Histogram (the original): columns of stacked thumbs by bin.
-  _renderPivotHistogram(bundle, field, bins) {
-    const sorted = [...bins.entries()]
-      .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
-    const COL_MAX_THUMBS = 60;
-    const grid = document.createElement('div');
-    grid.className = 'pivot-grid';
-    for (const [bin, items] of sorted) {
-      const col = document.createElement('div');
-      col.className = 'pivot-col';
-      col.title = `${bin} — ${items.length}`;
-      const stack = document.createElement('div');
-      stack.className = 'stack';
-      for (const x of items.slice(0, COL_MAX_THUMBS)) stack.appendChild(this._makeThumb(x, bundle, 28));
-      col.appendChild(stack);
-      const lbl = document.createElement('div');
-      lbl.className = 'lbl';
-      lbl.innerHTML = `${escapeHTML(bin)} <span class="ct">${items.length}${items.length > COL_MAX_THUMBS ? '*' : ''}</span>`;
-      col.appendChild(lbl);
-      grid.appendChild(col);
-    }
-    return grid;
-  }
-
-  // Scatter — two faceted axes (numeric or ordinal). Items are absolutely
-  // positioned; gridlines come from CSS. Honest about misses: items
-  // without both fields are skipped and counted in the corner label.
-  _renderPivotScatter(bundle, xField, yField) {
-    const surface = document.createElement('div');
-    surface.className = 'pivot-scatter';
-
-    // Decide projection per axis: numeric → linear, otherwise → ordinal.
-    const axisPlan = (vals) => {
-      const numeric = vals.every((v) => v == null || typeof v === 'number' || !Number.isNaN(+v));
-      if (numeric) {
-        const nums = vals.map(Number).filter((v) => Number.isFinite(v));
-        const lo = Math.min(...nums), hi = Math.max(...nums);
-        const span = hi - lo || 1;
-        return { kind: 'numeric', project: (v) => (Number(v) - lo) / span, lo, hi };
+      gridlines = true;
+      const axisDesc = (a, f) => `${f}${a.kind === 'numeric' ? ` (${a.lo}…${a.hi})` : ` (${a.values.length} values)`}`;
+      decoHTML = `
+        <div class="axis-x">x: ${escapeHTML(axisDesc(xa, xField))}</div>
+        <div class="axis-y">y: ${escapeHTML(axisDesc(ya, field))}</div>
+        ${skipped || capped ? `<div class="axis-note">${skipped ? `${skipped} missing a field` : ''}${skipped && capped ? ' · ' : ''}${capped ? `${capped} beyond the ${1500} cap` : ''}</div>` : ''}`;
+    } else if (mode === 'treemap') {
+      const T = 18;
+      const sorted = [...bins.entries()]
+        .filter(([, arr]) => arr.length)
+        .sort((a, b) => b[1].length - a[1].length)
+        .map(([bin, arr]) => ({ bin, count: arr.length, items: arr }));
+      const total = sorted.reduce((s, x) => s + x.count, 0) || 1;
+      const rects = squarifyTreemap(
+        sorted.map((x) => ({ ...x, weight: x.count / total })),
+        { x: 0, y: 0, w: vw, h: vh },
+      );
+      const cells = [];
+      for (const r of rects) {
+        cells.push(`<div class="tm-cell" style="left:${r.x.toFixed(1)}px;top:${r.y.toFixed(1)}px;width:${r.w.toFixed(1)}px;height:${r.h.toFixed(1)}px"></div>
+          <div class="tm-lbl" style="left:${(r.x + 1).toFixed(1)}px;top:${(r.y + 1).toFixed(1)}px;max-width:${Math.max(0, r.w - 6).toFixed(1)}px">${escapeHTML(r.bin)}<span class="ct">${r.count}</span></div>`);
+        const cols = Math.max(1, Math.floor((r.w - 4) / T));
+        const rows = Math.max(0, Math.floor((r.h - 15) / T));
+        const n = Math.min(r.items.length, cols * rows);
+        for (let i = 0; i < n; i++) {
+          targets.set(keyOf(r.items[i]), {
+            x: r.x + 2 + (i % cols) * T,
+            y: r.y + 13 + Math.floor(i / cols) * T,
+            s: T / S, item: r.items[i],
+          });
+        }
       }
-      const set = [...new Set(vals.filter((v) => v != null && v !== ''))]
-        .sort((a, b) => String(a).localeCompare(String(b)));
-      const ix = new Map(set.map((s, i) => [String(s), i]));
-      return { kind: 'ordinal',
-               project: (v) => (set.length > 1 ? ix.get(String(v)) / (set.length - 1) : 0.5),
-               values: set };
-    };
-
-    // For multi-valued fields, take the first value as the position
-    // (anything else risks rendering one item twice). The chip palette's
-    // own multi-bin behaviour stays in the histogram view.
-    const xv = bundle.items.map((it) => Array.isArray(it[xField]) ? it[xField][0] : it[xField]);
-    const yv = bundle.items.map((it) => Array.isArray(it[yField]) ? it[yField][0] : it[yField]);
-    const xa = axisPlan(xv), ya = axisPlan(yv);
-
-    const W = 100, H = 100;     // percentage space
-    const PAD = 5;              // %
-    let skipped = 0;
-    for (let i = 0; i < bundle.items.length; i++) {
-      const it = bundle.items[i];
-      const x = xv[i], y = yv[i];
-      if (x == null || x === '' || y == null || y === '') { skipped++; continue; }
-      const px = xa.project(x), py = ya.project(y);
-      if (!Number.isFinite(px) || !Number.isFinite(py)) { skipped++; continue; }
-      const thumb = this._makeThumb(it, bundle, 20);
-      thumb.style.left = (PAD + px * (W - 2 * PAD)).toFixed(2) + '%';
-      // Y inverts (top-down screen vs bottom-up data convention).
-      thumb.style.top  = (PAD + (1 - py) * (H - 2 * PAD)).toFixed(2) + '%';
-      surface.appendChild(thumb);
+      decoHTML = cells.join('');
+    } else {
+      // histogram
+      const T = 22, GAP = 8, COLW = T + 6, LBLH = 26;
+      // Cap each stack to what FITS the fixed-height stage — overflowing
+      // the viewport upward isn't scrollable and reads as breakage. The
+      // label's count carries the true total; '*' marks truncation.
+      const CAP = Math.max(3, Math.floor((vh - LBLH - 6) / (T + 1)));
+      const sorted = [...bins.entries()]
+        .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+      stageW = Math.max(vw, sorted.length * (COLW + GAP) + GAP);
+      let cx = GAP;
+      const labels = [];
+      for (const [bin, items] of sorted) {
+        const shown = items.slice(0, CAP);
+        for (let i = 0; i < shown.length; i++) {
+          targets.set(keyOf(shown[i]), {
+            x: cx + (COLW - T) / 2,
+            y: vh - LBLH - (i + 1) * (T + 1),
+            s: T / S, item: shown[i],
+          });
+        }
+        labels.push(`<div class="col-lbl" style="left:${cx - GAP / 2}px;width:${COLW + GAP}px;top:${vh - LBLH + 4}px" title="${escapeHTML(bin)} — ${items.length}">${escapeHTML(bin)}<span class="ct"> ${items.length}${items.length > CAP ? '*' : ''}</span></div>`);
+        cx += COLW + GAP;
+      }
+      decoHTML = labels.join('');
     }
-    const xl = document.createElement('div');
-    xl.className = 'axis-x';
-    xl.textContent = `x: ${xField}${xa.kind === 'numeric' ? ` (${xa.lo}…${xa.hi})` : ` (${xa.values.length} values)`}`;
-    const yl = document.createElement('div');
-    yl.className = 'axis-y';
-    yl.textContent = `y: ${yField}${ya.kind === 'numeric' ? ` (${ya.lo}…${ya.hi})` : ` (${ya.values.length} values)`}`;
-    surface.appendChild(xl);
-    surface.appendChild(yl);
-    if (skipped) {
-      const note = document.createElement('div');
-      note.className = 'axis-x';
-      note.style.bottom = '22px';
-      note.textContent = `${skipped} item${skipped === 1 ? '' : 's'} missing one of these fields`;
-      surface.appendChild(note);
+
+    // Apply: size the stage, swap the deco layer, retarget every thumb.
+    P.stage.style.width  = stageW + 'px';
+    P.stage.style.height = vh + 'px';
+    P.stage.classList.toggle('gridlines', gridlines);
+    P.deco.innerHTML = decoHTML;
+    const seen = new Set();
+    for (const [key, t] of targets) {
+      seen.add(key);
+      let el = P.pool.get(key);
+      if (!el) {
+        el = this._makePThumb(t.item, bead.bundle, key);
+        P.pool.set(key, el);
+        // Initial state set BEFORE first paint: at target, invisible. The
+        // opacity flip on the next frame fades it in place (transform set
+        // pre-insertion never transitions).
+        el.style.transform = `translate3d(${t.x.toFixed(1)}px, ${t.y.toFixed(1)}px, 0) scale(${t.s.toFixed(3)})`;
+        el.style.opacity = '0';
+        P.stage.appendChild(el);
+        requestAnimationFrame(() => { el.style.opacity = '1'; });
+      } else {
+        el.style.opacity = '1';
+        el.style.transform = `translate3d(${t.x.toFixed(1)}px, ${t.y.toFixed(1)}px, 0) scale(${t.s.toFixed(3)})`;
+      }
     }
-    return surface;
+    // Anything in the pool but not in this layout fades out, then leaves.
+    for (const [key, el] of P.pool) {
+      if (seen.has(key)) continue;
+      P.pool.delete(key);
+      el.style.opacity = '0';
+      setTimeout(() => el.remove(), 350);
+    }
   }
 
-  // Treemap — squarified bin layout. Area of each cell = bin count.
-  // The algorithm is the classic Bruls / Huijsen / van Wijk (2000): walk
-  // the sorted weights, build a row in the shorter dimension that
-  // minimises the aspect ratio of the rectangles inside it.
-  _renderPivotTreemap(bundle, field, bins) {
-    const surface = document.createElement('div');
-    surface.className = 'pivot-treemap';
-    const items = [...bins.entries()]
-      .filter(([, arr]) => arr.length)
-      .sort((a, b) => b[1].length - a[1].length)
-      .map(([bin, arr]) => ({ bin, count: arr.length, items: arr }));
-    if (!items.length) return surface;
-
-    // We don't know the pixel size yet (surface isn't measured until in
-    // DOM), so layout in a normalised 1×1 space and convert to % at the
-    // end. Same proportions either way.
-    const total = items.reduce((s, x) => s + x.count, 0);
-    const rects = squarifyTreemap(
-      items.map((x) => ({ ...x, weight: x.count / total })),
-      { x: 0, y: 0, w: 1, h: 1 },
-    );
-    for (const r of rects) {
-      const cell = document.createElement('div');
-      cell.className = 'pivot-cell';
-      cell.style.left   = (r.x * 100).toFixed(3) + '%';
-      cell.style.top    = (r.y * 100).toFixed(3) + '%';
-      cell.style.width  = (r.w * 100).toFixed(3) + '%';
-      cell.style.height = (r.h * 100).toFixed(3) + '%';
-      cell.title = `${r.bin} — ${r.count}`;
-      const hd = document.createElement('div');
-      hd.className = 'cell-head';
-      hd.innerHTML = `<span>${escapeHTML(r.bin)}</span><span class="ct">${r.count}</span>`;
-      cell.appendChild(hd);
-      const tg = document.createElement('div');
-      tg.className = 'cell-thumbs';
-      // Cap visible thumbs per cell to keep DOM sane — same trick the
-      // histogram uses. The asterisk on count signals truncation.
-      for (const it of r.items.slice(0, 80)) tg.appendChild(this._makeThumb(it, bundle, 18));
-      cell.appendChild(tg);
-      surface.appendChild(cell);
-    }
-    return surface;
-  }
-
-  // Shared per-item thumbnail factory. Tagged with data-uri so the FLIP
-  // wrapper can identify it across re-renders.
-  _makeThumb(item, bundle, side) {
+  // Pool-element factory. The <img> src is set ONCE here — direct, with
+  // native lazy loading — and survives every re-layout, which is what
+  // kills the slow re-load on mode switches.
+  _makePThumb(item, bundle, key) {
     const t = document.createElement('button');
-    t.className = 'pivot-thumb' + (item.image ? '' : ' dotless');
-    if (side) { t.style.width = side + 'px'; t.style.height = side + 'px'; }
-    t.dataset.uri = item.uri || ('label:' + (item.label || ''));
-    if (item.image) t.innerHTML = `<img alt="" data-src="${commonsThumb(item.image, side ? side * 2 : 48)}">`;
+    t.className = 'pthumb' + (item.image ? '' : ' dotless');
+    t.dataset.uri = key;
+    if (item.image) {
+      t.innerHTML = `<img alt="" loading="lazy" decoding="async" src="${commonsThumb(item.image, 48)}">`;
+    }
     t.title = item.label || item.uri || '';
     t.addEventListener('click', (ev) => {
       ev.stopPropagation();
@@ -4054,21 +4011,23 @@ class DaisyApp extends HTMLElement {
     const isFrontier = (focusI === state.beads.length - 1);
     const head = document.createElement('div');
     head.className = 'tiles-head';
-    // Pill names the wired bead so it's obvious WHICH node the tiles
-    // are showing; click it to follow the frontier again. Hidden when
-    // tiles is already showing the frontier (the common case).
+    // Pin: keep the viewer on THIS bead while the chain pipeline is
+    // tweaked (pinned = focusIdx set; unpinned = follow the frontier).
+    // Same affordance the pivot head carries, so the behaviour is
+    // learnable once and applies everywhere.
+    const pinned = state.focusIdx != null;
     head.innerHTML = `
       <span class="n">${last.bundle.size.toLocaleString()}</span>
       <span>${escapeHTML(last.bundle.label)}</span>
-      ${isFrontier ? '' : `<button class="wired-from" title="tiles wired from bead ${focusI + 1}; tap to follow the frontier again">wired from bead ${focusI + 1} · clear</button>`}
+      <button class="pin${pinned ? ' on' : ''}" title="${pinned
+        ? 'unpin — follow the frontier as the chain grows'
+        : 'pin this bead — keep viewing it while you tweak the chain'}">📌 bead ${focusI + 1}</button>
     `;
     root.appendChild(head);
-    if (!isFrontier) {
-      head.querySelector('.wired-from').addEventListener('click', () => {
-        state.focusIdx = null;
-        publish();
-      });
-    }
+    head.querySelector('.pin').addEventListener('click', () => {
+      state.focusIdx = pinned ? null : focusI;
+      publish();
+    });
     const grid = document.createElement('div');
     grid.className = 'tiles';
     const slice = last.bundle.items.slice(0, 3000);
