@@ -215,16 +215,18 @@ test('parseChainSpec — walks derivedFrom regardless of bindings order', () => 
     ['uk-mps-1900', 'party', 'sitting']);
 });
 
-test('parseChainSpec — refuses unrooted, multi-rooted, or disconnected graphs', () => {
+test('parseChainSpec — refuses unrooted, multi-rooted, or disconnected single-branch graphs', () => {
   const flow = 'urn:kgx:flow:test-bad';
   // No bundles
   assert.throws(() => parseChainSpec([], flow), /no bundles/);
-  // Bundle with no derivedFrom AND every other bundle has derivedFrom pointing
-  // elsewhere — i.e. 2 roots
+  // Two source bundles with no derivedFrom and no kgx:branch tags. The
+  // single-branch path triggers, finds two roots, refuses with a hint
+  // that the manifest needs kgx:branch / kgx:activeBranch to be parsed
+  // as multi-branch.
   assert.throws(() => parseChainSpec([
     row('https://forgetmenot.local/bundle/x', RDF_TYPE, `${KGX}SourceBundle`),
     row('https://forgetmenot.local/bundle/y', RDF_TYPE, `${KGX}SourceBundle`),
-  ], flow), /multi-branch manifests not yet supported/);
+  ], flow), /multi-branch/);
   // Two bundles, both with derivedFrom pointing nowhere meaningful — no root
   assert.throws(() => parseChainSpec([
     row('https://forgetmenot.local/bundle/x', RDF_TYPE, `${KGX}FilterBundle`),
@@ -237,6 +239,85 @@ test('parseChainSpec — refuses unrooted, multi-rooted, or disconnected graphs'
 test('parseChainSpec — requires a flowIri', () => {
   assert.throws(() => parseChainSpec([], null),      /flowIri required/);
   assert.throws(() => parseChainSpec([], undefined), /flowIri required/);
+});
+
+test('chainToTrig + parseChainSpec round-trip: multi-branch (fork) chain', () => {
+  // The library's `fork-demo` shape: main = 3 steps, with-bp = 1 step
+  // forked from main at beadIdx=2. Round-trip must recover both
+  // branches, the forkedFrom link, and the activeBranch pointer.
+  const fork = {
+    title: 'Fork demo',
+    sub:   'main → birthplaces',
+    id:    'fork-demo',
+    activeBranch: 'with-bp',
+    branches: [
+      {
+        id: 'main',
+        steps: [
+          { kind: 'starter', id: 'uk-mps-1900' },
+          { kind: 'op', op: 'party', value: 'Labour Party' },
+          { kind: 'op', op: 'sitting' },
+        ],
+      },
+      {
+        id: 'with-bp',
+        forkedFrom: { branch: 'main', beadIdx: 2 },
+        steps: [
+          { kind: 'op', op: 'rel-pivot', template: 'birthplaces', variant: 'default' },
+        ],
+      },
+    ],
+  };
+  const flow = 'urn:kgx:flow:rt-fork';
+  const trig = chainToTrig(fork, { graphIri: `<${flow}>` });
+  const bindings = trigToFlatBindings(trig, flow);
+  const out = parseChainSpec(bindings, flow);
+
+  assert.equal(out.title,        fork.title);
+  assert.equal(out.sub,          fork.sub);
+  assert.equal(out.id,           fork.id);
+  assert.equal(out.activeBranch, fork.activeBranch);
+
+  // Compare branches structurally (order in branches[] is not contract).
+  const sortById = (xs) => [...xs].sort((a, b) => a.id.localeCompare(b.id));
+  assert.deepEqual(sortById(out.branches), sortById(fork.branches));
+});
+
+test('parseChainSpec — refuses a multi-branch manifest with an untagged bundle', () => {
+  // If kgx:activeBranch is on the chain graph but a bundle is missing
+  // its kgx:branch tag, the manifest is malformed — refuse loudly.
+  const flow = 'urn:kgx:flow:bad-multi';
+  const b0 = 'https://forgetmenot.local/bundle/b0';
+  const bindings = [
+    row(flow, `${KGX}activeBranch`, 'main'),
+    row(b0, RDF_TYPE, `${KGX}SourceBundle`),
+    row(b0, `${KGX}starterId`, 'uk-mps-1900'),
+    // no kgx:branch on b0
+  ];
+  assert.throws(() => parseChainSpec(bindings, flow),
+    /missing kgx:branch tag in a multi-branch manifest/);
+});
+
+test('parseChainSpec — refuses a forked branch whose root derives from nothing in scope', () => {
+  // The branch root's derivedFrom IRI doesn't appear in any other branch.
+  // That's structurally broken; fail rather than emit a half-formed spec.
+  const flow = 'urn:kgx:flow:dangling-fork';
+  const b0  = 'https://forgetmenot.local/bundle/b0';
+  const ab0 = 'https://forgetmenot.local/bundle/a/b0';
+  const bindings = [
+    row(flow, `${KGX}activeBranch`, 'a'),
+    // main branch root
+    row(b0, RDF_TYPE, `${KGX}SourceBundle`),
+    row(b0, `${KGX}starterId`, 'uk-mps-1900'),
+    row(b0, `${KGX}branch`, 'main'),
+    // a-branch root, derivedFrom an IRI that's not in any branch
+    row(ab0, RDF_TYPE, `${KGX}FilterBundle`),
+    row(ab0, `${KGX}derivedFrom`, 'https://forgetmenot.local/bundle/nowhere'),
+    row(ab0, `${KGX}branch`, 'a'),
+    row(ab0, `${KGX}op`, 'sitting'),
+  ];
+  assert.throws(() => parseChainSpec(bindings, flow),
+    /no other branch contains that bundle/);
 });
 
 test('chainToTrig + parseChainSpec round-trip via a flat-bindings extractor', () => {

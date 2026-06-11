@@ -178,3 +178,66 @@ test('chainToTrig without beads does not emit run records', () => {
   assert.equal(/prov:Activity/.test(ttl), false);
   assert.equal(/kgx:Run/.test(ttl), false);
 });
+
+// ---------------------------------------------------------------------------
+// Multi-branch emission — Phase 1d of the trig-manifest-review.md migration.
+// Single-branch chains keep their byte-identical legacy shape (no
+// `kgx:branch` tags, no `kgx:activeBranch`); fork chains get them so the
+// reader can recover the tree structure.
+// ---------------------------------------------------------------------------
+
+const FORK_SPEC = {
+  title: 'Fork demo',
+  sub:   'main → birthplaces sibling',
+  activeBranch: 'with-bp',
+  branches: [
+    {
+      id: 'main',
+      steps: [
+        { kind: 'starter', id: 'uk-mps-1900' },
+        { kind: 'op', op: 'party', value: 'Labour Party' },
+        { kind: 'op', op: 'sitting' },
+      ],
+    },
+    {
+      id: 'with-bp',
+      forkedFrom: { branch: 'main', beadIdx: 2 },
+      steps: [
+        { kind: 'op', op: 'rel-pivot', template: 'birthplaces', variant: 'default' },
+      ],
+    },
+  ],
+};
+
+test('chainToTrig: single-branch chain emits NO kgx:branch / kgx:activeBranch (legacy shape)', () => {
+  const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH });
+  assert.doesNotMatch(ttl, /kgx:branch\b/);
+  assert.doesNotMatch(ttl, /kgx:activeBranch\b/);
+});
+
+test('chainToTrig: multi-branch chain stamps kgx:activeBranch on the chain graph', () => {
+  const ttl = chainToTrig(FORK_SPEC, { graphIri: FIXED_GRAPH });
+  assert.match(ttl,
+    new RegExp(`${FIXED_GRAPH.replace(/[\\^$.*+?()[\]{}|]/g, '\\$&')}\\s+kgx:activeBranch\\s+"with-bp"`));
+});
+
+test('chainToTrig: multi-branch chain tags every bundle with its kgx:branch', () => {
+  const ttl = chainToTrig(FORK_SPEC, { graphIri: FIXED_GRAPH });
+  // main bundles tagged "main"
+  for (let i = 0; i < 3; i++) {
+    assert.match(ttl,
+      new RegExp(`<https://forgetmenot\\.local/bundle/b${i}>[\\s\\S]*?kgx:branch\\s+"main"`),
+      `bundle b${i} should be tagged kgx:branch "main"`);
+  }
+  // with-bp bundle has its branch-scoped IRI and the with-bp tag
+  assert.match(ttl,
+    /<https:\/\/forgetmenot\.local\/bundle\/with-bp\/b0>[\s\S]*?kgx:branch\s+"with-bp"/);
+});
+
+test('chainToTrig: forked branch derives from the parent at the fork point', () => {
+  const ttl = chainToTrig(FORK_SPEC, { graphIri: FIXED_GRAPH });
+  // with-bp/b0 derives from main's b2 (forkedFrom.beadIdx=2). The cross-
+  // branch derivedFrom IS the fork relation; no separate predicate needed.
+  assert.match(ttl,
+    /<https:\/\/forgetmenot\.local\/bundle\/with-bp\/b0>[\s\S]*?kgx:derivedFrom\s+<https:\/\/forgetmenot\.local\/bundle\/b2>/);
+});

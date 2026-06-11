@@ -77,12 +77,17 @@ function bundleKindFor(step) {
   return 'kgx:FilterBundle';
 }
 
-// Per-step description; emits triples in the flow's named graph.
-function stepTriples(step, idx, prevId) {
-  const me = bundleId(idx);
+// Per-step description; emits triples in the flow's named graph. The
+// `me` IRI is provided by the caller (which knows whether this step
+// belongs to a flat single-branch chain or a branch-scoped multi-
+// branch one). When `branchTag` is non-null, the bundle is tagged with
+// `kgx:branch "<id>"` — emitted only for multi-branch manifests so
+// single-branch saves are byte-identical to the legacy shape.
+function stepTriples(step, me, prevId, branchTag) {
   const t  = [];
   t.push(`  ${me} a ${bundleKindFor(step)} ;`);
-  if (prevId) t.push(`    kgx:derivedFrom ${prevId} ;`);
+  if (prevId)    t.push(`    kgx:derivedFrom ${prevId} ;`);
+  if (branchTag) t.push(`    kgx:branch ${ttlString(branchTag)} ;`);
   if (step.kind === 'starter') {
     t.push(`    kgx:starterId  ${ttlString(step.id)} ;`);
   } else if (step.op === 'rel-pivot') {
@@ -100,10 +105,13 @@ function stepTriples(step, idx, prevId) {
 // Per-bead execution record. Emitted only when `beads` is supplied
 // (i.e. the chain has actually been run). Each record uses prov: + kgx:
 // vocabulary so the TriG is interoperable with any prov-aware tooling
-// AND legible in our own kgx vocabulary.
-function beadRunTriples(bead, idx, ranAt) {
+// AND legible in our own kgx vocabulary. `targetBundle` is the IRI of
+// the bundle this run produced — supplied by the caller because for
+// multi-branch chains the bundle IRI isn't deterministic from the
+// run-record index alone.
+function beadRunTriples(bead, idx, ranAt, targetBundle) {
   const me  = runId(idx);
-  const bun = bundleId(idx);
+  const bun = targetBundle || bundleId(idx);
   const t   = [];
   t.push(`  ${me} a prov:Activity, kgx:Run ;`);
   t.push(`    prov:generated ${bun} ;`);
@@ -116,15 +124,31 @@ function beadRunTriples(bead, idx, ranAt) {
   return t.join('\n');
 }
 
+// Bundle IRI strategy:
+//   - Single-branch chains: flat `<bundle/b<i>>` IRIs, no branch tags
+//     (byte-identical to the pre-1d shape, so existing saved chains
+//     stay valid).
+//   - Multi-branch chains: the first root branch (per topo order)
+//     keeps flat IRIs + a `kgx:branch` tag; sibling branches get
+//     `<bundle/<branch-id>/b<i>>` IRIs and their own branch tags.
+//     The chain graph self-statement gets `kgx:activeBranch "<id>"`.
+function bundleIriFor(branchId, beadIdx, flatBranchId) {
+  if (branchId === flatBranchId) return bundleId(beadIdx);
+  return ttlId('kgxb', `${branchId}/b${beadIdx}`);
+}
+
 export function chainToTrig(spec, opts = {}) {
-  // Accept either {steps} or {branches}; for the manifest we emit the
-  // active branch's linear walk. Future commits will add multi-branch
-  // serialisation with kgx:forkedFrom predicates between bundle nodes.
+  // Accept either {steps} or {branches}. Single-branch chains emit a
+  // flat linear walk (legacy shape, byte-identical). Multi-branch
+  // chains emit every branch, with cross-branch derivedFrom links at
+  // the fork points and `kgx:branch` tags on every bundle.
   const normalised = normaliseChainSpec(spec);
-  const stepsToRun = activeChainSteps(normalised);
   const flowG = opts.graphIri || flowGraphId();
   const beads = opts.beads || null;
   const ranAt = opts.ranAt || (beads ? new Date().toISOString() : null);
+  const isMultiBranch = normalised.branches.length > 1;
+  const flatBranchId  = isMultiBranch ? normalised.branchesInTopoOrder[0].id : null;
+
   const lines = [];
   for (const [p, ns] of PREFIXES) lines.push(`@prefix ${p}: <${ns}> .`);
   lines.push('');
@@ -136,20 +160,52 @@ export function chainToTrig(spec, opts = {}) {
   // before serialising. Used by the chain-store nav pane to sort
   // recently-saved chains first.
   if (normalised._ts) lines.push(`  ${flowG} dct:created "${normalised._ts}"^^<http://www.w3.org/2001/XMLSchema#dateTime> .`);
+  if (isMultiBranch)
+    lines.push(`  ${flowG} kgx:activeBranch ${ttlString(normalised.activeBranch)} .`);
   lines.push('');
-  let prev = null;
-  for (let i = 0; i < stepsToRun.length; i++) {
-    // Canonicalise legacy aliases (pivot-bp / pivot-am → rel-pivot) so the
-    // manifest tags the bead a PivotBundle with its relTemplate — matching
-    // what the runner actually executes — rather than a bare FilterBundle.
-    lines.push(stepTriples(resolveOpStep(stepsToRun[i]), i, prev));
-    prev = bundleId(i);
+
+  // Track every bundle IRI we emit so beadRunTriples can refer to the
+  // right one if `beads` is supplied. For single-branch chains this is
+  // the historical flat sequence; for multi-branch the run records are
+  // emitted in the same topo-walk order.
+  const emittedBundleIris = [];
+
+  if (!isMultiBranch) {
+    // Legacy single-branch walk — preserved byte-for-byte.
+    const stepsToRun = activeChainSteps(normalised);
+    let prev = null;
+    for (let i = 0; i < stepsToRun.length; i++) {
+      // Canonicalise legacy aliases (pivot-bp / pivot-am → rel-pivot) so the
+      // manifest tags the bead a PivotBundle with its relTemplate — matching
+      // what the runner actually executes — rather than a bare FilterBundle.
+      const me = bundleId(i);
+      lines.push(stepTriples(resolveOpStep(stepsToRun[i]), me, prev, null));
+      prev = me;
+      emittedBundleIris.push(me);
+    }
+  } else {
+    // Multi-branch walk: emit every branch in topo order. The first
+    // bundle of a forked branch derives from its parent branch's
+    // bundle at `forkedFrom.beadIdx`.
+    for (const branch of normalised.branchesInTopoOrder) {
+      let prev = branch.forkedFrom
+        ? bundleIriFor(branch.forkedFrom.branch, branch.forkedFrom.beadIdx, flatBranchId)
+        : null;
+      for (let i = 0; i < branch.steps.length; i++) {
+        const me = bundleIriFor(branch.id, i, flatBranchId);
+        lines.push(stepTriples(resolveOpStep(branch.steps[i]), me, prev, branch.id));
+        prev = me;
+        emittedBundleIris.push(me);
+      }
+    }
   }
+
   // If we have beads, emit prov:Activity records alongside the bundle defs.
   if (beads?.length) {
     lines.push('');
     for (let i = 0; i < beads.length; i++) {
-      lines.push(beadRunTriples(beads[i], i, ranAt));
+      const targetBundle = emittedBundleIris[i];
+      lines.push(beadRunTriples(beads[i], i, ranAt, targetBundle));
     }
   }
   lines.push('}');

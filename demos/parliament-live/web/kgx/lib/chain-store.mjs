@@ -128,17 +128,65 @@ const BUNDLE_KINDS = new Set([
   `${KGX}AugmentBundle`,
 ]);
 
+// Convert one parsed bundle (uri, kind, props) into a chain-spec step.
+// Pulled out so single-branch and multi-branch paths share it.
+function bundleToStep(b) {
+  if (b.kind === `${KGX}SourceBundle`) {
+    if (!b.starterId) throw new Error(`parseChainSpec: SourceBundle ${b.uri} has no kgx:starterId`);
+    return { kind: 'starter', id: b.starterId };
+  }
+  if (b.kind === `${KGX}PivotBundle`) {
+    if (!b.relTemplate) throw new Error(`parseChainSpec: PivotBundle ${b.uri} has no kgx:relTemplate`);
+    const step = { kind: 'op', op: 'rel-pivot', template: b.relTemplate };
+    if (b.relVariant !== undefined) step.variant = b.relVariant;
+    return step;
+  }
+  // FilterBundle / AugmentBundle — both carry kgx:op (+ optional kgx:opValue).
+  if (!b.op) throw new Error(`parseChainSpec: ${b.kind.split('/').pop()} ${b.uri} has no kgx:op`);
+  const step = { kind: 'op', op: b.op };
+  if (b.opValue !== undefined) step.value = b.opValue;
+  return step;
+}
+
+// Topo-walk a set of in-branch bundles starting from the supplied root.
+// Refuses disconnected sets and multiple successors (which would only
+// happen if the manifest is corrupt or carries unparented forks).
+function walkBranchBundles(branchBundles, root) {
+  const byPrev = new Map();
+  for (const b of branchBundles) {
+    if (!b.derivedFrom) continue;
+    if (byPrev.has(b.derivedFrom)) {
+      throw new Error(`parseChainSpec: bundle ${b.derivedFrom} has multiple successors in the same branch`);
+    }
+    byPrev.set(b.derivedFrom, b);
+  }
+  const ordered = [root];
+  while (ordered.length < branchBundles.length) {
+    const cur  = ordered[ordered.length - 1];
+    const next = byPrev.get(cur.uri);
+    if (!next) break;
+    ordered.push(next);
+  }
+  if (ordered.length !== branchBundles.length) {
+    throw new Error(`parseChainSpec: walked ${ordered.length} of ${branchBundles.length} bundles — branch not connected`);
+  }
+  return ordered;
+}
+
 // Parse SELECT ?s ?p ?o bindings back into a chain spec — the inverse
-// of chainToTrig() for the linear active-branch case.
+// of chainToTrig() for both single-branch and multi-branch cases.
 //
-// Single-valued predicates win (each subject's property map is last-write).
-// That matches the current manifest shape where every predicate appears
-// at most once per bundle. When multi-branch emission lands, the parser
-// will need a more careful traversal — but the contract here stays:
-// `(flowIri, bindings) → spec`.
+// Single-valued predicates win (each subject's property map is last-
+// write). That matches the manifest shape where every predicate appears
+// at most once per bundle. Order is recovered by walking kgx:derivedFrom
+// from the root forward, not by trusting any naming convention on
+// bundle IRIs.
 //
-// Order is recovered by walking kgx:derivedFrom from the root forward,
-// not by trusting any naming convention on bundle IRIs.
+// Multi-branch detection: presence of `kgx:activeBranch` on the chain
+// graph self-statement OR any `kgx:branch` tag on a bundle. The shape
+// of the returned spec mirrors the normaliser's two accepted inputs —
+// `{ steps }` for single-branch, `{ branches, activeBranch }` for the
+// tree shape.
 export function parseChainSpec(bindings, flowIri) {
   if (!flowIri) throw new Error('parseChainSpec: flowIri required');
   const bySubj = new Map();
@@ -152,10 +200,11 @@ export function parseChainSpec(bindings, flowIri) {
   }
 
   const meta = bySubj.get(flowIri) || new Map();
-  const title = meta.get(DCT_TITLE);
-  const sub   = meta.get(DCT_DESC);
-  const id    = meta.get(DCT_ID);
-  const ts    = meta.get(DCT_CREATED);
+  const title         = meta.get(DCT_TITLE);
+  const sub           = meta.get(DCT_DESC);
+  const id            = meta.get(DCT_ID);
+  const ts            = meta.get(DCT_CREATED);
+  const activeBranch  = meta.get(`${KGX}activeBranch`);
 
   const bundles = [];
   for (const [uri, props] of bySubj.entries()) {
@@ -165,6 +214,7 @@ export function parseChainSpec(bindings, flowIri) {
       uri,
       kind:        t,
       derivedFrom: props.get(`${KGX}derivedFrom`) || null,
+      branch:      props.get(`${KGX}branch`)      || null,
       starterId:   props.get(`${KGX}starterId`),
       op:          props.get(`${KGX}op`),
       opValue:     props.get(`${KGX}opValue`),
@@ -174,51 +224,72 @@ export function parseChainSpec(bindings, flowIri) {
   }
 
   if (!bundles.length) throw new Error('parseChainSpec: no bundles in graph');
-  const roots = bundles.filter((b) => !b.derivedFrom);
-  if (roots.length === 0) throw new Error('parseChainSpec: no root bundle (every bundle has kgx:derivedFrom)');
-  if (roots.length > 1)   throw new Error(`parseChainSpec: ${roots.length} root bundles — multi-branch manifests not yet supported`);
 
-  // Walk derivedFrom chain forward. Bounded by bundle count to avoid
-  // infinite loops on cycles (which shouldn't happen, but).
-  const byPrev = new Map();
-  for (const b of bundles) {
-    if (!b.derivedFrom) continue;
-    if (byPrev.has(b.derivedFrom)) {
-      throw new Error(`parseChainSpec: bundle ${b.derivedFrom} has multiple successors — multi-branch manifests not yet supported`);
+  const isMultiBranch = activeBranch !== undefined || bundles.some((b) => b.branch);
+
+  let chainPart;
+  if (!isMultiBranch) {
+    const roots = bundles.filter((b) => !b.derivedFrom);
+    if (roots.length === 0) throw new Error('parseChainSpec: no root bundle (every bundle has kgx:derivedFrom)');
+    if (roots.length > 1)   throw new Error(`parseChainSpec: ${roots.length} root bundles — manifest must carry kgx:branch tags or kgx:activeBranch for multi-branch`);
+    const ordered = walkBranchBundles(bundles, roots[0]);
+    chainPart = { steps: ordered.map(bundleToStep) };
+  } else {
+    // Multi-branch: group bundles by their `kgx:branch` tag, walk each
+    // sub-chain independently, then recover each branch's forkedFrom
+    // (parent branch id + bead index) by locating its root's cross-
+    // branch predecessor in the parent's ordered bundle list.
+    const branchUris = new Map();   // branchId → Set<uri>
+    const branchBundles = new Map();// branchId → bundle[]
+    for (const b of bundles) {
+      if (!b.branch) throw new Error(`parseChainSpec: bundle ${b.uri} missing kgx:branch tag in a multi-branch manifest`);
+      if (!branchBundles.has(b.branch)) {
+        branchBundles.set(b.branch, []);
+        branchUris.set(b.branch, new Set());
+      }
+      branchBundles.get(b.branch).push(b);
+      branchUris.get(b.branch).add(b.uri);
     }
-    byPrev.set(b.derivedFrom, b);
+    // Order each branch's bundles by walking derivedFrom from the
+    // branch-local root forward. The branch-local root is the bundle
+    // whose derivedFrom either is null or is outside this branch.
+    const orderedByBranch = new Map();
+    for (const [bid, bs] of branchBundles.entries()) {
+      const uris = branchUris.get(bid);
+      const roots = bs.filter((b) => !b.derivedFrom || !uris.has(b.derivedFrom));
+      if (roots.length !== 1) {
+        throw new Error(`parseChainSpec: branch "${bid}" has ${roots.length} in-branch roots, expected 1`);
+      }
+      orderedByBranch.set(bid, walkBranchBundles(bs, roots[0]));
+    }
+    // Build each branch spec. forkedFrom is reconstructed by finding
+    // the parent bundle in some other branch's ordered list.
+    const branches = [];
+    for (const [bid, ordered] of orderedByBranch.entries()) {
+      const branchSpec = { id: bid, steps: ordered.map(bundleToStep) };
+      const rootDf = ordered[0].derivedFrom;
+      if (rootDf) {
+        let found = false;
+        for (const [pid, pOrdered] of orderedByBranch.entries()) {
+          if (pid === bid) continue;
+          const idx = pOrdered.findIndex((x) => x.uri === rootDf);
+          if (idx >= 0) {
+            branchSpec.forkedFrom = { branch: pid, beadIdx: idx };
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          throw new Error(`parseChainSpec: branch "${bid}" root derives from ${rootDf} but no other branch contains that bundle`);
+        }
+      }
+      branches.push(branchSpec);
+    }
+    chainPart = { branches };
+    if (activeBranch !== undefined) chainPart.activeBranch = activeBranch;
   }
 
-  const ordered = [roots[0]];
-  while (ordered.length < bundles.length) {
-    const cur  = ordered[ordered.length - 1];
-    const next = byPrev.get(cur.uri);
-    if (!next) break;
-    ordered.push(next);
-  }
-  if (ordered.length !== bundles.length) {
-    throw new Error(`parseChainSpec: walked ${ordered.length} of ${bundles.length} bundles — graph not connected`);
-  }
-
-  const steps = ordered.map((b) => {
-    if (b.kind === `${KGX}SourceBundle`) {
-      if (!b.starterId) throw new Error(`parseChainSpec: SourceBundle ${b.uri} has no kgx:starterId`);
-      return { kind: 'starter', id: b.starterId };
-    }
-    if (b.kind === `${KGX}PivotBundle`) {
-      if (!b.relTemplate) throw new Error(`parseChainSpec: PivotBundle ${b.uri} has no kgx:relTemplate`);
-      const step = { kind: 'op', op: 'rel-pivot', template: b.relTemplate };
-      if (b.relVariant !== undefined) step.variant = b.relVariant;
-      return step;
-    }
-    // FilterBundle / AugmentBundle — both carry kgx:op (+ optional kgx:opValue).
-    if (!b.op) throw new Error(`parseChainSpec: ${b.kind.split('/').pop()} ${b.uri} has no kgx:op`);
-    const step = { kind: 'op', op: b.op };
-    if (b.opValue !== undefined) step.value = b.opValue;
-    return step;
-  });
-
-  const spec = { steps };
+  const spec = { ...chainPart };
   if (title !== undefined) spec.title = title;
   if (sub   !== undefined) spec.sub   = sub;
   if (id    !== undefined) spec.id    = id;

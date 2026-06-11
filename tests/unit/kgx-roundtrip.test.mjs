@@ -82,15 +82,17 @@ for (const chain of LIBRARY) {
         `${chain.id}: step ${i + 1} (${JSON.stringify(stepsToRun[i])}) not in lib`);
     }
 
-    // Surface 3: chainToTrig emits one bundle per step, with the right kind.
+    // Surface 3: chainToTrig emits one bundle per step. Single-branch
+    // chains emit `<bundle/b<i>>`; multi-branch chains additionally emit
+    // `<bundle/<branch-id>/b<i>>` for forked branches, and the bundle
+    // count is the sum of every branch's step count (not just the
+    // active-walk length).
     const ttl = chainToTrig(chain, { graphIri: '<urn:kgx:test:fixed>' });
-    const bundleMatches = ttl.match(/<https:\/\/forgetmenot\.local\/bundle\/b\d+>/g) || [];
-    // Each bundle URI appears at least once as a subject; with kgx:derivedFrom
-    // links it appears twice (once as a subject, once as the derivedFrom target).
-    // De-dup by extracting the index.
-    const bundleIds = new Set(bundleMatches.map((s) => s.match(/b(\d+)>/)[1]));
-    assert.equal(bundleIds.size, expectedLength,
-      `${chain.id}: chainToTrig emitted ${bundleIds.size} bundles for ${expectedLength} steps`);
+    const bundleMatches = ttl.match(/<https:\/\/forgetmenot\.local\/bundle\/[^>]+>/g) || [];
+    const bundleIris = new Set(bundleMatches);
+    const expectedBundleCount = normalised.branches.reduce((n, b) => n + b.steps.length, 0);
+    assert.equal(bundleIris.size, expectedBundleCount,
+      `${chain.id}: chainToTrig emitted ${bundleIris.size} bundles for ${expectedBundleCount} total branch-steps`);
 
     // Surface 4: `kgx chain validate --library <id>` says ok.
     const v = runKgx(['chain', 'validate', '--library', chain.id]);
@@ -128,13 +130,14 @@ for (const chain of LIBRARY) {
 
     // Surface 6: `kgx chain trig --id <id>` matches the lib's chainToTrig
     // call on the same chain (modulo the random urn:kgx:flow IRI, which we
-    // ignore by counting bundle IDs instead).
+    // ignore by counting bundle IRIs instead). Like surface 3, the count
+    // is the sum of every branch's step count — single-branch is the
+    // active-walk length; fork chains add the sibling branches' steps.
     const tr = runKgx(['chain', 'trig', '--id', chain.id]);
     assert.equal(tr.code, 0, `${chain.id}: chain trig exited ${tr.code}`);
-    const cliBundleIds = new Set((tr.stdout.match(/<https:\/\/forgetmenot\.local\/bundle\/b\d+>/g) || [])
-      .map((s) => s.match(/b(\d+)>/)[1]));
-    assert.equal(cliBundleIds.size, expectedLength,
-      `${chain.id}: CLI trig bundle count ${cliBundleIds.size} ≠ expected ${expectedLength}`);
+    const cliBundleIris = new Set(tr.stdout.match(/<https:\/\/forgetmenot\.local\/bundle\/[^>]+>/g) || []);
+    assert.equal(cliBundleIris.size, expectedBundleCount,
+      `${chain.id}: CLI trig bundle count ${cliBundleIris.size} ≠ expected ${expectedBundleCount}`);
   });
 }
 
