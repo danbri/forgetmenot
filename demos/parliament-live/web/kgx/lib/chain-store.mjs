@@ -93,3 +93,135 @@ export function buildLoadQuery(flowIri) {
   return `
 CONSTRUCT { ?s ?p ?o } WHERE { GRAPH <${flowIri}> { ?s ?p ?o } }`;
 }
+
+// SELECT every quad in the chain graph. The page consumes this — the
+// SELECT shape returns JSON bindings the browser can parse without a
+// Turtle parser dependency. parseChainSpec() walks the bindings into
+// a chain spec ready to feed `library-pick`.
+//
+// CONSTRUCT (buildLoadQuery, above) remains for callers that want raw
+// RDF — e.g. an external tool re-running the manifest's SPARQL — but
+// is not what the page uses to rehydrate.
+export function buildLoadSelectQuery(flowIri) {
+  if (!/^urn:kgx:flow:/.test(String(flowIri || ''))) {
+    throw new Error(`buildLoadSelectQuery: not a flow IRI: ${flowIri}`);
+  }
+  return `
+SELECT ?s ?p ?o WHERE { GRAPH <${flowIri}> { ?s ?p ?o } }`;
+}
+
+// Vocabulary terms — long form, since the bindings come back fully
+// expanded. The KGX namespace mirrors trig.mjs PREFIXES. If we
+// rationalise the IRI scheme (review.md Phase 2), the constants here
+// move with it — the writer + reader stay in lockstep.
+const KGX = 'https://forgetmenot.local/vocab/kgx/';
+const RDF_TYPE    = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
+const DCT_TITLE   = 'http://purl.org/dc/terms/title';
+const DCT_DESC    = 'http://purl.org/dc/terms/description';
+const DCT_ID      = 'http://purl.org/dc/terms/identifier';
+const DCT_CREATED = 'http://purl.org/dc/terms/created';
+
+const BUNDLE_KINDS = new Set([
+  `${KGX}SourceBundle`,
+  `${KGX}FilterBundle`,
+  `${KGX}PivotBundle`,
+  `${KGX}AugmentBundle`,
+]);
+
+// Parse SELECT ?s ?p ?o bindings back into a chain spec — the inverse
+// of chainToTrig() for the linear active-branch case.
+//
+// Single-valued predicates win (each subject's property map is last-write).
+// That matches the current manifest shape where every predicate appears
+// at most once per bundle. When multi-branch emission lands, the parser
+// will need a more careful traversal — but the contract here stays:
+// `(flowIri, bindings) → spec`.
+//
+// Order is recovered by walking kgx:derivedFrom from the root forward,
+// not by trusting any naming convention on bundle IRIs.
+export function parseChainSpec(bindings, flowIri) {
+  if (!flowIri) throw new Error('parseChainSpec: flowIri required');
+  const bySubj = new Map();
+  for (const b of bindings || []) {
+    const s = b?.s?.value;
+    const p = b?.p?.value;
+    const o = b?.o?.value;
+    if (!s || !p || o === undefined) continue;
+    if (!bySubj.has(s)) bySubj.set(s, new Map());
+    bySubj.get(s).set(p, o);
+  }
+
+  const meta = bySubj.get(flowIri) || new Map();
+  const title = meta.get(DCT_TITLE);
+  const sub   = meta.get(DCT_DESC);
+  const id    = meta.get(DCT_ID);
+  const ts    = meta.get(DCT_CREATED);
+
+  const bundles = [];
+  for (const [uri, props] of bySubj.entries()) {
+    const t = props.get(RDF_TYPE);
+    if (!BUNDLE_KINDS.has(t)) continue;
+    bundles.push({
+      uri,
+      kind:        t,
+      derivedFrom: props.get(`${KGX}derivedFrom`) || null,
+      starterId:   props.get(`${KGX}starterId`),
+      op:          props.get(`${KGX}op`),
+      opValue:     props.get(`${KGX}opValue`),
+      relTemplate: props.get(`${KGX}relTemplate`),
+      relVariant:  props.get(`${KGX}relVariant`),
+    });
+  }
+
+  if (!bundles.length) throw new Error('parseChainSpec: no bundles in graph');
+  const roots = bundles.filter((b) => !b.derivedFrom);
+  if (roots.length === 0) throw new Error('parseChainSpec: no root bundle (every bundle has kgx:derivedFrom)');
+  if (roots.length > 1)   throw new Error(`parseChainSpec: ${roots.length} root bundles — multi-branch manifests not yet supported`);
+
+  // Walk derivedFrom chain forward. Bounded by bundle count to avoid
+  // infinite loops on cycles (which shouldn't happen, but).
+  const byPrev = new Map();
+  for (const b of bundles) {
+    if (!b.derivedFrom) continue;
+    if (byPrev.has(b.derivedFrom)) {
+      throw new Error(`parseChainSpec: bundle ${b.derivedFrom} has multiple successors — multi-branch manifests not yet supported`);
+    }
+    byPrev.set(b.derivedFrom, b);
+  }
+
+  const ordered = [roots[0]];
+  while (ordered.length < bundles.length) {
+    const cur  = ordered[ordered.length - 1];
+    const next = byPrev.get(cur.uri);
+    if (!next) break;
+    ordered.push(next);
+  }
+  if (ordered.length !== bundles.length) {
+    throw new Error(`parseChainSpec: walked ${ordered.length} of ${bundles.length} bundles — graph not connected`);
+  }
+
+  const steps = ordered.map((b) => {
+    if (b.kind === `${KGX}SourceBundle`) {
+      if (!b.starterId) throw new Error(`parseChainSpec: SourceBundle ${b.uri} has no kgx:starterId`);
+      return { kind: 'starter', id: b.starterId };
+    }
+    if (b.kind === `${KGX}PivotBundle`) {
+      if (!b.relTemplate) throw new Error(`parseChainSpec: PivotBundle ${b.uri} has no kgx:relTemplate`);
+      const step = { kind: 'op', op: 'rel-pivot', template: b.relTemplate };
+      if (b.relVariant !== undefined) step.variant = b.relVariant;
+      return step;
+    }
+    // FilterBundle / AugmentBundle — both carry kgx:op (+ optional kgx:opValue).
+    if (!b.op) throw new Error(`parseChainSpec: ${b.kind.split('/').pop()} ${b.uri} has no kgx:op`);
+    const step = { kind: 'op', op: b.op };
+    if (b.opValue !== undefined) step.value = b.opValue;
+    return step;
+  });
+
+  const spec = { steps };
+  if (title !== undefined) spec.title = title;
+  if (sub   !== undefined) spec.sub   = sub;
+  if (id    !== undefined) spec.id    = id;
+  if (ts    !== undefined) spec._ts   = ts;
+  return spec;
+}

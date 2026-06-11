@@ -32,7 +32,6 @@ const PREFIXES = [
   ['kgx',   'https://forgetmenot.local/vocab/kgx/'],
   ['kgxb',  'https://forgetmenot.local/bundle/'],
   ['kgxr',  'https://forgetmenot.local/run/'],
-  ['kgxs',  'https://forgetmenot.local/source/'],
   ['prov',  'http://www.w3.org/ns/prov#'],
   ['dct',   'http://purl.org/dc/terms/'],
   ['rdfs',  'http://www.w3.org/2000/01/rdf-schema#'],

@@ -68,7 +68,8 @@ import {
 import { normaliseChainSpec, activeChainSteps } from '/kgx/lib/branches.mjs';
 import { frontierOf } from '/kgx/lib/frontier.mjs';
 import { entityIntentsFor, bundleIntentsFor, beadIntentsFor } from '/kgx/lib/intents.mjs';
-import { buildListQuery, parseChainList, buildLoadQuery } from '/kgx/lib/chain-store.mjs';
+import { buildListQuery, parseChainList, buildLoadQuery,
+         buildLoadSelectQuery, parseChainSpec } from '/kgx/lib/chain-store.mjs';
 import { gpuPivotCapabilities, PivotAtlas, PivotRenderer } from '/kgx/lib/pivot-gpu.mjs';
 
 // Helper: which OPS chip ids are augment-shape (carry a role from
@@ -3310,13 +3311,16 @@ class DaisyApp extends HTMLElement {
     }
   }
 
-  // Resolve a saved-chain row back into a runnable spec. Strategy: the
-  // chain manifest in the store is the same TriG chainToTrig() emits, so
-  // it carries dct:identifier (the library id when known) — for now we
-  // prefer the library short-form when the id matches a LIBRARY entry,
-  // and fall back to a "not yet hydratable" status otherwise.
-  // Full TriG → spec reverse-parse is a follow-up — needs an N3 / Turtle
-  // parser the lib doesn't ship today. Documented as "load by library id".
+  // Resolve a saved-chain row back into a runnable spec. Two strategies:
+  //   1. If the chain manifest's dct:identifier names a LIBRARY entry,
+  //      short-circuit to that — saves a query round-trip and inherits
+  //      any library-side updates that have happened since save.
+  //   2. Otherwise, SELECT every quad in the chain graph and parse
+  //      bundles → steps via parseChainSpec. Lossless for the active
+  //      branch; multi-branch chains aren't yet emitted by chainToTrig
+  //      so there's nothing to lose.
+  // Both paths fire `library-pick` with the same spec shape; the listener
+  // doesn't care where the spec came from.
   async _loadChainFromStore(row) {
     const libEntry = row.id && LIBRARY.find((x) => x.id === row.id);
     if (libEntry) {
@@ -3325,7 +3329,19 @@ class DaisyApp extends HTMLElement {
       }));
       return;
     }
-    this._status(`saved chain "${escapeHTML(row.title || row.flowIri)}" — full TriG → spec rehydrate is a follow-up; load by library id works today`, true);
+    try {
+      const q   = buildLoadSelectQuery(row.flowIri);
+      const r   = await fetch(`/kgx/chains-query?query=${encodeURIComponent(q)}`,
+        { headers: { accept: 'application/sparql-results+json' } });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const j   = await r.json();
+      const spec = parseChainSpec(j.results?.bindings || [], row.flowIri);
+      this.dispatchEvent(new CustomEvent('library-pick', {
+        detail: spec, bubbles: true, composed: true,
+      }));
+    } catch (e) {
+      this._status(`could not load saved chain "${escapeHTML(row.title || row.flowIri)}": ${escapeHTML(e.message)}`, true);
+    }
   }
 
   _renderNav(root) {

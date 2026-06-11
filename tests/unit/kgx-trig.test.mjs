@@ -32,6 +32,13 @@ test('chainToTrig emits prefixes + a named graph wrapping bundle triples', () =>
   assert.match(ttl, /}\s*$/);
 });
 
+test('chainToTrig does NOT declare the unused kgxs: source prefix', () => {
+  // F3 in trig-manifest-review.md: the kgxs: PREFIX was declared but no
+  // emitter ever used it. Removing it keeps the manifest header honest.
+  const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH });
+  assert.doesNotMatch(ttl, /@prefix kgxs:/);
+});
+
 test('chainToTrig writes dct:title / dct:description / dct:identifier when present', () => {
   const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH });
   assert.match(ttl, /dct:title\s+"Sitting Labour MPs"/);
