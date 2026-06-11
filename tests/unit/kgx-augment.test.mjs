@@ -196,6 +196,77 @@ test('enrich.parseQuads: drops empty-string values (no facts asserted with empty
   assert.equal(quads.filter((q) => q.p === 'urn:kgx:vocab:dob').length, 1);
 });
 
+test('parl-enrich.parseQuads: emits DDP facts addressed by item URI', () => {
+  const items = [{ uri: 'http://www.wikidata.org/entity/Q42' }];
+  const bindings = [{
+    qid:               { value: 'http://www.wikidata.org/entity/Q42' },
+    parliamentPerson:  { value: 'https://id.parliament.uk/person-xyz' },
+    constituency:      { value: 'Bridgwater' },
+    parliamentParty:   { value: 'Conservative' },
+    familyName:        { value: 'Adams' },
+    givenName:         { value: 'Douglas' },
+  }];
+  const g = 'urn:kgx:bead:test:parl-enrich';
+  const quads = AUGMENT_OPS['parl-enrich'].parseQuads(bindings, items, g);
+  const byP = Object.fromEntries(quads.map((q) => [q.p, q.o]));
+  assert.equal(byP['urn:kgx:vocab:parlPersonUri'],    'https://id.parliament.uk/person-xyz');
+  assert.equal(byP['urn:kgx:vocab:parlConstituency'], 'Bridgwater');
+  assert.equal(byP['urn:kgx:vocab:parlCurrentParty'], 'Conservative');
+  assert.equal(byP['urn:kgx:vocab:familyName'],       'Adams');
+  assert.equal(byP['urn:kgx:vocab:givenName'],        'Douglas');
+  for (const q of quads) {
+    assert.equal(q.g, g);
+    assert.equal(q.s, items[0].uri);
+  }
+});
+
+test('identity-bridge.parseQuads: emits the 4-source resolution as quads', () => {
+  const items = [{ uri: 'http://www.wikidata.org/entity/Q42', mpid: '4001' }];
+  const bindings = [{
+    p:            { value: 'https://members-api.parliament.uk/api/Members/4001' },
+    ddpUri:       { value: 'https://id.parliament.uk/person-xyz' },
+    wikidataQid:  { value: 'http://www.wikidata.org/entity/Q42' },
+    govukSlug:    { value: 'douglas-adams' },
+    scrapedSite:  { value: '/sites/douglas-adams/' },
+    sitePlatform: { value: 'wordpress' },
+    givenName:    { value: 'Douglas' },
+    familyName:   { value: 'Adams' },
+  }];
+  const g = 'urn:kgx:bead:test:identity-bridge';
+  const quads = AUGMENT_OPS['identity-bridge'].parseQuads(bindings, items, g);
+  // 7 fields, all populated → 7 quads.
+  assert.equal(quads.length, 7);
+  const ps = new Set(quads.map((q) => q.p));
+  assert.ok(ps.has('urn:kgx:vocab:ddpUri'));
+  assert.ok(ps.has('urn:kgx:vocab:wikidataQid'));
+  assert.ok(ps.has('urn:kgx:vocab:govukSlug'));
+  assert.ok(ps.has('urn:kgx:vocab:scrapedSite'));
+  for (const q of quads) {
+    assert.equal(q.g, g);
+    assert.equal(q.s, items[0].uri);
+  }
+});
+
+test('identity-bridge.parseQuads: items without mpid emit no quads', () => {
+  const items = [
+    { uri: 'http://www.wikidata.org/entity/Q42', mpid: '4001' },
+    { uri: 'http://www.wikidata.org/entity/Q43' },   // no mpid
+  ];
+  const bindings = [{
+    p:           { value: 'https://members-api.parliament.uk/api/Members/4001' },
+    wikidataQid: { value: 'http://www.wikidata.org/entity/Q42' },
+  }];
+  const quads = AUGMENT_OPS['identity-bridge'].parseQuads(bindings, items, 'urn:kgx:bead:test');
+  for (const q of quads) assert.equal(q.s, items[0].uri);
+});
+
+test('every AUGMENT_OP now declares parseQuads — slim-channel Step 1 complete for augments', () => {
+  for (const [id, aug] of Object.entries(AUGMENT_OPS)) {
+    assert.equal(typeof aug.parseQuads, 'function',
+      `${id}: parseQuads must be a function (slim-channel dual-mode contract)`);
+  }
+});
+
 test('enrich.requires() admits the identity-bridge case (DDP URI + extra.identity.wikidataQid)', () => {
   // The Tory MPs chain bug: parl-current-mps items have DDP URIs, not QIDs;
   // after `bridge`, extra.identity.wikidataQid is set. Pre-fix enrich

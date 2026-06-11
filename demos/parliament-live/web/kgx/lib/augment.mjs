@@ -244,6 +244,30 @@ export const parlEnrich = {
       return { ...x, extra: { ...(x.extra || {}), parl } };
     });
   },
+
+  // Slim-channel Step 1 (parallel to parse()): emit Wikidata-bridged
+  // DDP facts as quads keyed by the item's URI. The same graph IRI in
+  // `g` lets the renderer answer "this came from Parliament SPARQL"
+  // without inspecting an `x.extra.parl` field.
+  parseQuads: (bindings, items, graphIri) => {
+    const byQid = new Map();
+    for (const b of bindings) byQid.set(b.qid.value, b);
+    const quads = [];
+    const add = (s, p, o) => {
+      if (!s || !p || o == null || o === '') return;
+      quads.push({ s, p, o, g: graphIri });
+    };
+    for (const x of items) {
+      const b = byQid.get(x.uri);
+      if (!b) continue;
+      add(x.uri, 'urn:kgx:vocab:parlPersonUri',    b.parliamentPerson?.value);
+      add(x.uri, 'urn:kgx:vocab:parlConstituency', b.constituency?.value);
+      add(x.uri, 'urn:kgx:vocab:parlCurrentParty', b.parliamentParty?.value);
+      add(x.uri, 'urn:kgx:vocab:familyName',       b.familyName?.value);
+      add(x.uri, 'urn:kgx:vocab:givenName',        b.givenName?.value);
+    }
+    return quads;
+  },
 };
 
 // ---------------------------------------------------------------------------
@@ -321,6 +345,36 @@ export const identityBridge = {
       };
       return { ...x, extra: { ...(x.extra || {}), identity } };
     });
+  },
+
+  // Slim-channel Step 1: identity bridge contributes the
+  // canonical-key triples. Each of the four resolved IDs is its own
+  // quad, addressed by predicate so a SPARQL consumer can ask "which
+  // identifier surfaces in Wikidata?" or "which item has a GOV.UK
+  // page?" directly against the store.
+  parseQuads: (bindings, items, graphIri) => {
+    const byMpid = new Map();
+    for (const b of bindings) {
+      const m = b.p.value.match(/Members\/(\d+)$/);
+      if (m) byMpid.set(m[1], b);
+    }
+    const quads = [];
+    const add = (s, p, o) => {
+      if (!s || !p || o == null || o === '') return;
+      quads.push({ s, p, o, g: graphIri });
+    };
+    for (const x of items) {
+      const b = x.mpid ? byMpid.get(String(x.mpid)) : null;
+      if (!b) continue;
+      add(x.uri, 'urn:kgx:vocab:ddpUri',       b.ddpUri?.value);
+      add(x.uri, 'urn:kgx:vocab:wikidataQid',  b.wikidataQid?.value);
+      add(x.uri, 'urn:kgx:vocab:govukSlug',    b.govukSlug?.value);
+      add(x.uri, 'urn:kgx:vocab:scrapedSite',  b.scrapedSite?.value);
+      add(x.uri, 'urn:kgx:vocab:sitePlatform', b.sitePlatform?.value);
+      add(x.uri, 'urn:kgx:vocab:givenName',    b.givenName?.value);
+      add(x.uri, 'urn:kgx:vocab:familyName',   b.familyName?.value);
+    }
+    return quads;
   },
 };
 

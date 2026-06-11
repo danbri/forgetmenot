@@ -8,7 +8,7 @@
 
 | Step | What | State |
 |---|---|---|
-| 1 — `propertyOf` accessor + dual-mode augment writers | `BeadStore` lib + `enrich` parseQuads + `runAugment` wiring | **partial** |
+| 1 — `propertyOf` accessor + dual-mode augment writers | `BeadStore` lib + all 3 augment parseQuads + `runAugment` wiring | **mostly landed** (filter propagation deferred) |
 | 2 — TriG `CONSTRUCT` export off cache-replay onto the store | not started | |
 | 3 — Renderers off `item.extra.*` onto `propertyOf` | not started | |
 | 4 — Slim channel: `Bundle.items` → `Set<URI>` | not started | |
@@ -36,12 +36,13 @@ BeadStore.size() → number
 Pure JS, no SPARQL dependency, no shadow DOM coupling. Covered by 15
 unit tests in `tests/unit/kgx-bead-store.test.mjs`.
 
-### `lib/augment.mjs` — `enrich` gains `parseQuads()`
+### `lib/augment.mjs` — all three augments gain `parseQuads()`
 
-The Wikidata enrich op now declares a `parseQuads(bindings, items,
-graphIri)` method alongside the existing `parse()`. Same input rows,
-different output: instead of mutating `x.extra`, it returns a flat
-`Array<{s, p, o, g}>` ready to feed into a `BeadStore`.
+All three AUGMENT_OPS (`enrich`, `parl-enrich`, `identity-bridge`) now
+declare `parseQuads(bindings, items, graphIri)` alongside their
+existing `parse()`. Same input rows, different output: instead of
+mutating `x.extra`, returns a flat `Array<{s, p, o, g}>` ready to
+feed into a `BeadStore`.
 
 Vocab IRIs are stop-gap (`urn:kgx:vocab:dob`, `urn:kgx:vocab:birthplace`,
 `urn:kgx:vocab:almaMater`, …). Phase 2 of the TriG manifest review
@@ -87,11 +88,6 @@ parallel write — no behaviour change for users.
 
 ## Step 1 — what's NOT landed
 
-- **`parl-enrich.parseQuads`** — not implemented. The DDP bindings need
-  their own vocab mapping; doable as a small follow-up.
-- **`identity-bridge.parseQuads`** — same. The bridged QID and source
-  identifiers (`parl:memberId`, GOV.UK slug, scraped site) are the
-  natural quads.
 - **Filter ops propagate store** — today's filter ops in
   `lib/restrict.mjs` don't carry `.store` through their output bundle.
   So `enrich → filter → enrich` loses the first enrich's quads from
