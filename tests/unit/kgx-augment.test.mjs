@@ -124,6 +124,78 @@ test('effectiveWikidataUri: native QID OR bridged QID OR null', () => {
   assert.equal(effectiveWikidataUri({ extra: {} }), null);
 });
 
+test('enrich.parseQuads: emits quads parallel to parse(), addressed by graphIri', () => {
+  // Slim-channel Step 1 dual-mode contract. parseQuads mirrors parse()
+  // by emitting Array<{s, p, o, g}> — runAugment writes those into a
+  // BeadStore so propertyOf(bead, item, p) returns the same facts the
+  // sidecars carry today. If parse() ever drifts from parseQuads, this
+  // test pins the drift.
+  const items = [{ uri: 'http://www.wikidata.org/entity/Q42' }];
+  const bindings = [{
+    p:                { value: 'http://www.wikidata.org/entity/Q42' },
+    dobOut:           { value: '1952-03-11' },
+    dodOut:           { value: '2001-05-11' },
+    birthplace:       { value: 'http://www.wikidata.org/entity/Q23154' },
+    birthplaceLabel:  { value: 'Cambridge' },
+    country:          { value: 'United Kingdom' },
+    birthplaceCoord:  { value: 'Point(0.1218 52.2053)' },
+    almaMaters:       { value: "St John's College|Brentwood School" },
+    spouses:          { value: 'Lonny Suomela' },
+    occupations:      { value: 'novelist|screenwriter' },
+  }];
+  const graphIri = 'urn:kgx:bead:test:enrich';
+  const quads = AUGMENT_OPS.enrich.parseQuads(bindings, items, graphIri);
+
+  // Every quad carries the supplied graph IRI.
+  assert.ok(quads.length > 0);
+  for (const q of quads) assert.equal(q.g, graphIri);
+
+  // Subject identity: facts about Q42 carry s = Q42 (the item's URI).
+  // Facts about Q42's birthplace carry s = Q23154 — properties OF the
+  // place, in the same store.
+  const aboutQ42       = quads.filter((q) => q.s === items[0].uri);
+  const aboutBirthplace = quads.filter((q) => q.s === 'http://www.wikidata.org/entity/Q23154');
+  assert.ok(aboutQ42.length       > 0, 'expected quads about the item itself');
+  assert.ok(aboutBirthplace.length > 0, 'expected quads about the birthplace too');
+
+  // GROUP_CONCAT'd multi-values land as ONE quad per element, not one
+  // joined string.
+  const almaMaters = quads.filter((q) => q.p === 'urn:kgx:vocab:almaMater');
+  assert.deepEqual(almaMaters.map((q) => q.o).sort(),
+    ["Brentwood School", "St John's College"]);
+});
+
+test('enrich.parseQuads: skips items with no Wikidata QID (matches parse() pass-through)', () => {
+  const items = [
+    { uri: 'http://www.wikidata.org/entity/Q42' },         // QID
+    { uri: 'https://id.parliament.uk/abc' },              // DDP, no bridge
+  ];
+  const bindings = [{
+    p: { value: 'http://www.wikidata.org/entity/Q42' },
+    dobOut: { value: '1952-03-11' },
+  }];
+  const quads = AUGMENT_OPS.enrich.parseQuads(bindings, items, 'urn:kgx:bead:test');
+  // Only the QID-bearing item should produce quads.
+  for (const q of quads) assert.equal(q.s, items[0].uri);
+});
+
+test('enrich.parseQuads: drops empty-string values (no facts asserted with empty objects)', () => {
+  const items = [{ uri: 'http://www.wikidata.org/entity/Q42' }];
+  const bindings = [{
+    p:           { value: 'http://www.wikidata.org/entity/Q42' },
+    dobOut:      { value: '1952-03-11' },
+    almaMaters:  { value: '' },          // no alma maters
+    spouses:     { value: '' },
+    occupations: { value: '' },
+  }];
+  const quads = AUGMENT_OPS.enrich.parseQuads(bindings, items, 'urn:kgx:bead:test');
+  assert.equal(quads.filter((q) => q.p === 'urn:kgx:vocab:almaMater' ).length, 0);
+  assert.equal(quads.filter((q) => q.p === 'urn:kgx:vocab:spouse'    ).length, 0);
+  assert.equal(quads.filter((q) => q.p === 'urn:kgx:vocab:occupation').length, 0);
+  // The dob fact survives.
+  assert.equal(quads.filter((q) => q.p === 'urn:kgx:vocab:dob').length, 1);
+});
+
 test('enrich.requires() admits the identity-bridge case (DDP URI + extra.identity.wikidataQid)', () => {
   // The Tory MPs chain bug: parl-current-mps items have DDP URIs, not QIDs;
   // after `bridge`, extra.identity.wikidataQid is set. Pre-fix enrich

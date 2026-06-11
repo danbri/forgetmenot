@@ -60,6 +60,7 @@ import {
 } from '/kgx/lib/starters.mjs';
 import { LIBRARY } from '/kgx/lib/library.mjs';
 import { AUGMENT_OPS } from '/kgx/lib/augment.mjs';
+import { BeadStore }   from '/kgx/lib/bead-store.mjs';
 import { SparqlEngine, ENGINES, engine } from '/kgx/lib/engines.mjs';
 import {
   isVariantAllowedByPolicy, isOpAllowedByPolicy,
@@ -763,6 +764,27 @@ async function runAugment(opId, bundle) {
   const newItems = aug.parse(res.json.results.bindings, bundle.items);
   const enriched = new Bundle(newItems, bundle.type, `${bundle.label} + ${aug.id}`);
   enriched.enriched = true;
+  // Slim-channel Step 1: dual-mode write. If the op declares
+  // parseQuads(), also stash the result triples in a per-bead BeadStore
+  // alongside the JS-sidecar mutations parse() did. Renderers can
+  // gradually migrate from x.extra.* to propertyOf(bead, item, p)
+  // without us having to flip every reader at once.
+  // The graph IRI is opaque-but-stable; Phase 2 of the trig-manifest
+  // review will rationalise these into chain-scoped IRIs.
+  if (typeof aug.parseQuads === 'function') {
+    const beadUuid = (typeof crypto !== 'undefined' && crypto.randomUUID)
+      ? crypto.randomUUID()
+      : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
+    const graphIri = `urn:kgx:bead:${beadUuid}:${aug.id}`;
+    const quads = aug.parseQuads(res.json.results.bindings, bundle.items, graphIri);
+    const store = new BeadStore(bundle.store || null);
+    for (const q of quads) store.addQuad(q.s, q.p, q.o, q.g);
+    enriched.store = store;
+  } else if (bundle.store) {
+    // No new quads from this op, but inherit the parent's scope so a
+    // downstream renderer can still see the chain's accumulated facts.
+    enriched.store = new BeadStore(bundle.store);
+  }
   return {
     bundle: enriched,
     source: makeSource({

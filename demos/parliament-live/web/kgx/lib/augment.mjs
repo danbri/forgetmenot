@@ -135,6 +135,47 @@ export const enrich = {
       return { ...x, extra: { ...(x.extra || {}), ...extra } };
     });
   },
+
+  // Slim-channel Step 1 (slim-channel-dataflow.md §"Property access"):
+  // mirror parse() into a flat quad emit so the result data can land in
+  // a per-bead named graph addressable via propertyOf(bead, item, p)
+  // — equal-status arcs — without changing the renderer-facing parse()
+  // contract.
+  //
+  // The page's runAugment passes a graph IRI for `g`; the same IRI lives
+  // in the bead's BeadStore so the renderer can ask "which source?".
+  // Items without a QID emit no quads (same skip as parse).
+  parseQuads: (bindings, items, graphIri) => {
+    const byUri = new Map();
+    for (const b of bindings) byUri.set(b.p.value, b);
+    const quads = [];
+    const add = (s, p, o) => {
+      if (!s || !p || o == null || o === '') return;
+      quads.push({ s, p, o, g: graphIri });
+    };
+    for (const x of items) {
+      const qUri = effectiveWikidataUri(x);
+      const b = qUri && byUri.get(qUri);
+      if (!b) continue;
+      add(x.uri, 'urn:kgx:vocab:dob',        b.dobOut?.value);
+      add(x.uri, 'urn:kgx:vocab:dod',        b.dodOut?.value);
+      add(x.uri, 'urn:kgx:vocab:birthplace', b.birthplace?.value);
+      // Bridge facts ABOUT the birthplace into the store too, so a
+      // pivot to birthplaces can render labels without re-querying.
+      if (b.birthplace?.value) {
+        const bp = b.birthplace.value;
+        add(bp, 'http://www.w3.org/2000/01/rdf-schema#label', b.birthplaceLabel?.value);
+        add(bp, 'urn:kgx:vocab:country',                     b.country?.value);
+        add(bp, 'urn:kgx:vocab:coord',                       b.birthplaceCoord?.value);
+      }
+      // GROUP_CONCAT'd multi-values come back pipe-separated; one quad
+      // per element so set-arithmetic queries are meaningful.
+      for (const am of (b.almaMaters?.value  || '').split('|').filter(Boolean)) add(x.uri, 'urn:kgx:vocab:almaMater',  am);
+      for (const sp of (b.spouses?.value     || '').split('|').filter(Boolean)) add(x.uri, 'urn:kgx:vocab:spouse',     sp);
+      for (const oc of (b.occupations?.value || '').split('|').filter(Boolean)) add(x.uri, 'urn:kgx:vocab:occupation', oc);
+    }
+    return quads;
+  },
 };
 
 // ---------------------------------------------------------------------------
