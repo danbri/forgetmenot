@@ -49,21 +49,21 @@ test('chainToTrig writes dct:title / dct:description / dct:identifier when prese
 test('chainToTrig assigns the right bundle-kind term per step', () => {
   const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH });
   // step 0 starter → SourceBundle
-  assert.match(ttl, /<https:\/\/forgetmenot\.local\/bundle\/b0>\s*a\s*kgx:SourceBundle/);
+  assert.match(ttl, /<urn:kgx:chain:fixed-for-test:bead:0>\s*a\s*kgx:SourceBundle/);
   // step 1 op:party (a restrict) → FilterBundle
-  assert.match(ttl, /<https:\/\/forgetmenot\.local\/bundle\/b1>\s*a\s*kgx:FilterBundle/);
+  assert.match(ttl, /<urn:kgx:chain:fixed-for-test:bead:1>\s*a\s*kgx:FilterBundle/);
   // step 2 op:sitting → FilterBundle
-  assert.match(ttl, /<https:\/\/forgetmenot\.local\/bundle\/b2>\s*a\s*kgx:FilterBundle/);
+  assert.match(ttl, /<urn:kgx:chain:fixed-for-test:bead:2>\s*a\s*kgx:FilterBundle/);
 });
 
 test('chainToTrig threads kgx:derivedFrom between consecutive bundles', () => {
   const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH });
   // b1 derives from b0
   assert.match(ttl,
-    /<https:\/\/forgetmenot\.local\/bundle\/b1>[\s\S]*?kgx:derivedFrom\s+<https:\/\/forgetmenot\.local\/bundle\/b0>/);
+    /<urn:kgx:chain:fixed-for-test:bead:1>[\s\S]*?kgx:derivedFrom\s+<urn:kgx:chain:fixed-for-test:bead:0>/);
   // b2 derives from b1
   assert.match(ttl,
-    /<https:\/\/forgetmenot\.local\/bundle\/b2>[\s\S]*?kgx:derivedFrom\s+<https:\/\/forgetmenot\.local\/bundle\/b1>/);
+    /<urn:kgx:chain:fixed-for-test:bead:2>[\s\S]*?kgx:derivedFrom\s+<urn:kgx:chain:fixed-for-test:bead:1>/);
 });
 
 test('chainToTrig carries op + opValue on filter steps', () => {
@@ -84,7 +84,7 @@ test('chainToTrig carries relTemplate + relVariant on rel-pivot steps', () => {
   assert.match(ttl, /kgx:relTemplate\s+"children"/);
   assert.match(ttl, /kgx:relVariant\s+"family"/);
   // and the bundle type is PivotBundle
-  assert.match(ttl, /<https:\/\/forgetmenot\.local\/bundle\/b1>\s*a\s*kgx:PivotBundle/);
+  assert.match(ttl, /<urn:kgx:chain:fixed-for-test:bead:1>\s*a\s*kgx:PivotBundle/);
 });
 
 test('chainToTrig classifies augment ops as AugmentBundle', () => {
@@ -96,7 +96,7 @@ test('chainToTrig classifies augment ops as AugmentBundle', () => {
         { kind: 'op', op: opId },
       ],
     }, { graphIri: FIXED_GRAPH });
-    assert.match(ttl, /<https:\/\/forgetmenot\.local\/bundle\/b1>\s*a\s*kgx:AugmentBundle/,
+    assert.match(ttl, /<urn:kgx:chain:fixed-for-test:bead:1>\s*a\s*kgx:AugmentBundle/,
       `${opId}: expected AugmentBundle`);
   }
 });
@@ -142,8 +142,8 @@ test('chainToTrig with beads emits prov:Activity per step + kgx:Run typed', () =
   const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH, beads: FAKE_BEADS });
   // each step has a corresponding run record
   for (let i = 0; i < FAKE_BEADS.length; i++) {
-    assert.match(ttl, new RegExp(`<https://forgetmenot\\.local/run/r${i}>\\s+a\\s+prov:Activity, kgx:Run`),
-      `expected run record r${i}`);
+    assert.match(ttl, new RegExp(`<urn:kgx:chain:fixed-for-test:bead:${i}:run>\\s+a\\s+prov:Activity, kgx:Run`),
+      `expected run record at bead ${i}`);
   }
 });
 
@@ -151,8 +151,8 @@ test('chainToTrig run records carry prov:generated → the corresponding bundle'
   const ttl = chainToTrig(SAMPLE, { graphIri: FIXED_GRAPH, beads: FAKE_BEADS });
   for (let i = 0; i < FAKE_BEADS.length; i++) {
     assert.match(ttl,
-      new RegExp(`<https://forgetmenot\\.local/run/r${i}>[\\s\\S]*?prov:generated\\s+<https://forgetmenot\\.local/bundle/b${i}>`),
-      `r${i} must prov:generate b${i}`);
+      new RegExp(`<urn:kgx:chain:fixed-for-test:bead:${i}:run>[\\s\\S]*?prov:generated\\s+<urn:kgx:chain:fixed-for-test:bead:${i}>`),
+      `run record at bead ${i} must prov:generate the bundle at bead ${i}`);
   }
 });
 
@@ -226,12 +226,12 @@ test('chainToTrig: multi-branch chain tags every bundle with its kgx:branch', ()
   // main bundles tagged "main"
   for (let i = 0; i < 3; i++) {
     assert.match(ttl,
-      new RegExp(`<https://forgetmenot\\.local/bundle/b${i}>[\\s\\S]*?kgx:branch\\s+"main"`),
+      new RegExp(`<urn:kgx:chain:fixed-for-test:bead:${i}>[\\s\\S]*?kgx:branch\\s+"main"`),
       `bundle b${i} should be tagged kgx:branch "main"`);
   }
   // with-bp bundle has its branch-scoped IRI and the with-bp tag
   assert.match(ttl,
-    /<https:\/\/forgetmenot\.local\/bundle\/with-bp\/b0>[\s\S]*?kgx:branch\s+"with-bp"/);
+    /<urn:kgx:chain:fixed-for-test:bead:with-bp:0>[\s\S]*?kgx:branch\s+"with-bp"/);
 });
 
 test('chainToTrig: forked branch derives from the parent at the fork point', () => {
@@ -239,5 +239,5 @@ test('chainToTrig: forked branch derives from the parent at the fork point', () 
   // with-bp/b0 derives from main's b2 (forkedFrom.beadIdx=2). The cross-
   // branch derivedFrom IS the fork relation; no separate predicate needed.
   assert.match(ttl,
-    /<https:\/\/forgetmenot\.local\/bundle\/with-bp\/b0>[\s\S]*?kgx:derivedFrom\s+<https:\/\/forgetmenot\.local\/bundle\/b2>/);
+    /<urn:kgx:chain:fixed-for-test:bead:with-bp:0>[\s\S]*?kgx:derivedFrom\s+<urn:kgx:chain:fixed-for-test:bead:2>/);
 });

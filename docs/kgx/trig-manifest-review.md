@@ -375,11 +375,46 @@ floating around. The migrator is a small script: read each
 
 Phase 1 is small, safe, and strictly improves the system (TriG
 becomes round-trippable; the "follow-up" status message goes away;
-unused prefix removed). **Recommend doing Phase 1 now**.
+unused prefix removed). **Phase 1 is done** (1a + 1b + 1c + 1d + 1e
+shipped 2026-06-11).
 
 Phase 2 is the more interesting rationalization and the right answer
-to F1, F2, F4, F5, F6, F10. It needs a migrator and a coordinated
-deploy. **Recommend doing Phase 2 after Step 1 of the slim-channel
-migration** — that's the point at which we know what op-result-graph
-IRIs need to look like in practice, and we can rationalize both at
-once.
+to F1, F2, F4, F5, F6, F10.
+
+### Phase 2A — landed 2026-06-11
+
+The IRI scheme migration:
+
+- **F1 fixed**: bundle IRIs are now chain-scoped URNs —
+  `urn:kgx:chain:<chain-uuid>:bead:<i>` (single-branch) or
+  `urn:kgx:chain:<chain-uuid>:bead:<branch>:<i>` (forked branches). No
+  cross-chain collisions. Two saved chains' "bead 0" are now
+  unambiguously different bundles.
+- **F2 fixed**: `forgetmenot.local` is gone from the emit. Vocab moves
+  to `urn:kgx:vocab:`. Chain graph IRI minted as
+  `urn:kgx:chain:<uuid>` (rename from `urn:kgx:flow:<uuid>`).
+- **F11 fixed**: `kgxb:` and `kgxr:` PREFIXES dropped. Chain-scoped
+  IRIs are clear in long form.
+
+Saved chains in the writable Oxigraph in the OLD shape
+(`urn:kgx:flow:`, `https://forgetmenot.local/...`) keep loading —
+`parseChainSpec` normalises Phase-1 vocab to the Phase-2A namespace
+and `flowIriOfTrig` / `buildSaveUpdate` / `buildListQuery` /
+`buildLoadQuery` / `buildLoadSelectQuery` all accept both schemes.
+**No migrator required**; the parser handles the duality.
+
+### Phase 2B — deferred
+
+The typed-op-terms (`kgx:PartyFilter ⊂ kgx:FilterOp`) and typed op
+predicates (`kgx:partyName "Conservative"` in place of `kgx:op "party"`
++ `kgx:opValue "Conservative"`) replace F4 and F5. These require the
+runtime op palette to map op-id → vocab-term and emit per-op
+predicates. Tractable but not in this round.
+
+### Phase 2C — `kgx:resultGraph`
+
+Once slim-channel Step 1 wires bead-store graph IRIs through the
+runner, the manifest emits
+`<bead> kgx:resultGraph <urn:kgx:chain:<chain-uuid>:bead:<i>:graph>`
+so an external consumer can find the bead's data via SPARQL CONSTRUCT
+without guessing the IRI. Addresses F12.

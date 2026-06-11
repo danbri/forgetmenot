@@ -14,13 +14,19 @@
 // Kept DOM-free so the CLI can adopt it too (kgx chain push / list).
 // =============================================================================
 
-const FLOW_IRI_RE = /<(urn:kgx:flow:[^>]+)>/;
+// Phase 2A: accept both the new `urn:kgx:chain:<uuid>` graph IRI and
+// the legacy `urn:kgx:flow:<uuid>` form so existing saved chains keep
+// loading without a migration. The variable name `flowIri` is kept
+// throughout for back-compat with callers and tests; semantically
+// it's the chain graph IRI under either scheme.
+const CHAIN_IRI_RE = /<(urn:kgx:(?:chain|flow):[^>]+)>/;
+const CHAIN_IRI_PREFIXES = ['urn:kgx:chain:', 'urn:kgx:flow:'];
 
-// Extract the flow IRI that chainToTrig embeds as the graph name. Returns
-// null if the manifest doesn't carry one (shouldn't happen — chainToTrig
-// always mints one, but we don't pretend).
+// Extract the chain graph IRI that chainToTrig embeds as the graph
+// name. Returns null if the manifest doesn't carry one (shouldn't
+// happen — chainToTrig always mints one, but we don't pretend).
 export function flowIriOfTrig(trig) {
-  const m = FLOW_IRI_RE.exec(String(trig || ''));
+  const m = CHAIN_IRI_RE.exec(String(trig || ''));
   return m ? m[1] : null;
 }
 
@@ -35,19 +41,17 @@ export function flowIriOfTrig(trig) {
 // replace, not an append.
 export function buildSaveUpdate(trig) {
   const flow = flowIriOfTrig(trig);
-  if (!flow) throw new Error('buildSaveUpdate: no urn:kgx:flow: IRI in manifest');
+  if (!flow) throw new Error('buildSaveUpdate: no urn:kgx:chain: or urn:kgx:flow: IRI in manifest');
   // Strip the @prefix declarations from the TriG and reuse them at the
   // top of the SPARQL Update (SPARQL doesn't accept @prefix; it wants
   // bare PREFIX). The triples block in between stays verbatim.
   const prefixLines = [];
   const trigBody = String(trig).replace(/^@prefix\s+([^\s]+)\s+(<[^>]+>)\s*\.\s*$/gm,
     (_full, name, iri) => { prefixLines.push(`PREFIX ${name} ${iri}`); return ''; });
-  // The remaining body should start with `<flowIri> { ... }`. Wrap it in
-  // INSERT DATA { GRAPH <flowIri> { ... } }. The TriG already names the
-  // graph; we strip that opening and re-emit it as a GRAPH block so the
-  // shape matches SPARQL Update grammar.
-  const graphMatch = trigBody.match(/<urn:kgx:flow:[^>]+>\s*\{([\s\S]*)\}\s*$/);
-  if (!graphMatch) throw new Error('buildSaveUpdate: TriG body must end with <flowIri> { ... }');
+  // The remaining body should end with `<flowIri> { ... }`. Wrap it in
+  // INSERT DATA { GRAPH <flowIri> { ... } }. Accept both schemes.
+  const graphMatch = trigBody.match(/<urn:kgx:(?:chain|flow):[^>]+>\s*\{([\s\S]*)\}\s*$/);
+  if (!graphMatch) throw new Error('buildSaveUpdate: TriG body must end with <chainIri> { ... }');
   const inner = graphMatch[1].trim();
   return `${prefixLines.join('\n')}
 
@@ -62,6 +66,10 @@ ${inner}
 // SELECT every saved chain graph + its title (if known). Returns the
 // SPARQL query string. The page issues this to /kgx/chains-query.
 export function buildListQuery() {
+  // Filter scopes to chain graphs only, ignoring whatever else might
+  // live in the writable Oxigraph. Accept BOTH the new urn:kgx:chain:
+  // scheme and the legacy urn:kgx:flow: scheme so existing saves
+  // remain discoverable.
   return `
 PREFIX dct: <http://purl.org/dc/terms/>
 SELECT ?flow ?title ?id ?ts WHERE {
@@ -70,7 +78,8 @@ SELECT ?flow ?title ?id ?ts WHERE {
     OPTIONAL { ?flow dct:identifier ?id }
     OPTIONAL { ?flow dct:created    ?ts }
   }
-  FILTER(STRSTARTS(STR(?flow), "urn:kgx:flow:"))
+  FILTER(STRSTARTS(STR(?flow), "urn:kgx:chain:")
+      || STRSTARTS(STR(?flow), "urn:kgx:flow:"))
 } ORDER BY DESC(?ts) ?title`;
 }
 
@@ -87,8 +96,8 @@ export function parseChainList(bindings) {
 // CONSTRUCT the entire contents of one chain graph. Use to load a chain
 // from the store and re-hydrate (parse it back into a spec).
 export function buildLoadQuery(flowIri) {
-  if (!/^urn:kgx:flow:/.test(String(flowIri || ''))) {
-    throw new Error(`buildLoadQuery: not a flow IRI: ${flowIri}`);
+  if (!/^urn:kgx:(?:chain|flow):/.test(String(flowIri || ''))) {
+    throw new Error(`buildLoadQuery: not a chain IRI: ${flowIri}`);
   }
   return `
 CONSTRUCT { ?s ?p ?o } WHERE { GRAPH <${flowIri}> { ?s ?p ?o } }`;
@@ -103,18 +112,20 @@ CONSTRUCT { ?s ?p ?o } WHERE { GRAPH <${flowIri}> { ?s ?p ?o } }`;
 // RDF — e.g. an external tool re-running the manifest's SPARQL — but
 // is not what the page uses to rehydrate.
 export function buildLoadSelectQuery(flowIri) {
-  if (!/^urn:kgx:flow:/.test(String(flowIri || ''))) {
-    throw new Error(`buildLoadSelectQuery: not a flow IRI: ${flowIri}`);
+  if (!/^urn:kgx:(?:chain|flow):/.test(String(flowIri || ''))) {
+    throw new Error(`buildLoadSelectQuery: not a chain IRI: ${flowIri}`);
   }
   return `
 SELECT ?s ?p ?o WHERE { GRAPH <${flowIri}> { ?s ?p ?o } }`;
 }
 
 // Vocabulary terms — long form, since the bindings come back fully
-// expanded. The KGX namespace mirrors trig.mjs PREFIXES. If we
-// rationalise the IRI scheme (review.md Phase 2), the constants here
-// move with it — the writer + reader stay in lockstep.
-const KGX = 'https://forgetmenot.local/vocab/kgx/';
+// expanded. Phase 2A moved kgx: from forgetmenot.local to a proper URN
+// namespace, but the legacy IRI is still in saved chains today — the
+// parser accepts triples from either by checking against both
+// namespaces. trig.mjs only emits the new form.
+const KGX        = 'urn:kgx:vocab:';
+const KGX_LEGACY = 'https://forgetmenot.local/vocab/kgx/';
 const RDF_TYPE    = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
 const DCT_TITLE   = 'http://purl.org/dc/terms/title';
 const DCT_DESC    = 'http://purl.org/dc/terms/description';
@@ -187,6 +198,16 @@ function walkBranchBundles(branchBundles, root) {
 // of the returned spec mirrors the normaliser's two accepted inputs —
 // `{ steps }` for single-branch, `{ branches, activeBranch }` for the
 // tree shape.
+// Normalize Phase-1 (forgetmenot.local) vocab predicates to the new
+// urn:kgx:vocab: namespace, and Phase-1 bundle type IRIs likewise, so
+// downstream code only matches against the new IRI form. Saved chains
+// in either scheme parse identically.
+function normalizeKgxIri(iri) {
+  if (typeof iri !== 'string') return iri;
+  if (iri.startsWith(KGX_LEGACY)) return KGX + iri.slice(KGX_LEGACY.length);
+  return iri;
+}
+
 export function parseChainSpec(bindings, flowIri) {
   if (!flowIri) throw new Error('parseChainSpec: flowIri required');
   const bySubj = new Map();
@@ -195,8 +216,15 @@ export function parseChainSpec(bindings, flowIri) {
     const p = b?.p?.value;
     const o = b?.o?.value;
     if (!s || !p || o === undefined) continue;
+    // Map both Phase-1 (forgetmenot.local) and Phase-2 (urn:kgx:vocab:)
+    // predicates / type IRIs into the canonical Phase-2 form before
+    // bucketing. Object IRIs that happen to be kgx: types (e.g. on
+    // `?s rdf:type kgx:SourceBundle`) get the same treatment so the
+    // BUNDLE_KINDS check below matches.
+    const pn = normalizeKgxIri(p);
+    const on = (pn === RDF_TYPE) ? normalizeKgxIri(o) : o;
     if (!bySubj.has(s)) bySubj.set(s, new Map());
-    bySubj.get(s).set(p, o);
+    bySubj.get(s).set(pn, on);
   }
 
   const meta = bySubj.get(flowIri) || new Map();

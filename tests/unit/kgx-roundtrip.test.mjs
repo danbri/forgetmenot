@@ -82,14 +82,16 @@ for (const chain of LIBRARY) {
         `${chain.id}: step ${i + 1} (${JSON.stringify(stepsToRun[i])}) not in lib`);
     }
 
-    // Surface 3: chainToTrig emits one bundle per step. Single-branch
-    // chains emit `<bundle/b<i>>`; multi-branch chains additionally emit
-    // `<bundle/<branch-id>/b<i>>` for forked branches, and the bundle
-    // count is the sum of every branch's step count (not just the
-    // active-walk length).
-    const ttl = chainToTrig(chain, { graphIri: '<urn:kgx:test:fixed>' });
-    const bundleMatches = ttl.match(/<https:\/\/forgetmenot\.local\/bundle\/[^>]+>/g) || [];
-    const bundleIris = new Set(bundleMatches);
+    // Surface 3: chainToTrig emits one bundle per step. Phase 2A IRIs:
+    // single-branch chains emit `<urn:kgx:chain:<uuid>:bead:<i>>`;
+    // multi-branch chains additionally emit
+    // `<urn:kgx:chain:<uuid>:bead:<branch>:<i>>` for forked branches.
+    // Bundle count is the sum of every branch's step count (not just
+    // the active-walk length).
+    const ttl = chainToTrig(chain, { graphIri: '<urn:kgx:chain:fixed>' });
+    const bundleMatches = ttl.match(/<urn:kgx:chain:fixed:bead:[^>]+>/g) || [];
+    // Exclude run IRIs (`…:bead:<i>:run`) — they're not bundles.
+    const bundleIris = new Set(bundleMatches.filter((s) => !/:run>$/.test(s)));
     const expectedBundleCount = normalised.branches.reduce((n, b) => n + b.steps.length, 0);
     assert.equal(bundleIris.size, expectedBundleCount,
       `${chain.id}: chainToTrig emitted ${bundleIris.size} bundles for ${expectedBundleCount} total branch-steps`);
@@ -135,7 +137,8 @@ for (const chain of LIBRARY) {
     // active-walk length; fork chains add the sibling branches' steps.
     const tr = runKgx(['chain', 'trig', '--id', chain.id]);
     assert.equal(tr.code, 0, `${chain.id}: chain trig exited ${tr.code}`);
-    const cliBundleIris = new Set(tr.stdout.match(/<https:\/\/forgetmenot\.local\/bundle\/[^>]+>/g) || []);
+    const cliBundleIris = new Set((tr.stdout.match(/<urn:kgx:chain:[^>]+:bead:[^>]+>/g) || [])
+      .filter((s) => !/:run>$/.test(s)));
     assert.equal(cliBundleIris.size, expectedBundleCount,
       `${chain.id}: CLI trig bundle count ${cliBundleIris.size} ≠ expected ${expectedBundleCount}`);
   });

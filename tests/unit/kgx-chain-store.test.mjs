@@ -18,10 +18,13 @@ const flatSpec = {
   ],
 };
 
-test('flowIriOfTrig — extracts the urn:kgx:flow IRI a manifest carries', () => {
+test('flowIriOfTrig — extracts the chain graph IRI a manifest carries', () => {
   const trig = chainToTrig(flatSpec);
   const iri = flowIriOfTrig(trig);
-  assert.ok(/^urn:kgx:flow:/.test(iri), `expected urn:kgx:flow:…, got ${iri}`);
+  // Phase 2A emits urn:kgx:chain:; the legacy urn:kgx:flow: form is
+  // still accepted by the parser for back-compat with saved chains.
+  assert.ok(/^urn:kgx:(?:chain|flow):/.test(iri),
+    `expected urn:kgx:chain:… or urn:kgx:flow:…, got ${iri}`);
 });
 
 test('flowIriOfTrig — null on a manifest without one (defensive)', () => {
@@ -44,9 +47,9 @@ test('buildSaveUpdate — produces DROP SILENT + INSERT DATA into the correct GR
   assert.doesNotMatch(upd, /^@prefix/m, 'no stray @prefix lines should remain in the update');
 });
 
-test('buildSaveUpdate — throws when there is no flow IRI', () => {
+test('buildSaveUpdate — throws when there is no chain IRI', () => {
   assert.throws(() => buildSaveUpdate('not a trig manifest'),
-    /no urn:kgx:flow: IRI in manifest/);
+    /no urn:kgx:chain: or urn:kgx:flow: IRI in manifest/);
 });
 
 test('buildSaveUpdate — throws when the TriG body is malformed', () => {
@@ -54,14 +57,18 @@ test('buildSaveUpdate — throws when the TriG body is malformed', () => {
   // so we'd rather error than silently no-op.
   const bad = chainToTrig(flatSpec).replace(/\{[\s\S]*\}/, '');
   assert.throws(() => buildSaveUpdate(bad),
-    /TriG body must end with <flowIri> \{ \.\.\. \}/);
+    /TriG body must end with <chainIri> \{ \.\.\. \}/);
 });
 
 test('buildListQuery — a SPARQL SELECT keyed on the flow IRI prefix', () => {
   const q = buildListQuery();
   assert.match(q, /SELECT \?flow \?title \?id \?ts/);
+  // Phase 2A: filter accepts both urn:kgx:chain: (new) and
+  // urn:kgx:flow: (legacy) so existing saves stay discoverable.
+  assert.match(q, /STRSTARTS\(STR\(\?flow\), "urn:kgx:chain:"\)/,
+    'filter must scope to chain graphs (new Phase-2A scheme)');
   assert.match(q, /STRSTARTS\(STR\(\?flow\), "urn:kgx:flow:"\)/,
-    'filter must scope to chain graphs, ignoring any other named graphs');
+    'filter must ALSO accept the legacy urn:kgx:flow: scheme');
   assert.match(q, /ORDER BY DESC\(\?ts\) \?title/,
     'newest first; title as tiebreaker for chains without a ts');
 });
@@ -92,7 +99,7 @@ test('buildLoadQuery — CONSTRUCT all triples in the named graph', () => {
 
 test('buildLoadQuery — refuses non-flow IRIs', () => {
   assert.throws(() => buildLoadQuery('http://example.org/foo'),
-    /not a flow IRI/);
+    /not a chain IRI/);
 });
 
 // ---------------------------------------------------------------------------
@@ -120,9 +127,9 @@ test('buildLoadSelectQuery — SELECT ?s ?p ?o scoped to the chain graph', () =>
 
 test('buildLoadSelectQuery — refuses non-flow IRIs', () => {
   assert.throws(() => buildLoadSelectQuery('http://example.org/foo'),
-    /not a flow IRI/);
-  assert.throws(() => buildLoadSelectQuery(''),     /not a flow IRI/);
-  assert.throws(() => buildLoadSelectQuery(null),   /not a flow IRI/);
+    /not a chain IRI/);
+  assert.throws(() => buildLoadSelectQuery(''),     /not a chain IRI/);
+  assert.throws(() => buildLoadSelectQuery(null),   /not a chain IRI/);
 });
 
 test('parseChainSpec — recovers the canonical linear chain from a flat bindings list', () => {

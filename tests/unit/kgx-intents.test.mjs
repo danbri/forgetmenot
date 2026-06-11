@@ -99,7 +99,10 @@ test('Bundle intents fire when a chainSpec is supplied; copy intents emit copy a
       assert.equal(action.href, '/kgx/chains-update');
       assert.equal(action.contentType, 'application/sparql-update');
       assert.ok(action.body && action.body.length, `${intent.id}: must carry a body`);
-      assert.match(action.body, /INSERT DATA \{\s*GRAPH <urn:kgx:flow:/);
+      // Phase 2A: new chains emit urn:kgx:chain:; the legacy
+      // urn:kgx:flow: scheme is still accepted by the parser for
+      // back-compat with saved chains.
+      assert.match(action.body, /INSERT DATA \{\s*GRAPH <urn:kgx:(?:chain|flow):/);
     } else {
       assert.equal(action.kind, 'copy', `${intent.id}: should be a copy action`);
       assert.ok(action.text && action.text.length, `${intent.id}: plan must produce text`);
