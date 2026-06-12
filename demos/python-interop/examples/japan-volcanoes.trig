@@ -5,18 +5,42 @@
 @prefix wdt:  <http://www.wikidata.org/prop/direct/> .
 
 
-# Volcanoes (Q8072) in country Japan (Q17). Doesn't try to assert
-# 'active' — that's a CWA judgement that depends on the data source.
 
 <urn:kgx:chain:japan-volcanoes> {
   <urn:kgx:chain:japan-volcanoes>
-    dct:title       "Volcanoes in Japan" ;
-    dct:description "wd:Q8072 (volcano) located in country wd:Q17 (Japan). Mount Fuji and friends." .
+    dct:title       "Volcanoes in Japan → prefectures → traditional regions" ;
+    dct:description "Two filters (volcano class + located in Japan), then pivot to prefecture and the traditional region (chihō) it sits in." .
 
   <urn:kgx:chain:japan-volcanoes:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Volcanoes (Q8072) located in country Japan (Q17)" ;
+    kgx:gloss          "All volcanoes" ;
     kgx:produces       wd:Q8072 ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P31/wdt:P279* wd:Q8072 . ?p wdt:P17 wd:Q17 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
-}
+    kgx:sparqlFragment "?p wdt:P31/wdt:P279* wd:Q8072 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
 
+  <urn:kgx:chain:japan-volcanoes:bead:1> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:japan-volcanoes:bead:0> ;
+    kgx:gloss          "Located in country Japan (Q17)" ;
+    kgx:propertyIri    wdt:P17 ;
+    kgx:valueIri       wd:Q17 ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P17 wd:Q17 ." .
+
+  <urn:kgx:chain:japan-volcanoes:bead:2> a kgx:PivotBundle ;
+    kgx:input          <urn:kgx:chain:japan-volcanoes:bead:1> ;
+    kgx:gloss          "Walk wdt:P131 to the administrative parent (prefecture)" ;
+    kgx:produces       wd:Q50337 ;
+    kgx:relTemplate    "prefecture" ;
+    kgx:relVariant     "default" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P131 ?pf . ?pf wdt:P31/wdt:P279* wd:Q50337 . OPTIONAL { ?pf rdfs:label ?label1 . FILTER(lang(?label1) = \"en\") } OPTIONAL { ?pf wdt:P18 ?image1 } BIND(?pf AS ?p1)" .
+
+  <urn:kgx:chain:japan-volcanoes:bead:3> a kgx:PivotBundle ;
+    kgx:input          <urn:kgx:chain:japan-volcanoes:bead:2> ;
+    kgx:gloss          "Walk wdt:P131 once more to the traditional region" ;
+    kgx:produces       wd:Q1149652 ;
+    kgx:relTemplate    "region" ;
+    kgx:relVariant     "default" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?pf wdt:P131 ?reg . OPTIONAL { ?reg rdfs:label ?label2 . FILTER(lang(?label2) = \"en\") } OPTIONAL { ?reg wdt:P18 ?image2 } BIND(?reg AS ?p2)" .
+
+}

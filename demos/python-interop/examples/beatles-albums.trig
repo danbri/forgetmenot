@@ -5,17 +5,49 @@
 @prefix wdt:  <http://www.wikidata.org/prop/direct/> .
 
 
-# Albums (wd:Q482994) whose performer is The Beatles (Q1299).
 
 <urn:kgx:chain:beatles-albums> {
   <urn:kgx:chain:beatles-albums>
-    dct:title       "Studio albums by The Beatles" ;
-    dct:description "wd:Q1299 ← P175 ← any wd:Q482994 (album)." .
+    dct:title       "The Beatles → their albums → record labels → countries" ;
+    dct:description "Source: just The Beatles (Q1299). Pivot 1 walks inverse-P175 to performances; filter narrows to albums; further pivots walk to record label and the label's country." .
 
   <urn:kgx:chain:beatles-albums:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Albums performed by The Beatles" ;
-    kgx:produces       wd:Q482994 ;
+    kgx:gloss          "The Beatles" ;
+    kgx:produces       wd:Q215380 ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P31/wdt:P279* wd:Q482994 ; wdt:P175 wd:Q1299 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
-}
+    kgx:sparqlFragment "VALUES ?p { wd:Q1299 } OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
 
+  <urn:kgx:chain:beatles-albums:bead:1> a kgx:PivotBundle ;
+    kgx:input          <urn:kgx:chain:beatles-albums:bead:0> ;
+    kgx:gloss          "Inverse wdt:P175 — performances by this artist" ;
+    kgx:produces       wd:Q2188189 ;
+    kgx:relTemplate    "performances" ;
+    kgx:relVariant     "default" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?_perf wdt:P175 ?p . OPTIONAL { ?_perf rdfs:label ?label1 . FILTER(lang(?label1) = \"en\") } OPTIONAL { ?_perf wdt:P18 ?image1 } BIND(?_perf AS ?p1)" .
+
+  <urn:kgx:chain:beatles-albums:bead:2> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:beatles-albums:bead:1> ;
+    kgx:gloss          "Is an album (Q482994)" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p1 wdt:P31/wdt:P279* wd:Q482994 ." .
+
+  <urn:kgx:chain:beatles-albums:bead:3> a kgx:PivotBundle ;
+    kgx:input          <urn:kgx:chain:beatles-albums:bead:2> ;
+    kgx:gloss          "Walk wdt:P264 to the album's record label" ;
+    kgx:produces       wd:Q18127 ;
+    kgx:relTemplate    "record_label" ;
+    kgx:relVariant     "default" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p1 wdt:P264 ?lbl . OPTIONAL { ?lbl rdfs:label ?label2 . FILTER(lang(?label2) = \"en\") } OPTIONAL { ?lbl wdt:P18 ?image2 } BIND(?lbl AS ?p2)" .
+
+  <urn:kgx:chain:beatles-albums:bead:4> a kgx:PivotBundle ;
+    kgx:input          <urn:kgx:chain:beatles-albums:bead:3> ;
+    kgx:gloss          "Walk wdt:P17 to the country of the label" ;
+    kgx:produces       wd:Q6256 ;
+    kgx:relTemplate    "country" ;
+    kgx:relVariant     "default" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?lbl wdt:P17 ?cty . OPTIONAL { ?cty rdfs:label ?label3 . FILTER(lang(?label3) = \"en\") } OPTIONAL { ?cty wdt:P18 ?image3 } BIND(?cty AS ?p3)" .
+
+}

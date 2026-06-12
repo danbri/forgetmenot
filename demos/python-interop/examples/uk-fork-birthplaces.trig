@@ -5,46 +5,76 @@
 @prefix wdt:  <http://www.wikidata.org/prop/direct/> .
 
 
-# Tree-shaped chain: shared main branch (source → Labour → 2024 onward),
-# then a sibling 'with-bp' branch forks off bead 2 and pivots via wdt:P19
-# to each MP's town of birth.
 
 <urn:kgx:chain:uk-fork-birthplaces> {
   <urn:kgx:chain:uk-fork-birthplaces>
-    dct:title       "UK Labour MPs (since 2024) → fork to birthplaces" ;
-    dct:description "Shared prefix, then a sibling branch pivots to birthplaces via wdt:P19." ;
+    dct:title       "UK Labour MPs → fork: (constituencies) AND (birthplaces → countries)" ;
+    dct:description "Tree-shaped chain: shared (humans → UK MP detection → Labour) prefix on the main branch, then a sibling branch forks off and pivots through birthplaces and the countries those towns sit in." ;
     kgx:activeBranch "with-bp" .
 
   <urn:kgx:chain:uk-fork-birthplaces:bead:0> a kgx:SourceBundle ;
     kgx:branch         "main" ;
-    kgx:gloss          "UK Commons seats whose term started on or after 4 July 2024" ;
-    kgx:starterId      "uk-mps-2024" ;
+    kgx:gloss          "All humans" ;
+    kgx:starterId      "humans" ;
     kgx:produces       wd:Q5 ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . ?seat pq:P580 ?start . FILTER(?start >= \"2024-07-04T00:00:00\"^^xsd:dateTime) OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
+    kgx:sparqlFragment "?p wdt:P31 wd:Q5 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
 
   <urn:kgx:chain:uk-fork-birthplaces:bead:1> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:0> ;
     kgx:branch         "main" ;
-    kgx:gloss          "Members of the Labour Party" ;
-    kgx:propertyIri    wdt:P102 ;
-    kgx:valueIri       wd:Q9630 ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q9630 ." .
+    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:0> ;
+    kgx:gloss          "Holds at least one P39 position" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p p:P39 ?_seat . ?_seat ps:P39 ?_pos ." .
 
   <urn:kgx:chain:uk-fork-birthplaces:bead:2> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:1> ;
     kgx:branch         "main" ;
-    kgx:gloss          "Sanity probe — wd:Q5 humans" ;
-    kgx:sparqlFragment "?p wdt:P31 wd:Q5 ." .
+    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:1> ;
+    kgx:gloss          "Position derives from UK MP class" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?_pos wdt:P279* wd:Q16707842 ." .
+
+  <urn:kgx:chain:uk-fork-birthplaces:bead:3> a kgx:FilterBundle ;
+    kgx:branch         "main" ;
+    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:2> ;
+    kgx:gloss          "UK constituency qualifier" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?_seat pq:P768 ?_cons . ?_cons wdt:P17 wd:Q145 ." .
+
+  <urn:kgx:chain:uk-fork-birthplaces:bead:4> a kgx:FilterBundle ;
+    kgx:branch         "main" ;
+    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:3> ;
+    kgx:gloss          "Seat started on or after 4 July 2024" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?_seat pq:P580 ?_t . FILTER(?_t >= \"2024-07-04T00:00:00\"^^xsd:dateTime)" .
+
+  <urn:kgx:chain:uk-fork-birthplaces:bead:5> a kgx:FilterBundle ;
+    kgx:branch         "main" ;
+    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:4> ;
+    kgx:gloss          "Party = Labour" ;
+    kgx:propertyIri    wdt:P102 ;
+    kgx:valueIri       wd:Q9630 ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P102 wd:Q9630 ." .
 
   <urn:kgx:chain:uk-fork-birthplaces:bead:with-bp:0> a kgx:PivotBundle ;
-    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:2> ;
     kgx:branch         "with-bp" ;
-    kgx:gloss          "Birthplaces — walk wdt:P19, keep towns / cities" ;
+    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:5> ;
+    kgx:gloss          "Walk wdt:P19 to each MP's birthplace" ;
     kgx:produces       wd:Q486972 ;
     kgx:relTemplate    "birthplaces" ;
-    kgx:relVariant     "default" ;
+    kgx:relVariant     "towns" ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P19 ?place . ?place wdt:P31/wdt:P279* wd:Q486972 ." .
-}
+    kgx:sparqlFragment "?p wdt:P19 ?bp . ?bp wdt:P31/wdt:P279* wd:Q486972 . OPTIONAL { ?bp rdfs:label ?label1 . FILTER(lang(?label1) = \"en\") } OPTIONAL { ?bp wdt:P18 ?image1 } BIND(?bp AS ?p1)" .
 
+  <urn:kgx:chain:uk-fork-birthplaces:bead:with-bp:1> a kgx:PivotBundle ;
+    kgx:branch         "with-bp" ;
+    kgx:input          <urn:kgx:chain:uk-fork-birthplaces:bead:with-bp:0> ;
+    kgx:gloss          "Walk wdt:P17 to the country of the birthplace" ;
+    kgx:produces       wd:Q6256 ;
+    kgx:relTemplate    "country" ;
+    kgx:relVariant     "of_birthplace" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?bp wdt:P17 ?cty . OPTIONAL { ?cty rdfs:label ?label2 . FILTER(lang(?label2) = \"en\") } OPTIONAL { ?cty wdt:P18 ?image2 } BIND(?cty AS ?p2)" .
+
+}

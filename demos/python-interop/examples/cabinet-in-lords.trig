@@ -5,14 +5,11 @@
 @prefix wdt:  <http://www.wikidata.org/prop/direct/> .
 
 
-# Positive Intersection: anyone holding a minister-class role (Q83307)
-# AND a current Lords seat (Q18941264). Replaces the previous Difference
-# example — both predicates are positive presence assertions.
 
 <urn:kgx:chain:cabinet-in-lords> {
   <urn:kgx:chain:cabinet-in-lords>
-    dct:title       "UK Cabinet ministers who sit in the House of Lords" ;
-    dct:description "Intersection of two positive filters — holds a minister role AND a Lords seat." .
+    dct:title       "UK Cabinet ministers who sit in the House of Lords (∩)" ;
+    dct:description "Positive intersection of two atomic source patterns — minister role AND a Lords seat. No NOT EXISTS needed; the conjunction is just both predicates evaluating to true on the same ?p." .
 
   <urn:kgx:chain:cabinet-in-lords:bead:0> a kgx:SourceBundle ;
     kgx:gloss          "People holding any minister-class role (Q83307)" ;
@@ -27,8 +24,7 @@
     kgx:sparqlFragment "?p wdt:P39 ?seat . ?seat wdt:P279* wd:Q18941264 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
 
   <urn:kgx:chain:cabinet-in-lords:bead:2> a kgx:IntersectBundle ;
-    kgx:gloss "Minister role ∩ Lords seat — items present in both inputs" ;
-    kgx:inputs ( <urn:kgx:chain:cabinet-in-lords:bead:0>
-                 <urn:kgx:chain:cabinet-in-lords:bead:1> ) .
-}
+    kgx:gloss          "Minister role ∩ Lords seat — items present in both inputs" ;
+    kgx:inputs ( <urn:kgx:chain:cabinet-in-lords:bead:0> <urn:kgx:chain:cabinet-in-lords:bead:1> ) .
 
+}

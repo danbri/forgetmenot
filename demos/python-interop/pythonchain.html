@@ -140,84 +140,92 @@
   .result-tile .label { font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .result-tile .uri { font-family: ui-monospace, monospace; font-size: 10px; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .result-tile .extra { font-size: 11px; color: var(--ink-soft); margin-top: 0.15em; }
+  /* Dev-mode toggle: nerd details (raw TriG textarea, SPARQL panel, JSON +
+     text outputs, per-bead endpoint / fragment grounding) are hidden by
+     default and revealed when the user opts in. */
+  body:not(.dev-mode) .dev-only { display: none !important; }
+  .dev-toggle { float: right; display: inline-flex; align-items: center; gap: 0.3em; font-size: 12px; color: var(--ink-soft); cursor: pointer; user-select: none; padding: 0.2em 0.5em; border: 1px solid var(--rule); border-radius: 4px; background: var(--surface); }
+  .dev-toggle input { margin: 0; }
+  .card .head .small { color: var(--ink-soft); font-size: 11px; }
 </style>
 </head>
 <body>
 
+<label class="dev-toggle" for="dev-mode" title="Show the raw TriG textarea, SPARQL panel, JSON / text outputs and per-bead grounding details.">
+  <input type="checkbox" id="dev-mode"> Dev mode
+</label>
+
 <h1>pythonchain</h1>
 <p class="sub">
-  Python reading kgx daisychain manifests in your browser via
-  <a href="https://pyodide.org">Pyodide</a> + <a href="https://rdflib.dev/">rdflib</a>.
-  The same <a href="kgx_chain.py">kgx_chain.py</a> the CLI uses,
-  running here as WebAssembly. No server-side Python.
+  A library of fifty knowledge-graph chains — click a category button
+  to pick one. Each chain walks through several entity types
+  (people → universities → cities → countries; films → directors → other
+  films), and each step has a ▶ Run button that fires real SPARQL at
+  <a href="https://qlever.dev/api/wikidata">qlever.dev</a> and renders
+  the rows as a tile grid.
 </p>
-<p class="sub">
-  Each step reports as <code>✓ grounded</code> (runnable SPARQL +
-  endpoint), <code>◐ partial</code> (gloss only) or <code>⚠
-  ungrounded</code>. The fifty example chains cover politics &amp; law,
-  science &amp; nature, music &amp; film, art &amp; history, and a
-  bag of everyday curiosities — Beatles albums, hummingbirds endemic
-  to Ecuador, Northern-line tube stations, French cheeses. Every one
-  uses positive temporal / set-membership filters rather than closed-world
-  <code>MINUS</code> / <code>NOT EXISTS</code> negation; in a federated
-  multi-KG setting absence-in-data is not equivalent to absence-in-fact
-  (see <a href="../docs/kgx/shared-components.md">shared-components.md</a>
-  for the rationale). Most chains fire SPARQL at
-  <a href="https://qlever.dev/api/wikidata">qlever.dev/api/wikidata</a>;
-  a couple federate to the UK Parliament SPARQL endpoint. The kgx vocab
-  privileges no specific knowledge graph: every target is just an
-  <code>sd:Service</code> with an endpoint URL.
+<p class="sub dev-only">
+  Under the hood: each chain is a TriG manifest in
+  <code>kgx:vocab</code> terms, parsed by
+  <a href="kgx_chain.py">kgx_chain.py</a> running as Pyodide-compiled
+  WebAssembly. Same parser as the CLI. Filters and pivots use
+  POSITIVE-shape SPARQL (no <code>MINUS</code> / <code>NOT EXISTS</code>)
+  because closed-world negation across federated KGs conflates
+  absence-in-data with absence-in-fact — see
+  <a href="../docs/kgx/shared-components.md">shared-components.md</a>.
 </p>
 
-<div id="status" class="status">⏳ Loading Pyodide runtime…</div>
+<div id="status" class="status dev-only">⏳ Loading Pyodide runtime…</div>
 
 <div class="row">
   <div>
-    <div class="mode-toggle">
+    <div class="mode-toggle dev-only">
       <button id="mode-parse" class="active" data-mode="parse">Parse spec</button>
       <button id="mode-query" data-mode="query">SPARQL query</button>
     </div>
 
-    <label for="trig">TriG manifest input</label>
+    <label for="trig">Pick a chain</label>
     <div id="example-list" class="example-list">⏳ Loading example index…</div>
-    <textarea id="trig" placeholder="Paste a kgx TriG manifest here, or click an example →" spellcheck="false"></textarea>
+    <div class="dev-only">
+      <label for="trig">TriG manifest input</label>
+      <textarea id="trig" placeholder="Paste a kgx TriG manifest here, or click an example →" spellcheck="false"></textarea>
+    </div>
 
-    <div id="query-row" style="display:none">
+    <div id="query-row" style="display:none" class="dev-only">
       <label for="sparql">SPARQL query (runs against the loaded manifest)</label>
       <textarea id="sparql" style="height: 140px;" spellcheck="false"></textarea>
     </div>
 
-    <p style="margin: 0.8em 0;">
+    <p style="margin: 0.8em 0;" class="dev-only">
       <button id="run" disabled>Run with Python →</button>
     </p>
   </div>
 
   <div>
     <div id="parse-output">
-      <label>Diagram (Mermaid, rendered from the parsed spec)</label>
-      <div id="diagram-out" class="diagram-box">(awaiting input)</div>
-      <label>Interactive — click ▶ Run to execute a bead or fused execution against its endpoint</label>
-      <div id="interactive-out" class="cards-box">(awaiting input)</div>
-      <label>Spec output (Python → rdflib → JSON)</label>
-      <pre id="json-out">(awaiting input)</pre>
-      <label>Text summary</label>
-      <pre id="summary-out">(awaiting input)</pre>
+      <label class="dev-only">Diagram (Mermaid, rendered from the parsed spec)</label>
+      <div id="diagram-out" class="diagram-box dev-only">(awaiting input)</div>
+      <label>Chain — click ▶ Run on any step to execute it against its endpoint</label>
+      <div id="interactive-out" class="cards-box">Pick a chain to start.</div>
+      <label class="dev-only">Spec output (Python → rdflib → JSON)</label>
+      <pre id="json-out" class="dev-only">(awaiting input)</pre>
+      <label class="dev-only">Text summary</label>
+      <pre id="summary-out" class="dev-only">(awaiting input)</pre>
     </div>
-    <div id="query-output" style="display:none">
+    <div id="query-output" style="display:none" class="dev-only">
       <label>SPARQL results</label>
       <div id="query-out"><p class="small" style="margin:0">(no rows yet)</p></div>
     </div>
   </div>
 </div>
 
-<p class="small" style="margin-top: 2em;">
+<p class="small dev-only" style="margin-top: 2em;">
   TriG vocabulary: <code>kgx:SourceBundle</code>, <code>FilterBundle</code>,
   <code>PivotBundle</code>, <code>AugmentBundle</code> for bundle types;
-  <code>kgx:derivedFrom</code> for lineage; <code>kgx:branch</code> +
+  <code>kgx:input</code> for lineage; <code>kgx:branch</code> +
   <code>kgx:activeBranch</code> for forks; <code>kgx:op</code> +
   <code>kgx:opValue</code> for filter ops; <code>kgx:relTemplate</code> +
-  <code>kgx:relVariant</code> for pivots; <code>kgx:starterId</code> for
-  seeds. Full review:
+  <code>kgx:relVariant</code> for pivots. Full review:
   <a href="../../docs/kgx/trig-manifest-review.md">trig-manifest-review.md</a>.
 </p>
 
@@ -328,17 +336,31 @@ async function loadExampleIndex() {
 
 async function loadExample(ex) {
   const ta = document.getElementById('trig');
-  ta.value = '⏳ Fetching ' + ex.file + '…';
+  const out = document.getElementById('interactive-out');
+  out.textContent = `⏳ Loading ${ex.label}…`;
+  ta.value = '';
   try {
     const r = await fetch('examples/' + ex.file, { cache: 'no-cache' });
     if (!r.ok) throw new Error('HTTP ' + r.status);
     ta.value = await r.text();
+    // Auto-parse the chain so the user doesn't have to press Run.
+    // The runtime may still be loading — runIt waits on pyodide-ready.
+    runIt();
   } catch (e) {
+    out.textContent = `Couldn't load ${ex.file}: ${e.message || e}`;
     ta.value = '# Failed to load examples/' + ex.file + ': ' + (e.message || e);
   }
 }
 
 loadExampleIndex();
+
+// Dev-mode toggle — flips the body class so .dev-only blocks become visible.
+{
+  const cb = document.getElementById('dev-mode');
+  cb.addEventListener('change', () => {
+    document.body.classList.toggle('dev-mode', cb.checked);
+  });
+}
 
 document.getElementById('run').addEventListener('click', runIt);
 
@@ -537,6 +559,26 @@ function renderInteractive(spec) {
   const prefix = _chainPrefix(spec);
   const nodes = _allNodes(spec);
 
+  // Chain header — title + description, so the user knows what they're
+  // looking at without having to read the raw TriG.
+  if (spec.title || spec.sub) {
+    const hdr = document.createElement('div');
+    hdr.style.cssText = 'margin: 0.1em 0 0.6em';
+    if (spec.title) {
+      const t = document.createElement('div');
+      t.style.cssText = 'font-weight: 600; font-size: 14px;';
+      t.textContent = spec.title;
+      hdr.appendChild(t);
+    }
+    if (spec.sub) {
+      const s = document.createElement('div');
+      s.style.cssText = 'color: var(--ink-soft); font-size: 12px; margin-top: 0.2em;';
+      s.textContent = spec.sub;
+      hdr.appendChild(s);
+    }
+    out.appendChild(hdr);
+  }
+
   // Index nodes by URI so cards can look up predecessors when
   // building cumulative ▶ Run queries.
   const byUri = new Map(nodes.map(n => [n.uri, n]));
@@ -594,13 +636,13 @@ function beadCard(n, prefix, byUri) {
   head.innerHTML =
     `<span class="kind">${escapeHtml(kindShort)}</span>` +
     `<span class="gloss">${escapeHtml((n.grounding?.gloss) || n.id || n.op || '')}</span>` +
-    `<span class="small">${escapeHtml(_shortIri(n.uri, prefix))}</span>`;
+    `<span class="small dev-only">${escapeHtml(_shortIri(n.uri, prefix))}</span>`;
   card.appendChild(head);
 
   const g = n.grounding || {};
   if (g.endpoint || g.sparqlFragment || g.propertyIri) {
     const grd = document.createElement('div');
-    grd.className = 'grounding';
+    grd.className = 'grounding dev-only';
     if (g.endpoint)       grd.innerHTML += `<div>endpoint: ${escapeHtml(g.endpoint)}</div>`;
     if (g.sparqlFragment) grd.innerHTML += `<div>fragment: ${escapeHtml(g.sparqlFragment)}</div>`;
     if (g.propertyIri)    grd.innerHTML += `<div>propIri: ${escapeHtml(g.propertyIri)}</div>`;
@@ -686,7 +728,7 @@ function executionCard(e, prefix) {
   head.innerHTML =
     `<span class="kind">Execution</span>` +
     `<span class="gloss">${fuses.length ? `fuses ${fuses.length}: ${escapeHtml(fuses.join(', '))}` : 'standalone'}</span>` +
-    `<span class="small">${escapeHtml(_shortIri(e.iri, prefix))}</span>`;
+    `<span class="small dev-only">${escapeHtml(_shortIri(e.iri, prefix))}</span>`;
   card.appendChild(head);
 
   if (e.endpoint) {
@@ -763,21 +805,35 @@ function prependPrefixes(sparql) {
 }
 
 // Pick variable names for the conventional roles. Lowercase compare so
-// ?Label and ?label both win. The role list is small and stable —
-// daisychain's <kgx-tile-grid> uses the same names (see
-// docs/kgx/shared-components.md Phase 2).
-const LABEL_VARS = ['label', 'name', 'title', 'personlabel', 'itemlabel'];
-const IMAGE_VARS = ['image', 'img', 'photo', 'picture', 'pic', 'thumbnail'];
-const ID_VARS    = ['p', 'item', 'uri', 'iri', 's', 'subject', 'person'];
-
-function pickVar(vars, candidates) {
+// ?Label and ?label both win. Numbered suffixes (?label2, ?p3, ?image4)
+// take priority over the un-numbered ones — that's how multi-pivot
+// chains rebind the chain's "current entity" without conflicting with
+// upstream beads' identity/label/image variables (see
+// docs/kgx/shared-components.md). Highest number wins.
+function pickVar(vars, baseNames) {
   const lc = vars.map(v => v.toLowerCase());
-  for (const cand of candidates) {
-    const i = lc.indexOf(cand);
+  // First pass: any of the base names with a numeric suffix, highest first.
+  let best = null, bestN = 0;
+  for (let i = 0; i < lc.length; i++) {
+    for (const base of baseNames) {
+      const m = lc[i].match(new RegExp(`^${base}(\\d+)$`));
+      if (m) {
+        const n = parseInt(m[1], 10);
+        if (n > bestN) { best = vars[i]; bestN = n; }
+      }
+    }
+  }
+  if (best) return best;
+  // Second pass: plain base name.
+  for (const base of baseNames) {
+    const i = lc.indexOf(base);
     if (i >= 0) return vars[i];
   }
   return null;
 }
+const LABEL_VARS = ['label', 'name', 'title', 'personlabel', 'itemlabel'];
+const IMAGE_VARS = ['image', 'img', 'photo', 'picture', 'pic', 'thumbnail'];
+const ID_VARS    = ['p', 'item', 'uri', 'iri', 's', 'subject', 'person'];
 
 function renderSparqlRows(vars, rows) {
   const labelVar = pickVar(vars, LABEL_VARS);

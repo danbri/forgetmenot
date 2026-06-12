@@ -5,18 +5,50 @@
 @prefix wdt:  <http://www.wikidata.org/prop/direct/> .
 
 
-# People whose occupation list includes both musician and writer, with
-# at least one authored work that's a book.
 
 <urn:kgx:chain:musician-novelists> {
   <urn:kgx:chain:musician-novelists>
-    dct:title       "Musicians who also publish novels" ;
-    dct:description "Intersection of P106 = musician AND P106 = writer, with at least one P50 (author of) → wd:Q571 (book)." .
+    dct:title       "Musicians who also publish novels → their books → genres → English" ;
+    dct:description "Atomic intersection (occupation includes BOTH musician and writer), then pivots through books they wrote, their genres, and authors writing in those genres." .
 
   <urn:kgx:chain:musician-novelists:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "People who are both musicians and writers, with a book authored" ;
+    kgx:gloss          "All humans" ;
     kgx:produces       wd:Q5 ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P106 wd:Q639669 ; wdt:P106 wd:Q36180 . ?book wdt:P50 ?p ; wdt:P31/wdt:P279* wd:Q571 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
-}
+    kgx:sparqlFragment "?p wdt:P31 wd:Q5 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
 
+  <urn:kgx:chain:musician-novelists:bead:1> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:musician-novelists:bead:0> ;
+    kgx:gloss          "Occupation includes musician (Q639669)" ;
+    kgx:propertyIri    wdt:P106 ;
+    kgx:valueIri       wd:Q639669 ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P106 wd:Q639669 ." .
+
+  <urn:kgx:chain:musician-novelists:bead:2> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:musician-novelists:bead:1> ;
+    kgx:gloss          "Occupation also includes writer (Q36180)" ;
+    kgx:propertyIri    wdt:P106 ;
+    kgx:valueIri       wd:Q36180 ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P106 wd:Q36180 ." .
+
+  <urn:kgx:chain:musician-novelists:bead:3> a kgx:PivotBundle ;
+    kgx:input          <urn:kgx:chain:musician-novelists:bead:2> ;
+    kgx:gloss          "Inverse wdt:P50 — books each person has authored" ;
+    kgx:produces       wd:Q571 ;
+    kgx:relTemplate    "books_authored" ;
+    kgx:relVariant     "default" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?bk wdt:P50 ?p . ?bk wdt:P31/wdt:P279* wd:Q571 . OPTIONAL { ?bk rdfs:label ?label1 . FILTER(lang(?label1) = \"en\") } OPTIONAL { ?bk wdt:P18 ?image1 } BIND(?bk AS ?p1)" .
+
+  <urn:kgx:chain:musician-novelists:bead:4> a kgx:PivotBundle ;
+    kgx:input          <urn:kgx:chain:musician-novelists:bead:3> ;
+    kgx:gloss          "Walk wdt:P136 to the genre of each book" ;
+    kgx:produces       wd:Q483394 ;
+    kgx:relTemplate    "genre" ;
+    kgx:relVariant     "default" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?bk wdt:P136 ?gen . OPTIONAL { ?gen rdfs:label ?label2 . FILTER(lang(?label2) = \"en\") } OPTIONAL { ?gen wdt:P18 ?image2 } BIND(?gen AS ?p2)" .
+
+}
