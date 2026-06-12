@@ -112,9 +112,10 @@ COPY --chown=node:node demos/parliament-live/web/ ./web/
 # Canonical home of the Python-interop demo. The web/python-interop/
 # directory contains symlinks back here (relative `../../../python-interop/`)
 # so the same kgx_chain.py serves the CLI demo and the in-browser
-# Pyodide demo. The symlinks resolve correctly only if /app/python-interop
-# exists with the real files — hence this COPY.
-COPY --chown=node:node demos/python-interop/ ./python-interop/
+# Pyodide demo. From /app/web/python-interop/ the symlink target
+# resolves to /python-interop/ (3 × .. — past /app to /), so we COPY
+# the canonical files to the container root, not /app/python-interop/.
+COPY --chown=node:node demos/python-interop/ /python-interop/
 COPY --chown=node:node demos/parliament-live/CLAUDE.md ./
 COPY --chown=node:node demos/parliament-live/entrypoint.sh /usr/local/bin/fpkg-entrypoint
 RUN chmod +x /usr/local/bin/fpkg-entrypoint
