@@ -606,7 +606,12 @@ function renderInteractive(spec) {
 function cumulativeFragments(bead, byUri) {
   const endpoint = bead.grounding?.endpoint;
   if (!endpoint) return [bead];
-  const ALLOWED = new Set(['SourceBundle', 'FilterBundle']);
+  // SourceBundle / FilterBundle / PivotBundle all carry inlinable
+  // sparqlFragments and compose naturally — a Source binds ?p, a
+  // Filter adds a positive constraint on ?p, a Pivot walks ?p to a
+  // fresh ?pN and rebinds. AugmentBundle is excluded because it
+  // carries a full kgx:sparql (with VALUES) that's its own query.
+  const ALLOWED = new Set(['SourceBundle', 'FilterBundle', 'PivotBundle']);
   const visited = new Set();
   const collected = [];
 
