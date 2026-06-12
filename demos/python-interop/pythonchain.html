@@ -130,17 +130,18 @@
   running here as WebAssembly. No server-side Python.
 </p>
 <p class="sub">
-  The tool tries to be <em>honest about a real gap</em>: today's
-  manifests describe a chain's structural shape — lineage, branch
-  tree, op names — but rarely the <em>grounding</em> (endpoint,
-  SPARQL fragment per step, fusion plan) that would let a third-party
-  tool actually execute the chain. Each step is reported as
-  <code>✓ grounded</code>, <code>◐ partial</code> or
-  <code>⚠ ungrounded</code>. The Linear / Fork / Augment examples
-  show today's emit; the Grounded + fused / Variants examples show
-  the proposed shape (discussion only). The vocab privileges no
-  specific knowledge graph — every target is an
-  <code>sd:Service</code> with an endpoint URL.
+  The tool reports each step as
+  <code>✓ grounded</code> (has a runnable SPARQL fragment + endpoint),
+  <code>◐ partial</code> (has a gloss but nothing executable), or
+  <code>⚠ ungrounded</code> (neither). The example chains show the
+  structural shapes the FPKG runtime emits — Linear / Fork / Augment
+  for the everyday cases, plus DAG ones with Union / Intersect /
+  Difference set-ops, a multi-variant chain, and a cross-endpoint
+  federation example — each with full grounding so the
+  <strong>▶ Run</strong> buttons fire real SPARQL at the declared
+  <code>sd:Service</code> and render the actual rows. The kgx vocab
+  privileges no specific knowledge graph: every target is just an
+  <code>sd:Service</code> with an endpoint URL, whatever it points at.
 </p>
 
 <div id="status" class="status">⏳ Loading Pyodide runtime…</div>
@@ -519,7 +520,7 @@ function beadCard(n, prefix) {
       btn.disabled = true;
       btn.textContent = '⏳ querying…';
       try {
-        const sparql = g.sparql || `SELECT ?item WHERE { ${g.sparqlFragment} } LIMIT 50`;
+        const sparql = g.sparql || `SELECT * WHERE { ${g.sparqlFragment} } LIMIT 50`;
         await runSparql(g.endpoint, sparql, resultDiv);
       } finally {
         btn.disabled = false;
@@ -575,16 +576,68 @@ function executionCard(e, prefix) {
   return card;
 }
 
+// Known prefix bindings for SPARQL fragments coming out of beads. The
+// page prepends declarations for any prefix the fragment uses but
+// hasn't already declared. This is how SPARQL fragments stay short and
+// readable in TriG manifests while still being executable standalone.
+const KNOWN_PREFIXES = {
+  wd:     'http://www.wikidata.org/entity/',
+  wdt:    'http://www.wikidata.org/prop/direct/',
+  p:      'http://www.wikidata.org/prop/',
+  ps:     'http://www.wikidata.org/prop/statement/',
+  pq:     'http://www.wikidata.org/prop/qualifier/',
+  pqv:    'http://www.wikidata.org/prop/qualifier/value/',
+  psv:    'http://www.wikidata.org/prop/statement/value/',
+  rdf:    'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
+  rdfs:   'http://www.w3.org/2000/01/rdf-schema#',
+  owl:    'http://www.w3.org/2002/07/owl#',
+  xsd:    'http://www.w3.org/2001/XMLSchema#',
+  schema: 'https://id.parliament.uk/schema/',     // Parliament DDP
+  schemaorg: 'http://schema.org/',
+  geo:    'http://www.w3.org/2003/01/geo/wgs84_pos#',
+  dct:    'http://purl.org/dc/terms/',
+  foaf:   'http://xmlns.com/foaf/0.1/',
+};
+
+function prependPrefixes(sparql) {
+  // Which prefixes are already declared? (case-insensitive PREFIX)
+  const declared = new Set(
+    [...sparql.matchAll(/PREFIX\s+(\w+):/gi)].map(m => m[1].toLowerCase())
+  );
+  // Which prefixes does the body USE (via `prefix:local` tokens, excluding
+  // those inside <…> IRIs and "…" literals)?
+  // Crude but good-enough — strip <…> and "…" then scan for `\bpx:`.
+  const stripped = sparql.replace(/<[^>]*>/g, ' ').replace(/"[^"]*"/g, ' ');
+  const used = new Set();
+  for (const px of Object.keys(KNOWN_PREFIXES)) {
+    const re = new RegExp(`\\b${px}:`);
+    if (re.test(stripped)) used.add(px);
+  }
+  const toAdd = [...used].filter(p => !declared.has(p.toLowerCase()));
+  if (!toAdd.length) return sparql;
+  return toAdd.map(p => `PREFIX ${p}: <${KNOWN_PREFIXES[p]}>`).join('\n') + '\n' + sparql;
+}
+
 async function runSparql(endpoint, sparql, outDiv) {
   outDiv.innerHTML = '';
+  const finalSparql = prependPrefixes(sparql);
   try {
     const url = endpoint + (endpoint.includes('?') ? '&' : '?') +
-                'query=' + encodeURIComponent(sparql);
+                'query=' + encodeURIComponent(finalSparql);
     const t0 = performance.now();
     const r = await fetch(url, { headers: { accept: 'application/sparql-results+json' } });
     const dt = (performance.now() - t0) | 0;
     if (!r.ok) {
-      outDiv.innerHTML = `<div class="err">HTTP ${r.status} after ${dt} ms — endpoint may not allow CORS for this origin.</div>`;
+      const body = await r.text().catch(() => '');
+      const detail = body ? ': ' + escapeHtml(body.slice(0, 240).replace(/\s+/g, ' ').trim()) : '';
+      const hint = r.status === 400
+        ? ' — query rejected (often: undefined prefix, syntax error, unknown property)'
+        : r.status === 403 || r.status === 401
+          ? ' — endpoint refused authentication or rate-limited'
+          : '';
+      outDiv.innerHTML =
+        `<div class="err">HTTP ${r.status} after ${dt} ms${hint}${detail}</div>` +
+        `<details><summary>query sent</summary><pre>${escapeHtml(finalSparql)}</pre></details>`;
       return;
     }
     const j = await r.json();
@@ -610,7 +663,12 @@ async function runSparql(endpoint, sparql, outDiv) {
     html += '</tbody></table>';
     outDiv.innerHTML = html;
   } catch (err) {
-    outDiv.innerHTML = `<div class="err">fetch failed: ${escapeHtml(err.message || err)}</div>`;
+    // fetch() throws on network failures, mixed-content blocks, AND
+    // CORS preflight blocks. Surface a meaningful hint and the query
+    // we tried so the user can copy it elsewhere.
+    outDiv.innerHTML =
+      `<div class="err">fetch failed: ${escapeHtml(err.message || err)} — likely CORS-blocked, mixed-content, or network</div>` +
+      `<details><summary>query attempted</summary><pre>${escapeHtml(finalSparql)}</pre></details>`;
   }
 }
 
@@ -621,68 +679,163 @@ async function runSparql(endpoint, sparql, outDiv) {
 const EXAMPLES = {
   linear: `@prefix kgx: <urn:kgx:vocab:> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
+@prefix wd:  <http://www.wikidata.org/entity/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
 
-<urn:kgx:chain:demo-linear> {
-  <urn:kgx:chain:demo-linear> dct:title "Sitting Conservatives" .
-  <urn:kgx:chain:demo-linear> dct:description "Seed → Conservative → sitting" .
+# Same SHAPE as today's FPKG emit (starter + filter chips), but now
+# every bead also carries grounding so the ▶ Run buttons fire real
+# SPARQL at qlever.dev/api/wikidata. The kgx:op + kgx:opValue strings
+# are the legacy chip labels; the kgx:propertyIri / kgx:valueIri /
+# kgx:sparqlFragment are the executable interpretation.
 
-  <urn:kgx:chain:demo-linear:bead:0> a kgx:SourceBundle ;
-    kgx:starterId "uk-mps-1900" .
-  <urn:kgx:chain:demo-linear:bead:1> a kgx:FilterBundle ;
-    kgx:derivedFrom <urn:kgx:chain:demo-linear:bead:0> ;
-    kgx:op "party" ;
-    kgx:opValue "Conservative" .
-  <urn:kgx:chain:demo-linear:bead:2> a kgx:FilterBundle ;
-    kgx:derivedFrom <urn:kgx:chain:demo-linear:bead:1> ;
-    kgx:op "sitting" .
+<urn:kgx:chain:linear-tory-sitting> {
+  <urn:kgx:chain:linear-tory-sitting>
+    dct:title       "Sitting Conservatives (linear, grounded)" ;
+    dct:description "Seed → party=Conservative → sitting. Click ▶ Run on bead 2 — ~124 live rows." .
+
+  <urn:kgx:chain:linear-tory-sitting:bead:0> a kgx:SourceBundle ;
+    kgx:gloss          "Holders of a currently-active UK Parliament seat" ;
+    kgx:starterId      "uk-mps-1900" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
+
+  <urn:kgx:chain:linear-tory-sitting:bead:1> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:linear-tory-sitting:bead:0> ;
+    kgx:gloss          "Members of the Conservative Party (chip-label: party=Conservative)" ;
+    kgx:op             "party" ;
+    kgx:opValue        "Conservative" ;
+    kgx:propertyIri    wdt:P102 ;
+    kgx:valueIri       wd:Q9626 ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
+
+  <urn:kgx:chain:linear-tory-sitting:bead:2> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:linear-tory-sitting:bead:1> ;
+    kgx:gloss          "Sanity probe — still wd:Q5 humans (the 'sitting' constraint already lives in bead 0's NOT-EXISTS)" ;
+    kgx:op             "sitting" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P31 wd:Q5 ." .
 }`,
 
   fork: `@prefix kgx: <urn:kgx:vocab:> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
+@prefix wd:  <http://www.wikidata.org/entity/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
 
-<urn:kgx:chain:demo-fork> {
-  <urn:kgx:chain:demo-fork> dct:title "Fork demo" .
-  <urn:kgx:chain:demo-fork> dct:description "Shared prefix; sibling branch pivots to birthplaces." .
-  <urn:kgx:chain:demo-fork> kgx:activeBranch "with-bp" .
+# Fork shape (same as the FPKG library's 'fork-demo'): a shared main
+# branch then a sibling branch that pivots to birthplaces. Each bead
+# carries a SPARQL grounding, so ▶ Run on any of them returns real rows.
 
-  <urn:kgx:chain:demo-fork:bead:0> a kgx:SourceBundle ;
-    kgx:branch "main" ;
-    kgx:starterId "uk-mps-1900" .
-  <urn:kgx:chain:demo-fork:bead:1> a kgx:FilterBundle ;
-    kgx:derivedFrom <urn:kgx:chain:demo-fork:bead:0> ;
-    kgx:branch "main" ;
-    kgx:op "party" ;
-    kgx:opValue "Labour Party" .
-  <urn:kgx:chain:demo-fork:bead:2> a kgx:FilterBundle ;
-    kgx:derivedFrom <urn:kgx:chain:demo-fork:bead:1> ;
-    kgx:branch "main" ;
-    kgx:op "sitting" .
-  <urn:kgx:chain:demo-fork:bead:with-bp:0> a kgx:PivotBundle ;
-    kgx:derivedFrom <urn:kgx:chain:demo-fork:bead:2> ;
-    kgx:branch "with-bp" ;
-    kgx:relTemplate "birthplaces" ;
-    kgx:relVariant "default" .
+<urn:kgx:chain:fork-demo-grounded> {
+  <urn:kgx:chain:fork-demo-grounded>
+    dct:title       "Sitting Labour MPs, fork to birthplaces (grounded)" ;
+    dct:description "Shared prefix: starter → Labour → sitting; fork into pivot-to-birthplaces." ;
+    kgx:activeBranch "with-bp" .
+
+  <urn:kgx:chain:fork-demo-grounded:bead:0> a kgx:SourceBundle ;
+    kgx:branch         "main" ;
+    kgx:gloss          "Holders of a currently-active UK Parliament seat" ;
+    kgx:starterId      "uk-mps-1900" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
+
+  <urn:kgx:chain:fork-demo-grounded:bead:1> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:fork-demo-grounded:bead:0> ;
+    kgx:branch         "main" ;
+    kgx:gloss          "Members of the Labour Party" ;
+    kgx:op             "party" ;
+    kgx:opValue        "Labour Party" ;
+    kgx:propertyIri    wdt:P102 ;
+    kgx:valueIri       wd:Q9630 ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P102 wd:Q9630 ." .
+
+  <urn:kgx:chain:fork-demo-grounded:bead:2> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:fork-demo-grounded:bead:1> ;
+    kgx:branch         "main" ;
+    kgx:gloss          "Still a human (the 'sitting' constraint already lives in bead 0)" ;
+    kgx:op             "sitting" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P31 wd:Q5 ." .
+
+  <urn:kgx:chain:fork-demo-grounded:bead:with-bp:0> a kgx:PivotBundle ;
+    kgx:input          <urn:kgx:chain:fork-demo-grounded:bead:2> ;
+    kgx:branch         "with-bp" ;
+    kgx:gloss          "Birthplaces of the items in the parent stream — walk wdt:P19" ;
+    kgx:relTemplate    "birthplaces" ;
+    kgx:relVariant     "default" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P19 ?place . ?place wdt:P31/wdt:P279* wd:Q486972 ." .
 }`,
 
   augment: `@prefix kgx: <urn:kgx:vocab:> .
 @prefix dct: <http://purl.org/dc/terms/> .
+@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
+@prefix wd:  <http://www.wikidata.org/entity/> .
+@prefix wdt: <http://www.wikidata.org/prop/direct/> .
 
-<urn:kgx:chain:demo-augment> {
-  <urn:kgx:chain:demo-augment> dct:title "Bridged + enriched Tories" .
-  <urn:kgx:chain:demo-augment> dct:description "Seed → Conservative → identity-bridge → Wikidata enrich." .
+# Augment shape, real bridged version. The kgx:AugmentBundle for the
+# 'enrich' op carries the actual SPARQL the FPKG enrich function sends
+# at Wikidata (Q42 is the demo VALUES — Douglas Adams, swap as needed).
+# The 'parl-enrich' bead carries the seeAlso bridge to Parliament SPARQL.
 
-  <urn:kgx:chain:demo-augment:bead:0> a kgx:SourceBundle ;
-    kgx:starterId "parl-current-mps" .
-  <urn:kgx:chain:demo-augment:bead:1> a kgx:FilterBundle ;
-    kgx:derivedFrom <urn:kgx:chain:demo-augment:bead:0> ;
-    kgx:op "party" ;
-    kgx:opValue "Conservative" .
-  <urn:kgx:chain:demo-augment:bead:2> a kgx:AugmentBundle ;
-    kgx:derivedFrom <urn:kgx:chain:demo-augment:bead:1> ;
-    kgx:op "identity-bridge" .
-  <urn:kgx:chain:demo-augment:bead:3> a kgx:AugmentBundle ;
-    kgx:derivedFrom <urn:kgx:chain:demo-augment:bead:2> ;
-    kgx:op "enrich" .
+<urn:kgx:chain:augment-grounded> {
+  <urn:kgx:chain:augment-grounded>
+    dct:title       "Bridged + enriched Tories (grounded)" ;
+    dct:description "Seed → Conservative → parl-enrich (DDP) → Wikidata enrich. Every bead is runnable." .
+
+  <urn:kgx:chain:augment-grounded:bead:0> a kgx:SourceBundle ;
+    kgx:gloss          "Holders of a currently-active UK Parliament seat" ;
+    kgx:starterId      "parl-current-mps" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
+
+  <urn:kgx:chain:augment-grounded:bead:1> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:augment-grounded:bead:0> ;
+    kgx:gloss          "Members of the Conservative Party" ;
+    kgx:op             "party" ;
+    kgx:opValue        "Conservative" ;
+    kgx:propertyIri    wdt:P102 ;
+    kgx:valueIri       wd:Q9626 ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
+
+  <urn:kgx:chain:augment-grounded:bead:2> a kgx:AugmentBundle ;
+    kgx:input          <urn:kgx:chain:augment-grounded:bead:1> ;
+    kgx:gloss          "Bridge to Parliament DDP: current constituency + party via rdfs:seeAlso" ;
+    kgx:op             "parl-enrich" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://api.parliament.uk/sparql> ] ;
+    kgx:sparql """PREFIX schema: <https://id.parliament.uk/schema/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?qid (SAMPLE(?cgName) AS ?constituency) (SAMPLE(?partyName) AS ?party)
+WHERE {
+  VALUES ?qid { <http://www.wikidata.org/entity/Q193672> <http://www.wikidata.org/entity/Q333867> }
+  ?personUri rdfs:seeAlso ?qid ;
+             a schema:Member ;
+             schema:memberHasParliamentaryIncumbency ?in .
+  OPTIONAL { ?in schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup/schema:constituencyGroupName ?cgName }
+  OPTIONAL { ?personUri schema:partyMemberHasPartyMembership ?pm .
+             FILTER NOT EXISTS { ?pm schema:partyMembershipEndDate ?_pe }
+             ?pm schema:partyMembershipHasParty/schema:partyName ?partyName }
+} GROUP BY ?qid""" .
+
+  <urn:kgx:chain:augment-grounded:bead:3> a kgx:AugmentBundle ;
+    kgx:input          <urn:kgx:chain:augment-grounded:bead:2> ;
+    kgx:gloss          "Wikidata enrich: dates of birth + birthplaces + alma maters via wdt:P19/P569/P69" ;
+    kgx:op             "enrich" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparql """PREFIX wd:   <http://www.wikidata.org/entity/>
+PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?p ?dob (SAMPLE(?bpLbl) AS ?birthplace) (GROUP_CONCAT(DISTINCT ?amLbl; separator=" | ") AS ?almaMaters)
+WHERE {
+  VALUES ?p { wd:Q193672 wd:Q333867 }
+  OPTIONAL { ?p wdt:P569 ?dob }
+  OPTIONAL { ?p wdt:P19 ?bp . OPTIONAL { ?bp rdfs:label ?bpLbl . FILTER(lang(?bpLbl) = "en") } }
+  OPTIONAL { ?p wdt:P69 ?am . OPTIONAL { ?am rdfs:label ?amLbl . FILTER(lang(?amLbl) = "en") } }
+} GROUP BY ?p ?dob""" .
 }`,
 
   grounded: `@prefix kgx: <urn:kgx:vocab:> .
