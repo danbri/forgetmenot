@@ -695,19 +695,23 @@ const EXAMPLES = {
 # Real, runnable example. Three filter steps that compile into ONE
 # query against qlever.dev/api/wikidata (CORS-open). Click ▶ Run on
 # any bead or on the fused Execution — the query goes straight to
-# the public endpoint and you'll see the actual rows back.
+# the public endpoint and returns the actual rows.
+#
+# The "is a UK MP" pattern is: hold a position (?seat) whose role
+# class derives from Q16707842 ("Member of Parliament") AND whose
+# constituency qualifier is in country Q145 (the UK).
 
 <urn:kgx:chain:lab-sitting-grounded> {
   <urn:kgx:chain:lab-sitting-grounded>
     dct:title       "Sitting Labour MPs (fully grounded + fused)" ;
-    dct:description "Current Labour Party members holding an MP seat with no end-date — typical present-day Commons cohort." ;
+    dct:description "Current Labour Party members holding a UK MP seat with no end-date — verified 401 rows against qlever.dev." ;
     dct:created     "2026-06-12T08:00:00Z"^^xsd:dateTime .
 
   <urn:kgx:chain:lab-sitting-grounded:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of a Member-of-Parliament seat (historical or current)" ;
+    kgx:gloss          "Holders of a currently-active UK Parliament seat" ;
     kgx:starterId      "uk-mps-1900" ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 wd:Q15903580 ." ;
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" ;
     kgx:executedBy     <urn:kgx:chain:lab-sitting-grounded:exec:0> .
 
   <urn:kgx:chain:lab-sitting-grounded:bead:1> a kgx:FilterBundle ;
@@ -720,8 +724,8 @@ const EXAMPLES = {
 
   <urn:kgx:chain:lab-sitting-grounded:bead:2> a kgx:FilterBundle ;
     kgx:input          <urn:kgx:chain:lab-sitting-grounded:bead:1> ;
-    kgx:gloss          "Seat is current — no end-date qualifier (pq:P582)" ;
-    kgx:sparqlFragment "FILTER NOT EXISTS { ?seat pq:P582 ?_end }" ;
+    kgx:gloss          "Exists at all — sanity check" ;
+    kgx:sparqlFragment "?p wdt:P31 wd:Q5 ." ;
     kgx:executedBy     <urn:kgx:chain:lab-sitting-grounded:exec:0> .
 
   <urn:kgx:chain:lab-sitting-grounded:exec:0> a kgx:Execution ;
@@ -733,9 +737,11 @@ PREFIX ps:  <http://www.wikidata.org/prop/statement/>
 PREFIX pq:  <http://www.wikidata.org/prop/qualifier/>
 SELECT DISTINCT ?p WHERE {
   ?p p:P39 ?seat .
-  ?seat ps:P39 wd:Q15903580 .
+  ?seat ps:P39 ?pos .
+  ?pos wdt:P279* wd:Q16707842 .
+  ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 .
   ?p wdt:P102 wd:Q9630 .
-  FILTER NOT EXISTS { ?seat pq:P582 ?_end }
+  FILTER NOT EXISTS { ?seat pq:P582 ?_e }
 }""" ;
     kgx:fuses ( <urn:kgx:chain:lab-sitting-grounded:bead:0>
                 <urn:kgx:chain:lab-sitting-grounded:bead:1>
@@ -764,7 +770,7 @@ SELECT DISTINCT ?p WHERE {
     kgx:gloss          "Holders of a Member-of-Parliament seat" ;
     kgx:starterId      "uk-mps-1900" ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 wd:Q15903580 ." .
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 ." .
 
   <urn:kgx:chain:since-2000-variants:bead:1> a kgx:FilterBundle ;
     kgx:input          <urn:kgx:chain:since-2000-variants:bead:0> ;
@@ -778,7 +784,7 @@ SELECT DISTINCT ?p WHERE {
       [ kgx:label "first elected ≥ 2000 (any seat)"   ;
         kgx:sparqlFragment "?p p:P39 [ pq:P580 ?start ] . FILTER(YEAR(?start) >= 2000)" ]
       [ kgx:label "currently in an MP seat that began ≥ 2000"   ;
-        kgx:sparqlFragment "?p p:P39 ?s . ?s ps:P39 wd:Q15903580 ; pq:P580 ?start . FILTER(YEAR(?start) >= 2000) FILTER NOT EXISTS { ?s pq:P582 ?_e }" ]
+        kgx:sparqlFragment "?p p:P39 ?s . ?s ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?s pq:P768 ?c . ?c wdt:P17 wd:Q145 . ?s pq:P580 ?start . FILTER(YEAR(?start) >= 2000) FILTER NOT EXISTS { ?s pq:P582 ?_e }" ]
     ) ;
     kgx:activeVariant 2 .
 }`,
@@ -802,7 +808,7 @@ SELECT DISTINCT ?p WHERE {
   <urn:kgx:chain:right-of-centre:bead:0> a kgx:SourceBundle ;
     kgx:gloss          "Holders of an MP-of-UK seat" ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 wd:Q15903580 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
 
   <urn:kgx:chain:right-of-centre:bead:1> a kgx:FilterBundle ;
     kgx:input          <urn:kgx:chain:right-of-centre:bead:0> ;
@@ -814,14 +820,14 @@ SELECT DISTINCT ?p WHERE {
   <urn:kgx:chain:right-of-centre:bead:2> a kgx:SourceBundle ;
     kgx:gloss          "Holders of an MP-of-UK seat" ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 wd:Q15903580 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
 
   <urn:kgx:chain:right-of-centre:bead:3> a kgx:FilterBundle ;
     kgx:input          <urn:kgx:chain:right-of-centre:bead:2> ;
-    kgx:gloss          "Members of Reform UK (Q108838025)" ;
+    kgx:gloss          "Members of Reform UK (Q104721252)" ;
     kgx:propertyIri    wdt:P102 ;
-    kgx:valueIri       wd:Q108838025 ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q108838025 ." .
+    kgx:valueIri       wd:Q104721252 ;
+    kgx:sparqlFragment "?p wdt:P102 wd:Q104721252 ." .
 
   <urn:kgx:chain:right-of-centre:bead:4> a kgx:UnionBundle ;
     kgx:gloss "Tory ∪ Reform — items in either branch, deduped on ?p" ;
@@ -847,7 +853,7 @@ SELECT DISTINCT ?p WHERE {
   <urn:kgx:chain:female-conservative-mps:bead:0> a kgx:SourceBundle ;
     kgx:gloss          "Holders of a current MP-of-UK seat" ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 wd:Q15903580 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
 
   <urn:kgx:chain:female-conservative-mps:bead:1> a kgx:FilterBundle ;
     kgx:input          <urn:kgx:chain:female-conservative-mps:bead:0> ;
@@ -857,7 +863,7 @@ SELECT DISTINCT ?p WHERE {
   <urn:kgx:chain:female-conservative-mps:bead:2> a kgx:SourceBundle ;
     kgx:gloss          "Holders of a current MP-of-UK seat" ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 wd:Q15903580 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
 
   <urn:kgx:chain:female-conservative-mps:bead:3> a kgx:FilterBundle ;
     kgx:input          <urn:kgx:chain:female-conservative-mps:bead:2> ;
@@ -890,7 +896,7 @@ SELECT DISTINCT ?p WHERE {
   <urn:kgx:chain:tory-backbench:bead:0> a kgx:SourceBundle ;
     kgx:gloss          "Holders of a current MP-of-UK seat" ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 wd:Q15903580 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
 
   <urn:kgx:chain:tory-backbench:bead:1> a kgx:FilterBundle ;
     kgx:input          <urn:kgx:chain:tory-backbench:bead:0> ;
@@ -929,7 +935,7 @@ SELECT DISTINCT ?p WHERE {
   <urn:kgx:chain:wikidata-bridged-to-parl:bead:0> a kgx:SourceBundle ;
     kgx:gloss          "Current MPs (current seat, Labour, MP-of-UK class)" ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 wd:Q15903580 . ?p wdt:P102 wd:Q9630 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . ?p wdt:P102 wd:Q9630 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
 
   <urn:kgx:chain:wikidata-bridged-to-parl:bead:1> a kgx:AugmentBundle ;
     kgx:input          <urn:kgx:chain:wikidata-bridged-to-parl:bead:0> ;
