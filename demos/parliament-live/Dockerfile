@@ -109,6 +109,12 @@ WORKDIR /app
 # Node static server + web assets.
 COPY --chown=node:node demos/parliament-live/server.mjs ./
 COPY --chown=node:node demos/parliament-live/web/ ./web/
+# Canonical home of the Python-interop demo. The web/python-interop/
+# directory contains symlinks back here (relative `../../../python-interop/`)
+# so the same kgx_chain.py serves the CLI demo and the in-browser
+# Pyodide demo. The symlinks resolve correctly only if /app/python-interop
+# exists with the real files — hence this COPY.
+COPY --chown=node:node demos/python-interop/ ./python-interop/
 COPY --chown=node:node demos/parliament-live/CLAUDE.md ./
 COPY --chown=node:node demos/parliament-live/entrypoint.sh /usr/local/bin/fpkg-entrypoint
 RUN chmod +x /usr/local/bin/fpkg-entrypoint
