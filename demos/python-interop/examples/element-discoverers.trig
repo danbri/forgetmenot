@@ -15,7 +15,7 @@
     kgx:gloss          "People named as discoverer of any chemical element" ;
     kgx:produces       wd:Q5 ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?elem wdt:P31 wd:Q11344 ; wdt:P61 ?p . ?p wdt:P31 wd:Q5 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
+    kgx:sparqlFragment "?elem wdt:P31 wd:Q11344 ; wdt:P61 ?p . ?p wdt:P31 wd:Q5 . FILTER(STRSTARTS(STR(?p), \"http://www.wikidata.org/entity/Q\")) OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
 
   <urn:kgx:chain:element-discoverers:bead:1> a kgx:PivotBundle ;
     kgx:input          <urn:kgx:chain:element-discoverers:bead:0> ;

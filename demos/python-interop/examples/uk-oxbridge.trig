@@ -14,7 +14,7 @@
     kgx:gloss          "All humans (left branch)" ;
     kgx:produces       wd:Q5 ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P31 wd:Q5 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
+    kgx:sparqlFragment "?p wdt:P31 wd:Q5 . FILTER(STRSTARTS(STR(?p), \"http://www.wikidata.org/entity/Q\")) OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
 
   <urn:kgx:chain:uk-oxbridge:bead:1> a kgx:FilterBundle ;
     kgx:input          <urn:kgx:chain:uk-oxbridge:bead:0> ;
@@ -53,7 +53,7 @@
     kgx:gloss          "All humans (right branch)" ;
     kgx:produces       wd:Q5 ;
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P31 wd:Q5 . OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
+    kgx:sparqlFragment "?p wdt:P31 wd:Q5 . FILTER(STRSTARTS(STR(?p), \"http://www.wikidata.org/entity/Q\")) OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \"en\") } OPTIONAL { ?p wdt:P18 ?image }" .
 
   <urn:kgx:chain:uk-oxbridge:bead:7> a kgx:FilterBundle ;
     kgx:input          <urn:kgx:chain:uk-oxbridge:bead:6> ;
