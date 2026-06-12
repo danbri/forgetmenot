@@ -377,7 +377,10 @@ function _nodeLabel(n) {
 }
 
 function specToMermaid(spec) {
-  const lines = ['graph LR'];
+  // Top-down layout (graph TB) reads better on narrow viewports than
+  // the wider left-to-right one. Each bead becomes its own row;
+  // executions land below the beads they fuse.
+  const lines = ['graph TB'];
   const nodes = _allNodes(spec);
   if (!nodes.length) return '';
 
@@ -476,10 +479,14 @@ function renderInteractive(spec) {
   const out = document.getElementById('interactive-out');
   out.innerHTML = '';
   const prefix = _chainPrefix(spec);
-
   const nodes = _allNodes(spec);
+
+  // Index nodes by URI so cards can look up predecessors when
+  // building cumulative ▶ Run queries.
+  const byUri = new Map(nodes.map(n => [n.uri, n]));
+
   for (const n of nodes) {
-    out.appendChild(beadCard(n, prefix));
+    out.appendChild(beadCard(n, prefix, byUri));
   }
   for (const e of (spec.executions || [])) {
     out.appendChild(executionCard(e, prefix));
@@ -487,7 +494,42 @@ function renderInteractive(spec) {
   if (!out.children.length) out.textContent = '(no beads)';
 }
 
-function beadCard(n, prefix) {
+// Walk the input edges back from `bead`, collecting every transitively
+// upstream Filter/Source bead that targets the SAME endpoint. Stops at:
+//   - a bead with a different endpoint (fusion boundary — must be its
+//     own query, can't be inlined here);
+//   - a bead whose kind isn't a same-endpoint composable
+//     (Pivot / Augment are valid single-engine ops but their
+//     SPARQL is a full query with VALUES, not an inlinable fragment
+//     — exclude them from the fragment-fusion path);
+//   - any ungrounded predecessor (we can't honestly inline its
+//     contribution if it has no SPARQL).
+// Order returned is upstream-first.
+function cumulativeFragments(bead, byUri) {
+  const endpoint = bead.grounding?.endpoint;
+  if (!endpoint) return [bead];
+  const ALLOWED = new Set(['SourceBundle', 'FilterBundle']);
+  const visited = new Set();
+  const collected = [];
+
+  function walk(n) {
+    if (visited.has(n.uri)) return;
+    visited.add(n.uri);
+    if (!ALLOWED.has(n.kind_kgx)) return;
+    if (n.grounding?.endpoint !== endpoint) return;
+    if (!n.grounding?.sparqlFragment) return;
+    // Recurse on parents first so collected ends up in topo order
+    for (const e of (n.inputs || [])) {
+      const p = byUri.get(e.iri);
+      if (p) walk(p);
+    }
+    collected.push(n);
+  }
+  walk(bead);
+  return collected;
+}
+
+function beadCard(n, prefix, byUri) {
   const card = document.createElement('div');
   card.className = `card ${n.grounded || 'ungrounded'}`;
   const head = document.createElement('div');
@@ -511,23 +553,69 @@ function beadCard(n, prefix) {
   }
 
   if (g.endpoint && (g.sparqlFragment || g.sparql)) {
-    const btn = document.createElement('button');
-    btn.className = 'run';
-    btn.textContent = '▶ Run this bead';
     const resultDiv = document.createElement('div');
     resultDiv.className = 'result';
-    btn.addEventListener('click', async () => {
-      btn.disabled = true;
-      btn.textContent = '⏳ querying…';
+    const btnRow = document.createElement('div');
+    btnRow.style.cssText = 'display:flex;gap:0.4em;flex-wrap:wrap;margin-top:0.4em';
+
+    // Primary button: "Run through here" — cumulative fusion of all
+    // same-endpoint Filter/Source predecessors plus this bead. Mirrors
+    // what an optimising interpreter would emit, so the count actually
+    // matches what the chain means at this point.
+    const cumulative = cumulativeFragments(n, byUri);
+    const showThroughBtn = g.sparqlFragment && cumulative.length > 1;
+    if (showThroughBtn) {
+      const btn = document.createElement('button');
+      btn.className = 'run';
+      btn.textContent = `▶ Run through here (fuses ${cumulative.length} beads)`;
+      btn.title =
+        `Fuses every upstream Filter/Source bead on the same endpoint into one query — ` +
+        `the answer to "what does the chain mean up to and including this bead?". ` +
+        `Mirrors what an optimising interpreter would emit.`;
+      btn.addEventListener('click', async () => {
+        btn.disabled = true;
+        const old = btn.textContent; btn.textContent = '⏳ querying…';
+        try {
+          const fused =
+            'SELECT * WHERE {\n' +
+            cumulative.map(b => '  ' + b.grounding.sparqlFragment).join('\n') +
+            '\n} LIMIT 50';
+          await runSparql(g.endpoint, fused, resultDiv);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = old;
+        }
+      });
+      btnRow.appendChild(btn);
+    }
+
+    // Secondary button: this bead's fragment in isolation. Useful for
+    // inspecting what THIS predicate by itself returns against the
+    // endpoint, ignoring the chain.
+    const btnAlone = document.createElement('button');
+    btnAlone.className = 'run';
+    btnAlone.style.background = 'transparent';
+    btnAlone.style.color = 'var(--accent)';
+    btnAlone.style.border = '1px solid var(--accent)';
+    btnAlone.textContent = showThroughBtn ? '▶ Run this fragment alone' : '▶ Run this bead';
+    btnAlone.title =
+      'Send just this bead\'s sparqlFragment (or full sparql) to the endpoint, ' +
+      'IGNORING any upstream beads. Useful for inspecting what the predicate does ' +
+      'on its own — but the result count will NOT reflect the chain.';
+    btnAlone.addEventListener('click', async () => {
+      btnAlone.disabled = true;
+      const old = btnAlone.textContent; btnAlone.textContent = '⏳ querying…';
       try {
         const sparql = g.sparql || `SELECT * WHERE { ${g.sparqlFragment} } LIMIT 50`;
         await runSparql(g.endpoint, sparql, resultDiv);
       } finally {
-        btn.disabled = false;
-        btn.textContent = '▶ Run this bead';
+        btnAlone.disabled = false;
+        btnAlone.textContent = old;
       }
     });
-    card.appendChild(btn);
+    btnRow.appendChild(btnAlone);
+
+    card.appendChild(btnRow);
     card.appendChild(resultDiv);
   }
   return card;
