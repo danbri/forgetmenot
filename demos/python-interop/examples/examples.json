@@ -1,0 +1,85 @@
+{
+  "$comment": "Index of pythonchain example chain manifests. Each file under examples/ is a standalone TriG you can also feed to kgx_chain.py from the CLI. Avoids minus / NOT EXISTS / Difference: in a federated multi-KG setting, closed-world negation conflates 'X is not asserted in this KG' with 'X is false everywhere', which breaks the moment the chain spans more than one endpoint. Positive temporal/event filters are used instead.",
+  "categories": [
+    {
+      "id": "politics",
+      "label": "Politics & law",
+      "examples": [
+        { "id": "uk-tory-2024",            "file": "uk-tory-2024.trig",            "label": "UK Tories elected since 4 July 2024",          "blurb": "Conservative MPs who took a Commons seat at or after the 2024 GE." },
+        { "id": "uk-labour-2024",          "file": "uk-labour-2024.trig",          "label": "UK Labour MPs elected since 4 July 2024",       "blurb": "Labour MPs who took a Commons seat at or after the 2024 GE — three filter beads compiled into one fused Execution." },
+        { "id": "uk-reform-2024",          "file": "uk-reform-2024.trig",          "label": "UK Reform UK MPs elected since 4 July 2024",    "blurb": "Reform UK's first sizeable Commons cohort — about 5 MPs including Nigel Farage." },
+        { "id": "uk-labour-women-2024",    "file": "uk-labour-women-2024.trig",    "label": "Women on the Labour benches since 2024",        "blurb": "Stacks the Labour filter and the female-gender filter — the Wikidata SPARQL pattern an intersection of two filters compiles into." },
+        { "id": "uk-oxbridge",             "file": "uk-oxbridge.trig",             "label": "UK MPs who studied at Oxford or Cambridge",     "blurb": "Two filter chains merged via kgx:UnionBundle — Oxford alumni ∪ Cambridge alumni among the 2024 intake." },
+        { "id": "uk-fork-birthplaces",     "file": "uk-fork-birthplaces.trig",     "label": "UK Labour MPs → fork to birthplaces",            "blurb": "Shared prefix (source → Labour → 2024 onward), then a sibling branch pivots to each MP's town of birth via wdt:P19." },
+        { "id": "uk-since-2000-variants",  "file": "uk-since-2000-variants.trig",  "label": "UK MPs since 2000 — three readings",            "blurb": "'Elected since 2000' is ambiguous. The manifest records all three plausible groundings and pins the chosen one." },
+        { "id": "uk-tory-enriched",        "file": "uk-tory-enriched.trig",        "label": "Tory MP, enriched via DDP + Wikidata",          "blurb": "Augment chain: seed from Wikidata, bridge to the UK Parliament DDP for current constituency, then Wikidata again for DOB / birthplace / alma maters." },
+        { "id": "uk-federation",           "file": "uk-federation.trig",           "label": "UK Labour MP across Wikidata ↔ Parliament SPARQL", "blurb": "The same MP joined across two endpoints by rdfs:seeAlso. Models federation without depending on SERVICE." },
+        { "id": "us-senators",             "file": "us-senators.trig",             "label": "US Senators sworn in since 2023",                "blurb": "Same UK-MP pattern, retargeted at wd:Q4416090 (United States Senator)." },
+        { "id": "meps-current",            "file": "meps-current.trig",            "label": "MEPs of the current European Parliament term",   "blurb": "Members of the European Parliament whose seat started at or after the 2024 election (10th term)." },
+        { "id": "women-hos-2010",          "file": "women-hos-2010.trig",          "label": "Women heads of state taking office since 2010",   "blurb": "wdt:P21 = Q6581072 (female), holding any Q48352 (head of state) position with pq:P580 ≥ 2010." },
+        { "id": "former-hos-1950",         "file": "former-hos-1950.trig",         "label": "Former heads of state born since 1950",          "blurb": "Anyone who has held wdt:P39 = head-of-state and was born on or after 1950 — a recent generation of leaders." },
+        { "id": "uk-supreme-court",        "file": "uk-supreme-court.trig",        "label": "Justices of the UK Supreme Court",              "blurb": "Holders of Q23035001 (Justice of the Supreme Court of the United Kingdom)." },
+        { "id": "un-secretaries-general",  "file": "un-secretaries-general.trig",  "label": "UN Secretaries-General",                         "blurb": "Every holder of Q26197 (Secretary-General of the United Nations) — nine of them, ordered by inauguration." },
+        { "id": "ministers-two-countries", "file": "ministers-two-countries.trig", "label": "People who served as ministers in two countries", "blurb": "Identity-bridging Intersection: anyone holding Q83307 (minister) positions in two different country contexts." },
+        { "id": "nobel-politicians",       "file": "nobel-politicians.trig",       "label": "Nobel laureates born since 1950 who held political office", "blurb": "wdt:P166 = any Nobel + wdt:P39 = any office, with P569 ≥ 1950 as a positive age band." },
+        { "id": "uk-acts-climate",         "file": "uk-acts-climate.trig",         "label": "UK Acts of Parliament mentioning climate",      "blurb": "Q1006782 (Act of Parliament of the UK), with English label containing 'climate'." },
+        { "id": "cabinet-in-lords",        "file": "cabinet-in-lords.trig",        "label": "UK Cabinet ministers who sit in the House of Lords", "blurb": "Intersection of two positive filters: holds a Q83307 cabinet role AND a current Q18941264 Lords seat." }
+      ]
+    },
+    {
+      "id": "science",
+      "label": "Science & nature",
+      "examples": [
+        { "id": "nobel-physics",         "file": "nobel-physics.trig",         "label": "Nobel laureates in Physics",                   "blurb": "Anyone awarded wd:Q38104 (Nobel Prize in Physics). Wikidata has portraits for most of them." },
+        { "id": "element-discoverers",   "file": "element-discoverers.trig",   "label": "Discoverers of chemical elements",             "blurb": "People who hold wdt:P61 (discoverer / inventor) of any wd:Q11344 (chemical element)." },
+        { "id": "asteroids-composers",   "file": "asteroids-composers.trig",   "label": "Asteroids named after composers",              "blurb": "wd:Q3863 (asteroid) where the named-after target (wdt:P138) holds wdt:P106 = composer (Q36834)." },
+        { "id": "eight-thousanders",     "file": "eight-thousanders.trig",     "label": "Mountains above 8 000 m",                      "blurb": "wd:Q8502 (mountain) with wdt:P2044 (elevation above sea level) ≥ 8000 metres — the fourteen Eight-Thousanders, give or take." },
+        { "id": "japan-volcanoes",       "file": "japan-volcanoes.trig",       "label": "Active volcanoes in Japan",                    "blurb": "wd:Q8072 (volcano) in country wd:Q17 (Japan), filtered to the active subclass." },
+        { "id": "ecuador-hummingbirds",  "file": "ecuador-hummingbirds.trig",  "label": "Hummingbird species endemic to Ecuador",       "blurb": "Members of family wd:Q26447 (Trochilidae) whose endemic-to (wdt:P183) is Ecuador (Q736)." },
+        { "id": "large-sharks",          "file": "large-sharks.trig",          "label": "Shark species recorded longer than 5 m",       "blurb": "Subclasses of wd:Q35878 (shark) with wdt:P2043 (length) > 5 m. Pacific sleeper, great white, basking, whale shark…" },
+        { "id": "thousand-year-trees",   "file": "thousand-year-trees.trig",   "label": "Trees confirmed over 1 000 years old",         "blurb": "Individual organisms (wd:Q811979) of class tree, with computed age (today − P571) ≥ 1000 years." }
+      ]
+    },
+    {
+      "id": "culture",
+      "label": "Music & film",
+      "examples": [
+        { "id": "beatles-albums",       "file": "beatles-albums.trig",       "label": "Studio albums by The Beatles",                  "blurb": "wd:Q1299 (The Beatles) ← performer of wd:Q482994 (album), with release date." },
+        { "id": "musician-novelists",   "file": "musician-novelists.trig",   "label": "Musicians who also publish novels",             "blurb": "Intersection of wdt:P106 = musician AND wdt:P106 = writer, plus at least one published wd:Q571 (book) authored." },
+        { "id": "eurovision-winners",   "file": "eurovision-winners.trig",   "label": "Eurovision winners, by year",                   "blurb": "wd:Q276 (Eurovision Song Contest) wdt:P1346 (winner) by edition. Ranks of Abba." },
+        { "id": "mozart-operas",        "file": "mozart-operas.trig",        "label": "Operas by Mozart",                              "blurb": "wd:Q254 (W. A. Mozart) ← composer of wd:Q1344 (opera)." },
+        { "id": "nolan-films",          "file": "nolan-films.trig",          "label": "Films directed by Christopher Nolan",           "blurb": "wd:Q25191 (Christopher Nolan) ← director of wd:Q11424 (film)." },
+        { "id": "pixar-films",          "file": "pixar-films.trig",          "label": "Pixar feature films",                           "blurb": "wd:Q24336 (Pixar) production-company of wd:Q11424 (film) subclass-of feature film." },
+        { "id": "booker-winners",       "file": "booker-winners.trig",       "label": "Booker Prize winners",                          "blurb": "wd:Q187100 (Booker Prize) wdt:P1346 → laureate, with the winning novel." },
+        { "id": "ghibli-films",         "file": "ghibli-films.trig",         "label": "Studio Ghibli feature films",                   "blurb": "wd:Q174870 (Studio Ghibli) production company of wd:Q11424 (film)." }
+      ]
+    },
+    {
+      "id": "art",
+      "label": "Art & history",
+      "examples": [
+        { "id": "van-gogh-paintings",   "file": "van-gogh-paintings.trig",   "label": "Paintings by Vincent van Gogh",                 "blurb": "wd:Q5582 (Van Gogh) ← creator of wd:Q3305213 (painting). Tile grid does these justice." },
+        { "id": "rodin-sculptures",     "file": "rodin-sculptures.trig",     "label": "Sculptures by Auguste Rodin",                   "blurb": "wd:Q30755 (Rodin) ← creator of any wd:Q860861 (sculpture)." },
+        { "id": "roman-long-reigns",    "file": "roman-long-reigns.trig",    "label": "Roman emperors who reigned 20+ years",          "blurb": "Q842606 (Roman Emperor) holders where (end − start) ≥ 20 years. Augustus, Tiberius, Theodosius II." },
+        { "id": "tudor-monarchs",       "file": "tudor-monarchs.trig",       "label": "British monarchs of the House of Tudor",        "blurb": "wd:Q102078 (House of Tudor) members who held an English / Irish monarchy position." },
+        { "id": "18th-dynasty-pharaohs","file": "18th-dynasty-pharaohs.trig","label": "Pharaohs of the Eighteenth Dynasty",            "blurb": "wd:Q12554 (18th Dynasty of Egypt) members." },
+        { "id": "italy-unesco",         "file": "italy-unesco.trig",         "label": "UNESCO World Heritage sites in Italy",          "blurb": "wd:Q9259 (UNESCO World Heritage Site) in country wd:Q38 (Italy)." }
+      ]
+    },
+    {
+      "id": "everyday",
+      "label": "Everyday & surprising",
+      "examples": [
+        { "id": "northern-line-tube",   "file": "northern-line-tube.trig",   "label": "London Underground stations on the Northern line", "blurb": "wd:Q98095 (Northern line) wdt:P81 / inverse to find every station served." },
+        { "id": "thames-bridges",       "file": "thames-bridges.trig",       "label": "Bridges over the River Thames",                  "blurb": "wd:Q12280 (bridge) wdt:P177 (crosses) → wd:Q19686 (River Thames). Tower Bridge, etc." },
+        { "id": "scotland-lighthouses", "file": "scotland-lighthouses.trig", "label": "Lighthouses on the coast of Scotland",           "blurb": "wd:Q39715 (lighthouse) in admin region Scotland (Q22)." },
+        { "id": "french-pdo-cheeses",   "file": "french-pdo-cheeses.trig",   "label": "PDO cheeses from France",                        "blurb": "wd:Q10943 (cheese) in country wd:Q142 (France) with Protected Designation of Origin (Q1404390) status." },
+        { "id": "trappist-breweries",   "file": "trappist-breweries.trig",   "label": "Trappist breweries (the actual eleven)",         "blurb": "wd:Q41680 (brewery) at a Trappist monastery (Q707261). Chimay, Westvleteren, Rochefort." },
+        { "id": "ancient-capitals",     "file": "ancient-capitals.trig",     "label": "Capital cities founded before 1000 AD",          "blurb": "Cities that are capitals with inception date < 1000-01-01." },
+        { "id": "tall-ships",           "file": "tall-ships.trig",           "label": "Tall ships preserved as museum ships",           "blurb": "wd:Q1075453 (museum ship) of subclass wd:Q170483 (tall ship) — Cutty Sark, USS Constitution, Belém." },
+        { "id": "recent-languages",     "file": "recent-languages.trig",     "label": "Programming languages first released since 2010", "blurb": "wd:Q9143 (programming language) with wdt:P571 (inception) ≥ 2010-01-01. Rust, Crystal, Zig, Carbon." },
+        { "id": "iba-cocktails",        "file": "iba-cocktails.trig",        "label": "Cocktails on the IBA official list",             "blurb": "wd:Q134271 (cocktail) listed in the International Bartenders Association catalogue — Negronis to Sazeracs." }
+      ]
+    }
+  ]
+}

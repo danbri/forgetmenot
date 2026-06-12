@@ -94,6 +94,15 @@
   }
   .mode-toggle button.active { background: var(--accent); color: white; }
   .examples { display: flex; gap: 0.5em; flex-wrap: wrap; margin: 0.4em 0 0.6em; }
+  /* Lazy-loaded example library: grouped by category, each example a
+     small outline button. Index lives at examples/examples.json,
+     individual chains at examples/<id>.trig. */
+  .example-list { margin: 0.4em 0 0.6em; max-height: 320px; overflow: auto; padding-right: 0.3em; }
+  .example-list .cat-head { font-weight: 600; font-size: 11px; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.05em; margin: 0.7em 0 0.3em; }
+  .example-list .cat-head:first-child { margin-top: 0; }
+  .example-list .cat-row { display: flex; gap: 0.35em; flex-wrap: wrap; }
+  .example-list button.outline { font-size: 11px; padding: 0.25em 0.55em; }
+  .example-list button.outline[title] { cursor: help; }
   label { display: block; font-weight: 600; font-size: 13px; margin: 0.6em 0 0.25em; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; }
   .small { font-size: 12px; color: var(--ink-soft); }
   a { color: var(--accent); }
@@ -143,18 +152,21 @@
   running here as WebAssembly. No server-side Python.
 </p>
 <p class="sub">
-  The tool reports each step as
-  <code>✓ grounded</code> (has a runnable SPARQL fragment + endpoint),
-  <code>◐ partial</code> (has a gloss but nothing executable), or
-  <code>⚠ ungrounded</code> (neither). The example chains show the
-  structural shapes the FPKG runtime emits — Linear / Fork / Augment
-  for the everyday cases, plus DAG ones with Union / Intersect /
-  Difference set-ops, a multi-variant chain, and a cross-endpoint
-  federation example — each with full grounding so the
-  <strong>▶ Run</strong> buttons fire real SPARQL at the declared
-  <code>sd:Service</code> and render the actual rows. The kgx vocab
+  Each step reports as <code>✓ grounded</code> (runnable SPARQL +
+  endpoint), <code>◐ partial</code> (gloss only) or <code>⚠
+  ungrounded</code>. The fifty example chains cover politics &amp; law,
+  science &amp; nature, music &amp; film, art &amp; history, and a
+  bag of everyday curiosities — Beatles albums, hummingbirds endemic
+  to Ecuador, Northern-line tube stations, French cheeses. Every one
+  uses positive temporal / set-membership filters rather than closed-world
+  <code>MINUS</code> / <code>NOT EXISTS</code> negation; in a federated
+  multi-KG setting absence-in-data is not equivalent to absence-in-fact
+  (see <a href="../docs/kgx/shared-components.md">shared-components.md</a>
+  for the rationale). Most chains fire SPARQL at
+  <a href="https://qlever.dev/api/wikidata">qlever.dev/api/wikidata</a>;
+  a couple federate to the UK Parliament SPARQL endpoint. The kgx vocab
   privileges no specific knowledge graph: every target is just an
-  <code>sd:Service</code> with an endpoint URL, whatever it points at.
+  <code>sd:Service</code> with an endpoint URL.
 </p>
 
 <div id="status" class="status">⏳ Loading Pyodide runtime…</div>
@@ -167,17 +179,7 @@
     </div>
 
     <label for="trig">TriG manifest input</label>
-    <div class="examples">
-      <button class="outline" data-example="linear">Linear (ungrounded)</button>
-      <button class="outline" data-example="fork">Fork (ungrounded)</button>
-      <button class="outline" data-example="augment">Augment (ungrounded)</button>
-      <button class="outline" data-example="grounded">Grounded + fused</button>
-      <button class="outline" data-example="variants">With variants</button>
-      <button class="outline" data-example="union">DAG: Union</button>
-      <button class="outline" data-example="intersect">DAG: Intersect</button>
-      <button class="outline" data-example="difference">DAG: Difference</button>
-      <button class="outline" data-example="federation">Federation (WD + DDP)</button>
-    </div>
+    <div id="example-list" class="example-list">⏳ Loading example index…</div>
     <textarea id="trig" placeholder="Paste a kgx TriG manifest here, or click an example →" spellcheck="false"></textarea>
 
     <div id="query-row" style="display:none">
@@ -291,11 +293,52 @@ for (const btn of document.querySelectorAll('.mode-toggle button')) {
   });
 }
 
-for (const btn of document.querySelectorAll('[data-example]')) {
-  btn.addEventListener('click', () => {
-    document.getElementById('trig').value = EXAMPLES[btn.dataset.example];
-  });
+// Lazy-load the example index: a JSON manifest groups example chains by
+// category, and each click fetches that chain's .trig file from disk. The
+// catalogue can grow without bloating the page — see
+// docs/kgx/shared-components.md for the larger factorisation plan.
+async function loadExampleIndex() {
+  const listEl = document.getElementById('example-list');
+  try {
+    const r = await fetch('examples/examples.json', { cache: 'no-cache' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    const idx = await r.json();
+    listEl.innerHTML = '';
+    for (const cat of idx.categories || []) {
+      const head = document.createElement('div');
+      head.className = 'cat-head';
+      head.textContent = cat.label;
+      listEl.appendChild(head);
+      const row = document.createElement('div');
+      row.className = 'cat-row';
+      for (const ex of cat.examples || []) {
+        const btn = document.createElement('button');
+        btn.className = 'outline';
+        btn.textContent = ex.label;
+        if (ex.blurb) btn.title = ex.blurb;
+        btn.addEventListener('click', () => loadExample(ex));
+        row.appendChild(btn);
+      }
+      listEl.appendChild(row);
+    }
+  } catch (e) {
+    listEl.innerHTML = `<div class="err">Couldn't load examples/examples.json: ${escapeHtml(e.message || e)}</div>`;
+  }
 }
+
+async function loadExample(ex) {
+  const ta = document.getElementById('trig');
+  ta.value = '⏳ Fetching ' + ex.file + '…';
+  try {
+    const r = await fetch('examples/' + ex.file, { cache: 'no-cache' });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    ta.value = await r.text();
+  } catch (e) {
+    ta.value = '# Failed to load examples/' + ex.file + ': ' + (e.message || e);
+  }
+}
+
+loadExampleIndex();
 
 document.getElementById('run').addEventListener('click', runIt);
 
@@ -829,445 +872,6 @@ async function runSparql(endpoint, sparql, outDiv) {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Example chains — short TriG snippets for each shape the page can render.
-// ---------------------------------------------------------------------------
-
-const EXAMPLES = {
-  linear: `@prefix kgx: <urn:kgx:vocab:> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
-@prefix wd:  <http://www.wikidata.org/entity/> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-
-# Same SHAPE as today's FPKG emit (starter + filter chips), but now
-# every bead also carries grounding so the ▶ Run buttons fire real
-# SPARQL at qlever.dev/api/wikidata. The kgx:op + kgx:opValue strings
-# are the legacy chip labels; the kgx:propertyIri / kgx:valueIri /
-# kgx:sparqlFragment are the executable interpretation.
-
-<urn:kgx:chain:linear-tory-sitting> {
-  <urn:kgx:chain:linear-tory-sitting>
-    dct:title       "Sitting Conservatives (linear, grounded)" ;
-    dct:description "Seed → party=Conservative → sitting. Click ▶ Run on bead 2 — ~124 live rows." .
-
-  <urn:kgx:chain:linear-tory-sitting:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of a currently-active UK Parliament seat" ;
-    kgx:starterId      "uk-mps-1900" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
-
-  <urn:kgx:chain:linear-tory-sitting:bead:1> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:linear-tory-sitting:bead:0> ;
-    kgx:gloss          "Members of the Conservative Party (chip-label: party=Conservative)" ;
-    kgx:op             "party" ;
-    kgx:opValue        "Conservative" ;
-    kgx:propertyIri    wdt:P102 ;
-    kgx:valueIri       wd:Q9626 ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
-
-  <urn:kgx:chain:linear-tory-sitting:bead:2> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:linear-tory-sitting:bead:1> ;
-    kgx:gloss          "Sanity probe — still wd:Q5 humans (the 'sitting' constraint already lives in bead 0's NOT-EXISTS)" ;
-    kgx:op             "sitting" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P31 wd:Q5 ." .
-}`,
-
-  fork: `@prefix kgx: <urn:kgx:vocab:> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
-@prefix wd:  <http://www.wikidata.org/entity/> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-
-# Fork shape (same as the FPKG library's 'fork-demo'): a shared main
-# branch then a sibling branch that pivots to birthplaces. Each bead
-# carries a SPARQL grounding, so ▶ Run on any of them returns real rows.
-
-<urn:kgx:chain:fork-demo-grounded> {
-  <urn:kgx:chain:fork-demo-grounded>
-    dct:title       "Sitting Labour MPs, fork to birthplaces (grounded)" ;
-    dct:description "Shared prefix: starter → Labour → sitting; fork into pivot-to-birthplaces." ;
-    kgx:activeBranch "with-bp" .
-
-  <urn:kgx:chain:fork-demo-grounded:bead:0> a kgx:SourceBundle ;
-    kgx:branch         "main" ;
-    kgx:gloss          "Holders of a currently-active UK Parliament seat" ;
-    kgx:starterId      "uk-mps-1900" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
-
-  <urn:kgx:chain:fork-demo-grounded:bead:1> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:fork-demo-grounded:bead:0> ;
-    kgx:branch         "main" ;
-    kgx:gloss          "Members of the Labour Party" ;
-    kgx:op             "party" ;
-    kgx:opValue        "Labour Party" ;
-    kgx:propertyIri    wdt:P102 ;
-    kgx:valueIri       wd:Q9630 ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q9630 ." .
-
-  <urn:kgx:chain:fork-demo-grounded:bead:2> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:fork-demo-grounded:bead:1> ;
-    kgx:branch         "main" ;
-    kgx:gloss          "Still a human (the 'sitting' constraint already lives in bead 0)" ;
-    kgx:op             "sitting" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P31 wd:Q5 ." .
-
-  <urn:kgx:chain:fork-demo-grounded:bead:with-bp:0> a kgx:PivotBundle ;
-    kgx:input          <urn:kgx:chain:fork-demo-grounded:bead:2> ;
-    kgx:branch         "with-bp" ;
-    kgx:gloss          "Birthplaces of the items in the parent stream — walk wdt:P19" ;
-    kgx:relTemplate    "birthplaces" ;
-    kgx:relVariant     "default" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P19 ?place . ?place wdt:P31/wdt:P279* wd:Q486972 ." .
-}`,
-
-  augment: `@prefix kgx: <urn:kgx:vocab:> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
-@prefix wd:  <http://www.wikidata.org/entity/> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-
-# Augment shape, real bridged version. The kgx:AugmentBundle for the
-# 'enrich' op carries the actual SPARQL the FPKG enrich function sends
-# at Wikidata (Q42 is the demo VALUES — Douglas Adams, swap as needed).
-# The 'parl-enrich' bead carries the seeAlso bridge to Parliament SPARQL.
-
-<urn:kgx:chain:augment-grounded> {
-  <urn:kgx:chain:augment-grounded>
-    dct:title       "Bridged + enriched Tories (grounded)" ;
-    dct:description "Seed → Conservative → parl-enrich (DDP) → Wikidata enrich. Every bead is runnable." .
-
-  <urn:kgx:chain:augment-grounded:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of a currently-active UK Parliament seat" ;
-    kgx:starterId      "parl-current-mps" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
-
-  <urn:kgx:chain:augment-grounded:bead:1> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:augment-grounded:bead:0> ;
-    kgx:gloss          "Members of the Conservative Party" ;
-    kgx:op             "party" ;
-    kgx:opValue        "Conservative" ;
-    kgx:propertyIri    wdt:P102 ;
-    kgx:valueIri       wd:Q9626 ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
-
-  <urn:kgx:chain:augment-grounded:bead:2> a kgx:AugmentBundle ;
-    kgx:input          <urn:kgx:chain:augment-grounded:bead:1> ;
-    kgx:gloss          "Bridge to Parliament DDP: current constituency + party via rdfs:seeAlso" ;
-    kgx:op             "parl-enrich" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://api.parliament.uk/sparql> ] ;
-    kgx:sparql """PREFIX schema: <https://id.parliament.uk/schema/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?qid (SAMPLE(?cgName) AS ?constituency) (SAMPLE(?partyName) AS ?party)
-WHERE {
-  VALUES ?qid { <http://www.wikidata.org/entity/Q193672> <http://www.wikidata.org/entity/Q333867> }
-  ?personUri rdfs:seeAlso ?qid ;
-             a schema:Member ;
-             schema:memberHasParliamentaryIncumbency ?in .
-  OPTIONAL { ?in schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup/schema:constituencyGroupName ?cgName }
-  OPTIONAL { ?personUri schema:partyMemberHasPartyMembership ?pm .
-             FILTER NOT EXISTS { ?pm schema:partyMembershipEndDate ?_pe }
-             ?pm schema:partyMembershipHasParty/schema:partyName ?partyName }
-} GROUP BY ?qid""" .
-
-  <urn:kgx:chain:augment-grounded:bead:3> a kgx:AugmentBundle ;
-    kgx:input          <urn:kgx:chain:augment-grounded:bead:2> ;
-    kgx:gloss          "Wikidata enrich: dates of birth + birthplaces + alma maters via wdt:P19/P569/P69" ;
-    kgx:op             "enrich" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparql """PREFIX wd:   <http://www.wikidata.org/entity/>
-PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?p ?dob (SAMPLE(?bpLbl) AS ?birthplace) (GROUP_CONCAT(DISTINCT ?amLbl; separator=" | ") AS ?almaMaters)
-WHERE {
-  VALUES ?p { wd:Q193672 wd:Q333867 }
-  OPTIONAL { ?p wdt:P569 ?dob }
-  OPTIONAL { ?p wdt:P19 ?bp . OPTIONAL { ?bp rdfs:label ?bpLbl . FILTER(lang(?bpLbl) = "en") } }
-  OPTIONAL { ?p wdt:P69 ?am . OPTIONAL { ?am rdfs:label ?amLbl . FILTER(lang(?amLbl) = "en") } }
-} GROUP BY ?p ?dob""" .
-}`,
-
-  grounded: `@prefix kgx: <urn:kgx:vocab:> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix wd:  <http://www.wikidata.org/entity/> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-
-# Real, runnable example. Three filter steps that compile into ONE
-# query against qlever.dev/api/wikidata (CORS-open). Click ▶ Run on
-# any bead or on the fused Execution — the query goes straight to
-# the public endpoint and returns the actual rows.
-#
-# The "is a UK MP" pattern is: hold a position (?seat) whose role
-# class derives from Q16707842 ("Member of Parliament") AND whose
-# constituency qualifier is in country Q145 (the UK).
-
-<urn:kgx:chain:lab-sitting-grounded> {
-  <urn:kgx:chain:lab-sitting-grounded>
-    dct:title       "Sitting Labour MPs (fully grounded + fused)" ;
-    dct:description "Current Labour Party members holding a UK MP seat with no end-date — verified 401 rows against qlever.dev." ;
-    dct:created     "2026-06-12T08:00:00Z"^^xsd:dateTime .
-
-  <urn:kgx:chain:lab-sitting-grounded:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of a currently-active UK Parliament seat" ;
-    kgx:starterId      "uk-mps-1900" ;
-    kgx:produces       wd:Q5 ;     # what kind of item — humans (Q5)
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e } OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \\"en\\") } OPTIONAL { ?p wdt:P18 ?image }" ;
-    kgx:executedBy     <urn:kgx:chain:lab-sitting-grounded:exec:0> .
-
-  <urn:kgx:chain:lab-sitting-grounded:bead:1> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:lab-sitting-grounded:bead:0> ;
-    kgx:gloss          "Members of the Labour Party" ;
-    kgx:propertyIri    wdt:P102 ;
-    kgx:valueIri       wd:Q9630 ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q9630 ." ;
-    kgx:executedBy     <urn:kgx:chain:lab-sitting-grounded:exec:0> .
-
-  <urn:kgx:chain:lab-sitting-grounded:bead:2> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:lab-sitting-grounded:bead:1> ;
-    kgx:gloss          "Exists at all — sanity check" ;
-    kgx:sparqlFragment "?p wdt:P31 wd:Q5 ." ;
-    kgx:executedBy     <urn:kgx:chain:lab-sitting-grounded:exec:0> .
-
-  <urn:kgx:chain:lab-sitting-grounded:exec:0> a kgx:Execution ;
-    kgx:against     [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:fusedSparql """PREFIX wd:   <http://www.wikidata.org/entity/>
-PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
-PREFIX p:    <http://www.wikidata.org/prop/>
-PREFIX ps:   <http://www.wikidata.org/prop/statement/>
-PREFIX pq:   <http://www.wikidata.org/prop/qualifier/>
-PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-SELECT DISTINCT ?p ?label ?image WHERE {
-  ?p p:P39 ?seat .
-  ?seat ps:P39 ?pos .
-  ?pos wdt:P279* wd:Q16707842 .
-  ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 .
-  ?p wdt:P102 wd:Q9630 .
-  FILTER NOT EXISTS { ?seat pq:P582 ?_e }
-  OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = "en") }
-  OPTIONAL { ?p wdt:P18 ?image }
-}""" ;
-    kgx:fuses ( <urn:kgx:chain:lab-sitting-grounded:bead:0>
-                <urn:kgx:chain:lab-sitting-grounded:bead:1>
-                <urn:kgx:chain:lab-sitting-grounded:bead:2> ) ;
-    kgx:rowsReturned "401"^^xsd:integer ;
-    kgx:durationMs   "284"^^xsd:integer .
-}`,
-
-  variants: `@prefix kgx: <urn:kgx:vocab:> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
-@prefix wd:  <http://www.wikidata.org/entity/> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-
-# "MPs elected since 2000" is ambiguous. The bead records THREE concrete
-# variants and pins kgx:activeVariant to the one the interpreter chose
-# this run. Unchosen variants survive in the manifest so a consumer can
-# replay or fall back without re-deriving the alternatives.
-
-<urn:kgx:chain:since-2000-variants> {
-  <urn:kgx:chain:since-2000-variants>
-    dct:title "MPs since 2000 — variant choice recorded in the manifest" ;
-    dct:description "The 'since 2000' filter has three plausible groundings; the manifest records all three and which one ran." .
-
-  <urn:kgx:chain:since-2000-variants:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of a Member-of-Parliament seat" ;
-    kgx:starterId      "uk-mps-1900" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 ." .
-
-  <urn:kgx:chain:since-2000-variants:bead:1> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:since-2000-variants:bead:0> ;
-    kgx:gloss          "Recent MPs — but how 'recent'?" ;
-    kgx:op             "since" ;
-    kgx:opValue        "2000" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:variants (
-      [ kgx:label "born in or after 2000"   ;
-        kgx:sparqlFragment "?p wdt:P569 ?dob . FILTER(YEAR(?dob) >= 2000)" ]
-      [ kgx:label "first elected ≥ 2000 (any seat)"   ;
-        kgx:sparqlFragment "?p p:P39 [ pq:P580 ?start ] . FILTER(YEAR(?start) >= 2000)" ]
-      [ kgx:label "currently in an MP seat that began ≥ 2000"   ;
-        kgx:sparqlFragment "?p p:P39 ?s . ?s ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?s pq:P768 ?c . ?c wdt:P17 wd:Q145 . ?s pq:P580 ?start . FILTER(YEAR(?start) >= 2000) FILTER NOT EXISTS { ?s pq:P582 ?_e }" ]
-    ) ;
-    kgx:activeVariant 2 .
-}`,
-
-  union: `@prefix kgx: <urn:kgx:vocab:> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
-@prefix wd:  <http://www.wikidata.org/entity/> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-
-# Real DAG with kgx:UnionBundle. Two parallel filter chains merged —
-# Tories ∪ Reform = the right-of-Centre Commons grouping. An optimising
-# interpreter compiles this into a single SPARQL with VALUES, but the
-# manifest records the structural intent so consumers can re-plan.
-
-<urn:kgx:chain:right-of-centre> {
-  <urn:kgx:chain:right-of-centre>
-    dct:title       "Right-of-centre MPs (Tory ∪ Reform UK)" ;
-    dct:description "Two filter chains, merged via Union. Either branch alone would miss the other." .
-
-  <urn:kgx:chain:right-of-centre:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of an MP-of-UK seat" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
-
-  <urn:kgx:chain:right-of-centre:bead:1> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:right-of-centre:bead:0> ;
-    kgx:gloss          "Members of the Conservative Party (Q9626)" ;
-    kgx:propertyIri    wdt:P102 ;
-    kgx:valueIri       wd:Q9626 ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
-
-  <urn:kgx:chain:right-of-centre:bead:2> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of an MP-of-UK seat" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
-
-  <urn:kgx:chain:right-of-centre:bead:3> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:right-of-centre:bead:2> ;
-    kgx:gloss          "Members of Reform UK (Q104721252)" ;
-    kgx:propertyIri    wdt:P102 ;
-    kgx:valueIri       wd:Q104721252 ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q104721252 ." .
-
-  <urn:kgx:chain:right-of-centre:bead:4> a kgx:UnionBundle ;
-    kgx:gloss "Tory ∪ Reform — items in either branch, deduped on ?p" ;
-    kgx:inputs ( <urn:kgx:chain:right-of-centre:bead:1>
-                 <urn:kgx:chain:right-of-centre:bead:3> ) .
-}`,
-
-  intersect: `@prefix kgx: <urn:kgx:vocab:> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
-@prefix wd:  <http://www.wikidata.org/entity/> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-
-# Real DAG with kgx:IntersectBundle. Each branch is an independent
-# filter chain; the intersection requires both predicates true on the
-# same ?p. Conservative ∩ female-gender = the female Tory cohort.
-
-<urn:kgx:chain:female-conservative-mps> {
-  <urn:kgx:chain:female-conservative-mps>
-    dct:title       "Female Conservative MPs (Tory ∩ female)" ;
-    dct:description "Two independent filter chains, intersected on identity." .
-
-  <urn:kgx:chain:female-conservative-mps:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of a current MP-of-UK seat" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
-
-  <urn:kgx:chain:female-conservative-mps:bead:1> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:female-conservative-mps:bead:0> ;
-    kgx:gloss          "Members of the Conservative Party" ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
-
-  <urn:kgx:chain:female-conservative-mps:bead:2> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of a current MP-of-UK seat" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
-
-  <urn:kgx:chain:female-conservative-mps:bead:3> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:female-conservative-mps:bead:2> ;
-    kgx:gloss          "Sex or gender = female (Q6581072)" ;
-    kgx:propertyIri    wdt:P21 ;
-    kgx:valueIri       wd:Q6581072 ;
-    kgx:sparqlFragment "?p wdt:P21 wd:Q6581072 ." .
-
-  <urn:kgx:chain:female-conservative-mps:bead:4> a kgx:IntersectBundle ;
-    kgx:gloss "Conservative ∩ female — items present in both inputs" ;
-    kgx:inputs ( <urn:kgx:chain:female-conservative-mps:bead:1>
-                 <urn:kgx:chain:female-conservative-mps:bead:3> ) .
-}`,
-
-  difference: `@prefix kgx: <urn:kgx:vocab:> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
-@prefix wd:  <http://www.wikidata.org/entity/> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-
-# Asymmetric set op: main minus auxiliary. Main = currently-sitting
-# Conservative MPs; auxiliary = anyone holding any (current) UK cabinet
-# minister position. Result = backbench Conservatives.
-
-<urn:kgx:chain:tory-backbench> {
-  <urn:kgx:chain:tory-backbench>
-    dct:title       "Backbench Conservative MPs (Tory − cabinet)" ;
-    dct:description "kgx:Difference subtracts the current cabinet from the Tory MP pool." .
-
-  <urn:kgx:chain:tory-backbench:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Holders of a current MP-of-UK seat" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
-
-  <urn:kgx:chain:tory-backbench:bead:1> a kgx:FilterBundle ;
-    kgx:input          <urn:kgx:chain:tory-backbench:bead:0> ;
-    kgx:gloss          "Members of the Conservative Party" ;
-    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
-
-  <urn:kgx:chain:tory-backbench:bead:2> a kgx:SourceBundle ;
-    kgx:gloss          "Anyone currently holding a UK-cabinet-class position" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?pos . ?pos ps:P39/wdt:P279* wd:Q83307 . FILTER NOT EXISTS { ?pos pq:P582 ?_e }" .
-
-  <urn:kgx:chain:tory-backbench:bead:3> a kgx:DifferenceBundle ;
-    kgx:gloss     "Conservatives − cabinet = backbench Conservatives" ;
-    kgx:main      <urn:kgx:chain:tory-backbench:bead:1> ;
-    kgx:auxiliary ( <urn:kgx:chain:tory-backbench:bead:2> ) .
-}`,
-
-  federation: `@prefix kgx: <urn:kgx:vocab:> .
-@prefix dct: <http://purl.org/dc/terms/> .
-@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
-@prefix wd:  <http://www.wikidata.org/entity/> .
-@prefix wdt: <http://www.wikidata.org/prop/direct/> .
-
-# Cross-endpoint federation. Seed from Wikidata, augment from the UK
-# Parliament SPARQL via rdfs:seeAlso bridge — the exact shape FPKG's
-# parl-enrich op produces. The Augment bead targets a DIFFERENT
-# sd:Service from the seed; an optimising interpreter either runs them
-# serially with materialise+merge, or uses SPARQL SERVICE if both
-# endpoints federate.
-
-<urn:kgx:chain:wikidata-bridged-to-parl> {
-  <urn:kgx:chain:wikidata-bridged-to-parl>
-    dct:title       "Sitting Labour MPs · bridged to Parliament SPARQL" ;
-    dct:description "Seed from Wikidata; augment with current constituency from the Parliament DDP via rdfs:seeAlso." .
-
-  <urn:kgx:chain:wikidata-bridged-to-parl:bead:0> a kgx:SourceBundle ;
-    kgx:gloss          "Current MPs (current seat, Labour, MP-of-UK class)" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . ?p wdt:P102 wd:Q9630 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" .
-
-  <urn:kgx:chain:wikidata-bridged-to-parl:bead:1> a kgx:AugmentBundle ;
-    kgx:input          <urn:kgx:chain:wikidata-bridged-to-parl:bead:0> ;
-    kgx:gloss          "Resolve each Wikidata QID to a Parliament person + current constituency" ;
-    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://api.parliament.uk/sparql> ] ;
-    kgx:sparql """PREFIX schema: <https://id.parliament.uk/schema/>
-PREFIX rdfs:   <http://www.w3.org/2000/01/rdf-schema#>
-SELECT ?qid (SAMPLE(?cgName) AS ?constituency)
-            (SAMPLE(?personUri) AS ?parlPerson)
-WHERE {
-  VALUES ?qid { wd:Q193672 wd:Q4093528 wd:Q1372172 }  # sample — interpreter fills in
-  ?personUri rdfs:seeAlso ?qid ;
-             a schema:Member ;
-             schema:memberHasParliamentaryIncumbency ?in .
-  ?in schema:seatIncumbencyHasHouseSeat/schema:houseSeatHasConstituencyGroup/schema:constituencyGroupName ?cgName
-} GROUP BY ?qid""" .
-}`,
-};
 
 document.getElementById('sparql').value = `# Default: list every step that's an AugmentBundle, with its op.
 PREFIX dct: <http://purl.org/dc/terms/>

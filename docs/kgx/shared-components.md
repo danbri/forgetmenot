@@ -149,6 +149,43 @@ authority required.
 the variable-name heuristic (`label` / `image` / etc.) — which is
 also what pythonchain ships in this round.
 
+## Closed-world hazards in a federated setting
+
+The six-primitive algebra includes Difference (kgx:DifferenceBundle) and
+the runtime should keep emitting it when a chain actually wants set
+subtraction, but the `pythonchain.html` example library
+**deliberately doesn't ship a Difference demo**, and the grounded
+sitting-MP queries avoid `FILTER NOT EXISTS { ?seat pq:P582 ?end }` in
+favour of positive temporal anchors (`?seat pq:P580 ?start
+FILTER(?start >= "2024-07-04"^^xsd:dateTime)`).
+
+The reason: SPARQL's `NOT EXISTS`, `MINUS` and our Difference primitive
+are closed-world / negation-as-failure operators. They conflate "X is
+not asserted in this graph" with "X is false everywhere." Inside one
+endpoint that's usually fine; across endpoints — which is the
+*entire point* of a chain that walks Wikidata then Parliament's DDP —
+it breaks immediately. An MP whose seat end-date hasn't been added to
+Wikidata yet ≠ a sitting MP. A statute that lacks a repealed-by
+triple ≠ in-force law.
+
+The example library uses three positive substitutes:
+
+- **Temporal anchors on start dates.** "Conservative MPs whose seat
+  started on or after 4 July 2024" returns the same cohort as
+  "currently sitting Conservative MPs" without the CWA.
+- **Set membership on positive property paths.** "Members of the House
+  of Tudor" (`P53 = Q101978`), not "non-members of every other dynasty."
+- **Positive intersections.** "Cabinet ministers who sit in the
+  Lords" = `?p wdt:P39 ?role . ?role wdt:P279* wd:Q83307 . ?p wdt:P39
+  ?seat . ?seat wdt:P279* wd:Q18941264`, not "cabinet ∖ MPs."
+
+The Difference primitive remains in the *algebra* — the manifest
+should record subtraction semantics when the user explicitly wants
+them. But Difference results should be treated as derived facts that
+depend on the closure of the input KGs at execution time, and the
+example library reserves Difference for chains where that closure
+assumption is documented.
+
 ## Non-goals
 
 - No SHACL. The structural shape of a Filter/Pivot/Augment bead's
