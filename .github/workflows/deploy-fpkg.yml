@@ -19,6 +19,12 @@ on:
     branches: [claude/main, main]
     paths:
       - 'demos/parliament-live/**'
+      # demos/python-interop/ is COPYed into the FPKG runtime image by
+      # the Dockerfile (the canonical files live here; the in-web-tree
+      # python-interop/ is symlinks pointing at this directory). Without
+      # this path filter, commits that only touch python-interop don't
+      # trigger a redeploy, so prod stays stuck on the old static files.
+      - 'demos/python-interop/**'
       - 'third_party/data/**/*.nq.gz'
       - 'third_party/identity-graph/**/*.nq.gz'
       - 'lib/facilities/appg.mjs'
