@@ -101,6 +101,30 @@ SELECT ?title WHERE {
 }' manifest.trig
 ```
 
+## Honesty about grounding
+
+A chain manifest today describes the *structural shape* — lineage,
+branch tree, op names — but not the *grounding*: which SPARQL
+endpoint, which property / class IRIs, which actual SPARQL fragment
+per step. A third-party tool can read the chain but can't actually
+execute it. The tool surfaces this honestly:
+
+- For each step it prints `✓ grounded`, `◐ partial` (has a gloss but
+  no executable info) or `⚠ ungrounded` (nothing).
+- For chains with no `kgx:Execution` records, it ends with
+  `executions: none recorded — the chain has no kgx:Execution plan,
+  so a third-party tool can't tell what actually ran`.
+
+The proposed grounding vocabulary (DISCUSSION ONLY — see
+`docs/kgx/trig-manifest-review.md`) adds per-bead `kgx:gloss`,
+`kgx:queryAgainst` (pointing at an `sd:Service`), `kgx:sparqlFragment`
+and `kgx:executedBy` (a `kgx:Execution` that may fuse several beads
+into one engine call). The two `pythonchain.html` examples *Grounded
++ fused* and *With variants* show the proposed shape; the
+*Linear / Fork / Augment* examples show the current (ungrounded)
+emit. **No KG is privileged**: every target is `sd:Service` with an
+`sd:endpoint`, whatever its origin.
+
 ## What this proves
 
 - The TriG manifest is genuine interchange — anyone with `rdflib`

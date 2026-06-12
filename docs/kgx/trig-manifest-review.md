@@ -1,5 +1,15 @@
 # KGX TriG manifest — review and rationalization
 
+> **DISCUSSION ONLY.** Phase 1 and Phase 2A are shipped; everything
+> further (Phase 2B onwards — typed op terms, `kgx:resultGraph`,
+> grounding, fusion, SHACL) is exploratory and **must not be
+> implemented** without an explicit, signed-off direction from the
+> project owner. The chain-grounding model — endpoint per step, SPARQL
+> fragments, variants, fusion into `kgx:Execution` nodes — has live
+> open questions about whether to privilege specific KGs, when to
+> compile down to one query, and what `sd:Service` buys us. Held for
+> attention.
+>
 > Companion to [`node-flow-design.md`](./node-flow-design.md) (which
 > introduces TriG as the manifest/control plane) and
 > [`slim-channel-dataflow.md`](./slim-channel-dataflow.md) (which proposes

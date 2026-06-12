@@ -1,11 +1,15 @@
 # KGX Daisychain — slim-channel dataflow and equal-status arcs
 
+> **DISCUSSION ONLY.** Step 1 (BeadStore + dual-mode augment writers
+> for all three augments) has shipped. Steps 2–4 (TriG CONSTRUCT off
+> the cache-replay, renderer migration to `propertyOf`, channel
+> slimming to `Set<URI>`) are exploratory and **must not be
+> implemented** without an explicit, signed-off direction from the
+> project owner. Held for attention.
+>
 > Refinement of [`node-flow-design.md`](./node-flow-design.md), focused on
 > what *exactly* flows down an edge between two beads and how the renderer
 > reads properties off an item.
->
-> Status: design sketch. Not yet adopted. No code changes proposed in
-> this commit — staged migration outlined at the bottom.
 > Audience: anyone who wants to scale the daisychain past a few thousand
 > items, write new ops without re-litigating where their facts get
 > stored, or query a bead's data from outside the page.

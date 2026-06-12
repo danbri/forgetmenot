@@ -1,5 +1,11 @@
 # Slim-channel migration — progress
 
+> **DISCUSSION ONLY for everything beyond Step 1.** Step 1 (BeadStore
+> + dual-mode parseQuads on all three augments) is the only landed
+> code; the remaining steps are exploratory and must not be
+> implemented without an explicit, signed-off direction from the
+> project owner. Held for attention.
+>
 > Tracks where we are in the migration sketched in
 > [`slim-channel-dataflow.md`](./slim-channel-dataflow.md). Update on
 > every landing.
