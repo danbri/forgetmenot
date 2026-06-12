@@ -661,11 +661,13 @@ function beadCard(n, prefix, byUri) {
     // what an optimising interpreter would emit, so the count actually
     // matches what the chain means at this point.
     const cumulative = cumulativeFragments(n, byUri);
-    const showThroughBtn = g.sparqlFragment && cumulative.length > 1;
+    const showThroughBtn = g.sparqlFragment && cumulative.length >= 1;
     if (showThroughBtn) {
       const btn = document.createElement('button');
       btn.className = 'run';
-      btn.textContent = `▶ Run through here (fuses ${cumulative.length} beads)`;
+      btn.textContent = cumulative.length > 1
+        ? `▶ Run through here (fuses ${cumulative.length} beads)`
+        : '▶ Run this bead';
       btn.title =
         `Fuses every upstream Filter/Source bead on the same endpoint into one query — ` +
         `the answer to "what does the chain mean up to and including this bead?". ` +
@@ -674,8 +676,11 @@ function beadCard(n, prefix, byUri) {
         btn.disabled = true;
         const old = btn.textContent; btn.textContent = '⏳ querying…';
         try {
+          // SELECT DISTINCT to suppress the duplicate rows that come out
+          // of cumulative joins (an MP with 3 P39 statements * 2 P69
+          // statements = 6 rows of the same person).
           const fused =
-            'SELECT * WHERE {\n' +
+            'SELECT DISTINCT * WHERE {\n' +
             cumulative.map(b => '  ' + b.grounding.sparqlFragment).join('\n') +
             '\n} LIMIT 50';
           await runSparql(g.endpoint, fused, resultDiv);
@@ -689,9 +694,12 @@ function beadCard(n, prefix, byUri) {
 
     // Secondary button: this bead's fragment in isolation. Useful for
     // inspecting what THIS predicate by itself returns against the
-    // endpoint, ignoring the chain.
+    // endpoint, ignoring the chain. Misleading on upstream beads of a
+    // deep chain (running "?p wdt:P31 wd:Q5" alone returns 50 random
+    // humans, not the Tudor monarchs further down the chain), so this
+    // button is dev-mode-only.
     const btnAlone = document.createElement('button');
-    btnAlone.className = 'run';
+    btnAlone.className = 'run dev-only';
     btnAlone.style.background = 'transparent';
     btnAlone.style.color = 'var(--accent)';
     btnAlone.style.border = '1px solid var(--accent)';
@@ -699,12 +707,13 @@ function beadCard(n, prefix, byUri) {
     btnAlone.title =
       'Send just this bead\'s sparqlFragment (or full sparql) to the endpoint, ' +
       'IGNORING any upstream beads. Useful for inspecting what the predicate does ' +
-      'on its own — but the result count will NOT reflect the chain.';
+      'on its own — but on upstream beads of a deep chain this returns ' +
+      'unrelated rows (e.g. random humans for an "all humans" Source bead).';
     btnAlone.addEventListener('click', async () => {
       btnAlone.disabled = true;
       const old = btnAlone.textContent; btnAlone.textContent = '⏳ querying…';
       try {
-        const sparql = g.sparql || `SELECT * WHERE { ${g.sparqlFragment} } LIMIT 50`;
+        const sparql = g.sparql || `SELECT DISTINCT * WHERE { ${g.sparqlFragment} } LIMIT 50`;
         await runSparql(g.endpoint, sparql, resultDiv);
       } finally {
         btnAlone.disabled = false;
@@ -712,6 +721,13 @@ function beadCard(n, prefix, byUri) {
       }
     });
     btnRow.appendChild(btnAlone);
+
+    // Augment beads carry a full kgx:sparql (not a fragment) — those
+    // can't be folded into a cumulative SPARQL, so the alone button is
+    // the only way to run them. Promote it out of dev mode there.
+    if (!g.sparqlFragment) {
+      btnAlone.classList.remove('dev-only');
+    }
 
     card.appendChild(btnRow);
     card.appendChild(resultDiv);
