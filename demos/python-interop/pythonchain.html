@@ -101,6 +101,23 @@
   th, td { border-bottom: 1px solid var(--rule); padding: 0.4em 0.6em; text-align: left; vertical-align: top; }
   th { background: var(--surface); color: var(--ink-soft); font-weight: 600; }
   #query-out { background: var(--surface-2); border: 1px solid var(--rule); border-radius: 4px; padding: 0.4em; max-height: 320px; overflow: auto; }
+  .diagram-box { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 0.4em; max-height: 360px; overflow: auto; font-size: 12px; }
+  .diagram-box svg { max-width: 100%; height: auto; }
+  .cards-box { background: var(--surface-2); border: 1px solid var(--rule); border-radius: 4px; padding: 0.4em; max-height: 360px; overflow: auto; font-size: 12px; display: grid; gap: 0.4em; }
+  .card { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 0.4em 0.6em; }
+  .card .head { display: flex; align-items: center; gap: 0.5em; }
+  .card .head .kind { font-weight: 600; }
+  .card .head .gloss { color: var(--ink-soft); font-style: italic; flex: 1; }
+  .card .grounding { font-family: ui-monospace, monospace; color: var(--ink-soft); margin-top: 0.3em; }
+  .card .grounding > div { padding: 1px 0; }
+  .card.grounded { border-left: 3px solid var(--good); }
+  .card.partial  { border-left: 3px solid var(--warn); }
+  .card.ungrounded { border-left: 3px solid var(--err); }
+  .card .run { display: inline-flex; align-items: center; gap: 0.3em; padding: 0.2em 0.6em; background: var(--accent); color: white; border: 0; border-radius: 3px; cursor: pointer; font-size: 11px; }
+  .card .run:disabled { opacity: 0.4; cursor: not-allowed; }
+  .card .result { margin-top: 0.4em; font-family: ui-monospace, monospace; }
+  .card .result table { width: 100%; }
+  .card .result .err { color: var(--err); }
 </style>
 </head>
 <body>
@@ -142,6 +159,9 @@
       <button class="outline" data-example="augment">Augment (ungrounded)</button>
       <button class="outline" data-example="grounded">Grounded + fused</button>
       <button class="outline" data-example="variants">With variants</button>
+      <button class="outline" data-example="union">DAG: Union</button>
+      <button class="outline" data-example="intersect">DAG: Intersect</button>
+      <button class="outline" data-example="difference">DAG: Difference</button>
     </div>
     <textarea id="trig" placeholder="Paste a kgx TriG manifest here, or click an example →" spellcheck="false"></textarea>
 
@@ -157,9 +177,13 @@
 
   <div>
     <div id="parse-output">
+      <label>Diagram (Mermaid, rendered from the parsed spec)</label>
+      <div id="diagram-out" class="diagram-box">(awaiting input)</div>
+      <label>Interactive — click ▶ Run to execute a bead or fused execution against its endpoint</label>
+      <div id="interactive-out" class="cards-box">(awaiting input)</div>
       <label>Spec output (Python → rdflib → JSON)</label>
       <pre id="json-out">(awaiting input)</pre>
-      <label>Human summary</label>
+      <label>Text summary</label>
       <pre id="summary-out">(awaiting input)</pre>
     </div>
     <div id="query-output" style="display:none">
@@ -179,6 +203,12 @@
   seeds. Full review:
   <a href="../../docs/kgx/trig-manifest-review.md">trig-manifest-review.md</a>.
 </p>
+
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: false, theme: 'default', securityLevel: 'loose' });
+  window.kgxMermaid = mermaid;
+</script>
 
 <script>
 const STATUS = document.getElementById('status');
@@ -276,7 +306,9 @@ json.dumps({"spec": spec, "summary": buf.getvalue()})
       const r = JSON.parse(resultJson);
       document.getElementById('json-out').textContent = JSON.stringify(r.spec, null, 2);
       document.getElementById('summary-out').textContent = r.summary;
-      setStatus('✅ Parsed: TriG → rdflib → spec.', 'ready');
+      await renderMermaid(r.spec);
+      renderInteractive(r.spec);
+      setStatus('✅ Parsed: TriG → rdflib → spec. Diagram + interactive cards rendered.', 'ready');
       return;
     }
 
@@ -319,6 +351,271 @@ json.dumps({"vars": vars_, "rows": rows})
     console.error(e);
   }
 }
+
+// ---------------------------------------------------------------------------
+// Mermaid diagram — emit a flowchart from the parsed spec.
+// ---------------------------------------------------------------------------
+
+function _allNodes(spec) {
+  if (spec.dag)      return spec.dag;
+  if (spec.steps)    return spec.steps;
+  if (spec.branches) return spec.branches.flatMap(b => b.steps);
+  return [];
+}
+
+function _nodeId(uri) {
+  return 'n_' + String(uri || '').replace(/[^a-zA-Z0-9]/g, '_');
+}
+
+function _nodeLabel(n) {
+  // Prefer gloss; fall back to op/id; truncate.
+  const g = (n.grounding && n.grounding.gloss) || n.id || n.op || (n.kind_kgx || 'bead');
+  const cleaned = String(g).replace(/["\n]/g, ' ').replace(/\s+/g, ' ').trim();
+  return cleaned.length > 36 ? cleaned.slice(0, 34) + '…' : cleaned;
+}
+
+function specToMermaid(spec) {
+  const lines = ['graph LR'];
+  const nodes = _allNodes(spec);
+  if (!nodes.length) return '';
+
+  for (const n of nodes) {
+    const id    = _nodeId(n.uri);
+    const label = _nodeLabel(n);
+    const kind  = n.kind_kgx || '';
+    let shape;
+    switch (kind) {
+      case 'SourceBundle':     shape = `(["${label}"])`; break;
+      case 'FilterBundle':     shape = `["${label}"]`;   break;
+      case 'PivotBundle':      shape = `{{"${label}"}}`; break;
+      case 'AugmentBundle':    shape = `[["${label}"]]`; break;
+      case 'UnionBundle':      shape = `(("⋃ ${label}"))`; break;
+      case 'IntersectBundle':  shape = `(("⋂ ${label}"))`; break;
+      case 'DifferenceBundle': shape = `[/"− ${label}"/]`; break;
+      default:                 shape = `["${label}"]`;
+    }
+    const status = n.grounded || 'ungrounded';
+    lines.push(`  ${id}${shape}:::${status}`);
+  }
+
+  // Edges
+  for (const n of nodes) {
+    if (!n.inputs) continue;
+    for (const e of n.inputs) {
+      const from = _nodeId(e.iri);
+      const to   = _nodeId(n.uri);
+      let style = '-->';
+      let label = '';
+      if (e.role === 'auxiliary') { style = '-.->'; label = '|−|'; }
+      else if (e.role === 'inputs') { label = '|in|'; }
+      else if (e.role === 'main') { label = '|main|'; }
+      lines.push(`  ${from} ${style}${label} ${to}`);
+    }
+  }
+
+  // Executions: render as a subgraph, with dotted lines to fused beads
+  if (spec.executions && spec.executions.length) {
+    for (const e of spec.executions) {
+      const exId = _nodeId(e.iri);
+      const epLabel = e.endpoint ? (new URL(e.endpoint, location.href).host) : 'exec';
+      lines.push(`  ${exId}{{"▶ ${epLabel}"}}:::exec`);
+      for (const beadIri of (e.fuses || [])) {
+        lines.push(`  ${_nodeId(beadIri)} -.fused.-> ${exId}`);
+      }
+    }
+  }
+
+  lines.push('classDef grounded fill:#dff5e3,stroke:#3a8050,color:#1a1a1a');
+  lines.push('classDef partial fill:#fff5d6,stroke:#a05a00,color:#1a1a1a');
+  lines.push('classDef ungrounded fill:#fde2e2,stroke:#c33,color:#1a1a1a');
+  lines.push('classDef exec fill:#e4eaf3,stroke:#2a4f76,color:#1a1a1a,font-style:italic');
+  return lines.join('\n');
+}
+
+async function renderMermaid(spec) {
+  const out = document.getElementById('diagram-out');
+  const code = specToMermaid(spec);
+  if (!code) { out.textContent = '(no beads to draw)'; return; }
+  if (!window.kgxMermaid) { out.textContent = code; return; }   // fallback: raw mermaid syntax
+  try {
+    const id = 'mermaid-svg-' + Date.now();
+    const { svg } = await window.kgxMermaid.render(id, code);
+    out.innerHTML = svg;
+  } catch (e) {
+    out.innerHTML = `<div class="result"><div class="err">mermaid render failed: ${escapeHtml(e.message || e)}</div><pre>${escapeHtml(code)}</pre></div>`;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Interactive cards — one per bead and one per Execution. Beads with a
+// concrete grounding (sparqlFragment + endpoint) get a ▶ Run button that
+// fires a SELECT against the endpoint. Executions with a fusedSparql +
+// endpoint get a ▶ Run for the recorded fused query.
+// ---------------------------------------------------------------------------
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function _shortIri(iri, chainPrefix) {
+  if (chainPrefix && iri.startsWith(chainPrefix + ':')) return iri.slice(chainPrefix.length + 1);
+  return iri;
+}
+
+function _chainPrefix(spec) {
+  const nodes = _allNodes(spec);
+  const first = nodes[0]?.uri || '';
+  return first.includes(':bead:') ? first.split(':bead:')[0] : null;
+}
+
+function renderInteractive(spec) {
+  const out = document.getElementById('interactive-out');
+  out.innerHTML = '';
+  const prefix = _chainPrefix(spec);
+
+  const nodes = _allNodes(spec);
+  for (const n of nodes) {
+    out.appendChild(beadCard(n, prefix));
+  }
+  for (const e of (spec.executions || [])) {
+    out.appendChild(executionCard(e, prefix));
+  }
+  if (!out.children.length) out.textContent = '(no beads)';
+}
+
+function beadCard(n, prefix) {
+  const card = document.createElement('div');
+  card.className = `card ${n.grounded || 'ungrounded'}`;
+  const head = document.createElement('div');
+  head.className = 'head';
+  const kindShort = (n.kind_kgx || '').replace('Bundle', '');
+  head.innerHTML =
+    `<span class="kind">${escapeHtml(kindShort)}</span>` +
+    `<span class="gloss">${escapeHtml((n.grounding?.gloss) || n.id || n.op || '')}</span>` +
+    `<span class="small">${escapeHtml(_shortIri(n.uri, prefix))}</span>`;
+  card.appendChild(head);
+
+  const g = n.grounding || {};
+  if (g.endpoint || g.sparqlFragment || g.propertyIri) {
+    const grd = document.createElement('div');
+    grd.className = 'grounding';
+    if (g.endpoint)       grd.innerHTML += `<div>endpoint: ${escapeHtml(g.endpoint)}</div>`;
+    if (g.sparqlFragment) grd.innerHTML += `<div>fragment: ${escapeHtml(g.sparqlFragment)}</div>`;
+    if (g.propertyIri)    grd.innerHTML += `<div>propIri: ${escapeHtml(g.propertyIri)}</div>`;
+    if (g.valueIri)       grd.innerHTML += `<div>valueIri: ${escapeHtml(g.valueIri)}</div>`;
+    card.appendChild(grd);
+  }
+
+  if (g.endpoint && (g.sparqlFragment || g.sparql)) {
+    const btn = document.createElement('button');
+    btn.className = 'run';
+    btn.textContent = '▶ Run this bead';
+    const resultDiv = document.createElement('div');
+    resultDiv.className = 'result';
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      btn.textContent = '⏳ querying…';
+      try {
+        const sparql = g.sparql || `SELECT ?item WHERE { ${g.sparqlFragment} } LIMIT 50`;
+        await runSparql(g.endpoint, sparql, resultDiv);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '▶ Run this bead';
+      }
+    });
+    card.appendChild(btn);
+    card.appendChild(resultDiv);
+  }
+  return card;
+}
+
+function executionCard(e, prefix) {
+  const card = document.createElement('div');
+  card.className = 'card grounded';
+  const head = document.createElement('div');
+  head.className = 'head';
+  const fuses = (e.fuses || []).map(b => _shortIri(b, prefix));
+  head.innerHTML =
+    `<span class="kind">Execution</span>` +
+    `<span class="gloss">${fuses.length ? `fuses ${fuses.length}: ${escapeHtml(fuses.join(', '))}` : 'standalone'}</span>` +
+    `<span class="small">${escapeHtml(_shortIri(e.iri, prefix))}</span>`;
+  card.appendChild(head);
+
+  if (e.endpoint) {
+    const grd = document.createElement('div');
+    grd.className = 'grounding';
+    grd.innerHTML = `<div>endpoint: ${escapeHtml(e.endpoint)}</div>`;
+    if (e.rowsReturned !== undefined) grd.innerHTML += `<div>recorded rows: ${e.rowsReturned}</div>`;
+    if (e.durationMs   !== undefined) grd.innerHTML += `<div>recorded duration: ${e.durationMs} ms</div>`;
+    card.appendChild(grd);
+  }
+
+  if (e.endpoint && e.fusedSparql) {
+    const btn = document.createElement('button');
+    btn.className = 'run';
+    btn.textContent = '▶ Run the fused query';
+    const resultDiv = document.createElement('div');
+    resultDiv.className = 'result';
+    btn.addEventListener('click', async () => {
+      btn.disabled = true;
+      btn.textContent = '⏳ querying…';
+      try {
+        await runSparql(e.endpoint, e.fusedSparql, resultDiv);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '▶ Run the fused query';
+      }
+    });
+    card.appendChild(btn);
+    card.appendChild(resultDiv);
+  }
+  return card;
+}
+
+async function runSparql(endpoint, sparql, outDiv) {
+  outDiv.innerHTML = '';
+  try {
+    const url = endpoint + (endpoint.includes('?') ? '&' : '?') +
+                'query=' + encodeURIComponent(sparql);
+    const t0 = performance.now();
+    const r = await fetch(url, { headers: { accept: 'application/sparql-results+json' } });
+    const dt = (performance.now() - t0) | 0;
+    if (!r.ok) {
+      outDiv.innerHTML = `<div class="err">HTTP ${r.status} after ${dt} ms — endpoint may not allow CORS for this origin.</div>`;
+      return;
+    }
+    const j = await r.json();
+    const vars = j.head?.vars || [];
+    const rows = j.results?.bindings || [];
+    if (!rows.length) {
+      outDiv.innerHTML = `<div>(0 rows in ${dt} ms)</div>`;
+      return;
+    }
+    const limit = Math.min(rows.length, 10);
+    let html = `<div>${rows.length} row${rows.length === 1 ? '' : 's'} in ${dt} ms (showing ${limit}):</div>`;
+    html += '<table><thead><tr>';
+    for (const v of vars) html += `<th>${escapeHtml(v)}</th>`;
+    html += '</tr></thead><tbody>';
+    for (const row of rows.slice(0, limit)) {
+      html += '<tr>';
+      for (const v of vars) {
+        const cell = row[v];
+        html += `<td>${cell ? escapeHtml(String(cell.value).slice(0, 80)) : ''}</td>`;
+      }
+      html += '</tr>';
+    }
+    html += '</tbody></table>';
+    outDiv.innerHTML = html;
+  } catch (err) {
+    outDiv.innerHTML = `<div class="err">fetch failed: ${escapeHtml(err.message || err)}</div>`;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Example chains — short TriG snippets for each shape the page can render.
+// ---------------------------------------------------------------------------
 
 const EXAMPLES = {
   linear: `@prefix kgx: <urn:kgx:vocab:> .
@@ -479,6 +776,123 @@ SELECT ?p WHERE {
         kgx:sparqlFragment "?p p:P39 [ pq:P580 ?s ] . FILTER(YEAR(?s) >= 2000) FILTER NOT EXISTS { ?p p:P39 [ pq:P582 ?e ] }" ]
     ) ;
     kgx:activeVariant 1 .
+}`,
+
+  union: `@prefix kgx: <urn:kgx:vocab:> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
+
+# Two parallel filter chains merged via kgx:UnionBundle.
+# The Python tool detects this as 'shape: DAG' and lists the
+# Union's inputs (rdf:List). On a real engine, both branches'
+# fragments would fuse into one SPARQL with UNION.
+
+<urn:kgx:chain:demo-union> {
+  <urn:kgx:chain:demo-union>
+    dct:title       "Right-of-centre MPs (Tory ∪ Reform)" ;
+    dct:description "Two filter chains, merged via Union." .
+
+  <urn:kgx:chain:demo-union:bead:0> a kgx:SourceBundle ;
+    kgx:gloss          "Current MPs of the UK" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P39 wd:Q11811941 ." .
+
+  <urn:kgx:chain:demo-union:bead:1> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:demo-union:bead:0> ;
+    kgx:gloss          "Conservative Party members" ;
+    kgx:propertyIri    <http://www.wikidata.org/prop/direct/P102> ;
+    kgx:valueIri       <http://www.wikidata.org/entity/Q9626> ;
+    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
+
+  <urn:kgx:chain:demo-union:bead:2> a kgx:SourceBundle ;
+    kgx:gloss          "Current MPs of the UK" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P39 wd:Q11811941 ." .
+
+  <urn:kgx:chain:demo-union:bead:3> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:demo-union:bead:2> ;
+    kgx:gloss          "Reform UK members" ;
+    kgx:propertyIri    <http://www.wikidata.org/prop/direct/P102> ;
+    kgx:valueIri       <http://www.wikidata.org/entity/Q108838025> ;
+    kgx:sparqlFragment "?p wdt:P102 wd:Q108838025 ." .
+
+  <urn:kgx:chain:demo-union:bead:4> a kgx:UnionBundle ;
+    kgx:gloss "Tory ∪ Reform — items in either branch, deduped" ;
+    kgx:inputs ( <urn:kgx:chain:demo-union:bead:1>
+                 <urn:kgx:chain:demo-union:bead:3> ) .
+}`,
+
+  intersect: `@prefix kgx: <urn:kgx:vocab:> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
+
+# Intersection of two independent filters — items in both.
+
+<urn:kgx:chain:demo-intersect> {
+  <urn:kgx:chain:demo-intersect>
+    dct:title       "Conservative women MPs (Tory ∩ female)" ;
+    dct:description "Two independent filters, intersected." .
+
+  <urn:kgx:chain:demo-intersect:bead:0> a kgx:SourceBundle ;
+    kgx:gloss          "Current MPs of the UK" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P39 wd:Q11811941 ." .
+
+  <urn:kgx:chain:demo-intersect:bead:1> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:demo-intersect:bead:0> ;
+    kgx:gloss          "Conservative Party members" ;
+    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
+
+  <urn:kgx:chain:demo-intersect:bead:2> a kgx:SourceBundle ;
+    kgx:gloss          "Current MPs of the UK" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P39 wd:Q11811941 ." .
+
+  <urn:kgx:chain:demo-intersect:bead:3> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:demo-intersect:bead:2> ;
+    kgx:gloss          "Female" ;
+    kgx:propertyIri    <http://www.wikidata.org/prop/direct/P21> ;
+    kgx:valueIri       <http://www.wikidata.org/entity/Q6581072> ;
+    kgx:sparqlFragment "?p wdt:P21 wd:Q6581072 ." .
+
+  <urn:kgx:chain:demo-intersect:bead:4> a kgx:IntersectBundle ;
+    kgx:gloss "Tory ∩ female — items in both" ;
+    kgx:inputs ( <urn:kgx:chain:demo-intersect:bead:1>
+                 <urn:kgx:chain:demo-intersect:bead:3> ) .
+}`,
+
+  difference: `@prefix kgx: <urn:kgx:vocab:> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix sd:  <http://www.w3.org/ns/sparql-service-description#> .
+
+# Asymmetric set op: main minus auxiliary. The main is the
+# initial Conservative pool; the auxiliary is the cabinet.
+# Result: backbench Conservatives.
+
+<urn:kgx:chain:demo-difference> {
+  <urn:kgx:chain:demo-difference>
+    dct:title       "Backbench Conservative MPs (Tory − cabinet)" ;
+    dct:description "Asymmetric set op: main stream minus auxiliary." .
+
+  <urn:kgx:chain:demo-difference:bead:0> a kgx:SourceBundle ;
+    kgx:gloss          "Current MPs of the UK" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P39 wd:Q11811941 ." .
+
+  <urn:kgx:chain:demo-difference:bead:1> a kgx:FilterBundle ;
+    kgx:input          <urn:kgx:chain:demo-difference:bead:0> ;
+    kgx:gloss          "Conservatives" ;
+    kgx:sparqlFragment "?p wdt:P102 wd:Q9626 ." .
+
+  <urn:kgx:chain:demo-difference:bead:2> a kgx:SourceBundle ;
+    kgx:gloss          "Current UK cabinet members" ;
+    kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
+    kgx:sparqlFragment "?p wdt:P39 wd:Q83307 ." .
+
+  <urn:kgx:chain:demo-difference:bead:3> a kgx:DifferenceBundle ;
+    kgx:gloss     "Conservatives − cabinet = backbench Conservatives" ;
+    kgx:main      <urn:kgx:chain:demo-difference:bead:1> ;
+    kgx:auxiliary ( <urn:kgx:chain:demo-difference:bead:2> ) .
 }`,
 };
 

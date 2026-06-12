@@ -101,6 +101,33 @@ SELECT ?title WHERE {
 }' manifest.trig
 ```
 
+## The six-primitive algebra
+
+The chain model the tool reads is a DAG over six primitive operators:
+
+    Source / Filter / Pivot / Augment / Union / Intersect / Difference
+
+Filter / Pivot / Augment have one main input (`kgx:input`); Union /
+Intersect take an `rdf:List` of inputs (`kgx:inputs`); Difference
+takes a `kgx:main` plus an `rdf:List` of `kgx:auxiliary` streams to
+subtract. Today's named ops (`party`, `sitting`, `decade`,
+`enrich`, …) decompose into Filter / Augment / Pivot with a
+specific grounding; the kgx vocab privileges none of them and no
+specific knowledge graph (every endpoint is just an `sd:Service`).
+
+See `docs/kgx/chain-algebra.md` (DISCUSSION ONLY, dated 2026-06-12)
+for the full design, including the optimising interpreter that fuses
+runs of compatible beads into single `kgx:Execution` records.
+
+The Python tool detects the chain's `shape`:
+
+- `shape: linear` — a single chain of single-input beads.
+- `shape: branched` — single-input beads in named branches with
+  fork points (back-compat with the existing fork-demo).
+- `shape: DAG` — at least one multi-input bead (Union / Intersect /
+  Difference); rendered in topological order with input edges
+  surfaced per step.
+
 ## Honesty about grounding
 
 A chain manifest today describes the *structural shape* — lineage,

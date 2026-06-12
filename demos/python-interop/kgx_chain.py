@@ -6,24 +6,33 @@ a chain manifest saved from FPKG's writable Oxigraph and reconstruct
 the chain — title, branches, steps in execution order — without any
 FPKG client code.
 
-The tool tries to be honest about a real limitation of today's
-manifests: they describe the chain's *structural shape* (lineage,
-branch tree, op names) but rarely the *grounding* that would let a
-third-party tool actually execute the chain. Grounding means: which
-SPARQL endpoint, which property / class IRIs, which actual SPARQL
-fragment per step, and which steps fused into a single engine call.
-
-When a bead carries grounding (`kgx:gloss`, `kgx:queryAgainst`,
+The tool is honest about today's gaps. Manifests describe a chain's
+*structural shape* (lineage, branch tree, op names) but rarely the
+*grounding* that would let a third-party tool actually execute the
+chain. When a bead carries grounding (`kgx:gloss`, `kgx:queryAgainst`,
 `kgx:sparqlFragment`, `kgx:executedBy`, `kgx:variants` /
 `kgx:activeVariant`), this tool surfaces it. When a bead doesn't, the
 tool says so — explicitly marking the bead "ungrounded" rather than
-silently glossing the absence as a normal chain. The grounding
-vocabulary itself is endpoint-agnostic: every target is just an
+silently glossing the absence as a normal chain.
+
+The chain model is a DAG over six primitive operators:
+
+    Source / Filter / Pivot / Augment / Union / Intersect / Difference
+
+Filter / Pivot / Augment have one main input (`kgx:input`); Union /
+Intersect take an rdf:List of inputs (`kgx:inputs`); Difference takes
+a `kgx:main` plus an rdf:List of `kgx:auxiliary` streams to subtract.
+`kgx:derivedFrom` is still accepted as a back-compat single-input
+predicate. See `docs/kgx/chain-algebra.md` for the full design
+(DISCUSSION ONLY).
+
+The grounding vocabulary is endpoint-agnostic: every target is just an
 `sd:Service` (W3C SPARQL Service Description). The tool privileges no
 specific KG; pointing at Wikidata, Parliament DDP, GeoNames, or an
 in-house Stardog is the same shape.
 
 Vocabulary references:
+    - docs/kgx/chain-algebra.md         (the algebra + grounding model — DISCUSSION ONLY)
     - docs/kgx/trig-manifest-review.md  (Phase 2A IRI shape — landed)
     - docs/kgx/slim-channel-dataflow.md (slim-channel, DISCUSSION ONLY)
 
@@ -49,27 +58,49 @@ except ImportError:
     sys.exit("kgx-chain needs rdflib. Install with: pip install rdflib")
 
 KGX = Namespace("urn:kgx:vocab:")
-# W3C SPARQL Service Description — the generic way to describe any
-# SPARQL endpoint. The kgx vocab deliberately does NOT define per-KG
-# classes (no kgx:WikidataSource etc.); a target is just an sd:Service
-# with an sd:endpoint URL, whatever its origin.
-SD = Namespace("http://www.w3.org/ns/sparql-service-description#")
+SD  = Namespace("http://www.w3.org/ns/sparql-service-description#")
 
-BUNDLE_KIND_NAMES = ("SourceBundle", "FilterBundle", "PivotBundle", "AugmentBundle")
-
-# Grounding predicates a bead MAY carry (Phase 2D candidate vocabulary,
-# currently DISCUSSION ONLY in the manifest-review doc). The tool
-# reports which are present per bead and which are absent — silent
-# omission would be exactly the dishonesty rule 11 warns against.
-GROUNDING_PREDS_OPTIONAL = (
-    "gloss",            # natural-language description
-    "sparql",           # the whole SPARQL query (for source / augment steps)
-    "sparqlFragment",   # a triple-pattern fragment fusable into a sibling query
-    "queryAgainst",     # an sd:Service node (resolves to sd:endpoint IRI)
-    "activeVariant",    # integer index into kgx:variants
-    "variants",         # rdf:List of alternative groundings
-    "executedBy",       # the kgx:Execution this bead participated in
+# The six primitive bundle kinds (see docs/kgx/chain-algebra.md §2).
+# These are STRUCTURAL roles — Source/Filter/Pivot/Augment for the
+# single-input ops, Union/Intersect/Difference for the multi-input
+# set ops. Anything else (party-filter, sitting-filter, …) is a
+# saved chip — a Filter with a specific grounding under a human label.
+BUNDLE_KIND_NAMES = (
+    "SourceBundle",
+    "FilterBundle",
+    "PivotBundle",
+    "AugmentBundle",
+    "UnionBundle",
+    "IntersectBundle",
+    "DifferenceBundle",
 )
+
+# Which bundle kinds take which input shape. This shapes the topo
+# walker's predecessor lookup and the summary renderer.
+SINGLE_INPUT_KINDS = ("FilterBundle", "PivotBundle", "AugmentBundle")
+SET_OP_SYMMETRIC   = ("UnionBundle", "IntersectBundle")
+SET_OP_ASYMMETRIC  = ("DifferenceBundle",)
+
+# Grounding predicates a bead MAY carry. The tool reports which are
+# present per bead and which are absent — silent omission would be
+# exactly the dishonesty rule 11 warns against.
+GROUNDING_PREDS_OPTIONAL = (
+    "gloss",
+    "sparql",
+    "sparqlFragment",
+    "queryAgainst",
+    "activeVariant",
+    "variants",
+    "executedBy",
+    "propertyIri",
+    "valueIri",
+    "valueLiteral",
+)
+
+
+# ---------------------------------------------------------------------------
+# Loading + graph extraction
+# ---------------------------------------------------------------------------
 
 
 def load_trig(source):
@@ -86,8 +117,7 @@ def find_chain_graph(ds):
     """Pick the manifest graph from a Dataset.
 
     Convention: the chain's graph IRI is also a subject in its own
-    graph carrying a dct:title. There's normally just one named graph
-    per manifest file; we pick the first that satisfies the rule.
+    graph carrying a dct:title.
     """
     for ctx in ds.graphs():
         cid = ctx.identifier
@@ -107,12 +137,16 @@ def _local(uri):
     return None
 
 
+# ---------------------------------------------------------------------------
+# Grounding extraction
+# ---------------------------------------------------------------------------
+
+
 def _resolve_endpoint(graph, node):
     """If `node` is an sd:Service blank node, return its sd:endpoint URL.
 
-    If `node` is itself a URIRef pointing at an endpoint (some
-    manifests may inline the URL directly), return that. Otherwise
-    None — we don't guess.
+    If `node` is itself a URIRef pointing at an endpoint, return that.
+    Otherwise None — we don't guess.
     """
     if node is None:
         return None
@@ -128,7 +162,7 @@ def _resolve_endpoint(graph, node):
 
 def _read_variants(graph, list_node):
     """Walk an rdf:List of variant blank nodes; collect each variant's
-    label + sparqlFragment + any other kgx predicates set on it."""
+    kgx: predicates into a dict."""
     if list_node is None:
         return []
     try:
@@ -175,6 +209,17 @@ def step_grounding(graph, subject):
     if eb is not None:
         g["executedBy"] = str(eb)
 
+    # Typed predicate-and-value form (alternative to sparqlFragment).
+    p_iri = graph.value(subject, KGX.propertyIri)
+    if p_iri is not None:
+        g["propertyIri"] = str(p_iri)
+    v_iri = graph.value(subject, KGX.valueIri)
+    if v_iri is not None:
+        g["valueIri"] = str(v_iri)
+    v_lit = graph.value(subject, KGX.valueLiteral)
+    if v_lit is not None:
+        g["valueLiteral"] = str(v_lit)
+
     av = graph.value(subject, KGX.activeVariant)
     if av is not None:
         try:
@@ -190,13 +235,13 @@ def step_grounding(graph, subject):
 
 
 def grounding_status(g):
-    """Classify a step's grounding into one of:
-        'grounded'   — has at least one of sparql / sparqlFragment / endpoint
-        'partial'    — has a gloss or starterId but no concrete query info
-        'ungrounded' — has nothing
-    Honest about what's missing rather than silently passing absence as 'fine'.
+    """Three-valued status:
+        'grounded'   — has at least one concrete grounding
+                       (sparql / sparqlFragment / endpoint / propertyIri)
+        'partial'    — has a gloss but no executable info
+        'ungrounded' — has neither
     """
-    concrete = any(k in g for k in ("sparql", "sparqlFragment", "endpoint"))
+    concrete = any(k in g for k in ("sparql", "sparqlFragment", "endpoint", "propertyIri"))
     if concrete:
         return "grounded"
     if "gloss" in g:
@@ -204,14 +249,13 @@ def grounding_status(g):
     return "ungrounded"
 
 
-def find_executions(graph):
-    """Every subject with `rdf:type kgx:Execution` and its declared fields.
+# ---------------------------------------------------------------------------
+# Execution records
+# ---------------------------------------------------------------------------
 
-    A kgx:Execution is the runtime's record of one engine call. When
-    fusion happened, an Execution `kgx:fuses` an rdf:List of two or
-    more bead IRIs and carries the fused SPARQL that actually ran.
-    Beads point back via `kgx:executedBy`.
-    """
+
+def find_executions(graph):
+    """Every subject with `rdf:type kgx:Execution` and its declared fields."""
     out = []
     for s in graph.subjects(RDF.type, KGX.Execution):
         ep = None
@@ -245,16 +289,50 @@ def find_executions(graph):
     return out
 
 
-def collect_bundle(graph, subject):
-    """Read every kgx: predicate on a bundle subject into a string-valued dict.
+# ---------------------------------------------------------------------------
+# Bundle collection
+# ---------------------------------------------------------------------------
 
-    Excludes the grounding predicates — those are surfaced via
-    `step_grounding()` separately so the spec's `grounding` field is
-    structured rather than flat. Branch / lineage predicates stay
-    here because they shape the chain topology, not its grounding.
+
+# Edge-shape predicates that connect a bundle to its predecessors. The
+# tool reads them all into a flat `inputs` list per bundle; the
+# downstream renderer interprets the shape by bundle kind.
+EDGE_PREDS = ("input", "main", "derivedFrom")
+EDGE_LIST_PREDS = ("inputs", "auxiliary")
+
+
+def _collect_edges(graph, subject):
+    """Walk the input-shaped predicates on a bundle and return a flat
+    list of `{role, beadIri}` entries.
+
+    - `kgx:input`        → role='input'
+    - `kgx:main`         → role='main'
+    - `kgx:derivedFrom`  → role='derivedFrom' (back-compat / unary)
+    - `kgx:inputs`       → role='inputs', expanded from rdf:List
+    - `kgx:auxiliary`    → role='auxiliary', expanded from rdf:List
     """
+    edges = []
+    for pred in EDGE_PREDS:
+        for o in graph.objects(subject, KGX[pred]):
+            edges.append({"role": pred, "iri": str(o)})
+    for pred in EDGE_LIST_PREDS:
+        list_head = graph.value(subject, KGX[pred])
+        if list_head is None:
+            continue
+        try:
+            for o in Collection(graph, list_head):
+                edges.append({"role": pred, "iri": str(o)})
+        except Exception:
+            # Fallback: treat as a single value
+            edges.append({"role": pred, "iri": str(list_head)})
+    return edges
+
+
+def collect_bundle(graph, subject):
+    """Read every kgx: predicate on a bundle subject into a string-valued
+    dict, excluding grounding + edge predicates (surfaced separately)."""
+    skip = set(GROUNDING_PREDS_OPTIONAL) | set(EDGE_PREDS) | set(EDGE_LIST_PREDS)
     out = {}
-    skip = set(GROUNDING_PREDS_OPTIONAL)
     for p, o in graph.predicate_objects(subject):
         local = _local(p)
         if local is None or local in skip:
@@ -268,7 +346,8 @@ def collect_bundle(graph, subject):
 
 
 def all_bundles(graph):
-    """Every rdf:type kgx:*Bundle subject in the graph with its props and grounding."""
+    """Every rdf:type kgx:*Bundle subject in the graph, with its props,
+    grounding and edges."""
     bundles = []
     for kind_name in BUNDLE_KIND_NAMES:
         for s in graph.subjects(RDF.type, KGX[kind_name]):
@@ -277,44 +356,99 @@ def all_bundles(graph):
                 "kind":      kind_name,
                 "props":     collect_bundle(graph, s),
                 "grounding": step_grounding(graph, s),
+                "edges":     _collect_edges(graph, s),
             })
     return bundles
 
 
-def bundle_to_step(b):
-    kind, props = b["kind"], b["props"]
-    if kind == "SourceBundle":
-        step = {"kind": "starter", "id": props.get("starterId")}
-    elif kind == "PivotBundle":
-        step = {"kind": "op", "op": "rel-pivot", "template": props.get("relTemplate")}
-        if "relVariant" in props:
-            step["variant"] = props["relVariant"]
-    else:
-        step = {"kind": "op", "op": props.get("op")}
-        if "opValue" in props:
-            step["value"] = props["opValue"]
+# ---------------------------------------------------------------------------
+# Topology — DAG topo-sort (single-input, fork, full set-op DAG all handled)
+# ---------------------------------------------------------------------------
 
-    g = b.get("grounding") or {}
-    if g:
-        step["grounding"] = g
-    step["grounded"] = grounding_status(g)
-    return step
+
+def _predecessor_iris(b):
+    """All bead IRIs that flow INTO this bundle, regardless of role."""
+    return [e["iri"] for e in b["edges"]]
+
+
+def topo_sort_dag(bundles):
+    """Kahn's algorithm over the input edges. Refuses cycles."""
+    by_uri = {b["uri"]: b for b in bundles}
+    indeg = {}
+    # For every bead, count incoming edges from beads we KNOW about.
+    # Unknown predecessors (forwarders, external references) are skipped
+    # rather than crashing — the manifest may reference beads that aren't
+    # in this graph (forks-from-other-chains case).
+    children = {b["uri"]: [] for b in bundles}
+    for b in bundles:
+        deg = 0
+        for pred_iri in _predecessor_iris(b):
+            if pred_iri in by_uri:
+                deg += 1
+                children[pred_iri].append(b["uri"])
+        indeg[b["uri"]] = deg
+
+    ready = [b for b in bundles if indeg[b["uri"]] == 0]
+    ordered = []
+    visited = set()
+    while ready:
+        # Stable sort: prefer bundles whose URI sorts earliest among ready
+        # nodes. Keeps the output deterministic when several nodes are
+        # ready simultaneously (the usual case at the start of a DAG).
+        ready.sort(key=lambda b: b["uri"])
+        cur = ready.pop(0)
+        if cur["uri"] in visited:
+            continue
+        visited.add(cur["uri"])
+        ordered.append(cur)
+        for child_uri in children[cur["uri"]]:
+            indeg[child_uri] -= 1
+            if indeg[child_uri] == 0:
+                ready.append(by_uri[child_uri])
+    if len(ordered) != len(bundles):
+        unseen = [b["uri"] for b in bundles if b["uri"] not in visited]
+        raise ValueError(
+            f"chain DAG has a cycle or unresolvable references; unseen: {unseen}"
+        )
+    return ordered
+
+
+def is_dag_shape(bundles):
+    """Returns True if the manifest uses any multi-input bead — that's
+    the DAG case. Single-input + branches stays in the tree walker so
+    the existing fork-shape output is unchanged."""
+    for b in bundles:
+        if b["kind"] in SET_OP_SYMMETRIC + SET_OP_ASYMMETRIC:
+            return True
+        edges = [e for e in b["edges"] if e["role"] != "derivedFrom"]
+        if any(e["role"] in ("inputs", "auxiliary") for e in edges):
+            return True
+    return False
+
+
+# ---------------------------------------------------------------------------
+# Tree walker (back-compat single-input + branches)
+# ---------------------------------------------------------------------------
 
 
 def walk_branch(bundles, branch_uris):
-    """Topo-sort one branch's bundles by walking kgx:derivedFrom forward."""
-    roots = [
-        b for b in bundles
-        if b["props"].get("derivedFrom") not in branch_uris
-        or "derivedFrom" not in b["props"]
-    ]
+    """Topo-sort one branch's bundles by walking single-input edges."""
+    def _parent(b):
+        for e in b["edges"]:
+            if e["role"] in ("input", "derivedFrom", "main") and e["iri"] in branch_uris:
+                return e["iri"]
+        return None
+
+    roots = [b for b in bundles if _parent(b) is None]
     if len(roots) != 1:
         raise ValueError(f"branch needs exactly 1 root, got {len(roots)}")
     ordered = [roots[0]]
     while len(ordered) < len(bundles):
         cur_uri = ordered[-1]["uri"]
         nxt = next(
-            (b for b in bundles if b["props"].get("derivedFrom") == cur_uri),
+            (b for b in bundles if any(
+                e["iri"] == cur_uri and e["role"] in ("input", "derivedFrom", "main")
+                for e in b["edges"])),
             None,
         )
         if not nxt:
@@ -327,8 +461,45 @@ def walk_branch(bundles, branch_uris):
     return ordered
 
 
+# ---------------------------------------------------------------------------
+# Spec construction
+# ---------------------------------------------------------------------------
+
+
+def bundle_to_step(b):
+    kind, props = b["kind"], b["props"]
+    if kind == "SourceBundle":
+        step = {"kind": "starter", "id": props.get("starterId")}
+    elif kind == "PivotBundle":
+        step = {"kind": "op", "op": "rel-pivot", "template": props.get("relTemplate")}
+        if "relVariant" in props:
+            step["variant"] = props["relVariant"]
+    elif kind in SET_OP_SYMMETRIC:
+        # Union / Intersect — symmetric, all inputs equal.
+        step = {"kind": "op", "op": kind[: -len("Bundle")].lower()}  # 'union'/'intersect'
+    elif kind == "DifferenceBundle":
+        step = {"kind": "op", "op": "difference"}
+    else:
+        # FilterBundle / AugmentBundle: kgx:op string label + optional value
+        step = {"kind": "op", "op": props.get("op")}
+        if "opValue" in props:
+            step["value"] = props["opValue"]
+
+    step["uri"]   = b["uri"]
+    step["kind_kgx"] = kind
+    if b["edges"]:
+        step["inputs"] = b["edges"]
+
+    g = b.get("grounding") or {}
+    if g:
+        step["grounding"] = g
+    step["grounded"] = grounding_status(g)
+    return step
+
+
 def chain_to_spec(chain_iri, graph):
-    """Reconstruct a {title, sub, id, steps|branches, executions, …} spec."""
+    """Reconstruct a spec — {title, sub, id, executions, …} plus either
+    `steps` (linear) or `branches` (forks) or `dag` (full multi-input)."""
     title  = graph.value(chain_iri, DCTERMS.title)
     sub    = graph.value(chain_iri, DCTERMS.description)
     cid    = graph.value(chain_iri, DCTERMS.identifier)
@@ -343,49 +514,56 @@ def chain_to_spec(chain_iri, graph):
     if sub:    spec["sub"]   = str(sub)
     if cid:    spec["id"]    = str(cid)
 
-    is_multi = bool(active) or any("branch" in b["props"] for b in bundles)
-
-    if not is_multi:
-        ordered = walk_branch(bundles, {b["uri"] for b in bundles})
-        spec["steps"] = [bundle_to_step(b) for b in ordered]
+    # Decide layout: full DAG > branched tree > linear.
+    if is_dag_shape(bundles):
+        ordered = topo_sort_dag(bundles)
+        spec["shape"] = "dag"
+        spec["dag"]   = [bundle_to_step(b) for b in ordered]
     else:
-        by_branch = {}
-        for b in bundles:
-            bid = b["props"].get("branch")
-            if not bid:
-                raise ValueError(
-                    f"multi-branch manifest: bundle {b['uri']} missing kgx:branch tag"
-                )
-            by_branch.setdefault(bid, []).append(b)
-
-        ordered_by_branch = {}
-        for bid, bs in by_branch.items():
-            ordered_by_branch[bid] = walk_branch(bs, {b["uri"] for b in bs})
-
-        spec_branches = []
-        for bid, ordered in ordered_by_branch.items():
-            branch = {"id": bid, "steps": [bundle_to_step(b) for b in ordered]}
-            root_df = ordered[0]["props"].get("derivedFrom")
-            if root_df:
-                for pid, p_ordered in ordered_by_branch.items():
-                    if pid == bid:
-                        continue
-                    for idx, pb in enumerate(p_ordered):
-                        if pb["uri"] == root_df:
-                            branch["forkedFrom"] = {"branch": pid, "beadIdx": idx}
-                            break
-                    if "forkedFrom" in branch:
-                        break
-                if "forkedFrom" not in branch:
+        is_multi = bool(active) or any("branch" in b["props"] for b in bundles)
+        if not is_multi:
+            ordered = walk_branch(bundles, {b["uri"] for b in bundles})
+            spec["shape"] = "linear"
+            spec["steps"] = [bundle_to_step(b) for b in ordered]
+        else:
+            by_branch = {}
+            for b in bundles:
+                bid = b["props"].get("branch")
+                if not bid:
                     raise ValueError(
-                        f"branch {bid!r} root derives from {root_df} but no other "
-                        f"branch contains that bundle"
+                        f"multi-branch manifest: bundle {b['uri']} missing kgx:branch tag"
                     )
-            spec_branches.append(branch)
+                by_branch.setdefault(bid, []).append(b)
 
-        spec["branches"] = spec_branches
-        if active:
-            spec["activeBranch"] = str(active)
+            ordered_by_branch = {}
+            for bid, bs in by_branch.items():
+                ordered_by_branch[bid] = walk_branch(bs, {b["uri"] for b in bs})
+
+            spec_branches = []
+            for bid, ordered in ordered_by_branch.items():
+                branch = {"id": bid, "steps": [bundle_to_step(b) for b in ordered]}
+                # Recover forkedFrom from the root's single-input edge
+                root_df = next(
+                    (e["iri"] for e in ordered[0]["edges"]
+                     if e["role"] in ("input", "derivedFrom", "main")),
+                    None,
+                )
+                if root_df:
+                    for pid, p_ordered in ordered_by_branch.items():
+                        if pid == bid:
+                            continue
+                        for idx, pb in enumerate(p_ordered):
+                            if pb["uri"] == root_df:
+                                branch["forkedFrom"] = {"branch": pid, "beadIdx": idx}
+                                break
+                        if "forkedFrom" in branch:
+                            break
+                spec_branches.append(branch)
+
+            spec["shape"]    = "branched"
+            spec["branches"] = spec_branches
+            if active:
+                spec["activeBranch"] = str(active)
 
     execs = find_executions(graph)
     if execs:
@@ -394,30 +572,67 @@ def chain_to_spec(chain_iri, graph):
     return spec
 
 
-# ----- pretty-printer -------------------------------------------------------
+# ---------------------------------------------------------------------------
+# Pretty-printer
+# ---------------------------------------------------------------------------
+
 
 _STATUS_GLYPH = {"grounded": "✓", "partial": "◐", "ungrounded": "⚠"}
 
 
+def _short_iri(iri, chain_iri_str=None):
+    """Trim the chain-IRI prefix for compactness in display."""
+    if chain_iri_str and iri.startswith(chain_iri_str + ":"):
+        return iri[len(chain_iri_str) + 1:]
+    return iri
+
+
 def _format_step_head(s):
-    """First-line summary of a step, e.g. `party = 'Conservative'`."""
+    kind_kgx = s.get("kind_kgx", "")
     if s["kind"] == "starter":
-        return f"source = {s.get('id') or '(missing kgx:starterId)'}"
+        return f"Source — starterId = {s.get('id') or '(missing kgx:starterId)'}"
     if s["op"] == "rel-pivot":
-        head = f"pivot {s.get('template') or '(missing kgx:relTemplate)'}"
+        head = f"Pivot — template = {s.get('template') or '(missing kgx:relTemplate)'}"
         if "variant" in s:
             head += f" / {s['variant']}"
         return head
+    if s["op"] == "union":
+        return "Union — items in any input"
+    if s["op"] == "intersect":
+        return "Intersect — items in every input"
+    if s["op"] == "difference":
+        return "Difference — items in main, not in auxiliary"
+    if kind_kgx == "AugmentBundle":
+        return f"Augment — op = {s['op'] or '(missing kgx:op)'}"
+    # FilterBundle (the default)
     if "value" in s:
-        return f"{s['op']} = {s['value']!r}"
-    return s["op"] or "(missing kgx:op)"
+        return f"Filter — op = {s['op']!r}, value = {s['value']!r}"
+    return f"Filter — op = {s['op'] or '(missing kgx:op)'}"
 
 
-def _print_grounding(g, indent="     "):
-    """Multi-line per-bead grounding block. Prints only the fields
-    that are present; the calling status line communicates the rest."""
+def _print_inputs(edges, indent, chain_iri_str=None):
+    if not edges:
+        return
+    by_role = {}
+    for e in edges:
+        by_role.setdefault(e["role"], []).append(e["iri"])
+    role_order = ["input", "main", "inputs", "auxiliary", "derivedFrom"]
+    for role in role_order:
+        if role not in by_role:
+            continue
+        iris = [_short_iri(i, chain_iri_str) for i in by_role[role]]
+        if len(iris) == 1:
+            print(f"{indent}{role}:    {iris[0]}")
+        else:
+            print(f"{indent}{role}:    [{', '.join(iris)}]")
+
+
+def _print_grounding(g, indent):
     if "gloss" in g:          print(f"{indent}gloss:     {g['gloss']}")
     if "endpoint" in g:       print(f"{indent}endpoint:  {g['endpoint']}")
+    if "propertyIri" in g:    print(f"{indent}propIri:   {g['propertyIri']}")
+    if "valueIri" in g:       print(f"{indent}valueIri:  {g['valueIri']}")
+    if "valueLiteral" in g:   print(f"{indent}valueLit:  {g['valueLiteral']!r}")
     if "sparql" in g:
         sparql = g["sparql"].strip()
         first = sparql.split("\n")[0]
@@ -439,49 +654,84 @@ def _print_grounding(g, indent="     "):
                 print(f"{indent}      fragment: {v['sparqlFragment']}")
 
 
-def _print_step(i, step, indent="  "):
+def _print_step(i, step, indent, chain_iri_str=None):
     status = step.get("grounded", "ungrounded")
     glyph  = _STATUS_GLYPH.get(status, "?")
     print(f"{indent}{i}. {glyph} {_format_step_head(step)}")
+    inner = indent + "     "
+    edges = step.get("inputs") or []
+    if edges:
+        _print_inputs(edges, inner, chain_iri_str)
     g = step.get("grounding") or {}
     if g:
-        _print_grounding(g, indent=indent + "     ")
+        _print_grounding(g, inner)
     if status == "ungrounded":
-        print(f"{indent}     ⚠ ungrounded — no gloss, no SPARQL fragment, no endpoint")
-        print(f"{indent}       to execute this step a consumer needs the FPKG runtime's")
-        print(f"{indent}       interpretation of the bare op label.")
+        print(f"{inner}⚠ ungrounded — no gloss, no SPARQL fragment, no endpoint")
+        print(f"{inner}  to execute this step a consumer needs the FPKG runtime's")
+        print(f"{inner}  interpretation of the bare op label.")
     elif status == "partial":
-        print(f"{indent}     ◐ partial — gloss present but no executable grounding")
+        print(f"{inner}◐ partial — gloss present but no executable grounding")
+
+
+def _chain_iri_for_display(spec):
+    """Best-effort guess at the chain's IRI prefix, for trimming bead IRIs
+    in display. Reads the first bead's URI."""
+    nodes = spec.get("dag") or spec.get("steps")
+    if not nodes:
+        for b in spec.get("branches") or []:
+            if b.get("steps"):
+                nodes = b["steps"]
+                break
+    if not nodes:
+        return None
+    first_uri = nodes[0].get("uri", "")
+    # The chain IRI is the prefix before ":bead:"
+    if ":bead:" in first_uri:
+        return first_uri.split(":bead:")[0]
+    return None
 
 
 def print_summary(spec):
     print(f"title:   {spec.get('title', '(untitled)')}")
     if spec.get("sub"): print(f"sub:     {spec['sub']}")
     if spec.get("id"):  print(f"id:      {spec['id']}")
+    shape = spec.get("shape", "linear")
+    chain_iri_str = _chain_iri_for_display(spec)
 
-    if "branches" in spec:
+    if shape == "branched":
         active = spec.get("activeBranch")
-        print(f"branches ({len(spec['branches'])}, active = {active!r}):")
+        print(f"shape:   branched ({len(spec['branches'])} branches, active = {active!r})")
         for branch in spec["branches"]:
-            print(f"  - {branch['id']}")
+            print(f"  - branch {branch['id']}")
             if "forkedFrom" in branch:
                 ff = branch["forkedFrom"]
                 print(f"    forked from {ff['branch']!r} at bead {ff['beadIdx']}")
             for i, step in enumerate(branch["steps"], 1):
-                _print_step(i, step, indent="    ")
+                _print_step(i, step, indent="    ", chain_iri_str=chain_iri_str)
+    elif shape == "dag":
+        nodes = spec["dag"]
+        # Brief summary of the DAG shape
+        n_sources = sum(1 for n in nodes if n["kind_kgx"] == "SourceBundle")
+        set_ops   = sum(1 for n in nodes if n["kind_kgx"] in SET_OP_SYMMETRIC + SET_OP_ASYMMETRIC)
+        print(f"shape:   DAG — {len(nodes)} beads, {n_sources} source(s), {set_ops} set-op(s)")
+        for i, step in enumerate(nodes, 1):
+            _print_step(i, step, indent="  ", chain_iri_str=chain_iri_str)
     else:
-        print(f"steps ({len(spec['steps'])}):")
-        for i, step in enumerate(spec["steps"], 1):
-            _print_step(i, step)
+        nodes = spec["steps"]
+        print(f"shape:   linear ({len(nodes)} steps)")
+        for i, step in enumerate(nodes, 1):
+            _print_step(i, step, indent="  ", chain_iri_str=chain_iri_str)
 
     execs = spec.get("executions") or []
     if execs:
         print()
         print(f"executions ({len(execs)}):")
         for i, e in enumerate(execs):
-            print(f"  {i}. {e['iri']}")
+            print(f"  {i}. {_short_iri(e['iri'], chain_iri_str)}")
             if "endpoint" in e:    print(f"     against:      {e['endpoint']}")
-            if "fuses" in e:       print(f"     fuses:        {len(e['fuses'])} beads — {', '.join(e['fuses'])}")
+            if "fuses" in e:
+                trimmed = [_short_iri(b, chain_iri_str) for b in e["fuses"]]
+                print(f"     fuses:        {len(e['fuses'])} beads — {', '.join(trimmed)}")
             if "rowsReturned" in e:print(f"     rowsReturned: {e['rowsReturned']}")
             if "durationMs"   in e:print(f"     durationMs:   {e['durationMs']}")
             if "fusedSparql"  in e:
@@ -490,18 +740,21 @@ def print_summary(spec):
                 for line in sparql.split("\n"):
                     print(f"       {line}")
     else:
-        # Honest: no execution plan recorded. This is the current state
-        # of every manifest emitted by chainToTrig today.
         print()
         print("executions: none recorded — the chain has no kgx:Execution plan,")
         print("            so a third-party tool can't tell what actually ran.")
+
+
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
 
 
 def main(argv=None):
     p = argparse.ArgumentParser(
         description=__doc__.strip().split("\n")[0],
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="See docs/kgx/trig-manifest-review.md for the TriG vocabulary.",
+        epilog="See docs/kgx/chain-algebra.md for the algebra (DISCUSSION ONLY).",
     )
     p.add_argument("file", help="path to a kgx daisychain TriG file ('-' for stdin)")
     g = p.add_mutually_exclusive_group()
