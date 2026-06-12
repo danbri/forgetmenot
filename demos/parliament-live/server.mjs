@@ -349,6 +349,8 @@ const MIME = {
   '.woff2':'font/woff2',
   '.rq':   'application/sparql-query; charset=utf-8',
   '.txt':  'text/plain; charset=utf-8',
+  '.py':   'text/x-python; charset=utf-8',
+  '.md':   'text/markdown; charset=utf-8',
 };
 
 async function serveStatic(req, res) {

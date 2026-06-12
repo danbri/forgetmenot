@@ -11,6 +11,16 @@ CLI, the SPARQL Anything project, command-line `roqet`, even
 LibreOffice's Calc with an RDF plugin — can read them. There is no
 "daisychain API" to negotiate. The manifest IS the API.
 
+## Two ways to run it
+
+- **Command line**: see `kgx_chain.py` below. Needs `pip install rdflib`.
+- **In your browser**: open
+  [`pythonchain.html`](pythonchain.html) — same Python script,
+  loaded into Pyodide (Python compiled to WebAssembly) so the parsing
+  runs entirely client-side. No FPKG server-side Python; no
+  JavaScript shortcut on the read side. The browser demo is reachable
+  on prod at <https://fpkg.fly.dev/python-interop/pythonchain>.
+
 ## Setup
 
 ```sh

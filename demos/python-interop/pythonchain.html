@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pythonchain — Python reading kgx daisychain manifests in the browser</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg:        light-dark(#fafaf6, #181818);
+    --surface:   light-dark(#ffffff, #222222);
+    --surface-2: light-dark(#f4f1ea, #262626);
+    --ink:       light-dark(#1a1a1a, #ececec);
+    --ink-soft:  light-dark(#555555, #a8a8a8);
+    --rule:      light-dark(#d4d0c4, #3a3a3a);
+    --accent:    light-dark(#2a4f76, #6aa3d4);
+    --good:      light-dark(#3a8050, #6db384);
+    --err:       light-dark(#c33333, #f08080);
+  }
+  body {
+    font: 15px/1.5 system-ui, -apple-system, sans-serif;
+    max-width: 1120px;
+    margin: 1.5em auto;
+    padding: 0 1em;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  h1 { font-size: 22px; margin: 0 0 0.2em; }
+  .sub { color: var(--ink-soft); margin: 0; }
+  .status {
+    padding: 0.6em 1em;
+    background: var(--surface);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 4px 4px 0;
+    margin: 1.2em 0 0.8em;
+    font-size: 13px;
+  }
+  .status.ready { border-color: var(--good); }
+  .status.err   { border-color: var(--err); color: var(--err); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; margin-top: 0.5em; }
+  @media (max-width: 800px) { .row { grid-template-columns: 1fr; } }
+  textarea {
+    width: 100%; box-sizing: border-box;
+    height: 320px;
+    font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    background: var(--surface);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.6em;
+    resize: vertical;
+  }
+  pre {
+    background: var(--surface-2);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    padding: 0.6em;
+    overflow: auto;
+    max-height: 320px;
+    margin: 0;
+    font: 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  button {
+    padding: 0.45em 0.9em;
+    background: var(--accent);
+    color: white;
+    border: 0; border-radius: 4px;
+    cursor: pointer;
+    font: inherit;
+  }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  button.outline {
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.3em 0.7em;
+    font-size: 13px;
+  }
+  .mode-toggle {
+    display: inline-flex;
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.6em;
+  }
+  .mode-toggle button {
+    background: transparent;
+    color: var(--ink);
+    border-radius: 0;
+    padding: 0.4em 0.9em;
+  }
+  .mode-toggle button.active { background: var(--accent); color: white; }
+  .examples { display: flex; gap: 0.5em; flex-wrap: wrap; margin: 0.4em 0 0.6em; }
+  label { display: block; font-weight: 600; font-size: 13px; margin: 0.6em 0 0.25em; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.04em; }
+  .small { font-size: 12px; color: var(--ink-soft); }
+  a { color: var(--accent); }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; font-family: ui-monospace, monospace; }
+  th, td { border-bottom: 1px solid var(--rule); padding: 0.4em 0.6em; text-align: left; vertical-align: top; }
+  th { background: var(--surface); color: var(--ink-soft); font-weight: 600; }
+  #query-out { background: var(--surface-2); border: 1px solid var(--rule); border-radius: 4px; padding: 0.4em; max-height: 320px; overflow: auto; }
+</style>
+</head>
+<body>
+
+<h1>pythonchain</h1>
+<p class="sub">
+  Python reading kgx daisychain manifests in your browser via
+  <a href="https://pyodide.org">Pyodide</a> + <a href="https://rdflib.dev/">rdflib</a>.
+  The same <a href="kgx_chain.py">kgx_chain.py</a> the CLI uses,
+  running here as WebAssembly. No server-side Python. End-to-end proof
+  that the kgx TriG manifest format is real interchange: write it
+  from JavaScript, read it back with the canonical Python RDF library.
+</p>
+
+<div id="status" class="status">⏳ Loading Pyodide runtime…</div>
+
+<div class="row">
+  <div>
+    <div class="mode-toggle">
+      <button id="mode-parse" class="active" data-mode="parse">Parse spec</button>
+      <button id="mode-query" data-mode="query">SPARQL query</button>
+    </div>
+
+    <label for="trig">TriG manifest input</label>
+    <div class="examples">
+      <button class="outline" data-example="linear">Linear chain</button>
+      <button class="outline" data-example="fork">Fork chain</button>
+      <button class="outline" data-example="augment">Augment chain</button>
+    </div>
+    <textarea id="trig" placeholder="Paste a kgx TriG manifest here, or click an example →" spellcheck="false"></textarea>
+
+    <div id="query-row" style="display:none">
+      <label for="sparql">SPARQL query (runs against the loaded manifest)</label>
+      <textarea id="sparql" style="height: 140px;" spellcheck="false"></textarea>
+    </div>
+
+    <p style="margin: 0.8em 0;">
+      <button id="run" disabled>Run with Python →</button>
+    </p>
+  </div>
+
+  <div>
+    <div id="parse-output">
+      <label>Spec output (Python → rdflib → JSON)</label>
+      <pre id="json-out">(awaiting input)</pre>
+      <label>Human summary</label>
+      <pre id="summary-out">(awaiting input)</pre>
+    </div>
+    <div id="query-output" style="display:none">
+      <label>SPARQL results</label>
+      <div id="query-out"><p class="small" style="margin:0">(no rows yet)</p></div>
+    </div>
+  </div>
+</div>
+
+<p class="small" style="margin-top: 2em;">
+  TriG vocabulary: <code>kgx:SourceBundle</code>, <code>FilterBundle</code>,
+  <code>PivotBundle</code>, <code>AugmentBundle</code> for bundle types;
+  <code>kgx:derivedFrom</code> for lineage; <code>kgx:branch</code> +
+  <code>kgx:activeBranch</code> for forks; <code>kgx:op</code> +
+  <code>kgx:opValue</code> for filter ops; <code>kgx:relTemplate</code> +
+  <code>kgx:relVariant</code> for pivots; <code>kgx:starterId</code> for
+  seeds. Full review:
+  <a href="../../docs/kgx/trig-manifest-review.md">trig-manifest-review.md</a>.
+</p>
+
+<script>
+const STATUS = document.getElementById('status');
+const setStatus = (msg, cls='') => {
+  STATUS.textContent = msg;
+  STATUS.className = `status ${cls}`;
+};
+
+let pyodide;
+
+async function init() {
+  // Pyodide's loader is a UMD-style script; pin a version so behaviour
+  // doesn't change unexpectedly when the CDN updates.
+  const PYODIDE = 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/';
+  await new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = PYODIDE + 'pyodide.js';
+    s.onload = resolve;
+    s.onerror = () => reject(new Error('failed to load pyodide.js from CDN'));
+    document.head.appendChild(s);
+  });
+
+  setStatus('⏳ Booting Python runtime…');
+  pyodide = await loadPyodide({ indexURL: PYODIDE });
+
+  setStatus('⏳ Installing rdflib (in-browser)…');
+  // rdflib is in Pyodide's prebuilt package set on recent versions.
+  try {
+    await pyodide.loadPackage('rdflib');
+  } catch (e) {
+    // Fall back to micropip if the prebuilt package isn't available.
+    await pyodide.loadPackage('micropip');
+    await pyodide.runPythonAsync(`
+import micropip
+await micropip.install('rdflib')
+`);
+  }
+
+  setStatus('⏳ Loading kgx_chain.py…');
+  const src = await fetch('kgx_chain.py').then(r => {
+    if (!r.ok) throw new Error(`fetch kgx_chain.py: HTTP ${r.status}`);
+    return r.text();
+  });
+  pyodide.FS.writeFile('kgx_chain.py', src);
+  await pyodide.runPythonAsync(`
+import sys
+sys.path.insert(0, '.')
+import kgx_chain
+`);
+
+  setStatus('✅ Ready. Pick an example or paste a TriG manifest, then click "Run with Python →".', 'ready');
+  document.getElementById('run').disabled = false;
+}
+
+let mode = 'parse';
+for (const btn of document.querySelectorAll('.mode-toggle button')) {
+  btn.addEventListener('click', () => {
+    mode = btn.dataset.mode;
+    for (const b of document.querySelectorAll('.mode-toggle button')) {
+      b.classList.toggle('active', b === btn);
+    }
+    document.getElementById('query-row').style.display    = mode === 'query' ? 'block' : 'none';
+    document.getElementById('parse-output').style.display = mode === 'parse' ? 'block' : 'none';
+    document.getElementById('query-output').style.display = mode === 'query' ? 'block' : 'none';
+  });
+}
+
+for (const btn of document.querySelectorAll('[data-example]')) {
+  btn.addEventListener('click', () => {
+    document.getElementById('trig').value = EXAMPLES[btn.dataset.example];
+  });
+}
+
+document.getElementById('run').addEventListener('click', runIt);
+
+async function runIt() {
+  const src = document.getElementById('trig').value;
+  if (!src.trim()) { setStatus('Paste a TriG manifest first.', 'err'); return; }
+  try {
+    setStatus('⏳ Running in Python…');
+    pyodide.FS.writeFile('/tmp/chain.trig', src);
+
+    if (mode === 'parse') {
+      const resultJson = await pyodide.runPythonAsync(`
+import io, json
+from contextlib import redirect_stdout
+ds = kgx_chain.load_trig('/tmp/chain.trig')
+chain_iri, graph = kgx_chain.find_chain_graph(ds)
+spec = kgx_chain.chain_to_spec(chain_iri, graph)
+buf = io.StringIO()
+with redirect_stdout(buf):
+    kgx_chain.print_summary(spec)
+json.dumps({"spec": spec, "summary": buf.getvalue()})
+`);
+      const r = JSON.parse(resultJson);
+      document.getElementById('json-out').textContent = JSON.stringify(r.spec, null, 2);
+      document.getElementById('summary-out').textContent = r.summary;
+      setStatus('✅ Parsed: TriG → rdflib → spec.', 'ready');
+      return;
+    }
+
+    // SPARQL mode
+    const q = document.getElementById('sparql').value;
+    if (!q.trim()) { setStatus('Enter a SPARQL query.', 'err'); return; }
+    pyodide.globals.set('user_query', q);
+    const resultJson = await pyodide.runPythonAsync(`
+import json
+ds = kgx_chain.load_trig('/tmp/chain.trig')
+qres = ds.query(user_query)
+vars_ = [str(v) for v in (qres.vars or [])]
+rows = []
+for row in qres:
+    rows.append({str(v): ('' if row[v] is None else str(row[v])) for v in (qres.vars or [])})
+json.dumps({"vars": vars_, "rows": rows})
+`);
+    const { vars, rows } = JSON.parse(resultJson);
+    const out = document.getElementById('query-out');
+    if (!rows.length) {
+      out.innerHTML = '<p class="small" style="margin:0">(no rows)</p>';
+    } else {
+      const esc = (s) => String(s).replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[c]));
+      let html = '<table><thead><tr>';
+      for (const v of vars) html += `<th>${esc(v)}</th>`;
+      html += '</tr></thead><tbody>';
+      for (const r of rows) {
+        html += '<tr>';
+        for (const v of vars) html += `<td>${esc(r[v] || '')}</td>`;
+        html += '</tr>';
+      }
+      html += '</tbody></table>';
+      out.innerHTML = html;
+    }
+    setStatus(`✅ ${rows.length} row${rows.length === 1 ? '' : 's'} returned.`, 'ready');
+  } catch (e) {
+    setStatus(`❌ ${(e && e.message) || e}`, 'err');
+    console.error(e);
+  }
+}
+
+const EXAMPLES = {
+  linear: `@prefix kgx: <urn:kgx:vocab:> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<urn:kgx:chain:demo-linear> {
+  <urn:kgx:chain:demo-linear> dct:title "Sitting Conservatives" .
+  <urn:kgx:chain:demo-linear> dct:description "Seed → Conservative → sitting" .
+
+  <urn:kgx:chain:demo-linear:bead:0> a kgx:SourceBundle ;
+    kgx:starterId "uk-mps-1900" .
+  <urn:kgx:chain:demo-linear:bead:1> a kgx:FilterBundle ;
+    kgx:derivedFrom <urn:kgx:chain:demo-linear:bead:0> ;
+    kgx:op "party" ;
+    kgx:opValue "Conservative" .
+  <urn:kgx:chain:demo-linear:bead:2> a kgx:FilterBundle ;
+    kgx:derivedFrom <urn:kgx:chain:demo-linear:bead:1> ;
+    kgx:op "sitting" .
+}`,
+
+  fork: `@prefix kgx: <urn:kgx:vocab:> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<urn:kgx:chain:demo-fork> {
+  <urn:kgx:chain:demo-fork> dct:title "Fork demo" .
+  <urn:kgx:chain:demo-fork> dct:description "Shared prefix; sibling branch pivots to birthplaces." .
+  <urn:kgx:chain:demo-fork> kgx:activeBranch "with-bp" .
+
+  <urn:kgx:chain:demo-fork:bead:0> a kgx:SourceBundle ;
+    kgx:branch "main" ;
+    kgx:starterId "uk-mps-1900" .
+  <urn:kgx:chain:demo-fork:bead:1> a kgx:FilterBundle ;
+    kgx:derivedFrom <urn:kgx:chain:demo-fork:bead:0> ;
+    kgx:branch "main" ;
+    kgx:op "party" ;
+    kgx:opValue "Labour Party" .
+  <urn:kgx:chain:demo-fork:bead:2> a kgx:FilterBundle ;
+    kgx:derivedFrom <urn:kgx:chain:demo-fork:bead:1> ;
+    kgx:branch "main" ;
+    kgx:op "sitting" .
+  <urn:kgx:chain:demo-fork:bead:with-bp:0> a kgx:PivotBundle ;
+    kgx:derivedFrom <urn:kgx:chain:demo-fork:bead:2> ;
+    kgx:branch "with-bp" ;
+    kgx:relTemplate "birthplaces" ;
+    kgx:relVariant "default" .
+}`,
+
+  augment: `@prefix kgx: <urn:kgx:vocab:> .
+@prefix dct: <http://purl.org/dc/terms/> .
+
+<urn:kgx:chain:demo-augment> {
+  <urn:kgx:chain:demo-augment> dct:title "Bridged + enriched Tories" .
+  <urn:kgx:chain:demo-augment> dct:description "Seed → Conservative → identity-bridge → Wikidata enrich." .
+
+  <urn:kgx:chain:demo-augment:bead:0> a kgx:SourceBundle ;
+    kgx:starterId "parl-current-mps" .
+  <urn:kgx:chain:demo-augment:bead:1> a kgx:FilterBundle ;
+    kgx:derivedFrom <urn:kgx:chain:demo-augment:bead:0> ;
+    kgx:op "party" ;
+    kgx:opValue "Conservative" .
+  <urn:kgx:chain:demo-augment:bead:2> a kgx:AugmentBundle ;
+    kgx:derivedFrom <urn:kgx:chain:demo-augment:bead:1> ;
+    kgx:op "identity-bridge" .
+  <urn:kgx:chain:demo-augment:bead:3> a kgx:AugmentBundle ;
+    kgx:derivedFrom <urn:kgx:chain:demo-augment:bead:2> ;
+    kgx:op "enrich" .
+}`,
+};
+
+document.getElementById('sparql').value = `# Default: list every step that's an AugmentBundle, with its op.
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX kgx: <urn:kgx:vocab:>
+SELECT ?title ?op WHERE {
+  GRAPH ?chain {
+    ?chain dct:title ?title .
+    ?bead a kgx:AugmentBundle ; kgx:op ?op .
+  }
+}`;
+
+init().catch(e => setStatus(`❌ Init failed: ${(e && e.message) || e}`, 'err'));
+</script>
+</body>
+</html>
