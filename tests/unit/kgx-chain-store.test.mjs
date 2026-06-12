@@ -21,10 +21,7 @@ const flatSpec = {
 test('flowIriOfTrig — extracts the chain graph IRI a manifest carries', () => {
   const trig = chainToTrig(flatSpec);
   const iri = flowIriOfTrig(trig);
-  // Phase 2A emits urn:kgx:chain:; the legacy urn:kgx:flow: form is
-  // still accepted by the parser for back-compat with saved chains.
-  assert.ok(/^urn:kgx:(?:chain|flow):/.test(iri),
-    `expected urn:kgx:chain:… or urn:kgx:flow:…, got ${iri}`);
+  assert.ok(/^urn:kgx:chain:/.test(iri), `expected urn:kgx:chain:…, got ${iri}`);
 });
 
 test('flowIriOfTrig — null on a manifest without one (defensive)', () => {
@@ -49,7 +46,7 @@ test('buildSaveUpdate — produces DROP SILENT + INSERT DATA into the correct GR
 
 test('buildSaveUpdate — throws when there is no chain IRI', () => {
   assert.throws(() => buildSaveUpdate('not a trig manifest'),
-    /no urn:kgx:chain: or urn:kgx:flow: IRI in manifest/);
+    /no urn:kgx:chain: IRI in manifest/);
 });
 
 test('buildSaveUpdate — throws when the TriG body is malformed', () => {
@@ -60,28 +57,24 @@ test('buildSaveUpdate — throws when the TriG body is malformed', () => {
     /TriG body must end with <chainIri> \{ \.\.\. \}/);
 });
 
-test('buildListQuery — a SPARQL SELECT keyed on the flow IRI prefix', () => {
+test('buildListQuery — a SPARQL SELECT keyed on the chain IRI prefix', () => {
   const q = buildListQuery();
   assert.match(q, /SELECT \?flow \?title \?id \?ts/);
-  // Phase 2A: filter accepts both urn:kgx:chain: (new) and
-  // urn:kgx:flow: (legacy) so existing saves stay discoverable.
   assert.match(q, /STRSTARTS\(STR\(\?flow\), "urn:kgx:chain:"\)/,
-    'filter must scope to chain graphs (new Phase-2A scheme)');
-  assert.match(q, /STRSTARTS\(STR\(\?flow\), "urn:kgx:flow:"\)/,
-    'filter must ALSO accept the legacy urn:kgx:flow: scheme');
+    'filter must scope to chain graphs (urn:kgx:chain:<uuid>)');
   assert.match(q, /ORDER BY DESC\(\?ts\) \?title/,
     'newest first; title as tiebreaker for chains without a ts');
 });
 
 test('parseChainList — pulls plain {flowIri,title,id,ts} from bindings', () => {
   const bindings = [
-    { flow: { value: 'urn:kgx:flow:1' }, title: { value: 'A' }, id: { value: 'a-id' }, ts: { value: '2026-01-01' } },
-    { flow: { value: 'urn:kgx:flow:2' }, title: { value: 'B' } },
+    { flow: { value: 'urn:kgx:chain:1' }, title: { value: 'A' }, id: { value: 'a-id' }, ts: { value: '2026-01-01' } },
+    { flow: { value: 'urn:kgx:chain:2' }, title: { value: 'B' } },
   ];
   const out = parseChainList(bindings);
   assert.deepEqual(out, [
-    { flowIri: 'urn:kgx:flow:1', title: 'A', id: 'a-id', ts: '2026-01-01' },
-    { flowIri: 'urn:kgx:flow:2', title: 'B', id: null,   ts: null },
+    { flowIri: 'urn:kgx:chain:1', title: 'A', id: 'a-id', ts: '2026-01-01' },
+    { flowIri: 'urn:kgx:chain:2', title: 'B', id: null,   ts: null },
   ]);
 });
 
@@ -91,7 +84,7 @@ test('parseChainList — survives empty + null inputs', () => {
 });
 
 test('buildLoadQuery — CONSTRUCT all triples in the named graph', () => {
-  const flow = 'urn:kgx:flow:abc-123';
+  const flow = 'urn:kgx:chain:abc-123';
   const q = buildLoadQuery(flow);
   assert.match(q, new RegExp(`GRAPH <${flow}>`));
   assert.match(q, /CONSTRUCT \{ \?s \?p \?o \}/);
@@ -108,7 +101,7 @@ test('buildLoadQuery — refuses non-flow IRIs', () => {
 // parse bundles back into a spec by walking kgx:derivedFrom.
 // ---------------------------------------------------------------------------
 
-const KGX = 'https://forgetmenot.local/vocab/kgx/';
+const KGX = 'urn:kgx:vocab:';
 const DCT = 'http://purl.org/dc/terms/';
 const RDF_TYPE = 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type';
 
@@ -120,9 +113,9 @@ function row(s, p, o) {
 }
 
 test('buildLoadSelectQuery — SELECT ?s ?p ?o scoped to the chain graph', () => {
-  const q = buildLoadSelectQuery('urn:kgx:flow:abc');
+  const q = buildLoadSelectQuery('urn:kgx:chain:abc');
   assert.match(q, /SELECT \?s \?p \?o/);
-  assert.match(q, /GRAPH <urn:kgx:flow:abc>/);
+  assert.match(q, /GRAPH <urn:kgx:chain:abc>/);
 });
 
 test('buildLoadSelectQuery — refuses non-flow IRIs', () => {
@@ -133,10 +126,10 @@ test('buildLoadSelectQuery — refuses non-flow IRIs', () => {
 });
 
 test('parseChainSpec — recovers the canonical linear chain from a flat bindings list', () => {
-  const flow = 'urn:kgx:flow:test-1';
-  const b0 = 'https://forgetmenot.local/bundle/b0';
-  const b1 = 'https://forgetmenot.local/bundle/b1';
-  const b2 = 'https://forgetmenot.local/bundle/b2';
+  const flow = 'urn:kgx:chain:test-1';
+  const b0 = 'urn:kgx:test-bundle/b0';
+  const b1 = 'urn:kgx:test-bundle/b1';
+  const b2 = 'urn:kgx:test-bundle/b2';
   const bindings = [
     // Chain metadata
     row(flow, `${DCT}title`,       'Sitting Labour MPs'),
@@ -167,9 +160,9 @@ test('parseChainSpec — recovers the canonical linear chain from a flat binding
 });
 
 test('parseChainSpec — handles PivotBundle (relTemplate + relVariant)', () => {
-  const flow = 'urn:kgx:flow:test-2';
-  const b0 = 'https://forgetmenot.local/bundle/b0';
-  const b1 = 'https://forgetmenot.local/bundle/b1';
+  const flow = 'urn:kgx:chain:test-2';
+  const b0 = 'urn:kgx:test-bundle/b0';
+  const b1 = 'urn:kgx:test-bundle/b1';
   const bindings = [
     row(b0, RDF_TYPE,            `${KGX}SourceBundle`),
     row(b0, `${KGX}starterId`,   'uk-mps-1900'),
@@ -186,9 +179,9 @@ test('parseChainSpec — handles PivotBundle (relTemplate + relVariant)', () => 
 });
 
 test('parseChainSpec — recovers AugmentBundle steps (enrich / parl-enrich / identity-bridge)', () => {
-  const flow = 'urn:kgx:flow:test-3';
-  const b0 = 'https://forgetmenot.local/bundle/b0';
-  const b1 = 'https://forgetmenot.local/bundle/b1';
+  const flow = 'urn:kgx:chain:test-3';
+  const b0 = 'urn:kgx:test-bundle/b0';
+  const b1 = 'urn:kgx:test-bundle/b1';
   const bindings = [
     row(b0, RDF_TYPE,            `${KGX}SourceBundle`),
     row(b0, `${KGX}starterId`,   'uk-mps-1900'),
@@ -202,10 +195,10 @@ test('parseChainSpec — recovers AugmentBundle steps (enrich / parl-enrich / id
 
 test('parseChainSpec — walks derivedFrom regardless of bindings order', () => {
   // Oxigraph doesn't guarantee any order; parser must topo-sort.
-  const flow = 'urn:kgx:flow:test-4';
-  const b0 = 'https://forgetmenot.local/bundle/b0';
-  const b1 = 'https://forgetmenot.local/bundle/b1';
-  const b2 = 'https://forgetmenot.local/bundle/b2';
+  const flow = 'urn:kgx:chain:test-4';
+  const b0 = 'urn:kgx:test-bundle/b0';
+  const b1 = 'urn:kgx:test-bundle/b1';
+  const b2 = 'urn:kgx:test-bundle/b2';
   const bindings = [
     row(b2, `${KGX}op`,           'sitting'),
     row(b1, `${KGX}derivedFrom`,   b0),
@@ -223,7 +216,7 @@ test('parseChainSpec — walks derivedFrom regardless of bindings order', () => 
 });
 
 test('parseChainSpec — refuses unrooted, multi-rooted, or disconnected single-branch graphs', () => {
-  const flow = 'urn:kgx:flow:test-bad';
+  const flow = 'urn:kgx:chain:test-bad';
   // No bundles
   assert.throws(() => parseChainSpec([], flow), /no bundles/);
   // Two source bundles with no derivedFrom and no kgx:branch tags. The
@@ -231,15 +224,15 @@ test('parseChainSpec — refuses unrooted, multi-rooted, or disconnected single-
   // that the manifest needs kgx:branch / kgx:activeBranch to be parsed
   // as multi-branch.
   assert.throws(() => parseChainSpec([
-    row('https://forgetmenot.local/bundle/x', RDF_TYPE, `${KGX}SourceBundle`),
-    row('https://forgetmenot.local/bundle/y', RDF_TYPE, `${KGX}SourceBundle`),
+    row('urn:kgx:test-bundle/x', RDF_TYPE, `${KGX}SourceBundle`),
+    row('urn:kgx:test-bundle/y', RDF_TYPE, `${KGX}SourceBundle`),
   ], flow), /multi-branch/);
   // Two bundles, both with derivedFrom pointing nowhere meaningful — no root
   assert.throws(() => parseChainSpec([
-    row('https://forgetmenot.local/bundle/x', RDF_TYPE, `${KGX}FilterBundle`),
-    row('https://forgetmenot.local/bundle/x', `${KGX}derivedFrom`, 'https://forgetmenot.local/bundle/missing'),
-    row('https://forgetmenot.local/bundle/y', RDF_TYPE, `${KGX}FilterBundle`),
-    row('https://forgetmenot.local/bundle/y', `${KGX}derivedFrom`, 'https://forgetmenot.local/bundle/missing'),
+    row('urn:kgx:test-bundle/x', RDF_TYPE, `${KGX}FilterBundle`),
+    row('urn:kgx:test-bundle/x', `${KGX}derivedFrom`, 'urn:kgx:test-bundle/missing'),
+    row('urn:kgx:test-bundle/y', RDF_TYPE, `${KGX}FilterBundle`),
+    row('urn:kgx:test-bundle/y', `${KGX}derivedFrom`, 'urn:kgx:test-bundle/missing'),
   ], flow), /no root bundle/);
 });
 
@@ -275,7 +268,7 @@ test('chainToTrig + parseChainSpec round-trip: multi-branch (fork) chain', () =>
       },
     ],
   };
-  const flow = 'urn:kgx:flow:rt-fork';
+  const flow = 'urn:kgx:chain:rt-fork';
   const trig = chainToTrig(fork, { graphIri: `<${flow}>` });
   const bindings = trigToFlatBindings(trig, flow);
   const out = parseChainSpec(bindings, flow);
@@ -293,8 +286,8 @@ test('chainToTrig + parseChainSpec round-trip: multi-branch (fork) chain', () =>
 test('parseChainSpec — refuses a multi-branch manifest with an untagged bundle', () => {
   // If kgx:activeBranch is on the chain graph but a bundle is missing
   // its kgx:branch tag, the manifest is malformed — refuse loudly.
-  const flow = 'urn:kgx:flow:bad-multi';
-  const b0 = 'https://forgetmenot.local/bundle/b0';
+  const flow = 'urn:kgx:chain:bad-multi';
+  const b0 = 'urn:kgx:test-bundle/b0';
   const bindings = [
     row(flow, `${KGX}activeBranch`, 'main'),
     row(b0, RDF_TYPE, `${KGX}SourceBundle`),
@@ -308,9 +301,9 @@ test('parseChainSpec — refuses a multi-branch manifest with an untagged bundle
 test('parseChainSpec — refuses a forked branch whose root derives from nothing in scope', () => {
   // The branch root's derivedFrom IRI doesn't appear in any other branch.
   // That's structurally broken; fail rather than emit a half-formed spec.
-  const flow = 'urn:kgx:flow:dangling-fork';
-  const b0  = 'https://forgetmenot.local/bundle/b0';
-  const ab0 = 'https://forgetmenot.local/bundle/a/b0';
+  const flow = 'urn:kgx:chain:dangling-fork';
+  const b0  = 'urn:kgx:test-bundle/b0';
+  const ab0 = 'urn:kgx:test-bundle/a/b0';
   const bindings = [
     row(flow, `${KGX}activeBranch`, 'a'),
     // main branch root
@@ -319,7 +312,7 @@ test('parseChainSpec — refuses a forked branch whose root derives from nothing
     row(b0, `${KGX}branch`, 'main'),
     // a-branch root, derivedFrom an IRI that's not in any branch
     row(ab0, RDF_TYPE, `${KGX}FilterBundle`),
-    row(ab0, `${KGX}derivedFrom`, 'https://forgetmenot.local/bundle/nowhere'),
+    row(ab0, `${KGX}derivedFrom`, 'urn:kgx:test-bundle/nowhere'),
     row(ab0, `${KGX}branch`, 'a'),
     row(ab0, `${KGX}op`, 'sitting'),
   ];
@@ -342,7 +335,7 @@ test('chainToTrig + parseChainSpec round-trip via a flat-bindings extractor', ()
       { kind: 'op', op: 'sitting' },
     ],
   };
-  const flow = 'urn:kgx:flow:rt-1';
+  const flow = 'urn:kgx:chain:rt-1';
   const trig = chainToTrig(sample, { graphIri: `<${flow}>` });
   const bindings = trigToFlatBindings(trig, flow);
   const out = parseChainSpec(bindings, flow);
@@ -359,14 +352,12 @@ test('chainToTrig + parseChainSpec round-trip via a flat-bindings extractor', ()
 // Turtle library — we own the writer.
 function trigToFlatBindings(trig, flow) {
   const NS = {
-    kgx:  'https://forgetmenot.local/vocab/kgx/',
+    kgx:  'urn:kgx:vocab:',
     dct:  'http://purl.org/dc/terms/',
     rdf:  'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
     rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
     prov: 'http://www.w3.org/ns/prov#',
     xsd:  'http://www.w3.org/2001/XMLSchema#',
-    kgxb: 'https://forgetmenot.local/bundle/',
-    kgxr: 'https://forgetmenot.local/run/',
   };
   const expand = (curieOrIri) => {
     if (curieOrIri.startsWith('<')) return curieOrIri.slice(1, -1);
@@ -383,10 +374,10 @@ function trigToFlatBindings(trig, flow) {
     if (!line) continue;
     if (line.startsWith('@prefix')) continue;
     if (line === '}') continue;
-    // Graph open: "<urn:kgx:flow:…> {"
+    // Graph open: "<urn:kgx:chain:…> {"
     if (/^<[^>]+>\s*\{$/.test(line)) { currentSubject = null; continue; }
     // Subject-headed line: "<iri> pred obj [; ...]" or "<iri> pred obj ."
-    // (Catches flow-self statements like `<urn:kgx:flow:…> dct:title "X" .`
+    // (Catches flow-self statements like `<urn:kgx:chain:…> dct:title "X" .`
     // as well as bundle/run blocks.)
     const subjStart = line.match(/^<([^>]+)>\s+(.+?)\s*([;.])$/);
     if (subjStart) {

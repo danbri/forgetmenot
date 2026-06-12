@@ -91,18 +91,6 @@ SELECT ?title WHERE {
 }' manifest.trig
 ```
 
-## Back-compatibility
-
-The script accepts **both** the Phase 2A IRI scheme (current emit) and
-the legacy Phase-1 scheme (`urn:kgx:flow:` graph IRI,
-`https://forgetmenot.local/...` bundle IRIs, kgx vocab under
-`forgetmenot.local`). Saved chains from before the IRI rationalisation
-parse identically.
-
-For SPARQL queries against legacy data, you'll want to `UNION` the two
-namespaces — see the test cases in
-`tests/unit/kgx-chain-store.test.mjs` for examples.
-
 ## What this proves
 
 - The TriG manifest is genuine interchange — anyone with `rdflib`
@@ -129,9 +117,8 @@ This script is a demo, not a library. It:
 - doesn't materialise per-bead result data — manifests today carry
   the chain's *structure*, not the RDF facts each augment produced
   (slim-channel Step 2 will close this);
-- only handles `urn:kgx:vocab:` and `https://forgetmenot.local/vocab/kgx/`
-  vocab IRIs (if Phase 2C moves vocab again, the constants at the top
-  of `kgx_chain.py` need updating).
+- pins the `urn:kgx:vocab:` namespace at the top of `kgx_chain.py`
+  (if the vocab IRI ever moves, that constant needs updating).
 
 For the canonical reader, see `demos/parliament-live/web/kgx/lib/chain-store.mjs`
 (JavaScript) — the FPKG page uses that to load saved chains from its

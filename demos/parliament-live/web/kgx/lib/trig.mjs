@@ -7,10 +7,9 @@
 // — loadable into any RDF system, diffable in PRs, copy-pasteable as
 // a shareable description of "what this chain does".
 //
-// Vocabulary lives under <https://forgetmenot.local/vocab/kgx/> (kgx:)
-// so it's a real IRI namespace we can pin terms in. Aligns with the
-// `gog:` ontology sketched in node-flow-design.md, with a project-
-// specific prefix so we're not squatting on a name we don't own.
+// Vocabulary lives under <urn:kgx:vocab:> (kgx:) — opaque, non-
+// resolving URN that won't get confused with anything else. Aligns
+// with the `gog:` ontology sketched in node-flow-design.md.
 //
 // What this DOESN'T do (yet):
 //   - Execution records (prov:Run, gog:Run) — needs a populated `beads`
@@ -29,17 +28,12 @@ import { normaliseChainSpec, activeChainSteps } from './branches.mjs';
 import { resolveOpStep } from './runner.mjs';
 
 // Phase 2A IRI rationalization (see trig-manifest-review.md):
-// - kgx: vocab moved from `https://forgetmenot.local/...` (mDNS pseudo-
-//   TLD, never resolves) to a proper URN.
-// - Bundle and run IRIs are chain-scoped URNs derived from the chain
-//   UUID — no global ambiguity when two chains both name a "bead 0",
-//   no fake authority claiming a domain we don't own.
-// - kgxb: / kgxr: prefixes dropped; chain-scoped IRIs are emitted in
-//   long form (one URN per subject is no worse to read than a CURIE).
-//
-// parseChainSpec accepts both the new URN form and the legacy
-// `https://forgetmenot.local/...` form so existing saved chains keep
-// loading without a migration.
+// - kgx: vocab is a proper URN (urn:kgx:vocab:), not a fake HTTP
+//   authority. The chain graph and every bundle / run IRI underneath
+//   it are chain-scoped URNs derived from one UUID — no global
+//   ambiguity when two chains both name a "bead 0".
+// - Bundle / run IRIs are emitted in long form; one URN per subject
+//   reads no worse than a CURIE and the scoping is self-documenting.
 const PREFIXES = [
   ['kgx',   'urn:kgx:vocab:'],
   ['prov',  'http://www.w3.org/ns/prov#'],
@@ -74,11 +68,11 @@ function mintUuid() {
     : 'noncrypto-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2);
 }
 
-// Extract the chain UUID from a flow graph IRI of the form
-// `<urn:kgx:flow:UUID>` or `<urn:kgx:chain:UUID>`. Used to build
-// chain-scoped bundle / run IRIs that line up with the graph name.
-function chainUuidOf(flowIri) {
-  const m = String(flowIri || '').match(/^<urn:kgx:(?:flow|chain):([^>]+)>$/);
+// Extract the chain UUID from a chain graph IRI of the form
+// `<urn:kgx:chain:UUID>`. Used to build chain-scoped bundle / run IRIs
+// that line up with the graph name.
+function chainUuidOf(graphIri) {
+  const m = String(graphIri || '').match(/^<urn:kgx:chain:([^>]+)>$/);
   return m ? m[1] : null;
 }
 
@@ -106,12 +100,11 @@ function bundleKindFor(step) {
   return 'kgx:FilterBundle';
 }
 
-// Per-step description; emits triples in the flow's named graph. The
+// Per-step description; emits triples in the chain's named graph. The
 // `me` IRI is provided by the caller (which knows whether this step
-// belongs to a flat single-branch chain or a branch-scoped multi-
-// branch one). When `branchTag` is non-null, the bundle is tagged with
-// `kgx:branch "<id>"` — emitted only for multi-branch manifests so
-// single-branch saves are byte-identical to the legacy shape.
+// belongs to a single-branch chain or a branch-scoped multi-branch
+// one). When `branchTag` is non-null, the bundle is tagged with
+// `kgx:branch "<id>"` — emitted only for multi-branch manifests.
 function stepTriples(step, me, prevId, branchTag) {
   const t  = [];
   t.push(`  ${me} a ${bundleKindFor(step)} ;`);
@@ -151,15 +144,14 @@ function beadRunTriples(bead, runIri, ranAt, targetBundle) {
   return t.join('\n');
 }
 
-// Bundle IRI strategy (Phase 2A):
+// Bundle IRI strategy:
 //   - Single-branch chains:  urn:kgx:chain:<chainUuid>:bead:<i>
 //   - Multi-branch chains:   the root branch (per topo order) keeps the
 //                            flat form above; sibling branches get
 //                            urn:kgx:chain:<chainUuid>:bead:<branch>:<i>.
-//   - All bundles are chain-scoped — no global collisions, no fake
-//     authority claiming forgetmenot.local.
+//   All bundles are chain-scoped — no global collisions across saves.
 function bundleIriFor(branchId, beadIdx, flatBranchId, chainUuid) {
-  if (!chainUuid) throw new Error('bundleIriFor: chainUuid required (Phase 2A)');
+  if (!chainUuid) throw new Error('bundleIriFor: chainUuid required');
   if (branchId === flatBranchId) return bundleIdScoped(chainUuid, beadIdx);
   return bundleIdScopedBranch(chainUuid, branchId, beadIdx);
 }
@@ -170,22 +162,17 @@ export function chainToTrig(spec, opts = {}) {
   // cross-branch derivedFrom links at the fork points and `kgx:branch`
   // tags on every bundle.
   const normalised = normaliseChainSpec(spec);
-  // Phase 2A: the chain UUID lives in the chain graph IRI AND in every
-  // bundle / run IRI underneath it. Mint once; reuse everywhere so
-  // queries against the graph can navigate without indirection.
-  let flowG;
+  // The chain UUID lives in the chain graph IRI AND in every bundle /
+  // run IRI underneath it. Mint once; reuse everywhere so queries
+  // against the graph can navigate without indirection.
+  let chainG;
   let chainUuid;
   if (opts.graphIri) {
-    flowG = opts.graphIri;
-    chainUuid = chainUuidOf(flowG);
-    if (!chainUuid) {
-      // Caller supplied a non-standard graph IRI; mint a fresh chain
-      // UUID for the inner bundle/run IRIs so they're still scoped.
-      chainUuid = mintUuid();
-    }
+    chainG = opts.graphIri;
+    chainUuid = chainUuidOf(chainG) || mintUuid();
   } else {
     chainUuid = mintUuid();
-    flowG = `<urn:kgx:chain:${chainUuid}>`;
+    chainG = `<urn:kgx:chain:${chainUuid}>`;
   }
   const beads = opts.beads || null;
   const ranAt = opts.ranAt || (beads ? new Date().toISOString() : null);
@@ -195,16 +182,16 @@ export function chainToTrig(spec, opts = {}) {
   const lines = [];
   for (const [p, ns] of PREFIXES) lines.push(`@prefix ${p}: <${ns}> .`);
   lines.push('');
-  lines.push(`${flowG} {`);
-  if (normalised.title) lines.push(`  ${flowG} dct:title ${ttlString(normalised.title)} .`);
-  if (normalised.sub)   lines.push(`  ${flowG} dct:description ${ttlString(normalised.sub)} .`);
-  if (normalised.id)    lines.push(`  ${flowG} dct:identifier ${ttlString(normalised.id)} .`);
+  lines.push(`${chainG} {`);
+  if (normalised.title) lines.push(`  ${chainG} dct:title ${ttlString(normalised.title)} .`);
+  if (normalised.sub)   lines.push(`  ${chainG} dct:description ${ttlString(normalised.sub)} .`);
+  if (normalised.id)    lines.push(`  ${chainG} dct:identifier ${ttlString(normalised.id)} .`);
   // dct:created carries the save timestamp when the page stamps `_ts`
   // before serialising. Used by the chain-store nav pane to sort
   // recently-saved chains first.
-  if (normalised._ts) lines.push(`  ${flowG} dct:created "${normalised._ts}"^^<http://www.w3.org/2001/XMLSchema#dateTime> .`);
+  if (normalised._ts) lines.push(`  ${chainG} dct:created "${normalised._ts}"^^<http://www.w3.org/2001/XMLSchema#dateTime> .`);
   if (isMultiBranch)
-    lines.push(`  ${flowG} kgx:activeBranch ${ttlString(normalised.activeBranch)} .`);
+    lines.push(`  ${chainG} kgx:activeBranch ${ttlString(normalised.activeBranch)} .`);
   lines.push('');
 
   // Track every bundle IRI we emit so beadRunTriples can refer to the

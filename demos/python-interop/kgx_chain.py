@@ -30,11 +30,7 @@ try:
 except ImportError:
     sys.exit("kgx-chain needs rdflib. Install with: pip install rdflib")
 
-# Phase 2A vocabulary. The parser also accepts the Phase-1 namespace
-# (https://forgetmenot.local/vocab/kgx/) so chains saved before the
-# IRI rationalisation still load cleanly.
-KGX        = Namespace("urn:kgx:vocab:")
-KGX_LEGACY = Namespace("https://forgetmenot.local/vocab/kgx/")
+KGX = Namespace("urn:kgx:vocab:")
 
 BUNDLE_KIND_NAMES = ("SourceBundle", "FilterBundle", "PivotBundle", "AugmentBundle")
 
@@ -73,8 +69,6 @@ def _local(uri):
     s = str(uri)
     if s.startswith(str(KGX)):
         return s[len(str(KGX)):]
-    if s.startswith(str(KGX_LEGACY)):
-        return s[len(str(KGX_LEGACY)):]
     return None
 
 
@@ -99,12 +93,10 @@ def all_bundles(graph):
     """Every rdf:type kgx:*Bundle subject in the graph, with its props."""
     bundles = []
     for kind_name in BUNDLE_KIND_NAMES:
-        for ns in (KGX, KGX_LEGACY):
-            kind_iri = ns[kind_name]
-            for s in graph.subjects(RDF.type, kind_iri):
-                bundles.append(
-                    {"uri": str(s), "kind": kind_name, "props": collect_bundle(graph, s)}
-                )
+        for s in graph.subjects(RDF.type, KGX[kind_name]):
+            bundles.append(
+                {"uri": str(s), "kind": kind_name, "props": collect_bundle(graph, s)}
+            )
     return bundles
 
 
@@ -160,8 +152,7 @@ def chain_to_spec(chain_iri, graph):
     title  = graph.value(chain_iri, DCTERMS.title)
     sub    = graph.value(chain_iri, DCTERMS.description)
     cid    = graph.value(chain_iri, DCTERMS.identifier)
-    active = (graph.value(chain_iri, KGX.activeBranch)
-              or graph.value(chain_iri, KGX_LEGACY.activeBranch))
+    active = graph.value(chain_iri, KGX.activeBranch)
 
     bundles = all_bundles(graph)
     if not bundles:

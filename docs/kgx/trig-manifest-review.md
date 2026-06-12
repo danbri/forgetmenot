@@ -396,12 +396,12 @@ The IRI scheme migration:
 - **F11 fixed**: `kgxb:` and `kgxr:` PREFIXES dropped. Chain-scoped
   IRIs are clear in long form.
 
-Saved chains in the writable Oxigraph in the OLD shape
-(`urn:kgx:flow:`, `https://forgetmenot.local/...`) keep loading —
-`parseChainSpec` normalises Phase-1 vocab to the Phase-2A namespace
-and `flowIriOfTrig` / `buildSaveUpdate` / `buildListQuery` /
-`buildLoadQuery` / `buildLoadSelectQuery` all accept both schemes.
-**No migrator required**; the parser handles the duality.
+There are no saved chains in the OLD shape — Phase 2A landed before
+the writable Oxigraph saw real use. The reader and writer both target
+`urn:kgx:chain:<uuid>` + `urn:kgx:vocab:` only; no back-compat
+plumbing. If we ever need to round-trip pre-Phase-2A artefacts they
+can be normalised offline with a one-shot SPARQL Update — not in the
+hot path.
 
 ### Phase 2B — deferred
 

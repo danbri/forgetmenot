@@ -18,7 +18,7 @@ const SAMPLE = {
   ],
 };
 
-const FIXED_GRAPH = '<urn:kgx:flow:fixed-for-test>';
+const FIXED_GRAPH = '<urn:kgx:chain:fixed-for-test>';
 
 // ---------------------------------------------------------------------------
 // shape
