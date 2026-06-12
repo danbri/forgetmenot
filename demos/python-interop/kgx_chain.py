@@ -92,6 +92,7 @@ GROUNDING_PREDS_OPTIONAL = (
     "activeVariant",
     "variants",
     "executedBy",
+    "produces",              # IRI — what kind of item this bead outputs
     "propertyIri",
     "valueIri",
     "valueLiteral",
@@ -208,6 +209,14 @@ def step_grounding(graph, subject):
     eb = graph.value(subject, KGX.executedBy)
     if eb is not None:
         g["executedBy"] = str(eb)
+
+    # What kind of item the bead outputs. The kgx vocab doesn't
+    # enumerate types — this is just an IRI. The consumer's UI maps
+    # known IRIs (wd:Q5, schema:Person, etc.) to render conventions;
+    # unknown types fall through to a generic card.
+    produces = graph.value(subject, KGX.produces)
+    if produces is not None:
+        g["produces"] = str(produces)
 
     # Typed predicate-and-value form (alternative to sparqlFragment).
     p_iri = graph.value(subject, KGX.propertyIri)
@@ -629,6 +638,7 @@ def _print_inputs(edges, indent, chain_iri_str=None):
 
 def _print_grounding(g, indent):
     if "gloss" in g:          print(f"{indent}gloss:     {g['gloss']}")
+    if "produces" in g:       print(f"{indent}produces:  {g['produces']}")
     if "endpoint" in g:       print(f"{indent}endpoint:  {g['endpoint']}")
     if "propertyIri" in g:    print(f"{indent}propIri:   {g['propertyIri']}")
     if "valueIri" in g:       print(f"{indent}valueIri:  {g['valueIri']}")

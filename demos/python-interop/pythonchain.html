@@ -118,6 +118,19 @@
   .card .result { margin-top: 0.4em; font-family: ui-monospace, monospace; }
   .card .result table { width: 100%; }
   .card .result .err { color: var(--err); }
+  /* Tile-grid result renderer — fires when SPARQL response carries label
+     and/or image columns. Otherwise the renderer falls back to the
+     flat table above. Loosely matches daisychain's <kgx-tile-grid>; the
+     shared web-component extraction is held (see
+     docs/kgx/shared-components.md). */
+  .result-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5em; margin-top: 0.3em; font-family: system-ui, sans-serif; }
+  .result-tile { background: var(--surface); border: 1px solid var(--rule); border-radius: 4px; padding: 0.4em; display: flex; gap: 0.5em; align-items: flex-start; font-size: 12px; }
+  .result-tile img { width: 48px; height: 48px; object-fit: cover; border-radius: 3px; background: var(--surface-2); flex-shrink: 0; }
+  .result-tile .no-img { width: 48px; height: 48px; border-radius: 3px; background: var(--surface-2); border: 1px dashed var(--rule); display: flex; align-items: center; justify-content: center; color: var(--ink-soft); font-size: 10px; flex-shrink: 0; }
+  .result-tile .body { flex: 1; min-width: 0; }
+  .result-tile .label { font-weight: 600; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .result-tile .uri { font-family: ui-monospace, monospace; font-size: 10px; color: var(--ink-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .result-tile .extra { font-size: 11px; color: var(--ink-soft); margin-top: 0.15em; }
 </style>
 </head>
 <body>
@@ -706,6 +719,74 @@ function prependPrefixes(sparql) {
   return toAdd.map(p => `PREFIX ${p}: <${KNOWN_PREFIXES[p]}>`).join('\n') + '\n' + sparql;
 }
 
+// Pick variable names for the conventional roles. Lowercase compare so
+// ?Label and ?label both win. The role list is small and stable —
+// daisychain's <kgx-tile-grid> uses the same names (see
+// docs/kgx/shared-components.md Phase 2).
+const LABEL_VARS = ['label', 'name', 'title', 'personlabel', 'itemlabel'];
+const IMAGE_VARS = ['image', 'img', 'photo', 'picture', 'pic', 'thumbnail'];
+const ID_VARS    = ['p', 'item', 'uri', 'iri', 's', 'subject', 'person'];
+
+function pickVar(vars, candidates) {
+  const lc = vars.map(v => v.toLowerCase());
+  for (const cand of candidates) {
+    const i = lc.indexOf(cand);
+    if (i >= 0) return vars[i];
+  }
+  return null;
+}
+
+function renderSparqlRows(vars, rows) {
+  const labelVar = pickVar(vars, LABEL_VARS);
+  const imageVar = pickVar(vars, IMAGE_VARS);
+  // Tiles win when EITHER label or image is present. Otherwise the flat
+  // table is more useful (heterogeneous SPARQL projections, counts, etc.).
+  if (!labelVar && !imageVar) return renderTable(vars, rows);
+  const idVar = pickVar(vars, ID_VARS) || vars[0];
+  // Anything that isn't label/image/id becomes an "extra" line on the tile.
+  const extraVars = vars.filter(v => v !== labelVar && v !== imageVar && v !== idVar);
+  let html = '<div class="result-tiles">';
+  for (const row of rows) {
+    const label = labelVar && row[labelVar] ? String(row[labelVar].value) : '';
+    const image = imageVar && row[imageVar] ? String(row[imageVar].value) : '';
+    const id    = idVar    && row[idVar]    ? String(row[idVar].value)    : '';
+    const shortId = id.replace(/^https?:\/\/[^/]+\//, '').replace(/^.*[\/#]/, '');
+    html += '<div class="result-tile">';
+    if (image) {
+      html += `<img loading="lazy" src="${escapeHtml(image)}" alt="">`;
+    } else {
+      html += '<div class="no-img">no img</div>';
+    }
+    html += '<div class="body">';
+    html += `<div class="label">${escapeHtml(label || shortId || '(no label)')}</div>`;
+    if (id) html += `<div class="uri" title="${escapeHtml(id)}">${escapeHtml(shortId || id)}</div>`;
+    for (const v of extraVars) {
+      const c = row[v];
+      if (!c) continue;
+      html += `<div class="extra">${escapeHtml(v)}: ${escapeHtml(String(c.value).slice(0, 60))}</div>`;
+    }
+    html += '</div></div>';
+  }
+  html += '</div>';
+  return html;
+}
+
+function renderTable(vars, rows) {
+  let html = '<table><thead><tr>';
+  for (const v of vars) html += `<th>${escapeHtml(v)}</th>`;
+  html += '</tr></thead><tbody>';
+  for (const row of rows) {
+    html += '<tr>';
+    for (const v of vars) {
+      const cell = row[v];
+      html += `<td>${cell ? escapeHtml(String(cell.value).slice(0, 80)) : ''}</td>`;
+    }
+    html += '</tr>';
+  }
+  html += '</tbody></table>';
+  return html;
+}
+
 async function runSparql(endpoint, sparql, outDiv) {
   outDiv.innerHTML = '';
   const finalSparql = prependPrefixes(sparql);
@@ -736,20 +817,8 @@ async function runSparql(endpoint, sparql, outDiv) {
       return;
     }
     const limit = Math.min(rows.length, 10);
-    let html = `<div>${rows.length} row${rows.length === 1 ? '' : 's'} in ${dt} ms (showing ${limit}):</div>`;
-    html += '<table><thead><tr>';
-    for (const v of vars) html += `<th>${escapeHtml(v)}</th>`;
-    html += '</tr></thead><tbody>';
-    for (const row of rows.slice(0, limit)) {
-      html += '<tr>';
-      for (const v of vars) {
-        const cell = row[v];
-        html += `<td>${cell ? escapeHtml(String(cell.value).slice(0, 80)) : ''}</td>`;
-      }
-      html += '</tr>';
-    }
-    html += '</tbody></table>';
-    outDiv.innerHTML = html;
+    const header = `<div>${rows.length} row${rows.length === 1 ? '' : 's'} in ${dt} ms (showing ${limit}):</div>`;
+    outDiv.innerHTML = header + renderSparqlRows(vars, rows.slice(0, limit));
   } catch (err) {
     // fetch() throws on network failures, mixed-content blocks, AND
     // CORS preflight blocks. Surface a meaningful hint and the query
@@ -951,8 +1020,9 @@ WHERE {
   <urn:kgx:chain:lab-sitting-grounded:bead:0> a kgx:SourceBundle ;
     kgx:gloss          "Holders of a currently-active UK Parliament seat" ;
     kgx:starterId      "uk-mps-1900" ;
+    kgx:produces       wd:Q5 ;     # what kind of item — humans (Q5)
     kgx:queryAgainst   [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e }" ;
+    kgx:sparqlFragment "?p p:P39 ?seat . ?seat ps:P39 ?pos . ?pos wdt:P279* wd:Q16707842 . ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 . FILTER NOT EXISTS { ?seat pq:P582 ?_e } OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = \\"en\\") } OPTIONAL { ?p wdt:P18 ?image }" ;
     kgx:executedBy     <urn:kgx:chain:lab-sitting-grounded:exec:0> .
 
   <urn:kgx:chain:lab-sitting-grounded:bead:1> a kgx:FilterBundle ;
@@ -971,18 +1041,21 @@ WHERE {
 
   <urn:kgx:chain:lab-sitting-grounded:exec:0> a kgx:Execution ;
     kgx:against     [ a sd:Service ; sd:endpoint <https://qlever.dev/api/wikidata> ] ;
-    kgx:fusedSparql """PREFIX wd:  <http://www.wikidata.org/entity/>
-PREFIX wdt: <http://www.wikidata.org/prop/direct/>
-PREFIX p:   <http://www.wikidata.org/prop/>
-PREFIX ps:  <http://www.wikidata.org/prop/statement/>
-PREFIX pq:  <http://www.wikidata.org/prop/qualifier/>
-SELECT DISTINCT ?p WHERE {
+    kgx:fusedSparql """PREFIX wd:   <http://www.wikidata.org/entity/>
+PREFIX wdt:  <http://www.wikidata.org/prop/direct/>
+PREFIX p:    <http://www.wikidata.org/prop/>
+PREFIX ps:   <http://www.wikidata.org/prop/statement/>
+PREFIX pq:   <http://www.wikidata.org/prop/qualifier/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?p ?label ?image WHERE {
   ?p p:P39 ?seat .
   ?seat ps:P39 ?pos .
   ?pos wdt:P279* wd:Q16707842 .
   ?seat pq:P768 ?cons . ?cons wdt:P17 wd:Q145 .
   ?p wdt:P102 wd:Q9630 .
   FILTER NOT EXISTS { ?seat pq:P582 ?_e }
+  OPTIONAL { ?p rdfs:label ?label . FILTER(lang(?label) = "en") }
+  OPTIONAL { ?p wdt:P18 ?image }
 }""" ;
     kgx:fuses ( <urn:kgx:chain:lab-sitting-grounded:bead:0>
                 <urn:kgx:chain:lab-sitting-grounded:bead:1>
