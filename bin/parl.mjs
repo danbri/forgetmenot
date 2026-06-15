@@ -50,6 +50,7 @@ const FACILITIES = {
   'appg':                          F.appg,
   'sitemap':                       F.sitemap,
   'fetch-sitemap':                 F.sitemap,
+  'skosdex':                       F.skosdex,
 };
 
 // Per-facility command map. Each entry is:
@@ -301,6 +302,13 @@ const COMMANDS = {
     'enumerate':   { fn: 'enumerate',    args: ['url'], help: 'Recurse a sitemap index into child sitemaps and list every <loc>. --max-sitemaps --limit --delay-ms' },
     'parse-file':  { fn: 'parseFile',    args: ['path'],help: 'Parse a local sitemap XML file (the offline path: save the XML from a browser that passed the challenge).' },
   },
+  'skosdex': {
+    'search':      { fn: 'search',   args: ['q'],      help: 'Full-text Solr search over concept labels/definitions (the fast surface). --rows --start --fl --scheme <uri>' },
+    'query':       { fn: 'query',     args: ['sparql'], help: 'Run SPARQL (Oxigraph). Data is in named graphs — wrap patterns in GRAPH ?g { … }; default graph is empty. --format json|csv|tsv|turtle --method post' },
+    'schemes':     { fn: 'schemes',   args: [],         help: 'List concept-scheme named graphs (graph IRI == scheme IRI). --limit' },
+    'concept':     { fn: 'concept',   args: ['uri'],    help: 'Labels + broader/narrower/mappings for a concept URI, across all graphs.' },
+    'manifest':    { fn: 'manifest',  args: [],         help: 'Corpus manifest: every scheme with slug, namespace, licence, concept count.' },
+  },
 };
 
 // ---------- main ----------
@@ -482,6 +490,7 @@ Facilities (canonical names; aliases in parens):
   data-parliament-uk-datasets  (alias: ddpd)
   appg                         (All-Party Parliamentary Groups, scraped HTML)
   sitemap                      (fetch-sitemap; XML sitemaps of the web estate)
+  skosdex                      (skosdex SKOS thesaurus index — third-party, not UK Parliament)
 
 Run 'parl <facility>' to list its commands.
 Run 'parl <facility> <command> --help' for command help.
