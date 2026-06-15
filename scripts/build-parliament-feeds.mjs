@@ -95,6 +95,12 @@ const out = {
   feeds,
 };
 writeFileSync(`${DIR}/feeds.json`, JSON.stringify(out, null, 1));
+// Served copy: the full catalogue (with facets + the topic/tag/author
+// taxonomy) alongside the reader's feeds-items.json, so /kgx/feeds.json
+// is queryable online — e.g. to cross-walk Library topic feeds against
+// skosdex (EuroVoc / GEMET). The reader (feeds.html) uses feeds-items.json;
+// this is the machine-readable catalogue behind it.
+writeFileSync(`${ROOT}/demos/parliament-live/web/kgx/feeds.json`, JSON.stringify(out));
 
 // Turtle (with the extra metadata)
 const esc = (s) => String(s).replace(/\\/g, '\\\\').replace(/"/g, '\\"');

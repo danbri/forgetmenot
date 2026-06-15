@@ -46,6 +46,7 @@ verbatim API response, `--out path` for binary downloads).
 | `interests` | [`skills/interests`](skills/interests/SKILL.md) | Register of Members' Financial Interests. |
 | `em` | [`skills/erskine-may`](skills/erskine-may/SKILL.md) | Erskine May (parliamentary procedure manual). |
 | `now` | [`skills/now`](skills/now/SKILL.md) | Live annunciator (what's on in each chamber now). |
+| `whatson` | [`skills/whatson`](skills/whatson/SKILL.md) | What's On / Calendar — sitting days, sessions, procedural dates (answer / tabling / annulment), calendar events. |
 | `petitions` | [`skills/petitions`](skills/petitions/SKILL.md) | UK Parliament e-petitions. |
 | `sparql` | [`skills/sparql`](skills/sparql/SKILL.md) | Public SPARQL 1.1 endpoint over the DDP store. |
 | `odata` | [`skills/odata`](skills/odata/SKILL.md) | OData v4 over the same data graph. |

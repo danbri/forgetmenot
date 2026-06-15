@@ -85,14 +85,39 @@ Each Solr doc is one concept. Multi-valued unless noted.
 Field-scoped Solr queries work: `prefLabel:climate`, `altLabel:GDP`.
 Filter to one scheme with `fq=scheme:"<scheme-uri>"`.
 
+> ⚠️ **Bare terms need a field.** Solr's configured *default* field
+> here is **not** the label text, so a raw `q=ocean` matches **nothing**.
+> Always field-scope: `q=prefLabel:ocean` (or `prefLabel:(…) OR
+> altLabel:(…)`). The `parl skosdex search` CLI does this auto-scoping
+> for you — a bare `parl skosdex search "ocean"` is rewritten to
+> `prefLabel:(ocean) OR altLabel:(ocean)`; pass `--raw-q` to opt out, or
+> `--field a,b` to choose the label fields.
+
+> 🌐 **No per-language fields.** Every language's label sits **untagged**
+> in `prefLabel` (there is no `prefLabel_en`), so you cannot filter to
+> English on the Solr surface — an English *query* term still matches
+> (good enough for lookup), but to read back the **English label** of a
+> hit, resolve it on the SPARQL surface where labels keep their language
+> tag: `?c skos:prefLabel ?l . FILTER(LANG(?l)="en")`.
+
 ## Worked examples (curl)
 
 ```sh
-# Full-text search, two hits, selected fields
+# Full-text search, two hits, selected fields (field-scoped — see warning)
 curl -sLG 'https://skosdex.fly.dev/solr/skos/select' \
   --data-urlencode 'q=prefLabel:climate' \
   --data-urlencode 'rows=2' \
   --data-urlencode 'fl=id,scheme,prefLabel'
+
+# Same via the CLI (bare term auto-scoped to prefLabel/altLabel),
+# restricted to one scheme:
+parl skosdex search "climate change" \
+  --scheme http://eurovoc.europa.eu/100141 --rows 2 --fl id,prefLabel
+
+# Read back the ENGLISH label of a hit (Solr labels are language-mixed):
+parl skosdex query 'PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+SELECT ?en WHERE { GRAPH ?g {
+  <http://eurovoc.europa.eu/434743> skos:prefLabel ?en . FILTER(LANG(?en)="en") } }'
 
 # SPARQL: every label containing "parliament", across all graphs
 curl -sL 'https://skosdex.fly.dev/query' -X POST \

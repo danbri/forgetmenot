@@ -34,6 +34,7 @@ const FACILITIES = {
   'em':                            F.erskineMay,
   'erskine-may':                   F.erskineMay,
   'now':                           F.now,
+  'whatson':                       F.whatson,
   'petitions':                     F.petitions,
   'sparql':                        F.sparql,
   'odata':                         F.odata,
@@ -226,6 +227,27 @@ const COMMANDS = {
     'current':          { fn: 'current',               args: ['annunciator'], help: 'CommonsMain | LordsMain | …' },
     'since':            { fn: 'since',                 args: ['annunciator', 'date'], help: 'Latest message since ISO date.' },
   },
+  'whatson': {
+    'events':           { fn: 'eventsList',            args: [],            help: 'Calendar events. --house Commons|Lords --from --to --type <id> --committee-id --member-id --tag --search-term' },
+    'nonsitting':       { fn: 'eventsNonsitting',      args: [],            help: 'Non-sitting events in a range. Same filters as events.' },
+    'diary':            { fn: 'eventsDiary',           args: [],            help: 'Diary view of events. Same filters as events.' },
+    'speakers':         { fn: 'eventsSpeakers',        args: [],            help: 'Events with their speakers. Same filters as events.' },
+    'event-types':      { fn: 'eventTypeMetadata',     args: [],            help: 'EventType metadata (the vocabulary behind --type).' },
+    'event':            { fn: 'event',                 args: ['eventId'],   help: 'One calendar event by id.' },
+    'sitting-dates':    { fn: 'sittingDates',          args: ['house'],     help: 'Sitting days in a range. --from --to' },
+    'next-sitting':     { fn: 'nextSittingDate',       args: ['house'],     help: 'Next sitting on/after a date. --date-to-check --include-weekend-sittings' },
+    'last-sitting':     { fn: 'lastSittingDate',       args: ['house'],     help: 'Last sitting on/before a date. --date-to-check --include-weekend-sittings' },
+    'answer-date':      { fn: 'answerDate',            args: ['house'],     help: 'When a question tabled on --tabled-date is answered. --question-type NamedDay|Ordinary' },
+    'tabling-date':     { fn: 'tablingDate',           args: ['house'],     help: 'Latest tabling date to be answered on --requested-date.' },
+    'annulment-date':   { fn: 'annulmentDate',         args: [],            help: 'SI praying-period / treaty CRaG end date. --date-laid --days-in-future 40 --is-treaty' },
+    'sessions':         { fn: 'sessions',              args: [],            help: 'Every parliamentary session (Parliament/session numbers, start/end).' },
+    'session':          { fn: 'sessionById',           args: ['sessionId'], help: 'One session by id.' },
+    'session-for-date': { fn: 'sessionForDate',        args: ['date'],      help: 'The session a given date falls in.' },
+    'locations':        { fn: 'locations',             args: [],            help: 'Location reference list (for --location-id).' },
+    'tags':             { fn: 'tags',                  args: [],            help: 'Tag reference list (for --tag).' },
+    'types':            { fn: 'types',                 args: [],            help: 'Event-type reference list (for --type).' },
+    'categories':       { fn: 'categories',            args: [],            help: 'Category reference list (for --category-id).' },
+  },
   'petitions': {
     'search':           { fn: 'search',                args: [],            help: '--state open|closed|… --topic --term --count --page' },
     'get':              { fn: 'getById',               args: ['id'],        help: 'Petition detail.' },
@@ -303,7 +325,7 @@ const COMMANDS = {
     'parse-file':  { fn: 'parseFile',    args: ['path'],help: 'Parse a local sitemap XML file (the offline path: save the XML from a browser that passed the challenge).' },
   },
   'skosdex': {
-    'search':      { fn: 'search',   args: ['q'],      help: 'Full-text Solr search over concept labels/definitions (the fast surface). --rows --start --fl --scheme <uri>' },
+    'search':      { fn: 'search',   args: ['q'],      help: 'Full-text Solr search over concept labels (the fast surface). Bare terms are auto-scoped to prefLabel/altLabel. --rows --start --fl --scheme <uri> --field prefLabel,altLabel --raw-q' },
     'query':       { fn: 'query',     args: ['sparql'], help: 'Run SPARQL (Oxigraph). Data is in named graphs — wrap patterns in GRAPH ?g { … }; default graph is empty. --format json|csv|tsv|turtle --method post' },
     'schemes':     { fn: 'schemes',   args: [],         help: 'List concept-scheme named graphs (graph IRI == scheme IRI). --limit' },
     'concept':     { fn: 'concept',   args: ['uri'],    help: 'Labels + broader/narrower/mappings for a concept URI, across all graphs.' },
@@ -480,6 +502,7 @@ Facilities (canonical names; aliases in parens):
   interests
   erskine-may  (alias: em)
   now
+  whatson                      (What's On / Calendar: sittings, sessions, procedural dates)
   petitions
   sparql
   odata
