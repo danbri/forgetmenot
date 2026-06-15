@@ -52,18 +52,10 @@ function qname(iri) {
   return `<${iri}>`;
 }
 
-// Normalisation applied on the way out (the harvested LDA RDF carries
-// neither language tags on labels nor rdf:type on the concepts):
-//   - SKOS lexical labels (prefLabel/altLabel) are language-tagged. The
-//     thesaurus is English except where a label is inherently foreign;
-//     LANG_OVERRIDE pins those by term id (default 'en').
-//   - notation / parl: attributes are left as-is (not lexical labels).
-const LABEL_PREDS = new Set(['skos:prefLabel', 'skos:altLabel']);
-const DEFAULT_LANG = 'en';
-const LANG_OVERRIDE = {
-  // 'Aciéries réunies de Burbach-Eich-Dudelange' is a French proper name.
-  'term:436521': 'fr',
-};
+// Pure N-Quads -> Turtle serializer. The data is already normalised at
+// harvest time (skills/parliament-thesaurus/dump_terms.py adds rdf:type
+// skos:Concept and language-tags the labels), so this just preserves
+// whatever the .nq.gz holds — including the @en / @fr label tags.
 
 // Parse one N-Quad line into { s, p, o } where s/p are IRI qnames and o
 // is already Turtle-serialized (IRI qname or literal). Returns null for
@@ -75,18 +67,16 @@ function parse(line) {
   const m = LINE.exec(line);
   if (!m) return null;
   const [, s, p, oIri, lex, dt, lang] = m;
-  const sq = qname(s), pq = qname(p);
   let o;
   if (oIri !== undefined) {
     o = qname(oIri);
   } else {
     const lit = `"${lex}"`; // lex keeps its existing N-Triples escaping
-    if (lang) o = `${lit}@${lang}`;                            // respect any pre-tagged label
-    else if (LABEL_PREDS.has(pq)) o = `${lit}@${LANG_OVERRIDE[sq] || DEFAULT_LANG}`;
+    if (lang) o = `${lit}@${lang}`;
     else if (dt && dt !== PREFIXES.xsd + 'string') o = `${lit}^^${qname(dt)}`;
     else o = lit;
   }
-  return { s: sq, p: pq, o };
+  return { s: qname(s), p: qname(p), o };
 }
 
 const lines = gunzipSync(readFileSync(IN)).toString('utf8').split('\n');
@@ -100,18 +90,6 @@ for (const line of lines) {
   const preds = bySubject.get(t.s);
   if (!preds.has(t.p)) preds.set(t.p, new Set());
   preds.get(t.p).add(t.o);
-}
-
-// Every harvested subject is a thesaurus term in the term: namespace, but
-// the LDA RDF omits rdf:type — assert skos:Concept on each. All SKOS
-// relation targets (broader/related/exactMatch/...) are themselves
-// subjects here, so this types every referenced concept too.
-const TERM_NS = 'term:';
-let conceptsTyped = 0;
-for (const [s, preds] of bySubject) {
-  if (!s.startsWith(TERM_NS)) continue;
-  if (!preds.has('rdf:type')) preds.set('rdf:type', new Set());
-  if (!preds.get('rdf:type').has('skos:Concept')) { preds.get('rdf:type').add('skos:Concept'); conceptsTyped++; }
 }
 
 // Order predicates sensibly: type, labels, notation, hierarchy, related, mappings, rest.
@@ -131,8 +109,8 @@ out += `# Converted from ${IN.replace(ROOT + '/', '')} by scripts/lda-terms-nq-t
 out += `# Generated: ${new Date().toISOString()}\n`;
 out += `# Licence: Open Parliament Licence v3.0 (Crown copyright)\n`;
 out += `# Term subjects: ${summary.term_subject_count ?? bySubject.size}; triples: see below.\n`;
-out += `# Normalised by the exporter: every concept typed skos:Concept; prefLabel/altLabel\n`;
-out += `#   language-tagged @${DEFAULT_LANG} (overrides: ${Object.entries(LANG_OVERRIDE).map(([k, v]) => `${k}=${v}`).join(', ') || 'none'}).\n`;
+out += `# Normalisation (rdf:type skos:Concept, @en/@fr label tags) is baked into the\n`;
+out += `#   source .nq.gz by the harvester (dump_terms.py); this is a faithful serialization.\n`;
 if (partial) {
   out += `#\n# ⚠ PARTIAL: the source crawl did not complete — Elda deep-paging failed on\n`;
   out += `#   pages [${summary.pages_failed.join(', ')}] (offset >= ~${(Math.min(...summary.pages_failed)) * (summary.page_size || 50)}),\n`;
@@ -159,7 +137,6 @@ console.log(JSON.stringify({
   out: OUT.replace(ROOT + '/', ''),
   served: ALSO.replace(ROOT + '/', ''),
   subjects: bySubject.size,
-  conceptsTyped,
   triples,
   partial,
 }, null, 1));

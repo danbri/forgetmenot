@@ -44,7 +44,7 @@ from pathlib import Path
 from typing import Iterable
 
 try:
-    from rdflib import BNode, Graph, Literal, Namespace, URIRef
+    from rdflib import BNode, Dataset, Graph, Literal, Namespace, URIRef
     from rdflib.namespace import RDF, RDFS, SKOS
 except ImportError:
     print("Missing dependency: rdflib", file=sys.stderr)
@@ -74,6 +74,18 @@ LABEL_PREDICATES = {
     SKOS.altLabel,
     SKOS.hiddenLabel,
     RDFS.label,
+}
+
+# --- Vocabulary normalisation (applied once here, propagates downstream) ---
+# The LDA source emits neither rdf:type on its concepts nor language tags
+# on labels. We bake both into the .nq.gz at harvest time so every
+# consumer of that file — the fpkg Oxigraph SPARQL store AND the Turtle
+# export — gets typed, language-tagged data from this single point.
+DEFAULT_LABEL_LANG = "en"
+# Per-term language overrides for inherently-foreign labels, keyed by the
+# bare term id. Extend as more surface in a fuller crawl.
+LANG_OVERRIDE = {
+    "436521": "fr",  # 'Aciéries réunies de Burbach-Eich-Dudelange'
 }
 
 CORE_PREDICATES = {
@@ -236,6 +248,37 @@ def select_data_triples(g: Graph) -> set[tuple]:
     return primary | side_labels
 
 
+def normalize_triples(triples: set[tuple]) -> set[tuple]:
+    """
+    Bake the vocabulary hygiene the LDA source omits, so it lands in the
+    .nq.gz and propagates to every downstream consumer (the Oxigraph
+    SPARQL store and the Turtle export) from this single point:
+
+      - type every term node as skos:Concept (the source has no rdf:type);
+      - language-tag lexical labels — @en by default, with per-term
+        overrides from LANG_OVERRIDE (e.g. term 436521 -> @fr).
+
+    skos:notation and the parl: attribute literals are left untouched:
+    they are not lexical labels.
+    """
+    out: set[tuple] = set()
+    concept_terms: set = set()
+    for s, p, o in triples:
+        if is_term_uri(s):
+            concept_terms.add(s)
+        if (p in LABEL_PREDICATES
+                and isinstance(o, Literal)
+                and o.language is None
+                and o.datatype is None):
+            lang = LANG_OVERRIDE.get(term_id(str(s)), DEFAULT_LABEL_LANG) \
+                if is_term_uri(s) else DEFAULT_LABEL_LANG
+            o = Literal(str(o), lang=lang)
+        out.add((s, p, o))
+    for s in concept_terms:
+        out.add((s, RDF.type, SKOS.Concept))
+    return out
+
+
 def graph_for_triple(s, p, o) -> URIRef:
     if p in HIERARCHY_PREDICATES:
         return GRAPH_HIERARCHY
@@ -320,6 +363,37 @@ def write_quads_incremental(
             stats["term_subjects"].add(str(s))
 
 
+def renormalize(src: Path, out_path: Path) -> int:
+    """
+    Re-apply normalize_triples() to an existing .nq.gz without touching the
+    network. Drops the named-graph layer, re-derives it deterministically
+    via graph_for_triple (predicate -> graph is stable), so the only
+    difference from the input is the added/normalised hygiene. The summary
+    JSON is left untouched (it records the original crawl, incl. any
+    pages_failed the Turtle export reports as PARTIAL).
+    """
+    eprint(f"Renormalising {src} -> {out_path} (offline, no fetch)")
+    with gzip.open(src, "rt", encoding="utf-8") as fh:
+        text = fh.read()
+    ds = Dataset()
+    ds.parse(data=text, format="nquads")
+    triples = {(s, p, o) for s, p, o, _g in ds.quads((None, None, None, None))}
+    eprint(f"  read {len(triples)} distinct triples")
+    triples = normalize_triples(triples)
+
+    seen: set[bytes] = set()
+    stats = {"quads_written": 0, "duplicate_quads_skipped": 0,
+             "blank_node_triples_skipped": 0, "graphs": {}, "predicates": {},
+             "term_subjects": set()}
+    tmp = out_path.with_suffix(out_path.suffix + ".tmp")
+    with GzipWriter(tmp) as writer:
+        write_quads_incremental(writer, triples, seen, stats)
+    tmp.replace(out_path)
+    eprint(f"  wrote {stats['quads_written']} quads; "
+           f"{len(stats['term_subjects'])} term subjects")
+    return 0
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -333,6 +407,12 @@ def main() -> int:
     ap.add_argument("--cache-dir", default=str(DEFAULT_CACHE),
                     help=f"Per-URL Turtle cache (default: {DEFAULT_CACHE})")
 
+    ap.add_argument("--renormalize", action="store_true",
+                    help="Offline: re-apply normalize_triples() to an existing "
+                         ".nq.gz (no network). Use when the LDA endpoint is "
+                         "unreachable but the dump needs the latest hygiene.")
+    ap.add_argument("--renormalize-from",
+                    help="Source .nq.gz for --renormalize (default: --out path).")
     ap.add_argument("--ids", help="Comma-separated term IDs or term IRIs, e.g. 8193,478018")
     ap.add_argument("--all", action="store_true", help="Crawl until an empty page is reached.")
     ap.add_argument("--max-pages", type=int, default=2, help="Used unless --all or --ids is set.")
@@ -347,6 +427,9 @@ def main() -> int:
     out_path = Path(args.out)
     summary_path = Path(args.summary)
     cache_dir = Path(args.cache_dir)
+
+    if args.renormalize:
+        return renormalize(Path(args.renormalize_from or args.out), out_path)
 
     # Always remove any prior output before starting — we stream into a new
     # gzip in append-protected mode, so a stale file would fail to open.
@@ -384,7 +467,7 @@ def main() -> int:
                     # the right thing to do is fail loudly, not pretend.
                     raise RuntimeError(f"Failed to fetch requested item {raw_id}")
                 g = parse_turtle(text, url)
-                selected = select_data_triples(g)
+                selected = normalize_triples(select_data_triples(g))
 
                 stats["items_fetched"] += 1
                 stats["rdf_triples_seen"] += len(g)
@@ -417,7 +500,7 @@ def main() -> int:
                     time.sleep(args.sleep)
                     continue
                 g = parse_turtle(text, url)
-                selected = select_data_triples(g)
+                selected = normalize_triples(select_data_triples(g))
 
                 term_subjects_on_page = {
                     str(s) for s, _, _ in selected if is_term_uri(s)

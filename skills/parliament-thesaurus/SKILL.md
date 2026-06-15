@@ -35,6 +35,35 @@ This skill ships a polite Python crawler that:
   - `…/legacy-terms/related` — `skos:related`
   - `…/legacy-terms/mappings` — `skos:exactMatch`, `closeMatch`, etc.
   - `…/legacy-terms/label-sidecar` — labels for non-term subjects we surfaced
+
+## Normalisation (done once, propagates downstream)
+
+The LDA source emits neither `rdf:type` on its concepts nor language
+tags on labels. `normalize_triples()` in `dump_terms.py` bakes both into
+the `.nq.gz` **at harvest time**, so every consumer of that file — the
+fpkg Oxigraph SPARQL store *and* the Turtle export below — inherits it
+from this single point:
+
+- every term node gets `a skos:Concept`;
+- `skos:prefLabel` / `skos:altLabel` are language-tagged `@en`, except
+  ids in `LANG_OVERRIDE` (currently `436521` → `@fr`, the French proper
+  name *Aciéries réunies de Burbach-Eich-Dudelange*). `skos:notation`
+  and the `parl:` attributes stay untagged — they are not lexical
+  labels. Extend `LANG_OVERRIDE` as more foreign labels surface.
+
+The Turtle exporter (`scripts/lda-terms-nq-to-ttl.mjs`) is therefore a
+**pure serializer** — it copies the tags/types straight through.
+
+When the LDA endpoint is unreachable but the existing dump needs the
+latest hygiene, re-apply it offline (no network) instead of re-crawling:
+
+```sh
+python3 skills/parliament-thesaurus/dump_terms.py --renormalize
+```
+
+It reads the existing `.nq.gz`, re-runs `normalize_triples()`, and
+rewrites in place (idempotent; the summary's `pages_failed` is left
+intact).
 - Writes the output **gzip-compressed** directly to
   `third_party/data/parliament-lda-terms/parliament-lda-terms.nq.gz`,
   plus an uncompressed `parliament-lda-terms-summary.json` next to it
@@ -87,16 +116,8 @@ timeout — so the gap could not be re-filled.)
 merged, prefixed **Turtle** file (the four named graphs are split only
 by predicate class, so a download is more useful as one graph). The
 header carries provenance and a PARTIAL warning whenever the source
-crawl skipped pages.
-
-The exporter also **normalises** the otherwise-bare LDA RDF: every term
-gets `a skos:Concept` (the source omits `rdf:type` entirely), and each
-`skos:prefLabel` / `skos:altLabel` is language-tagged `@en` — except
-ids listed in the script's `LANG_OVERRIDE` (currently `term:436521`,
-the French proper name *Aciéries réunies de Burbach-Eich-Dudelange*,
-tagged `@fr`). `skos:notation` and the `parl:` attribute literals are
-left untagged (they are not lexical labels). Add to `LANG_OVERRIDE` if
-more inherently-foreign labels surface in a fuller crawl.
+crawl skipped pages. Concept typing and label language tags come from
+the source `.nq.gz` (see Normalisation above), not from this script.
 
 ```sh
 node scripts/lda-terms-nq-to-ttl.mjs
