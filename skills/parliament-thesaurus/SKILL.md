@@ -89,6 +89,15 @@ by predicate class, so a download is more useful as one graph). The
 header carries provenance and a PARTIAL warning whenever the source
 crawl skipped pages.
 
+The exporter also **normalises** the otherwise-bare LDA RDF: every term
+gets `a skos:Concept` (the source omits `rdf:type` entirely), and each
+`skos:prefLabel` / `skos:altLabel` is language-tagged `@en` — except
+ids listed in the script's `LANG_OVERRIDE` (currently `term:436521`,
+the French proper name *Aciéries réunies de Burbach-Eich-Dudelange*,
+tagged `@fr`). `skos:notation` and the `parl:` attribute literals are
+left untagged (they are not lexical labels). Add to `LANG_OVERRIDE` if
+more inherently-foreign labels surface in a fuller crawl.
+
 ```sh
 node scripts/lda-terms-nq-to-ttl.mjs
 ```
