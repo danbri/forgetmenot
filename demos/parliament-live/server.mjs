@@ -351,6 +351,9 @@ const MIME = {
   '.txt':  'text/plain; charset=utf-8',
   '.py':   'text/x-python; charset=utf-8',
   '.md':   'text/markdown; charset=utf-8',
+  '.ttl':  'text/turtle; charset=utf-8',
+  '.nq':   'application/n-quads; charset=utf-8',
+  '.nt':   'application/n-triples; charset=utf-8',
 };
 
 async function serveStatic(req, res) {

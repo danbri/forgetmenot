@@ -60,6 +60,49 @@ python3 skills/parliament-thesaurus/dump_terms.py --all --view all --sleep 0.25
 The output paths default to `third_party/data/parliament-lda-terms/`
 under the repo root. Override with `--out` and `--summary`.
 
+## ⚠ Completeness — the last committed crawl is PARTIAL
+
+The Epimorphics/Elda endpoint has a **deep-paging wall**: requests
+beyond roughly `_page=20` (offset ≈ 1000 at `_pageSize=50`) time out /
+500. In the committed dump the crawl skipped pages **20–29** and then
+hit the `MAX_FAILED_PAGES=10` backstop and aborted — see
+`parliament-lda-terms-summary.json` → `pages_failed`. So the dump holds
+**1,724 term subjects / 6,361 triples**, but terms past that offset are
+**missing**; this is *not* a clean "empty page reached" finish.
+
+To get a complete dump when the endpoint is reachable, try smaller pages
+to push the wall further out, and/or the `all` view:
+
+```sh
+python3 skills/parliament-thesaurus/dump_terms.py --all --page-size 20 --sleep 0.25
+python3 skills/parliament-thesaurus/dump_terms.py --all --view all --sleep 0.25
+```
+
+(As of 2026-06-15 `lda.data.parliament.uk` was unreachable — HTTP 000 /
+timeout — so the gap could not be re-filled.)
+
+## Turtle dump (download)
+
+`scripts/lda-terms-nq-to-ttl.mjs` converts the `.nq.gz` into a single
+merged, prefixed **Turtle** file (the four named graphs are split only
+by predicate class, so a download is more useful as one graph). The
+header carries provenance and a PARTIAL warning whenever the source
+crawl skipped pages.
+
+```sh
+node scripts/lda-terms-nq-to-ttl.mjs
+```
+
+It writes two copies:
+- `third_party/data/parliament-lda-terms/parliament-lda-terms.ttl` (repo)
+- `demos/parliament-live/web/kgx/parliament-lda-terms.ttl` (bundled into
+  the fpkg image), served at
+  **<https://fpkg.fly.dev/kgx/parliament-lda-terms.ttl>**
+  (`text/turtle`).
+
+The weekly rebuild (`rebuild-graphs.yml`) regenerates both right after
+the crawl, so the served `.ttl` tracks the latest dump automatically.
+
 ## CI
 
 Wired into `.github/workflows/rebuild-graphs.yml` as one step of the
