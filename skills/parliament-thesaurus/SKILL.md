@@ -78,46 +78,84 @@ intact).
   plus an uncompressed `parliament-lda-terms-summary.json` next to it
   (counts per graph / predicate / sample subjects).
 
+## Dataset scale & current crawl state (2026-06-16)
+
+The `terms` dataset is **large and resumable**, not a quick pull. The
+Elda listing reports `opensearch:totalResults = 141,822` term resources
+(the dataset is the whole `terms` space — it includes many **named
+entities**: organisations, people, legislation, places — not only
+subject concepts). At `_pageSize=20` that is **7,092 pages**.
+
+| | value |
+|---|---|
+| Total term resources (endpoint-reported) | **141,822** |
+| Page size used | **20** (see wall note below) |
+| Total pages | **7,092** |
+| Pages cached so far | **0–302** (297 present; **273–278 missing/failed**) |
+| Coverage by page | **≈ 4.3 %** |
+| Distinct term ids captured | **9,326** |
+| `skos:prefLabel`s captured | **~8,551** |
+
+This already **dwarfs the previously committed dump** (1,724 prefLabels,
+which only reached page 19). It is **partial** — a resume target, not a
+finished crawl.
+
+**The old "deep-paging wall at ~page 20" was a `_pageSize=50` artifact.**
+At `_pageSize=20` the crawl sailed past it to page 302. So: **always
+crawl this dataset at `--page-size 20`.** (The 6 missing pages 273–278
+were transient per-page failures, not a wall; they backfill on resume.)
+
+## Caching & resume — DO NOT re-crawl from scratch
+
+This is a paged service and the crawler **caches every page response**
+at `cache-parliament-lda-terms/<sha256(url)[:24]>.ttl`. `fetch_url()`
+returns the cached copy whenever it exists, so **resuming costs zero
+network for pages already fetched** — it only fetches the gaps and the
+tail. A truncated `.nq.gz` does **not** mean lost work: the `.nq.gz` is
+just a serialization; the **cache is the source of truth** and the
+importer re-emits it deterministically.
+
+⚠ **The cache key includes `_pageSize`.** Resume with the **same
+`--page-size 20`** or every URL misses and you re-crawl from zero.
+
+⚠ The cache dir is **git-ignored** and the web/CI container is
+**ephemeral**. So today's crawl is preserved as a committed snapshot:
+
+- **`third_party/data/parliament-lda-terms/cache-snapshot-pages-0-302.tar.gz`**
+  (sha256 `0216b2426a9bcd80132fc5024aac5f6409eb1e640d9fc08337be3685c74e9a3b`)
+
+To resume in a fresh checkout:
+
+```sh
+tar xzf third_party/data/parliament-lda-terms/cache-snapshot-pages-0-302.tar.gz -C .
+python3 skills/parliament-thesaurus/dump_terms.py --all --page-size 20 --sleep 0.25
+# pages 0–302 served from cache; fetching continues at 303 and backfills 273–278.
+# When it advances, re-snapshot:  tar czf …/cache-snapshot-pages-0-NNN.tar.gz cache-parliament-lda-terms/
+```
+
+(`git lfs` is **not installed** in the web container, so the snapshot
+lives in normal git — it's only ~280 KB. If you run where LFS is
+available, track `cache-snapshot-*.tar.gz` and `*.nq.gz` via LFS and
+keep the same paths.)
+
 ## Running it
 
 ```sh
 # Smoke test — first page only
-python3 skills/parliament-thesaurus/dump_terms.py --max-pages 1
+python3 skills/parliament-thesaurus/dump_terms.py --max-pages 1 --page-size 20
 
 # Specific known item
 python3 skills/parliament-thesaurus/dump_terms.py --ids 8193,478018
 
-# Full crawl, polite (~10–15 min, ~50k quads)
-python3 skills/parliament-thesaurus/dump_terms.py --all --sleep 0.25
+# Resume / continue the full crawl (reuses cache; ~7,092 pages — budget for it)
+python3 skills/parliament-thesaurus/dump_terms.py --all --page-size 20 --sleep 0.25
 
-# Force Elda's "all" view (slower/larger; useful if default view is
-# suspected incomplete)
-python3 skills/parliament-thesaurus/dump_terms.py --all --view all --sleep 0.25
+# Re-apply normalisation to the existing dump WITHOUT network
+python3 skills/parliament-thesaurus/dump_terms.py --renormalize
 ```
 
 The output paths default to `third_party/data/parliament-lda-terms/`
 under the repo root. Override with `--out` and `--summary`.
-
-## ⚠ Completeness — the last committed crawl is PARTIAL
-
-The Epimorphics/Elda endpoint has a **deep-paging wall**: requests
-beyond roughly `_page=20` (offset ≈ 1000 at `_pageSize=50`) time out /
-500. In the committed dump the crawl skipped pages **20–29** and then
-hit the `MAX_FAILED_PAGES=10` backstop and aborted — see
-`parliament-lda-terms-summary.json` → `pages_failed`. So the dump holds
-**1,724 term subjects / 6,361 triples**, but terms past that offset are
-**missing**; this is *not* a clean "empty page reached" finish.
-
-To get a complete dump when the endpoint is reachable, try smaller pages
-to push the wall further out, and/or the `all` view:
-
-```sh
-python3 skills/parliament-thesaurus/dump_terms.py --all --page-size 20 --sleep 0.25
-python3 skills/parliament-thesaurus/dump_terms.py --all --view all --sleep 0.25
-```
-
-(As of 2026-06-15 `lda.data.parliament.uk` was unreachable — HTTP 000 /
-timeout — so the gap could not be re-filled.)
 
 ## Turtle dump (download)
 
@@ -166,6 +204,68 @@ The "Run workflow" button appears on the right of the workflow runs
 list; the iOS GitHub app shows only past runs and not the dispatch
 control, so Safari (with Desktop Site requested) is the reliable
 mobile path.
+
+## Downstream: skosdex reimport (keep URLs stable)
+
+This thesaurus is **hosted by skosdex** and consumed back here for feed
+subject-tagging — so a fuller crawl has a payoff beyond the SPARQL store.
+
+The skosdex manifest (<https://skosdex.fly.dev/manifest.json>) already
+lists it:
+
+```
+slug:  uk-parliament-thesaurus
+title: "UK Parliament Thesaurus (Commons Library, partial)"   ← note "partial"
+graph: http://data.parliament.uk/terms/
+```
+
+skosdex ingests it from our **stable published Turtle URL**
+<https://fpkg.fly.dev/kgx/parliament-lda-terms.ttl>. The whole point of
+keeping that path constant across re-crawls is that skosdex's source
+pointer never has to change — a reimport just re-fetches the same URL
+and gets the richer graph.
+
+**Workflow to ship a more-complete thesaurus end to end:**
+
+1. **Resume the crawl** (`--all --page-size 20`; reuses cache).
+2. **Re-run importer** (`dump_terms.py`) → `parliament-lda-terms.nq.gz`
+   and **exporter** (`scripts/lda-terms-nq-to-ttl.mjs`) → the two `.ttl`
+   copies — **same output paths / same published URL**.
+3. **Re-snapshot the cache** tarball so the new progress is durable.
+4. **Signal skosdex to reimport.** skosdex is a **sibling project**
+   (`danbri/skosdex`) the maintainer drives directly (e.g. "ask
+   Skosdex-Opus to refresh the `uk-parliament-thesaurus` feed and, once
+   the crawl is complete, drop *partial* from its manifest title"). From
+   *this* repo we only have to (a) keep the published URL stable and
+   (b) flag that a richer graph is live at the same URL — the manifest
+   `graph`/source URL never changes, so the reimport is a re-fetch.
+
+## Cross-references
+
+Everything in this repo that touches the Parliament Thesaurus:
+
+- **`lib/facilities/skosdex.mjs`** — client for the hosted skosdex
+  service that *re-publishes* this thesaurus (manifest slug
+  `uk-parliament-thesaurus`) alongside EuroVoc/GEMET/etc.
+- **`scripts/enrich-feeds-skosdex.mjs`** — tags Commons/Lords Library
+  RSS *topic* feeds with controlled-vocab subjects, using the
+  `uk-parliament-thesaurus` scheme (exact label match only) plus EuroVoc
+  / GEMET. **Direct consumer of this crawl's completeness.** (Caveat: a
+  separate precision issue — partial token-subset label matches such as
+  `Economy Economy → "underground economy"` — lives in that script, not
+  here.) Sidecar output: `demos/parliament-live/web/kgx/feeds-enrichment.json`.
+- **`scripts/lda-terms-nq-to-ttl.mjs`** — the exporter (nq.gz → ttl).
+- **`demos/parliament-live/web/kgx/thesaurus.html`** — faceted browser
+  UI over the dump (served on fpkg).
+- **`skills/linked-data-api`** — the legacy Elda API this crawler walks
+  (`lda.data.parliament.uk/terms`).
+- **`skills/data-parliament-uk-datasets`** — catalogue entry that points
+  at the Thesaurus dataset.
+- **`label-lang-overrides.jsonl`** (this folder) — per-term language tags
+  applied during normalisation.
+- **fpkg Oxigraph SPARQL store** + **`.github/workflows/rebuild-graphs.yml`**
+  — loads `parliament-lda-terms.nq.gz` so `https://fpkg.fly.dev/sparql`
+  answers thesaurus queries.
 
 ## Reference
 
