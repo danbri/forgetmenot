@@ -136,13 +136,18 @@ skosdex is general-purpose, but two bridges matter here:
 - **Subject tagging against an international vocabulary.** EuroVoc and
   GEMET are both in the corpus; you can map a free-text parliamentary
   topic to a controlled-vocabulary URI for interoperable tagging.
-- **The Parliament Thesaurus gap.** The UK Parliament SKOS thesaurus
-  is *not* on `api.parliament.uk/sparql` (its `Concept` class is
-  unpopulated) — it lives on the legacy
-  [`linked-data-api`](../linked-data-api/SKILL.md) (`lda.../terms`).
-  skosdex does not (yet) ingest the Parliament Thesaurus, but it is
-  the right tool for the *other* controlled vocabularies you'd want to
-  cross-walk Parliament subjects against.
+- **The Parliament Thesaurus.** The UK Parliament SKOS thesaurus is
+  *not* on `api.parliament.uk/sparql` (its `Concept` class is
+  unpopulated) and natively lives on the legacy
+  [`linked-data-api`](../linked-data-api/SKILL.md) (`lda.../terms`) —
+  but skosdex **does** carry a partial copy as the named graph
+  `http://data.parliament.uk/terms/` (~1,724 concepts, English
+  `prefLabel`s). So you can tag Parliament material against
+  Parliament's *own* controlled vocabulary here, and cross-walk to
+  EuroVoc / GEMET / LCSH in the same query. Note it is partial (the
+  full thesaurus is far larger) and skews to named entities
+  (organisations, schemes), so phrase-match recall on free text is
+  modest — pair it with EuroVoc/GEMET for topical coverage.
 
 <!-- parl-cli-start -->
 

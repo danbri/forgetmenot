@@ -193,3 +193,16 @@ Exported constants: `BASE`, `ENDPOINT` (`/query`), `SOLR`
 - **Small host.** Fly.io instance; keep result sets bounded and prefer
   Solr for label lookups.
 - **Empty SPARQL result?** First suspect: a missing `GRAPH ?g { … }`.
+- **UK Parliament thesaurus is present** as the named graph
+  `http://data.parliament.uk/terms/` (~1,724 concepts, English
+  `prefLabel`s) — a *partial* copy of the thesaurus that natively
+  lives on the legacy Linked Data API. Useful for tagging Parliament
+  material against Parliament's own vocabulary; skews to named
+  entities, so combine with EuroVoc/GEMET for topical recall.
+- **Relations available for query expansion:** GEMET carries the full
+  SKOS relation set in the bundle — `broader` / `narrower` / `related`
+  / `relatedMatch` / `closeMatch` / `exactMatch`, plus ~3,000
+  `gemet-schema:hasWikipediaArticle` links. The embedding-derived
+  "see also" suggestions in the skosdex web UI are **not** in the
+  SPARQL bundle (only ~5 native `gemet-schema:seeAlso` triples exist);
+  treat those as a UI feature, not a queryable predicate.
