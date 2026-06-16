@@ -20,6 +20,13 @@
   .chip { font-size:13px; padding:5px 10px; border:1px solid var(--rule); border-radius:999px; background:var(--card); color:var(--ink-soft); cursor:pointer; user-select:none; }
   .chip.on { background:var(--accent); color:#fff; border-color:var(--accent); }
   .chip.view { border-style:dashed; }
+  .chip.subjfilter { background:#eef2f7; }
+  /* per-card subject tags (controlled-vocab enrichment) */
+  .subjs { display:flex; gap:5px; flex-wrap:wrap; margin:0 0 8px; }
+  .subj { font-size:12px; line-height:1.4; padding:2px 9px; border:1px solid var(--accent); border-radius:999px;
+          background:var(--card); color:var(--accent); cursor:pointer; user-select:none; }
+  .subj.rel { border-style:dashed; border-color:var(--rule); color:var(--ink-soft); } /* embedding "see also" */
+  .subj.on { background:var(--accent); color:#fff; }
   #count { color:var(--ink-soft); font-size:13px; margin:10px 0 4px; }
   .feed { border:1px solid var(--rule); border-radius:8px; background:var(--card); padding:12px 14px; margin:8px 0; }
   .feed h2 { font-size:15px; margin:0 0 2px; }
@@ -61,6 +68,37 @@ let FEEDS = [];
 try { FEEDS = await fetch('./feeds-items.json').then(r => r.json()); }
 catch { document.getElementById('lede').textContent = 'Could not load feeds-items.json.'; }
 
+// Optional controlled-vocabulary enrichment (skosdex). Non-fatal: if it's
+// missing the reader still works, just without subject tags.
+const normLabel = (s) => String(s ?? '').toLowerCase().trim();
+const SUBJ = new Map();   // feedId -> [{ label, via, rel, score, schemes:[{scheme,concept}] }]
+let subjCount = 0;
+try {
+  const enr = await fetch('./feeds-enrichment.json').then(r => r.json());
+  if (enr && enr.feeds && typeof enr.feeds === 'object') {
+    for (const [id, e] of Object.entries(enr.feeds)) {
+      if (!Array.isArray(e.subjects)) continue;
+      // Dedupe by label — the same topic often hits EuroVoc AND GEMET; show
+      // one chip, merging schemes. A chip is "label" if any source matched a
+      // label, else a faint "related" (embedding) chip.
+      const by = new Map();
+      for (const s of e.subjects) {
+        if (!s || !s.label || !s.concept) continue;   // skip malformed; don't fake
+        const k = normLabel(s.label);
+        const g = by.get(k) || { label: s.label, via: 'embedding', score: 0, schemes: [] };
+        if (s.via === 'label') g.via = 'label';
+        if (typeof s.score === 'number') g.score = Math.max(g.score, s.score);
+        g.schemes.push({ scheme: s.scheme, concept: s.concept });
+        by.set(k, g);
+      }
+      const chips = [...by.values()]
+        .map(g => ({ ...g, rel: g.via !== 'label' }))
+        .sort((a, b) => (a.rel - b.rel) || a.label.localeCompare(b.label));
+      if (chips.length) { SUBJ.set(id, chips); subjCount += chips.length; }
+    }
+  }
+} catch { /* enrichment optional — leave SUBJ empty */ }
+
 // flat item list (each item tagged with its feed)
 const ALL = [];
 for (const f of FEEDS) for (const it of f.items) ALL.push({ ...it, feedId: f.id, feedTitle: f.title, scope: f.scope, chamber: f.chamber });
@@ -68,14 +106,22 @@ ALL.sort((a, b) => (Date.parse(b.date)||0) - (Date.parse(a.date)||0));
 
 const totalItems = ALL.length;
 const latestDate = ALL[0] ? fmtDate(ALL[0].date) : '—';
+const taggedLive = FEEDS.filter(f => SUBJ.has(f.id)).length;
 document.getElementById('lede').innerHTML =
   `${FEEDS.length} live feeds · ${totalItems} recent items · newest ${latestDate}. ` +
-  `Tap a chip to filter; switch between <b>By feed</b> and <b>Latest</b>.`;
+  `Tap a chip to filter; switch between <b>By feed</b> and <b>Latest</b>.` +
+  (taggedLive ? ` ${taggedLive} feeds carry <b>subject tags</b> (EuroVoc/GEMET, via skosdex) — tap one to find related feeds.` : '');
 
 // state
-const state = { q: '', chamber: null, scope: null, view: 'feed' };
+const state = { q: '', chamber: null, scope: null, view: 'feed', subject: null };
 const scopes = [...new Set(FEEDS.map(f => f.scope))];
 const chambers = [...new Set(FEEDS.map(f => f.chamber).filter(Boolean))];
+
+const SCHEME_NAME = { eurovoc:'EuroVoc', gemet:'GEMET', esco:'ESCO', 'uk-parliament-thesaurus':'Parliament thesaurus' };
+const feedHasSubject = (id, label) => (SUBJ.get(id) || []).some(c => normLabel(c.label) === normLabel(label));
+const subjTitle = (c) => c.rel
+  ? `related (embedding${c.score ? ' '+c.score.toFixed(2) : ''}) · ${c.schemes.map(s => SCHEME_NAME[s.scheme]||s.scheme).join(', ')} · tap to find related feeds`
+  : `${c.schemes.map(s => SCHEME_NAME[s.scheme]||s.scheme).join(', ')} · tap to find feeds on this subject`;
 
 const chips = document.getElementById('chips');
 function chip(label, on, onclick, cls='') { const b = document.createElement('span'); b.className = `chip ${cls}${on?' on':''}`; b.textContent = label; b.onclick = onclick; return b; }
@@ -85,10 +131,12 @@ function renderChips() {
   chips.append(chip('Latest', state.view==='latest', () => { state.view='latest'; render(); }, 'view'));
   for (const c of chambers) chips.append(chip(c, state.chamber===c, () => { state.chamber = state.chamber===c?null:c; render(); }));
   for (const s of scopes) chips.append(chip(s, state.scope===s, () => { state.scope = state.scope===s?null:s; render(); }));
+  if (state.subject) chips.append(chip(`Subject: ${state.subject} ✕`, true, () => { state.subject = null; render(); }, 'subjfilter'));
 }
 document.getElementById('q').oninput = (e) => { state.q = e.target.value.toLowerCase().trim(); render(); };
 
-const matchFeed = (f) => (!state.chamber || f.chamber===state.chamber) && (!state.scope || f.scope===state.scope);
+const matchFeed = (f) => (!state.chamber || f.chamber===state.chamber) && (!state.scope || f.scope===state.scope)
+  && (!state.subject || feedHasSubject(f.feedId || f.id, state.subject));
 const hit = (s) => !state.q || String(s||'').toLowerCase().includes(state.q);
 
 function render() {
@@ -114,13 +162,23 @@ function render() {
         `<li${i>=3?' class="hid" hidden':''}><span class="date">${fmtDate(it.date)}</span>` +
         `<a href="${esc(it.link)}" target="_blank" rel="noopener">${esc(it.title)}</a></li>`).join('');
       const more = f.items.length>3 ? `<span class="more" data-id="${esc(f.id)}">+${f.items.length-3} more</span>` : '';
+      const subj = SUBJ.get(f.id);
+      const subjHtml = subj ? `<div class="subjs">` + subj.map(c =>
+        `<span class="subj${c.rel?' rel':''}${normLabel(c.label)===normLabel(state.subject||'')?' on':''}" ` +
+        `data-subj="${esc(c.label)}" title="${esc(subjTitle(c))}">${esc(c.label)}</span>`).join('') + `</div>` : '';
       return `<div class="feed"><h2>${esc(f.title)}${ch} <span class="badge">${esc(f.scope)}</span></h2>` +
         `<p class="meta"><a href="${esc(f.url)}" target="_blank" rel="noopener">${esc(f.url)}</a></p>` +
+        subjHtml +
         `<ul class="items" data-feed="${esc(f.id)}">${items}</ul>${more}</div>`;
     }).join('');
     list.querySelectorAll('.more').forEach(m => m.onclick = () => {
       list.querySelector(`ul[data-feed="${m.dataset.id}"]`).querySelectorAll('.hid').forEach(li => li.hidden = false);
       m.remove();
+    });
+    list.querySelectorAll('.subj').forEach(el => el.onclick = () => {
+      const lab = el.dataset.subj;
+      state.subject = normLabel(state.subject||'') === normLabel(lab) ? null : lab;  // toggle
+      window.scrollTo({ top: 0 }); render();
     });
   }
 }
