@@ -4,3 +4,6 @@
 !**/*.nq.gz
 # Test fixtures keep their .nq though — they're tiny and read directly.
 !../tests/fixtures/*.nq
+# Transient gentle-recrawl output (overrides the !*.nq.gz re-include above);
+# promoted to parliament-lda-terms.nq.gz only if it beats the committed dump.
+parliament-lda-terms/recrawl.nq.gz
