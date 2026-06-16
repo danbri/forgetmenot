@@ -45,11 +45,20 @@ fpkg Oxigraph SPARQL store *and* the Turtle export below — inherits it
 from this single point:
 
 - every term node gets `a skos:Concept`;
-- `skos:prefLabel` / `skos:altLabel` are language-tagged `@en`, except
-  ids in `LANG_OVERRIDE` (currently `436521` → `@fr`, the French proper
-  name *Aciéries réunies de Burbach-Eich-Dudelange*). `skos:notation`
-  and the `parl:` attributes stay untagged — they are not lexical
-  labels. Extend `LANG_OVERRIDE` as more foreign labels surface.
+- `skos:prefLabel` / `skos:altLabel` are language-tagged **`@en` by
+  default**, with per-term exceptions for non-English proper names
+  (French, Irish, Latin, …). `skos:notation` and the `parl:` attributes
+  stay untagged — they are not lexical labels.
+
+The exceptions are **data-driven**, in a reviewable sidecar
+[`label-lang-overrides.jsonl`](label-lang-overrides.jsonl) — one decision
+per line, `{"id","lang","label"}` — loaded by `dump_terms.py` (override
+with `--lang-overrides`). The corpus is overwhelmingly English, so the
+workflow is *default-English, then skim the labels for the foreign ones*:
+the `.jsonl` is populated by an LLM pass over the label set (it flags
+labels that are actually French/Irish/etc. and assigns the right BCP-47
+tag), which is far more reliable than per-string language guessing in
+code. Add a line and re-run `--renormalize` to retag; no code change.
 
 The Turtle exporter (`scripts/lda-terms-nq-to-ttl.mjs`) is therefore a
 **pure serializer** — it copies the tags/types straight through.

@@ -82,11 +82,33 @@ LABEL_PREDICATES = {
 # consumer of that file — the fpkg Oxigraph SPARQL store AND the Turtle
 # export — gets typed, language-tagged data from this single point.
 DEFAULT_LABEL_LANG = "en"
-# Per-term language overrides for inherently-foreign labels, keyed by the
-# bare term id. Extend as more surface in a fuller crawl.
-LANG_OVERRIDE = {
+# Per-term BCP-47 language overrides for non-English labels, keyed by the
+# bare term id. The thesaurus is English by default; this lists the
+# exceptions — French / Irish / Latin / … proper names found by skimming
+# the labels. Loaded from a reviewable JSONL sidecar (one decision per
+# line: {"id","lang","label"}) so the set can grow without code changes.
+# The seed is kept inline as a fallback when the sidecar is absent.
+DEFAULT_LANG_OVERRIDES_PATH = Path("skills/parliament-thesaurus/label-lang-overrides.jsonl")
+SEED_LANG_OVERRIDE = {
     "436521": "fr",  # 'Aciéries réunies de Burbach-Eich-Dudelange'
 }
+LANG_OVERRIDE = dict(SEED_LANG_OVERRIDE)
+
+
+def load_lang_overrides(path: Path) -> dict:
+    """Read a JSONL of {id, lang, label} into a {term-id: lang} dict."""
+    out: dict = {}
+    if not path.exists():
+        return out
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        rec = json.loads(line)
+        tid, lang = str(rec.get("id", "")).strip(), str(rec.get("lang", "")).strip()
+        if tid and lang:
+            out[tid] = lang
+    return out
 
 CORE_PREDICATES = {
     RDF.type,
@@ -407,6 +429,9 @@ def main() -> int:
     ap.add_argument("--cache-dir", default=str(DEFAULT_CACHE),
                     help=f"Per-URL Turtle cache (default: {DEFAULT_CACHE})")
 
+    ap.add_argument("--lang-overrides",
+                    help=f"JSONL of {{id,lang,label}} non-English label overrides "
+                         f"(default: {DEFAULT_LANG_OVERRIDES_PATH})")
     ap.add_argument("--renormalize", action="store_true",
                     help="Offline: re-apply normalize_triples() to an existing "
                          ".nq.gz (no network). Use when the LDA endpoint is "
@@ -427,6 +452,14 @@ def main() -> int:
     out_path = Path(args.out)
     summary_path = Path(args.summary)
     cache_dir = Path(args.cache_dir)
+
+    # Load the non-English label overrides (default-English, exceptions listed)
+    # before any normalisation runs, so both crawl and --renormalize use them.
+    overrides_path = Path(args.lang_overrides) if args.lang_overrides else DEFAULT_LANG_OVERRIDES_PATH
+    loaded = load_lang_overrides(overrides_path)
+    LANG_OVERRIDE.update(loaded)
+    eprint(f"Lang overrides: {len(LANG_OVERRIDE)} term(s) total "
+           f"({len(loaded)} from {overrides_path}, rest seed); default lang '{DEFAULT_LABEL_LANG}'.")
 
     if args.renormalize:
         return renormalize(Path(args.renormalize_from or args.out), out_path)
