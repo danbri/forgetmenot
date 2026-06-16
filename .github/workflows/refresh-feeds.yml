@@ -50,13 +50,23 @@ jobs:
       - name: Survey feed liveness + rebuild reader snapshot
         run: node scripts/probe-feed-liveness.mjs
 
+      - name: Enrich topic feeds with skosdex subject codes
+        # Resolves Library topic titles to EuroVoc/GEMET/Parliament-thesaurus
+        # concepts (+ ESCO embedding bridge) via hosted skosdex. Writes the
+        # reader sidecar + the feeds-enrichment named graph for the store.
+        # Exit 2 = skosdex degraded; it kept prior data, so don't fail the job.
+        run: node scripts/enrich-feeds-skosdex.mjs || [ $? -eq 2 ]
+
       - name: Commit refreshed snapshot
         run: |
           git config user.name  "forgetmenot-bot"
           git config user.email "forgetmenot-bot@users.noreply.github.com"
           git add -A third_party/data/parliament-sitemap/feeds-liveness.json \
                      third_party/data/parliament-sitemap/feeds-items.json \
-                     demos/parliament-live/web/kgx/feeds-items.json
+                     third_party/data/parliament-sitemap/feeds-enrichment.json \
+                     third_party/data/parliament-sitemap/feeds-enrichment.nq.gz \
+                     demos/parliament-live/web/kgx/feeds-items.json \
+                     demos/parliament-live/web/kgx/feeds-enrichment.json
           if git diff --cached --quiet; then
             echo "no changes to commit"; exit 0
           fi

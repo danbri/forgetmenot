@@ -11,8 +11,11 @@ metadata:
   data:
     catalogue: third_party/data/parliament-sitemap/feeds.json
     catalogue-rdf: third_party/data/parliament-sitemap/feeds.ttl
+    enrichment: third_party/data/parliament-sitemap/feeds-enrichment.json
+    enrichment-graph: third_party/data/parliament-sitemap/feeds-enrichment.nq.gz
     served-catalogue: https://fpkg.fly.dev/kgx/feeds.json
     served-items: https://fpkg.fly.dev/kgx/feeds-items.json
+    served-enrichment: https://fpkg.fly.dev/kgx/feeds-enrichment.json
     reader: https://fpkg.fly.dev/kgx/feeds
   provenance:
     tier: 2
@@ -53,8 +56,11 @@ Sibling skills, do not confuse:
 | Recent items (JSON) | `https://fpkg.fly.dev/kgx/feeds-items.json` | The feeds active in the last 365 days, each with its latest ~8 items. Powers the reader. |
 | Full catalogue (JSON) | `https://fpkg.fly.dev/kgx/feeds.json` | Every feed + `facets` (counts per host/chamber/scope/group/tag). The machine-readable index. |
 | Catalogue (RDF) | `third_party/data/parliament-sitemap/feeds.ttl` | Same as Turtle (`dcterms:` + a small `fmn:` vocab). Repo only. |
+| Subject enrichment (JSON) | `https://fpkg.fly.dev/kgx/feeds-enrichment.json` | Per-topic-feed subject codes (EuroVoc/GEMET/Parliament-thesaurus/ESCO) — the reader-fetchable sidecar. See [Subject enrichment](#subject-enrichment-skosdex). |
+| Subject enrichment (graph) | `…/feeds-enrichment.nq.gz` → `/kgx/query` | Same as a named graph (`…/graph/feeds-enrichment`) baked into the FPKG Oxigraph store; `<feed> dcterms:subject <concept>`. |
 | Builder | `scripts/build-parliament-feeds.mjs` | Derives feed URLs from cached sitemaps + first-party API RSS; writes `feeds.json`/`feeds.ttl` and the served copy. |
 | Liveness prober | `scripts/probe-feed-liveness.mjs` | Nightly CI: fetches each feed, captures recent items, writes `feeds-items.json`. Refuses to overwrite if >50% fail (block/outage guard). |
+| Subject enricher | `scripts/enrich-feeds-skosdex.mjs` | Nightly CI: tags topic feeds via hosted skosdex; writes the sidecar JSON + named graph. Aborts (exit 2) without overwriting if skosdex is degraded. |
 
 ## The catalogue schema
 
@@ -178,11 +184,52 @@ Library topic feed here for ongoing tracking, then to a code — EuroVoc by
 label (A) and Parliament-thesaurus / ESCO by meaning (B) — one row per
 subject.
 
+## Subject enrichment (skosdex)
+
+The cross-walk above is **pre-computed and shipped** so the reader needs
+no live skosdex calls. `scripts/enrich-feeds-skosdex.mjs` runs nightly in
+`refresh-feeds.yml` and, for each of the ~143 Library *topic* feeds,
+resolves the topic title to controlled-vocabulary concepts via hosted
+skosdex, writing two faithful serializations of one computation:
+
+| Form | Where | For |
+|---|---|---|
+| Sidecar JSON | `https://fpkg.fly.dev/kgx/feeds-enrichment.json` | The reader / any client — fetch + cache, no SPARQL. |
+| Named graph | `/kgx/query`, graph `https://forgetmenot.local/graph/feeds-enrichment` | KG joins (e.g. group feeds by shared concept, or join to the Parliament-thesaurus graph already in the store). |
+
+It is **precision-first** (designed to be eyeballed, not exhaustive):
+- EuroVoc + GEMET: exact or conservative-partial English-label match.
+- UK Parliament thesaurus: **exact only** (it skews to named entities, so
+  loose matches grab junk like *"AGIP (Africa)"*).
+- ESCO/GEMET **embedding** neighbours (`via:"embedding"`, with a cosine
+  `score`) — a "see also" bridge seeded *only* from a clean exact GEMET/
+  Parliament concept, so a bad seed can't cascade.
+- Coverage ≈ 100/143 topic feeds; the rest have no confident match (no
+  tag beats a wrong tag). Commons + Lords feeds on the same title share
+  concepts — that's the "related feeds across chambers" join, for free.
+
+Sidecar shape: `{ generated, source, schemes, graph, counts, feeds: {
+"<feed-id>": { url, title, subjects: [{ concept, scheme, label, via,
+match, score? }] } } }`.
+
+```sh
+# Reader-side: subjects for one feed
+curl -s https://fpkg.fly.dev/kgx/feeds-enrichment.json \
+  | jq '.feeds["cl-topic-climate-change"].subjects'
+
+# Graph-side: every feed tagged with EuroVoc "climate change"
+parl skosdex --help >/dev/null   # (skosdex is a separate store; the FPKG store below)
+curl -sG https://fpkg.fly.dev/kgx/query --data-urlencode 'query=
+  SELECT ?feed WHERE { GRAPH <https://forgetmenot.local/graph/feeds-enrichment> {
+    ?feed <http://purl.org/dc/terms/subject> <http://eurovoc.europa.eu/5482> } }'
+```
+
 ## Refreshing the data
 
 ```sh
 node scripts/build-parliament-feeds.mjs    # rebuild catalogue from cached sitemaps
 node scripts/probe-feed-liveness.mjs       # re-probe liveness + recent items (nightly in CI)
+node scripts/enrich-feeds-skosdex.mjs      # re-tag topic feeds via skosdex (nightly in CI)
 ```
 
 The builder reads cached sitemaps under

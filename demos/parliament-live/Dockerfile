@@ -70,6 +70,7 @@ COPY third_party/data/psephology/all.nq.gz                                      
 COPY third_party/data/parliament-lda-terms/parliament-lda-terms.nq.gz               ./
 COPY third_party/data/fcdo_treaties/extractors/factoids/all.nq.gz                   ./fcdo-treaties.nq.gz
 COPY third_party/govuk/html/orgcharts/extractors/factoids/all.nq.gz                 ./govuk-orgchart.nq.gz
+COPY third_party/data/parliament-sitemap/feeds-enrichment.nq.gz                     ./
 
 RUN set -eux; \
     mkdir -p /data-db; \
