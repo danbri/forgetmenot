@@ -119,18 +119,22 @@ importer re-emits it deterministically.
 `--page-size 20`** or every URL misses and you re-crawl from zero.
 
 ⚠ The cache dir is **git-ignored** and the web/CI container is
-**ephemeral**. So today's crawl is preserved as a committed snapshot:
+**ephemeral** (it has restarted mid-crawl already). So progress is
+preserved as a committed snapshot, **re-rolled at each checkpoint**
+(filename carries the highest page):
 
-- **`third_party/data/parliament-lda-terms/cache-snapshot-pages-0-302.tar.gz`**
-  (sha256 `0216b2426a9bcd80132fc5024aac5f6409eb1e640d9fc08337be3685c74e9a3b`)
+- **`third_party/data/parliament-lda-terms/cache-snapshot-pages-0-759.tar.gz`**
+  (sha256 `2dca0152799572bc3e7e4db5ef05e6e1f6f5272ba1177fbe19329d99cadea5e1`)
+  — pages **0–759, zero gaps** (~10.7% of 7,092).
 
-To resume in a fresh checkout:
+To resume in a fresh checkout (use whichever `0-NNN` snapshot is latest):
 
 ```sh
-tar xzf third_party/data/parliament-lda-terms/cache-snapshot-pages-0-302.tar.gz -C .
+tar xzf third_party/data/parliament-lda-terms/cache-snapshot-pages-0-759.tar.gz -C .
 python3 skills/parliament-thesaurus/dump_terms.py --all --page-size 20 --sleep 0.25
-# pages 0–302 served from cache; fetching continues at 303 and backfills 273–278.
-# When it advances, re-snapshot:  tar czf …/cache-snapshot-pages-0-NNN.tar.gz cache-parliament-lda-terms/
+# pages 0–759 served from cache; fetching continues at 760.
+# When it advances, re-snapshot + commit:
+#   tar czf …/cache-snapshot-pages-0-NNN.tar.gz cache-parliament-lda-terms/
 ```
 
 (`git lfs` is **not installed** in the web container, so the snapshot
