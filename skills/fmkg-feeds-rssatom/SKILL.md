@@ -109,43 +109,74 @@ curl -s 'https://lordslibrary.parliament.uk/?s=&post_type=research-briefing/feed
 The Library **topic** feeds are an informal subject taxonomy
 (`world-affairs/africa`, `social-policy/welfare-pensions/benefits`,
 `science/environment/climate-change`, …). [`skosdex`](../skosdex/SKILL.md)
-carries EuroVoc and GEMET, so each topic slug can be cross-walked to a
-controlled-vocabulary concept — turning a folksonomy of feeds into
-interoperable, EuroVoc/GEMET-tagged subscriptions.
+carries EuroVoc, GEMET *and* a copy of the UK Parliament thesaurus, so
+each topic slug can be cross-walked to a controlled-vocabulary concept —
+turning a folksonomy of feeds into interoperable, coded subscriptions.
+There are now **two** ways to match, and they complement each other.
+
+### A. Label match (English-only, exact-ish)
+
+skosdex's Solr index now has **per-language label fields**, so a bare
+search defaults to English (`prefLabel_en`/`altLabel_en`) and reads the
+English label straight back — no SPARQL round-trip needed any more.
 
 ```sh
 # 1. pull the topic feeds
 curl -s https://fpkg.fly.dev/kgx/feeds.json \
   | jq -r '.feeds[] | select(.scope=="topic") | .slug' | sort -u > /tmp/topics.txt
 
-# 2. for a slug, find its EuroVoc concept (bare terms auto-scope to labels)
+# 2. EuroVoc concept for a slug (English in, English label back)
 parl skosdex search "climate change" \
-  --scheme http://eurovoc.europa.eu/100141 --rows 2 --fl id,prefLabel
-#   => http://eurovoc.europa.eu/434743   ("climate change")
+  --scheme http://eurovoc.europa.eu/100141 --rows 2 --fl id,prefLabel_en
+#   => http://eurovoc.europa.eu/434743  "climate change policy"
 
-# 3. …and its GEMET concept
+# 3. …and GEMET, and Parliament's own thesaurus
 parl skosdex search "climate change" \
-  --scheme http://www.eionet.europa.eu/gemet/gemetThesaurus --rows 2 --fl id,prefLabel
+  --scheme http://www.eionet.europa.eu/gemet/gemetThesaurus --rows 2 --fl id,prefLabel_en
+parl skosdex search "immigration" \
+  --scheme http://data.parliament.uk/terms/ --rows 2 --fl id,prefLabel_en
+#   => http://data.parliament.uk/terms/2699  "Asylum and Immigration Tribunal"
 ```
 
 Schemes to scope against:
-- EuroVoc — `http://eurovoc.europa.eu/100141`
+- EuroVoc — `http://eurovoc.europa.eu/100141` (broad topical; **label-only**, not embedded)
 - GEMET — `http://www.eionet.europa.eu/gemet/gemetThesaurus` (environment-only)
+- UK Parliament thesaurus — `http://data.parliament.uk/terms/` (Parliament's own; skews to named entities)
 
-To pick the **English** label of a hit, walk it on the skosdex SPARQL
-surface (the Solr labels are language-mixed and untagged):
+### B. Semantic match (embeddings — by meaning, not spelling)
 
-```sparql
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-SELECT ?en WHERE { GRAPH ?g {
-  <http://eurovoc.europa.eu/434743> skos:prefLabel ?en . FILTER(LANG(?en)="en")
-} }
+skosdex publishes concept embeddings (`all-MiniLM-L6-v2`, 384-dim) for a
+curated subset — **ESCO, GEMET, and the entire ~1,724-concept UK
+Parliament thesaurus**. This is the better tool for feed topics (and feed
+*items*), because Library topics are free text and the Parliament
+thesaurus skews to named entities, so exact label recall is modest.
+
+```sh
+# Concept -> concept across the embedded schemes (no model needed):
+# bridge a matched Parliament-thesaurus topic out to ESCO / GEMET.
+parl skosdex similar http://data.parliament.uk/terms/2699 --k 6 --cross 1
+#   "Asylum and Immigration Tribunal" -> esco "asylum systems" (0.62),
+#   "immigration law" (0.60), "provide immigration advice", "migrant social worker", …
 ```
+
+For **text → concept** (e.g. embed a feed's topic title, or each new
+briefing's title/summary, and take the nearest concepts) download the
+combined space (`/embeddings/_all.emb.json` + `_all.emb.f16`) and embed
+with the *same* model — Python recipe in the
+[`skosdex` reference](../skosdex/SKILL.md#semantic-matching-via-embeddings).
+This is how you'd auto-suggest subject codes for incoming Library items
+from `feeds-items.json`.
+
+> **Which surface for which scheme:** EuroVoc is label-only (use A);
+> GEMET + ESCO + the Parliament thesaurus are in the embedding space
+> (A *or* B). For broad topical coverage combine an EuroVoc label match
+> with an embedding bridge into the Parliament thesaurus / ESCO.
 
 Worked pattern: today's-business → feeds → codes. Take a chamber's
 business subjects (via the `whatson`/`now` skills), match each to a
-Library topic feed here for ongoing tracking, and to a EuroVoc/GEMET
-code via skosdex for interoperable tagging — one row per subject.
+Library topic feed here for ongoing tracking, then to a code — EuroVoc by
+label (A) and Parliament-thesaurus / ESCO by meaning (B) — one row per
+subject.
 
 ## Refreshing the data
 
