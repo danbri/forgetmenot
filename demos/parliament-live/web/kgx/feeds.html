@@ -20,6 +20,7 @@
   .chip { font-size:13px; padding:5px 10px; border:1px solid var(--rule); border-radius:999px; background:var(--card); color:var(--ink-soft); cursor:pointer; user-select:none; }
   .chip.on { background:var(--accent); color:#fff; border-color:var(--accent); }
   .chip.view { border-style:dashed; }
+  .chiplabel { font-size:12px; color:var(--ink-soft); align-self:center; margin-left:6px; }
   /* active subject-filter chip: dark text on a light fill (NOT the white-on-accent
      of .chip.on — that left white text on a near-white pill). AA ≥6.7:1. */
   .chip.subjfilter, .chip.subjfilter.on { background:#dbe6f1; color:var(--accent); border-color:#9db8d2; }
@@ -28,12 +29,14 @@
   .topic h2 { font-size:16px; margin:0 0 6px; }
   .topic .tcount { font-size:12px; color:var(--ink-soft); font-weight:normal; margin-left:2px; }
   .topic .feedname { color:var(--ink-soft); font-size:12px; }
-  /* per-card subject tags (controlled-vocab enrichment) */
+  /* per-card subjects (controlled-vocab enrichment) */
   .subjs { display:flex; gap:5px; flex-wrap:wrap; margin:0 0 8px; }
   .subj { font-size:12px; line-height:1.4; padding:2px 9px; border:1px solid var(--accent); border-radius:999px;
           background:var(--card); color:var(--accent); cursor:pointer; user-select:none; }
   .subj.rel { border-style:dashed; border-color:var(--rule); color:var(--ink-soft); } /* embedding "see also" */
   .subj.on { background:var(--accent); color:#fff; }
+  .legend { font-size:12px; color:var(--ink-soft); margin:8px 0 0; display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+  .legend .subj { cursor:default; pointer-events:none; }
   #count { color:var(--ink-soft); font-size:13px; margin:10px 0 4px; }
   .feed { border:1px solid var(--rule); border-radius:8px; background:var(--card); padding:12px 14px; margin:8px 0; }
   .feed h2 { font-size:15px; margin:0 0 2px; }
@@ -57,6 +60,7 @@
   <input type="search" id="q" placeholder="Search feeds and items…" autocomplete="off">
   <div class="chips" id="chips"></div>
 </div>
+<div id="legend" class="legend"></div>
 <div id="count"></div>
 <div id="list"></div>
 
@@ -137,11 +141,12 @@ for (const t of TOPICS.values()) t.items.sort((a, b) => (Date.parse(b.date)||0) 
 const totalItems = ALL.length;
 const latestDate = ALL[0] ? fmtDate(ALL[0].date) : '—';
 const taggedLive = FEEDS.filter(f => SUBJ.has(f.id)).length;
+const anyRel = [...SUBJ.values()].some(arr => arr.some(c => c.rel));
 const viewsBlurb = TOPICS.size ? `<b>By feed</b>, <b>Latest</b> and <b>Topics</b>` : `<b>By feed</b> and <b>Latest</b>`;
 document.getElementById('lede').innerHTML =
   `${FEEDS.length} live feeds · ${totalItems} recent items · newest ${latestDate}. ` +
   `Tap a chip to filter; switch between ${viewsBlurb}.` +
-  (taggedLive ? ` ${taggedLive} feeds carry <b>subject tags</b> (EuroVoc/GEMET, via skosdex) — tap a subject to find related feeds, or open <b>Topics</b> for a subject-first digest of recent items.` : '');
+  (taggedLive ? ` ${taggedLive} feeds carry <b>subjects</b> (EuroVoc/GEMET controlled vocabulary, via skosdex) — tap one to find related feeds, or open <b>Topics</b> for a subject-first digest of recent items.` : '');
 
 // state
 const state = { q: '', chamber: null, scope: null, view: 'feed', subject: null };
@@ -156,12 +161,18 @@ const subjTitle = (c) => c.rel
 
 const chips = document.getElementById('chips');
 function chip(label, on, onclick, cls='') { const b = document.createElement('span'); b.className = `chip ${cls}${on?' on':''}`; b.textContent = label; b.onclick = onclick; return b; }
+function chiplabel(text) { const s = document.createElement('span'); s.className = 'chiplabel'; s.textContent = text; return s; }
 function renderChips() {
   chips.innerHTML = '';
+  chips.append(chiplabel('View:'));
   chips.append(chip('By feed', state.view==='feed', () => { state.view='feed'; render(); }, 'view'));
   chips.append(chip('Latest', state.view==='latest', () => { state.view='latest'; render(); }, 'view'));
   if (TOPICS.size) chips.append(chip('Topics', state.view==='topics', () => { state.view='topics'; render(); }, 'view'));
+  if (chambers.length) chips.append(chiplabel('House:'));
   for (const c of chambers) chips.append(chip(c, state.chamber===c, () => { state.chamber = state.chamber===c?null:c; render(); }));
+  // scope = the *kind* of Commons Library feed (whole-site / a topic page /
+  // a publication type / a free-text tag / an author), NOT a subject.
+  if (scopes.length) chips.append(chiplabel('Feed kind:'));
   for (const s of scopes) chips.append(chip(s, state.scope===s, () => { state.scope = state.scope===s?null:s; render(); }));
   if (state.subject) chips.append(chip(`Subject: ${state.subject} ✕`, true, () => { state.subject = null; render(); }, 'subjfilter'));
 }
@@ -174,6 +185,13 @@ const hit = (s) => !state.q || String(s||'').toLowerCase().includes(state.q);
 function render() {
   renderChips();
   const list = document.getElementById('list'), count = document.getElementById('count');
+  // Key for the subject pills — only meaningful in feed view, where they show.
+  const legend = document.getElementById('legend');
+  legend.innerHTML = (state.view === 'feed' && subjCount)
+    ? `Subjects under each feed: <span class="subj">solid</span> = exact match`
+      + (anyRel ? ` · <span class="subj rel">dashed</span> = related (“see also”)` : '')
+      + ` — tap one to filter.`
+    : '';
   if (state.view === 'latest') {
     const rows = ALL.filter(it => matchFeed(it) && (hit(it.title) || hit(it.feedTitle)));
     count.textContent = `${rows.length} items`;
