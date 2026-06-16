@@ -512,8 +512,12 @@ def main() -> int:
 
         else:
             page = 0
-            failed_pages = 0
-            MAX_FAILED_PAGES = 10  # absolute backstop — bail out if half a dozen pages all die
+            consecutive_failures = 0
+            # Bail only on a genuine wall — a *run* of dead pages — not on
+            # scattered transient flakes. Over a 7k-page crawl a cumulative
+            # backstop would trip on normal endpoint jitter; a consecutive
+            # one (reset on every success) distinguishes a real end/wall.
+            MAX_CONSECUTIVE_FAILURES = 25
             while True:
                 if not args.all and page >= args.max_pages:
                     break
@@ -523,15 +527,16 @@ def main() -> int:
 
                 text = fetch_url(url, cache_dir, args.retries, args.timeout, args.sleep)
                 if text is None:
-                    failed_pages += 1
+                    consecutive_failures += 1
                     stats.setdefault("pages_failed", []).append(page)
-                    eprint(f"Skipping page {page}; failed_pages={failed_pages}/{MAX_FAILED_PAGES}")
-                    if failed_pages >= MAX_FAILED_PAGES:
-                        eprint(f"Too many failures ({failed_pages}); aborting crawl")
+                    eprint(f"Skipping page {page}; consecutive_failures={consecutive_failures}/{MAX_CONSECUTIVE_FAILURES}")
+                    if consecutive_failures >= MAX_CONSECUTIVE_FAILURES:
+                        eprint(f"Too many consecutive failures ({consecutive_failures}); aborting crawl")
                         break
                     page += 1
                     time.sleep(args.sleep)
                     continue
+                consecutive_failures = 0  # a good page resets the wall counter
                 g = parse_turtle(text, url)
                 selected = normalize_triples(select_data_triples(g))
 
