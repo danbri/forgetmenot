@@ -2,17 +2,31 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { buildSearchQuery } from '../../lib/facilities/skosdex.mjs';
 
-test('bare term is auto-scoped to the label fields', () => {
+test('bare term is auto-scoped to the English label fields by default', () => {
   assert.equal(
     buildSearchQuery('ocean'),
-    'prefLabel:(ocean) OR altLabel:(ocean)',
+    'prefLabel_en:(ocean) OR altLabel_en:(ocean)',
   );
 });
 
 test('multi-word bare term is scoped as a whole per field', () => {
   assert.equal(
     buildSearchQuery('social housing'),
-    'prefLabel:(social housing) OR altLabel:(social housing)',
+    'prefLabel_en:(social housing) OR altLabel_en:(social housing)',
+  );
+});
+
+test('--lang any searches the language-mixed label fields', () => {
+  assert.equal(
+    buildSearchQuery('ocean', { lang: 'any' }),
+    'prefLabel:(ocean) OR altLabel:(ocean)',
+  );
+});
+
+test('--lang fr scopes to the French label fields', () => {
+  assert.equal(
+    buildSearchQuery('océan', { lang: 'fr' }),
+    'prefLabel_fr:(océan) OR altLabel_fr:(océan)',
   );
 });
 

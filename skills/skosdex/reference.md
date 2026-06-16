@@ -145,7 +145,7 @@ Endpoint: `GET /solr/skos/select`. Standard Solr params:
 
 | Param | Notes |
 |---|---|
-| `q` | query; bare term hits the default field, or field-scope it (`prefLabel:climate`, `altLabel:GDP`) |
+| `q` | query; bare term hits the default field, so field-scope it (`prefLabel_en:climate`, `altLabel:GDP`) |
 | `fq` | filter query — scope to a scheme: `fq=scheme:"http://eurovoc.europa.eu/100141"` |
 | `rows` / `start` | page size / offset |
 | `fl` | comma-separated fields to return |
@@ -153,18 +153,65 @@ Endpoint: `GET /solr/skos/select`. Standard Solr params:
 | `facet=true&facet.field=…` | faceting (note: not every field is configured for faceting) |
 
 Document fields: `id`, `scheme`, `prefLabel`, `altLabel`, `exactLabel`,
+the **per-language** `prefLabel_<lang>` / `altLabel_<lang>` (e.g.
+`prefLabel_en`) and their `_str` exact variants, a `lang` field,
 `definition`, `broader`, `narrower`, `exactMatch`, `closeMatch`,
 `mapping`, `inScheme`, plus Solr internals `_version_`, `_root_`.
+
+English-only search is now first-class: `q=prefLabel_en:(…)`. The
+`parl skosdex search` CLI defaults to it; `--lang any` reverts to the
+language-mixed `prefLabel`/`altLabel`.
 
 The Solr `search` count for a term in a single scheme is just a
 `q` + `fq` + `rows=0` request (read `response.numFound`):
 
 ```sh
 curl -sLG 'https://skosdex.fly.dev/solr/skos/select' \
-  --data-urlencode 'q=prefLabel:energy' \
+  --data-urlencode 'q=prefLabel_en:energy' \
   --data-urlencode 'fq=scheme:"http://eurovoc.europa.eu/100141"' \
   --data-urlencode 'rows=0'      # => numFound 62
 ```
+
+## Semantic matching (embeddings)
+
+skosdex publishes concept embeddings under `/embeddings/`
+(`all-MiniLM-L6-v2`, 384-dim, L2-normalised). The space is a curated
+subset — currently **ESCO ~19k, GEMET ~5.6k, UK Parliament thesaurus
+~1.7k** (the whole thesaurus), not the full corpus.
+
+**Concept → concept (no model):** the hosted KNN endpoint.
+
+```sh
+curl -sLG 'https://skosdex.fly.dev/api/similar' \
+  --data-urlencode 'id=http://www.eionet.europa.eu/gemet/concept/1471' \
+  --data-urlencode 'k=5' --data-urlencode 'cross=1'
+# => nearest concepts across schemes, each with a cosine score
+```
+Or `parl skosdex similar <iri> --k 5 --cross 1`.
+
+**Text / web page → concepts (needs the model):** download the space
+once and dot-product your own embedding against it. Because both sides
+are unit vectors, the dot product *is* cosine similarity.
+
+```python
+import requests, numpy as np
+from sentence_transformers import SentenceTransformer
+
+BASE = "https://skosdex.fly.dev/embeddings"
+model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")  # SAME model
+meta = requests.get(f"{BASE}/_all.emb.json", timeout=60).json()        # ids/labels/scheme
+V = np.frombuffer(requests.get(f"{BASE}/_all.emb.f16").content, dtype="<f2") \
+      .astype("float32").reshape(meta["n"], meta["dim"])               # L2-normalised
+
+q = model.encode("your page text here", normalize_embeddings=True).astype("float32")
+for i in np.argsort(-(V @ q))[:10]:
+    print(round(float((V @ q)[i]), 3), meta["scheme"][i], meta["labels"][i], meta["ids"][i])
+```
+
+For long pages, chunk the text (~180 words), embed each chunk, and keep
+the best score per concept across chunks. Always **review** the top
+matches before using them as tags — embedding nearest-neighbours are
+suggestive, not authoritative.
 
 ## Library surface
 
@@ -173,13 +220,16 @@ curl -sLG 'https://skosdex.fly.dev/solr/skos/select' \
 | Function | Purpose |
 |---|---|
 | `query(sparql, opts, ctx)` | raw SPARQL; GET, or POST when long / `method:'post'`; `format` selects Accept |
-| `search(q, opts, ctx)` | Solr; `rows`, `start`, `fl`, `scheme` (→ `fq`), `wt` |
+| `search(q, opts, ctx)` | Solr; `rows`, `start`, `fl`, `scheme` (→ `fq`), `wt`, `lang` (default `en`), `field`, `rawQ` |
+| `buildSearchQuery(q, opts)` | pure helper that builds the Solr `q` (English-only by default); unit-tested |
+| `similar(id, opts, ctx)` | embedding KNN via `/api/similar`; `k` (default 10), `cross` (default 1) |
 | `schemes(opts, ctx)` | list named graphs (== schemes); `limit` |
 | `concept(uri, opts, ctx)` | labels + broader/narrower/related/mappings for one URI, across graphs |
 | `manifest(ctx)` | the `/manifest.json` corpus manifest |
 
 Exported constants: `BASE`, `ENDPOINT` (`/query`), `SOLR`
-(`/solr/skos/select`), `MANIFEST` (`/manifest.json`).
+(`/solr/skos/select`), `MANIFEST` (`/manifest.json`), `SIMILAR`
+(`/api/similar`), `EMBEDDINGS` (`/embeddings`).
 
 ## Caveats
 

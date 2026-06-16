@@ -75,49 +75,51 @@ Each Solr doc is one concept. Multi-valued unless noted.
 |---|---|
 | `id` | the concept URI (also `_root_`) |
 | `scheme` | the concept-scheme URI it belongs to |
-| `prefLabel` | preferred labels (all languages) |
-| `altLabel` | alternative labels / synonyms |
+| `prefLabel` | preferred labels (all languages, mixed) |
+| `prefLabel_en`, `prefLabel_fr`, … | **per-language** preferred labels |
+| `altLabel` / `altLabel_en` / … | alternative labels / synonyms (mixed + per-language) |
+| `lang` | the languages a concept carries (multi-valued) |
 | `exactLabel` | the lowercased exact-match label index |
 | `definition` | definition(s) (often a URI to a definition node) |
 | `broader` / `narrower` | hierarchy parents / children (URIs) |
 | `exactMatch` / `closeMatch` / `mapping` | cross-vocabulary links (URIs) |
 
-Field-scoped Solr queries work: `prefLabel:climate`, `altLabel:GDP`.
+Field-scoped Solr queries work: `prefLabel_en:climate`, `altLabel:GDP`.
 Filter to one scheme with `fq=scheme:"<scheme-uri>"`.
 
 > ⚠️ **Bare terms need a field.** Solr's configured *default* field
 > here is **not** the label text, so a raw `q=ocean` matches **nothing**.
-> Always field-scope: `q=prefLabel:ocean` (or `prefLabel:(…) OR
-> altLabel:(…)`). The `parl skosdex search` CLI does this auto-scoping
-> for you — a bare `parl skosdex search "ocean"` is rewritten to
-> `prefLabel:(ocean) OR altLabel:(ocean)`; pass `--raw-q` to opt out, or
-> `--field a,b` to choose the label fields.
+> The `parl skosdex search` CLI auto-scopes for you — and because the
+> index now has **per-language label fields**, a bare
+> `parl skosdex search "ocean"` defaults to **English-only**, rewritten
+> to `prefLabel_en:(ocean) OR altLabel_en:(ocean)`. Use `--lang any` to
+> search the language-mixed `prefLabel`/`altLabel`, `--lang fr` for
+> another language, `--field a,b` for explicit fields, or `--raw-q` to
+> pass `q` verbatim.
 
-> 🌐 **No per-language fields.** Every language's label sits **untagged**
-> in `prefLabel` (there is no `prefLabel_en`), so you cannot filter to
-> English on the Solr surface — an English *query* term still matches
-> (good enough for lookup), but to read back the **English label** of a
-> hit, resolve it on the SPARQL surface where labels keep their language
-> tag: `?c skos:prefLabel ?l . FILTER(LANG(?l)="en")`.
+> 🌐 **Per-language label fields now exist.** The index carries
+> `prefLabel_en`, `altLabel_en`, `prefLabel_fr`, … (plus a `lang`
+> field), so you *can* search and read back English-only on the Solr
+> surface — `q=prefLabel_en:(…)`, `fl=prefLabel_en`. The bare
+> language-mixed `prefLabel`/`altLabel` fields still exist for
+> cross-language search via `--lang any`.
 
 ## Worked examples (curl)
 
 ```sh
-# Full-text search, two hits, selected fields (field-scoped — see warning)
+# English-only full-text search (per-language field), two hits
 curl -sLG 'https://skosdex.fly.dev/solr/skos/select' \
-  --data-urlencode 'q=prefLabel:climate' \
+  --data-urlencode 'q=prefLabel_en:(climate change)' \
   --data-urlencode 'rows=2' \
-  --data-urlencode 'fl=id,scheme,prefLabel'
+  --data-urlencode 'fl=id,scheme,prefLabel_en'
 
-# Same via the CLI (bare term auto-scoped to prefLabel/altLabel),
+# Same via the CLI (bare term auto-scoped, English by default),
 # restricted to one scheme:
 parl skosdex search "climate change" \
-  --scheme http://eurovoc.europa.eu/100141 --rows 2 --fl id,prefLabel
+  --scheme http://eurovoc.europa.eu/100141 --rows 2 --fl id,prefLabel_en
 
-# Read back the ENGLISH label of a hit (Solr labels are language-mixed):
-parl skosdex query 'PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
-SELECT ?en WHERE { GRAPH ?g {
-  <http://eurovoc.europa.eu/434743> skos:prefLabel ?en . FILTER(LANG(?en)="en") } }'
+# Concept → concept: nearest neighbours via embedding KNN (no model)
+parl skosdex similar http://www.eionet.europa.eu/gemet/concept/1471 --k 5 --cross 1
 
 # SPARQL: every label containing "parliament", across all graphs
 curl -sL 'https://skosdex.fly.dev/query' -X POST \
@@ -128,6 +130,26 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 SELECT ?c ?l WHERE { GRAPH ?g {
   ?c skos:prefLabel ?l . FILTER(CONTAINS(LCASE(STR(?l)),"parliament")) } } LIMIT 5'
 ```
+
+## Semantic matching via embeddings
+
+skosdex publishes concept embeddings (`all-MiniLM-L6-v2`, 384-dim,
+L2-normalised) so you can match by *meaning*, not just label text:
+
+- **Concept → concept (no model needed):** `parl skosdex similar <iri>`
+  hits the hosted KNN endpoint `/api/similar?id=…&k=…&cross=1` and
+  returns the nearest concepts, optionally across schemes.
+- **Any text / web page → concepts (needs the model):** download the
+  combined space (`/embeddings/_all.emb.json` metadata +
+  `/embeddings/_all.emb.f16` float16 vectors), embed your text with the
+  *same* model, and take the dot product (= cosine, both sides are unit
+  vectors). Runnable Python recipe in
+  [`reference.md`](reference.md#semantic-matching-embeddings).
+
+The embedding space is a **curated subset** (currently ESCO ~19k,
+GEMET ~5.6k, and the **UK Parliament thesaurus ~1.7k — all of it**),
+not the full 2.5M-concept corpus — which makes it well suited to
+semantically tagging UK Parliament material.
 
 ## UK Parliament relevance
 
@@ -171,14 +193,20 @@ parl skosdex --help
 ### Examples
 
 ```sh
-parl skosdex search "prefLabel:climate" --rows 5 --fl id,scheme,prefLabel
+parl skosdex search "climate" --rows 5 --fl id,scheme,prefLabel_en
 ```
-Full-text Solr search over concept labels/definitions (the fast surface).
+Full-text Solr search (bare term auto-scoped, English-only by default).
 
 ```sh
 parl skosdex search "renewable energy" --scheme http://eurovoc.europa.eu/100141
 ```
 Same search, restricted to one scheme via a Solr `fq` filter.
+Add `--lang any` to search all languages, `--lang fr` for French.
+
+```sh
+parl skosdex similar http://www.eionet.europa.eu/gemet/concept/1471 --k 5 --cross 1
+```
+Nearest concepts to a concept IRI via embedding KNN (no model needed).
 
 ```sh
 parl skosdex query 'SELECT (COUNT(*) AS ?n) WHERE { GRAPH ?g { ?s a <http://www.w3.org/2004/02/skos/core#Concept> } }'

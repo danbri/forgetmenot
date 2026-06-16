@@ -325,7 +325,8 @@ const COMMANDS = {
     'parse-file':  { fn: 'parseFile',    args: ['path'],help: 'Parse a local sitemap XML file (the offline path: save the XML from a browser that passed the challenge).' },
   },
   'skosdex': {
-    'search':      { fn: 'search',   args: ['q'],      help: 'Full-text Solr search over concept labels (the fast surface). Bare terms are auto-scoped to prefLabel/altLabel. --rows --start --fl --scheme <uri> --field prefLabel,altLabel --raw-q' },
+    'search':      { fn: 'search',   args: ['q'],      help: 'Full-text Solr search over concept labels (the fast surface). Bare terms are auto-scoped and English-only by default. --rows --start --fl --scheme <uri> --lang en|any|fr --field prefLabel_en,altLabel_en --raw-q' },
+    'similar':     { fn: 'similar',  args: ['id'],     help: 'Nearest concepts to a concept IRI via embedding KNN (no model needed). --k 10 --cross 1' },
     'query':       { fn: 'query',     args: ['sparql'], help: 'Run SPARQL (Oxigraph). Data is in named graphs — wrap patterns in GRAPH ?g { … }; default graph is empty. --format json|csv|tsv|turtle --method post' },
     'schemes':     { fn: 'schemes',   args: [],         help: 'List concept-scheme named graphs (graph IRI == scheme IRI). --limit' },
     'concept':     { fn: 'concept',   args: ['uri'],    help: 'Labels + broader/narrower/mappings for a concept URI, across all graphs.' },
