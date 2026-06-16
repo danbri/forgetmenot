@@ -207,7 +207,10 @@ def fetch_url(url: str, cache_dir: Path, retries: int, timeout: int, sleep: floa
     cache_path = cache_dir / safe_cache_name(url)
 
     if cache_path.exists() and cache_path.stat().st_size > 0:
-        return cache_path.read_text(encoding="utf-8", errors="replace")
+        # Cache hit — second element flags it so callers can skip the
+        # politeness sleep (replaying a big cache on resume is then ~instant,
+        # not throttled at one page per --sleep).
+        return cache_path.read_text(encoding="utf-8", errors="replace"), True
 
     headers = {
         "User-Agent": "forgetmenot/parliament-thesaurus-dumper (https://github.com/danbri/forgetmenot)",
@@ -222,7 +225,7 @@ def fetch_url(url: str, cache_dir: Path, retries: int, timeout: int, sleep: floa
                 data = r.read()
             text = data.decode("utf-8", errors="replace")
             cache_path.write_text(text, encoding="utf-8")
-            return text
+            return text, False
         except (urllib.error.URLError, TimeoutError, OSError) as exc:
             last_error = exc
             delay = min(30.0, sleep + (2 ** attempt))
@@ -232,7 +235,7 @@ def fetch_url(url: str, cache_dir: Path, retries: int, timeout: int, sleep: floa
             time.sleep(delay)
 
     eprint(f"Giving up on {url} after {retries} attempts: {last_error}")
-    return None
+    return None, False
 
 
 def parse_turtle(text: str, public_id: str) -> Graph:
@@ -494,7 +497,7 @@ def main() -> int:
             for raw_id in ids:
                 url = build_item_url(raw_id, args.view)
                 eprint(f"Fetching item {raw_id}: {url}")
-                text = fetch_url(url, cache_dir, args.retries, args.timeout, args.sleep)
+                text, from_cache = fetch_url(url, cache_dir, args.retries, args.timeout, args.sleep)
                 if text is None:
                     # The user named a specific term; if we can't fetch it
                     # the right thing to do is fail loudly, not pretend.
@@ -508,7 +511,8 @@ def main() -> int:
 
                 eprint(f"  parsed {len(g)} RDF triples; selected {len(selected)} data triples")
                 write_quads_incremental(writer, selected, seen, stats)
-                time.sleep(args.sleep)
+                if not from_cache:
+                    time.sleep(args.sleep)
 
         else:
             page = 0
@@ -525,7 +529,7 @@ def main() -> int:
                 url = build_page_url(page, args.page_size, args.view)
                 eprint(f"Fetching page {page}: {url}")
 
-                text = fetch_url(url, cache_dir, args.retries, args.timeout, args.sleep)
+                text, from_cache = fetch_url(url, cache_dir, args.retries, args.timeout, args.sleep)
                 if text is None:
                     consecutive_failures += 1
                     stats.setdefault("pages_failed", []).append(page)
@@ -561,7 +565,8 @@ def main() -> int:
                 write_quads_incremental(writer, selected, seen, stats)
 
                 page += 1
-                time.sleep(args.sleep)
+                if not from_cache:
+                    time.sleep(args.sleep)
 
     # Convert set to stable JSON for the summary file. Keep the first 100
     # subjects as a smoke-test sample; full count separately.

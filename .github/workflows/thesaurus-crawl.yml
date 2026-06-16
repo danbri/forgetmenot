@@ -1,0 +1,130 @@
+# thesaurus-crawl — finish the UK Parliament Thesaurus crawl, unattended.
+#
+# The `terms` dataset on lda.data.parliament.uk is ~141,822 resources =
+# ~7,092 pages at _pageSize=20. It's a paged service with a per-URL Turtle
+# cache (skills/parliament-thesaurus/dump_terms.py), so the crawl RESUMES
+# from where it left off — there is no "clean re-crawl".
+#
+# This workflow:
+#   1. restores the latest committed page-cache snapshot,
+#   2. resumes the crawl politely (per-page exponential backoff; bails only
+#      on a wall of consecutive failures) until a wall-clock budget runs out,
+#   3. re-rolls the snapshot tarball and commits progress (snapshot-only
+#      commits don't match deploy-fpkg's *.nq.gz path filter, so they don't
+#      redeploy),
+#   4. when the dataset is COMPLETE, promotes recrawl.nq.gz -> the canonical
+#      parliament-lda-terms.nq.gz + .ttl, which DOES trip a single fpkg
+#      redeploy so the live SPARQL store + Turtle download get the full graph.
+#
+# Self-resumes on a schedule until done. Respectfully paced: one crawler,
+# 0.25s between live fetches, and the crawler's own exponential backoff +
+# consecutive-failure abort handle a troubled endpoint.
+
+name: thesaurus-crawl
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 */4 * * *'   # every 4h; each run resumes from the snapshot
+
+permissions:
+  contents: write
+
+concurrency:
+  group: thesaurus-crawl
+  cancel-in-progress: false   # never interrupt an in-flight crawl/commit
+
+jobs:
+  crawl:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350      # under GitHub's 360-min hard cap
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: claude/main
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install rdflib
+        run: pip install --quiet rdflib
+
+      - name: Restore latest page-cache snapshot
+        run: |
+          snap=$(ls -1 third_party/data/parliament-lda-terms/cache-snapshot-pages-0-*.tar.gz 2>/dev/null | sort -V | tail -1 || true)
+          if [ -n "$snap" ]; then
+            echo "Restoring $snap"
+            tar xzf "$snap" -C .
+            echo "Cache pages restored: $(ls cache-parliament-lda-terms/ | wc -l)"
+          else
+            echo "No snapshot found — crawling from scratch."
+          fi
+
+      - name: Crawl (resume; polite, per-page exponential backoff)
+        run: |
+          # Stop ~30 min before the job cap so the commit steps always run,
+          # even if the dataset isn't finished this round. Cached pages replay
+          # without the sleep, so resume reaches the live frontier quickly.
+          timeout 320m python3 skills/parliament-thesaurus/dump_terms.py \
+            --all --page-size 20 --sleep 0.25 \
+            --out third_party/data/parliament-lda-terms/recrawl.nq.gz \
+            --summary third_party/data/parliament-lda-terms/recrawl-summary.json \
+            || echo "crawl stopped (timeout or consecutive-failure abort) — committing cached progress"
+
+      - name: Re-roll snapshot + detect completion
+        id: snap
+        run: |
+          python3 - <<'PY'
+          import glob, re, math, os, subprocess
+          pages=set(); total=None
+          for f in glob.glob('cache-parliament-lda-terms/*.ttl'):
+              t=open(f, encoding='utf-8', errors='replace').read()
+              for p in re.findall(r'_page=(\d+)', t): pages.add(int(p))
+              if total is None:
+                  m=re.search(r'totalResults>\s*"?(\d+)', t)
+                  if m: total=int(m.group(1))
+          mx=max(pages) if pages else -1
+          missing=[i for i in range(mx+1) if i not in pages]
+          total_pages=math.ceil((total or 0)/20)
+          done = total is not None and (mx+1)*20 >= total and not missing
+          d='third_party/data/parliament-lda-terms'
+          for old in glob.glob(f'{d}/cache-snapshot-pages-0-*.tar.gz'):
+              os.remove(old)
+          snap=f'{d}/cache-snapshot-pages-0-{mx}.tar.gz'
+          subprocess.run(['tar','czf',snap,'cache-parliament-lda-terms/'], check=True)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write(f'max_page={mx}\n')
+              fh.write(f'total_pages={total_pages}\n')
+              fh.write(f'missing={len(missing)}\n')
+              fh.write(f'done={"true" if done else "false"}\n')
+          print(f'cache: pages 0..{mx} ({len(pages)} present, {len(missing)} missing) of {total_pages}; done={done}')
+          PY
+
+      - name: Promote to canonical dump + Turtle (only when complete)
+        if: steps.snap.outputs.done == 'true'
+        run: |
+          cp third_party/data/parliament-lda-terms/recrawl.nq.gz \
+             third_party/data/parliament-lda-terms/parliament-lda-terms.nq.gz
+          cp third_party/data/parliament-lda-terms/recrawl-summary.json \
+             third_party/data/parliament-lda-terms/parliament-lda-terms-summary.json
+          node scripts/lda-terms-nq-to-ttl.mjs
+
+      - name: Commit progress
+        run: |
+          git config user.name  'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add -A third_party/data/parliament-lda-terms/
+          git add demos/parliament-live/web/kgx/parliament-lda-terms.ttl 2>/dev/null || true
+          git commit -m "thesaurus crawl: checkpoint page ${{ steps.snap.outputs.max_page }}/${{ steps.snap.outputs.total_pages }} (missing ${{ steps.snap.outputs.missing }}, done=${{ steps.snap.outputs.done }})" \
+            || { echo "nothing to commit"; exit 0; }
+          for i in 1 2 3 4; do
+            git pull --rebase --autostash origin claude/main && git push origin claude/main && break
+            echo "push retry $i"; sleep $((2**i))
+          done
+
+      - name: Completion notice
+        if: steps.snap.outputs.done == 'true'
+        run: |
+          echo "::notice::Thesaurus crawl COMPLETE (page ${{ steps.snap.outputs.max_page }}/${{ steps.snap.outputs.total_pages }}). Canonical parliament-lda-terms.nq.gz + .ttl updated. Pushes by GITHUB_TOKEN don't auto-trigger deploy-fpkg, so run the deploy-fpkg workflow to ship the full graph to fpkg.fly.dev, then ask Skosdex to reimport."
