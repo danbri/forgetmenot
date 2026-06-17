@@ -111,8 +111,10 @@ out += `# Converted from ${IN.replace(ROOT + '/', '')} by scripts/lda-terms-nq-t
 out += `# Generated: ${new Date().toISOString()}\n`;
 out += `# Licence: Open Parliament Licence v3.0 (Crown copyright)\n`;
 out += `# Term subjects: ${summary.term_subject_count ?? bySubject.size}; triples: see below.\n`;
-out += `# Normalisation (rdf:type skos:Concept, @en/@fr label tags) is baked into the\n`;
+out += `# Normalisation (rdf:type skos:Concept, uniform @en label tags) is baked into the\n`;
 out += `#   source .nq.gz by the harvester (dump_terms.py); this is a faithful serialization.\n`;
+out += `#   Label LANGUAGE detection is delegated to the skosdex importer, so every label\n`;
+out += `#   here carries @en — treat the tag as a default, not an assertion of language.\n`;
 if (partial) {
   out += `#\n# ⚠ PARTIAL — this is NOT the full thesaurus.\n`;
   if (incomplete) {

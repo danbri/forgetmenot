@@ -83,15 +83,14 @@ LABEL_PREDICATES = {
 # export — gets typed, language-tagged data from this single point.
 DEFAULT_LABEL_LANG = "en"
 # Per-term BCP-47 language overrides for non-English labels, keyed by the
-# bare term id. The thesaurus is English by default; this lists the
-# exceptions — French / Irish / Latin / … proper names found by skimming
-# the labels. Loaded from a reviewable JSONL sidecar (one decision per
-# line: {"id","lang","label"}) so the set can grow without code changes.
-# The seed is kept inline as a fallback when the sidecar is absent.
+# bare term id. The mechanism (inline seed + reviewable JSONL sidecar, one
+# {"id","lang","label"} per line) is retained but DORMANT: label language
+# tagging is now delegated to the skosdex importer, which language-detects
+# from the literal text on import. So we ship a uniform @en default — empty
+# seed + empty sidecar = every label @en. Re-populate either only if we ever
+# need per-term BCP-47 tags baked in at harvest time again.
 DEFAULT_LANG_OVERRIDES_PATH = Path("skills/parliament-thesaurus/label-lang-overrides.jsonl")
-SEED_LANG_OVERRIDE = {
-    "436521": "fr",  # 'Aciéries réunies de Burbach-Eich-Dudelange'
-}
+SEED_LANG_OVERRIDE: dict = {}
 LANG_OVERRIDE = dict(SEED_LANG_OVERRIDE)
 
 

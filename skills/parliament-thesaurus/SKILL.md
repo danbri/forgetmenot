@@ -45,20 +45,28 @@ fpkg Oxigraph SPARQL store *and* the Turtle export below — inherits it
 from this single point:
 
 - every term node gets `a skos:Concept`;
-- `skos:prefLabel` / `skos:altLabel` are language-tagged **`@en` by
-  default**, with per-term exceptions for non-English proper names
-  (French, Irish, Latin, …). `skos:notation` and the `parl:` attributes
-  stay untagged — they are not lexical labels.
+- `skos:prefLabel` / `skos:altLabel` are language-tagged **uniformly
+  `@en`**. `skos:notation` and the `parl:` attributes stay untagged —
+  they are not lexical labels.
 
-The exceptions are **data-driven**, in a reviewable sidecar
+> **Label language is delegated to skosdex.** As of 2026-06-17 we ship a
+> uniform `@en` default and let the **skosdex importer language-detect
+> from the literal text** on import (it re-hosts this thesaurus as
+> `uk-parliament-thesaurus`). So `@en` here is a *default, not an
+> assertion* — ~0.4%+ of the 130k+ labels are demonstrably non-English
+> proper names (e.g. `Università Bocconi`, `Institut für Europäische
+> Politik`) that skosdex resolves. **Do not** re-run an LLM language
+> pass here; it would be redundant work that import overrides anyway.
+
+The override mechanism below is **retained but dormant** (empty seed +
+empty sidecar). It's a reviewable sidecar
 [`label-lang-overrides.jsonl`](label-lang-overrides.jsonl) — one decision
-per line, `{"id","lang","label"}` — loaded by `dump_terms.py` (override
-with `--lang-overrides`). The corpus is overwhelmingly English, so the
-workflow is *default-English, then skim the labels for the foreign ones*:
-the `.jsonl` is populated by an LLM pass over the label set (it flags
-labels that are actually French/Irish/etc. and assigns the right BCP-47
-tag), which is far more reliable than per-string language guessing in
-code. Add a line and re-run `--renormalize` to retag; no code change.
+per line, `{"id","lang","label"}`, loaded by `dump_terms.py` (override
+with `--lang-overrides`) and merged over `SEED_LANG_OVERRIDE`. Re-populate
+either **only** if we ever need per-term BCP-47 tags baked in at harvest
+time again (then add lines + re-run `--renormalize`). ⚠ `--renormalize`
+only tags *untagged* labels, so to *change* an existing tag you must
+regenerate from the page cache, not renormalize.
 
 The Turtle exporter (`scripts/lda-terms-nq-to-ttl.mjs`) is therefore a
 **pure serializer** — it copies the tags/types straight through.
