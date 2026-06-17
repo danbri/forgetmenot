@@ -82,7 +82,8 @@ catch { document.getElementById('lede').textContent = 'Could not load feeds-item
 // Optional controlled-vocabulary enrichment (skosdex). Non-fatal: if it's
 // missing the reader still works, just without subject tags.
 const normLabel = (s) => String(s ?? '').toLowerCase().trim();
-const SUBJ = new Map();   // feedId -> [{ label, via, rel, score, schemes:[{scheme,concept}] }]
+const MATCH_RANK = { exact: 3, partial: 2, semantic: 1 };
+const SUBJ = new Map();   // feedId -> [{ label, match, rel, score, schemes:[{scheme,concept}] }]
 let subjCount = 0;
 try {
   const enr = await fetch('./feeds-enrichment.json').then(r => r.json());
@@ -90,21 +91,23 @@ try {
     for (const [id, e] of Object.entries(enr.feeds)) {
       if (!Array.isArray(e.subjects)) continue;
       // Dedupe by label — the same topic often hits EuroVoc AND GEMET; show
-      // one chip, merging schemes. A chip is "label" if any source matched a
-      // label, else a faint "related" (embedding) chip.
+      // one chip, merging schemes. Classify by the STRONGEST match tier across
+      // its sources: exact > partial (approximate — a broader concept) >
+      // semantic (embedding "see also"). Only an exact match is a solid pill.
       const by = new Map();
       for (const s of e.subjects) {
         if (!s || !s.label || !s.concept) continue;   // skip malformed; don't fake
         const k = normLabel(s.label);
-        const g = by.get(k) || { label: s.label, via: 'embedding', score: 0, schemes: [] };
-        if (s.via === 'label') g.via = 'label';
+        const m = s.match || (s.via === 'label' ? 'exact' : 'semantic');   // back-compat
+        const g = by.get(k) || { label: s.label, match: 'semantic', score: 0, schemes: [] };
+        if (MATCH_RANK[m] > MATCH_RANK[g.match]) g.match = m;
         if (typeof s.score === 'number') g.score = Math.max(g.score, s.score);
         g.schemes.push({ scheme: s.scheme, concept: s.concept });
         by.set(k, g);
       }
       const chips = [...by.values()]
-        .map(g => ({ ...g, rel: g.via !== 'label' }))
-        .sort((a, b) => (a.rel - b.rel) || a.label.localeCompare(b.label));
+        .map(g => ({ ...g, rel: g.match !== 'exact' }))   // rel = not exact → dashed pill
+        .sort((a, b) => (MATCH_RANK[b.match] - MATCH_RANK[a.match]) || a.label.localeCompare(b.label));
       if (chips.length) { SUBJ.set(id, chips); subjCount += chips.length; }
     }
   }
@@ -116,8 +119,8 @@ for (const f of FEEDS) for (const it of f.items) ALL.push({ ...it, feedId: f.id,
 ALL.sort((a, b) => (Date.parse(b.date)||0) - (Date.parse(a.date)||0));
 
 // Topics index: subject label -> recent items pooled across every feed that
-// carries that subject. Uses LABEL matches only (skip fuzzy "see also"
-// embedding hits) so the digest stays trustworthy. Items deduped by link.
+// carries that subject. Uses EXACT matches only (skip approximate partials and
+// fuzzy "see also" embeddings) so the digest stays trustworthy. Items deduped by link.
 const TOPICS = new Map();   // normLabel -> { label, schemes, feeds:Set, items:[], seen:Set }
 for (const f of FEEDS) {
   const fchips = SUBJ.get(f.id);
@@ -155,9 +158,11 @@ const chambers = [...new Set(FEEDS.map(f => f.chamber).filter(Boolean))];
 
 const SCHEME_NAME = { eurovoc:'EuroVoc', gemet:'GEMET', esco:'ESCO', 'uk-parliament-thesaurus':'Parliament thesaurus' };
 const feedHasSubject = (id, label) => (SUBJ.get(id) || []).some(c => normLabel(c.label) === normLabel(label));
-const subjTitle = (c) => c.rel
-  ? `related (embedding${c.score ? ' '+c.score.toFixed(2) : ''}) · ${c.schemes.map(s => SCHEME_NAME[s.scheme]||s.scheme).join(', ')} · tap to find related feeds`
-  : `${c.schemes.map(s => SCHEME_NAME[s.scheme]||s.scheme).join(', ')} · tap to find feeds on this subject`;
+const subjSchemes = (c) => c.schemes.map(s => SCHEME_NAME[s.scheme]||s.scheme).join(', ');
+const subjTitle = (c) =>
+    c.match === 'exact'   ? `exact match · ${subjSchemes(c)} · tap to find feeds on this subject`
+  : c.match === 'partial' ? `approximate (broader concept) · ${subjSchemes(c)} · tap to find related feeds`
+  :                         `related (embedding${c.score ? ' '+c.score.toFixed(2) : ''}) · ${subjSchemes(c)} · tap to find related feeds`;
 
 const chips = document.getElementById('chips');
 function chip(label, on, onclick, cls='') { const b = document.createElement('span'); b.className = `chip ${cls}${on?' on':''}`; b.textContent = label; b.onclick = onclick; return b; }
@@ -189,7 +194,7 @@ function render() {
   const legend = document.getElementById('legend');
   legend.innerHTML = (state.view === 'feed' && subjCount)
     ? `Subjects under each feed: <span class="subj">solid</span> = exact match`
-      + (anyRel ? ` · <span class="subj rel">dashed</span> = related (“see also”)` : '')
+      + (anyRel ? ` · <span class="subj rel">dashed</span> = approximate / related` : '')
       + ` — tap one to filter.`
     : '';
   if (state.view === 'latest') {

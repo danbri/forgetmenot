@@ -61,13 +61,28 @@ const norm = (s) => String(s || '').toLowerCase().normalize('NFKD')
 const toks = (s) => new Set(norm(s).split(' ').filter(Boolean));
 const subset = (a, b) => [...a].every((x) => b.has(x));
 
+// Single-token concepts too generic to be a useful subject on their own — a
+// feed titled "Public Spending" shouldn't get tagged just "public".
+const GENERIC_LABELS = new Set(['policy', 'public', 'world']);
+
 // Classify a candidate label against the query title.
 function matchLevel(title, label, allowPartial) {
   if (!label) return null;
   if (norm(title) === norm(label)) return 'exact';
   if (!allowPartial) return null;
   const t = toks(title), l = toks(label);
-  if (t.size && l.size && (subset(t, l) || subset(l, t)) && Math.abs(t.size - l.size) <= 1) return 'partial';
+  if (!t.size || !l.size) return null;
+  // Accept a partial ONLY when the concept GENERALISES the feed — its label
+  // tokens are a subset of the feed-title tokens, i.e. the feed is a more
+  // specific instance of a broader concept ("Rented Housing" → housing,
+  // "Further Education" → education). REJECT the other direction (title ⊆ label),
+  // where the concept is a *narrower sibling* that merely contains the feed word
+  // ("Economy" → "underground economy", "Water" → "hot water"): that was the
+  // semantic-drift class that made the tags untrustworthy.
+  if (subset(l, t) && Math.abs(t.size - l.size) <= 1) {
+    if (l.size === 1 && GENERIC_LABELS.has([...l][0])) return null;  // too generic alone
+    return 'partial';
+  }
   return null;
 }
 
