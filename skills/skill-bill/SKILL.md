@@ -249,8 +249,23 @@ Source: <https://www.nationalarchives.gov.uk/help-with-your-research/research-gu
 2. **Unprinted Private Acts** — *"Private Acts were not always printed or
    published"* → some legislation has **no published record to crawl**.
 3. **No official pre-1803 debates** — Hansard starts 1803; earlier =
-   unofficial, best in **Cobbett's Parliamentary History 1066–1803**
-   (Digital Bodleian).
+   unofficial (see the must-have below).
+
+### ⭐ MUST-HAVE: pre-1803 debates — Cobbett's Parliamentary History (1066–1803)
+
+Per the TNA guide: *"Before 1803 parliamentary debates were unofficial.
+The most complete collection of these is **Cobbett's Parliamentary
+History of England, 1066–1803** via Digital Bodleian."* This is the only
+substantial pre-Hansard record of what Parliament discussed — **essential
+for any ancient bill-mention search.**
+
+- Collection (page scans, IIIF): <https://digital.bodleian.ox.ac.uk/collections/cobbetts-parliamentary-history/>
+- Cited from: <https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/parliament/>
+- ~36 volumes (publ. 1806–1820). **Bodleian gives page *images*** → would
+  need OCR. But the work is long out of copyright, so **OCR'd full text
+  almost certainly already exists** on Internet Archive / HathiTrust /
+  Google Books — *check-then-fill*: pull existing full text rather than
+  re-OCR scans. Target dir: `third_party/data/cobbetts-parl-history/`.
 
 So the open structured sources (7,475 thesaurus bills, 3,928 API, ~17–19k
 Acts in DDP/Wikidata, legislation.gov.uk) are **modern / in-force /
