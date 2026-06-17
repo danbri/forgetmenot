@@ -238,6 +238,57 @@ bill terms ARE the Library's catalogue of bills**, so "scrape the Library
 OPAC" ≈ *already done*. What it lacks (printed bill numbers, holdings, exact
 dates) is what's locked in ProQuest / the migrating Archives catalogue.
 
+## Where it's all kept — the archival reality (per the TNA Parliament guide)
+
+Source: <https://www.nationalarchives.gov.uk/help-with-your-research/research-guides/parliament/> (read 2026-06-17). This explains why **no comprehensive open bill dataset exists or can**:
+
+1. **The 1834 fire** — *"almost all the original records of the House of
+   Commons were lost in the fire that destroyed the building in 1834."*
+   Pre-1834 Commons bill papers are largely **gone**; the Lords side
+   survived (hence original **Acts from 1497** do).
+2. **Unprinted Private Acts** — *"Private Acts were not always printed or
+   published"* → some legislation has **no published record to crawl**.
+3. **No official pre-1803 debates** — Hansard starts 1803; earlier =
+   unofficial, best in **Cobbett's Parliamentary History 1066–1803**
+   (Digital Bodleian).
+
+So the open structured sources (7,475 thesaurus bills, 3,928 API, ~17–19k
+Acts in DDP/Wikidata, legislation.gov.uk) are **modern / in-force /
+published slices** — the real historical volume (19th-C railway / canal /
+enclosure Local & Personal Acts + all *failed* bills) is many tens of
+thousands, uncountable cleanly.
+
+**The map of homes:**
+
+| Record | Home | Online |
+|---|---|---|
+| **Parliament Rolls 1275–2010** | TNA `SC 9` (1289–1322), `C 65` (1327–2010) | transcripts 1275–1504 on BHO (free onsite TNA) |
+| **Original Acts** | **<1497 TNA**; **1497→ Parliamentary Archives** | legislation.gov.uk (in-force + most published) |
+| **Parliamentary Papers** (printed Bills) | TNA + legal-deposit libraries | **ProQuest UKPP** HC 1715–2015 / HL 1714–1911 (paywalled) |
+| **Journals** (what was *done*) | TNA (manuscript + print) | Commons 1835–2015, Lords 1997–2017 on parliament.uk; pre-1835 partial BHO |
+| **Hansard** (what was *said*) | — | **free** (Historic 1803–2005 + modern) |
+| Comprehensive statutes | Statutes of the Realm / at Large (TNA ref library) | The Statutes Project; VLex Justis (Acts from 1235, free onsite TNA) |
+
+**🚨 The Parliamentary Archives has physically RELOCATED to The National
+Archives** (recent; reopening "in phases") — so the whole PA collection
+(Acts 1497→, Journals, bill papers) is now at TNA, which already held the
+pre-1497 Acts and the departmental records behind Command/Deposited Papers.
+That's why `archives.parliament.uk` redirects and the catalogue is in flux.
+
+**ProQuest "monopoly":** UKPP is the ex-Chadwyck-Healey digitisation of the
+printed Papers — *de facto* sole comprehensive full-text, **subscription
+but free onsite at TNA Kew + university libraries**. Hansard (debates) is
+free and "peripheral"; the larger, older **Papers** corpus is the gated
+part — Crown-copyright public records behind a commercial platform.
+
+**Physical access:** open to anyone, free, onsite at TNA Kew (incl. free
+ProQuest/VLex/BHO there) and via legal-deposit / university libraries.
+The barrier is *free-from-home digital*, not access.
+
+Also: **History of Parliament Trust** (historyofparliamentonline.org) —
+MP biographies + constituencies from the 13th C; the natural spine for the
+"for any MP, their bills" / "for any session, its bills" joins.
+
 ## Building the bill-mention archive (the OCR question)
 
 "Actual bill mentions" do **not** need OCR — **Historic Hansard `/bills/` is
