@@ -1,5 +1,5 @@
 ---
-name: bills-crosswalk
+name: skill-bill
 description: Research dossier + method for reconciling UK Bills across every surface that records them — the Bills REST API, the UK Parliament Thesaurus (LEG terms), the DDP SPARQL store (ActOfParliament / StatutoryInstrumentPaper), legislation.gov.uk, Wikidata (via QLever), modern Hansard and Historic Hansard (1803–2005), and the Journals of the House. Use when you need to know WHERE a bill (especially a pre-2015 historical one) is recorded, how complete each source is, whether matching them is a SPARQL/ETL job or an AI/fuzzy one, and how to build a bill-identity crosswalk graph (billId ↔ LEG term ↔ Hansard stages ↔ resulting Act ↔ legislation.gov.uk ↔ Wikidata QID). Complements the `bills` skill (which just wraps the live Bills API).
 license: Open Parliament Licence v3.0 / OGL v3.0 for Parliament sources; CC0 for Wikidata; third-party licences vary (noted inline).
 metadata:
@@ -8,7 +8,35 @@ metadata:
     note: "Counts below were measured live on 2026-06-17 against the named endpoints; treat as orders-of-magnitude, re-probe before relying on exact figures."
 ---
 
-# Bills crosswalk — where UK Bills are recorded, and how to reconcile them
+# skill-bill — where UK Bills are recorded, and how to reconcile them
+
+## What a Bill *is* (primer)
+
+A **Bill is a *proposed* law** — a draft text formally before Parliament.
+Only if it clears every stage and gets **Royal Assent** does it become an
+**Act** (the law). So **Bill = proposal in motion; Act = enacted result**;
+"Bill" names the *document* while it travels through the Houses. Types:
+**Public** (most — Government or Private Members'), **Private** (a specific
+body/place, e.g. `Greater Manchester (Light Rapid Transit System) Bill`),
+**Hybrid** (a mix, e.g. HS2).
+
+**Bills are intensely printed objects** — print is a formal procedural act,
+not packaging:
+- At First Reading a Bill is **"ordered to be printed"** → published as a
+  numbered House paper (**"Bill 120"** of the session); that print is the
+  authoritative debated text.
+- It is **reprinted every time it changes** (as introduced → as amended in
+  committee → as amended on report → as sent to the other House); each
+  reprint is its own numbered paper, amendments on separate Marshalled-List
+  sheets. The `[HL]` tag is a printing convention (Lords-origin).
+- On passing, the Act was traditionally **engrossed on vellum** (two copies,
+  kept by the Parliamentary Archives) until archival paper replaced it ~2017.
+
+So one bill spawns **many numbered printed artifacts** over its life — which
+is why they live as **Sessional Papers** and why the `bill-papers` API lists
+*publications per bill* (as-introduced, Explanatory Notes, Amendment Papers,
+the Act as passed). The "deep historical bill record" is, physically, a pile
+of numbered printed papers, digitised wholesale only in paywalled ProQuest.
 
 ## Why this exists
 
@@ -184,6 +212,43 @@ So the *text* is well-trodden. **The un-built, defensible artifact is the
 structured bill-identity crosswalk** (`billId ↔ LEG term ↔ Hansard
 stages ↔ resulting Act ↔ legislation.gov.uk ↔ Wikidata`) — that's what
 this graph would add.
+
+## What becomes of a bill — and the catalogue question
+
+- **Passes → Act:** canonical record = the Act (legislation.gov.uk digital;
+  original vellum in the **Parliamentary Archives**, copy at TNA).
+- **Fails / withdrawn:** survives as a printed **Sessional Paper** (HC/HL
+  Bill No. *N*, per session) — paper, not data.
+
+**Scrapeable OPAC? Mostly no** (probed 2026-06-17, all gated):
+- **ProQuest U.K. Parliamentary Papers** — *the* comprehensive catalogue +
+  full text of every printed Bill (1715→), but **paywalled** (auth-redirect).
+- **Parliamentary Archives** catalogue ("Portcullis") is **retired /
+  migrating** (Victoria Tower R&R); `archives.parliament.uk` 301s to a
+  bot-gated parliament.uk page.
+- **Commons Library catalogue** = `search.parliament.uk` → **Microsoft
+  login** (internal, not public).
+- Open-ish: **Jisc Library Hub Discover**, **British Library** OPAC — list
+  parliamentary papers, scrapeable but holdings-oriented / partial.
+
+**Key reframe — we already hold the Library's bill index.** The thesaurus
+*is* the **House of Commons Library's own controlled index** (skosdex labels
+it "Commons Library"; heritage of the old POLIS indexing). Its **7,475 LEG
+bill terms ARE the Library's catalogue of bills**, so "scrape the Library
+OPAC" ≈ *already done*. What it lacks (printed bill numbers, holdings, exact
+dates) is what's locked in ProQuest / the migrating Archives catalogue.
+
+## Building the bill-mention archive (the OCR question)
+
+"Actual bill mentions" do **not** need OCR — **Historic Hansard `/bills/` is
+HTML** and already aggregates them per bill (`companies-bill` → 531 dated
+stage links). So the mention-archive is a **crawl, not an OCR project**
+(→ future `skill-bill-hansard`). OCR is only for genuinely un-digitised
+scans (Journals, printed Sessional Papers), and **much of that is already
+OCR'd by others** (ProQuest, Glasgow Hansard Corpus ~1.6 bn words, British
+History Online) — so the task is *check-then-fill*, not re-digitise from
+scratch. Sequence: crawl the HTML mentions first; OCR only what's provably
+missing.
 
 ## Recommended phases
 
