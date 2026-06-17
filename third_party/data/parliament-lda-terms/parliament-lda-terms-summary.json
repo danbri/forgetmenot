@@ -1,36 +1,36 @@
 {
   "blank_node_triples_skipped": 0,
-  "data_triples_selected": 1490507,
-  "duplicate_quads_skipped": 454260,
+  "data_triples_selected": 1519260,
+  "duplicate_quads_skipped": 466261,
   "graphs": {
-    "https://lda.data.parliament.uk/graph/legacy-terms/core": 706844,
-    "https://lda.data.parliament.uk/graph/legacy-terms/hierarchy": 184900,
-    "https://lda.data.parliament.uk/graph/legacy-terms/label-sidecar": 3802,
-    "https://lda.data.parliament.uk/graph/legacy-terms/mappings": 101799,
-    "https://lda.data.parliament.uk/graph/legacy-terms/related": 38902
+    "https://lda.data.parliament.uk/graph/legacy-terms/core": 717639,
+    "https://lda.data.parliament.uk/graph/legacy-terms/hierarchy": 187468,
+    "https://lda.data.parliament.uk/graph/legacy-terms/label-sidecar": 3919,
+    "https://lda.data.parliament.uk/graph/legacy-terms/mappings": 104381,
+    "https://lda.data.parliament.uk/graph/legacy-terms/related": 39592
   },
   "items_fetched": 0,
   "note": "term_subjects contains only the first 100 subjects (sorted) for compactness; term_subject_count is the full count.",
-  "output": "/tmp/s2.nq.gz",
+  "output": "third_party/data/parliament-lda-terms/recrawl.nq.gz",
   "page_size": 20,
-  "pages_fetched": 6932,
+  "pages_fetched": 7093,
   "predicates": {
-    "http://data.parliament.uk/schema/parl#isPreferred": 138640,
-    "http://data.parliament.uk/schema/parl#member": 4168,
-    "http://data.parliament.uk/schema/parl#skosAttribute": 146996,
-    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": 141284,
-    "http://www.w3.org/2000/01/rdf-schema#label": 3802,
-    "http://www.w3.org/2004/02/skos/core#broader": 91557,
-    "http://www.w3.org/2004/02/skos/core#exactMatch": 97631,
-    "http://www.w3.org/2004/02/skos/core#narrower": 93343,
-    "http://www.w3.org/2004/02/skos/core#notation": 138640,
-    "http://www.w3.org/2004/02/skos/core#prefLabel": 141284,
-    "http://www.w3.org/2004/02/skos/core#related": 38902
+    "http://data.parliament.uk/schema/parl#isPreferred": 141822,
+    "http://data.parliament.uk/schema/parl#member": 4295,
+    "http://data.parliament.uk/schema/parl#skosAttribute": 150351,
+    "http://www.w3.org/1999/02/22-rdf-syntax-ns#type": 141822,
+    "http://www.w3.org/2000/01/rdf-schema#label": 3919,
+    "http://www.w3.org/2004/02/skos/core#broader": 93748,
+    "http://www.w3.org/2004/02/skos/core#exactMatch": 100086,
+    "http://www.w3.org/2004/02/skos/core#narrower": 93720,
+    "http://www.w3.org/2004/02/skos/core#notation": 141822,
+    "http://www.w3.org/2004/02/skos/core#prefLabel": 141822,
+    "http://www.w3.org/2004/02/skos/core#related": 39592
   },
-  "quads_written": 1036247,
-  "rdf_triples_seen": 1503352,
+  "quads_written": 1052999,
+  "rdf_triples_seen": 1534344,
   "source": "https://lda.data.parliament.uk/terms",
-  "term_subject_count": 141284,
+  "term_subject_count": 141822,
   "term_subjects": [
     "http://data.parliament.uk/terms/1",
     "http://data.parliament.uk/terms/100",
@@ -133,13 +133,5 @@
     "http://data.parliament.uk/terms/100091",
     "http://data.parliament.uk/terms/100092"
   ],
-  "view": null,
-  "complete": false,
-  "coverage": {
-    "pages_crawled": 6932,
-    "total_pages": 7092,
-    "pct": 98,
-    "labelled_concepts": 141284,
-    "note": "Near-complete stopgap: 6932/7092 pages, 99.6%% of all 141,822 terms labelled. All @en (language at skosdex import). Finishing run adds the last ~161 pages."
-  }
+  "view": null
 }
