@@ -25,7 +25,11 @@ name: thesaurus-crawl
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 */4 * * *'   # every 4h; each run resumes from the snapshot
+    # The initial bulk crawl is COMPLETE (7,092/7,092). This is now just a
+    # low-frequency refresh: resume from the committed snapshot (cached pages
+    # replay fast), pick up any newly-added terms past the frontier, re-promote
+    # if changed. Weekly is plenty for a slowly-changing thesaurus.
+    - cron: '17 6 * * 1'   # Mondays 06:17 UTC
 
 permissions:
   contents: write
