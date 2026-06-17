@@ -1,5 +1,5 @@
 {
- "generated": "2026-06-17T18:51:08.430Z",
+ "generated": "2026-06-17T22:03:04.519Z",
  "source": "skosdex.fly.dev (label search + embedding KNN)",
  "note": "Subject codes for Library TOPIC feeds. via=label is an exact/partial English-label match; via=embedding is an all-MiniLM-L6-v2 nearest-concept bridge (score = cosine). EuroVoc/GEMET/Parliament-thesaurus by label; ESCO/GEMET neighbours by embedding.",
  "schemes": [
@@ -11,7 +11,7 @@
  "counts": {
   "topicFeeds": 143,
   "distinctTitles": 139,
-  "feedsTagged": 105
+  "feedsTagged": 106
  },
  "feeds": {
   "cl-topic-africa": {
@@ -230,12 +230,12 @@
      "score": 0.8223
     },
     {
-     "concept": "http://data.parliament.uk/terms/424505",
+     "concept": "http://data.parliament.uk/terms/99835",
      "scheme": "uk-parliament-thesaurus",
-     "label": "Bibi, Asia",
+     "label": "Transas Eurasia",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8112
+     "score": 0.8128
     }
    ]
   },
@@ -962,12 +962,12 @@
      "score": 0.8484
     },
     {
-     "concept": "http://data.parliament.uk/terms/90774",
+     "concept": "http://data.parliament.uk/terms/97985",
      "scheme": "uk-parliament-thesaurus",
-     "label": "Crimes against the state",
+     "label": "SIN",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8427
+     "score": 0.8429
     }
    ]
   },
@@ -1674,20 +1674,20 @@
      "score": 0.8168
     },
     {
+     "concept": "http://data.parliament.uk/terms/99835",
+     "scheme": "uk-parliament-thesaurus",
+     "label": "Transas Eurasia",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8147
+    },
+    {
      "concept": "http://data.parliament.uk/terms/18325",
      "scheme": "uk-parliament-thesaurus",
      "label": "Europa",
      "via": "embedding",
      "match": "semantic",
      "score": 0.8143
-    },
-    {
-     "concept": "http://data.parliament.uk/terms/485730",
-     "scheme": "uk-parliament-thesaurus",
-     "label": "Eurest",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.814
     }
    ]
   },
@@ -2042,11 +2042,11 @@
      "match": "partial"
     },
     {
-     "concept": "http://www.eionet.europa.eu/gemet/concept/3865",
+     "concept": "http://www.eionet.europa.eu/gemet/concept/7621",
      "scheme": "gemet",
      "schemeUri": "http://www.eionet.europa.eu/gemet/gemetThesaurus",
-     "label": "health",
-     "matchedOn": "health",
+     "label": "services",
+     "matchedOn": "services",
      "via": "label",
      "match": "partial"
     },
@@ -3014,12 +3014,12 @@
      "score": 0.8787
     },
     {
-     "concept": "http://data.parliament.uk/terms/346703",
+     "concept": "http://data.parliament.uk/terms/519984",
      "scheme": "uk-parliament-thesaurus",
-     "label": "Parliament facts and figures",
+     "label": "Parliament: facts and figures",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.871
+     "score": 0.8729
     }
    ]
   },
@@ -3271,6 +3271,45 @@
     }
    ]
   },
+  "cl-topic-public-spending": {
+   "url": "https://commonslibrary.parliament.uk/topic/economy-business/economy-economy/public-spending/feed/",
+   "title": "Public Spending",
+   "subjects": [
+    {
+     "concept": "http://data.parliament.uk/terms/288540",
+     "scheme": "uk-parliament-thesaurus",
+     "schemeUri": "http://data.parliament.uk/terms/",
+     "label": "Public spending",
+     "matchedOn": "Public spending",
+     "via": "label",
+     "match": "exact"
+    },
+    {
+     "concept": "http://data.europa.eu/esco/skill/387ee646-0aaa-4161-ab3b-cde87ec09fdf",
+     "scheme": "esco",
+     "label": "public finance",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.941
+    },
+    {
+     "concept": "http://data.europa.eu/esco/skill/a9640376-8d72-4a70-a4a3-7a18e2e8f3c0",
+     "scheme": "esco",
+     "label": "advise on public finance",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9194
+    },
+    {
+     "concept": "http://data.europa.eu/esco/skill/234d1c8f-c921-483e-9a6e-4fbfc14946dc",
+     "scheme": "esco",
+     "label": "manage government funding",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9142
+    }
+   ]
+  },
   "cl-topic-rented-housing": {
    "url": "https://commonslibrary.parliament.uk/topic/social-policy/housing/rented-housing/feed/",
    "title": "Rented Housing",
@@ -3498,13 +3537,21 @@
    "title": "Sickness Disability And Carers Benefits",
    "subjects": [
     {
-     "concept": "http://data.parliament.uk/terms/351537",
+     "concept": "http://data.parliament.uk/terms/347228",
      "scheme": "uk-parliament-thesaurus",
      "schemeUri": "http://data.parliament.uk/terms/",
-     "label": "Sickness, disability and carers' benefits",
-     "matchedOn": "Sickness, disability and carers' benefits",
+     "label": "Sickness disability and carers benefits",
+     "matchedOn": "Sickness disability and carers benefits",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://data.europa.eu/esco/occupation/9c55aa23-e3f2-4c00-8c90-5ed5204951a3",
+     "scheme": "esco",
+     "label": "disability support worker",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.887
     },
     {
      "concept": "http://data.europa.eu/esco/skill/54411e8e-d62f-46d8-b87b-fce23f8e3bc8",
@@ -3512,23 +3559,15 @@
      "label": "disability care",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8895
+     "score": 0.8832
     },
     {
-     "concept": "http://data.europa.eu/esco/isced-f/0921",
+     "concept": "http://data.europa.eu/esco/occupation/f4525ed8-54eb-4a3b-90db-55cc01b0d9fd",
      "scheme": "esco",
-     "label": "care of the elderly and of disabled adults",
+     "label": "care home worker",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8888
-    },
-    {
-     "concept": "http://data.europa.eu/esco/skill/82cde242-eb70-4699-8589-7aa210e003e2",
-     "scheme": "esco",
-     "label": "cover a variety of health conditions",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.8888
+     "score": 0.8811
     }
    ]
   },
