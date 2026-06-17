@@ -100,7 +100,9 @@ const predRank = (p) => { const i = PRED_ORDER.indexOf(p); return i === -1 ? PRE
 
 let summary = {};
 try { summary = JSON.parse(readFileSync(SUMMARY, 'utf8')); } catch { /* optional */ }
-const partial = Array.isArray(summary.pages_failed) && summary.pages_failed.length > 0;
+const failedPartial = Array.isArray(summary.pages_failed) && summary.pages_failed.length > 0;
+const incomplete = summary.complete === false;       // crawl deliberately cut short (stopgap / still running)
+const partial = failedPartial || incomplete;
 
 let out = '';
 out += `# UK Parliament Thesaurus — Turtle dump\n`;
@@ -112,10 +114,19 @@ out += `# Term subjects: ${summary.term_subject_count ?? bySubject.size}; triple
 out += `# Normalisation (rdf:type skos:Concept, @en/@fr label tags) is baked into the\n`;
 out += `#   source .nq.gz by the harvester (dump_terms.py); this is a faithful serialization.\n`;
 if (partial) {
-  out += `#\n# ⚠ PARTIAL: the source crawl did not complete — Elda deep-paging failed on\n`;
-  out += `#   pages [${summary.pages_failed.join(', ')}] (offset >= ~${(Math.min(...summary.pages_failed)) * (summary.page_size || 50)}),\n`;
-  out += `#   so terms beyond that offset are MISSING. Re-run dump_terms.py when the\n`;
-  out += `#   endpoint is reachable to produce a complete dump.\n`;
+  out += `#\n# ⚠ PARTIAL — this is NOT the full thesaurus.\n`;
+  if (incomplete) {
+    const c = summary.coverage || {};
+    out += `#   STOPGAP cut mid-crawl: ${c.pages_crawled ?? '?'} / ${c.total_pages ?? '?'} pages (~${c.pct ?? '?'}%).\n`;
+    out += `#   ${c.note || ''}\n`.replace(/^#   \n/, '');
+    out += `#   Terms past the crawl frontier are MISSING, or present only as a prefLabel\n`;
+    out += `#   stub (no notation / hierarchy / altLabels yet). The finishing crawl will\n`;
+    out += `#   supersede this at the SAME URL when it reaches 100%.\n`;
+  }
+  if (failedPartial) {
+    out += `#   Elda deep-paging failed on pages [${summary.pages_failed.join(', ')}]\n`;
+    out += `#   (offset >= ~${(Math.min(...summary.pages_failed)) * (summary.page_size || 50)}); those terms are MISSING.\n`;
+  }
 }
 out += `#\n`;
 for (const [pfx, ns] of Object.entries(PREFIXES)) out += `@prefix ${pfx}: <${ns}> .\n`;
