@@ -316,6 +316,34 @@ History Online) — so the task is *check-then-fill*, not re-digitise from
 scratch. Sequence: crawl the HTML mentions first; OCR only what's provably
 missing.
 
+## Build status & the joins (the bill-centric graph)
+
+What's pulled into `third_party/` and derived so far:
+
+- **`cobbetts-parl-history/`** — pre-1803 debates: 36 canonical OCR volumes
+  (BSB), gzipped; alternates re-fetchable via `scripts/fetch-cobbetts.mjs`.
+- **`historic-hansard-bills/`** — bill stages 1803–2005:
+  `bills.json` / `bills.nq.gz` (2,590 pages, 7,355 dated stage refs) →
+  **`bills-disambiguated.json`** (2,843 instances; `scripts/disambiguate-hh-bills.mjs`
+  splits same-named bills by >4yr gaps — e.g. `armed-forces-bill` → the eight
+  quinquennial Acts 1965…2001) → **`bills-by-session.json`** (instances grouped
+  by start year). **Join key = `(slug, yearStart)`.**
+
+Join status — what each needs:
+
+| Join | Now | Needs |
+|---|---|---|
+| **bill → debates** | ✅ `bills.nq.gz` (`debatedAt` → dated sitting) | — |
+| **session/year → bills** | ✅ `bills-by-session.json` (year as session proxy) | map year → named session (whatson/calendar) |
+| **bill → resulting Act** | — | title+year → DDP `ActOfParliament` → legislation.gov.uk (phase 1, deterministic) |
+| **MP → their bills** | partial | modern: **Bills-API sponsors**; historical: crawl the **speakers on each bill's sitting pages** (Historic Hansard) — the sittings are already linked, just not yet fetched |
+| **bill → votes** | — | Historic Hansard `/divisions/` + `commons-votes`/`lords-votes` APIs |
+| **person spine** | — | **History of Parliament Trust** (MPs/members, 13th C→) |
+
+⚠ Data-quality: the HH crawl's bill index missed some pages (e.g.
+`companies-bill` resolves live but is absent from `bills.json`) — needs a
+reconcile pass against the live `/bills/index.html`.
+
 ## Recommended phases
 
 1. **Deterministic spine (cheap 80 %).** Pull the Bills-API 3,928; join
