@@ -38,8 +38,22 @@ endpoint hostnames are the canonical references.
   even when the SPARQL surface is awkward.
 
 Both are running on **GraphDB** as of last check. Neither is heavily
-supported — the original team has largely moved on — but both are
-running and updated **at least daily**.
+supported — the original team has largely moved on — but DDP at least is
+**still live** (its `WorkPackage` count ticked up mid-session on 2026-06-18).
+
+> **⚠ 2026-06-18 correction — does DD actually exist as a separate store?**
+> Doubtful. The procedural data this note attributes to a separate "DD"
+> (statutory instruments, work packages, procedure routes, treaties, Acts)
+> is in fact **directly queryable on the public DDP SPARQL endpoint** and
+> live-updating (`WorkPackage` 7,774, `ProcedureRoute` 8,001,
+> `StatutoryInstrumentPaper` 6,978, `ActOfParliament` 17,612 — all via
+> `api.parliament.uk/sparql`). No second SPARQL endpoint or store has been
+> found; `ukparliament/Procedure` is a C# web app, not a store. The most
+> likely explanation is that this 2026-04-30 note **conflated Silver
+> Oliver's procedural *ontology* work with a phantom second store**. Treat
+> "DD" as unconfirmed: assume **one public store (DDP)** until a distinct
+> DD endpoint/repository is actually produced. The `~3.14M / inference-on`
+> figures are unverified.
 
 **DD has inference turned on.** That is, when you query DD you are
 querying the closure under the procedural ontology's `rdfs:subClassOf`,
