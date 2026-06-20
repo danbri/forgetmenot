@@ -38,14 +38,17 @@ endpoint hostnames are the canonical references.
   even when the SPARQL surface is awkward.
 
 Both are running on **GraphDB** as of last check. Neither is heavily
-supported — the original team has largely moved on — but DDP at least is
-**still live** (its `WorkPackage` count ticked up mid-session on 2026-06-18).
+supported — the original team has largely moved on. DDP may still be
+maintained — its `WorkPackage` count read 7,766 then 7,774 across ~a day
+of this work (2026-06-17→18) — but that is a **weak signal** (+8 over a
+day, and not controlled for query/method differences), *not* evidence of
+real-time updating.
 
 > **⚠ 2026-06-18 correction — does DD actually exist as a separate store?**
 > Doubtful. The procedural data this note attributes to a separate "DD"
 > (statutory instruments, work packages, procedure routes, treaties, Acts)
-> is in fact **directly queryable on the public DDP SPARQL endpoint** and
-> live-updating (`WorkPackage` 7,774, `ProcedureRoute` 8,001,
+> is in fact **directly queryable on the public DDP SPARQL endpoint**
+> (`WorkPackage` 7,774, `ProcedureRoute` 8,001,
 > `StatutoryInstrumentPaper` 6,978, `ActOfParliament` 17,612 — all via
 > `api.parliament.uk/sparql`). No second SPARQL endpoint or store has been
 > found; `ukparliament/Procedure` is a C# web app, not a store. The most

@@ -94,7 +94,7 @@ and procedure are modelled and queried but thinly instanced live.
   generation added/dropped, and where each subset's *real* source is.
 - **"DD" probably isn't a separate store** (2026-06-18): the procedural data
   the lore put in a distinct DD (work packages, procedure routes, SI papers,
-  Acts) is **directly on the public DDP SPARQL endpoint** and live-updating —
+  Acts) is **directly on the public DDP SPARQL endpoint** —
   so assume **one store (DDP)** to mirror, not two. See the correction in
   [`triple-stores.md`](triple-stores.md).
 - **Provenance per subset:** which REST API/system *produces* each cluster, vs
