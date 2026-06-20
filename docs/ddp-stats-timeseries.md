@@ -10,18 +10,31 @@ endpoint**. Design only; not yet built.
 full-store scans (observed repeatedly 2026-06-17/18). So: **one cheap
 aggregation query per snapshot, infrequently, at unusual times, fail-soft.**
 
-## What each snapshot captures
-| metric | query | cost | cadence |
+## What each snapshot captures — **both**, predicate-first
+| metric | query | cost | role |
 |---|---|---|---|
-| **class counts** | `SELECT ?t (COUNT(*) AS ?n) WHERE { ?s a ?t } GROUP BY ?t` | light (type-indexed; 1 request, ~184 rows) | **3×/day** |
-| **predicate counts** | `SELECT ?p (COUNT(*) AS ?n) WHERE { ?s ?p ?o } GROUP BY ?p` | heavy (full scan) | **weekly** |
-| **total triples** | `SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }` | heaviest (often times out) | weekly, best-effort |
+| **predicate counts** | `SELECT ?p (COUNT(*) AS ?n) WHERE { ?s ?p ?o } GROUP BY ?p` | heavy (full scan) | **primary signal** |
+| **class counts** | `SELECT ?t (COUNT(*) AS ?n) WHERE { ?s a ?t } GROUP BY ?t` | light (type-indexed) | reliable backbone |
+| **total triples** | `SELECT (COUNT(*) AS ?n) WHERE { ?s ?p ?o }` | heaviest | sanity check (= Σ predicate counts) |
 | meta | — | — | every run: ISO ts, query wall-ms, HTTP status, ok flag |
 
-Prefer the **single `GROUP BY ?type`** (one request → all class counts) over
-184 per-class `COUNT`s — fewer requests = gentler. The throttling seen this
-session came from *bursts of dozens of queries in minutes*; one scheduled query
-per run won't trip it.
+**Why predicate counts are the better signal:** every triple has exactly one
+predicate, so `GROUP BY ?p` **partitions 100% of the store** (Σ = total) and
+**catches property-level edits** — a corrected date, an added label or relation
+on an *existing* entity — that leave every class count unchanged. Class counts
+only move when whole entities appear/vanish. So predicate counts are the
+complete, sensitive detector; class counts are the cheap, always-gettable
+backbone. **Capture both.**
+
+**The catch, and its resolution:** `GROUP BY ?p` is a full scan — exactly the
+query the rate-limited giants refuse (observed: skosdex 500, DDP throttle). But
+that heaviness is **only a live-public-endpoint problem**. On a **local mirror**
+(fpkg-style Oxigraph) the predicate scan is trivial — measured at **2.4s on
+fpkg's 3.5M**. So:
+- **Against live DDP:** class counts every run (reliable); predicate counts
+  *attempted* every run but **tolerate gaps** when throttled.
+- **Against a local DDP mirror (preferred):** **both, every run**, cheaply —
+  another concrete reason to mirror rather than poll the live endpoint.
 
 ## Gentleness measures
 - **~3 light + ~1 heavy request/day**, total. Negligible.
