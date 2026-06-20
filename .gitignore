@@ -9,3 +9,9 @@ cache-parliament-lda-terms/
 third_party/data/parliament-lda-terms/recrawl.nq.gz
 third_party/data/parliament-lda-terms/recrawl-summary.json
 cache-hh-bills/
+
+# Secrets — never commit (set via shell env / GitHub Actions secrets / fly secrets)
+.env
+.env.*
+*.secret
+secrets.json
