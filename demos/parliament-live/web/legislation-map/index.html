@@ -62,6 +62,44 @@
   a.btn:hover { text-decoration:underline; }
   .leaflet-control-layers { font-size:13px; }
   .leaflet-control-layers-overlays label { margin:3px 0; }
+  /* ---- custom grouped + searchable + lazy layer widget ---- */
+  #layers-widget { top:12px; right:12px; width:280px; max-width:calc(100vw - 24px);
+    max-height:calc(100vh - 24px); display:flex; flex-direction:column; padding:0;
+    box-sizing:border-box; overflow:hidden; }
+  #lw-head { display:flex; align-items:center; gap:8px; padding:10px 12px 8px; }
+  #lw-title { font-weight:700; font-size:14px; flex:1 1 auto; color:var(--ink); }
+  #lw-collapse { flex:0 0 auto; width:30px; height:30px; border:1px solid #ddd;
+    background:#fff; border-radius:7px; color:var(--accent); font-size:16px; line-height:1;
+    cursor:pointer; display:none; align-items:center; justify-content:center; }
+  #lw-collapse:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  #lw-open { display:none; align-items:center; justify-content:center; width:44px; height:44px;
+    border:1px solid #ccc; background:var(--panel); border-radius:10px; box-shadow:0 2px 16px #0003;
+    color:var(--accent); font-size:20px; cursor:pointer; }
+  #lw-open:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  #lw-search { margin:0 12px 8px; padding:7px 9px; border:1px solid #ccc; border-radius:7px;
+    font:inherit; font-size:13px; box-sizing:border-box; width:calc(100% - 24px); }
+  #lw-search:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+  #lw-body { overflow:auto; padding:0 12px 12px; }
+  .lw-base { margin:0 0 6px; }
+  .lw-base label { display:flex; align-items:center; gap:6px; margin:3px 0; font-size:13px; cursor:pointer; }
+  .lw-group { margin:4px 0; border-top:1px solid #eee; padding-top:4px; }
+  .lw-group > summary { cursor:pointer; font-weight:600; font-size:12.5px; color:var(--accent);
+    margin:3px 0; list-style:none; display:flex; align-items:center; gap:5px; }
+  .lw-group > summary::-webkit-details-marker { display:none; }
+  .lw-group > summary::before { content:'▸'; font-size:10px; transition:transform .12s ease; color:#999; }
+  .lw-group[open] > summary::before { transform:rotate(90deg); }
+  .lw-item { display:flex; align-items:center; gap:6px; margin:3px 0 3px 4px; font-size:13px; cursor:pointer; }
+  .lw-item input { flex:0 0 auto; }
+  .lw-item .lw-label { flex:1 1 auto; line-height:1.3; }
+  .lw-item .lw-spin { flex:0 0 auto; width:13px; height:13px; display:none; }
+  .lw-item.lw-loading .lw-spin { display:inline-block; }
+  .lw-item.lw-error .lw-label { color:var(--t3); }
+  .lw-spin::after { content:''; display:block; width:11px; height:11px; border:2px solid #ccc;
+    border-top-color:var(--accent); border-radius:50%; animation:lw-spin .7s linear infinite; }
+  @keyframes lw-spin { to { transform:rotate(360deg); } }
+  .lw-sw { display:inline-block; width:11px; height:11px; border-radius:2px; flex:0 0 auto; vertical-align:-1px; }
+  .lw-err-msg { color:var(--t3); font-size:11px; margin:2px 0 4px 22px; display:none; }
+  .lw-item.lw-error + .lw-err-msg { display:block; }
   /* status + tabs + sources ("oh yeah?") */
   .status-badge { display:inline-block; background:#fde68a; color:#7c4a03;
     border:1px solid #f59e0b; border-radius:6px; padding:2px 9px; font-size:11.5px;
@@ -88,11 +126,37 @@
     #intro .leg, .src-card { font-size:13.5px; }
     .tab-btn { padding:9px 13px; font-size:14px; }
     details.oh-yeah summary, details summary { padding:3px 0; }
+    /* widget: collapse to a button at bottom-right; open as a sheet that scrolls */
+    #layers-widget { top:auto; bottom:8px; right:8px; left:auto; width:auto; }
+    #layers-widget.lw-collapsed { padding:0; background:none; box-shadow:none; backdrop-filter:none; }
+    #layers-widget.lw-collapsed #lw-head,
+    #layers-widget.lw-collapsed #lw-search,
+    #layers-widget.lw-collapsed #lw-body { display:none; }
+    #layers-widget.lw-collapsed #lw-open { display:flex; }
+    #layers-widget:not(.lw-collapsed) { width:min(86vw, 320px); max-height:70vh; }
+    #lw-collapse { display:flex; }
+    .lw-item { padding:3px 0; }
+    .lw-item .lw-label, .lw-group > summary, .lw-base label { font-size:14px; }
   }
 </style>
 </head>
 <body>
 <div id="map"></div>
+
+<!-- Custom grouped + searchable + lazy-loading layer widget (replaces L.control.layers) -->
+<div id="layers-widget" class="panel" aria-label="Map layers">
+  <button id="lw-open" type="button" aria-label="Show map layers" title="Layers">▤</button>
+  <div id="lw-head">
+    <span id="lw-title">Layers</span>
+    <button id="lw-collapse" type="button" aria-label="Hide map layers" title="Close">✕</button>
+  </div>
+  <input id="lw-search" type="search" placeholder="Filter layers…" autocomplete="off"
+    aria-label="Filter layers by name" />
+  <div id="lw-body">
+    <div class="lw-base" id="lw-base"></div>
+    <div id="lw-groups"></div>
+  </div>
+</div>
 
 <div id="intro" class="panel">
   <div id="intro-head">
@@ -150,6 +214,18 @@
       <span class="swatch" style="background:#8b1e3f"></span>4</div>
     <div class="legend-row" style="margin-left:6px">
       <span class="swatch" style="background:#9aa0a6"></span>Wales &amp; NI — own regimes, shown national-level (popups link them).</div>
+    <div class="legend-row" style="margin-top:9px;border-top:1px solid #ddd;padding-top:7px">
+      <b>More layers in the widget</b> (top-right; search to filter): grouped as
+      <i>Electoral &amp; administrative</i> (constituencies, <b>wards</b>),
+      <i>Local government</i> (councils, <b>civil parishes</b>),
+      <i>Nature &amp; landscape</i> (National Parks, AONBs/NSAs, <b>SSSIs, SACs, SPAs,
+      Ramsar, NNRs, LNRs</b>), <i>Marine</i>, and <i>Public health</i>. The eight
+      new geographies <b>load on demand</b> when first ticked.</div>
+    <div class="legend-row" style="margin-left:6px;margin-top:5px" class="muted">
+      <b>Honesty:</b> the nature designations are a <i>mix</i> — SSSIs are a statutory
+      <b>notification</b> under a primary Act (W&amp;CA 1981); SACs/SPAs are
+      <b>secondary legislation</b> (Habitats Regs 2017, SI&nbsp;2017/1012); Ramsar is an
+      <b>international</b> listing, not a UK SI. Each popup states which.</div>
   </div>
   <details>
     <summary>Why is this “secondary legislation drawing a map”?</summary>
@@ -285,7 +361,46 @@ Scotland levels ← gov.scot Strategic Framework allocation review, 2 Dec 2020</
       </details>
     </div>
 
-    <p class="muted" style="margin-top:8px">No UK Parliament API data is used on this page; nothing here goes through the fpkg proxy except basemap tiles. Generalised geometry is for display only — not authoritative for legal extent.</p>
+    <div class="src-card" style="border-left-color:#2fb39b">
+      <b>6 · Nature &amp; landscape — lazy layers</b> — SSSI&nbsp;4128 · SAC&nbsp;1911 · SPA&nbsp;1079 · Ramsar&nbsp;1291 · NNR&nbsp;224 · LNR&nbsp;1724
+      <div class="src-row"><span class="src-k">Data</span> Natural England open ArcGIS services (SSSI, SAC, SPA, Ramsar, NNR, LNR) — fetched on demand into <code>data/&lt;layer&gt;.geojson</code>; canvas-rendered for scale</div>
+      <div class="src-row"><span class="src-k">Instrument</span> <b>Mixed chain (honest):</b> SSSI = statutory <b>notification</b>, <a href="https://www.legislation.gov.uk/ukpga/1981/69" target="_blank" rel="noopener">W&amp;CA 1981 s.28</a> (primary, <i>not</i> an SI) · SAC/SPA = <b>secondary</b> <a href="https://www.legislation.gov.uk/uksi/2017/1012" target="_blank" rel="noopener">Habitats Regs 2017 (SI&nbsp;2017/1012)</a> under <a href="https://www.legislation.gov.uk/ukpga/1972/68" target="_blank" rel="noopener">ECA 1972</a> · Ramsar = <b>international</b> (Ramsar Convention 1971, no UK SI) · NNR/LNR = <a href="https://www.legislation.gov.uk/ukpga/1949/97" target="_blank" rel="noopener">NPACA 1949</a> (primary) <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <details class="oh-yeah"><summary>oh yeah? — Natural England Open Data</summary>
+        <code class="q">Natural England Designated Sites ArcGIS (OGL v3.0):
+  SSSI (NAME / REF_CODE)        SAC  (SAC_NAME / SAC_CODE)
+  SPA  (SPA_NAME / SPA_CODE)    Ramsar (NAME / CODE)
+  NNR  (NAME / REF_CODE)        LNR  (NAME / REF_CODE)
+Fetched once on first toggle; built with L.geoJSON(data,{renderer:L.canvas()}).</code>
+      </details>
+    </div>
+
+    <div class="src-card" style="border-left-color:#c2a878">
+      <b>7 · Wards (May 2024)</b> — 8,396 (lazy)
+      <div class="src-row"><span class="src-k">Data</span> ONS <code>Wards_May_2024_Boundaries_UK_BSC</code> (WD24CD / WD24NM)</div>
+      <div class="src-row"><span class="src-k">Relationship</span> ONS <code>WD24_PCON24_LAD24_UK_LU</code> lookup → <code>data/admin_rel.json</code> (each ward's parent constituency + council); lazy-loaded once with the ward layer</div>
+      <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <b>Secondary:</b> Electoral Changes Orders (SIs) by the LGBCE. <b>Primary:</b> <a href="https://www.legislation.gov.uk/ukpga/2009/20" target="_blank" rel="noopener">LDEDCA 2009</a> (c.&nbsp;20) <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <details class="oh-yeah"><summary>oh yeah? — boundaries + lookup</summary>
+        <code class="q">Wards:  ONS Open Geography → Wards_May_2024_Boundaries_UK_BSC (8,396)
+Lookup: ONS Open Geography → WD24_PCON24_LAD24_UK_LU
+        → admin_rel.json { wards:{WD24CD:{pcon,pconName,lad,ladName}} }</code>
+      </details>
+    </div>
+
+    <div class="src-card" style="border-left-color:#cda87f">
+      <b>8 · Civil parishes (May 2024)</b> — 11,337 (lazy)
+      <div class="src-row"><span class="src-k">Data</span> ONS <code>Parishes_May_2024_Boundaries_EW_BSC</code> (PAR24CD / PAR24NM)</div>
+      <div class="src-row"><span class="src-k">Relationship</span> ONS <code>PAR24_WD24_LAD24_EW_LU</code> lookup → <code>data/admin_rel.json</code> (each parish's parent council)</div>
+      <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <b>Secondary:</b> Orders following community governance reviews. <b>Primary:</b> <a href="https://www.legislation.gov.uk/ukpga/2007/28" target="_blank" rel="noopener">LGPIHA 2007, Part 4</a> (c.&nbsp;28) <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <details class="oh-yeah"><summary>oh yeah? — boundaries + lookup</summary>
+        <code class="q">Parishes: ONS Open Geography → Parishes_May_2024_Boundaries_EW_BSC (11,337)
+Lookup:   ONS Open Geography → PAR24_WD24_LAD24_EW_LU
+          → admin_rel.json { parishes:{PAR24CD:{lad,ladName}} }</code>
+      </details>
+    </div>
+
+    <p class="muted" style="margin-top:8px">No UK Parliament API data is used on this page; nothing here goes through the fpkg proxy except basemap tiles. Generalised geometry is for display only — not authoritative for legal extent. The eight new geographies are fetched on demand (not inlined into data.js).</p>
   </div><!-- /tab-sources -->
   </div><!-- /intro-body -->
 </div>
@@ -678,22 +793,281 @@ const covidTiers = L.geoJSON(window.COVID_TIERS, {
   }
 });
 
-// ---------------------------------------------------------------------------
-// Layer control. All overlays off by default so the base map is legible; the
-// user enables the geographies they want to compare.
-// ---------------------------------------------------------------------------
-L.control.layers(
-  { 'OpenStreetMap': osm, 'OpenTopoMap (relief)': topo },
-  {
-    'Westminster constituencies (UK) — SI 2023/1230': constituencies,
-    'Local government areas (UK) — councils &amp; London boroughs': localGov,
-    'Marine protected areas (UK) — devolved Acts': mpa,
-    'National Parks (GB) — devolved; none in NI': nationalParks,
-    'AONBs / National Scenic Areas (UK) — devolved': aonb,
-    'COVID-19 restrictions, 2 Dec 2020 (England tiers vs separate regimes)': covidTiers,
+// ===========================================================================
+// LAZY NEW LAYERS — 8 large nature/marine + electoral geographies fetched on
+// demand from data/<file>.geojson. Built with an explicit canvas renderer so
+// 8k–11k polygons stay smooth; popups still work over canvas.
+// ===========================================================================
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c =>
+  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+
+// admin_rel.json (ward/parish -> parent constituency/council), lazy-loaded once
+// when the first ward or parish layer is enabled.
+let ADMIN_REL = null, _adminRelPromise = null;
+function loadAdminRel(){
+  if (ADMIN_REL) return Promise.resolve(ADMIN_REL);
+  if (!_adminRelPromise) _adminRelPromise = fetch('data/admin_rel.json')
+    .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(j => (ADMIN_REL = j))
+    .catch(e => { _adminRelPromise = null; throw e; });
+  return _adminRelPromise;
+}
+
+// --- per-layer popup HTML builders (honest legal chains) -------------------
+function naturePopup(name, code, codeLabel, citeHtml){
+  return `<h3>${esc(name)}</h3>
+    ${code ? `<span class="tag">${esc(codeLabel)} ${esc(code)}</span> ` : ''}
+    <div class="si-cite">${citeHtml}</div>`;
+}
+const POP = {
+  sssi: (p) => naturePopup(p.NAME, p.REF_CODE, 'ref',
+    `Notified by <b>Natural England</b> under the <b>Wildlife and Countryside Act 1981, s.28</b>
+     — a statutory <b>notification</b> under a <i>primary Act</i> (not a statutory instrument).
+     <br><a class="btn" href="${leg}/ukpga/1981/69" target="_blank" rel="noopener">Wildlife and Countryside Act 1981 →</a>`),
+  sac: (p) => naturePopup(p.SAC_NAME, p.SAC_CODE, 'code',
+    `Designated under the <b>Conservation of Habitats and Species Regulations 2017</b>
+     (<a class="btn" href="${leg}/uksi/2017/1012" target="_blank" rel="noopener">SI&nbsp;2017/1012</a>) —
+     <b>secondary legislation</b> — made under the
+     <a class="btn" href="${leg}/ukpga/1972/68" target="_blank" rel="noopener">European Communities Act 1972</a>.`),
+  spa: (p) => naturePopup(p.SPA_NAME, p.SPA_CODE, 'code',
+    `Classified for wild birds under the <b>Conservation of Habitats and Species Regulations 2017</b>
+     (<a class="btn" href="${leg}/uksi/2017/1012" target="_blank" rel="noopener">SI&nbsp;2017/1012</a>) —
+     <b>secondary legislation</b> — the same Habitats Regs chain as SACs.`),
+  ramsar: (p) => naturePopup(p.NAME, p.CODE, 'ref',
+    `An <b>international designation</b> (Ramsar Convention 1971); protected in domestic law
+     <i>as if an SSSI</i> — <b>not itself made by a UK statutory instrument</b>, so there is no
+     legislation.gov.uk SI to cite for the listing.`),
+  nnr: (p) => naturePopup(p.NAME, p.REF_CODE, 'ref',
+    `Declared by <b>Natural England</b> under the <b>National Parks and Access to the Countryside
+     Act 1949</b> / <b>Wildlife and Countryside Act 1981</b> (<i>primary</i>).
+     <br><a class="btn" href="${leg}/ukpga/1949/97" target="_blank" rel="noopener">NPACA 1949 →</a>`),
+  lnr: (p) => naturePopup(p.NAME, p.REF_CODE, 'ref',
+    `Declared by the <b>local authority</b> under the <b>National Parks and Access to the
+     Countryside Act 1949, s.21</b> (<i>primary</i>).
+     <br><a class="btn" href="${leg}/ukpga/1949/97" target="_blank" rel="noopener">NPACA 1949 →</a>`),
+  wards: (p) => {
+    const rel = (ADMIN_REL && ADMIN_REL.wards && ADMIN_REL.wards[p.WD24CD]) || null;
+    const relHtml = rel
+      ? `<div class="rel"><b>This ward sits in:</b><br>
+         constituency <span class="tag">${esc(rel.pconName||rel.pcon||'—')}</span>
+         · council <span class="tag">${esc(rel.ladName||rel.lad||'—')}</span>
+         <div class="muted" style="margin-top:3px">From the ONS WD24→PCON24→LAD24 lookup.</div></div>`
+      : `<div class="muted">No parent constituency/council found in the lookup.</div>`;
+    // Ward boundaries are made by Order, but the boundary commission + primary Act
+    // differ by nation — switch on the WD24CD prefix (E/W/S/N).
+    const wc = {
+      E:['Electoral Changes Order (a statutory instrument) made by the <b>Local Government Boundary Commission for England</b>','Local Democracy, Economic Development and Construction Act 2009','ukpga/2009/20','LDEDCA 2009'],
+      S:['Order on the recommendation of <b>Boundaries Scotland</b>','Local Government (Scotland) Act 1973','ukpga/1973/65','LG (Scotland) Act 1973'],
+      W:['Order on the recommendation of the <b>Local Democracy and Boundary Commission for Wales</b>','Local Government (Democracy) (Wales) Act 2013','anaw/2013/4','LG (Democracy) (Wales) Act 2013'],
+      N:['Order on the recommendation of the <b>Local Government Boundaries Commissioner for Northern Ireland</b>','Local Government Act (Northern Ireland) 2014','nia/2014/8','LGA (NI) 2014'],
+    }[(p.WD24CD||'E')[0]] || ['Order','the applicable Local Government Act','','primary Act'];
+    return `<h3>${esc(p.WD24NM)}</h3>
+      <span class="tag">${esc(p.WD24CD)}</span>
+      <div class="si-cite">Drawn by an <b>${wc[0]}</b> under the <b>${wc[1]}</b> (<i>primary</i>).
+       ${wc[2]?`<br><a class="btn" href="${leg}/${wc[2]}" target="_blank" rel="noopener">${wc[3]} →</a>`:''}</div>
+      ${relHtml}`;
   },
-  { collapsed: phone, position: phone ? 'bottomright' : 'topright' }   // icon at bottom on phones, expanded top-right on desktop
-).addTo(map);
+  parishes: (p) => {
+    const rel = (ADMIN_REL && ADMIN_REL.parishes && ADMIN_REL.parishes[p.PAR24CD]) || null;
+    const relHtml = rel
+      ? `<div class="rel"><b>This parish is in council</b>
+         <span class="tag">${esc(rel.ladName||rel.lad||'—')}</span>
+         <div class="muted" style="margin-top:3px">From the ONS PAR24→WD24→LAD24 lookup.</div></div>`
+      : `<div class="muted">No parent council found in the lookup.</div>`;
+    // PAR24 covers England (civil parishes) and Wales (communities) — different primary Act.
+    const welsh = (p.PAR24CD||'E')[0] === 'W';
+    const pc = welsh
+      ? { kind:'community (the Welsh equivalent of a parish)',
+          body:'Created/altered by <b>Order</b> under the <b>Local Government Act 1972</b> (which created Welsh communities), boundaries reviewed under the Local Government (Democracy) (Wales) Act 2013',
+          href:'ukpga/1972/70', label:'Local Government Act 1972' }
+      : { kind:'civil parish',
+          body:'Created/altered by <b>Order</b> following a <b>community governance review</b> under the <b>Local Government and Public Involvement in Health Act 2007, Part&nbsp;4</b>',
+          href:'ukpga/2007/28', label:'LGPIHA 2007' };
+    return `<h3>${esc(p.PAR24NM)}</h3>
+      <span class="tag">${esc(p.PAR24CD)}</span> <span class="muted">${pc.kind}</span>
+      <div class="si-cite">${pc.body} (<i>primary</i>).
+       <br><a class="btn" href="${leg}/${pc.href}" target="_blank" rel="noopener">${pc.label} →</a></div>
+      ${relHtml}`;
+  },
+};
+
+// Distinct subtle nature/marine fills (greens/teals/olives); faint but clickable.
+const lazyStyle = {
+  sssi:     { color:'#4a7c2f', weight:0.8, fillColor:'#6aa84f', fillOpacity:0.25 },
+  sac:      { color:'#1f8a70', weight:0.8, fillColor:'#2fb39b', fillOpacity:0.25 },
+  spa:      { color:'#2c7fb8', weight:0.8, fillColor:'#41b6c4', fillOpacity:0.25 },
+  ramsar:   { color:'#0e7c7b', weight:0.8, fillColor:'#17a2a0', fillOpacity:0.25 },
+  nnr:      { color:'#3d6b1e', weight:0.8, fillColor:'#7cb342', fillOpacity:0.25 },
+  lnr:      { color:'#6b7c1e', weight:0.8, fillColor:'#a4b939', fillOpacity:0.25 },
+  wards:    { color:'#8a6d3b', weight:0.6, fillColor:'#c2a878', fillOpacity:0.08 },
+  parishes: { color:'#7a5230', weight:0.6, fillColor:'#cda87f', fillOpacity:0.08 },
+};
+const swColour = {
+  constituencies:'transparent', localGov:'#0b6e4f', mpa:'#1f78b4', nationalParks:'#2e7d32',
+  aonb:'#b8860b', covidTiers:'#f3722c',
+  sssi:'#6aa84f', sac:'#2fb39b', spa:'#41b6c4', ramsar:'#17a2a0', nnr:'#7cb342',
+  lnr:'#a4b939', wards:'#c2a878', parishes:'#cda87f',
+};
+
+// ===========================================================================
+// LAYER REGISTRY. Eager layers are the 6 pre-built ones (from window.* globals);
+// lazy layers fetch their GeoJSON on first enable, build a canvas-rendered
+// L.geoJSON, and cache it.
+// ===========================================================================
+const REGISTRY = [
+  { id:'constituencies', label:'Westminster constituencies', group:'electoral', lazy:false, _layer:constituencies },
+  { id:'wards',          label:'Wards', group:'electoral', lazy:true, file:'wards',
+    popup:POP.wards, needsRel:true },
+  { id:'localGov',       label:'Local government areas (councils)', group:'localgov', lazy:false, _layer:localGov },
+  { id:'parishes',       label:'Civil parishes', group:'localgov', lazy:true, file:'parishes',
+    popup:POP.parishes, needsRel:true },
+  { id:'nationalParks',  label:'National Parks', group:'nature', lazy:false, _layer:nationalParks },
+  { id:'aonb',           label:'AONBs / National Scenic Areas', group:'nature', lazy:false, _layer:aonb },
+  { id:'sssi',           label:'SSSIs', group:'nature', lazy:true, file:'sssi', popup:POP.sssi },
+  { id:'sac',            label:'Special Areas of Conservation', group:'nature', lazy:true, file:'sac', popup:POP.sac },
+  { id:'spa',            label:'Special Protection Areas', group:'nature', lazy:true, file:'spa', popup:POP.spa },
+  { id:'ramsar',         label:'Ramsar sites', group:'nature', lazy:true, file:'ramsar', popup:POP.ramsar },
+  { id:'nnr',            label:'National Nature Reserves', group:'nature', lazy:true, file:'nnr', popup:POP.nnr },
+  { id:'lnr',            label:'Local Nature Reserves', group:'nature', lazy:true, file:'lnr', popup:POP.lnr },
+  { id:'mpa',            label:'Marine protected areas', group:'marine', lazy:false, _layer:mpa },
+  { id:'covidTiers',     label:'COVID-19 restrictions, 2 Dec 2020', group:'health', lazy:false, _layer:covidTiers },
+];
+REGISTRY.forEach(e => { if(!('_layer' in e)) e._layer = null; e._loaded = !e.lazy; });
+
+const GROUPS = [
+  { id:'electoral', label:'Electoral & administrative' },
+  { id:'localgov',  label:'Local government' },
+  { id:'nature',    label:'Nature & landscape' },
+  { id:'marine',    label:'Marine' },
+  { id:'health',    label:'Public health (historical)' },
+];
+
+const lazyRenderer = L.canvas({ padding: 0.5 });   // shared canvas for the big layers
+
+// Build a lazy layer's GeoJSON from its already-fetched data.
+function buildLazyLayer(entry, data){
+  return L.geoJSON(data, {
+    renderer: lazyRenderer,
+    style: lazyStyle[entry.id],
+    onEachFeature: (f, l) => {
+      l.bindPopup(() => entry.popup(f.properties), { maxWidth: 300 });
+    },
+  });
+}
+
+// Toggle a registry entry on/off. Handles lazy fetch + spinner + error UI.
+function setEntryEnabled(entry, on, ui){
+  if (!on) {
+    if (entry._layer && map.hasLayer(entry._layer)) map.removeLayer(entry._layer);
+    return Promise.resolve();
+  }
+  if (entry._layer) {                       // already built (eager, or cached lazy)
+    entry._layer.addTo(map);
+    return Promise.resolve();
+  }
+  // First enable of a lazy layer: fetch, (optionally) load admin_rel, build, cache.
+  if (ui) { ui.item.classList.add('lw-loading'); ui.item.classList.remove('lw-error'); }
+  const need = entry.needsRel ? loadAdminRel() : Promise.resolve();
+  return need
+    .then(() => fetch('data/' + entry.file + '.geojson'))
+    .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+    .then(data => {
+      entry._layer = buildLazyLayer(entry, data);
+      entry._loaded = true;
+      window.__lazyLoaded = (window.__lazyLoaded || {});
+      window.__lazyLoaded[entry.id] = data.features.length;
+      entry._layer.addTo(map);
+      if (ui) ui.item.classList.remove('lw-loading');
+    })
+    .catch(err => {
+      if (ui) { ui.item.classList.remove('lw-loading'); ui.item.classList.add('lw-error');
+                ui.checkbox.checked = false;
+                ui.errMsg.textContent = 'Could not load (' + err.message + ') — try again'; }
+      console.error('[layers] failed to load', entry.id, err);
+    });
+}
+
+// ===========================================================================
+// BUILD THE WIDGET DOM.
+// ===========================================================================
+(function buildWidget(){
+  const widget   = document.getElementById('layers-widget');
+  const baseWrap = document.getElementById('lw-base');
+  const groupsEl = document.getElementById('lw-groups');
+  const search   = document.getElementById('lw-search');
+
+  // Basemap radios (keep the two existing tile layers).
+  const bases = [{ label:'OpenStreetMap', layer:osm, on:true }, { label:'OpenTopoMap (relief)', layer:topo, on:false }];
+  bases.forEach((b, i) => {
+    const id = 'lw-base-' + i;
+    const lab = document.createElement('label');
+    lab.innerHTML = `<input type="radio" name="lw-base" id="${id}"${b.on?' checked':''}> ${esc(b.label)}`;
+    baseWrap.appendChild(lab);
+    lab.querySelector('input').addEventListener('change', () => {
+      bases.forEach(x => { if(map.hasLayer(x.layer)) map.removeLayer(x.layer); });
+      b.layer.addTo(map);
+    });
+  });
+
+  // Groups + items. Track DOM per entry for search filtering.
+  const itemEls = [];
+  GROUPS.forEach(g => {
+    const det = document.createElement('details');
+    det.className = 'lw-group';
+    det.open = true;
+    det.dataset.group = g.id;
+    const sum = document.createElement('summary');
+    sum.textContent = g.label;
+    det.appendChild(sum);
+
+    REGISTRY.filter(e => e.group === g.id).forEach(entry => {
+      const item = document.createElement('label');
+      item.className = 'lw-item';
+      const sw = swColour[entry.id] || '#999';
+      item.innerHTML =
+        `<input type="checkbox"><span class="lw-sw" style="background:${sw}"></span>` +
+        `<span class="lw-label">${esc(entry.label)}</span><span class="lw-spin" aria-hidden="true"></span>`;
+      const errMsg = document.createElement('div');
+      errMsg.className = 'lw-err-msg';
+      const checkbox = item.querySelector('input');
+      const ui = { item, checkbox, errMsg };
+      checkbox.addEventListener('change', () => setEntryEnabled(entry, checkbox.checked, ui));
+      det.appendChild(item);
+      det.appendChild(errMsg);
+      itemEls.push({ entry, item, errMsg, det, labelText: entry.label.toLowerCase() });
+    });
+    groupsEl.appendChild(det);
+  });
+
+  // Live search: filter items by label substring; hide empty groups.
+  search.addEventListener('input', () => {
+    const q = search.value.trim().toLowerCase();
+    GROUPS.forEach(g => {
+      const det = groupsEl.querySelector(`details[data-group="${g.id}"]`);
+      let anyVisible = false;
+      itemEls.filter(x => x.entry.group === g.id).forEach(x => {
+        const match = !q || x.labelText.indexOf(q) >= 0;
+        x.item.style.display = match ? '' : 'none';
+        x.errMsg.style.display = match ? '' : 'none';
+        if (match) anyVisible = true;
+      });
+      det.style.display = anyVisible ? '' : 'none';
+      if (q && anyVisible) det.open = true;          // expand groups while searching
+    });
+  });
+
+  // Mobile-first collapse: on phones the widget is a button at bottom-right.
+  const openBtn  = document.getElementById('lw-open');
+  const closeBtn = document.getElementById('lw-collapse');
+  function setCollapsed(c){ widget.classList.toggle('lw-collapsed', c); }
+  openBtn.addEventListener('click', () => setCollapsed(false));
+  closeBtn.addEventListener('click', () => setCollapsed(true));
+  if (phone) setCollapsed(true);
+
+  // Keep Leaflet from stealing scroll/drag/double-tap inside the widget.
+  L.DomEvent.disableClickPropagation(widget);
+  L.DomEvent.disableScrollPropagation(widget);
+})();
 
 // Clicking empty map (not a feature) clears any constituency<->council highlight.
 window.__map = map;   // exposed for headless render-checks; harmless in prod
