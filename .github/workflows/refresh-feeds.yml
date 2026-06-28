@@ -42,6 +42,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 1
+          lfs: true            # feeds-enrichment.nq.gz is LFS-tracked; pull + recommit as LFS, deploy needs the real file
 
       - uses: actions/setup-node@v4
         with:

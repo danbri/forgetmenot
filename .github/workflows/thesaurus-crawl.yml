@@ -49,6 +49,7 @@ jobs:
         with:
           ref: claude/main
           fetch-depth: 0
+          lfs: true            # cache-snapshot *.tar.gz + parliament-lda-terms.{nq.gz,ttl} are LFS-tracked; pull real files to restore + recommit as LFS
 
       - uses: actions/setup-python@v5
         with:

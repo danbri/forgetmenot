@@ -43,6 +43,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
+        with:
+          lfs: true            # data artifacts (*.nq.gz, *.ttl, map *.geojson/data.js) are LFS-tracked; pull real files for the Docker build
 
       - name: Set up flyctl
         uses: superfly/flyctl-actions/setup-flyctl@master

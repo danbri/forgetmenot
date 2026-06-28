@@ -41,6 +41,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           fetch-depth: 1
+          lfs: true            # *.nq.gz are LFS-tracked; pull real files (the rebuild + deploy need them)
 
       - uses: actions/setup-node@v4
         with:
