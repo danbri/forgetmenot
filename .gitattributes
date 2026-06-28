@@ -6,3 +6,5 @@
 *.tar.gz  filter=lfs diff=lfs merge=lfs -text
 # Inlined map data bundles (large; one per map)
 demos/parliament-live/web/*/data.js filter=lfs diff=lfs merge=lfs -text
+# Large lazy-loaded lookup (constituency/council relationship)
+demos/parliament-live/web/legislation-map/data/admin_rel.json filter=lfs diff=lfs merge=lfs -text
