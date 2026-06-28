@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  // Make relative asset URLs (vendor/, data.js) resolve correctly whether the
+  // page is opened as /legislation-map, /legislation-map/ (trailing slash), or
+  // file://…/index.html. The static server serves index.html for the no-slash
+  // path without redirecting, so "vendor/leaflet.js" would otherwise resolve
+  // against "/".
+  (function(){
+    var p = location.pathname;
+    if (location.protocol !== 'file:' && !/\/$/.test(p) && !/\.html?$/i.test(p)) {
+      var b = document.createElement('base');
+      b.href = p + '/';
+      document.head.appendChild(b);
+    }
+  })();
+</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>England's secondary-legislation geographies</title>
+<link rel="stylesheet" href="vendor/leaflet.css" />
+<style>
+  :root {
+    --ink:#1a1a2e; --panel:#ffffffee; --accent:#7b2d8e;
+    --con:#7b2d8e; --mcz:#1f78b4; --np:#2e7d32; --aonb:#b8860b;
+    --t1:#ffd166; --t2:#f3722c; --t3:#d62828;
+  }
+  html,body { margin:0; height:100%; font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); }
+  #map { position:absolute; inset:0; }
+  .panel {
+    position:absolute; z-index:1000; background:var(--panel); backdrop-filter:blur(6px);
+    border-radius:10px; box-shadow:0 2px 16px #0003; padding:14px 16px;
+  }
+  #intro { top:12px; left:12px; max-width:340px; max-height:88vh; overflow:auto; }
+  #intro h1 { font-size:17px; margin:0 0 6px; }
+  #intro p { margin:6px 0; font-size:13px; }
+  #intro .leg { font-size:12.5px; color:#333; }
+  #intro a { color:var(--accent); }
+  .swatch { display:inline-block; width:13px; height:13px; border-radius:3px; vertical-align:-2px; margin-right:5px; }
+  .legend-row { margin:4px 0; }
+  details summary { cursor:pointer; font-weight:600; font-size:13px; margin-top:8px; }
+  details p { font-size:12px; }
+  .leaflet-popup-content { font-size:13px; line-height:1.45; }
+  .leaflet-popup-content h3 { margin:0 0 4px; font-size:14px; }
+  .tag { display:inline-block; background:#eee; border-radius:4px; padding:0 6px; font-size:11.5px; margin:1px 2px 1px 0; }
+  .si-cite { background:#f5edf7; border-left:3px solid var(--accent); padding:5px 8px; margin-top:7px; font-size:12px; border-radius:0 4px 4px 0; }
+  a.btn { color:var(--accent); text-decoration:none; font-weight:600; }
+  a.btn:hover { text-decoration:underline; }
+  .leaflet-control-layers { font-size:13px; }
+  .leaflet-control-layers-overlays label { margin:3px 0; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<div id="intro" class="panel">
+  <h1>England's secondary-legislation geographies</h1>
+  <p>Every layer here is a geography whose <b>boundary is drawn by secondary
+  legislation</b> — a statutory instrument (SI) made under an Act of
+  Parliament. Toggle them in the layer control (top-right). Each feature's
+  popup links the governing instrument on
+  <a href="https://www.legislation.gov.uk" target="_blank" rel="noopener">legislation.gov.uk</a>.</p>
+  <div class="leg">
+    <div class="legend-row"><span class="swatch" style="background:transparent;border:2px solid var(--con)"></span>
+      <b>Westminster constituencies</b> — Parliamentary Constituencies Order 2023
+      (<a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>).</div>
+    <div class="legend-row"><span class="swatch" style="background:#1f78b455;border:1.5px solid var(--mcz)"></span>
+      <b>Marine Conservation Zones</b> — each a named MCZ Designation Order SI.</div>
+    <div class="legend-row"><span class="swatch" style="background:#2e7d3244;border:1.5px solid var(--np)"></span>
+      <b>National Parks</b> — designation orders (NPACA 1949).</div>
+    <div class="legend-row"><span class="swatch" style="background:#b8860b44;border:1.5px solid var(--aonb)"></span>
+      <b>National Landscapes / AONBs</b> — designation orders (CROW Act 2000).</div>
+    <div class="legend-row" style="margin-top:7px"><b>COVID-19 tiers, 2 Dec 2020</b>
+      (<a href="https://www.legislation.gov.uk/uksi/2020/1374" target="_blank" rel="noopener">SI&nbsp;2020/1374</a>, Sch.&nbsp;4):</div>
+    <div class="legend-row" style="margin-left:6px">
+      <span class="swatch" style="background:var(--t1)"></span>Tier&nbsp;1 &nbsp;
+      <span class="swatch" style="background:var(--t2)"></span>Tier&nbsp;2 &nbsp;
+      <span class="swatch" style="background:var(--t3)"></span>Tier&nbsp;3</div>
+  </div>
+  <details>
+    <summary>Why is this “secondary legislation drawing a map”?</summary>
+    <p>A statutory instrument can do more than write rules — it can draw a
+    boundary. Constituency boundaries are set by an Order in Council; each
+    Marine Conservation Zone, National Park and National Landscape is created
+    by its own designation order. The COVID tier schedule is the starkest
+    case: <b>Schedule&nbsp;4 of SI&nbsp;2020/1374 literally lists which
+    council areas sit in Tier&nbsp;2 and Tier&nbsp;3</b> — the legislation is
+    the map. Anything not listed defaulted to Tier&nbsp;1 (reg.&nbsp;8).</p>
+  </details>
+  <details>
+    <summary>Sources</summary>
+    <p>Constituencies, COVID local-authority boundaries: Office for National
+    Statistics, Open Geography Portal (ONS / OS, OGL&nbsp;v3.0 + © Crown
+    copyright). Marine Conservation Zones, National Parks, National Landscapes
+    (AONBs): Natural England open data (© Natural England / JNCC, OGL&nbsp;v3.0).
+    Legislative instruments: legislation.gov.uk (© Crown copyright, OGL&nbsp;v3.0).
+    Basemaps: © OpenStreetMap contributors; OpenTopoMap (CC-BY-SA). Boundaries
+    are server-side generalised for web display — not authoritative for legal
+    extent. No UK Parliament API data is used on this page.</p>
+  </details>
+</div>
+
+<script src="vendor/leaflet.js"></script>
+<script src="data.js"></script>
+<script>
+// Tile sources: when served from the fpkg origin route raster tiles through
+// /api/{osm,topo}-tile/ so the page never hot-links a third-party tile server
+// directly. Opened straight from file:// there is no proxy, so fall back to the
+// public tile hosts.
+const PROXIED = location.protocol !== 'file:';
+const osmUrl  = PROXIED ? '/api/osm-tile/{z}/{x}/{y}.png'  : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const topoUrl = PROXIED ? '/api/topo-tile/{z}/{x}/{y}.png' : 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
+
+const map = L.map('map', { zoomControl:true }).setView([53.0, -1.5], 6);
+
+const osm = L.tileLayer(osmUrl, {
+  maxZoom:19,
+  attribution:'&copy; OpenStreetMap contributors | boundaries: ONS &amp; Natural England (OGL v3.0) | SIs: legislation.gov.uk'
+}).addTo(map);
+const topo = L.tileLayer(topoUrl, {
+  maxZoom:17,
+  attribution:'&copy; OpenTopoMap (CC-BY-SA), SRTM | &copy; OpenStreetMap | ONS &amp; Natural England | legislation.gov.uk'
+});
+
+const leg = 'https://www.legislation.gov.uk';
+
+// ---------------------------------------------------------------------------
+// 1. Westminster constituencies — Parliamentary Constituencies Order 2023.
+//    Outline only, off by default.
+// ---------------------------------------------------------------------------
+const constituencies = L.geoJSON(window.CONSTITUENCIES, {
+  style:{ color:'#7b2d8e', weight:1, fill:false, opacity:0.8 },
+  onEachFeature:(f,l)=>{
+    const p=f.properties;
+    l.bindPopup(`
+      <h3>${p.PCON24NM}</h3>
+      <span class="tag">GSS ${p.PCON24CD}</span>
+      <div class="si-cite">Boundary set by the <b>Parliamentary Constituencies Order 2023</b>
+      (<a class="btn" href="${leg}/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>),
+      made under the Parliamentary Constituencies Act 1986. Extent: England.</div>
+      <div style="margin-top:6px">
+        <a class="btn" href="https://members.parliament.uk/constituencies?searchText=${encodeURIComponent(p.PCON24NM)}" target="_blank" rel="noopener">members.parliament.uk</a>
+      </div>`);
+    l.on('mouseover',()=>l.setStyle({weight:2.5}));
+    l.on('mouseout', ()=>constituencies.resetStyle(l));
+  }
+});
+
+// ---------------------------------------------------------------------------
+// 2. Marine Conservation Zones — each a named MCZ Designation Order SI.
+// ---------------------------------------------------------------------------
+const mcz = L.geoJSON(window.MCZ, {
+  style:{ color:'#1f78b4', weight:1.2, fillColor:'#1f78b4', fillOpacity:0.28 },
+  onEachFeature:(f,l)=>{
+    const p=f.properties;
+    const search = `${leg}/all?title=${encodeURIComponent(p.MCZ_NAME + ' Marine Conservation Zone')}`;
+    l.bindPopup(`
+      <h3>${p.MCZ_NAME} MCZ</h3>
+      <span class="tag">${p.MCZ_CODE}</span>
+      <div class="si-cite">Designated by the <b>${p.MCZ_NAME} Marine Conservation Zone
+      Designation Order</b>, made under s.116 of the Marine and Coastal Access Act 2009.
+      <br><a class="btn" href="${search}" target="_blank" rel="noopener">Find the order on legislation.gov.uk →</a></div>`);
+    l.on('mouseover',()=>l.setStyle({weight:3}));
+    l.on('mouseout', ()=>mcz.resetStyle(l));
+  }
+});
+
+// ---------------------------------------------------------------------------
+// 3. National Parks — designation orders under the National Parks and Access
+//    to the Countryside Act 1949.
+// ---------------------------------------------------------------------------
+function titleCase(s){ return String(s).toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()); }
+const nationalParks = L.geoJSON(window.NATIONAL_PARKS, {
+  style:{ color:'#2e7d32', weight:1.5, fillColor:'#2e7d32', fillOpacity:0.22 },
+  onEachFeature:(f,l)=>{
+    const p=f.properties;
+    const nm=titleCase(p.NAME);
+    const search = `${leg}/all?title=${encodeURIComponent(nm + ' National Park Designation Order')}`;
+    l.bindPopup(`
+      <h3>${nm} National Park</h3>
+      <div class="si-cite">A National Park designated by order under the
+      <b>National Parks and Access to the Countryside Act 1949</b> (as confirmed
+      by the relevant designation/variation order).
+      <br><a class="btn" href="${search}" target="_blank" rel="noopener">Find the designation order →</a></div>`);
+    l.on('mouseover',()=>l.setStyle({weight:3}));
+    l.on('mouseout', ()=>nationalParks.resetStyle(l));
+  }
+});
+
+// ---------------------------------------------------------------------------
+// 4. National Landscapes (AONBs) — designation orders under the CROW Act 2000.
+// ---------------------------------------------------------------------------
+const aonb = L.geoJSON(window.AONB, {
+  style:{ color:'#b8860b', weight:1.3, fillColor:'#b8860b', fillOpacity:0.22 },
+  onEachFeature:(f,l)=>{
+    const p=f.properties;
+    const search = `${leg}/all?title=${encodeURIComponent(p.NAME + ' Area of Outstanding Natural Beauty Designation Order')}`;
+    l.bindPopup(`
+      <h3>${p.NAME}</h3>
+      <span class="tag">National Landscape (AONB)</span>
+      <div class="si-cite">Designated as an Area of Outstanding Natural Beauty
+      by order. AONB designation procedure is governed by Part&nbsp;IV of the
+      <b>Countryside and Rights of Way Act 2000</b> (older AONBs were designated
+      under the NPACA 1949).
+      <br><a class="btn" href="${search}" target="_blank" rel="noopener">Find the designation order →</a></div>`);
+    l.on('mouseover',()=>l.setStyle({weight:3}));
+    l.on('mouseout', ()=>aonb.resetStyle(l));
+  }
+});
+
+// ---------------------------------------------------------------------------
+// 5. COVID-19 tiers on 2 December 2020 — SI 2020/1374, Schedule 4.
+//    Part 1 = Tier 2, Part 2 = Tier 3, any area not listed = Tier 1 (reg. 8).
+//    Off by default.
+// ---------------------------------------------------------------------------
+const tierColour = { 1:'#ffd166', 2:'#f3722c', 3:'#d62828' };
+const tierLabel  = { 1:'Tier 1 — Medium', 2:'Tier 2 — High', 3:'Tier 3 — Very High' };
+const covidTiers = L.geoJSON(window.COVID_TIERS, {
+  style:f=>({ color:'#555', weight:0.5, fillColor:tierColour[f.properties.tier], fillOpacity:0.6 }),
+  onEachFeature:(f,l)=>{
+    const p=f.properties;
+    l.bindPopup(`
+      <h3>${p.LAD20NM}</h3>
+      <span class="tag">GSS ${p.LAD20CD}</span>
+      <span class="tag" style="background:${tierColour[p.tier]};color:#fff">${tierLabel[p.tier]}</span>
+      <div class="si-cite">Tier on 2&nbsp;Dec&nbsp;2020 set by the
+      <b>Health Protection (Coronavirus, Restrictions) (All Tiers) (England)
+      Regulations 2020</b>
+      (<a class="btn" href="${leg}/uksi/2020/1374/schedule/4/made" target="_blank" rel="noopener">SI&nbsp;2020/1374, Sch.&nbsp;4</a>).
+      Schedule&nbsp;4 lists upper-tier areas in Tier&nbsp;2 (Part&nbsp;1) and
+      Tier&nbsp;3 (Part&nbsp;2); unlisted areas were Tier&nbsp;1 (reg.&nbsp;8).
+      County tiers are shown on their constituent districts.</div>`);
+    l.on('mouseover',()=>l.setStyle({weight:2}));
+    l.on('mouseout', ()=>covidTiers.resetStyle(l));
+  }
+});
+
+// ---------------------------------------------------------------------------
+// Layer control. All overlays off by default so the base map is legible; the
+// user enables the geographies they want to compare.
+// ---------------------------------------------------------------------------
+L.control.layers(
+  { 'OpenStreetMap': osm, 'OpenTopoMap (relief)': topo },
+  {
+    'Westminster constituencies — SI 2023/1230': constituencies,
+    'Marine Conservation Zones — Designation Orders': mcz,
+    'National Parks — NPACA 1949': nationalParks,
+    'National Landscapes / AONBs — CROW Act 2000': aonb,
+    'COVID-19 tiers, 2 Dec 2020 — SI 2020/1374': covidTiers,
+  },
+  { collapsed:false }
+).addTo(map);
+</script>
+</body>
+</html>
