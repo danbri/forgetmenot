@@ -100,6 +100,17 @@
   .lw-sw { display:inline-block; width:11px; height:11px; border-radius:2px; flex:0 0 auto; vertical-align:-1px; }
   .lw-err-msg { color:var(--t3); font-size:11px; margin:2px 0 4px 22px; display:none; }
   .lw-item.lw-error + .lw-err-msg { display:block; }
+  /* law-type badge ("governance-level lens") — 4 distinct subtle colours */
+  .lw-badge { flex:0 0 auto; font-size:11px; line-height:1; font-weight:700; letter-spacing:.01em;
+    padding:2px 5px; border-radius:4px; border:1px solid transparent; white-space:nowrap; }
+  .lw-badge.lt-primary      { background:#e7e0f3; color:#4a2b6b; border-color:#c9b8e6; }
+  .lw-badge.lt-secondary    { background:#e2eef6; color:#1d4e6e; border-color:#bcd6e8; }
+  .lw-badge.lt-notification { background:#fdeede; color:#8a4b15; border-color:#f1cfa6; }
+  .lw-badge.lt-international { background:#e2f1ea; color:#1d6b4a; border-color:#bcdfcd; }
+  .lw-key { font-size:11px; color:#555; margin:0 0 6px; display:flex; flex-wrap:wrap; gap:4px 8px;
+    align-items:center; border-bottom:1px dashed #e3e3e3; padding-bottom:7px; }
+  .lw-key > b { width:100%; font-size:10.5px; text-transform:uppercase; letter-spacing:.04em; color:#777; }
+  .lw-key .lw-badge { cursor:default; }
   /* status + tabs + sources ("oh yeah?") */
   .status-badge { display:inline-block; background:#fde68a; color:#7c4a03;
     border:1px solid #f59e0b; border-radius:6px; padding:2px 9px; font-size:11.5px;
@@ -138,6 +149,59 @@
     .lw-item { padding:3px 0; }
     .lw-item .lw-label, .lw-group > summary, .lw-base label { font-size:14px; }
   }
+  /* ---- "What governs here?" inspector ---- */
+  #inspect-toggle { position:absolute; z-index:1001; top:12px; left:50%; transform:translateX(-50%);
+    background:var(--panel); backdrop-filter:blur(6px); border:1px solid #ccc; border-radius:10px;
+    box-shadow:0 2px 16px #0003; padding:8px 14px; font:inherit; font-size:13.5px; font-weight:700;
+    color:var(--accent); cursor:pointer; display:flex; align-items:center; gap:7px; white-space:nowrap; }
+  #inspect-toggle:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  #inspect-toggle.on { background:var(--accent); color:#fff; border-color:var(--accent); }
+  #inspect-toggle .it-hint { font-weight:500; font-size:11.5px; opacity:.85; }
+  #map.inspecting { cursor:crosshair; }
+  #map.inspecting .leaflet-interactive { cursor:crosshair; }
+  #inspect-panel { bottom:12px; left:12px; width:360px; max-width:calc(100vw - 24px);
+    max-height:calc(100vh - 80px); display:none; flex-direction:column; padding:0; box-sizing:border-box;
+    overflow:hidden; z-index:1002; }
+  #inspect-panel.open { display:flex; }
+  #ip-head { display:flex; align-items:center; gap:8px; padding:10px 12px 8px; border-bottom:1px solid #eee; }
+  #ip-title { font-weight:700; font-size:14px; flex:1 1 auto; color:var(--ink); }
+  #ip-close { flex:0 0 auto; width:30px; height:30px; border:1px solid #ddd; background:#fff;
+    border-radius:7px; color:var(--accent); font-size:16px; line-height:1; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; }
+  #ip-close:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  #ip-body { overflow:auto; padding:10px 12px 14px; }
+  .ip-frame { font-size:12.5px; color:#333; margin:0 0 9px; line-height:1.4; }
+  .ip-coords { font-size:11.5px; color:#777; margin:2px 0 9px; font-family:ui-monospace,Menlo,Consolas,monospace; }
+  .ip-checking { display:flex; align-items:center; gap:8px; font-size:13px; color:#555; padding:6px 0; }
+  .ip-checking .lw-spin { display:inline-block; }
+  .ip-level { margin:10px 0 4px; font-size:11px; font-weight:700; text-transform:uppercase;
+    letter-spacing:.04em; color:var(--accent); border-bottom:1px dashed #e3e3e3; padding-bottom:3px; }
+  .ip-hit { margin:6px 0; padding:6px 8px; background:#f8f6fb; border-left:3px solid var(--accent);
+    border-radius:0 5px 5px 0; }
+  .ip-hit b { font-size:13px; }
+  .ip-tagline { font-size:11.5px; color:#444; margin-top:3px; display:flex; flex-wrap:wrap;
+    gap:3px 6px; align-items:center; }
+  .ip-none { font-size:12px; color:#999; margin:4px 0 2px; font-style:italic; }
+  .ip-narrative { background:#eef4fb; border-left:3px solid var(--mcz); padding:7px 9px; margin:0 0 10px;
+    font-size:12.5px; line-height:1.45; border-radius:0 5px 5px 0; }
+  .ip-offshore { font-size:13.5px; color:#7c4a03; background:#fde68a; border:1px solid #f59e0b;
+    border-radius:7px; padding:9px 11px; }
+  .guided-wrap { margin:10px 0 2px; }
+  .guided-wrap > b { font-size:13px; }
+  .guided-btn { display:block; width:100%; box-sizing:border-box; text-align:left; margin:5px 0;
+    padding:7px 10px; border:1px solid #d6c8e6; background:#faf7fd; border-radius:8px; font:inherit;
+    font-size:12.5px; color:var(--ink); cursor:pointer; line-height:1.35; }
+  .guided-btn:hover { border-color:var(--accent); background:#f3ecf8; }
+  .guided-btn:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+  .guided-btn b { color:var(--accent); }
+  @media (max-width:600px) {
+    #inspect-toggle { top:auto; bottom:8px; left:8px; transform:none; padding:11px 14px; font-size:14px; }
+    #inspect-toggle .it-hint { display:none; }
+    /* inspector result as a bottom sheet that scrolls within bounds, always dismissible */
+    #inspect-panel { left:0; right:0; bottom:0; top:auto; width:auto; max-width:none; border-radius:14px 14px 0 0;
+      max-height:62vh; }
+    #ip-close { width:38px; height:38px; }
+  }
 </style>
 </head>
 <body>
@@ -153,9 +217,22 @@
   <input id="lw-search" type="search" placeholder="Filter layers…" autocomplete="off"
     aria-label="Filter layers by name" />
   <div id="lw-body">
+    <div class="lw-key" id="lw-key" aria-label="Law-type key"></div>
     <div class="lw-base" id="lw-base"></div>
     <div id="lw-groups"></div>
   </div>
+</div>
+
+<!-- "What governs here?" point inspector -->
+<button id="inspect-toggle" type="button" aria-pressed="false" title="Click the map to see every law-defined geography that contains a point">
+  <span aria-hidden="true">🔎</span><span>What governs here?</span><span class="it-hint">click the map</span>
+</button>
+<div id="inspect-panel" class="panel" aria-label="What governs this point" role="region">
+  <div id="ip-head">
+    <span id="ip-title">What governs here?</span>
+    <button id="ip-close" type="button" aria-label="Close inspector results" title="Close">✕</button>
+  </div>
+  <div id="ip-body"></div>
 </div>
 
 <div id="intro" class="panel">
@@ -221,12 +298,16 @@
     <div class="legend-row" style="margin-left:6px">
       <span class="swatch" style="background:#9aa0a6"></span>Wales &amp; NI — own regimes, shown national-level (popups link them).</div>
     <div class="legend-row" style="margin-top:9px;border-top:1px solid #ddd;padding-top:7px">
-      <b>More layers in the widget</b> (top-right; search to filter): grouped as
-      <i>Electoral &amp; administrative</i> (constituencies, <b>wards</b>),
-      <i>Local government</i> (councils, <b>civil parishes</b>),
-      <i>Nature &amp; landscape</i> (National Parks, AONBs/NSAs, <b>SSSIs, SACs, SPAs,
-      Ramsar, NNRs, LNRs</b>), <i>Marine</i>, and <i>Public health</i>. The eight
-      new geographies <b>load on demand</b> when first ticked.</div>
+      <b>The widget groups every layer by <i>governance level</i></b> (top-right; search to
+      filter): <i>UK&nbsp;Parliament (reserved)</i> (Westminster constituencies),
+      <i>Devolved legislatures</i> (Senedd, Scottish Parliament constituencies &amp; regions,
+      London Assembly), <i>Local government</i> (councils, <b>wards</b>, <b>civil parishes</b>,
+      <b>combined authorities</b>), <i>Statutory designations</i> (National Parks, AONBs/NSAs,
+      Marine protected areas, <b>SSSIs, SACs, SPAs, Ramsar, NNRs, LNRs</b>), and
+      <i>Public health</i>. Each layer carries a colour-coded <b>law-type badge</b>
+      (<i>primary · secondary · notif · int'l</i>) — the <b>governance-level lens</b>:
+      at a glance, SSSIs read as a <i>notification</i>, SACs as <i>secondary</i>, Ramsar
+      as <i>international</i>. The thirteen lazy geographies <b>load on demand</b> when first ticked.</div>
     <div class="legend-row" style="margin-left:6px;margin-top:5px" class="muted">
       <b>Honesty:</b> the nature designations are a <i>mix</i> — SSSIs are a statutory
       <b>notification</b> under a primary Act (W&amp;CA 1981); SACs/SPAs are
@@ -409,7 +490,28 @@ Lookup:   ONS Open Geography → PAR24_WD24_LAD24_EW_LU
       </details>
     </div>
 
-    <p class="muted" style="margin-top:8px">No UK Parliament API data is used on this page; nothing here goes through the fpkg proxy except basemap tiles. Generalised geometry is for display only — not authoritative for legal extent. The eight new geographies are fetched on demand (not inlined into data.js).</p>
+    <div class="src-card" style="border-left-color:#9b59b6">
+      <b>9 · Devolved legislatures &amp; combined authorities</b> — Senedd&nbsp;16 · Scottish&nbsp;Parliament const.&nbsp;73 + regions&nbsp;8 · London&nbsp;Assembly&nbsp;14 · combined&nbsp;authorities&nbsp;15 (all lazy)
+      <div class="src-row"><span class="src-k">Data</span> ONS Open Geography ArcGIS — <code>Senedd_Cymru_Constituencies</code> (SENC26CD/NM), <code>Scottish_Parliament_Constituencies</code> (SPC26CD/NM), <code>Scottish_Parliament_Regions</code> (SPR26CD/NM), <code>London_Assembly_Constituencies</code> (lac17cd/nm), <code>Combined_Authorities</code> (CAUTH25CD/NM) — fetched on demand into <code>data/&lt;layer&gt;.geojson</code>, canvas-rendered</div>
+      <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <b>Devolved, all primary-Act-backed:</b>
+        Senedd — <a href="https://www.legislation.gov.uk/ukpga/2006/32" target="_blank" rel="noopener">Government of Wales Act 2006</a> + <a href="https://www.legislation.gov.uk/asc/2024/2" target="_blank" rel="noopener">Senedd Cymru (Members and Elections) Act 2024</a> ·
+        Scottish Parliament const./regions — <a href="https://www.legislation.gov.uk/ukpga/1998/46" target="_blank" rel="noopener">Scotland Act 1998</a> (Boundaries Scotland review) ·
+        London Assembly — <a href="https://www.legislation.gov.uk/ukpga/1999/29" target="_blank" rel="noopener">Greater London Authority Act 1999</a> ·
+        combined authorities — bespoke Order (SI) under <a href="https://www.legislation.gov.uk/ukpga/2009/20" target="_blank" rel="noopener">LDEDCA 2009</a> + <a href="https://www.legislation.gov.uk/ukpga/2016/1" target="_blank" rel="noopener">Cities and Local Government Devolution Act 2016</a>
+        <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <details class="oh-yeah"><summary>oh yeah? — ONS Open Geography boundaries</summary>
+        <code class="q">ONS Open Geography ArcGIS (OGL v3.0):
+  Senedd Cymru constituencies (SENC26CD / SENC26NM)   16  — new May-2026 pairs
+  Scottish Parliament constituencies (SPC26CD / SPC26NM) 73
+  Scottish Parliament regions (SPR26CD / SPR26NM)      8  — additional-member regions
+  London Assembly constituencies (lac17cd / lac17nm)  14
+  Combined authorities (CAUTH25CD / CAUTH25NM)         15  — (mayoral) combined authorities
+Fetched once on first toggle; built with L.geoJSON(data,{renderer:L.canvas()}).</code>
+      </details>
+    </div>
+
+    <p class="muted" style="margin-top:8px">No UK Parliament API data is used on this page; nothing here goes through the fpkg proxy except basemap tiles. Generalised geometry is for display only — not authoritative for legal extent. The thirteen lazy geographies are fetched on demand (not inlined into data.js).</p>
   </div><!-- /tab-sources -->
   </div><!-- /intro-body -->
 </div>
@@ -518,7 +620,8 @@ const constituencies = L.geoJSON(window.CONSTITUENCIES, {
       (<a class="btn" href="${leg}/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>, an Order in Council) —
       the power to draw it comes from the
       <b><a class="btn" href="${leg}/ukpga/1986/56" target="_blank" rel="noopener">Parliamentary Constituencies Act 1986</a></b> (c.&nbsp;56, primary).
-      A <b>reserved</b> matter, so this single UK-wide instrument draws every seat — including Northern Ireland's 18.</div>
+      A <b>reserved</b> matter, so this single UK-wide instrument draws every seat — including Northern Ireland's 18,
+      which <b>double as the Northern Ireland Assembly constituencies</b>.</div>
       ${councilHtml}
       <div style="margin-top:6px">
         <a class="btn" href="https://members.parliament.uk/constituencies?searchText=${encodeURIComponent(p.PCON24NM)}" target="_blank" rel="noopener">members.parliament.uk</a>
@@ -898,6 +1001,32 @@ const POP = {
        <br><a class="btn" href="${leg}/${pc.href}" target="_blank" rel="noopener">${pc.label} →</a></div>
       ${relHtml}`;
   },
+  // --- devolved legislatures + combined authorities (new layers) -----------
+  senedd_const: (p) => naturePopup(p.SENC26NM, p.SENC26CD, 'GSS',
+    `A <b>Senedd</b> (Welsh Parliament) constituency (<b>DEVOLVED</b>). The Senedd's 16 new
+     constituencies (May 2026) are paired from Westminster constituencies by Order under the
+     <b>Government of Wales Act 2006</b> and the <b>Senedd Cymru (Members and Elections) Act 2024</b> (primary).
+     <br><a class="btn" href="${leg}/ukpga/2006/32" target="_blank" rel="noopener">Government of Wales Act 2006 →</a>
+     · <a class="btn" href="${leg}/asc/2024/2" target="_blank" rel="noopener">Senedd Cymru (Members and Elections) Act 2024 →</a>`),
+  spc: (p) => naturePopup(p.SPC26NM, p.SPC26CD, 'GSS',
+    `A <b>Scottish Parliament (Holyrood) constituency</b> (<b>DEVOLVED</b>), drawn by Order on a
+     Boundaries Scotland review under the <b>Scotland Act 1998</b> (primary).
+     <br><a class="btn" href="${leg}/ukpga/1998/46" target="_blank" rel="noopener">Scotland Act 1998 →</a>`),
+  spr: (p) => naturePopup(p.SPR26NM, p.SPR26CD, 'GSS',
+    `A <b>Scottish Parliament region</b> (<b>DEVOLVED</b>) — one of the <b>8 additional-member regions</b>
+     that top up the constituency seats. Drawn by Order on a Boundaries Scotland review under the
+     <b>Scotland Act 1998</b> (primary).
+     <br><a class="btn" href="${leg}/ukpga/1998/46" target="_blank" rel="noopener">Scotland Act 1998 →</a>`),
+  gla: (p) => naturePopup(p.lac17nm, p.lac17cd, 'GSS',
+    `A <b>London Assembly (GLA) constituency</b> (<b>DEVOLVED</b> to the GLA), under the
+     <b>Greater London Authority Act 1999</b> (primary).
+     <br><a class="btn" href="${leg}/ukpga/1999/29" target="_blank" rel="noopener">Greater London Authority Act 1999 →</a>`),
+  combined_auth: (p) => naturePopup(p.CAUTH25NM, p.CAUTH25CD, 'GSS',
+    `A <b>(mayoral) combined authority</b>, established by a bespoke <b>Order (SI)</b> under the
+     <b>Local Democracy, Economic Development and Construction Act 2009</b> and the
+     <b>Cities and Local Government Devolution Act 2016</b> (primary).
+     <br><a class="btn" href="${leg}/ukpga/2009/20" target="_blank" rel="noopener">LDEDCA 2009 →</a>
+     · <a class="btn" href="${leg}/ukpga/2016/1" target="_blank" rel="noopener">Cities and Local Government Devolution Act 2016 →</a>`),
 };
 
 // Distinct subtle nature/marine fills (greens/teals/olives); faint but clickable.
@@ -910,12 +1039,80 @@ const lazyStyle = {
   lnr:      { color:'#6b7c1e', weight:0.8, fillColor:'#a4b939', fillOpacity:0.25 },
   wards:    { color:'#8a6d3b', weight:0.6, fillColor:'#c2a878', fillOpacity:0.08 },
   parishes: { color:'#7a5230', weight:0.6, fillColor:'#cda87f', fillOpacity:0.08 },
+  // devolved legislatures + combined authorities — distinct colours, faint clickable fill (~0.18)
+  senedd_const:  { color:'#9e1b32', weight:1, fillColor:'#cc2b4e', fillOpacity:0.18 },
+  spc:           { color:'#0b4f8a', weight:1, fillColor:'#2b6fb3', fillOpacity:0.18 },
+  spr:           { color:'#1f6f8b', weight:1.2, fillColor:'#4aa3c4', fillOpacity:0.18 },
+  gla:           { color:'#6a2c8e', weight:1, fillColor:'#9b59b6', fillOpacity:0.18 },
+  combined_auth: { color:'#b5560e', weight:1.1, fillColor:'#e3811e', fillOpacity:0.18 },
 };
 const swColour = {
   constituencies:'transparent', localGov:'#0b6e4f', mpa:'#1f78b4', nationalParks:'#2e7d32',
   aonb:'#b8860b', covidTiers:'#f3722c',
   sssi:'#6aa84f', sac:'#2fb39b', spa:'#41b6c4', ramsar:'#17a2a0', nnr:'#7cb342',
   lnr:'#a4b939', wards:'#c2a878', parishes:'#cda87f',
+  senedd_const:'#cc2b4e', spc:'#2b6fb3', spr:'#4aa3c4', gla:'#9b59b6', combined_auth:'#e3811e',
+};
+
+// ===========================================================================
+// LAYER_META — shared governance-level + law-type table, keyed by layer id.
+//   Defined ONCE; the widget badges read .lawType now and a later point-
+//   inspector pass reuses { level, lawType, body, devolved } too.
+//   level    ∈ "UK Parliament (reserved)" | "Devolved legislatures" |
+//              "Local government" | "Statutory designations" | "Public health"
+//   lawType  ∈ "primary" | "secondary" | "notification" | "international"
+// ===========================================================================
+const LAYER_META = {
+  // UK Parliament (reserved)
+  constituencies:{ level:'UK Parliament (reserved)', lawType:'secondary',
+    body:'Boundary Commissions / Order in Council', devolved:'reserved' },
+  // Devolved legislatures
+  senedd_const:  { level:'Devolved legislatures', lawType:'secondary',
+    body:'Order under GoWA 2006 / Senedd 2024', devolved:'Wales' },
+  spc:           { level:'Devolved legislatures', lawType:'secondary',
+    body:'Order on a Boundaries Scotland review', devolved:'Scotland' },
+  spr:           { level:'Devolved legislatures', lawType:'secondary',
+    body:'Order on a Boundaries Scotland review', devolved:'Scotland' },
+  gla:           { level:'Devolved legislatures', lawType:'secondary',
+    body:'Order under the GLA Act 1999', devolved:'London' },
+  // Local government
+  wards:         { level:'Local government', lawType:'secondary',
+    body:"nation's boundary commission", devolved:'varies' },
+  localGov:      { level:'Local government', lawType:'primary',
+    body:'structural Orders', devolved:'varies' },
+  parishes:      { level:'Local government', lawType:'secondary',
+    body:'community governance review Orders', devolved:'England/Wales' },
+  combined_auth: { level:'Local government', lawType:'secondary',
+    body:'bespoke SI', devolved:'England' },
+  // Statutory designations
+  nationalParks: { level:'Statutory designations', lawType:'secondary',
+    body:'designation order', devolved:'varies' },
+  aonb:          { level:'Statutory designations', lawType:'secondary',
+    body:'designation order', devolved:'varies' },
+  mpa:           { level:'Statutory designations', lawType:'secondary',
+    body:'designation order', devolved:'varies' },
+  sssi:          { level:'Statutory designations', lawType:'notification',
+    body:'Natural England', devolved:'varies' },
+  sac:           { level:'Statutory designations', lawType:'secondary',
+    body:'Habitats Regs 2017 (SI)', devolved:'varies' },
+  spa:           { level:'Statutory designations', lawType:'secondary',
+    body:'Habitats Regs 2017 (SI)', devolved:'varies' },
+  ramsar:        { level:'Statutory designations', lawType:'international',
+    body:'Ramsar Convention (no UK instrument)', devolved:'varies' },
+  nnr:           { level:'Statutory designations', lawType:'notification',
+    body:'Natural England (NPACA 1949)', devolved:'varies' },
+  lnr:           { level:'Statutory designations', lawType:'notification',
+    body:'local authority declaration (NPACA 1949)', devolved:'varies' },
+  // Public health
+  covidTiers:    { level:'Public health', lawType:'secondary',
+    body:'coronavirus restrictions regulations', devolved:'varies' },
+};
+// Short legible badge labels per law-type (≥11px), for the "governance-level lens".
+const LAW_TYPE_BADGE = {
+  primary:       { cls:'lt-primary',       label:'primary',  title:'Primary legislation (an Act)' },
+  secondary:     { cls:'lt-secondary',     label:'secondary',title:'Secondary legislation (an Order / SI)' },
+  notification:  { cls:'lt-notification',  label:'notif',    title:'Statutory notification / declaration under a primary Act (not an SI)' },
+  international:  { cls:'lt-international',  label:"int'l",    title:'International designation (no UK instrument)' },
 };
 
 // ===========================================================================
@@ -923,32 +1120,48 @@ const swColour = {
 // lazy layers fetch their GeoJSON on first enable, build a canvas-rendered
 // L.geoJSON, and cache it.
 // ===========================================================================
+// Groups are now BY GOVERNANCE LEVEL (the "governance-level lens"); group id ===
+// LAYER_META[id].level so an entry's group is derived, not hand-maintained.
 const REGISTRY = [
-  { id:'constituencies', label:'Westminster constituencies', group:'electoral', lazy:false, _layer:constituencies },
-  { id:'wards',          label:'Wards', group:'electoral', lazy:true, file:'wards',
-    popup:POP.wards, needsRel:true },
-  { id:'localGov',       label:'Local government areas (councils)', group:'localgov', lazy:false, _layer:localGov },
-  { id:'parishes',       label:'Civil parishes', group:'localgov', lazy:true, file:'parishes',
-    popup:POP.parishes, needsRel:true },
-  { id:'nationalParks',  label:'National Parks', group:'nature', lazy:false, _layer:nationalParks },
-  { id:'aonb',           label:'AONBs / National Scenic Areas', group:'nature', lazy:false, _layer:aonb },
-  { id:'sssi',           label:'SSSIs', group:'nature', lazy:true, file:'sssi', popup:POP.sssi },
-  { id:'sac',            label:'Special Areas of Conservation', group:'nature', lazy:true, file:'sac', popup:POP.sac },
-  { id:'spa',            label:'Special Protection Areas', group:'nature', lazy:true, file:'spa', popup:POP.spa },
-  { id:'ramsar',         label:'Ramsar sites', group:'nature', lazy:true, file:'ramsar', popup:POP.ramsar },
-  { id:'nnr',            label:'National Nature Reserves', group:'nature', lazy:true, file:'nnr', popup:POP.nnr },
-  { id:'lnr',            label:'Local Nature Reserves', group:'nature', lazy:true, file:'lnr', popup:POP.lnr },
-  { id:'mpa',            label:'Marine protected areas', group:'marine', lazy:false, _layer:mpa },
-  { id:'covidTiers',     label:'COVID-19 restrictions, 2 Dec 2020', group:'health', lazy:false, _layer:covidTiers },
+  // UK Parliament (reserved)
+  { id:'constituencies', label:'Westminster constituencies', lazy:false, _layer:constituencies },
+  // Devolved legislatures
+  { id:'senedd_const',   label:'Senedd (Welsh Parliament) constituencies', lazy:true, file:'senedd_const', popup:POP.senedd_const },
+  { id:'spc',            label:'Scottish Parliament constituencies', lazy:true, file:'spc', popup:POP.spc },
+  { id:'spr',            label:'Scottish Parliament regions', lazy:true, file:'spr', popup:POP.spr },
+  { id:'gla',            label:'London Assembly constituencies', lazy:true, file:'gla', popup:POP.gla },
+  // Local government
+  { id:'localGov',       label:'Local government areas (councils)', lazy:false, _layer:localGov },
+  { id:'wards',          label:'Wards', lazy:true, file:'wards', popup:POP.wards, needsRel:true },
+  { id:'parishes',       label:'Civil parishes', lazy:true, file:'parishes', popup:POP.parishes, needsRel:true },
+  { id:'combined_auth',  label:'Combined authorities / mayoralties', lazy:true, file:'combined_auth', popup:POP.combined_auth },
+  // Statutory designations
+  { id:'nationalParks',  label:'National Parks', lazy:false, _layer:nationalParks },
+  { id:'aonb',           label:'AONBs / National Scenic Areas', lazy:false, _layer:aonb },
+  { id:'mpa',            label:'Marine protected areas', lazy:false, _layer:mpa },
+  { id:'sssi',           label:'SSSIs', lazy:true, file:'sssi', popup:POP.sssi },
+  { id:'sac',            label:'Special Areas of Conservation', lazy:true, file:'sac', popup:POP.sac },
+  { id:'spa',            label:'Special Protection Areas', lazy:true, file:'spa', popup:POP.spa },
+  { id:'ramsar',         label:'Ramsar sites', lazy:true, file:'ramsar', popup:POP.ramsar },
+  { id:'nnr',            label:'National Nature Reserves', lazy:true, file:'nnr', popup:POP.nnr },
+  { id:'lnr',            label:'Local Nature Reserves', lazy:true, file:'lnr', popup:POP.lnr },
+  // Public health
+  { id:'covidTiers',     label:'COVID-19 restrictions, 2 Dec 2020', lazy:false, _layer:covidTiers },
 ];
-REGISTRY.forEach(e => { if(!('_layer' in e)) e._layer = null; e._loaded = !e.lazy; });
+// Derive each entry's group from its governance level in LAYER_META.
+REGISTRY.forEach(e => {
+  e.group = (LAYER_META[e.id] && LAYER_META[e.id].level) || 'Other';
+  if(!('_layer' in e)) e._layer = null;
+  e._loaded = !e.lazy;
+});
 
+// Groups by governance level, in the prescribed order.
 const GROUPS = [
-  { id:'electoral', label:'Electoral & administrative' },
-  { id:'localgov',  label:'Local government' },
-  { id:'nature',    label:'Nature & landscape' },
-  { id:'marine',    label:'Marine' },
-  { id:'health',    label:'Public health (historical)' },
+  { id:'UK Parliament (reserved)', label:'UK Parliament (reserved)' },
+  { id:'Devolved legislatures',    label:'Devolved legislatures' },
+  { id:'Local government',         label:'Local government' },
+  { id:'Statutory designations',   label:'Statutory designations' },
+  { id:'Public health',            label:'Public health' },
 ];
 
 const lazyRenderer = L.canvas({ padding: 0.5 });   // shared canvas for the big layers
@@ -1004,6 +1217,14 @@ function setEntryEnabled(entry, on, ui){
   const baseWrap = document.getElementById('lw-base');
   const groupsEl = document.getElementById('lw-groups');
   const search   = document.getElementById('lw-search');
+  const keyEl    = document.getElementById('lw-key');
+
+  // Badge key (the "governance-level lens" legend) — one row of the 4 law types.
+  keyEl.innerHTML = '<b>law type</b>' +
+    ['primary','secondary','notification','international'].map(t => {
+      const b = LAW_TYPE_BADGE[t];
+      return `<span class="lw-badge ${b.cls}" title="${esc(b.title)}">${esc(b.label)}</span>`;
+    }).join('');
 
   // Basemap radios (keep the two existing tile layers).
   const bases = [{ label:'OpenStreetMap', layer:osm, on:true }, { label:'OpenTopoMap (relief)', layer:topo, on:false }];
@@ -1018,24 +1239,30 @@ function setEntryEnabled(entry, on, ui){
     });
   });
 
-  // Groups + items. Track DOM per entry for search filtering.
+  // Groups + items. Track DOM per entry for search filtering. Each item carries
+  // a colour-coded law-type badge from LAYER_META (the "governance-level lens").
   const itemEls = [];
   GROUPS.forEach(g => {
     const det = document.createElement('details');
     det.className = 'lw-group';
     det.open = true;
-    det.dataset.group = g.id;
     const sum = document.createElement('summary');
     sum.textContent = g.label;
     det.appendChild(sum);
+    g._det = det;   // keep the element so search doesn't need an attribute selector
 
     REGISTRY.filter(e => e.group === g.id).forEach(entry => {
       const item = document.createElement('label');
       item.className = 'lw-item';
       const sw = swColour[entry.id] || '#999';
+      const meta = LAYER_META[entry.id] || {};
+      const bd = LAW_TYPE_BADGE[meta.lawType];
+      const badge = bd
+        ? `<span class="lw-badge ${bd.cls}" title="${esc(bd.title)}">${esc(bd.label)}</span>` : '';
       item.innerHTML =
         `<input type="checkbox"><span class="lw-sw" style="background:${sw}"></span>` +
-        `<span class="lw-label">${esc(entry.label)}</span><span class="lw-spin" aria-hidden="true"></span>`;
+        `<span class="lw-label">${esc(entry.label)}</span>${badge}` +
+        `<span class="lw-spin" aria-hidden="true"></span>`;
       const errMsg = document.createElement('div');
       errMsg.className = 'lw-err-msg';
       const checkbox = item.querySelector('input');
@@ -1052,7 +1279,7 @@ function setEntryEnabled(entry, on, ui){
   search.addEventListener('input', () => {
     const q = search.value.trim().toLowerCase();
     GROUPS.forEach(g => {
-      const det = groupsEl.querySelector(`details[data-group="${g.id}"]`);
+      const det = g._det;
       let anyVisible = false;
       itemEls.filter(x => x.entry.group === g.id).forEach(x => {
         const match = !q || x.labelText.indexOf(q) >= 0;
@@ -1078,8 +1305,297 @@ function setEntryEnabled(entry, on, ui){
   L.DomEvent.disableScrollPropagation(widget);
 })();
 
+// ===========================================================================
+// "WHAT GOVERNS HERE?" — point inspector.
+//   A click runs a ray-casting point-in-polygon against OUR OWN layer geometry
+//   (no external geocoder), across every governance + designation layer, and
+//   groups the hits by LAYER_META.level. Eager layers reuse their window.*
+//   GeoJSON; lazy layers fetch data/<file>.geojson once and cache the raw
+//   features (independent of whether the Leaflet layer is toggled on).
+// ===========================================================================
+
+// Per-layer accessors: where to read the feature NAME / CODE, the raw GeoJSON
+// source (a window.* global for eager layers, or data/<file>.geojson for lazy),
+// and a builder for the legal tag line (reusing the per-layer wording already
+// used in the popups). Order here is irrelevant; grouping is by LAYER_META.level.
+const INSPECT = {
+  // UK Parliament (reserved)
+  constituencies:{ src:()=>window.CONSTITUENCIES, name:f=>f.PCON24NM, code:f=>f.PCON24CD,
+    cite:p=>({ link:`${leg}/uksi/2023/1230`, linkText:'SI 2023/1230',
+      note:'Parliamentary Constituencies Order 2023 under the Parliamentary Constituencies Act 1986 (c.56).' }) },
+  // Devolved legislatures
+  senedd_const:{ file:'senedd_const', name:f=>f.SENC26NM, code:f=>f.SENC26CD,
+    cite:p=>({ link:`${leg}/ukpga/2006/32`, linkText:'Government of Wales Act 2006',
+      note:'Senedd constituency — Order under GoWA 2006 + Senedd Cymru (Members and Elections) Act 2024.' }) },
+  spc:{ file:'spc', name:f=>f.SPC26NM, code:f=>f.SPC26CD,
+    cite:p=>({ link:`${leg}/ukpga/1998/46`, linkText:'Scotland Act 1998',
+      note:'Holyrood constituency — Order on a Boundaries Scotland review under the Scotland Act 1998.' }) },
+  spr:{ file:'spr', name:f=>f.SPR26NM, code:f=>f.SPR26CD,
+    cite:p=>({ link:`${leg}/ukpga/1998/46`, linkText:'Scotland Act 1998',
+      note:'Holyrood additional-member region — Order under the Scotland Act 1998.' }) },
+  gla:{ file:'gla', name:f=>f.lac17nm, code:f=>f.lac17cd,
+    cite:p=>({ link:`${leg}/ukpga/1999/29`, linkText:'Greater London Authority Act 1999',
+      note:'London Assembly constituency — under the Greater London Authority Act 1999.' }) },
+  // Local government
+  localGov:{ src:()=>window.LADS, name:f=>f.LAD24NM, code:f=>f.LAD24CD,
+    cite:p=>{ const pr=lgPrimary(p.LAD24CD, p.london); return { link:pr.link, linkText:pr.linkText.replace(/\s*→\s*$/,''),
+      note:'Council area — boundary Order under '+pr.nation+'’s primary Act.' }; } },
+  wards:{ file:'wards', name:f=>f.WD24NM, code:f=>f.WD24CD, needsRel:true,
+    cite:p=>{ const w={
+        E:['ukpga/2009/20','LDEDCA 2009','the Local Government Boundary Commission for England'],
+        S:['ukpga/1973/65','LG (Scotland) Act 1973','Boundaries Scotland'],
+        W:['anaw/2013/4','LG (Democracy) (Wales) Act 2013','the Local Democracy &amp; Boundary Commission for Wales'],
+        N:['nia/2014/8','LGA (NI) 2014','the Local Government Boundaries Commissioner for Northern Ireland'],
+      }[(p.WD24CD||'E')[0]] || ['ukpga/2009/20','LDEDCA 2009','the boundary commission'];
+      return { link:`${leg}/${w[0]}`, linkText:w[1], note:`Electoral ward — boundary Order on a review by ${w[2]}.` }; } },
+  parishes:{ file:'parishes', name:f=>f.PAR24NM, code:f=>f.PAR24CD, needsRel:true,
+    cite:p=>{ const welsh=(p.PAR24CD||'E')[0]==='W'; return welsh
+      ? { link:`${leg}/ukpga/1972/70`, linkText:'Local Government Act 1972', note:'Community (Welsh equivalent of a parish) — Order under the LGA 1972.' }
+      : { link:`${leg}/ukpga/2007/28`, linkText:'LGPIHA 2007', note:'Civil parish — Order after a community governance review (LGPIHA 2007, Part 4).' }; } },
+  combined_auth:{ file:'combined_auth', name:f=>f.CAUTH25NM, code:f=>f.CAUTH25CD,
+    cite:p=>({ link:`${leg}/ukpga/2016/1`, linkText:'Cities and Local Government Devolution Act 2016',
+      note:'(Mayoral) combined authority — bespoke Order under LDEDCA 2009 + the 2016 Act.' }) },
+  // Statutory designations
+  nationalParks:{ src:()=>window.NATIONAL_PARKS, name:f=>(f.name+' National Park'), code:f=>null,
+    cite:p=>({ link: p.nation==='Scotland'?`${leg}/asp/2000/10/contents`:`${leg}/ukpga/1949/97`,
+      linkText: p.nation==='Scotland'?'Nat. Parks (Scotland) Act 2000':'NPACA 1949',
+      note:'National Park — designation order under the relevant Act.' }) },
+  aonb:{ src:()=>window.AONB, name:f=>f.name, code:f=>null,
+    cite:p=>{ const c=aonbCite(p); return { link:c.link, linkText:c.linkText.replace(/\s*→\s*$/,''), note:c.kind+' — designation under '+(p.nation==='Scotland'?'Planning etc. (Scotland) Act 2006':p.nation==='Northern Ireland'?'NCALO (NI) 1985':'CROW 2000')+'.' }; } },
+  mpa:{ src:()=>window.MPA, name:f=>(f.name+(f.nation==='Scotland'?' Nature Conservation MPA':' MCZ')), code:f=>f.code,
+    cite:p=>{ const c=mpaCite(p); return { link:c.link, linkText:c.linkText.replace(/\s*→\s*$/,''), note:'Marine protected area — designation order under the nation’s marine Act.' }; } },
+  sssi:{ file:'sssi', name:f=>f.NAME, code:f=>f.REF_CODE,
+    cite:p=>({ link:`${leg}/ukpga/1981/69`, linkText:'Wildlife and Countryside Act 1981',
+      note:'SSSI — statutory NOTIFICATION by Natural England under W&CA 1981 s.28 (not an SI).' }) },
+  sac:{ file:'sac', name:f=>f.SAC_NAME, code:f=>f.SAC_CODE,
+    cite:p=>({ link:`${leg}/uksi/2017/1012`, linkText:'SI 2017/1012',
+      note:'Special Area of Conservation — Habitats Regs 2017 (secondary legislation).' }) },
+  spa:{ file:'spa', name:f=>f.SPA_NAME, code:f=>f.SPA_CODE,
+    cite:p=>({ link:`${leg}/uksi/2017/1012`, linkText:'SI 2017/1012',
+      note:'Special Protection Area — Habitats Regs 2017 (secondary legislation).' }) },
+  ramsar:{ file:'ramsar', name:f=>f.NAME, code:f=>f.CODE,
+    cite:p=>({ link:'https://www.ramsar.org', linkText:'Ramsar Convention',
+      note:'Ramsar site — an INTERNATIONAL listing (no UK statutory instrument for the listing itself).' }) },
+  nnr:{ file:'nnr', name:f=>f.NAME, code:f=>f.REF_CODE,
+    cite:p=>({ link:`${leg}/ukpga/1949/97`, linkText:'NPACA 1949',
+      note:'National Nature Reserve — declared by Natural England under NPACA 1949 / W&CA 1981 (primary).' }) },
+  lnr:{ file:'lnr', name:f=>f.NAME, code:f=>f.REF_CODE,
+    cite:p=>({ link:`${leg}/ukpga/1949/97`, linkText:'NPACA 1949',
+      note:'Local Nature Reserve — declared by the local authority under NPACA 1949 s.21 (primary).' }) },
+};
+
+// Inspector groups by level, in the prescribed order. (COVID is historical, so
+// it is deliberately NOT inspected.)
+const INSPECT_LEVELS = [
+  { level:'UK Parliament (reserved)',  label:'UK Parliament (reserved)',  ids:['constituencies'] },
+  { level:'Devolved legislatures',     label:'Devolved legislatures',     ids:['senedd_const','spc','spr','gla'] },
+  { level:'Local government',          label:'Local government',          ids:['localGov','wards','parishes','combined_auth'] },
+  { level:'Statutory designations',    label:'Statutory designations',    ids:['nationalParks','aonb','mpa','sssi','sac','spa','ramsar','nnr','lnr'] },
+];
+const INSPECT_IDS = INSPECT_LEVELS.reduce((a,g)=>a.concat(g.ids), []);
+
+// Raw GeoJSON feature cache for the inspector, per layer id (decoupled from the
+// Leaflet layer so PIP works whether or not the layer is toggled on).
+const _rawGeo = {};        // id -> [features]
+const _rawGeoPromise = {}; // id -> Promise
+function loadRawGeo(id){
+  if (_rawGeo[id]) return Promise.resolve(_rawGeo[id]);
+  const cfg = INSPECT[id];
+  if (cfg.src) { _rawGeo[id] = (cfg.src() || {}).features || []; return Promise.resolve(_rawGeo[id]); }
+  if (!_rawGeoPromise[id]) {
+    const need = cfg.needsRel ? loadAdminRel().catch(()=>null) : Promise.resolve();
+    _rawGeoPromise[id] = need
+      .then(()=>fetch('data/' + cfg.file + '.geojson'))
+      .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+      .then(j => (_rawGeo[id] = j.features || []))
+      .catch(e => { _rawGeoPromise[id] = null; throw e; });
+  }
+  return _rawGeoPromise[id];
+}
+
+// --- ray-casting point-in-polygon (handles Polygon + MultiPolygon + holes) ---
+function pointInRing(lng, lat, ring){
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0], yi = ring[i][1], xj = ring[j][0], yj = ring[j][1];
+    const intersect = ((yi > lat) !== (yj > lat)) &&
+      (lng < (xj - xi) * (lat - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+// One Polygon = [outerRing, hole1, hole2, …]; inside iff in outer and in no hole.
+function pointInPolygon(lng, lat, rings){
+  if (!rings.length || !pointInRing(lng, lat, rings[0])) return false;
+  for (let h = 1; h < rings.length; h++) if (pointInRing(lng, lat, rings[h])) return false;
+  return true;
+}
+function pointInFeatureGeom(lng, lat, geom){
+  if (!geom) return false;
+  if (geom.type === 'Polygon') return pointInPolygon(lng, lat, geom.coordinates);
+  if (geom.type === 'MultiPolygon') {
+    for (const poly of geom.coordinates) if (pointInPolygon(lng, lat, poly)) return true;
+    return false;
+  }
+  return false;
+}
+
+// --- inspector state + UI -------------------------------------------------
+let inspectActive = false;
+let inspectMarker = null;
+let _inspectSeq = 0;        // guards against out-of-order async renders
+const inspectToggle = document.getElementById('inspect-toggle');
+const inspectPanel  = document.getElementById('inspect-panel');
+const ipBody        = document.getElementById('ip-body');
+const ipClose       = document.getElementById('ip-close');
+const mapEl         = document.getElementById('map');
+
+function setInspectActive(on){
+  inspectActive = on;
+  inspectToggle.classList.toggle('on', on);
+  inspectToggle.setAttribute('aria-pressed', String(on));
+  mapEl.classList.toggle('inspecting', on);
+  // Suppress the normal per-feature popups while inspecting; restore when off.
+  if (on) map.closePopup();
+}
+function closeInspectPanel(){
+  inspectPanel.classList.remove('open');
+  if (inspectMarker) { map.removeLayer(inspectMarker); inspectMarker = null; }
+}
+inspectToggle.addEventListener('click', () => {
+  const turningOn = !inspectActive;
+  setInspectActive(turningOn);
+  if (!turningOn) closeInspectPanel();
+});
+ipClose.addEventListener('click', closeInspectPanel);
+L.DomEvent.disableClickPropagation(inspectPanel);
+L.DomEvent.disableScrollPropagation(inspectPanel);
+L.DomEvent.disableClickPropagation(inspectToggle);
+
+// Build one hit's HTML (label, feature name, law-type badge + body + link).
+function hitHtml(id, feature){
+  const cfg = INSPECT[id], meta = LAYER_META[id] || {};
+  const entry = REGISTRY.find(e => e.id === id) || {};
+  const name = esc(cfg.name(feature.properties) || '(unnamed)');
+  const codeV = cfg.code(feature.properties);
+  const bd = LAW_TYPE_BADGE[meta.lawType];
+  const badge = bd ? `<span class="lw-badge ${bd.cls}" title="${esc(bd.title)}">${esc(bd.label)}</span>` : '';
+  const c = cfg.cite(feature.properties);
+  const dev = meta.devolved === 'reserved' ? 'reserved'
+            : meta.devolved && meta.devolved !== 'varies' ? 'devolved · ' + esc(meta.devolved) : 'devolved';
+  return `<div class="ip-hit">
+    <div class="muted" style="font-size:11px">${esc(entry.label || id)}</div>
+    <b>${name}</b>${codeV?` <span class="tag">${esc(codeV)}</span>`:''}
+    <div class="ip-tagline">${badge}<span>${esc(meta.body||'')}</span>
+      <span class="tag">${dev}</span>
+      <a class="btn" href="${c.link}" target="_blank" rel="noopener">${esc(c.linkText)} →</a></div>
+    <div class="muted" style="font-size:11px;margin-top:3px">${esc(c.note)}</div>
+  </div>`;
+}
+
+const INSPECT_FRAME = 'Everything that legislates this point — overlapping geographies across our levels of structure, each made by a different body under a different power.';
+
+// Run the inspector at a clicked point; lazy-load the needed layers, PIP, render.
+function inspectAt(lat, lng, narrative){
+  const seq = ++_inspectSeq;
+  inspectPanel.classList.add('open');
+  if (inspectMarker) map.removeLayer(inspectMarker);
+  inspectMarker = L.marker([lat, lng]).addTo(map);
+  const coordLine = `<div class="ip-coords">${lat.toFixed(4)}, ${lng.toFixed(4)}</div>`;
+  const narrHtml = narrative ? `<div class="ip-narrative">${narrative}</div>` : '';
+  ipBody.innerHTML = narrHtml + `<div class="ip-frame">${INSPECT_FRAME}</div>` + coordLine +
+    `<div class="ip-checking"><span class="lw-spin"></span>Checking which geographies contain this point…</div>`;
+
+  Promise.all(INSPECT_IDS.map(id =>
+    loadRawGeo(id).then(feats => ({ id, feats })).catch(() => ({ id, feats:null, error:true }))
+  )).then(results => {
+    if (seq !== _inspectSeq) return;   // a newer click superseded this one
+    const hits = {};   // id -> [features]
+    const errored = {};
+    results.forEach(({ id, feats, error }) => {
+      if (error || !feats) { errored[id] = true; return; }
+      const found = [];
+      for (const f of feats) if (pointInFeatureGeom(lng, lat, f.geometry)) found.push(f);
+      hits[id] = found;
+    });
+
+    // Any UK feature at all? (offshore / outside UK → nothing meaningful.)
+    const anyHit = INSPECT_IDS.some(id => hits[id] && hits[id].length);
+    let html = narrHtml + `<div class="ip-frame">${INSPECT_FRAME}</div>` + coordLine;
+    if (!anyHit) {
+      html += `<div class="ip-offshore">No UK area at this point — the click is offshore or outside every layer we hold.</div>`;
+      ipBody.innerHTML = html;
+      return;
+    }
+    INSPECT_LEVELS.forEach(g => {
+      html += `<div class="ip-level">${esc(g.label)}</div>`;
+      let anyInLevel = false;
+      g.ids.forEach(id => {
+        const found = hits[id] || [];
+        if (found.length) { anyInLevel = true; found.forEach(f => { html += hitHtml(id, f); }); }
+      });
+      if (!anyInLevel) {
+        const msg = g.level === 'Statutory designations'
+          ? 'No statutory nature / landscape designation here.'
+          : g.level === 'Devolved legislatures'
+            ? 'No devolved-legislature geography here (e.g. England outside London has none).'
+            : 'No feature at this point.';
+        html += `<div class="ip-none">${esc(msg)}</div>`;
+      }
+    });
+    ipBody.innerHTML = html;
+  });
+}
+
+map.on('click', (e) => {
+  if (!inspectActive) return;
+  inspectAt(e.latlng.lat, e.latlng.lng, null);
+});
+// While the inspector is active, suppress the normal per-feature popups: if a
+// bound popup opens from a feature click, immediately close it. Restored simply
+// by toggling the inspector off (this listener is a no-op when inactive).
+map.on('popupopen', () => { if (inspectActive) map.closePopup(); });
+
+// --- guided compare/contrast examples -------------------------------------
+const GUIDED = [
+  { label:'A Welsh valley (the Rhondda)', lat:51.65, lng:-3.55, zoom:11,
+    blurb:'Reserved vs devolved, side by side',
+    narrative:'Here the same ground sits inside a <b>reserved</b> Westminster seat (drawn by one UK-wide Order under the Parliamentary Constituencies Act 1986) <i>and</i> a <b>devolved</b> Senedd constituency (an Order under the Government of Wales Act 2006 / Senedd 2024). Local government is a Welsh principal area created by a primary Act of its own, with a <b>community</b> (Wales’s equivalent of an English parish) below it. Four different bodies, four different powers, one valley.' },
+  { label:'Central London (Westminster)', lat:51.50, lng:-0.12, zoom:11,
+    blurb:'Westminster + London Assembly + a borough',
+    narrative:'A London point stacks levels: the <b>Westminster</b> seat (reserved, primary-Act power), a <b>London Assembly</b> (GLA) constituency — power <b>devolved to London</b> under the Greater London Authority Act 1999 — and a <b>London borough</b>, a creature of the primary London Government Act 1963, with its own electoral <b>ward</b> drawn by a boundary-commission Order (a secondary SI). Primary Act, devolved settlement and secondary instrument all overlap on one street.' },
+  { label:'Edinburgh (Holyrood)', lat:55.95, lng:-3.19, zoom:11,
+    blurb:'Westminster reserved vs Holyrood devolved',
+    narrative:'In Scotland the contrast is sharpest: the <b>Westminster</b> seat is reserved, while the <b>Scottish Parliament constituency</b> and its <b>additional-member region</b> are devolved geographies drawn on a Boundaries Scotland review under the Scotland Act 1998. The council area is a Scottish creation under the Local Government etc. (Scotland) Act 1994 — a different primary Act again.' },
+];
+(function buildGuided(){
+  // Inject a "Guided example" affordance into the About tab.
+  const about = document.getElementById('tab-about');
+  if (!about) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'guided-wrap';
+  wrap.innerHTML = '<b>Guided example ▸</b><div class="muted" style="font-size:11.5px;margin:2px 0 4px">'
+    + 'Jump to a place that best shows the contrast between levels — the map flies there and the inspector explains it.</div>';
+  GUIDED.forEach((g, i) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'guided-btn';
+    b.innerHTML = `<b>${esc(g.label)}</b> — ${esc(g.blurb)}`;
+    b.addEventListener('click', () => {
+      setInspectActive(true);                       // ensure crosshair/popup-suppress state
+      if (isPhone) setIntroCollapsed(true);         // get the map back on phones
+      map.flyTo([g.lat, g.lng], g.zoom, { duration: 1.1 });
+      // Run the inspector after the fly so the marker lands in view.
+      setTimeout(() => inspectAt(g.lat, g.lng, g.narrative), isPhone ? 200 : 1150);
+    });
+    wrap.appendChild(b);
+  });
+  about.appendChild(wrap);
+})();
+
 // Clicking empty map (not a feature) clears any constituency<->council highlight.
 window.__map = map;   // exposed for headless render-checks; harmless in prod
+window.__inspectAt = inspectAt;          // exposed for headless render-checks
+window.__pointInFeatureGeom = pointInFeatureGeom;
 map.on('click', clearHighlight);
 // Closing a popup also drops the highlight so it doesn't linger.
 map.on('popupclose', () => setTimeout(() => { if(!map._popup) clearHighlight(); }, 0));
