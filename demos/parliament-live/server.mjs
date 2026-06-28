@@ -151,6 +151,22 @@ const ROUTES = [
     upstreamHost: 'tile.openstreetmap.org',
     upstreamPath: '/',
     public: true },
+
+  // /api/topo-tile/<z>/<x>/<y>.png  ->  https://tile.opentopomap.org/<z>/<x>/<y>.png
+  //
+  // OpenTopoMap raster tiles (SRTM relief + contour lines), backing the
+  // optional terrain layer on the /si-map page. Same rationale as the OSM
+  // tile route above: OpenTopoMap publishes under an OSMF-style usage
+  // policy (be polite, low volume, attribute "© OpenTopoMap (CC-BY-SA)").
+  // We proxy for caching, TTL, per-host throttle and a single attribution
+  // point — and so the page never hot-links a third-party tile host
+  // directly (CLAUDE.md rule 3). `tile.opentopomap.org` answers without a
+  // subdomain prefix, so no {s} rotation is needed. Marked `public`: no
+  // Parliament-data sensitivity, just raster bytes. TTL handled below.
+  { prefix: '/api/topo-tile/',
+    upstreamHost: 'tile.opentopomap.org',
+    upstreamPath: '/',
+    public: true },
 ];
 
 export function matchRoute(reqPath) {
@@ -222,11 +238,11 @@ export function ttlMsFor(route, tail) {
     // cheap (a single Oxigraph query) so no caching is fine.
     return 0;
   }
-  if (route.prefix === '/api/osm-tile/') {
-    // OSMF tile.openstreetmap.org sends max-age ~6d for raster tiles.
-    // The underlying data changes slowly and at a given (z,x,y) the
-    // visual impact is small. 7 days keeps us well under the upstream
-    // bound and inside the OSMF policy's "be nice" expectation.
+  if (route.prefix === '/api/osm-tile/' || route.prefix === '/api/topo-tile/') {
+    // OSMF tile.openstreetmap.org sends max-age ~6d for raster tiles;
+    // OpenTopoMap is similar. The underlying data changes slowly and at a
+    // given (z,x,y) the visual impact is small. 7 days keeps us well under
+    // the upstream bound and inside the "be nice" tile-policy expectation.
     return 7 * 86_400_000;
   }
   return 30_000;
@@ -341,6 +357,7 @@ const MIME = {
   '.mjs':  'text/javascript; charset=utf-8',
   '.css':  'text/css; charset=utf-8',
   '.json': 'application/json; charset=utf-8',
+  '.geojson': 'application/geo+json; charset=utf-8',
   '.svg':  'image/svg+xml',
   '.png':  'image/png',
   '.jpg':  'image/jpeg',

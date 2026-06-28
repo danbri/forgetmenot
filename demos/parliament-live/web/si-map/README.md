@@ -5,14 +5,25 @@ combined with the "usual" open-data/open-source tooling (OpenStreetMap,
 OpenTopoMap, Wikidata, open elevation). Focused on the **Calder Valley**
 constituency (Hebden Bridge / Todmorden / Sowerby Bridge — Pennine flood country).
 
-Open `index.html` in a browser, or serve the folder over HTTP:
+**Live:** <https://fpkg.fly.dev/si-map/> (served by the parliament-live / fpkg
+Fly app from this `web/si-map/` directory; deployed by `.github/workflows/deploy-fpkg.yml`
+on pushes to `claude/main` that touch `demos/parliament-live/**`).
+
+Run locally via the fpkg server, or open the file directly:
 
 ```sh
-cd browser/si-map && python3 -m http.server 8000
-# → http://localhost:8000/
+# through the real server (proxied tiles, like prod):
+cd demos/parliament-live && PORT=8788 node server.mjs   # → http://localhost:8788/si-map/
+# or standalone — opens straight from file:// (data is inlined in data.js):
+open demos/parliament-live/web/si-map/index.html
 ```
 
-(It also opens straight from `file://` because the data is inlined in `data.js`.)
+On an http origin the basemap tiles route through the app's `/api/osm-tile/`
+and `/api/topo-tile/` proxy (caching + attribution + politeness, per the
+fpkg CLAUDE.md rule 3); opened from `file://` it falls back to the public
+tile hosts. The page uses **no** UK Parliament API data, so it carries the
+relevant source attributions (OSM / EA / ONS / Wikidata / Open-Meteo) rather
+than the Open Parliament Licence string.
 
 ## What's on the map
 

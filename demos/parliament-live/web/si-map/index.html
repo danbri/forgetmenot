@@ -4,6 +4,20 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Secondary legislation on the map — Calder Valley</title>
+<script>
+  // Make relative asset URLs (vendor/, data.js) resolve correctly whether the
+  // page is opened as /si-map, /si-map/ (trailing slash), or file://…/index.html.
+  // The static server serves index.html for /si-map without redirecting, so a
+  // no-slash URL would otherwise resolve "vendor/leaflet.js" against "/".
+  (function(){
+    var p = location.pathname;
+    if (location.protocol !== 'file:' && !/\/$/.test(p) && !/\.html?$/i.test(p)) {
+      var b = document.createElement('base');
+      b.href = p + '/';
+      document.head.appendChild(b);
+    }
+  })();
+</script>
 <link rel="stylesheet" href="vendor/leaflet.css" />
 <style>
   :root { --ink:#1a1a2e; --panel:#ffffffee; --accent:#7b2d8e; --flood:#1f78b4; --alert:#ff7f00; }
@@ -68,10 +82,18 @@
 <script>
 const map = L.map('map', { zoomControl:true }).setView([53.73, -1.95], 11);
 
-const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// Tile sources: when served from the fpkg origin (any http host fronting the
+// proxy) route raster tiles through /api/{osm,topo}-tile/ so the page never
+// hot-links a third-party tile server directly (CLAUDE.md rule 3 — caching +
+// attribution + politeness). Opened straight from file:// there is no proxy,
+// so fall back to the public tile hosts.
+const PROXIED = location.protocol !== 'file:';
+const osmUrl  = PROXIED ? '/api/osm-tile/{z}/{x}/{y}.png'  : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const topoUrl = PROXIED ? '/api/topo-tile/{z}/{x}/{y}.png' : 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
+const osm = L.tileLayer(osmUrl, {
   maxZoom:19, attribution:'&copy; OpenStreetMap contributors'
 }).addTo(map);
-const topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+const topo = L.tileLayer(topoUrl, {
   maxZoom:17, attribution:'&copy; OpenTopoMap (CC-BY-SA), SRTM | &copy; OpenStreetMap'
 });
 
