@@ -32,10 +32,22 @@
     position:absolute; z-index:1000; background:var(--panel); backdrop-filter:blur(6px);
     border-radius:10px; box-shadow:0 2px 16px #0003; padding:14px 16px;
   }
-  #intro { top:12px; left:12px; max-width:340px; max-height:88vh; overflow:auto; }
+  #intro { top:12px; left:12px; width:340px; max-width:calc(100vw - 24px);
+    max-height:calc(100vh - 24px); display:flex; flex-direction:column; padding:10px 12px;
+    box-sizing:border-box; }
+  #intro-head { display:flex; align-items:flex-start; gap:8px; }
+  #intro-head .status-badge { margin:0; flex:1 1 auto; align-self:center; }
+  #intro-toggle { flex:0 0 auto; width:40px; height:40px; border:1px solid #ddd;
+    background:#fff; border-radius:8px; color:var(--accent); font-size:18px; line-height:1;
+    cursor:pointer; display:flex; align-items:center; justify-content:center; }
+  #intro-toggle:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  #intro-body { overflow:auto; margin-top:9px; }
+  #intro.collapsed #intro-body { display:none; }
+  .chev { display:inline-block; transition:transform .15s ease; }
+  #intro.collapsed .chev { transform:rotate(-90deg); }
   #intro h1 { font-size:17px; margin:0 0 6px; }
-  #intro p { margin:6px 0; font-size:13px; }
-  #intro .leg { font-size:12.5px; color:#333; }
+  #intro p { margin:6px 0; font-size:13.5px; }
+  #intro .leg { font-size:13px; color:#333; }
   #intro a { color:var(--accent); }
   .swatch { display:inline-block; width:13px; height:13px; border-radius:3px; vertical-align:-2px; margin-right:5px; }
   .legend-row { margin:4px 0; }
@@ -67,13 +79,26 @@
     border-radius:4px; padding:5px 7px; font-size:11px; margin:4px 0; line-height:1.4;
     font-family:ui-monospace,Menlo,Consolas,monospace; }
   .muted { color:#888; font-size:11.5px; }
+  /* mobile-first: full-width, collapsible, bigger tap targets, scrolls within bounds */
+  @media (max-width:600px) {
+    #intro { top:8px; left:8px; right:8px; width:auto; max-width:none; max-height:calc(100vh - 16px); }
+    #intro-toggle { width:44px; height:44px; }
+    #intro p { font-size:14px; }
+    #intro .leg, .src-card { font-size:13.5px; }
+    .tab-btn { padding:9px 13px; font-size:14px; }
+    details.oh-yeah summary, details summary { padding:3px 0; }
+  }
 </style>
 </head>
 <body>
 <div id="map"></div>
 
 <div id="intro" class="panel">
-  <div class="status-badge" title="Not reviewed. Generated demonstrator — verify before any real use.">⚠ status: unreviewed demo · prototype · draft</div>
+  <div id="intro-head">
+    <span class="status-badge" title="Not reviewed. Generated demonstrator — verify before any real use.">⚠ unreviewed demo · prototype · draft</span>
+    <button id="intro-toggle" type="button" aria-expanded="true" aria-controls="intro-body" aria-label="Hide details"><span class="chev" aria-hidden="true">▾</span></button>
+  </div>
+  <div id="intro-body">
   <div class="tabs">
     <button class="tab-btn active" data-tab="about">About</button>
     <button class="tab-btn" data-tab="sources">Sources · &ldquo;oh&nbsp;yeah?&rdquo;</button>
@@ -84,7 +109,7 @@
   legislation</b> — a statutory instrument made under an Act of Parliament.
   These designations are mostly <b>devolved</b>, so the governing instrument
   <b>differs by nation</b> (England, Scotland, Wales, Northern Ireland).
-  Toggle the layers in the control (top-right); each feature's popup names the
+  Toggle the layers in the layers control; each feature's popup names the
   instrument that applies <i>in its nation</i> and links
   <a href="https://www.legislation.gov.uk" target="_blank" rel="noopener">legislation.gov.uk</a>.</p>
   <div class="leg">
@@ -222,6 +247,7 @@ Scotland levels ← gov.scot Strategic Framework allocation review, 2 Dec 2020</
 
     <p class="muted" style="margin-top:8px">No UK Parliament API data is used on this page; nothing here goes through the fpkg proxy except basemap tiles. Generalised geometry is for display only — not authoritative for legal extent.</p>
   </div><!-- /tab-sources -->
+  </div><!-- /intro-body -->
 </div>
 
 <script>
@@ -230,6 +256,17 @@ Scotland levels ← gov.scot Strategic Framework allocation review, 2 Dec 2020</
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
     document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = (p.id !== 'tab-' + btn.dataset.tab); });
   }));
+  // Collapsible panel — default collapsed on phones so the map isn't buried.
+  const introEl = document.getElementById('intro');
+  const introToggle = document.getElementById('intro-toggle');
+  function setIntroCollapsed(c) {
+    introEl.classList.toggle('collapsed', c);
+    introToggle.setAttribute('aria-expanded', String(!c));
+    introToggle.setAttribute('aria-label', c ? 'Show details' : 'Hide details');
+  }
+  introToggle.addEventListener('click', () => setIntroCollapsed(!introEl.classList.contains('collapsed')));
+  const isPhone = window.matchMedia('(max-width: 600px)').matches;
+  if (isPhone) setIntroCollapsed(true);
 </script>
 <script src="vendor/leaflet.js"></script>
 <script src="data.js"></script>
@@ -242,7 +279,11 @@ const PROXIED = location.protocol !== 'file:';
 const osmUrl  = PROXIED ? '/api/osm-tile/{z}/{x}/{y}.png'  : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const topoUrl = PROXIED ? '/api/topo-tile/{z}/{x}/{y}.png' : 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
 
-const map = L.map('map', { zoomControl:true }).setView([55.0, -4.0], 6);
+const phone = window.matchMedia('(max-width: 600px)').matches;
+// On phones the collapsible info bar spans the top, so move the map controls to
+// the bottom corners where the bar can't cover them.
+const map = L.map('map', { zoomControl: !phone }).setView([55.0, -4.0], 6);
+if (phone) L.control.zoom({ position:'bottomleft' }).addTo(map);
 
 const ATTRIB = '&copy; OpenStreetMap contributors | boundaries: ONS, Natural England/JNCC, NatureScot, Natural Resources Wales/DataMapWales, DAERA/OSNI (OGL v3.0) | instruments: legislation.gov.uk';
 const osm = L.tileLayer(osmUrl, {
@@ -484,7 +525,7 @@ L.control.layers(
     'AONBs / National Scenic Areas (UK) — devolved': aonb,
     'COVID-19 restrictions, 2 Dec 2020 (England tiers vs separate regimes)': covidTiers,
   },
-  { collapsed:false }
+  { collapsed: phone, position: phone ? 'bottomright' : 'topright' }   // icon at bottom on phones, expanded top-right on desktop
 ).addTo(map);
 </script>
 </body>
