@@ -18,7 +18,7 @@
 </script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>The UK's secondary-legislation geographies (devolved)</title>
+<title>The UK's legislated geographies</title>
 <link rel="stylesheet" href="vendor/leaflet.css" />
 <style>
   :root {
@@ -169,13 +169,19 @@
     <button class="tab-btn" data-tab="sources">Sources · &ldquo;oh&nbsp;yeah?&rdquo;</button>
   </div>
   <div class="tab-panel" id="tab-about">
-  <h1>The UK's secondary-legislation geographies</h1>
-  <p>Every layer here is a geography whose <b>boundary is drawn by secondary
-  legislation</b> — a statutory instrument made under an Act of Parliament.
-  These designations are mostly <b>devolved</b>, so the governing instrument
-  <b>differs by nation</b> (England, Scotland, Wales, Northern Ireland).
-  Toggle the layers in the layers control; each feature's popup names the
-  instrument that applies <i>in its nation</i> and links
+  <h1>The UK's legislated geographies</h1>
+  <p>Every layer is a <b>geography defined in law</b> — a boundary you can only
+  know by reading the instrument that draws it. <b>Most</b> are drawn by
+  <b>secondary legislation</b> (a statutory instrument or Order made under an Act
+  of Parliament — constituencies, marine zones, council areas, the COVID tiers).
+  But it's a genuine <b>mix</b>, not uniform: some are statutory
+  <b>notifications or declarations made directly under a <i>primary</i> Act</b>
+  (SSSIs under the Wildlife &amp; Countryside Act 1981, nature reserves under the
+  1949 Act — <i>not</i> statutory instruments); some councils trace to a primary
+  Act (London boroughs → London Government Act 1963); and one is an
+  <b>international</b> designation (Ramsar — no UK instrument at all). Most are
+  also <b>devolved</b>, so the instrument <b>differs by nation</b>. Each feature's
+  popup names the <i>exact</i> instrument and traces it to the primary Act on
   <a href="https://www.legislation.gov.uk" target="_blank" rel="noopener">legislation.gov.uk</a>.</p>
   <div class="leg">
     <div class="legend-row"><span class="swatch" style="background:transparent;border:2px solid var(--con)"></span>
@@ -240,9 +246,12 @@
   </details>
   <details>
     <summary>The legal hierarchy — primary Act vs secondary Order</summary>
-    <p>Every boundary here is <b>drawn by secondary legislation</b> (an Order or
-    SI) — but the power to draw it comes from a <b>primary Act</b>. The popups
-    show both levels of the chain:</p>
+    <p><b>Most</b> boundaries here are drawn by <b>secondary legislation</b> (an
+    Order or SI), whose power to draw comes from a <b>primary Act</b> — but not
+    all: some are statutory notifications/declarations made <b>directly under a
+    primary Act</b> (SSSIs, nature reserves), and Ramsar is an international
+    listing with no UK instrument. Each popup shows the level that applies.
+    Examples of the two-level chain:</p>
     <p style="margin:4px 0"><b>Westminster constituencies:</b> drawn by the
     Parliamentary Constituencies Order 2023
     (<a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>, an Order in Council)
