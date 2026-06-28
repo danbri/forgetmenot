@@ -23,13 +23,14 @@
 name: thesaurus-crawl
 
 on:
+  # The bulk crawl is COMPLETE (7,092/7,092 pages, missing 0, done=true) and the
+  # canonical parliament-lda-terms.nq.gz + .ttl are committed. The thesaurus
+  # changes very slowly, so the recurring schedule was retired — it just spun up
+  # a runner each week to replay the cache and commit nothing. Run this manually
+  # (Actions → thesaurus-crawl → Run workflow) if new terms ever need picking up;
+  # it resumes from the committed snapshot and re-promotes only if the graph
+  # changed. Re-add a `schedule:` cron here if a periodic refresh is wanted again.
   workflow_dispatch:
-  schedule:
-    # The initial bulk crawl is COMPLETE (7,092/7,092). This is now just a
-    # low-frequency refresh: resume from the committed snapshot (cached pages
-    # replay fast), pick up any newly-added terms past the frontier, re-promote
-    # if changed. Weekly is plenty for a slowly-changing thesaurus.
-    - cron: '17 6 * * 1'   # Mondays 06:17 UTC
 
 permissions:
   contents: write
