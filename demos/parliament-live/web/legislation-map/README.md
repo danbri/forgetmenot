@@ -1,96 +1,133 @@
-# England's secondary-legislation geographies
+# The UK's secondary-legislation geographies (devolved)
 
-One interactive Leaflet map (`index.html`) of England with a layer control
-toggling five geographies that are each **defined by secondary legislation**
-(statutory instruments made under Acts of Parliament). Open
+One interactive Leaflet map (`index.html`) of the **whole UK** with a layer
+control toggling five geographies that are each **defined by secondary
+legislation** (statutory instruments made under Acts of Parliament). Open
 `/legislation-map` on the fpkg server, or `index.html` directly via `file://`.
 
-This single map replaces three earlier prototypes (`mcz/`, `designations/`,
-`covid-tiers/`), which have been deleted.
+These designations are mostly **devolved**, so the governing instrument
+**differs by nation** (England, Scotland, Wales, Northern Ireland). Layer
+labels, the legend and every per-feature popup name the instrument that
+applies *in that nation*. **Northern Ireland is genuinely included** wherever
+the designation exists there — and where it does *not* exist (national parks),
+that absence is stated explicitly rather than silently omitted.
+
+This single map extends the earlier England-only version in place (same
+5-layer structure, same template conventions).
 
 ## Layers
 
 All geometry is **server-side generalised** at fetch time
-(`maxAllowableOffset` ≈ 200–500 m in SR 4326, `geometryPrecision=4`) so it is
+(`maxAllowableOffset` ≈ 0.003–0.008 in SR 4326, `geometryPrecision=4`) so it is
 small enough to inline — it is for display only and is **not** authoritative
 for legal extent.
 
-| # | Layer | Features | Source service | Governing SI / Act |
+### 1. Westminster constituencies (UK) — 650, **NI = 18**
+
+Same ONS service as before, with the England-only filter removed.
+
+- Source: `Westminster_Parliamentary_Constituencies_July_2024_Boundaries_UK_BUC`
+  on `services1.arcgis.com/ESMARspQHYMw9BZ9`, `where=1=1`, `maxAllowableOffset=0.003`.
+- Counts by nation: **England 543, Scotland 57, Wales 32, Northern Ireland 18**.
+- Instrument (all nations — **reserved**, so one UK-wide SI): Parliamentary
+  Constituencies Order 2023 — [SI 2023/1230](https://www.legislation.gov.uk/uksi/2023/1230)
+  (under the Parliamentary Constituencies Act 1986).
+
+```
+https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/Westminster_Parliamentary_Constituencies_July_2024_Boundaries_UK_BUC/FeatureServer/0/query?where=1=1&outFields=PCON24CD,PCON24NM&maxAllowableOffset=0.003
+```
+
+### 2. Marine protected areas (UK) — 137, **NI = 5**
+
+Combined four nations' inshore sources (the single UK-wide JNCC service is
+offshore-only, so the nations' own inshore datasets were combined instead).
+
+| Nation | n | Source service | Instrument |
+|---|---|---|---|
+| England (MCZ) | 106 | `Marine_Conservation_Zones_England` on `services.arcgis.com/JJzESW51TqeY9uat` (paginated, `maxRecordCount=3`) | Marine and Coastal Access Act 2009, s.116 (per-zone Designation Order) |
+| Scotland (Nature Conservation MPA) | 25 (territorial, `LEAD=SNH`) | `Marine_Protected_Areas` on `services1.arcgis.com/LM9GyVFsughzHdbO` | Marine (Scotland) Act 2010 ([asp 2010/5](https://www.legislation.gov.uk/asp/2010/5/contents)) |
+| Wales (MCZ) | 1 (Skomer) | `Marine_Conservation_Zones` on NRW org `services.arcgis.com/hQoYDJEEJMaPw8Sy` | Marine and Coastal Access Act 2009 (Welsh Ministers) |
+| **Northern Ireland (MCZ)** | **5** | `All_MPAs_NI_Marine_Plan_Extent` on DAERA/OSNI org `services-eu1.arcgis.com/kswen6BYexuc1SUk`, `MPA_Type='MCZ' AND Site_Code LIKE 'UKMCZNI%'` | **Marine Act (Northern Ireland) 2013** ([nia 2013/10](https://www.legislation.gov.uk/nia/2013/10/contents)) |
+
+The 13 JNCC-lead UK-offshore MPAs in the Scottish service are excluded (they
+are not Scottish territorial designations). NI MCZs: Strangford Lough,
+Carlingford Lough, Rathlin, Outer Belfast Lough, Waterfoot.
+
+### 3. National Parks (GB) — 15, **NI = 0 (stated, not omitted)**
+
+| Nation | n | Source service | Instrument |
+|---|---|---|---|
+| England | 10 | `National_Parks_England` on `services.arcgis.com/JJzESW51TqeY9uat` | NPACA 1949 (designation orders) |
+| Wales | 3 | `National_Parks` on NRW org `services.arcgis.com/hQoYDJEEJMaPw8Sy` | NPACA 1949 |
+| Scotland | 2 | `Boundaries_National_Parks/FeatureServer/5` on NatureScot org `services-eu1.arcgis.com/cECIr59LclpO818r` | National Parks (Scotland) Act 2000 ([asp 2000/10](https://www.legislation.gov.uk/asp/2000/10/contents)) |
+| **Northern Ireland** | **0** | — | **NI has never designated a national park.** This is stated in the legend and the layer label; NI is genuinely absent from this layer only. |
+
+### 4. AONBs / National Scenic Areas (UK) — 87, **NI = 8**
+
+| Nation | n | Kind | Source service | Instrument |
 |---|---|---|---|---|
-| 1 | Westminster constituencies (England) | 543 | ONS Open Geography `Westminster_Parliamentary_Constituencies_July_2024_Boundaries_UK_BUC` (`services1.arcgis.com/ESMARspQHYMw9BZ9`), `PCON24CD LIKE 'E%'`, `maxAllowableOffset=0.003` | Parliamentary Constituencies Order 2023 — [SI 2023/1230](https://www.legislation.gov.uk/uksi/2023/1230) (under Parliamentary Constituencies Act 1986) |
-| 2 | Marine Conservation Zones (England) | 106 | Natural England / JNCC `Marine_Conservation_Zones_England` (`services.arcgis.com/JJzESW51TqeY9uat`), paginated (`maxRecordCount=3`), `maxAllowableOffset=0.002` | One named "*[Site]* Marine Conservation Zone Designation Order" per zone (s.116 Marine and Coastal Access Act 2009). Popup deep-links a [legislation.gov.uk title search](https://www.legislation.gov.uk/all?title=Wyre-Lune%20Marine%20Conservation%20Zone). |
-| 3 | National Parks (England) | 10 | Natural England `National_Parks_England` (same org), `maxAllowableOffset=0.002` | Designation orders under the National Parks and Access to the Countryside Act 1949 |
-| 4 | National Landscapes / AONBs (England) | 34 | Natural England `Areas_of_Outstanding_Natural_Beauty_England` (same org), `maxAllowableOffset=0.005` | Designation orders; procedure under Part IV of the Countryside and Rights of Way Act 2000 (older AONBs under NPACA 1949) |
-| 5 | COVID-19 tiers, 2 Dec 2020 (England LADs) | 314 | ONS LAD (2020) boundaries, reused from the prior `covid-tiers/` fetch (4-dp) and joined to the tier table below | Health Protection (Coronavirus, Restrictions) (All Tiers) (England) Regulations 2020 — [SI 2020/1374, Schedule 4](https://www.legislation.gov.uk/uksi/2020/1374/schedule/4/made) |
+| England | 34 | AONB | `Areas_of_Outstanding_Natural_Beauty_England` on `services.arcgis.com/JJzESW51TqeY9uat` | CROW Act 2000 Pt IV (older: NPACA 1949) |
+| Wales | 5 | AONB | `Area_of_Outstanding_Natural_Beauty` on NRW org `services.arcgis.com/hQoYDJEEJMaPw8Sy` | CROW Act 2000 Pt IV |
+| **Northern Ireland** | **8** | AONB | `AONB` on OSNI/SpatialNI org `services-eu1.arcgis.com/d5l49Upuvx1Y6xxs` | **Nature Conservation and Amenity Lands (NI) Order 1985** ([nisi 1985/170](https://www.legislation.gov.uk/nisi/1985/170/contents)) |
+| Scotland | 40 | National Scenic Area (analogue) | `National_Scenic_Areas` on `services3.arcgis.com/zqVHg5bAKuLwkW3f` (ArcGIS republish of NatureScot data) | Planning etc. (Scotland) Act 2006 ([asp 2006/17](https://www.legislation.gov.uk/asp/2006/17/contents)) |
 
-Source service URL patterns (all `f=geojson&outSR=4326&geometryPrecision=4`):
+The Wye Valley "(England)" row from the NRW service is dropped (the English
+side is covered by the England layer); the "(Wales)" side is kept.
+NI AONBs: Mourne, Strangford and Lecale, Ring of Gullion, Causeway Coast,
+Antrim Coast and Glens, Lagan Valley, Binevenagh, Sperrin.
 
-```
-# Constituencies
-https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/Westminster_Parliamentary_Constituencies_July_2024_Boundaries_UK_BUC/FeatureServer/0/query?where=PCON24CD+LIKE+'E%'&outFields=PCON24CD,PCON24NM&maxAllowableOffset=0.003
-# MCZ (paginated, resultRecordCount=3 because maxRecordCount=3)
-https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/Marine_Conservation_Zones_England/FeatureServer/0/query?where=1=1&outFields=MCZ_NAME,MCZ_CODE&maxAllowableOffset=0.002
-# National Parks
-https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/National_Parks_England/FeatureServer/0/query?where=1=1&outFields=NAME,CODE,DESIG_DATE&maxAllowableOffset=0.002
-# AONB / National Landscapes
-https://services.arcgis.com/JJzESW51TqeY9uat/arcgis/rest/services/Areas_of_Outstanding_Natural_Beauty_England/FeatureServer/0/query?where=1=1&outFields=NAME,CODE,DESIG_DATE&maxAllowableOffset=0.005
-```
+### 5. COVID-19 restrictions, 2 Dec 2020 (devolved — England tiers vs separate regimes) — 348 features
 
-## COVID-19 tier encoding (the load-bearing detail)
+The starkest divergence: England's tier schedule did **not** apply elsewhere;
+each nation ran its own legal regime.
 
-The tier of each Local Authority District (LAD) on **2 December 2020** is taken
-**directly from Schedule 4 of SI 2020/1374 as made**
-(<https://www.legislation.gov.uk/uksi/2020/1374/schedule/4/made>), transcribed
-in full into `data/` build scripts:
+| Nation | n | Encoding | Instrument |
+|---|---|---|---|
+| England | 314 LADs | Tier 1/2/3 choropleth (reused from the prior England fetch) | [SI 2020/1374, Sch. 4](https://www.legislation.gov.uk/uksi/2020/1374/schedule/4/made) |
+| Scotland | 32 council areas | **Strategic Framework protection levels 1–4** by council, transcribed from the gov.scot allocation review in force on 2 Dec 2020 | [SSI 2020/344](https://www.legislation.gov.uk/ssi/2020/344/contents) |
+| Wales | 1 (national fill) | Neutral national-level fill + popup; **no per-area data invented** | [WSI 2020/1149](https://www.legislation.gov.uk/wsi/2020/1149/contents) |
+| Northern Ireland | 1 (national fill) | Neutral national-level fill + popup; **no per-area data invented** | NI Health Protection regs 2020 |
 
-- **Part 1 of Schedule 4 → Tier 2** ("High"): every upper-tier authority listed.
-- **Part 2 of Schedule 4 → Tier 3** ("Very High"): every upper-tier authority listed.
-- **Anything not listed → Tier 1** ("Medium"), per regulation 8.
+**Scotland levels on 2 Dec 2020** (gov.scot review of 1 Dec 2020, unchanged from
+24 Nov; the 11 Level-4 areas moved on 20 Nov):
 
-Schedule 4 lists **upper-tier** authorities (counties, unitaries, London
-boroughs, plus the City of London / Inner & Middle Temple). Counties were
-mapped **down to their constituent districts** using the ONS
-`LTLA20_UTLA20_EW_LU` lower-tier→upper-tier lookup (2020 vintage), so every
-district within a Tier-2/Tier-3 county inherits the county's tier.
+- **Level 1 (5):** Highland, Moray, Orkney Islands, Shetland Islands, Na h-Eileanan Siar
+- **Level 2 (6):** Scottish Borders, Dumfries and Galloway, Aberdeen City, Aberdeenshire, Argyll and Bute, East Lothian
+- **Level 3 (10):** North Ayrshire, Fife, Clackmannanshire, Falkirk, Inverclyde, Midlothian, City of Edinburgh, Angus, Dundee City, Perth and Kinross
+- **Level 4 (11):** East Ayrshire, South Ayrshire, Stirling, East Renfrewshire, Renfrewshire, West Dunbartonshire, East Dunbartonshire, Glasgow City, South Lanarkshire, North Lanarkshire, West Lothian
 
-**Coverage / result** — all 65 Part-1 and 62 Part-2 authority names in the
-schedule resolved to UTLA codes (0 unresolved; the four inverted-name forms
-"Herefordshire, County of", "County Durham", "Kingston upon Hull, City of",
-"Bristol, City of" were aliased explicitly). Joined to the 314 England LADs in
-the boundary layer:
+(5+6+10+11 = 32; all 32 councils resolved, 0 unresolved.) Scottish council
+geometry: `LAD_DEC_2020_UK_BGC` (`S%` codes) on `services1.arcgis.com/ESMARspQHYMw9BZ9`.
+Wales/NI national outlines: `Countries_December_2020_UK_BGC_2022` (same org).
 
-- **Tier 1: 3 LADs** — Cornwall, Isle of Wight, Isles of Scilly. (This matches
-  the historical record: on 2 Dec 2020 these were the *only* Tier-1 areas in
-  England.)
-- **Tier 2: 192 LADs**
-- **Tier 3: 119 LADs**
-
-No tiers were invented. The encoding is a deterministic transcription of the
-schedule plus a published ONS district↔county lookup; the three Tier-1 areas
-acting as an independent anchor confirm the join is correct. The only
-modelling choice is the (standard) propagation of a county's listed tier to its
-districts, which is exactly how the regulations applied geographically.
+**How COVID was handled for the devolved nations (honesty):** Scotland's
+levels are a deterministic transcription of a published gov.scot allocation —
+not fabricated per-area data. Wales and NI ran genuinely non-geographic
+regimes on that date (nationwide rules, not a council-area tier/level map), so
+they are shown as a single neutral national fill whose popup links the
+relevant nation's own regulations, rather than inventing per-area levels.
 
 ## Template / provenance
 
-Built from the `si-map/index.html` template: the `<base>`-href shim, the
-adaptive `PROXIED` tile logic (`/api/osm-tile`, `/api/topo-tile` when served,
-public hosts on `file://`), vendored Leaflet (`vendor/`), the intro+legend+
+Built from the established template: the `<base>`-href shim, the adaptive
+`PROXIED` tile logic (`/api/osm-tile`, `/api/topo-tile` when served, public
+hosts on `file://`), vendored Leaflet (`vendor/`), the intro + legend +
 `L.control.layers` pattern. **No UK Parliament API data is used**, so there is
 no Open Parliament Licence string; attribution credits ONS, Natural England /
-JNCC, OpenStreetMap / OpenTopoMap, and legislation.gov.uk (all OGL v3.0 /
-CC-BY-SA).
+JNCC, NatureScot, Natural Resources Wales / DataMapWales, DAERA / OSNI,
+OpenStreetMap / OpenTopoMap, and legislation.gov.uk (OGL v3.0 / CC-BY-SA as
+appropriate).
 
 ## Files
 
 ```
 index.html                            the map (single page)
 data.js                               all five layers inlined as window.* GeoJSON globals
-data/constituencies.geojson           543 England Westminster constituencies (SI 2023/1230)
-data/mcz.geojson                      106 Marine Conservation Zones
-data/national_parks.geojson           10 National Parks
-data/aonb.geojson                     34 National Landscapes / AONBs
-data/covid_tiers_2020-12-02.geojson   314 England LADs with `tier` ∈ {1,2,3}
-vendor/                               Leaflet (copied from ../si-map/vendor)
+data/constituencies.geojson           650 UK Westminster constituencies (E543/S57/W32/N18), SI 2023/1230
+data/mpa.geojson                      137 UK marine protected areas (E106/S25/W1/N5)
+data/national_parks.geojson           15 GB national parks (E10/W3/S2; NI = none)
+data/aonb.geojson                     87 UK AONBs + Scottish NSAs (E34/W5/N8 AONB + S40 NSA)
+data/covid_tiers_2020-12-02.geojson   348 features: England LAD tiers + Scotland council levels + Wales/NI national fills
+vendor/                               Leaflet
 README.md                             this file
 ```

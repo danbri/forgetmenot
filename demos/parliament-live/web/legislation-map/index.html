@@ -18,7 +18,7 @@
 </script>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>England's secondary-legislation geographies</title>
+<title>The UK's secondary-legislation geographies (devolved)</title>
 <link rel="stylesheet" href="vendor/leaflet.css" />
 <style>
   :root {
@@ -55,49 +55,78 @@
 <div id="map"></div>
 
 <div id="intro" class="panel">
-  <h1>England's secondary-legislation geographies</h1>
+  <h1>The UK's secondary-legislation geographies</h1>
   <p>Every layer here is a geography whose <b>boundary is drawn by secondary
-  legislation</b> — a statutory instrument (SI) made under an Act of
-  Parliament. Toggle them in the layer control (top-right). Each feature's
-  popup links the governing instrument on
+  legislation</b> — a statutory instrument made under an Act of Parliament.
+  These designations are mostly <b>devolved</b>, so the governing instrument
+  <b>differs by nation</b> (England, Scotland, Wales, Northern Ireland).
+  Toggle the layers in the control (top-right); each feature's popup names the
+  instrument that applies <i>in its nation</i> and links
   <a href="https://www.legislation.gov.uk" target="_blank" rel="noopener">legislation.gov.uk</a>.</p>
   <div class="leg">
     <div class="legend-row"><span class="swatch" style="background:transparent;border:2px solid var(--con)"></span>
-      <b>Westminster constituencies</b> — Parliamentary Constituencies Order 2023
-      (<a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>).</div>
+      <b>Westminster constituencies (UK)</b> — Parliamentary Constituencies Order 2023
+      (<a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>);
+      reserved, so one UK-wide instrument covers all 650 (incl. NI's 18).</div>
     <div class="legend-row"><span class="swatch" style="background:#1f78b455;border:1.5px solid var(--mcz)"></span>
-      <b>Marine Conservation Zones</b> — each a named MCZ Designation Order SI.</div>
+      <b>Marine protected areas (UK)</b> — England/Wales/NI MCZs + Scotland Nature
+      Conservation MPAs. Different Act per nation (see popups).</div>
     <div class="legend-row"><span class="swatch" style="background:#2e7d3244;border:1.5px solid var(--np)"></span>
-      <b>National Parks</b> — designation orders (NPACA 1949).</div>
+      <b>National Parks (GB)</b> — England/Wales (NPACA 1949) + Scotland
+      (Nat. Parks (Scotland) Act 2000). <b>Northern&nbsp;Ireland has no
+      national parks</b> (none have ever been designated).</div>
     <div class="legend-row"><span class="swatch" style="background:#b8860b44;border:1.5px solid var(--aonb)"></span>
-      <b>National Landscapes / AONBs</b> — designation orders (CROW Act 2000).</div>
-    <div class="legend-row" style="margin-top:7px"><b>COVID-19 tiers, 2 Dec 2020</b>
-      (<a href="https://www.legislation.gov.uk/uksi/2020/1374" target="_blank" rel="noopener">SI&nbsp;2020/1374</a>, Sch.&nbsp;4):</div>
+      <b>AONBs / National Scenic Areas (UK)</b> — England/Wales AONBs (CROW 2000),
+      NI AONBs (NCALO 1985), Scotland's analogue NSAs. Differing instrument per nation.</div>
+    <div class="legend-row" style="margin-top:7px"><b>COVID-19 restrictions, 2 Dec 2020</b>
+      — <i>devolved &amp; divergent</i>:</div>
+    <div class="legend-row" style="margin-left:6px">England tiers
+      (<a href="https://www.legislation.gov.uk/uksi/2020/1374" target="_blank" rel="noopener">SI&nbsp;2020/1374</a>):
+      <span class="swatch" style="background:var(--t1)"></span>1
+      <span class="swatch" style="background:var(--t2)"></span>2
+      <span class="swatch" style="background:var(--t3)"></span>3</div>
+    <div class="legend-row" style="margin-left:6px">Scotland levels
+      (<a href="https://www.legislation.gov.uk/ssi/2020/344" target="_blank" rel="noopener">SSI&nbsp;2020/344</a>):
+      <span class="swatch" style="background:#fce96a"></span>1
+      <span class="swatch" style="background:#f9a03f"></span>2
+      <span class="swatch" style="background:#e0602e"></span>3
+      <span class="swatch" style="background:#8b1e3f"></span>4</div>
     <div class="legend-row" style="margin-left:6px">
-      <span class="swatch" style="background:var(--t1)"></span>Tier&nbsp;1 &nbsp;
-      <span class="swatch" style="background:var(--t2)"></span>Tier&nbsp;2 &nbsp;
-      <span class="swatch" style="background:var(--t3)"></span>Tier&nbsp;3</div>
+      <span class="swatch" style="background:#9aa0a6"></span>Wales &amp; NI — own regimes, shown national-level (popups link them).</div>
   </div>
   <details>
     <summary>Why is this “secondary legislation drawing a map”?</summary>
     <p>A statutory instrument can do more than write rules — it can draw a
     boundary. Constituency boundaries are set by an Order in Council; each
-    Marine Conservation Zone, National Park and National Landscape is created
-    by its own designation order. The COVID tier schedule is the starkest
-    case: <b>Schedule&nbsp;4 of SI&nbsp;2020/1374 literally lists which
-    council areas sit in Tier&nbsp;2 and Tier&nbsp;3</b> — the legislation is
-    the map. Anything not listed defaulted to Tier&nbsp;1 (reg.&nbsp;8).</p>
+    marine zone, National Park, National Landscape / AONB and National Scenic
+    Area is created by its own designation order under a <b>nation-specific
+    Act</b>. The COVID case is the starkest — and the most divergent:
+    <b>England's tier schedule listed which councils sat in which tier</b>,
+    but Scotland, Wales and Northern Ireland each ran an entirely separate
+    legal regime. The legislation is the map, but there were four maps.</p>
   </details>
   <details>
-    <summary>Sources</summary>
-    <p>Constituencies, COVID local-authority boundaries: Office for National
-    Statistics, Open Geography Portal (ONS / OS, OGL&nbsp;v3.0 + © Crown
-    copyright). Marine Conservation Zones, National Parks, National Landscapes
-    (AONBs): Natural England open data (© Natural England / JNCC, OGL&nbsp;v3.0).
-    Legislative instruments: legislation.gov.uk (© Crown copyright, OGL&nbsp;v3.0).
-    Basemaps: © OpenStreetMap contributors; OpenTopoMap (CC-BY-SA). Boundaries
-    are server-side generalised for web display — not authoritative for legal
-    extent. No UK Parliament API data is used on this page.</p>
+    <summary>Sources &amp; honesty notes</summary>
+    <p><b>Constituencies, council/country boundaries, England COVID LADs:</b>
+    Office for National Statistics, Open Geography Portal (ONS / OS,
+    OGL&nbsp;v3.0 + © Crown copyright).
+    <b>England nature layers:</b> Natural England / JNCC (OGL&nbsp;v3.0).
+    <b>Scotland:</b> NatureScot (National Parks, Nature Conservation MPAs);
+    National Scenic Areas via an ArcGIS republish of NatureScot data.
+    <b>Wales:</b> Natural Resources Wales / DataMapWales (OGL&nbsp;v3.0).
+    <b>Northern Ireland:</b> DAERA / OSNI &ldquo;SpatialNI&rdquo; (AONBs, MCZs;
+    OGL&nbsp;v3.0). Legislative instruments: legislation.gov.uk (© Crown
+    copyright, OGL&nbsp;v3.0). Basemaps: © OpenStreetMap contributors;
+    OpenTopoMap (CC-BY-SA).</p>
+    <p><b>Honesty:</b> Northern Ireland has no national parks, so it is
+    genuinely absent from that one layer (stated above, not silently dropped).
+    Scotland's COVID protection levels are transcribed from the gov.scot
+    allocation review in force on 2&nbsp;Dec&nbsp;2020; Wales and NI are shown
+    as a single national fill because no per-area choropleth was sourced for
+    that date — their popups link the relevant nation's own regulations rather
+    than inventing per-area data. Boundaries are server-side generalised for
+    web display — not authoritative for legal extent. No UK Parliament API data
+    is used on this page.</p>
   </details>
 </div>
 
@@ -112,22 +141,25 @@ const PROXIED = location.protocol !== 'file:';
 const osmUrl  = PROXIED ? '/api/osm-tile/{z}/{x}/{y}.png'  : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 const topoUrl = PROXIED ? '/api/topo-tile/{z}/{x}/{y}.png' : 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
 
-const map = L.map('map', { zoomControl:true }).setView([53.0, -1.5], 6);
+const map = L.map('map', { zoomControl:true }).setView([55.0, -4.0], 6);
 
+const ATTRIB = '&copy; OpenStreetMap contributors | boundaries: ONS, Natural England/JNCC, NatureScot, Natural Resources Wales/DataMapWales, DAERA/OSNI (OGL v3.0) | instruments: legislation.gov.uk';
 const osm = L.tileLayer(osmUrl, {
   maxZoom:19,
-  attribution:'&copy; OpenStreetMap contributors | boundaries: ONS &amp; Natural England (OGL v3.0) | SIs: legislation.gov.uk'
+  attribution:ATTRIB
 }).addTo(map);
 const topo = L.tileLayer(topoUrl, {
   maxZoom:17,
-  attribution:'&copy; OpenTopoMap (CC-BY-SA), SRTM | &copy; OpenStreetMap | ONS &amp; Natural England | legislation.gov.uk'
+  attribution:'&copy; OpenTopoMap (CC-BY-SA), SRTM | ' + ATTRIB
 });
 
 const leg = 'https://www.legislation.gov.uk';
+const nationTag = n => `<span class="tag">${n}</span>`;
 
 // ---------------------------------------------------------------------------
 // 1. Westminster constituencies — Parliamentary Constituencies Order 2023.
-//    Outline only, off by default.
+//    RESERVED (not devolved): one UK-wide instrument covers all 650, incl.
+//    Northern Ireland's 18 'N…' constituencies. Outline only, off by default.
 // ---------------------------------------------------------------------------
 const constituencies = L.geoJSON(window.CONSTITUENCIES, {
   style:{ color:'#7b2d8e', weight:1, fill:false, opacity:0.8 },
@@ -135,10 +167,12 @@ const constituencies = L.geoJSON(window.CONSTITUENCIES, {
     const p=f.properties;
     l.bindPopup(`
       <h3>${p.PCON24NM}</h3>
-      <span class="tag">GSS ${p.PCON24CD}</span>
+      <span class="tag">GSS ${p.PCON24CD}</span> ${nationTag(p.nation)}
       <div class="si-cite">Boundary set by the <b>Parliamentary Constituencies Order 2023</b>
       (<a class="btn" href="${leg}/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>),
-      made under the Parliamentary Constituencies Act 1986. Extent: England.</div>
+      made under the Parliamentary Constituencies Act 1986. Parliamentary
+      constituencies are a <b>reserved</b> matter, so this single UK-wide
+      instrument draws every seat — including Northern Ireland's 18.</div>
       <div style="margin-top:6px">
         <a class="btn" href="https://members.parliament.uk/constituencies?searchText=${encodeURIComponent(p.PCON24NM)}" target="_blank" rel="noopener">members.parliament.uk</a>
       </div>`);
@@ -148,89 +182,189 @@ const constituencies = L.geoJSON(window.CONSTITUENCIES, {
 });
 
 // ---------------------------------------------------------------------------
-// 2. Marine Conservation Zones — each a named MCZ Designation Order SI.
+// 2. Marine protected areas (UK) — DEVOLVED, so the enabling Act differs by
+//    nation: England MCZs (Marine and Coastal Access Act 2009), Wales MCZ
+//    (same 2009 Act, Welsh Ministers), NI MCZs (Marine Act (NI) 2013),
+//    Scotland Nature Conservation MPAs (Marine (Scotland) Act 2010).
 // ---------------------------------------------------------------------------
-const mcz = L.geoJSON(window.MCZ, {
+// Per-nation instrument copy, chosen by feature.nation + feature.kind.
+function mpaCite(p){
+  const nm = p.name;
+  switch(p.nation){
+    case 'England': return {
+      title:`${nm} MCZ`,
+      body:`Designated by the <b>${nm} Marine Conservation Zone Designation Order</b>, `
+        + `made under s.116 of the <b>Marine and Coastal Access Act 2009</b> (England).`,
+      link:`${leg}/all?title=${encodeURIComponent(nm + ' Marine Conservation Zone')}`, linkText:'Find the order →' };
+    case 'Wales': return {
+      title:`${nm} MCZ`,
+      body:`A <b>Marine Conservation Zone</b> in Welsh waters, designated by order of the `
+        + `Welsh Ministers under the <b>Marine and Coastal Access Act 2009</b>. `
+        + `Skomer is currently Wales's only MCZ.`,
+      link:`${leg}/all?title=${encodeURIComponent(nm + ' Marine Conservation Zone')}`, linkText:'Find on legislation.gov.uk →' };
+    case 'Northern Ireland': return {
+      title:`${nm} MCZ`,
+      body:`A Northern Ireland <b>Marine Conservation Zone</b>, designated by DAERA under `
+        + `the <b>Marine Act (Northern Ireland) 2013</b>.`,
+      link:`${leg}/nia/2013/10/contents`, linkText:'Marine Act (NI) 2013 →' };
+    case 'Scotland': return {
+      title:`${nm} Nature Conservation MPA`,
+      body:`A Scottish <b>Nature Conservation Marine Protected Area</b> (${p.mtype||'designated'} interest), `
+        + `made by a Scottish designation order under the <b>Marine (Scotland) Act 2010</b> `
+        + `(territorial waters; offshore MPAs use the Marine and Coastal Access Act 2009).`,
+      link:`${leg}/asp/2010/5/contents`, linkText:'Marine (Scotland) Act 2010 →' };
+    default: return { title:nm, body:'Marine protected area.', link:leg, linkText:'legislation.gov.uk →' };
+  }
+}
+const mpa = L.geoJSON(window.MPA, {
   style:{ color:'#1f78b4', weight:1.2, fillColor:'#1f78b4', fillOpacity:0.28 },
   onEachFeature:(f,l)=>{
-    const p=f.properties;
-    const search = `${leg}/all?title=${encodeURIComponent(p.MCZ_NAME + ' Marine Conservation Zone')}`;
+    const p=f.properties; const c=mpaCite(p);
     l.bindPopup(`
-      <h3>${p.MCZ_NAME} MCZ</h3>
-      <span class="tag">${p.MCZ_CODE}</span>
-      <div class="si-cite">Designated by the <b>${p.MCZ_NAME} Marine Conservation Zone
-      Designation Order</b>, made under s.116 of the Marine and Coastal Access Act 2009.
-      <br><a class="btn" href="${search}" target="_blank" rel="noopener">Find the order on legislation.gov.uk →</a></div>`);
+      <h3>${c.title}</h3>
+      ${p.code?`<span class="tag">${p.code}</span> `:''}${nationTag(p.nation)}
+      <div class="si-cite">${c.body}
+      <br><a class="btn" href="${c.link}" target="_blank" rel="noopener">${c.linkText}</a></div>`);
     l.on('mouseover',()=>l.setStyle({weight:3}));
-    l.on('mouseout', ()=>mcz.resetStyle(l));
+    l.on('mouseout', ()=>mpa.resetStyle(l));
   }
 });
 
 // ---------------------------------------------------------------------------
-// 3. National Parks — designation orders under the National Parks and Access
-//    to the Countryside Act 1949.
+// 3. National Parks (GB) — DEVOLVED. England & Wales under NPACA 1949;
+//    Scotland under the National Parks (Scotland) Act 2000. Northern Ireland
+//    has NEVER designated a national park, so it is genuinely absent here
+//    (stated in the legend, not silently dropped).
 // ---------------------------------------------------------------------------
-function titleCase(s){ return String(s).toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()); }
 const nationalParks = L.geoJSON(window.NATIONAL_PARKS, {
   style:{ color:'#2e7d32', weight:1.5, fillColor:'#2e7d32', fillOpacity:0.22 },
   onEachFeature:(f,l)=>{
-    const p=f.properties;
-    const nm=titleCase(p.NAME);
-    const search = `${leg}/all?title=${encodeURIComponent(nm + ' National Park Designation Order')}`;
+    const p=f.properties; const nm=p.name;
+    let body, link, linkText;
+    if(p.nation==='Scotland'){
+      body=`A Scottish National Park designated by a <b>designation order</b> under the `
+        + `<b>National Parks (Scotland) Act 2000</b>${p.desig?` (opened ${p.desig})`:''}.`;
+      link=`${leg}/asp/2000/10/contents`; linkText='Nat. Parks (Scotland) Act 2000 →';
+    } else {
+      body=`A National Park designated by order under the <b>National Parks and Access `
+        + `to the Countryside Act 1949</b> (${p.nation}; confirmed by the relevant `
+        + `designation/variation order)${p.desig?`, designated ${p.desig}`:''}.`;
+      link=`${leg}/all?title=${encodeURIComponent(nm + ' National Park Designation Order')}`;
+      linkText='Find the designation order →';
+    }
     l.bindPopup(`
       <h3>${nm} National Park</h3>
-      <div class="si-cite">A National Park designated by order under the
-      <b>National Parks and Access to the Countryside Act 1949</b> (as confirmed
-      by the relevant designation/variation order).
-      <br><a class="btn" href="${search}" target="_blank" rel="noopener">Find the designation order →</a></div>`);
+      ${nationTag(p.nation)}
+      <div class="si-cite">${body}
+      <br><a class="btn" href="${link}" target="_blank" rel="noopener">${linkText}</a></div>`);
     l.on('mouseover',()=>l.setStyle({weight:3}));
     l.on('mouseout', ()=>nationalParks.resetStyle(l));
   }
 });
 
 // ---------------------------------------------------------------------------
-// 4. National Landscapes (AONBs) — designation orders under the CROW Act 2000.
+// 4. AONBs / National Scenic Areas (UK) — DEVOLVED, differing instrument:
+//    England/Wales AONBs (CROW Act 2000 / older NPACA 1949), NI AONBs (Nature
+//    Conservation and Amenity Lands (NI) Order 1985), Scotland's analogue
+//    National Scenic Areas (now governed by the Planning etc. (Scotland) Act 2006).
 // ---------------------------------------------------------------------------
+function aonbCite(p){
+  const nm=p.name;
+  if(p.nation==='Scotland') return {
+    kind:'National Scenic Area',
+    body:`Scotland's analogue of an AONB. The 40 <b>National Scenic Areas</b> were `
+      + `originally identified in 1980 and now have statutory footing under the `
+      + `<b>Planning etc. (Scotland) Act 2006</b> (designation by Scottish Ministers).`,
+    link:`${leg}/asp/2006/17/contents`, linkText:'Planning etc. (Scotland) Act 2006 →' };
+  if(p.nation==='Northern Ireland') return {
+    kind:'AONB (Northern Ireland)',
+    body:`A Northern Ireland <b>Area of Outstanding Natural Beauty</b>${p.desig?`, declared ${p.desig}`:''}, `
+      + `made by DAERA under the <b>Nature Conservation and Amenity Lands (Northern Ireland) Order 1985</b>.`,
+    link:`${leg}/nisi/1985/170/contents`, linkText:'NCALO (NI) 1985 →' };
+  // England + Wales
+  return {
+    kind:'National Landscape (AONB)',
+    body:`Designated as an <b>Area of Outstanding Natural Beauty</b> by order (${p.nation}). `
+      + `Designation procedure is governed by Part&nbsp;IV of the <b>Countryside and Rights `
+      + `of Way Act 2000</b> (older AONBs were designated under the NPACA 1949).`,
+    link:`${leg}/all?title=${encodeURIComponent(nm + ' Area of Outstanding Natural Beauty Designation Order')}`,
+    linkText:'Find the designation order →' };
+}
 const aonb = L.geoJSON(window.AONB, {
-  style:{ color:'#b8860b', weight:1.3, fillColor:'#b8860b', fillOpacity:0.22 },
+  style:f=>({ color:'#b8860b', weight:1.3, fillColor: f.properties.kind==='NSA'?'#7a6a1f':'#b8860b', fillOpacity:0.22 }),
   onEachFeature:(f,l)=>{
-    const p=f.properties;
-    const search = `${leg}/all?title=${encodeURIComponent(p.NAME + ' Area of Outstanding Natural Beauty Designation Order')}`;
+    const p=f.properties; const c=aonbCite(p);
     l.bindPopup(`
-      <h3>${p.NAME}</h3>
-      <span class="tag">National Landscape (AONB)</span>
-      <div class="si-cite">Designated as an Area of Outstanding Natural Beauty
-      by order. AONB designation procedure is governed by Part&nbsp;IV of the
-      <b>Countryside and Rights of Way Act 2000</b> (older AONBs were designated
-      under the NPACA 1949).
-      <br><a class="btn" href="${search}" target="_blank" rel="noopener">Find the designation order →</a></div>`);
+      <h3>${p.name}</h3>
+      <span class="tag">${c.kind}</span> ${nationTag(p.nation)}
+      <div class="si-cite">${c.body}
+      <br><a class="btn" href="${c.link}" target="_blank" rel="noopener">${c.linkText}</a></div>`);
     l.on('mouseover',()=>l.setStyle({weight:3}));
     l.on('mouseout', ()=>aonb.resetStyle(l));
   }
 });
 
 // ---------------------------------------------------------------------------
-// 5. COVID-19 tiers on 2 December 2020 — SI 2020/1374, Schedule 4.
-//    Part 1 = Tier 2, Part 2 = Tier 3, any area not listed = Tier 1 (reg. 8).
-//    Off by default.
+// 5. COVID-19 restrictions on 2 December 2020 — DEVOLVED and DIVERGENT.
+//    England: tiers 1-3 (SI 2020/1374, Sch. 4), by LAD.
+//    Scotland: Strategic Framework protection levels 0-4 (SSI 2020/344), by
+//      council area, transcribed from the gov.scot allocation review in force
+//      on that date (5 at L1, 6 at L2, 10 at L3, 11 at L4).
+//    Wales: nationwide post-firebreak rules (no tier map). NI: its own
+//      regulations. Both shown as a single national-level fill, NOT a faked
+//      per-area choropleth — their popups link the nation's own regime.
 // ---------------------------------------------------------------------------
-const tierColour = { 1:'#ffd166', 2:'#f3722c', 3:'#d62828' };
-const tierLabel  = { 1:'Tier 1 — Medium', 2:'Tier 2 — High', 3:'Tier 3 — Very High' };
+const tierColour  = { 1:'#ffd166', 2:'#f3722c', 3:'#d62828' };
+const tierLabel   = { 1:'Tier 1 — Medium', 2:'Tier 2 — High', 3:'Tier 3 — Very High' };
+const levelColour = { 0:'#bfe6a0', 1:'#fce96a', 2:'#f9a03f', 3:'#e0602e', 4:'#8b1e3f' };
+const levelLabel  = { 0:'Level 0', 1:'Level 1', 2:'Level 2', 3:'Level 3', 4:'Level 4' };
+const neutralFill = '#9aa0a6';
+function covidStyle(f){
+  const p=f.properties;
+  if(p.regime==='tiers')  return { color:'#555', weight:0.5, fillColor:tierColour[p.tier],   fillOpacity:0.6 };
+  if(p.regime==='levels') return { color:'#444', weight:0.5, fillColor:levelColour[p.level], fillOpacity:0.62 };
+  return { color:'#444', weight:0.8, fillColor:neutralFill, fillOpacity:0.4, dashArray:'4 3' };
+}
+function covidPopup(p){
+  if(p.regime==='tiers') return `
+    <h3>${p.area}</h3>
+    <span class="tag">GSS ${p.code}</span> ${nationTag('England')}
+    <span class="tag" style="background:${tierColour[p.tier]};color:#fff">${tierLabel[p.tier]}</span>
+    <div class="si-cite">Tier on 2&nbsp;Dec&nbsp;2020 set by the
+    <b>Health Protection (Coronavirus, Restrictions) (All Tiers) (England) Regulations 2020</b>
+    (<a class="btn" href="${leg}/uksi/2020/1374/schedule/4/made" target="_blank" rel="noopener">SI&nbsp;2020/1374, Sch.&nbsp;4</a>).
+    Schedule&nbsp;4 lists upper-tier areas in Tier&nbsp;2 (Part&nbsp;1) and Tier&nbsp;3
+    (Part&nbsp;2); unlisted areas were Tier&nbsp;1 (reg.&nbsp;8). County tiers shown on
+    constituent districts. <b>England's tiers did not apply outside England.</b></div>`;
+  if(p.regime==='levels') return `
+    <h3>${p.area}</h3>
+    <span class="tag">${p.code}</span> ${nationTag('Scotland')}
+    <span class="tag" style="background:${levelColour[p.level]};color:#fff">${levelLabel[p.level]}</span>
+    <div class="si-cite">Scotland ran its own <b>Strategic Framework</b>: protection
+    <b>levels&nbsp;0–4</b> allocated by council area, not England's tiers. Levels on
+    2&nbsp;Dec&nbsp;2020 are from the gov.scot allocation review then in force, under the
+    <b>Health Protection (Coronavirus) (Restrictions and Requirements) (Local Levels)
+    (Scotland) Regulations 2020</b>
+    (<a class="btn" href="${leg}/ssi/2020/344/contents" target="_blank" rel="noopener">SSI&nbsp;2020/344</a>).</div>`;
+  if(p.nation==='Wales') return `
+    <h3>Wales</h3>${nationTag('Wales')}
+    <div class="si-cite">Wales ran a <b>separate, nationwide regime</b> — no
+    council-area tier map applied on 2&nbsp;Dec&nbsp;2020 (post-firebreak national
+    rules, with the levels system arriving later in December). Shown as a single
+    national fill; <b>no per-area data is invented</b>.
+    <br><a class="btn" href="${leg}/wsi/2020/1149/contents" target="_blank" rel="noopener">Welsh Coronavirus Restrictions regs →</a></div>`;
+  return `
+    <h3>Northern Ireland</h3>${nationTag('Northern Ireland')}
+    <div class="si-cite">Northern Ireland had its <b>own regulations</b> — neither
+    England's tiers nor Scotland's levels applied. On 2&nbsp;Dec&nbsp;2020 NI was under
+    nationwide restrictions made by the NI Executive. Shown as a single national fill;
+    <b>no per-area data is invented</b>.
+    <br><a class="btn" href="${leg}/nisr/2020/322/contents" target="_blank" rel="noopener">Health Protection (NI) regs 2020 →</a></div>`;
+}
 const covidTiers = L.geoJSON(window.COVID_TIERS, {
-  style:f=>({ color:'#555', weight:0.5, fillColor:tierColour[f.properties.tier], fillOpacity:0.6 }),
+  style:covidStyle,
   onEachFeature:(f,l)=>{
-    const p=f.properties;
-    l.bindPopup(`
-      <h3>${p.LAD20NM}</h3>
-      <span class="tag">GSS ${p.LAD20CD}</span>
-      <span class="tag" style="background:${tierColour[p.tier]};color:#fff">${tierLabel[p.tier]}</span>
-      <div class="si-cite">Tier on 2&nbsp;Dec&nbsp;2020 set by the
-      <b>Health Protection (Coronavirus, Restrictions) (All Tiers) (England)
-      Regulations 2020</b>
-      (<a class="btn" href="${leg}/uksi/2020/1374/schedule/4/made" target="_blank" rel="noopener">SI&nbsp;2020/1374, Sch.&nbsp;4</a>).
-      Schedule&nbsp;4 lists upper-tier areas in Tier&nbsp;2 (Part&nbsp;1) and
-      Tier&nbsp;3 (Part&nbsp;2); unlisted areas were Tier&nbsp;1 (reg.&nbsp;8).
-      County tiers are shown on their constituent districts.</div>`);
+    l.bindPopup(covidPopup(f.properties));
     l.on('mouseover',()=>l.setStyle({weight:2}));
     l.on('mouseout', ()=>covidTiers.resetStyle(l));
   }
@@ -243,11 +377,11 @@ const covidTiers = L.geoJSON(window.COVID_TIERS, {
 L.control.layers(
   { 'OpenStreetMap': osm, 'OpenTopoMap (relief)': topo },
   {
-    'Westminster constituencies — SI 2023/1230': constituencies,
-    'Marine Conservation Zones — Designation Orders': mcz,
-    'National Parks — NPACA 1949': nationalParks,
-    'National Landscapes / AONBs — CROW Act 2000': aonb,
-    'COVID-19 tiers, 2 Dec 2020 — SI 2020/1374': covidTiers,
+    'Westminster constituencies (UK) — SI 2023/1230': constituencies,
+    'Marine protected areas (UK) — devolved Acts': mpa,
+    'National Parks (GB) — devolved; none in NI': nationalParks,
+    'AONBs / National Scenic Areas (UK) — devolved': aonb,
+    'COVID-19 restrictions, 2 Dec 2020 (England tiers vs separate regimes)': covidTiers,
   },
   { collapsed:false }
 ).addTo(map);
