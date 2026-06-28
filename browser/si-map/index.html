@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Secondary legislation on the map — Calder Valley</title>
+<link rel="stylesheet" href="vendor/leaflet.css" />
+<style>
+  :root { --ink:#1a1a2e; --panel:#ffffffee; --accent:#7b2d8e; --flood:#1f78b4; --alert:#ff7f00; }
+  html,body { margin:0; height:100%; font:14px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); }
+  #map { position:absolute; inset:0; }
+  .panel {
+    position:absolute; z-index:1000; background:var(--panel); backdrop-filter:blur(6px);
+    border-radius:10px; box-shadow:0 2px 16px #0003; padding:14px 16px;
+  }
+  #intro { top:12px; left:12px; max-width:330px; }
+  #intro h1 { font-size:16px; margin:0 0 6px; }
+  #intro p { margin:6px 0; font-size:12.5px; }
+  #intro .leg { font-size:11.5px; color:#444; }
+  #intro a { color:var(--accent); }
+  .swatch { display:inline-block; width:12px; height:12px; border-radius:3px; vertical-align:-1px; margin-right:4px; }
+  #elevbox { bottom:18px; left:12px; font-size:12.5px; max-width:230px; }
+  #elevbox b { color:var(--accent); }
+  .legend-row { margin:3px 0; }
+  details summary { cursor:pointer; font-weight:600; font-size:12.5px; margin-top:6px; }
+  details p { font-size:11.5px; }
+  .leaflet-popup-content { font-size:12.5px; line-height:1.4; }
+  .leaflet-popup-content h3 { margin:0 0 4px; font-size:13.5px; }
+  .leaflet-popup-content img { max-width:210px; border-radius:6px; margin-top:6px; }
+  .tag { display:inline-block; background:#eee; border-radius:4px; padding:0 5px; font-size:11px; margin:1px 2px 1px 0; }
+  .si-cite { background:#f5edf7; border-left:3px solid var(--accent); padding:4px 7px; margin-top:6px; font-size:11.5px; border-radius:0 4px 4px 0; }
+  a.btn { color:var(--accent); text-decoration:none; font-weight:600; }
+  a.btn:hover { text-decoration:underline; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<div id="intro" class="panel">
+  <h1>Secondary legislation, mapped</h1>
+  <p>Two layers here are <b>defined by secondary legislation</b>, over an OpenStreetMap / open-elevation base — focused on the <b>Calder&nbsp;Valley</b> constituency.</p>
+  <div class="leg">
+    <div class="legend-row"><span class="swatch" style="background:#7b2d8e55;border:2px solid #7b2d8e"></span>
+      <b>Constituency boundary</b> — set by the Parliamentary Constituencies Order 2023 (an SI).</div>
+    <div class="legend-row"><span class="swatch" style="background:#1f78b455;border:1.5px solid #1f78b4"></span>
+      <b>Flood Warning Area</b> — statutory EA warning footprint.</div>
+    <div class="legend-row"><span class="swatch" style="background:#ff7f0033;border:1.5px solid #ff7f00"></span>
+      <b>Flood Alert Area</b> — broader river catchment.</div>
+    <div class="legend-row">◍ <b>Settlement</b> (Wikidata) — population &amp; elevation.</div>
+  </div>
+  <details>
+    <summary>Why is this “secondary legislation”?</summary>
+    <p>Westminster constituency boundaries are made by an <i>Order in Council</i> — a statutory instrument — laid under the Parliamentary Constituencies Act 1986. Flood warning/alert areas are the EA's statutory designations under the Flood and Water Management Act 2010 &amp; the Civil Contingencies Act 2004. legislation.gov.uk records the <i>text</i> and jurisdictional <i>extent</i> (E/W/S/NI); the <i>polygons</i> live in the geo datasets joined here by name / GSS code.</p>
+  </details>
+  <details>
+    <summary>Sources</summary>
+    <p>Boundary: ONS Open Geography. Flood areas: Environment Agency flood-monitoring API. Places: Wikidata. Elevation: Open-Meteo (SRTM). Basemaps: OpenStreetMap &amp; OpenTopoMap. All Open Government Licence / CC-BY-SA.</p>
+  </details>
+</div>
+
+<div id="elevbox" class="panel">
+  <div>🏔️ <b>Click the map</b> for ground elevation</div>
+  <div id="elevout" style="margin-top:4px;color:#555">— SRTM via Open-Meteo —</div>
+</div>
+
+<script src="vendor/leaflet.js"></script>
+<script src="data.js"></script>
+<script>
+const map = L.map('map', { zoomControl:true }).setView([53.73, -1.95], 11);
+
+const osm = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  maxZoom:19, attribution:'&copy; OpenStreetMap contributors'
+}).addTo(map);
+const topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+  maxZoom:17, attribution:'&copy; OpenTopoMap (CC-BY-SA), SRTM | &copy; OpenStreetMap'
+});
+
+// --- Constituency boundary (SI: Parliamentary Constituencies Order 2023) ---
+const con = window.CONSTITUENCY.features[0];
+const conLayer = L.geoJSON(window.CONSTITUENCY, {
+  style:{ color:'#7b2d8e', weight:3, fill:true, fillOpacity:0.04, dashArray:'1' }
+}).bindPopup(`
+  <h3>${con.properties.PCON24NM}</h3>
+  <span class="tag">GSS ${con.properties.PCON24CD}</span>
+  <div class="si-cite">Boundary defined by the <b>Parliamentary Constituencies Order 2023</b>
+  (<a class="btn" href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>),
+  made under the Parliamentary Constituencies Act 1986. Extent: England.</div>
+  <div style="margin-top:6px">
+    <a class="btn" href="https://members.parliament.uk/constituencies?searchText=${encodeURIComponent(con.properties.PCON24NM)}" target="_blank" rel="noopener">Members&nbsp;API</a> ·
+    <a class="btn" href="https://mapit.mysociety.org/area/${con.properties.PCON24CD}.html" target="_blank" rel="noopener">MapIt</a>
+  </div>`).addTo(map);
+map.fitBounds(conLayer.getBounds(), { padding:[30,30] });
+
+// --- Flood areas (EA statutory designations) ---
+function isAlert(code){ return /WAF/.test(code); }   // catchment-wide Flood Alert Area
+const floodLayer = L.geoJSON(window.FLOOD_AREAS, {
+  style: f => {
+    const alert = isAlert(f.properties.fwdCode);
+    return alert
+      ? { color:'#ff7f00', weight:1, fillColor:'#ff7f00', fillOpacity:0.10 }
+      : { color:'#1f78b4', weight:1.3, fillColor:'#1f78b4', fillOpacity:0.28 };
+  },
+  onEachFeature: (f,l) => {
+    const p = f.properties, alert = isAlert(p.fwdCode);
+    const kind = alert ? 'Flood Alert Area (river catchment)' : 'Flood Warning Area';
+    l.bindPopup(`
+      <h3>${p.label}</h3>
+      <span class="tag">${kind}</span><span class="tag">${p.fwdCode}</span>
+      <p style="margin:5px 0">${p.description||''}</p>
+      <div style="color:#666;font-size:11px">${p.county||''} · EA area: ${p.eaArea||''}</div>
+      <div class="si-cite">Statutory flood designation issued by the <b>Environment Agency</b>
+      under the Flood and Water Management Act 2010 &amp; Flood Risk Regulations 2009
+      (<a class="btn" href="https://www.legislation.gov.uk/uksi/2009/3042" target="_blank" rel="noopener">SI&nbsp;2009/3042</a>).</div>
+      <div style="margin-top:6px">
+        <a class="btn" href="${p.eaId}" target="_blank" rel="noopener">EA record</a> ·
+        <a class="btn" href="https://check-for-flooding.service.gov.uk/target-area/${p.fwdCode}" target="_blank" rel="noopener">live status</a>
+      </div>`);
+    l.on('mouseover', ()=>l.setStyle({weight:3}));
+    l.on('mouseout',  ()=>floodLayer.resetStyle(l));
+  }
+}).addTo(map);
+
+// --- Settlements (Wikidata + Open-Meteo elevation) ---
+const placeLayer = L.layerGroup();
+window.PLACES.forEach(pl => {
+  const r = 4 + Math.min(9, Math.sqrt(pl.pop||0)/40);
+  const m = L.circleMarker([pl.lat, pl.lon], {
+    radius:r, color:'#1a1a2e', weight:1.2, fillColor:'#ffd166', fillOpacity:0.92
+  });
+  const img = pl.img ? `<img src="${pl.img.replace('http://','https://')}?width=210" loading="lazy" alt="">` : '';
+  m.bindPopup(`
+    <h3>${pl.name}</h3>
+    <span class="tag">pop. ${(pl.pop||0).toLocaleString()}</span>
+    <span class="tag">⛰ ${pl.elevation_m} m</span>
+    <div style="margin-top:5px">
+      <a class="btn" href="https://www.wikidata.org/wiki/${pl.qid}" target="_blank" rel="noopener">Wikidata ${pl.qid}</a>
+      ${pl.osmrel?` · <a class="btn" href="https://www.openstreetmap.org/relation/${pl.osmrel}" target="_blank" rel="noopener">OSM</a>`:''}
+    </div>${img}`);
+  m.bindTooltip(pl.name, {direction:'top', offset:[0,-r]});
+  placeLayer.addLayer(m);
+});
+placeLayer.addTo(map);
+
+// --- Click-to-elevate (live Open-Meteo / SRTM) ---
+let elevMarker;
+map.on('click', async e => {
+  const {lat,lng} = e.latlng;
+  document.getElementById('elevout').innerHTML = 'fetching…';
+  if (elevMarker) map.removeLayer(elevMarker);
+  elevMarker = L.marker([lat,lng]).addTo(map);
+  try {
+    const j = await (await fetch(`https://api.open-meteo.com/v1/elevation?latitude=${lat.toFixed(5)}&longitude=${lng.toFixed(5)}`)).json();
+    const ev = j.elevation?.[0];
+    document.getElementById('elevout').innerHTML =
+      `<b>${ev} m</b> above sea level<br><span style="color:#777">${lat.toFixed(4)}, ${lng.toFixed(4)}</span>`;
+    elevMarker.bindPopup(`Ground elevation: <b>${ev} m</b>`).openPopup();
+  } catch(err){
+    document.getElementById('elevout').innerHTML = '<span style="color:#a00">elevation lookup failed</span>';
+  }
+});
+
+// --- Layer control ---
+L.control.layers(
+  { 'OpenStreetMap': osm, 'OpenTopoMap (relief + contours)': topo },
+  { 'Constituency (SI 2023/1230)': conLayer,
+    'Flood areas (EA statutory)': floodLayer,
+    'Settlements (Wikidata)': placeLayer },
+  { collapsed:false }
+).addTo(map);
+</script>
+</body>
+</html>
