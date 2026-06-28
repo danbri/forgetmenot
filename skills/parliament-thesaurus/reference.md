@@ -37,6 +37,34 @@ The split is deliberately coarse: when you want only the concept
 backbone you query the `core` + `hierarchy` graphs; for cross-vocabulary
 joins you bring in `mappings`.
 
+## Synonym model (the altLabel fold)
+
+The upstream `terms` dataset is **label-and-hierarchy only** — there are no
+definitions or scope notes on a concept (a preferred term's source JSON carries
+just `prefLabel`, `attribute` codes, `broader`, `isPreferred`). Crucially, it
+models **non-preferred / "used-for" lead-in terms as *separate* term resources**
+(`parl:isPreferred=false`), each linked to its preferred term by a bidirectional
+`skos:exactMatch` in the `mappings` graph. Of ~141,822 raw term resources,
+~49,197 (35%) are these non-preferred synonyms.
+
+Passed through verbatim that is **avoidably thin for embeddings**: every
+preferred concept ends up with a bare `prefLabel` and no synonyms, and any
+per-concept embedding corpus (e.g. skosdex, which vectors one doc per
+`skos:Concept`) is diluted by ~49k single-label stubs.
+
+So the build **folds** them (`scripts/fold-thesaurus-altlabels.mjs`, run in the
+`thesaurus-crawl` promote step):
+
+- each non-preferred term's `prefLabel` is added as a **`skos:altLabel`** on its
+  preferred concept (≈50,040 synonyms across 32,487 concepts, mean 1.5, max 19);
+- the non-preferred resources are **retyped `skos:Concept` → `parl:NonPreferredTerm`**
+  so their IRIs still dereference (label, `exactMatch`, `isPreferred` all kept)
+  but "index `skos:Concept` only" consumers skip them.
+
+Net: 92,625 preferred `skos:Concept`s, 35% now carrying their synonyms. The
+fold is idempotent. NB a downstream embedder must actually read `skos:altLabel`
+(not just `prefLabel`/`definition`) for the synonyms to influence the vectors.
+
 ## Example query against the loaded store
 
 Once the `.nq.gz` is in Oxigraph (locally or on `fpkg.fly.dev`):
