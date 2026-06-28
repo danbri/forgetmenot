@@ -23,7 +23,7 @@
 <style>
   :root {
     --ink:#1a1a2e; --panel:#ffffffee; --accent:#7b2d8e;
-    --con:#7b2d8e; --mcz:#1f78b4; --np:#2e7d32; --aonb:#b8860b;
+    --con:#7b2d8e; --mcz:#1f78b4; --np:#2e7d32; --aonb:#b8860b; --lg:#0b6e4f;
     --t1:#ffd166; --t2:#f3722c; --t3:#d62828;
   }
   html,body { margin:0; height:100%; font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); }
@@ -57,6 +57,7 @@
   .leaflet-popup-content h3 { margin:0 0 4px; font-size:14px; }
   .tag { display:inline-block; background:#eee; border-radius:4px; padding:0 6px; font-size:11.5px; margin:1px 2px 1px 0; }
   .si-cite { background:#f5edf7; border-left:3px solid var(--accent); padding:5px 8px; margin-top:7px; font-size:12px; border-radius:0 4px 4px 0; }
+  .rel { background:#e7f4ee; border-left:3px solid var(--lg); padding:5px 8px; margin-top:7px; font-size:12px; border-radius:0 4px 4px 0; }
   a.btn { color:var(--accent); text-decoration:none; font-weight:600; }
   a.btn:hover { text-decoration:underline; }
   .leaflet-control-layers { font-size:13px; }
@@ -117,6 +118,13 @@
       <b>Westminster constituencies (UK)</b> — Parliamentary Constituencies Order 2023
       (<a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>);
       reserved, so one UK-wide instrument covers all 650 (incl. NI's 18).</div>
+    <div class="legend-row"><span class="swatch" style="background:#0b6e4f22;border:1.5px solid var(--lg)"></span>
+      <b>Local government areas (UK)</b> — 361 local authority districts incl. all
+      32 London boroughs + the City of London. <b>Click a council</b> to list (and
+      highlight) the Westminster constituencies it overlaps; click a constituency to
+      list the councils it spans. The link is the authoritative ONS ward lookup, not
+      a polygon overlap. Drawn by Orders under a <i>primary Act that differs by
+      nation</i> (LGA 1972 in England; London Government Act 1963 for the boroughs).</div>
     <div class="legend-row"><span class="swatch" style="background:#1f78b455;border:1.5px solid var(--mcz)"></span>
       <b>Marine protected areas (UK)</b> — England/Wales/NI MCZs + Scotland Nature
       Conservation MPAs. Different Act per nation (see popups).</div>
@@ -155,6 +163,23 @@
     legal regime. The legislation is the map, but there were four maps.</p>
   </details>
   <details>
+    <summary>The legal hierarchy — primary Act vs secondary Order</summary>
+    <p>Every boundary here is <b>drawn by secondary legislation</b> (an Order or
+    SI) — but the power to draw it comes from a <b>primary Act</b>. The popups
+    show both levels of the chain:</p>
+    <p style="margin:4px 0"><b>Westminster constituencies:</b> drawn by the
+    Parliamentary Constituencies Order 2023
+    (<a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>, an Order in Council)
+    under the <b><a href="https://www.legislation.gov.uk/ukpga/1986/56" target="_blank" rel="noopener">Parliamentary Constituencies Act 1986</a></b> (c.&nbsp;56, primary).</p>
+    <p style="margin:4px 0"><b>Local government:</b> boundaries drawn by Orders, but
+    the council itself is authorised by a primary Act that <i>differs by nation</i> —
+    the <b><a href="https://www.legislation.gov.uk/ukpga/1972/70" target="_blank" rel="noopener">Local Government Act 1972</a></b> (England, c.&nbsp;70);
+    the <b><a href="https://www.legislation.gov.uk/ukpga/1963/33" target="_blank" rel="noopener">London Government Act 1963</a></b> (c.&nbsp;33) for the 32 London boroughs;
+    the <a href="https://www.legislation.gov.uk/ukpga/2009/20" target="_blank" rel="noopener">Local Democracy, Economic Development and Construction Act 2009</a> (c.&nbsp;20, which set up England's boundary commission);
+    Local Government (Wales) Act 1994 (c.&nbsp;19); Local Government etc. (Scotland) Act 1994 (c.&nbsp;39);
+    Local Government Act (NI) 2014 (c.&nbsp;8). Each LAD popup cites the right one for its nation.</p>
+  </details>
+  <details>
     <summary>Sources &amp; honesty notes</summary>
     <p><b>Constituencies, council/country boundaries, England COVID LADs:</b>
     Office for National Statistics, Open Geography Portal (ONS / OS,
@@ -190,9 +215,24 @@
       <b>1 · Westminster constituencies (UK)</b> — 650 (E543/S57/W32/N18)
       <div class="src-row"><span class="src-k">Data</span> ONS Open Geography ArcGIS — <code>Westminster_…_July_2024_…_UK_BUC</code></div>
       <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
-      <div class="src-row"><span class="src-k">Instrument</span> <a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a> <span class="muted">via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <b>Secondary:</b> <a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a> (Order in Council). <b>Primary:</b> <a href="https://www.legislation.gov.uk/ukpga/1986/56" target="_blank" rel="noopener">Parliamentary Constituencies Act 1986</a> (c.&nbsp;56) <span class="muted">via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
       <details class="oh-yeah"><summary>oh yeah?</summary>
         <code class="q">https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/Westminster_Parliamentary_Constituencies_July_2024_Boundaries_UK_BUC/FeatureServer/0/query?where=1=1&amp;outFields=PCON24CD,PCON24NM&amp;maxAllowableOffset=0.003&amp;geometryPrecision=4&amp;f=geojson</code>
+      </details>
+    </div>
+
+    <div class="src-card" style="border-left-color:#0b6e4f">
+      <b>1b · Local government areas (UK)</b> — 361 LADs (E296 incl. <b>33 Greater London = 32 boroughs + City of London</b> / W22 / S32 / N11)
+      <div class="src-row"><span class="src-k">Data</span> ONS Open Geography ArcGIS — <code>Local_Authority_Districts_December_2024_Boundaries_UK_BUC</code> (LAD24CD / LAD24NM)</div>
+      <div class="src-row"><span class="src-k">Relationship</span> <b>Authoritative</b> — exact constituency↔LAD sets derived from shared 2024 wards in the ONS lookup <code>WD24_PCON24_LAD24_UTLA24_UK_LU</code> (8,798 ward rows). Not a generalised-polygon overlap, so no boundary slivers; no area threshold needed.</div>
+      <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <b>Secondary:</b> structural/boundary Orders (SIs). <b>Primary (per nation):</b> <a href="https://www.legislation.gov.uk/ukpga/1972/70" target="_blank" rel="noopener">LGA 1972</a> (England) · <a href="https://www.legislation.gov.uk/ukpga/1963/33" target="_blank" rel="noopener">London Government Act 1963</a> (boroughs) · <a href="https://www.legislation.gov.uk/ukpga/2009/20" target="_blank" rel="noopener">LDEDC 2009</a> (boundary commission) · LG (Wales) Act 1994 · LG etc. (Scotland) Act 1994 · LGA (NI) 2014 <span class="muted">via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <details class="oh-yeah"><summary>oh yeah? — boundaries + relationship lookup</summary>
+        <code class="q">LADs:   services1.arcgis.com/ESMARspQHYMw9BZ9 → Local_Authority_Districts_December_2024_Boundaries_UK_BUC
+        /FeatureServer/0/query?where=1=1&amp;outFields=LAD24CD,LAD24NM&amp;maxAllowableOffset=0.004&amp;geometryPrecision=4&amp;f=geojson  (361)
+Lookup: services1.arcgis.com/ESMARspQHYMw9BZ9 → WD24_PCON24_LAD24_UTLA24_UK_LU
+        /FeatureServer/0/query?where=1=1&amp;outFields=PCON24CD,LAD24CD&amp;returnGeometry=false&amp;f=json  (8,798 wards)
+Method: group wards by shared (PCON24CD, LAD24CD) → exact LAD↔constituency sets (authoritative; no sliver threshold)</code>
       </details>
     </div>
 
@@ -299,29 +339,153 @@ const leg = 'https://www.legislation.gov.uk';
 const nationTag = n => `<span class="tag">${n}</span>`;
 
 // ---------------------------------------------------------------------------
+// Constituency <-> local-authority relationship.
+//   The link is AUTHORITATIVE: derived from the ONS ward-level lookup
+//   WD24_PCON24_LAD24_UTLA24_UK_LU (shared 2024 wards), NOT from overlapping
+//   the generalised display polygons — so there are no boundary slivers.
+//   LAD_TO_PCON: LAD24CD -> [[PCON24CD,name],…]; PCON_TO_LAD the reverse.
+// ---------------------------------------------------------------------------
+const LAD_TO_PCON = window.LAD_TO_PCON || {};
+const PCON_TO_LAD = window.PCON_TO_LAD || {};
+const pconLayers = {};   // PCON24CD -> Leaflet layer (for highlighting)
+const ladLayers  = {};   // LAD24CD  -> Leaflet layer
+let highlighted = [];    // currently emphasised layers
+function clearHighlight(){
+  highlighted.forEach(h => { try { h._resetStyle && h._resetStyle(); } catch(e){} });
+  highlighted = [];
+}
+// Emphasise a set of layers (by their feature codes) with a bold halo outline.
+function emphasise(codes, index, haloColor){
+  codes.forEach(cd => {
+    const l = index[cd];
+    if(!l) return;
+    l.setStyle({ color:haloColor, weight:4, opacity:1, fillOpacity:0.28 });
+    if(l.bringToFront) l.bringToFront();
+    highlighted.push(l);
+  });
+}
+
+// ---------------------------------------------------------------------------
 // 1. Westminster constituencies — Parliamentary Constituencies Order 2023.
 //    RESERVED (not devolved): one UK-wide instrument covers all 650, incl.
 //    Northern Ireland's 18 'N…' constituencies. Outline only, off by default.
 // ---------------------------------------------------------------------------
+const CON_BASE = { color:'#7b2d8e', weight:1, opacity:0.8, fill:true, fillColor:'#7b2d8e', fillOpacity:0.06 };
 const constituencies = L.geoJSON(window.CONSTITUENCIES, {
   // A faint fill (not fill:false) so the whole seat is clickable — with no fill,
   // only the 1px boundary line catches clicks, so taps inside a seat do nothing.
-  style:{ color:'#7b2d8e', weight:1, opacity:0.8, fill:true, fillColor:'#7b2d8e', fillOpacity:0.06 },
+  style:CON_BASE,
   onEachFeature:(f,l)=>{
     const p=f.properties;
+    pconLayers[p.PCON24CD] = l;
+    l._resetStyle = () => l.setStyle(CON_BASE);
+    // Councils (LADs) this seat spans — from the authoritative ward lookup.
+    const councils = PCON_TO_LAD[p.PCON24CD] || [];
+    const councilHtml = councils.length
+      ? `<div class="rel"><b>Spans ${councils.length} council area${councils.length>1?'s':''}</b>
+         (local-government districts):<br>${councils.map(c=>`<span class="tag">${c[1]}</span>`).join(' ')}
+         <div class="muted" style="margin-top:3px">Link via shared 2024 wards (ONS lookup) — authoritative, not a polygon overlap. Enable “Local government areas” to see them.</div></div>`
+      : '';
     l.bindPopup(`
       <h3>${p.PCON24NM}</h3>
       <span class="tag">GSS ${p.PCON24CD}</span> ${nationTag(p.nation)}
-      <div class="si-cite">Boundary set by the <b>Parliamentary Constituencies Order 2023</b>
-      (<a class="btn" href="${leg}/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>),
-      made under the Parliamentary Constituencies Act 1986. Parliamentary
-      constituencies are a <b>reserved</b> matter, so this single UK-wide
-      instrument draws every seat — including Northern Ireland's 18.</div>
+      <div class="si-cite"><b>Drawn by secondary legislation; authorised by a primary Act.</b><br>
+      Boundary set by the <b>Parliamentary Constituencies Order 2023</b>
+      (<a class="btn" href="${leg}/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>, an Order in Council) —
+      the power to draw it comes from the
+      <b><a class="btn" href="${leg}/ukpga/1986/56" target="_blank" rel="noopener">Parliamentary Constituencies Act 1986</a></b> (c.&nbsp;56, primary).
+      A <b>reserved</b> matter, so this single UK-wide instrument draws every seat — including Northern Ireland's 18.</div>
+      ${councilHtml}
       <div style="margin-top:6px">
         <a class="btn" href="https://members.parliament.uk/constituencies?searchText=${encodeURIComponent(p.PCON24NM)}" target="_blank" rel="noopener">members.parliament.uk</a>
       </div>`);
-    l.on('mouseover',()=>l.setStyle({weight:2.5, fillOpacity:0.18}));
-    l.on('mouseout', ()=>constituencies.resetStyle(l));
+    // Click highlights the council areas this seat spans (and itself).
+    l.on('click', ()=>{
+      clearHighlight();
+      emphasise([p.PCON24CD], pconLayers, '#0b6e4f');
+      emphasise(councils.map(c=>c[0]), ladLayers, '#0b6e4f');
+    });
+    l.on('mouseover',()=>{ if(highlighted.indexOf(l)<0) l.setStyle({weight:2.5, fillOpacity:0.18}); });
+    l.on('mouseout', ()=>{ if(highlighted.indexOf(l)<0) constituencies.resetStyle(l); });
+  }
+});
+
+// ---------------------------------------------------------------------------
+// 1b. Local government areas (UK) — local authority districts incl. all 32
+//     London boroughs + the City of London (33 'E09…'). DEVOLVED: the primary
+//     Act that authorises the boundary differs by nation (E/W/S/N). Boundaries
+//     themselves are drawn by Orders (SIs) made under that primary Act.
+//     Faint fill so interiors are clickable. Clicking a council names the
+//     Westminster constituencies that overlap it (authoritative ward lookup)
+//     and highlights them on the map.
+// ---------------------------------------------------------------------------
+// Per-nation primary Act, chosen from the LAD24CD prefix.
+function lgPrimary(code, isLondon){
+  if(isLondon) return {
+    nation:'England (Greater London)',
+    body:`One of Greater London's 33 local authorities — 32 <b>London boroughs</b> plus the City of London. `
+      + `The boroughs were created by the <b>London Government Act 1963</b> (c.&nbsp;33, primary); `
+      + `the Greater London Authority by the Greater London Authority Act 1999 (c.&nbsp;29). `
+      + `Later boundary changes are made by Orders (SIs).`,
+    link:`${leg}/ukpga/1963/33`, linkText:'London Government Act 1963 →' };
+  switch(code[0]){
+    case 'E': return {
+      nation:'England',
+      body:`A principal local-government area in England. Principal councils were established by the `
+        + `<b>Local Government Act 1972</b> (c.&nbsp;70, primary); structural and boundary changes are made by `
+        + `Orders under the LGA 1972 / Local Government and Public Involvement in Health Act 2007 / the `
+        + `<b>Local Democracy, Economic Development and Construction Act 2009</b> (c.&nbsp;20, which set up the `
+        + `Local Government Boundary Commission for England).`,
+      link:`${leg}/ukpga/1972/70`, linkText:'Local Government Act 1972 →',
+      extra:`<a class="btn" href="${leg}/ukpga/2009/20" target="_blank" rel="noopener">LDEDC Act 2009 →</a>` };
+    case 'W': return {
+      nation:'Wales',
+      body:`A Welsh <b>principal area</b>, created by the <b>Local Government (Wales) Act 1994</b> (c.&nbsp;19, primary); `
+        + `boundary changes by Orders under it.`,
+      link:`${leg}/ukpga/1994/19/contents`, linkText:'Local Government (Wales) Act 1994 →' };
+    case 'S': return {
+      nation:'Scotland',
+      body:`A Scottish <b>council area</b>, created by the <b>Local Government etc. (Scotland) Act 1994</b> (c.&nbsp;39, primary); `
+        + `boundary changes by Orders under it.`,
+      link:`${leg}/ukpga/1994/39/contents`, linkText:'Local Government etc. (Scotland) Act 1994 →' };
+    case 'N': return {
+      nation:'Northern Ireland',
+      body:`One of Northern Ireland's <b>11 local-government districts</b>, established by the `
+        + `<b>Local Government Act (Northern Ireland) 2014</b> (c.&nbsp;8, primary) which replaced the former 26 districts.`,
+      link:`${leg}/nia/2014/8/contents`, linkText:'Local Government Act (NI) 2014 →' };
+    default: return { nation:'UK', body:'A local authority district.', link:leg, linkText:'legislation.gov.uk →' };
+  }
+}
+const LAD_BASE = { color:'#0b6e4f', weight:1.1, opacity:0.85, fill:true, fillColor:'#0b6e4f', fillOpacity:0.08 };
+const localGov = L.geoJSON(window.LADS, {
+  // Faint fill (NOT fill:false) so the whole district is clickable.
+  style:LAD_BASE,
+  onEachFeature:(f,l)=>{
+    const p=f.properties;
+    ladLayers[p.LAD24CD] = l;
+    l._resetStyle = () => l.setStyle(LAD_BASE);
+    const prim = lgPrimary(p.LAD24CD, p.london);
+    const cons = LAD_TO_PCON[p.LAD24CD] || [];   // [[PCON24CD,name],…]
+    const consHtml = cons.length
+      ? `<div class="rel"><b>Overlaps ${cons.length} Westminster constituenc${cons.length>1?'ies':'y'}</b>:<br>
+         ${cons.map(c=>`<span class="tag">${c[1]}</span>`).join(' ')}
+         <div class="muted" style="margin-top:3px">Authoritative link via shared 2024 wards (ONS ward→constituency→LAD lookup) — not a generalised-polygon overlap. Highlighted on the map.</div></div>`
+      : `<div class="muted">No overlapping Westminster constituency found in the ward lookup.</div>`;
+    l.bindPopup(`
+      <h3>${p.LAD24NM}</h3>
+      <span class="tag">${p.LAD24CD}</span> ${nationTag(prim.nation)}${p.london?' <span class="tag" style="background:#dff3ea">London</span>':''}
+      <div class="si-cite"><b>Drawn by secondary legislation (an Order/SI); the power to draw it comes from this primary Act.</b><br>
+      ${prim.body}
+      <br><a class="btn" href="${prim.link}" target="_blank" rel="noopener">${prim.linkText}</a>${prim.extra?' · '+prim.extra:''}</div>
+      ${consHtml}`);
+    // Click reveals + highlights the overlapping constituencies.
+    l.on('click', ()=>{
+      clearHighlight();
+      emphasise([p.LAD24CD], ladLayers, '#7b2d8e');
+      emphasise(cons.map(c=>c[0]), pconLayers, '#7b2d8e');
+    });
+    l.on('mouseover',()=>{ if(highlighted.indexOf(l)<0) l.setStyle({weight:2.5, fillOpacity:0.2}); });
+    l.on('mouseout', ()=>{ if(highlighted.indexOf(l)<0) localGov.resetStyle(l); });
   }
 });
 
@@ -522,6 +686,7 @@ L.control.layers(
   { 'OpenStreetMap': osm, 'OpenTopoMap (relief)': topo },
   {
     'Westminster constituencies (UK) — SI 2023/1230': constituencies,
+    'Local government areas (UK) — councils &amp; London boroughs': localGov,
     'Marine protected areas (UK) — devolved Acts': mpa,
     'National Parks (GB) — devolved; none in NI': nationalParks,
     'AONBs / National Scenic Areas (UK) — devolved': aonb,
@@ -529,6 +694,12 @@ L.control.layers(
   },
   { collapsed: phone, position: phone ? 'bottomright' : 'topright' }   // icon at bottom on phones, expanded top-right on desktop
 ).addTo(map);
+
+// Clicking empty map (not a feature) clears any constituency<->council highlight.
+window.__map = map;   // exposed for headless render-checks; harmless in prod
+map.on('click', clearHighlight);
+// Closing a popup also drops the highlight so it doesn't linger.
+map.on('popupclose', () => setTimeout(() => { if(!map._popup) clearHighlight(); }, 0));
 </script>
 </body>
 </html>
