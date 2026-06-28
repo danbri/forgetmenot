@@ -392,7 +392,7 @@
       <div class="src-row"><span class="src-k">Data</span> ONS Open Geography ArcGIS — <code>Local_Authority_Districts_December_2024_Boundaries_UK_BUC</code> (LAD24CD / LAD24NM)</div>
       <div class="src-row"><span class="src-k">Relationship</span> <b>Authoritative</b> — exact constituency↔LAD sets derived from shared 2024 wards in the ONS lookup <code>WD24_PCON24_LAD24_UTLA24_UK_LU</code> (8,798 ward rows). Not a generalised-polygon overlap, so no boundary slivers; no area threshold needed.</div>
       <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
-      <div class="src-row"><span class="src-k">Instrument</span> <b>Secondary:</b> structural/boundary Orders (SIs). <b>Primary (per nation):</b> <a href="https://www.legislation.gov.uk/ukpga/1972/70" target="_blank" rel="noopener">LGA 1972</a> (England) · <a href="https://www.legislation.gov.uk/ukpga/1963/33" target="_blank" rel="noopener">London Government Act 1963</a> (boroughs) · <a href="https://www.legislation.gov.uk/ukpga/2009/20" target="_blank" rel="noopener">LDEDC 2009</a> (boundary commission) · LG (Wales) Act 1994 · LG etc. (Scotland) Act 1994 · LGA (NI) 2014 <span class="muted">via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <b>Area is primary (per nation):</b> <a href="https://www.legislation.gov.uk/ukpga/1972/70" target="_blank" rel="noopener">LGA 1972</a> (England) · <a href="https://www.legislation.gov.uk/ukpga/1963/33" target="_blank" rel="noopener">London Government Act 1963</a> (boroughs) · LG (Wales) Act 1994 · LG etc. (Scotland) Act 1994 · LGA (NI) 2014. Specific districts were constituted/named by Orders under these. <span class="muted">(Electoral <i>ward</i> reviews are separate — under the LDEDC Act 2009; see the Wards card.) via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
       <details class="oh-yeah"><summary>oh yeah? — boundaries + relationship lookup</summary>
         <code class="q">LADs:   services1.arcgis.com/ESMARspQHYMw9BZ9 → Local_Authority_Districts_December_2024_Boundaries_UK_BUC
         /FeatureServer/0/query?where=1=1&amp;outFields=LAD24CD,LAD24NM&amp;maxAllowableOffset=0.004&amp;geometryPrecision=4&amp;f=geojson  (361)
@@ -658,13 +658,13 @@ function lgPrimary(code, isLondon){
   switch(code[0]){
     case 'E': return {
       nation:'England',
-      body:`A principal local-government area in England. Principal councils were established by the `
-        + `<b>Local Government Act 1972</b> (c.&nbsp;70, primary); structural and boundary changes are made by `
-        + `Orders under the LGA 1972 / Local Government and Public Involvement in Health Act 2007 / the `
-        + `<b>Local Democracy, Economic Development and Construction Act 2009</b> (c.&nbsp;20, which set up the `
-        + `Local Government Boundary Commission for England).`,
-      link:`${leg}/ukpga/1972/70`, linkText:'Local Government Act 1972 →',
-      extra:`<a class="btn" href="${leg}/ukpga/2009/20" target="_blank" rel="noopener">LDEDC Act 2009 →</a>` };
+      body:`A principal local-government area in England. It exists under the <b>Local Government Act 1972</b> `
+        + `(c.&nbsp;70, <i>primary</i>); the specific districts were constituted and named by Orders made under it `
+        + `(e.g. the English Non-metropolitan Districts (Names) Order 1973). Later structural/boundary changes are `
+        + `by Order under the LGA 1972 / the Local Government and Public Involvement in Health Act 2007. `
+        + `<span class="muted">(Its electoral <i>wards</i> are a separate matter — reviewed by the Local Government `
+        + `Boundary Commission for England under the LDEDC Act 2009; see the Wards layer.)</span>`,
+      link:`${leg}/ukpga/1972/70`, linkText:'Local Government Act 1972 →' };
     case 'W': return {
       nation:'Wales',
       body:`A Welsh <b>principal area</b>, created by the <b>Local Government (Wales) Act 1994</b> (c.&nbsp;19, primary); `
@@ -701,7 +701,7 @@ const localGov = L.geoJSON(window.LADS, {
     l.bindPopup(`
       <h3>${p.LAD24NM}</h3>
       <span class="tag">${p.LAD24CD}</span> ${nationTag(prim.nation)}${p.london?' <span class="tag" style="background:#dff3ea">London</span>':''}
-      <div class="si-cite"><b>Drawn by secondary legislation (an Order/SI); the power to draw it comes from this primary Act.</b><br>
+      <div class="si-cite"><b>Grounded in a primary Act</b> — the area exists under it; its specific boundary &amp; name were fixed by Orders made under it.<br>
       ${prim.body}
       <br><a class="btn" href="${prim.link}" target="_blank" rel="noopener">${prim.linkText}</a>${prim.extra?' · '+prim.extra:''}</div>
       ${consHtml}`);
@@ -976,7 +976,8 @@ const POP = {
     return `<h3>${esc(p.WD24NM)}</h3>
       <span class="tag">${esc(p.WD24CD)}</span>
       <div class="si-cite">Drawn by an <b>${wc[0]}</b> under the <b>${wc[1]}</b> (<i>primary</i>).
-       ${wc[2]?`<br><a class="btn" href="${leg}/${wc[2]}" target="_blank" rel="noopener">${wc[3]} →</a>`:''}</div>
+       ${wc[2]?`<br><a class="btn" href="${leg}/${wc[2]}" target="_blank" rel="noopener">${wc[3]} →</a>`:''}
+       <div class="muted" style="margin-top:3px">Current 2024 ward boundaries; later electoral reviews may revise them.</div></div>
       ${relHtml}`;
   },
   parishes: (p) => {
@@ -1339,7 +1340,7 @@ const INSPECT = {
   // Local government
   localGov:{ src:()=>window.LADS, name:f=>f.LAD24NM, code:f=>f.LAD24CD,
     cite:p=>{ const pr=lgPrimary(p.LAD24CD, p.london); return { link:pr.link, linkText:pr.linkText.replace(/\s*→\s*$/,''),
-      note:'Council area — boundary Order under '+pr.nation+'’s primary Act.' }; } },
+      note:'Council area — exists under '+pr.nation+'’s primary Act; the specific boundary/name was set by Order under it (electoral wards are reviewed separately).' }; } },
   wards:{ file:'wards', name:f=>f.WD24NM, code:f=>f.WD24CD, needsRel:true,
     cite:p=>{ const w={
         E:['ukpga/2009/20','LDEDCA 2009','the Local Government Boundary Commission for England'],
