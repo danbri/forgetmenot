@@ -49,12 +49,36 @@
   a.btn:hover { text-decoration:underline; }
   .leaflet-control-layers { font-size:13px; }
   .leaflet-control-layers-overlays label { margin:3px 0; }
+  /* status + tabs + sources ("oh yeah?") */
+  .status-badge { display:inline-block; background:#fde68a; color:#7c4a03;
+    border:1px solid #f59e0b; border-radius:6px; padding:2px 9px; font-size:11.5px;
+    font-weight:700; letter-spacing:.02em; margin:0 0 9px; }
+  .tabs { display:flex; gap:4px; margin-bottom:8px; border-bottom:1px solid #ddd; }
+  .tab-btn { background:none; border:none; padding:5px 9px; font:inherit; font-size:13px;
+    font-weight:600; color:#888; cursor:pointer; border-bottom:2px solid transparent; }
+  .tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .src-card { border-left:3px solid #ddd; padding:3px 0 6px 9px; margin:9px 0; font-size:12.5px; }
+  .src-card > b { font-size:13px; }
+  .src-row { margin:3px 0; }
+  .src-k { display:inline-block; min-width:72px; color:#666; font-size:11px;
+    text-transform:uppercase; letter-spacing:.03em; vertical-align:top; }
+  details.oh-yeah summary { color:var(--accent); font-weight:600; font-size:12px; margin-top:4px; }
+  code.q { display:block; white-space:pre-wrap; word-break:break-all; background:#f6f6f8;
+    border-radius:4px; padding:5px 7px; font-size:11px; margin:4px 0; line-height:1.4;
+    font-family:ui-monospace,Menlo,Consolas,monospace; }
+  .muted { color:#888; font-size:11.5px; }
 </style>
 </head>
 <body>
 <div id="map"></div>
 
 <div id="intro" class="panel">
+  <div class="status-badge" title="Not reviewed. Generated demonstrator — verify before any real use.">⚠ status: unreviewed demo · prototype · draft</div>
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="about">About</button>
+    <button class="tab-btn" data-tab="sources">Sources · &ldquo;oh&nbsp;yeah?&rdquo;</button>
+  </div>
+  <div class="tab-panel" id="tab-about">
   <h1>The UK's secondary-legislation geographies</h1>
   <p>Every layer here is a geography whose <b>boundary is drawn by secondary
   legislation</b> — a statutory instrument made under an Act of Parliament.
@@ -128,8 +152,85 @@
     web display — not authoritative for legal extent. No UK Parliament API data
     is used on this page.</p>
   </details>
+  </div><!-- /tab-about -->
+
+  <div class="tab-panel" id="tab-sources" hidden>
+    <p style="font-size:12.5px;margin-top:2px">Every layer traces upstream. <b>&ldquo;oh&nbsp;yeah?&rdquo;</b>
+    reveals the exact source query, the <code>skills/</code> wrapper used (where one exists), and the
+    governing instrument — so any datum here can be followed back. Full method &amp; per-nation counts:
+    <a class="btn" href="https://github.com/danbri/forgetmenot/blob/claude/main/demos/parliament-live/web/legislation-map/README.md" target="_blank" rel="noopener">README</a>
+    · all wrappers: <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills" target="_blank" rel="noopener">skills/</a>.</p>
+
+    <div class="src-card">
+      <b>1 · Westminster constituencies (UK)</b> — 650 (E543/S57/W32/N18)
+      <div class="src-row"><span class="src-k">Data</span> ONS Open Geography ArcGIS — <code>Westminster_…_July_2024_…_UK_BUC</code></div>
+      <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a> <span class="muted">via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <details class="oh-yeah"><summary>oh yeah?</summary>
+        <code class="q">https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/Westminster_Parliamentary_Constituencies_July_2024_Boundaries_UK_BUC/FeatureServer/0/query?where=1=1&amp;outFields=PCON24CD,PCON24NM&amp;maxAllowableOffset=0.003&amp;geometryPrecision=4&amp;f=geojson</code>
+      </details>
+    </div>
+
+    <div class="src-card">
+      <b>2 · Marine protected areas (UK)</b> — 137 (E106/S25/W1/<b>N5</b>)
+      <div class="src-row"><span class="src-k">Skill</span> <span class="muted">direct open ArcGIS — no dedicated wrapper</span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> MaCAA 2009 (E/W); <a href="https://www.legislation.gov.uk/asp/2010/5/contents" target="_blank" rel="noopener">Marine (Scotland) Act 2010</a>; <a href="https://www.legislation.gov.uk/nia/2013/10/contents" target="_blank" rel="noopener">Marine Act (NI) 2013</a></div>
+      <details class="oh-yeah"><summary>oh yeah? — four nations combined</summary>
+        <code class="q">E: services.arcgis.com/JJzESW51TqeY9uat → Marine_Conservation_Zones_England (106, paginated)
+S: services1.arcgis.com/LM9GyVFsughzHdbO → Marine_Protected_Areas (LEAD=SNH → 25 territorial)
+W: services.arcgis.com/hQoYDJEEJMaPw8Sy → Marine_Conservation_Zones (NRW, 1 = Skomer)
+N: services-eu1.arcgis.com/kswen6BYexuc1SUk → All_MPAs_NI_Marine_Plan_Extent
+   where MPA_Type='MCZ' AND Site_Code LIKE 'UKMCZNI%'  (5)</code>
+      </details>
+    </div>
+
+    <div class="src-card">
+      <b>3 · National Parks (GB)</b> — 15; <b>NI = 0 (none ever designated)</b>
+      <div class="src-row"><span class="src-k">Skill</span> <span class="muted">direct open ArcGIS — no dedicated wrapper</span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> NPACA 1949 (E/W); <a href="https://www.legislation.gov.uk/asp/2000/10/contents" target="_blank" rel="noopener">National Parks (Scotland) Act 2000</a></div>
+      <details class="oh-yeah"><summary>oh yeah? — three nations</summary>
+        <code class="q">E: services.arcgis.com/JJzESW51TqeY9uat → National_Parks_England (10)
+W: services.arcgis.com/hQoYDJEEJMaPw8Sy → National_Parks (NRW, 3)
+S: services-eu1.arcgis.com/cECIr59LclpO818r → Boundaries_National_Parks/FeatureServer/5 (2)</code>
+      </details>
+    </div>
+
+    <div class="src-card">
+      <b>4 · AONBs / National Scenic Areas (UK)</b> — 87 (E34/W5/<b>N8</b> AONB + S40 NSA)
+      <div class="src-row"><span class="src-k">Skill</span> <span class="muted">direct open ArcGIS — no dedicated wrapper</span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <a href="https://www.legislation.gov.uk/ukpga/2000/37/contents" target="_blank" rel="noopener">CROW 2000</a> (E/W); <a href="https://www.legislation.gov.uk/nisi/1985/170/contents" target="_blank" rel="noopener">NCALO (NI) 1985</a>; <a href="https://www.legislation.gov.uk/asp/2006/17/contents" target="_blank" rel="noopener">Planning etc. (Scotland) Act 2006</a></div>
+      <details class="oh-yeah"><summary>oh yeah? — four nations</summary>
+        <code class="q">E: services.arcgis.com/JJzESW51TqeY9uat → Areas_of_Outstanding_Natural_Beauty_England (34)
+W: services.arcgis.com/hQoYDJEEJMaPw8Sy → Area_of_Outstanding_Natural_Beauty (NRW, 5)
+N: services-eu1.arcgis.com/d5l49Upuvx1Y6xxs → AONB (OSNI/SpatialNI, 8)
+S: services3.arcgis.com/zqVHg5bAKuLwkW3f → National_Scenic_Areas (40)</code>
+      </details>
+    </div>
+
+    <div class="src-card">
+      <b>5 · COVID-19 restrictions, 2 Dec 2020</b> — 348 features (devolved)
+      <div class="src-row"><span class="src-k">Skill</span> boundaries <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a>; instruments <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <a href="https://www.legislation.gov.uk/uksi/2020/1374/schedule/4/made" target="_blank" rel="noopener">SI&nbsp;2020/1374 Sch.4</a> (England); <a href="https://www.legislation.gov.uk/ssi/2020/344/contents" target="_blank" rel="noopener">SSI&nbsp;2020/344</a> (Scotland); Wales/NI own regs</div>
+      <div class="src-row"><span class="src-k">Working</span> England Sch.4 transcribed (Part&nbsp;1→Tier&nbsp;2, Part&nbsp;2→Tier&nbsp;3, unlisted→Tier&nbsp;1), upper-tier→LAD via ONS lookup; Scotland levels transcribed from the gov.scot allocation review in force that date; Wales/NI single national fill (not invented)</div>
+      <details class="oh-yeah"><summary>oh yeah? — boundaries + transcription</summary>
+        <code class="q">LADs:      services1.arcgis.com/ESMARspQHYMw9BZ9 → LAD_DEC_2020_UK_BGC
+W/NI fill: services1.arcgis.com/ESMARspQHYMw9BZ9 → Countries_December_2020_UK_BGC_2022
+England tiers   ← SI 2020/1374 Schedule 4 (as made)
+Scotland levels ← gov.scot Strategic Framework allocation review, 2 Dec 2020</code>
+      </details>
+    </div>
+
+    <p class="muted" style="margin-top:8px">No UK Parliament API data is used on this page; nothing here goes through the fpkg proxy except basemap tiles. Generalised geometry is for display only — not authoritative for legal extent.</p>
+  </div><!-- /tab-sources -->
 </div>
 
+<script>
+  // Intro panel tabs (About / Sources).
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = (p.id !== 'tab-' + btn.dataset.tab); });
+  }));
+</script>
 <script src="vendor/leaflet.js"></script>
 <script src="data.js"></script>
 <script>
