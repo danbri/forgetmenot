@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  // Make relative asset URLs (vendor/, data/) resolve correctly whether the page
+  // is opened as /pspo-map, /pspo-map/ (trailing slash), or file://…/index.html.
+  // The static server serves index.html for the no-slash path without
+  // redirecting, so "vendor/leaflet.js" would otherwise resolve against "/".
+  (function(){
+    var p = location.pathname;
+    if (location.protocol !== 'file:' && !/\/$/.test(p) && !/\.html?$/i.test(p)) {
+      var b = document.createElement('base');
+      b.href = p + '/';
+      document.head.appendChild(b);
+    }
+  })();
+</script>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Public Spaces Protection Orders — an illustrative map</title>
+<link rel="stylesheet" href="vendor/leaflet.css" />
+<style>
+  :root { --ink:#1a1a2e; --panel:#ffffffee; --accent:#b5179e; --pspo:#d6336c; --pin:#1f6feb; }
+  html,body { margin:0; height:100%; font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; color:var(--ink); }
+  #map { position:absolute; inset:0; }
+  .panel { position:absolute; z-index:1000; background:var(--panel); backdrop-filter:blur(6px);
+    border-radius:10px; box-shadow:0 2px 16px #0003; padding:14px 16px; }
+  #intro { top:12px; left:12px; width:368px; max-width:calc(100vw - 24px);
+    max-height:calc(100vh - 24px); display:flex; flex-direction:column; padding:10px 12px; box-sizing:border-box; }
+  #intro-head { display:flex; align-items:flex-start; gap:8px; }
+  #intro-head .status-badge { margin:0; flex:1 1 auto; align-self:center; }
+  #intro-toggle { flex:0 0 auto; width:40px; height:40px; border:1px solid #ddd; background:#fff;
+    border-radius:8px; color:var(--accent); font-size:18px; line-height:1; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; }
+  #intro-toggle:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  #intro-body { overflow:auto; margin-top:9px; }
+  #intro.collapsed #intro-body { display:none; }
+  .chev { display:inline-block; transition:transform .15s ease; }
+  #intro.collapsed .chev { transform:rotate(-90deg); }
+  #intro h1 { font-size:18px; margin:0 0 6px; }
+  #intro p { margin:7px 0; font-size:14px; }
+  #intro a { color:var(--accent); }
+  .status-badge { display:inline-block; background:#fde68a; color:#7c4a03; border:1px solid #f59e0b;
+    border-radius:6px; padding:2px 9px; font-size:12px; font-weight:700; letter-spacing:.02em; margin:0; }
+  .caveat { background:#fff4e5; border:1px solid #f0a35e; border-left:4px solid #e8590c;
+    border-radius:6px; padding:8px 10px; margin:9px 0; font-size:13.5px; line-height:1.45; }
+  .caveat b { color:#b34700; }
+  .tiers { margin:8px 0; }
+  .tier { border-left:3px solid var(--accent); padding:6px 9px; margin:6px 0; border-radius:0 5px 5px 0;
+    background:#faf0f7; font-size:13px; }
+  .tier .tn { font-weight:700; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--accent); }
+  .tier.t3 { background:#eef4fb; border-left-color:var(--pin); }
+  .tier.t3 .tn { color:var(--pin); }
+  .tabs { display:flex; gap:4px; margin-bottom:8px; border-bottom:1px solid #ddd; }
+  .tab-btn { background:none; border:none; padding:6px 10px; font:inherit; font-size:14px; font-weight:600;
+    color:#888; cursor:pointer; border-bottom:2px solid transparent; }
+  .tab-btn.active { color:var(--accent); border-bottom-color:var(--accent); }
+  .src-card { border-left:3px solid #ddd; padding:3px 0 6px 9px; margin:9px 0; font-size:13px; }
+  .src-card > b { font-size:13.5px; }
+  .src-row { margin:3px 0; word-break:break-word; }
+  .src-k { display:inline-block; min-width:64px; color:#666; font-size:11px;
+    text-transform:uppercase; letter-spacing:.03em; vertical-align:top; }
+  details summary { cursor:pointer; font-weight:600; font-size:13px; margin-top:8px; color:var(--accent); }
+  details p { font-size:13px; }
+  .muted { color:#777; font-size:12.5px; }
+  a.btn { color:var(--accent); text-decoration:none; font-weight:600; }
+  a.btn:hover { text-decoration:underline; }
+  .leaflet-popup-content { font-size:13.5px; line-height:1.5; }
+  .leaflet-popup-content h3 { margin:0 0 4px; font-size:15px; }
+  .tag { display:inline-block; background:#eee; border-radius:4px; padding:0 6px; font-size:12px; margin:1px 2px 1px 0; }
+  /* sourced (fetched fact) vs interpreted (our reading) split */
+  .sourced-line { font-size:12px; color:#3a5f4a; background:#eef6f1; border:1px dashed #bcd9c9;
+    border-radius:4px; padding:4px 7px; margin-top:7px; }
+  .src-tag { display:inline-block; background:#0b6e4f; color:#fff; font-size:10px; font-weight:700;
+    letter-spacing:.03em; text-transform:uppercase; border-radius:3px; padding:1px 5px; margin-right:4px; vertical-align:1px; }
+  .legal-basis { background:#faf0f7; border-left:3px solid var(--accent); padding:6px 9px; margin-top:8px;
+    border-radius:0 4px 4px 0; font-size:12.5px; }
+  .legal-basis .lb-head { font-size:11px; font-weight:700; color:#7a1664; display:flex; align-items:center; gap:5px; margin-bottom:4px; }
+  .legal-basis .lb-tag { display:inline-block; background:var(--accent); color:#fff; font-size:10px; font-weight:700;
+    letter-spacing:.03em; text-transform:uppercase; border-radius:3px; padding:1px 5px; }
+  .legal-basis ol { margin:4px 0 2px; padding-left:18px; }
+  .legal-basis li { margin:3px 0; }
+  .keypoint { background:#fff4e5; border-left:3px solid #e8590c; padding:5px 8px; margin-top:6px; border-radius:0 4px 4px 0; font-size:12px; }
+  .swatch { display:inline-block; width:14px; height:14px; border-radius:3px; vertical-align:-2px; margin-right:5px; }
+  @media (max-width:600px) {
+    #intro { top:8px; left:8px; right:8px; width:auto; max-width:none; max-height:calc(100vh - 16px); }
+    #intro-toggle { width:44px; height:44px; }
+    #intro p, .src-card, .tier { font-size:14px; }
+    .tab-btn { padding:9px 13px; }
+  }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<div id="intro" class="panel">
+  <div id="intro-head">
+    <span class="status-badge" title="Not reviewed. Generated demonstrator — verify before any real use.">⚠ unreviewed demo · prototype · draft</span>
+    <button id="intro-toggle" type="button" aria-expanded="true" aria-controls="intro-body" aria-label="Hide details"><span class="chev" aria-hidden="true">▾</span></button>
+  </div>
+  <div id="intro-body">
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="about">The sign explained</button>
+    <button class="tab-btn" data-tab="sources">Sources</button>
+  </div>
+
+  <div class="tab-panel" id="tab-about">
+  <h1>That beach dog-fouling sign, explained</h1>
+  <p>A sign on a North Somerset beach (Weston-super-Mare area) cites the
+  <b>Anti-social Behaviour, Crime and Policing Act 2014</b> and a
+  <b>&ldquo;Public Spaces Protection Order&rdquo;</b> (PSPO). Here is the actual
+  chain of law behind it — and an <b>illustrative</b> map of PSPO boundaries from
+  the handful of councils that publish them as open data.</p>
+
+  <div class="tiers">
+    <div class="tier t1">
+      <div class="tn">Tier 1 · Primary Act of Parliament</div>
+      <b>Anti-social Behaviour, Crime and Policing Act 2014</b>
+      (<a href="https://www.legislation.gov.uk/ukpga/2014/12" target="_blank" rel="noopener">ukpga/2014/12</a>),
+      Part&nbsp;4, Chapter&nbsp;2 (ss.&nbsp;59–75) <i>creates</i> PSPOs.
+      <b>s.59</b> = the power for a <b>local authority</b> to make a PSPO;
+      <b>s.64</b> = dog controls (carry a bag, clean up, leads, exclusion).
+      Breach is a <b>criminal offence</b> (ss.&nbsp;67–68) — a Fixed Penalty
+      Notice or prosecution and a fine. Max 3 years, renewable. PSPOs
+      consolidated earlier regimes: Dog Control Orders (Clean Neighbourhoods
+      and Environment Act 2005), alcohol DPPOs and gating orders.
+    </div>
+    <div class="tier t2">
+      <div class="tn">Tier 2 · National Statutory Instrument</div>
+      <b>The Anti-social Behaviour, Crime and Policing Act 2014 (Publication of
+      Public Spaces Protection Orders) Regulations 2014</b>
+      (<a href="https://www.legislation.gov.uk/uksi/2014/2591" target="_blank" rel="noopener">uksi/2014/2591</a>),
+      made by the Secretary of State and on the legislation.gov.uk SI register.
+      It governs <b>how a council must publish</b> a PSPO.
+    </div>
+    <div class="tier t3">
+      <div class="tn">Tier 3 · The PSPO itself — a LOCAL order</div>
+      The order on the sign is made by the <b>council</b> (e.g.
+      <a href="https://www.n-somerset.gov.uk/pspo" target="_blank" rel="noopener">North Somerset</a>).
+      It is <b>NOT a Statutory Instrument</b>: not made by a Minister, not laid
+      before Parliament, not in the legislation.gov.uk SI series. It is
+      subordinate legislation <i>in substance</i> (legally binding, criminal
+      sanctions) but administratively a <b>local order</b>, published by the
+      council under uksi/2014/2591.
+    </div>
+  </div>
+  <p class="keypoint"><b>The teaching point:</b> the SI (Tier&nbsp;2) only says
+  <i>how to publish</i>. The order that actually bans dog-fouling on your beach
+  (Tier&nbsp;3) is a <b>local order, not an SI</b> — which is why you will never
+  find &ldquo;the North Somerset beach PSPO&rdquo; on legislation.gov.uk.</p>
+
+  <div class="caveat">
+    <b>⚠ ILLUSTRATIVE SAMPLE.</b> There is <b>no national PSPO registry</b>. This
+    map shows only the councils that publish their PSPO boundaries as open data.
+    <b>Absence from this map does not mean no PSPO</b> — most councils have them;
+    they just don't all publish geodata.
+  </div>
+  <p><span class="swatch" style="background:#d6336c66;border:1.5px solid var(--pspo)"></span>
+  <b>Sampled PSPO boundaries</b> (click any for its council, source and the
+  Act&nbsp;→&nbsp;SI&nbsp;→&nbsp;local-order chain).
+  <span class="swatch" style="background:var(--pin);border-radius:50%"></span>
+  <b>The sign's location</b> — North Somerset beach (Weston-super-Mare area).</p>
+  <p class="muted"><b>England &amp; Wales only.</b> The PSPO provisions of the
+  2014 Act do not extend to Scotland or Northern Ireland — they run their own
+  anti-social-behaviour regimes. The sample below happens to be all-English: no
+  Welsh council was found publishing PSPO boundaries as open data at build time
+  (which does not mean Welsh councils have none).</p>
+
+  <details>
+    <summary>Why isn't a PSPO a Statutory Instrument?</summary>
+    <p>An SI is delegated legislation made by a <i>Minister</i> under power
+    delegated by Parliament, numbered in the <code>uksi/</code> series and
+    (usually) laid before Parliament. A PSPO is made by a <i>local authority</i>
+    under s.59 of the 2014 Act, following local consultation; it is not laid
+    before Parliament and is not numbered as an SI. Both are
+    &ldquo;subordinate&rdquo; / &ldquo;secondary&rdquo; legislation in the broad
+    sense (rules made under a parent Act), but only the Minister-made instrument
+    is a <i>Statutory Instrument</i>. The two SIs you <i>will</i> find on the
+    register here are the national <i>publication</i> regulations (uksi/2014/2591),
+    not the orders themselves.</p>
+  </details>
+  </div><!-- /tab-about -->
+
+  <div class="tab-panel" id="tab-sources" hidden>
+    <p style="font-size:13px;margin-top:2px"><b>Every polygon is sourced.</b> Each
+    council's PSPO boundaries are fetched from that council's own open-data
+    service; the popup separates the <b>sourced</b> facts (council, name, source
+    URL) from the <b>interpreted</b> legal-basis chain.</p>
+    <div id="src-list"></div>
+    <p class="muted" style="margin-top:8px">Boundaries are server-side / display
+    generalised — not authoritative for legal extent. Where a source is in
+    British National Grid (EPSG:27700) it was reprojected to WGS84 for display.
+    Legislation: legislation.gov.uk (© Crown copyright, OGL v3.0). Basemaps:
+    © OpenStreetMap contributors; OpenTopoMap (CC-BY-SA). No UK Parliament API
+    data is used on this page.</p>
+  </div><!-- /tab-sources -->
+  </div><!-- /intro-body -->
+</div>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b === btn));
+    document.querySelectorAll('.tab-panel').forEach(p => { p.hidden = (p.id !== 'tab-' + btn.dataset.tab); });
+  }));
+  const introEl = document.getElementById('intro');
+  const introToggle = document.getElementById('intro-toggle');
+  function setIntroCollapsed(c) {
+    introEl.classList.toggle('collapsed', c);
+    introToggle.setAttribute('aria-expanded', String(!c));
+    introToggle.setAttribute('aria-label', c ? 'Show details' : 'Hide details');
+  }
+  introToggle.addEventListener('click', () => setIntroCollapsed(!introEl.classList.contains('collapsed')));
+  if (window.matchMedia('(max-width: 600px)').matches) setIntroCollapsed(true);
+</script>
+<script src="vendor/leaflet.js"></script>
+<script src="data/data.js"></script>
+<script>
+// Tile sources: when served from the fpkg origin route raster tiles through
+// /api/{osm,topo}-tile/ so the page never hot-links a third-party tile server.
+// Opened straight from file:// there is no proxy, so fall back to public hosts.
+const PROXIED = location.protocol !== 'file:';
+const osmUrl  = PROXIED ? '/api/osm-tile/{z}/{x}/{y}.png'  : 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const topoUrl = PROXIED ? '/api/topo-tile/{z}/{x}/{y}.png' : 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png';
+
+const phone = window.matchMedia('(max-width: 600px)').matches;
+const map = L.map('map', { zoomControl: !phone }).setView([52.8, -1.6], 6);
+if (phone) L.control.zoom({ position:'bottomleft' }).addTo(map);
+
+const ATTRIB = '&copy; OpenStreetMap contributors | PSPO boundaries: individual councils (open data) | legislation: legislation.gov.uk';
+L.tileLayer(osmUrl, { maxZoom:19, attribution:ATTRIB }).addTo(map);
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+const leg = 'https://www.legislation.gov.uk';
+
+// SOURCED provenance line — the council + name + source URL are fetched fact.
+function sourcedLine(p){
+  return `<div class="sourced-line"><span class="src-tag">sourced</span>
+    Council, order name &amp; the source URL below are fetched from
+    <b>${esc(p.council)}</b>'s open data.
+    <div style="margin-top:3px"><a class="btn" href="${esc(p.source)}" target="_blank" rel="noopener">source data →</a>${
+      p.page ? ` · <a class="btn" href="${esc(p.page)}" target="_blank" rel="noopener">council page →</a>` : ''}${
+      p.order_doc ? ` · <a class="btn" href="${esc(p.order_doc)}" target="_blank" rel="noopener">order PDF →</a>` : ''}</div></div>`;
+}
+// INTERPRETED legal-basis block — the 3-tier chain, identical for every PSPO.
+function legalBasis(){
+  return `<div class="legal-basis">
+    <div class="lb-head"><span class="lb-tag">interpreted</span> Legal basis — our reading, unreviewed</div>
+    <ol>
+      <li><b>Act:</b> Anti-social Behaviour, Crime and Policing Act 2014, Pt 4 Ch 2 (ss.59–75)
+        — <a class="btn" href="${leg}/ukpga/2014/12" target="_blank" rel="noopener">ukpga/2014/12 →</a></li>
+      <li><b>Publication SI:</b> Publication of PSPOs Regulations 2014
+        — <a class="btn" href="${leg}/uksi/2014/2591" target="_blank" rel="noopener">uksi/2014/2591 →</a></li>
+      <li><b>This boundary:</b> a <b>local order</b> made by the council under s.59 —
+        <b>NOT a Statutory Instrument</b> (not Minister-made, not laid before Parliament,
+        not in the <code>uksi/</code> series).</li>
+    </ol>
+  </div>`;
+}
+
+const PSPO_STYLE = { color:'#d6336c', weight:1.4, fillColor:'#d6336c', fillOpacity:0.32 };
+const pspoLayer = L.geoJSON(window.PSPO_SAMPLE, {
+  style: PSPO_STYLE,
+  onEachFeature: (f, l) => {
+    const p = f.properties;
+    l.bindPopup(() => `
+      <h3>${esc(p.pspo_name || 'PSPO')}</h3>
+      <span class="tag">${esc(p.pspo_type || 'PSPO')}</span>
+      <span class="tag">${esc(p.region || '')}</span>
+      ${p.note ? `<div class="muted" style="margin-top:4px">${esc(p.note)}</div>` : ''}
+      ${sourcedLine(p)}
+      ${legalBasis()}`);
+    l.on('mouseover', () => l.setStyle({ weight:3, fillOpacity:0.45 }));
+    l.on('mouseout',  () => pspoLayer.resetStyle(l));
+  }
+}).addTo(map);
+
+// Dropped pin: the sign's location — North Somerset beach (Weston-super-Mare).
+const signMarker = L.marker([51.34, -2.98]).addTo(map);
+signMarker.bindPopup(`
+  <h3>The sign's location</h3>
+  <span class="tag">North Somerset</span> <span class="tag">Weston-super-Mare area</span>
+  <div class="sourced-line"><span class="src-tag">sourced</span>
+    North Somerset Council publishes its PSPO <b>order text</b>, not open geodata, so no boundary
+    polygon is drawn here.
+    <div style="margin-top:3px"><a class="btn" href="https://www.n-somerset.gov.uk/pspo" target="_blank" rel="noopener">n-somerset.gov.uk/pspo →</a></div></div>
+  ${legalBasis()}`);
+
+// Fit the sample + the pin.
+try {
+  const grp = L.featureGroup([pspoLayer, signMarker]);
+  map.fitBounds(grp.getBounds().pad(0.12));
+} catch(e) { /* keep default view */ }
+
+// Populate the Sources tab from the manifest.
+(function(){
+  const host = document.getElementById('src-list');
+  const m = window.PSPO_SOURCES || { councils: [] };
+  // collapse the per-dataset rows by council, summing features
+  const rows = m.councils || [];
+  host.innerHTML = rows.map(c => `
+    <div class="src-card" style="border-left-color:#d6336c">
+      <b>${esc(c.council)}</b> <span class="muted">· ${esc(c.region)} · ${c.features} feature${c.features===1?'':'s'}</span>
+      <div class="src-row"><span class="src-k">Source</span> <a class="btn" href="${esc(c.source)}" target="_blank" rel="noopener">${esc(c.source)}</a></div>
+      ${c.page ? `<div class="src-row"><span class="src-k">Page</span> <a class="btn" href="${esc(c.page)}" target="_blank" rel="noopener">${esc(c.page)}</a></div>` : ''}
+    </div>`).join('') +
+    `<div class="src-card" style="border-left-color:#1f6feb">
+      <b>North Somerset Council (the sign)</b> <span class="muted">· South West · pin only, no polygon</span>
+      <div class="src-row"><span class="src-k">Page</span> <a class="btn" href="https://www.n-somerset.gov.uk/pspo" target="_blank" rel="noopener">https://www.n-somerset.gov.uk/pspo</a></div>
+      <div class="src-row muted">Publishes the order text, not open geodata — so it is pinned, not shaded.</div>
+    </div>`;
+})();
+</script>
+</body>
+</html>

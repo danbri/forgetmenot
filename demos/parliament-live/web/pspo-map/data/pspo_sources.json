@@ -1,0 +1,69 @@
+{
+  "generated": "2026-06-29",
+  "note": "Illustrative sample — councils that publish PSPO boundaries as open data. No national registry exists.",
+  "councils": [
+    {
+      "council": "Sheffield City Council",
+      "region": "Yorkshire & the Humber",
+      "source": "https://sheffieldcitycouncil.cloud.esriuk.com/server/rest/services/AGOL/OpenData1/FeatureServer/36/query?outFields=*&where=1=1&f=geojson",
+      "page": "https://www.sheffield.gov.uk/buying-selling/public-space-protection-orders",
+      "features": 1
+    },
+    {
+      "council": "Gedling Borough Council",
+      "region": "East Midlands",
+      "source": "https://gedlingmaps.gedling.gov.uk/arcgis/rest/services/opendata/Dog_Fouling_PSPO_Area/MapServer/0/query?where=1=1&outFields=*&f=geojson",
+      "page": "https://www.gedling.gov.uk/streetscene/dogfouling/",
+      "features": 1
+    },
+    {
+      "council": "Gedling Borough Council",
+      "region": "East Midlands",
+      "source": "https://gedlingmaps.gedling.gov.uk/arcgis/rest/services/opendata/Car_Cruising_PSPO_Area/MapServer/0/query?where=1=1&outFields=*&f=geojson",
+      "page": "https://www.gedling.gov.uk/",
+      "features": 1
+    },
+    {
+      "council": "City of York Council",
+      "region": "Yorkshire & the Humber",
+      "source": "https://hub.arcgis.com/api/download/v1/items/c8a07c40e6044e4598c2988526803bf6/geojson?layers=11",
+      "page": "https://www.york.gov.uk/PSPO",
+      "features": 2
+    },
+    {
+      "council": "London Borough of Barking & Dagenham",
+      "region": "London",
+      "source": "https://services3.arcgis.com/lCzPKKaGs7lhrnrV/arcgis/rest/services/Public_spaces_protection_orders/FeatureServer/0/query?where=1=1&outFields=*&f=geojson",
+      "page": "https://www.lbbd.gov.uk/community-safety-and-crime/public-spaces-protection-orders-pspos",
+      "features": 3
+    },
+    {
+      "council": "Maldon District Council",
+      "region": "East of England",
+      "source": "https://utility.arcgis.com/usrsvcs/servers/64dae4d17fc94837adfd5056240f4b15/rest/services/Public_Space_Protection_Orders_PSPO/FeatureServer/0/query?where=1=1&outFields=*&f=geojson",
+      "page": "https://www.maldon.gov.uk/info/20082/community_safety/9313/public_spaces_protection_orders_pspo",
+      "features": 10
+    },
+    {
+      "council": "Fareham Borough Council (Hill Head beach)",
+      "region": "South East (coastal)",
+      "source": "https://services6.arcgis.com/7sEZiHncz1HK9dhD/arcgis/rest/services/Public_Space_Protection_Order_for_Dogs/FeatureServer/202/query?where=1=1&outFields=*&f=geojson",
+      "page": "https://www.fareham.gov.uk/",
+      "features": 1
+    },
+    {
+      "council": "Stafford Borough Council",
+      "region": "West Midlands",
+      "source": "https://ccs.maps.xmap.cloud/ccs_public/sbc_pspo/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=ccs_public:sbc_pspo&outputFormat=application/json",
+      "page": "https://www.staffordbc.gov.uk/public-space-protection-orders",
+      "features": 59
+    },
+    {
+      "council": "Cannock Chase District Council",
+      "region": "West Midlands",
+      "source": "https://ccs.maps.xmap.cloud/ccs_public/ccc_pspo/wfs?service=WFS&version=2.0.0&request=GetFeature&typeNames=ccs_public:ccc_pspo&outputFormat=application/json",
+      "page": "https://www.cannockchasedc.gov.uk/",
+      "features": 5
+    }
+  ]
+}
