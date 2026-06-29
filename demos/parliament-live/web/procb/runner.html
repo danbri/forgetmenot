@@ -1,102 +1,4 @@
-#!/usr/bin/env python3
-"""Generate the procb gallery served at /procb/: a searchable before/after
-runner over all 130 procedure-browser queries, with the alpha-equivalence
-verdict, the getter delta, and EDITABLE inputs for each #{template slot}
-pre-filled with a real example value.
-
-Reads manifest.json + verify-report.json + getter-deltas.json + queries/*.rq.
-Derives each id slot's ontology class from the corpus and resolves one real
-example id per class from the public endpoint (cached in slot-examples.json).
-Emits <web>/queries.json + runner.html and copies the kgx engine in.
-"""
-import json, re, glob, pathlib, shutil, urllib.request, urllib.parse
-
-HERE = pathlib.Path(__file__).parent
-QDIR = HERE / "queries"
-WEB = HERE.parent.parent / "demos" / "parliament-live" / "web" / "procb"
-WEB.mkdir(parents=True, exist_ok=True)
-EP = "https://api.parliament.uk/sparql"
-SCHEMA = "https://id.parliament.uk/schema/"
-
-# ---- slot -> ontology class, derived from the corpus -----------------------
-def derive_slot_classes():
-    sc = {}
-    for f in glob.glob(str(QDIR / "*.before.rq")):
-        s = open(f).read()
-        for var, slot in re.findall(r"filter\s*\(\s*([?$]\w+)\s+in\s*\(\s*id:#\{(\w+)\}", s, re.I):
-            m = re.search(re.escape(var) + r"\s+a\s+:(\w+)", s)
-            if m: sc.setdefault(slot, m.group(1))
-    sc.setdefault("work_package_id", "WorkPackage")   # filtered without an inline `a :` triple
-    return sc
-
-def resolve_examples(classes):
-    cache = HERE / "slot-examples.json"
-    if cache.exists():
-        return json.loads(cache.read_text())
-    ex = {}
-    for c in sorted(set(classes)):
-        q = f"PREFIX : <{SCHEMA}> SELECT ?x WHERE {{ ?x a :{c} }} LIMIT 1"
-        req = urllib.request.Request(EP + "?query=" + urllib.parse.quote(q),
-                                     headers={"Accept": "application/sparql-results+json"})
-        try:
-            d = json.loads(urllib.request.urlopen(req, timeout=40).read())
-            b = d["results"]["bindings"]
-            ex[c] = b[0]["x"]["value"] if b else ""
-        except Exception:
-            ex[c] = ""
-    cache.write_text(json.dumps(ex, indent=1))
-    return ex
-
-SLOT_CLASS = derive_slot_classes()
-EX = resolve_examples(SLOT_CLASS.values())
-
-def slot_kind(name):
-    if name in ("limit", "offset"): return "number"
-    if name == "letter": return "letter"
-    if name.endswith("uri"): return "uri"
-    return "id"
-
-def slot_example(name):
-    k = slot_kind(name)
-    if k == "number": return "20" if name == "limit" else "0"
-    if k == "letter": return "a"
-    if k == "uri": return EX.get("ActOfParliament", "")          # full URI, used inside <>
-    return (EX.get(SLOT_CLASS.get(name, ""), "") or "").split("/")[-1]   # local id
-
-def slots_of(query):
-    seen, out = set(), []
-    for name in re.findall(r"#\{(\w+)\}", query):
-        if name in seen: continue
-        seen.add(name)
-        out.append({"name": name, "kind": slot_kind(name),
-                    "cls": SLOT_CLASS.get(name, ""), "example": slot_example(name)})
-    return out
-
-# ---- build records ---------------------------------------------------------
-manifest = json.loads((HERE / "manifest.json").read_text())
-verdicts = {r["name"]: r["verdict"] for r in json.loads((HERE / "verify-report.json").read_text())}
-deltas = json.loads((HERE / "getter-deltas.json").read_text())
-
-records = []
-for m in manifest:
-    n = m["name"]
-    before = (QDIR / f"{n}.before.rq").read_text().rstrip("\n")
-    records.append({
-        "name": n, "title": m.get("title", n), "source": m.get("source", ""),
-        "before": before, "after": (QDIR / f"{n}.after.rq").read_text().rstrip("\n"),
-        "verdict": verdicts.get(n, "?"),
-        "getter": deltas.get(n, {}).get("getter_file"),
-        "replacements": deltas.get(n, {}).get("replacements", []),
-        "slots": slots_of(before),
-    })
-(WEB / "queries.json").write_text(json.dumps(records, ensure_ascii=False), encoding="utf-8")
-shutil.copy(HERE.parent.parent / "demos/parliament-live/web/kgx/js/sparql-core.js", WEB / "sparql-core.js")
-
-npass = sum(1 for r in records if r["verdict"] == "alpha-equivalent")
-nrep = sum(len(r["replacements"]) for r in records)
-ntmpl = sum(1 for r in records if r["slots"])
-
-HTML = r"""<!doctype html>
+<!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>procedure-browser query cleanup — run/review</title>
@@ -146,7 +48,7 @@ cleaned to the house style and proven meaning-preserving. Flip <b>before/after</
 fill any <span class="t-interp">#{template&nbsp;slots}</span> (pre-filled with real
 example values), run against the public endpoint, and see the getter change each
 rename implies. A read-only mirror &mdash; no PRs.</p>
-<p class="stats">__STATS__</p>
+<p class="stats">130 queries &middot; <b>130 proven &alpha;-equivalent</b> &middot; 0 differ &middot; 123 renamed &middot; 333 getter row[] replacements &middot; 102 are fillable templates</p>
 
 <label for="filter">Filter</label>
 <input type="search" id="filter" placeholder="type to filter 130 queries by name or title&hellip;">
@@ -202,11 +104,4 @@ $("va").addEventListener("click",()=>{ver="after";load()});
 function fill(q){document.querySelectorAll("#slots input").forEach(inp=>{q=q.split("#{"+inp.dataset.slot+"}").join(inp.value.trim()||"0")});return q}
 $("run").addEventListener("click",async()=>{const b=$("run");b.disabled=true;$("status").textContent="running…";$("out").innerHTML="";try{const res=await SparqlCore.execute(ENDPOINT,fill($("qin").value));const n=(res.json&&res.json.results&&res.json.results.bindings||[]).length;$("status").textContent=(res.ok?n+" row"+(n===1?"":"s"):"HTTP "+res.status)+(res.ms!=null?" in "+res.ms+" ms":"");SparqlCore.render($("out"),res,{})}catch(e){$("status").textContent="failed: "+e.message}finally{b.disabled=false}});
 fetch("queries.json").then(r=>r.json()).then(d=>{DATA=d;renderPick()});
-</script></body></html>"""
-HTML = HTML.replace("__STATS__",
-   f"{len(records)} queries &middot; <b>{npass} proven &alpha;-equivalent</b> &middot; "
-   f"0 differ &middot; {len(deltas)} renamed &middot; {nrep} getter row[] replacements &middot; "
-   f"{ntmpl} are fillable templates")
-(WEB / "runner.html").write_text(HTML, encoding="utf-8")
-print(f"wrote {WEB}/runner.html + queries.json ({len(records)} queries, {npass} proven, "
-      f"{ntmpl} templates, {len(SLOT_CLASS)} slot types)")
+</script></body></html>
