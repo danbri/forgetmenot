@@ -58,6 +58,20 @@
   .tag { display:inline-block; background:#eee; border-radius:4px; padding:0 6px; font-size:11.5px; margin:1px 2px 1px 0; }
   .si-cite { background:#f5edf7; border-left:3px solid var(--accent); padding:5px 8px; margin-top:7px; font-size:12px; border-radius:0 4px 4px 0; }
   .rel { background:#e7f4ee; border-left:3px solid var(--lg); padding:5px 8px; margin-top:7px; font-size:12px; border-radius:0 4px 4px 0; }
+  /* ---- epistemic separation: SOURCED (fetched fact) vs INTERPRETED (our reading) ---- */
+  .sourced-line { font-size:11px; color:#3a5f4a; background:#eef6f1; border:1px dashed #bcd9c9;
+    border-radius:4px; padding:3px 6px; margin-top:6px; }
+  .src-tag { display:inline-block; background:#0b6e4f; color:#fff; font-size:9.5px; font-weight:700;
+    letter-spacing:.03em; text-transform:uppercase; border-radius:3px; padding:1px 5px; margin-right:4px; vertical-align:1px; }
+  .legal-basis { border-left-width:3px; }
+  .legal-basis .lb-head { font-size:11px; font-weight:700; color:#4a2b6b; display:flex; align-items:center;
+    gap:5px; margin-bottom:3px; }
+  .legal-basis .lb-tag { display:inline-block; background:#7b2d8e; color:#fff; font-size:9.5px; font-weight:700;
+    letter-spacing:.03em; text-transform:uppercase; border-radius:3px; padding:1px 5px; }
+  .legal-basis .lb-claim { margin:2px 0; }
+  .legal-basis .lb-instruments { margin:4px 0 2px; }
+  .legal-basis .lb-meta { margin-top:3px; font-size:11.5px; color:#444; }
+  .legal-basis .lb-review { margin-top:4px; font-size:10.5px; color:#7a6688; font-style:italic; }
   a.btn { color:var(--accent); text-decoration:none; font-weight:600; }
   a.btn:hover { text-decoration:underline; }
   .leaflet-control-layers { font-size:13px; }
@@ -260,6 +274,18 @@
   also <b>devolved</b>, so the instrument <b>differs by nation</b>. Each feature's
   popup names the <i>exact</i> instrument and traces it to the primary Act on
   <a href="https://www.legislation.gov.uk" target="_blank" rel="noopener">legislation.gov.uk</a>.</p>
+  <p style="background:#f7f3fb;border-left:3px solid var(--accent);padding:6px 9px;border-radius:0 4px 4px 0">
+  <b>Sourced vs interpreted.</b> Each popup separates two kinds of statement: the
+  <b>sourced</b> facts (name, GSS code, ONS/Natural England relationships) fetched
+  from official datasets, and the <b>interpreted</b> legal basis (the
+  primary/secondary/notification reading and the made-under-Act chain), which is
+  <i>our editorial reading, not a fetched fact</i>. All the interpreted legal
+  characterisation is authored in one reviewable register —
+  <a href="https://github.com/danbri/forgetmenot/blob/claude/main/demos/parliament-live/web/legislation-map/data/legal-basis.json" target="_blank" rel="noopener">data/legal-basis.json</a>
+  (<a href="https://github.com/danbri/forgetmenot/blob/claude/main/demos/parliament-live/web/legislation-map/LEGAL-BASIS.md" target="_blank" rel="noopener">LEGAL-BASIS.md</a>) —
+  so every popup, the inspector and the Sources tab read the same claim, it can't
+  drift, and an expert can review the whole legal layer in one place. It is
+  currently <b>unreviewed</b>.</p>
   <div class="leg">
     <div class="legend-row"><span class="swatch" style="background:transparent;border:2px solid var(--con)"></span>
       <b>Westminster constituencies (UK)</b> — Parliamentary Constituencies Order 2023
@@ -381,7 +407,7 @@
       <b>1 · Westminster constituencies (UK)</b> — 650 (E543/S57/W32/N18)
       <div class="src-row"><span class="src-k">Data</span> ONS Open Geography ArcGIS — <code>Westminster_…_July_2024_…_UK_BUC</code></div>
       <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
-      <div class="src-row"><span class="src-k">Instrument</span> <b>Secondary:</b> <a href="https://www.legislation.gov.uk/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a> (Order in Council). <b>Primary:</b> <a href="https://www.legislation.gov.uk/ukpga/1986/56" target="_blank" rel="noopener">Parliamentary Constituencies Act 1986</a> (c.&nbsp;56) <span class="muted">via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <span class="src-lb" data-lb-keys="constituencies"></span> <span class="muted">via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
       <details class="oh-yeah"><summary>oh yeah?</summary>
         <code class="q">https://services1.arcgis.com/ESMARspQHYMw9BZ9/arcgis/rest/services/Westminster_Parliamentary_Constituencies_July_2024_Boundaries_UK_BUC/FeatureServer/0/query?where=1=1&amp;outFields=PCON24CD,PCON24NM&amp;maxAllowableOffset=0.003&amp;geometryPrecision=4&amp;f=geojson</code>
       </details>
@@ -392,7 +418,7 @@
       <div class="src-row"><span class="src-k">Data</span> ONS Open Geography ArcGIS — <code>Local_Authority_Districts_December_2024_Boundaries_UK_BUC</code> (LAD24CD / LAD24NM)</div>
       <div class="src-row"><span class="src-k">Relationship</span> <b>Authoritative</b> — exact constituency↔LAD sets derived from shared 2024 wards in the ONS lookup <code>WD24_PCON24_LAD24_UTLA24_UK_LU</code> (8,798 ward rows). Not a generalised-polygon overlap, so no boundary slivers; no area threshold needed.</div>
       <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
-      <div class="src-row"><span class="src-k">Instrument</span> <b>Area is primary (per nation):</b> <a href="https://www.legislation.gov.uk/ukpga/1972/70" target="_blank" rel="noopener">LGA 1972</a> (England) · <a href="https://www.legislation.gov.uk/ukpga/1963/33" target="_blank" rel="noopener">London Government Act 1963</a> (boroughs) · LG (Wales) Act 1994 · LG etc. (Scotland) Act 1994 · LGA (NI) 2014. Specific districts were constituted/named by Orders under these. <span class="muted">(Electoral <i>ward</i> reviews are separate — under the LDEDC Act 2009; see the Wards card.) via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <b>Area is primary (per nation):</b> <span class="src-lb" data-lb-keys="lad.E,lad.london,lad.W,lad.S,lad.N"></span> <span class="muted">(Electoral <i>ward</i> reviews are separate — see the Wards card.) via <a href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
       <details class="oh-yeah"><summary>oh yeah? — boundaries + relationship lookup</summary>
         <code class="q">LADs:   services1.arcgis.com/ESMARspQHYMw9BZ9 → Local_Authority_Districts_December_2024_Boundaries_UK_BUC
         /FeatureServer/0/query?where=1=1&amp;outFields=LAD24CD,LAD24NM&amp;maxAllowableOffset=0.004&amp;geometryPrecision=4&amp;f=geojson  (361)
@@ -405,7 +431,7 @@ Method: group wards by shared (PCON24CD, LAD24CD) → exact LAD↔constituency s
     <div class="src-card">
       <b>2 · Marine protected areas (UK)</b> — 137 (E106/S25/W1/<b>N5</b>)
       <div class="src-row"><span class="src-k">Skill</span> <span class="muted">direct open ArcGIS — no dedicated wrapper</span></div>
-      <div class="src-row"><span class="src-k">Instrument</span> MaCAA 2009 (E/W); <a href="https://www.legislation.gov.uk/asp/2010/5/contents" target="_blank" rel="noopener">Marine (Scotland) Act 2010</a>; <a href="https://www.legislation.gov.uk/nia/2013/10/contents" target="_blank" rel="noopener">Marine Act (NI) 2013</a></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <span class="src-lb" data-lb-keys="mpa.E,mpa.S,mpa.N"></span></div>
       <details class="oh-yeah"><summary>oh yeah? — four nations combined</summary>
         <code class="q">E: services.arcgis.com/JJzESW51TqeY9uat → Marine_Conservation_Zones_England (106, paginated)
 S: services1.arcgis.com/LM9GyVFsughzHdbO → Marine_Protected_Areas (LEAD=SNH → 25 territorial)
@@ -418,7 +444,7 @@ N: services-eu1.arcgis.com/kswen6BYexuc1SUk → All_MPAs_NI_Marine_Plan_Extent
     <div class="src-card">
       <b>3 · National Parks (GB)</b> — 15; <b>NI = 0 (none ever designated)</b>
       <div class="src-row"><span class="src-k">Skill</span> <span class="muted">direct open ArcGIS — no dedicated wrapper</span></div>
-      <div class="src-row"><span class="src-k">Instrument</span> NPACA 1949 (E/W); <a href="https://www.legislation.gov.uk/asp/2000/10/contents" target="_blank" rel="noopener">National Parks (Scotland) Act 2000</a></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <span class="src-lb" data-lb-keys="national_parks.EW,national_parks.S"></span></div>
       <details class="oh-yeah"><summary>oh yeah? — three nations</summary>
         <code class="q">E: services.arcgis.com/JJzESW51TqeY9uat → National_Parks_England (10)
 W: services.arcgis.com/hQoYDJEEJMaPw8Sy → National_Parks (NRW, 3)
@@ -429,7 +455,7 @@ S: services-eu1.arcgis.com/cECIr59LclpO818r → Boundaries_National_Parks/Featur
     <div class="src-card">
       <b>4 · AONBs / National Scenic Areas (UK)</b> — 87 (E34/W5/<b>N8</b> AONB + S40 NSA)
       <div class="src-row"><span class="src-k">Skill</span> <span class="muted">direct open ArcGIS — no dedicated wrapper</span></div>
-      <div class="src-row"><span class="src-k">Instrument</span> <a href="https://www.legislation.gov.uk/ukpga/2000/37/contents" target="_blank" rel="noopener">CROW 2000</a> (E/W); <a href="https://www.legislation.gov.uk/nisi/1985/170/contents" target="_blank" rel="noopener">NCALO (NI) 1985</a>; <a href="https://www.legislation.gov.uk/asp/2006/17/contents" target="_blank" rel="noopener">Planning etc. (Scotland) Act 2006</a></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <span class="src-lb" data-lb-keys="aonb.EW,aonb.N,nsa.S"></span></div>
       <details class="oh-yeah"><summary>oh yeah? — four nations</summary>
         <code class="q">E: services.arcgis.com/JJzESW51TqeY9uat → Areas_of_Outstanding_Natural_Beauty_England (34)
 W: services.arcgis.com/hQoYDJEEJMaPw8Sy → Area_of_Outstanding_Natural_Beauty (NRW, 5)
@@ -441,7 +467,7 @@ S: services3.arcgis.com/zqVHg5bAKuLwkW3f → National_Scenic_Areas (40)</code>
     <div class="src-card">
       <b>5 · COVID-19 restrictions, 2 Dec 2020</b> — 348 features (devolved)
       <div class="src-row"><span class="src-k">Skill</span> boundaries <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a>; instruments <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></div>
-      <div class="src-row"><span class="src-k">Instrument</span> <a href="https://www.legislation.gov.uk/uksi/2020/1374/schedule/4/made" target="_blank" rel="noopener">SI&nbsp;2020/1374 Sch.4</a> (England); <a href="https://www.legislation.gov.uk/ssi/2020/344/contents" target="_blank" rel="noopener">SSI&nbsp;2020/344</a> (Scotland); Wales/NI own regs</div>
+      <div class="src-row"><span class="src-k">Instrument</span> <span class="src-lb" data-lb-keys="covid.E,covid.S,covid.WN"></span></div>
       <div class="src-row"><span class="src-k">Working</span> England Sch.4 transcribed (Part&nbsp;1→Tier&nbsp;2, Part&nbsp;2→Tier&nbsp;3, unlisted→Tier&nbsp;1), upper-tier→LAD via ONS lookup; Scotland levels transcribed from the gov.scot allocation review in force that date; Wales/NI single national fill (not invented)</div>
       <details class="oh-yeah"><summary>oh yeah? — boundaries + transcription</summary>
         <code class="q">LADs:      services1.arcgis.com/ESMARspQHYMw9BZ9 → LAD_DEC_2020_UK_BGC
@@ -454,7 +480,7 @@ Scotland levels ← gov.scot Strategic Framework allocation review, 2 Dec 2020</
     <div class="src-card" style="border-left-color:#2fb39b">
       <b>6 · Nature &amp; landscape — lazy layers</b> — SSSI&nbsp;4128 · SAC&nbsp;1911 · SPA&nbsp;1079 · Ramsar&nbsp;1291 · NNR&nbsp;224 · LNR&nbsp;1724
       <div class="src-row"><span class="src-k">Data</span> Natural England open ArcGIS services (SSSI, SAC, SPA, Ramsar, NNR, LNR) — fetched on demand into <code>data/&lt;layer&gt;.geojson</code>; canvas-rendered for scale</div>
-      <div class="src-row"><span class="src-k">Instrument</span> <b>Mixed chain (honest):</b> SSSI = statutory <b>notification</b>, <a href="https://www.legislation.gov.uk/ukpga/1981/69" target="_blank" rel="noopener">W&amp;CA 1981 s.28</a> (primary, <i>not</i> an SI) · SAC/SPA = <b>secondary</b> <a href="https://www.legislation.gov.uk/uksi/2017/1012" target="_blank" rel="noopener">Habitats Regs 2017 (SI&nbsp;2017/1012)</a> under <a href="https://www.legislation.gov.uk/ukpga/1972/68" target="_blank" rel="noopener">ECA 1972</a> · Ramsar = <b>international</b> (Ramsar Convention 1971, no UK SI) · NNR/LNR = <a href="https://www.legislation.gov.uk/ukpga/1949/97" target="_blank" rel="noopener">NPACA 1949</a> (primary) <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <b>Mixed chain (honest):</b> <span class="src-lb" data-lb-keys="sssi,sac,spa,ramsar,nnr,lnr" data-lb-labels="1"></span> <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
       <details class="oh-yeah"><summary>oh yeah? — Natural England Open Data</summary>
         <code class="q">Natural England Designated Sites ArcGIS (OGL v3.0):
   SSSI (NAME / REF_CODE)        SAC  (SAC_NAME / SAC_CODE)
@@ -469,7 +495,7 @@ Fetched once on first toggle; built with L.geoJSON(data,{renderer:L.canvas()}).<
       <div class="src-row"><span class="src-k">Data</span> ONS <code>Wards_May_2024_Boundaries_UK_BSC</code> (WD24CD / WD24NM)</div>
       <div class="src-row"><span class="src-k">Relationship</span> ONS <code>WD24_PCON24_LAD24_UK_LU</code> lookup → <code>data/admin_rel.json</code> (each ward's parent constituency + council); lazy-loaded once with the ward layer</div>
       <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
-      <div class="src-row"><span class="src-k">Instrument</span> <b>Secondary:</b> Electoral Changes Orders (SIs) by the LGBCE. <b>Primary:</b> <a href="https://www.legislation.gov.uk/ukpga/2009/20" target="_blank" rel="noopener">LDEDCA 2009</a> (c.&nbsp;20) <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <span class="src-lb" data-lb-keys="ward.E,ward.S,ward.W,ward.N" data-lb-labels="1"></span> <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
       <details class="oh-yeah"><summary>oh yeah? — boundaries + lookup</summary>
         <code class="q">Wards:  ONS Open Geography → Wards_May_2024_Boundaries_UK_BSC (8,396)
 Lookup: ONS Open Geography → WD24_PCON24_LAD24_UK_LU
@@ -482,7 +508,7 @@ Lookup: ONS Open Geography → WD24_PCON24_LAD24_UK_LU
       <div class="src-row"><span class="src-k">Data</span> ONS <code>Parishes_May_2024_Boundaries_EW_BSC</code> (PAR24CD / PAR24NM)</div>
       <div class="src-row"><span class="src-k">Relationship</span> ONS <code>PAR24_WD24_LAD24_EW_LU</code> lookup → <code>data/admin_rel.json</code> (each parish's parent council)</div>
       <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
-      <div class="src-row"><span class="src-k">Instrument</span> <b>Secondary:</b> Orders following community governance reviews. <b>Primary:</b> <a href="https://www.legislation.gov.uk/ukpga/2007/28" target="_blank" rel="noopener">LGPIHA 2007, Part 4</a> (c.&nbsp;28) <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
+      <div class="src-row"><span class="src-k">Instrument</span> <span class="src-lb" data-lb-keys="parish.E,parish.W" data-lb-labels="1"></span> <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
       <details class="oh-yeah"><summary>oh yeah? — boundaries + lookup</summary>
         <code class="q">Parishes: ONS Open Geography → Parishes_May_2024_Boundaries_EW_BSC (11,337)
 Lookup:   ONS Open Geography → PAR24_WD24_LAD24_EW_LU
@@ -495,10 +521,7 @@ Lookup:   ONS Open Geography → PAR24_WD24_LAD24_EW_LU
       <div class="src-row"><span class="src-k">Data</span> ONS Open Geography ArcGIS — <code>Senedd_Cymru_Constituencies</code> (SENC26CD/NM), <code>Scottish_Parliament_Constituencies</code> (SPC26CD/NM), <code>Scottish_Parliament_Regions</code> (SPR26CD/NM), <code>London_Assembly_Constituencies</code> (lac17cd/nm), <code>Combined_Authorities</code> (CAUTH25CD/NM) — fetched on demand into <code>data/&lt;layer&gt;.geojson</code>, canvas-rendered</div>
       <div class="src-row"><span class="src-k">Skill</span> <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/ons-geo" target="_blank" rel="noopener">skills/ons-geo</a></div>
       <div class="src-row"><span class="src-k">Instrument</span> <b>Devolved, all primary-Act-backed:</b>
-        Senedd — <a href="https://www.legislation.gov.uk/ukpga/2006/32" target="_blank" rel="noopener">Government of Wales Act 2006</a> + <a href="https://www.legislation.gov.uk/asc/2024/4" target="_blank" rel="noopener">Senedd Cymru (Members and Elections) Act 2024</a> ·
-        Scottish Parliament const./regions — <a href="https://www.legislation.gov.uk/ukpga/1998/46" target="_blank" rel="noopener">Scotland Act 1998</a> (Boundaries Scotland review) ·
-        London Assembly — <a href="https://www.legislation.gov.uk/ukpga/1999/29" target="_blank" rel="noopener">Greater London Authority Act 1999</a> ·
-        combined authorities — bespoke Order (SI) under <a href="https://www.legislation.gov.uk/ukpga/2009/20" target="_blank" rel="noopener">LDEDCA 2009</a> + <a href="https://www.legislation.gov.uk/ukpga/2016/1" target="_blank" rel="noopener">Cities and Local Government Devolution Act 2016</a>
+        <span class="src-lb" data-lb-keys="senedd_const,spc,gla,combined_auth" data-lb-labels="1"></span>
         <span class="muted">via <a class="btn" href="https://github.com/danbri/forgetmenot/tree/claude/main/skills/tna-legislation" target="_blank" rel="noopener">skills/tna-legislation</a></span></div>
       <details class="oh-yeah"><summary>oh yeah? — ONS Open Geography boundaries</summary>
         <code class="q">ONS Open Geography ArcGIS (OGL v3.0):
@@ -562,7 +585,115 @@ const topo = L.tileLayer(topoUrl, {
 });
 
 const leg = 'https://www.legislation.gov.uk';
-const nationTag = n => `<span class="tag">${n}</span>`;
+const nationTag = n => `<span class="tag">${esc(n)}</span>`;
+const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c =>
+  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+
+// ===========================================================================
+// LEGAL-BASIS REGISTER (data/legal-basis.json) — the single source of truth for
+// the AUTHORED (interpreted) legal characterisation of each geography. Loaded
+// once at startup. Everything legal (popups, inspector, Sources tab, badges,
+// widget grouping) reads from here so the same claim is never restated and
+// cannot drift. The geography itself (name, GSS code, ONS relationships) is
+// SOURCED and stays in the feature properties / lookups — never in here.
+// ---------------------------------------------------------------------------
+let LB = { instruments:{}, geographies:{}, _meta:{} };
+const _lbReady = fetch('data/legal-basis.json')
+  .then(r => { if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(j => { LB = j; return j; })
+  .catch(e => { console.error('[legal-basis] failed to load register', e); throw e; });
+
+// A resolved <a> to one instrument by legislation.gov.uk id, titled from LB.
+function lbInstrumentLink(id){
+  const ins = (LB.instruments || {})[id];
+  const title = ins ? ins.title : id;
+  return `<a class="btn" href="${leg}/${id}" target="_blank" rel="noopener">${esc(title)} →</a>`;
+}
+
+// Short law-type human label (used in the interpreted block header line).
+const LB_LAWTYPE_WORD = {
+  primary:'primary legislation (an Act)',
+  secondary:'secondary legislation (an Order / SI)',
+  notification:'a statutory notification / declaration under a primary Act (not an SI)',
+  international:'an international designation (no UK instrument)',
+};
+
+// THE ONE legal-basis renderer. Given a register key, produce the INTERPRETED
+// block: a clear "our reading, unreviewed" heading, the `claim` prose, a line of
+// resolved instrument links (namedInstrument + each madeUnder + exampleInstrument),
+// the law-type / body / devolved facts, and a tiny review-status note. Replaces
+// every bespoke per-layer legal string. Returns '' if the key is unknown.
+function lbCite(key){
+  const g = (LB.geographies || {})[key];
+  if (!g) return `<div class="si-cite legal-basis"><b>⚠ no legal-basis entry for "${esc(key)}"</b></div>`;
+  // Resolve the instrument links: the named SI first (if any), then each enabling
+  // Act (madeUnder), then an illustrative example (if given). De-duplicated.
+  const ids = [];
+  if (g.namedInstrument) ids.push(g.namedInstrument);
+  (g.madeUnder || []).forEach(id => { if (ids.indexOf(id) < 0) ids.push(id); });
+  if (g.exampleInstrument && ids.indexOf(g.exampleInstrument) < 0) ids.push(g.exampleInstrument);
+  const linksHtml = ids.length
+    ? `<div class="lb-instruments">${ids.map(lbInstrumentLink).join(' · ')}</div>` : '';
+  const lawWord = LB_LAWTYPE_WORD[g.lawType] || g.lawType || '';
+  const dev = g.devolved === 'reserved' ? 'reserved (UK-wide)'
+            : g.devolved && g.devolved !== 'n/a' ? 'devolved · ' + esc(g.devolved)
+            : 'not devolved';
+  const rev = (g.review && g.review.status) || (LB._meta && LB._meta.review && LB._meta.review.status) || 'unreviewed';
+  return `<div class="si-cite legal-basis">
+    <div class="lb-head"><span class="lb-tag">interpreted</span> Legal basis — our reading, unreviewed</div>
+    <div class="lb-claim">${esc(g.claim)}</div>
+    ${linksHtml}
+    <div class="lb-meta"><b>${esc(lawWord)}</b>${g.body?` · ${esc(g.body)}`:''} · ${dev}</div>
+    <div class="lb-review">Authored legal characterisation · review status: ${esc(rev)} · see <a class="btn" href="data/legal-basis.json" target="_blank" rel="noopener">legal-basis.json</a>.</div>
+  </div>`;
+}
+
+// A SOURCED provenance line — labels the name/code/relationships above it as
+// fact fetched from an official dataset (ONS, Natural England, …), visibly
+// distinct from the interpreted legal basis below.
+function lbSourced(srcLabel){
+  return `<div class="sourced-line"><span class="src-tag">from ${esc(srcLabel)}</span> name, code &amp; any relationship/overlap above are fetched data.</div>`;
+}
+
+// ---------------------------------------------------------------------------
+// RESOLVER: (layer id, feature properties) → legal-basis register key.
+//   Selection uses SOURCED fields only (the code prefix / nation), which is
+//   legitimate — we pick which authored claim applies, we don't author here.
+// ---------------------------------------------------------------------------
+function lbKeyFor(layerId, p){
+  switch(layerId){
+    case 'constituencies': return 'constituencies';
+    case 'senedd_const':   return 'senedd_const';
+    case 'spc':            return 'spc';
+    case 'spr':            return 'spr';
+    case 'gla':            return 'gla';
+    case 'localGov':
+      return p.london ? 'lad.london'
+        : ({ E:'lad.E', W:'lad.W', S:'lad.S', N:'lad.N' }[(p.LAD24CD||'E')[0]] || 'lad.E');
+    case 'wards':
+      return ({ E:'ward.E', W:'ward.W', S:'ward.S', N:'ward.N' }[(p.WD24CD||'E')[0]] || 'ward.E');
+    case 'parishes':
+      return (p.PAR24CD||'E')[0] === 'W' ? 'parish.W' : 'parish.E';
+    case 'combined_auth':  return 'combined_auth';
+    case 'nationalParks':
+      return p.nation === 'Scotland' ? 'national_parks.S' : 'national_parks.EW';
+    case 'aonb':
+      return p.nation === 'Scotland' ? 'nsa.S'
+           : p.nation === 'Northern Ireland' ? 'aonb.N' : 'aonb.EW';
+    case 'mpa':
+      return ({ England:'mpa.E', Wales:'mpa.W', 'Northern Ireland':'mpa.N', Scotland:'mpa.S' }[p.nation]) || 'mpa.E';
+    case 'sssi':   return 'sssi';
+    case 'sac':    return 'sac';
+    case 'spa':    return 'spa';
+    case 'ramsar': return 'ramsar';
+    case 'nnr':    return 'nnr';
+    case 'lnr':    return 'lnr';
+    case 'covidTiers':
+      return p.regime === 'tiers' ? 'covid.E'
+           : p.regime === 'levels' ? 'covid.S' : 'covid.WN';
+    default: return null;
+  }
+}
 
 // ---------------------------------------------------------------------------
 // Constituency <-> local-authority relationship.
@@ -612,17 +743,12 @@ const constituencies = L.geoJSON(window.CONSTITUENCIES, {
          (local-government districts):<br>${councils.map(c=>`<span class="tag">${c[1]}</span>`).join(' ')}
          <div class="muted" style="margin-top:3px">Link via shared 2024 wards (ONS lookup) — authoritative, not a polygon overlap. Enable “Local government areas” to see them.</div></div>`
       : '';
-    l.bindPopup(`
-      <h3>${p.PCON24NM}</h3>
-      <span class="tag">GSS ${p.PCON24CD}</span> ${nationTag(p.nation)}
-      <div class="si-cite"><b>Drawn by secondary legislation; authorised by a primary Act.</b><br>
-      Boundary set by the <b>Parliamentary Constituencies Order 2023</b>
-      (<a class="btn" href="${leg}/uksi/2023/1230" target="_blank" rel="noopener">SI&nbsp;2023/1230</a>, an Order in Council) —
-      the power to draw it comes from the
-      <b><a class="btn" href="${leg}/ukpga/1986/56" target="_blank" rel="noopener">Parliamentary Constituencies Act 1986</a></b> (c.&nbsp;56, primary).
-      A <b>reserved</b> matter, so this single UK-wide instrument draws every seat — including Northern Ireland's 18,
-      which <b>double as the Northern Ireland Assembly constituencies</b>.</div>
+    l.bindPopup(() => `
+      <h3>${esc(p.PCON24NM)}</h3>
+      <span class="tag">GSS ${esc(p.PCON24CD)}</span> ${nationTag(p.nation)}
+      ${lbSourced('ONS Open Geography')}
       ${councilHtml}
+      ${lbCite('constituencies')}
       <div style="margin-top:6px">
         <a class="btn" href="https://members.parliament.uk/constituencies?searchText=${encodeURIComponent(p.PCON24NM)}" target="_blank" rel="noopener">members.parliament.uk</a>
       </div>`);
@@ -646,43 +772,8 @@ const constituencies = L.geoJSON(window.CONSTITUENCIES, {
 //     Westminster constituencies that overlap it (authoritative ward lookup)
 //     and highlights them on the map.
 // ---------------------------------------------------------------------------
-// Per-nation primary Act, chosen from the LAD24CD prefix.
-function lgPrimary(code, isLondon){
-  if(isLondon) return {
-    nation:'England (Greater London)',
-    body:`One of Greater London's 33 local authorities — 32 <b>London boroughs</b> plus the City of London. `
-      + `The boroughs were created by the <b>London Government Act 1963</b> (c.&nbsp;33, primary); `
-      + `the Greater London Authority by the Greater London Authority Act 1999 (c.&nbsp;29). `
-      + `Later boundary changes are made by Orders (SIs).`,
-    link:`${leg}/ukpga/1963/33`, linkText:'London Government Act 1963 →' };
-  switch(code[0]){
-    case 'E': return {
-      nation:'England',
-      body:`A principal local-government area in England. It exists under the <b>Local Government Act 1972</b> `
-        + `(c.&nbsp;70, <i>primary</i>); the specific districts were constituted and named by Orders made under it `
-        + `(e.g. the English Non-metropolitan Districts (Names) Order 1973). Later structural/boundary changes are `
-        + `by Order under the LGA 1972 / the Local Government and Public Involvement in Health Act 2007. `
-        + `<span class="muted">(Its electoral <i>wards</i> are a separate matter — reviewed by the Local Government `
-        + `Boundary Commission for England under the LDEDC Act 2009; see the Wards layer.)</span>`,
-      link:`${leg}/ukpga/1972/70`, linkText:'Local Government Act 1972 →' };
-    case 'W': return {
-      nation:'Wales',
-      body:`A Welsh <b>principal area</b>, created by the <b>Local Government (Wales) Act 1994</b> (c.&nbsp;19, primary); `
-        + `boundary changes by Orders under it.`,
-      link:`${leg}/ukpga/1994/19/contents`, linkText:'Local Government (Wales) Act 1994 →' };
-    case 'S': return {
-      nation:'Scotland',
-      body:`A Scottish <b>council area</b>, created by the <b>Local Government etc. (Scotland) Act 1994</b> (c.&nbsp;39, primary); `
-        + `boundary changes by Orders under it.`,
-      link:`${leg}/ukpga/1994/39/contents`, linkText:'Local Government etc. (Scotland) Act 1994 →' };
-    case 'N': return {
-      nation:'Northern Ireland',
-      body:`One of Northern Ireland's <b>11 local-government districts</b>, established by the `
-        + `<b>Local Government Act (Northern Ireland) 2014</b> (c.&nbsp;8, primary) which replaced the former 26 districts.`,
-      link:`${leg}/nia/2014/8/contents`, linkText:'Local Government Act (NI) 2014 →' };
-    default: return { nation:'UK', body:'A local authority district.', link:leg, linkText:'legislation.gov.uk →' };
-  }
-}
+// (Per-nation council legal prose now lives in the legal-basis register, keyed
+//  lad.E / lad.W / lad.S / lad.N / lad.london — resolved by lbKeyFor('localGov',…).)
 const LAD_BASE = { color:'#0b6e4f', weight:1.1, opacity:0.85, fill:true, fillColor:'#0b6e4f', fillOpacity:0.08 };
 const localGov = L.geoJSON(window.LADS, {
   // Faint fill (NOT fill:false) so the whole district is clickable.
@@ -691,20 +782,18 @@ const localGov = L.geoJSON(window.LADS, {
     const p=f.properties;
     ladLayers[p.LAD24CD] = l;
     l._resetStyle = () => l.setStyle(LAD_BASE);
-    const prim = lgPrimary(p.LAD24CD, p.london);
     const cons = LAD_TO_PCON[p.LAD24CD] || [];   // [[PCON24CD,name],…]
     const consHtml = cons.length
       ? `<div class="rel"><b>Overlaps ${cons.length} Westminster constituenc${cons.length>1?'ies':'y'}</b>:<br>
-         ${cons.map(c=>`<span class="tag">${c[1]}</span>`).join(' ')}
+         ${cons.map(c=>`<span class="tag">${esc(c[1])}</span>`).join(' ')}
          <div class="muted" style="margin-top:3px">Authoritative link via shared 2024 wards (ONS ward→constituency→LAD lookup) — not a generalised-polygon overlap. Highlighted on the map.</div></div>`
       : `<div class="muted">No overlapping Westminster constituency found in the ward lookup.</div>`;
-    l.bindPopup(`
-      <h3>${p.LAD24NM}</h3>
-      <span class="tag">${p.LAD24CD}</span> ${nationTag(prim.nation)}${p.london?' <span class="tag" style="background:#dff3ea">London</span>':''}
-      <div class="si-cite"><b>Grounded in a primary Act</b> — the area exists under it; its specific boundary &amp; name were fixed by Orders made under it.<br>
-      ${prim.body}
-      <br><a class="btn" href="${prim.link}" target="_blank" rel="noopener">${prim.linkText}</a>${prim.extra?' · '+prim.extra:''}</div>
-      ${consHtml}`);
+    l.bindPopup(() => `
+      <h3>${esc(p.LAD24NM)}</h3>
+      <span class="tag">${esc(p.LAD24CD)}</span>${p.london?' <span class="tag" style="background:#dff3ea">London</span>':''}
+      ${lbSourced('ONS Open Geography')}
+      ${consHtml}
+      ${lbCite(lbKeyFor('localGov', p))}`);
     // Click reveals + highlights the overlapping constituencies.
     l.on('click', ()=>{
       clearHighlight();
@@ -722,44 +811,19 @@ const localGov = L.geoJSON(window.LADS, {
 //    (same 2009 Act, Welsh Ministers), NI MCZs (Marine Act (NI) 2013),
 //    Scotland Nature Conservation MPAs (Marine (Scotland) Act 2010).
 // ---------------------------------------------------------------------------
-// Per-nation instrument copy, chosen by feature.nation + feature.kind.
-function mpaCite(p){
-  const nm = p.name;
-  switch(p.nation){
-    case 'England': return {
-      title:`${nm} MCZ`,
-      body:`Designated by the <b>${nm} Marine Conservation Zone Designation Order</b>, `
-        + `made under s.116 of the <b>Marine and Coastal Access Act 2009</b> (England).`,
-      link:`${leg}/all?title=${encodeURIComponent(nm + ' Marine Conservation Zone')}`, linkText:'Find the order →' };
-    case 'Wales': return {
-      title:`${nm} MCZ`,
-      body:`A <b>Marine Conservation Zone</b> in Welsh waters, designated by order of the `
-        + `Welsh Ministers under the <b>Marine and Coastal Access Act 2009</b>. `
-        + `Skomer is currently Wales's only MCZ.`,
-      link:`${leg}/all?title=${encodeURIComponent(nm + ' Marine Conservation Zone')}`, linkText:'Find on legislation.gov.uk →' };
-    case 'Northern Ireland': return {
-      title:`${nm} MCZ`,
-      body:`A Northern Ireland <b>Marine Conservation Zone</b>, designated by DAERA under `
-        + `the <b>Marine Act (Northern Ireland) 2013</b>.`,
-      link:`${leg}/nia/2013/10/contents`, linkText:'Marine Act (NI) 2013 →' };
-    case 'Scotland': return {
-      title:`${nm} Nature Conservation MPA`,
-      body:`A Scottish <b>Nature Conservation Marine Protected Area</b> (${p.mtype||'designated'} interest), `
-        + `made by a Scottish designation order under the <b>Marine (Scotland) Act 2010</b> `
-        + `(territorial waters; offshore MPAs use the Marine and Coastal Access Act 2009).`,
-      link:`${leg}/asp/2010/5/contents`, linkText:'Marine (Scotland) Act 2010 →' };
-    default: return { title:nm, body:'Marine protected area.', link:leg, linkText:'legislation.gov.uk →' };
-  }
+// Sourced presentation of an MPA's name (the legal basis comes from lbCite).
+function mpaTitle(p){
+  return p.nation === 'Scotland' ? `${p.name} Nature Conservation MPA` : `${p.name} MCZ`;
 }
 const mpa = L.geoJSON(window.MPA, {
   style:{ color:'#1f78b4', weight:1.2, fillColor:'#1f78b4', fillOpacity:0.28 },
   onEachFeature:(f,l)=>{
-    const p=f.properties; const c=mpaCite(p);
-    l.bindPopup(`
-      <h3>${c.title}</h3>
-      ${p.code?`<span class="tag">${p.code}</span> `:''}${nationTag(p.nation)}
-      <div class="si-cite">${c.body}
-      <br><a class="btn" href="${c.link}" target="_blank" rel="noopener">${c.linkText}</a></div>`);
+    const p=f.properties;
+    l.bindPopup(() => `
+      <h3>${esc(mpaTitle(p))}</h3>
+      ${p.code?`<span class="tag">${esc(p.code)}</span> `:''}${nationTag(p.nation)}
+      ${lbSourced('Natural England / NatureScot / NRW / DAERA')}
+      ${lbCite(lbKeyFor('mpa', p))}`);
     l.on('mouseover',()=>l.setStyle({weight:3}));
     l.on('mouseout', ()=>mpa.resetStyle(l));
   }
@@ -774,24 +838,12 @@ const mpa = L.geoJSON(window.MPA, {
 const nationalParks = L.geoJSON(window.NATIONAL_PARKS, {
   style:{ color:'#2e7d32', weight:1.5, fillColor:'#2e7d32', fillOpacity:0.22 },
   onEachFeature:(f,l)=>{
-    const p=f.properties; const nm=p.name;
-    let body, link, linkText;
-    if(p.nation==='Scotland'){
-      body=`A Scottish National Park designated by a <b>designation order</b> under the `
-        + `<b>National Parks (Scotland) Act 2000</b>${p.desig?` (opened ${p.desig})`:''}.`;
-      link=`${leg}/asp/2000/10/contents`; linkText='Nat. Parks (Scotland) Act 2000 →';
-    } else {
-      body=`A National Park designated by order under the <b>National Parks and Access `
-        + `to the Countryside Act 1949</b> (${p.nation}; confirmed by the relevant `
-        + `designation/variation order)${p.desig?`, designated ${p.desig}`:''}.`;
-      link=`${leg}/all?title=${encodeURIComponent(nm + ' National Park Designation Order')}`;
-      linkText='Find the designation order →';
-    }
-    l.bindPopup(`
-      <h3>${nm} National Park</h3>
-      ${nationTag(p.nation)}
-      <div class="si-cite">${body}
-      <br><a class="btn" href="${link}" target="_blank" rel="noopener">${linkText}</a></div>`);
+    const p=f.properties;
+    l.bindPopup(() => `
+      <h3>${esc(p.name)} National Park</h3>
+      ${nationTag(p.nation)}${p.desig?` <span class="tag">designated ${esc(p.desig)}</span>`:''}
+      ${lbSourced(p.nation==='Scotland'?'NatureScot':'Natural England / NRW')}
+      ${lbCite(lbKeyFor('nationalParks', p))}`);
     l.on('mouseover',()=>l.setStyle({weight:3}));
     l.on('mouseout', ()=>nationalParks.resetStyle(l));
   }
@@ -803,37 +855,21 @@ const nationalParks = L.geoJSON(window.NATIONAL_PARKS, {
 //    Conservation and Amenity Lands (NI) Order 1985), Scotland's analogue
 //    National Scenic Areas (now governed by the Planning etc. (Scotland) Act 2006).
 // ---------------------------------------------------------------------------
-function aonbCite(p){
-  const nm=p.name;
-  if(p.nation==='Scotland') return {
-    kind:'National Scenic Area',
-    body:`Scotland's analogue of an AONB. The 40 <b>National Scenic Areas</b> were `
-      + `originally identified in 1980 and now have statutory footing under the `
-      + `<b>Planning etc. (Scotland) Act 2006</b> (designation by Scottish Ministers).`,
-    link:`${leg}/asp/2006/17/contents`, linkText:'Planning etc. (Scotland) Act 2006 →' };
-  if(p.nation==='Northern Ireland') return {
-    kind:'AONB (Northern Ireland)',
-    body:`A Northern Ireland <b>Area of Outstanding Natural Beauty</b>${p.desig?`, declared ${p.desig}`:''}, `
-      + `made by DAERA under the <b>Nature Conservation and Amenity Lands (Northern Ireland) Order 1985</b>.`,
-    link:`${leg}/nisi/1985/170/contents`, linkText:'NCALO (NI) 1985 →' };
-  // England + Wales
-  return {
-    kind:'National Landscape (AONB)',
-    body:`Designated as an <b>Area of Outstanding Natural Beauty</b> by order (${p.nation}). `
-      + `Designation procedure is governed by Part&nbsp;IV of the <b>Countryside and Rights `
-      + `of Way Act 2000</b> (older AONBs were designated under the NPACA 1949).`,
-    link:`${leg}/all?title=${encodeURIComponent(nm + ' Area of Outstanding Natural Beauty Designation Order')}`,
-    linkText:'Find the designation order →' };
+// Sourced presentation of an AONB/NSA's type label (legal basis is from lbCite).
+function aonbKindLabel(p){
+  return p.nation==='Scotland' ? 'National Scenic Area'
+       : p.nation==='Northern Ireland' ? 'AONB (Northern Ireland)'
+       : 'National Landscape (AONB)';
 }
 const aonb = L.geoJSON(window.AONB, {
   style:f=>({ color:'#b8860b', weight:1.3, fillColor: f.properties.kind==='NSA'?'#7a6a1f':'#b8860b', fillOpacity:0.22 }),
   onEachFeature:(f,l)=>{
-    const p=f.properties; const c=aonbCite(p);
-    l.bindPopup(`
-      <h3>${p.name}</h3>
-      <span class="tag">${c.kind}</span> ${nationTag(p.nation)}
-      <div class="si-cite">${c.body}
-      <br><a class="btn" href="${c.link}" target="_blank" rel="noopener">${c.linkText}</a></div>`);
+    const p=f.properties;
+    l.bindPopup(() => `
+      <h3>${esc(p.name)}</h3>
+      <span class="tag">${esc(aonbKindLabel(p))}</span> ${nationTag(p.nation)}
+      ${lbSourced(p.nation==='Scotland'?'NatureScot republish':p.nation==='Northern Ireland'?'DAERA / OSNI':'Natural England / NRW')}
+      ${lbCite(lbKeyFor('aonb', p))}`);
     l.on('mouseover',()=>l.setStyle({weight:3}));
     l.on('mouseout', ()=>aonb.resetStyle(l));
   }
@@ -862,44 +898,30 @@ function covidStyle(f){
 }
 function covidPopup(p){
   if(p.regime==='tiers') return `
-    <h3>${p.area}</h3>
-    <span class="tag">GSS ${p.code}</span> ${nationTag('England')}
-    <span class="tag" style="background:${tierColour[p.tier]};color:#fff">${tierLabel[p.tier]}</span>
-    <div class="si-cite">Tier on 2&nbsp;Dec&nbsp;2020 set by the
-    <b>Health Protection (Coronavirus, Restrictions) (All Tiers) (England) Regulations 2020</b>
-    (<a class="btn" href="${leg}/uksi/2020/1374/schedule/4/made" target="_blank" rel="noopener">SI&nbsp;2020/1374, Sch.&nbsp;4</a>).
-    Schedule&nbsp;4 lists upper-tier areas in Tier&nbsp;2 (Part&nbsp;1) and Tier&nbsp;3
-    (Part&nbsp;2); unlisted areas were Tier&nbsp;1 (reg.&nbsp;8). County tiers shown on
-    constituent districts. <b>England's tiers did not apply outside England.</b></div>`;
+    <h3>${esc(p.area)}</h3>
+    <span class="tag">GSS ${esc(p.code)}</span> ${nationTag('England')}
+    <span class="tag" style="background:${tierColour[p.tier]};color:#fff">${esc(tierLabel[p.tier])}</span>
+    ${lbSourced('ONS boundaries + SI 2020/1374 Sch.4 (transcribed)')}
+    ${lbCite('covid.E')}`;
   if(p.regime==='levels') return `
-    <h3>${p.area}</h3>
-    <span class="tag">${p.code}</span> ${nationTag('Scotland')}
-    <span class="tag" style="background:${levelColour[p.level]};color:#fff">${levelLabel[p.level]}</span>
-    <div class="si-cite">Scotland ran its own <b>Strategic Framework</b>: protection
-    <b>levels&nbsp;0–4</b> allocated by council area, not England's tiers. Levels on
-    2&nbsp;Dec&nbsp;2020 are from the gov.scot allocation review then in force, under the
-    <b>Health Protection (Coronavirus) (Restrictions and Requirements) (Local Levels)
-    (Scotland) Regulations 2020</b>
-    (<a class="btn" href="${leg}/ssi/2020/344/contents" target="_blank" rel="noopener">SSI&nbsp;2020/344</a>).</div>`;
+    <h3>${esc(p.area)}</h3>
+    <span class="tag">${esc(p.code)}</span> ${nationTag('Scotland')}
+    <span class="tag" style="background:${levelColour[p.level]};color:#fff">${esc(levelLabel[p.level])}</span>
+    ${lbSourced('ONS boundaries + gov.scot allocation review (transcribed)')}
+    ${lbCite('covid.S')}`;
   if(p.nation==='Wales') return `
     <h3>Wales</h3>${nationTag('Wales')}
-    <div class="si-cite">Wales ran a <b>separate, nationwide regime</b> — no
-    council-area tier map applied on 2&nbsp;Dec&nbsp;2020 (post-firebreak national
-    rules, with the levels system arriving later in December). Shown as a single
-    national fill; <b>no per-area data is invented</b>.
-    <br><a class="btn" href="${leg}/wsi/2020/1149/contents" target="_blank" rel="noopener">Welsh Coronavirus Restrictions regs →</a></div>`;
+    ${lbSourced('ONS country boundary')}
+    ${lbCite('covid.WN')}`;
   return `
     <h3>Northern Ireland</h3>${nationTag('Northern Ireland')}
-    <div class="si-cite">Northern Ireland had its <b>own regulations</b> — neither
-    England's tiers nor Scotland's levels applied. On 2&nbsp;Dec&nbsp;2020 NI was under
-    nationwide restrictions made by the NI Executive. Shown as a single national fill;
-    <b>no per-area data is invented</b>.
-    <br><a class="btn" href="${leg}/nisr/2020/322/contents" target="_blank" rel="noopener">Health Protection (NI) regs 2020 →</a></div>`;
+    ${lbSourced('ONS country boundary')}
+    ${lbCite('covid.WN')}`;
 }
 const covidTiers = L.geoJSON(window.COVID_TIERS, {
   style:covidStyle,
   onEachFeature:(f,l)=>{
-    l.bindPopup(covidPopup(f.properties));
+    l.bindPopup(() => covidPopup(f.properties));
     l.on('mouseover',()=>l.setStyle({weight:2}));
     l.on('mouseout', ()=>covidTiers.resetStyle(l));
   }
@@ -910,9 +932,6 @@ const covidTiers = L.geoJSON(window.COVID_TIERS, {
 // demand from data/<file>.geojson. Built with an explicit canvas renderer so
 // 8k–11k polygons stay smooth; popups still work over canvas.
 // ===========================================================================
-const esc = s => String(s == null ? '' : s).replace(/[&<>"]/g, c =>
-  ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
-
 // admin_rel.json (ward/parish -> parent constituency/council), lazy-loaded once
 // when the first ward or parish layer is enabled.
 let ADMIN_REL = null, _adminRelPromise = null;
@@ -925,38 +944,24 @@ function loadAdminRel(){
   return _adminRelPromise;
 }
 
-// --- per-layer popup HTML builders (honest legal chains) -------------------
-function naturePopup(name, code, codeLabel, citeHtml){
+// --- per-layer popup HTML builders ----------------------------------------
+//   SOURCED header (name + code + provenance line) then the ONE register-driven
+//   INTERPRETED legal-basis block via lbCite(). The layer id maps to a register
+//   key through lbKeyFor() (selection uses sourced fields — code prefix / nation).
+function naturePopup(layerId, p, name, code, codeLabel, srcLabel){
   return `<h3>${esc(name)}</h3>
     ${code ? `<span class="tag">${esc(codeLabel)} ${esc(code)}</span> ` : ''}
-    <div class="si-cite">${citeHtml}</div>`;
+    ${lbSourced(srcLabel)}
+    ${lbCite(lbKeyFor(layerId, p))}`;
 }
+const NE = 'Natural England / JNCC';
 const POP = {
-  sssi: (p) => naturePopup(p.NAME, p.REF_CODE, 'ref',
-    `Notified by <b>Natural England</b> under the <b>Wildlife and Countryside Act 1981, s.28</b>
-     — a statutory <b>notification</b> under a <i>primary Act</i> (not a statutory instrument).
-     <br><a class="btn" href="${leg}/ukpga/1981/69" target="_blank" rel="noopener">Wildlife and Countryside Act 1981 →</a>`),
-  sac: (p) => naturePopup(p.SAC_NAME, p.SAC_CODE, 'code',
-    `Designated under the <b>Conservation of Habitats and Species Regulations 2017</b>
-     (<a class="btn" href="${leg}/uksi/2017/1012" target="_blank" rel="noopener">SI&nbsp;2017/1012</a>) —
-     <b>secondary legislation</b> — made under the
-     <a class="btn" href="${leg}/ukpga/1972/68" target="_blank" rel="noopener">European Communities Act 1972</a>.`),
-  spa: (p) => naturePopup(p.SPA_NAME, p.SPA_CODE, 'code',
-    `Classified for wild birds under the <b>Conservation of Habitats and Species Regulations 2017</b>
-     (<a class="btn" href="${leg}/uksi/2017/1012" target="_blank" rel="noopener">SI&nbsp;2017/1012</a>) —
-     <b>secondary legislation</b> — the same Habitats Regs chain as SACs.`),
-  ramsar: (p) => naturePopup(p.NAME, p.CODE, 'ref',
-    `An <b>international designation</b> (Ramsar Convention 1971); protected in domestic law
-     <i>as if an SSSI</i> — <b>not itself made by a UK statutory instrument</b>, so there is no
-     legislation.gov.uk SI to cite for the listing.`),
-  nnr: (p) => naturePopup(p.NAME, p.REF_CODE, 'ref',
-    `Declared by <b>Natural England</b> under the <b>National Parks and Access to the Countryside
-     Act 1949</b> / <b>Wildlife and Countryside Act 1981</b> (<i>primary</i>).
-     <br><a class="btn" href="${leg}/ukpga/1949/97" target="_blank" rel="noopener">NPACA 1949 →</a>`),
-  lnr: (p) => naturePopup(p.NAME, p.REF_CODE, 'ref',
-    `Declared by the <b>local authority</b> under the <b>National Parks and Access to the
-     Countryside Act 1949, s.21</b> (<i>primary</i>).
-     <br><a class="btn" href="${leg}/ukpga/1949/97" target="_blank" rel="noopener">NPACA 1949 →</a>`),
+  sssi:   (p) => naturePopup('sssi',   p, p.NAME,     p.REF_CODE, 'ref',  NE),
+  sac:    (p) => naturePopup('sac',    p, p.SAC_NAME, p.SAC_CODE, 'code', NE),
+  spa:    (p) => naturePopup('spa',    p, p.SPA_NAME, p.SPA_CODE, 'code', NE),
+  ramsar: (p) => naturePopup('ramsar', p, p.NAME,     p.CODE,     'ref',  NE),
+  nnr:    (p) => naturePopup('nnr',    p, p.NAME,     p.REF_CODE, 'ref',  NE),
+  lnr:    (p) => naturePopup('lnr',    p, p.NAME,     p.REF_CODE, 'ref',  NE),
   wards: (p) => {
     const rel = (ADMIN_REL && ADMIN_REL.wards && ADMIN_REL.wards[p.WD24CD]) || null;
     const relHtml = rel
@@ -965,20 +970,11 @@ const POP = {
          · council <span class="tag">${esc(rel.ladName||rel.lad||'—')}</span>
          <div class="muted" style="margin-top:3px">From the ONS WD24→PCON24→LAD24 lookup.</div></div>`
       : `<div class="muted">No parent constituency/council found in the lookup.</div>`;
-    // Ward boundaries are made by Order, but the boundary commission + primary Act
-    // differ by nation — switch on the WD24CD prefix (E/W/S/N).
-    const wc = {
-      E:['Electoral Changes Order (a statutory instrument) made by the <b>Local Government Boundary Commission for England</b>','Local Democracy, Economic Development and Construction Act 2009','ukpga/2009/20','LDEDCA 2009'],
-      S:['Order on the recommendation of <b>Boundaries Scotland</b>','Local Government (Scotland) Act 1973','ukpga/1973/65','LG (Scotland) Act 1973'],
-      W:['Order on the recommendation of the <b>Local Democracy and Boundary Commission for Wales</b>','Local Government (Democracy) (Wales) Act 2013','anaw/2013/4','LG (Democracy) (Wales) Act 2013'],
-      N:['Order on the recommendation of the <b>Local Government Boundaries Commissioner for Northern Ireland</b>','Local Government Act (Northern Ireland) 2014','nia/2014/8','LGA (NI) 2014'],
-    }[(p.WD24CD||'E')[0]] || ['Order','the applicable Local Government Act','','primary Act'];
     return `<h3>${esc(p.WD24NM)}</h3>
       <span class="tag">${esc(p.WD24CD)}</span>
-      <div class="si-cite">Drawn by an <b>${wc[0]}</b> under the <b>${wc[1]}</b> (<i>primary</i>).
-       ${wc[2]?`<br><a class="btn" href="${leg}/${wc[2]}" target="_blank" rel="noopener">${wc[3]} →</a>`:''}
-       <div class="muted" style="margin-top:3px">Current 2024 ward boundaries; later electoral reviews may revise them.</div></div>
-      ${relHtml}`;
+      ${lbSourced('ONS Open Geography')}
+      ${relHtml}
+      ${lbCite(lbKeyFor('wards', p))}`;
   },
   parishes: (p) => {
     const rel = (ADMIN_REL && ADMIN_REL.parishes && ADMIN_REL.parishes[p.PAR24CD]) || null;
@@ -987,47 +983,19 @@ const POP = {
          <span class="tag">${esc(rel.ladName||rel.lad||'—')}</span>
          <div class="muted" style="margin-top:3px">From the ONS PAR24→WD24→LAD24 lookup.</div></div>`
       : `<div class="muted">No parent council found in the lookup.</div>`;
-    // PAR24 covers England (civil parishes) and Wales (communities) — different primary Act.
     const welsh = (p.PAR24CD||'E')[0] === 'W';
-    const pc = welsh
-      ? { kind:'community (the Welsh equivalent of a parish)',
-          body:'Created/altered by <b>Order</b> under the <b>Local Government Act 1972</b> (which created Welsh communities), boundaries reviewed under the Local Government (Democracy) (Wales) Act 2013',
-          href:'ukpga/1972/70', label:'Local Government Act 1972' }
-      : { kind:'civil parish',
-          body:'Created/altered by <b>Order</b> following a <b>community governance review</b> under the <b>Local Government and Public Involvement in Health Act 2007, Part&nbsp;4</b>',
-          href:'ukpga/2007/28', label:'LGPIHA 2007' };
     return `<h3>${esc(p.PAR24NM)}</h3>
-      <span class="tag">${esc(p.PAR24CD)}</span> <span class="muted">${pc.kind}</span>
-      <div class="si-cite">${pc.body} (<i>primary</i>).
-       <br><a class="btn" href="${leg}/${pc.href}" target="_blank" rel="noopener">${pc.label} →</a></div>
-      ${relHtml}`;
+      <span class="tag">${esc(p.PAR24CD)}</span> <span class="muted">${welsh?'community (Welsh equivalent of a parish)':'civil parish'}</span>
+      ${lbSourced('ONS Open Geography')}
+      ${relHtml}
+      ${lbCite(lbKeyFor('parishes', p))}`;
   },
-  // --- devolved legislatures + combined authorities (new layers) -----------
-  senedd_const: (p) => naturePopup(p.SENC26NM, p.SENC26CD, 'GSS',
-    `A <b>Senedd</b> (Welsh Parliament) constituency (<b>DEVOLVED</b>). The Senedd's 16 new
-     constituencies (May 2026) are paired from Westminster constituencies by Order under the
-     <b>Government of Wales Act 2006</b> and the <b>Senedd Cymru (Members and Elections) Act 2024</b> (primary).
-     <br><a class="btn" href="${leg}/ukpga/2006/32" target="_blank" rel="noopener">Government of Wales Act 2006 →</a>
-     · <a class="btn" href="${leg}/asc/2024/4" target="_blank" rel="noopener">Senedd Cymru (Members and Elections) Act 2024 →</a>`),
-  spc: (p) => naturePopup(p.SPC26NM, p.SPC26CD, 'GSS',
-    `A <b>Scottish Parliament (Holyrood) constituency</b> (<b>DEVOLVED</b>), drawn by Order on a
-     Boundaries Scotland review under the <b>Scotland Act 1998</b> (primary).
-     <br><a class="btn" href="${leg}/ukpga/1998/46" target="_blank" rel="noopener">Scotland Act 1998 →</a>`),
-  spr: (p) => naturePopup(p.SPR26NM, p.SPR26CD, 'GSS',
-    `A <b>Scottish Parliament region</b> (<b>DEVOLVED</b>) — one of the <b>8 additional-member regions</b>
-     that top up the constituency seats. Drawn by Order on a Boundaries Scotland review under the
-     <b>Scotland Act 1998</b> (primary).
-     <br><a class="btn" href="${leg}/ukpga/1998/46" target="_blank" rel="noopener">Scotland Act 1998 →</a>`),
-  gla: (p) => naturePopup(p.lac17nm, p.lac17cd, 'GSS',
-    `A <b>London Assembly (GLA) constituency</b> (<b>DEVOLVED</b> to the GLA), under the
-     <b>Greater London Authority Act 1999</b> (primary).
-     <br><a class="btn" href="${leg}/ukpga/1999/29" target="_blank" rel="noopener">Greater London Authority Act 1999 →</a>`),
-  combined_auth: (p) => naturePopup(p.CAUTH25NM, p.CAUTH25CD, 'GSS',
-    `A <b>(mayoral) combined authority</b>, established by a bespoke <b>Order (SI)</b> under the
-     <b>Local Democracy, Economic Development and Construction Act 2009</b> and the
-     <b>Cities and Local Government Devolution Act 2016</b> (primary).
-     <br><a class="btn" href="${leg}/ukpga/2009/20" target="_blank" rel="noopener">LDEDCA 2009 →</a>
-     · <a class="btn" href="${leg}/ukpga/2016/1" target="_blank" rel="noopener">Cities and Local Government Devolution Act 2016 →</a>`),
+  // --- devolved legislatures + combined authorities ------------------------
+  senedd_const: (p) => naturePopup('senedd_const', p, p.SENC26NM, p.SENC26CD, 'GSS', 'ONS Open Geography'),
+  spc:          (p) => naturePopup('spc',          p, p.SPC26NM,  p.SPC26CD,  'GSS', 'ONS Open Geography'),
+  spr:          (p) => naturePopup('spr',          p, p.SPR26NM,  p.SPR26CD,  'GSS', 'ONS Open Geography'),
+  gla:          (p) => naturePopup('gla',          p, p.lac17nm,  p.lac17cd,  'GSS', 'ONS Open Geography'),
+  combined_auth:(p) => naturePopup('combined_auth',p, p.CAUTH25NM,p.CAUTH25CD,'GSS', 'ONS Open Geography'),
 };
 
 // Distinct subtle nature/marine fills (greens/teals/olives); faint but clickable.
@@ -1063,51 +1031,73 @@ const swColour = {
 //              "Local government" | "Statutory designations" | "Public health"
 //   lawType  ∈ "primary" | "secondary" | "notification" | "international"
 // ===========================================================================
+// Each entry carries a REPRESENTATIVE register key (`lbKey`) — the one used to
+// drive the badge + the widget group. level/lawType/body are still listed here
+// for legibility, but are ASSERTED against the register at load (see
+// assertLayerMetaMatchesRegister) and any drift is console.warn'd, so this table
+// cannot silently diverge from data/legal-basis.json. Layers whose law-type is
+// uniform across nations map cleanly; the few per-nation layers pick a
+// representative key (all nation variants share the same lawType + level).
 const LAYER_META = {
   // UK Parliament (reserved)
-  constituencies:{ level:'UK Parliament (reserved)', lawType:'secondary',
+  constituencies:{ lbKey:'constituencies', level:'UK Parliament (reserved)', lawType:'secondary',
     body:'Boundary Commissions / Order in Council', devolved:'reserved' },
   // Devolved legislatures
-  senedd_const:  { level:'Devolved legislatures', lawType:'secondary',
+  senedd_const:  { lbKey:'senedd_const', level:'Devolved legislatures', lawType:'secondary',
     body:'Order under GoWA 2006 / Senedd 2024', devolved:'Wales' },
-  spc:           { level:'Devolved legislatures', lawType:'secondary',
+  spc:           { lbKey:'spc', level:'Devolved legislatures', lawType:'secondary',
     body:'Order on a Boundaries Scotland review', devolved:'Scotland' },
-  spr:           { level:'Devolved legislatures', lawType:'secondary',
+  spr:           { lbKey:'spr', level:'Devolved legislatures', lawType:'secondary',
     body:'Order on a Boundaries Scotland review', devolved:'Scotland' },
-  gla:           { level:'Devolved legislatures', lawType:'secondary',
+  gla:           { lbKey:'gla', level:'Devolved legislatures', lawType:'secondary',
     body:'Order under the GLA Act 1999', devolved:'London' },
   // Local government
-  wards:         { level:'Local government', lawType:'secondary',
+  wards:         { lbKey:'ward.E', level:'Local government', lawType:'secondary',
     body:"nation's boundary commission", devolved:'varies' },
-  localGov:      { level:'Local government', lawType:'primary',
+  localGov:      { lbKey:'lad.E', level:'Local government', lawType:'primary',
     body:'structural Orders', devolved:'varies' },
-  parishes:      { level:'Local government', lawType:'secondary',
+  parishes:      { lbKey:'parish.E', level:'Local government', lawType:'secondary',
     body:'community governance review Orders', devolved:'England/Wales' },
-  combined_auth: { level:'Local government', lawType:'secondary',
+  combined_auth: { lbKey:'combined_auth', level:'Local government', lawType:'secondary',
     body:'bespoke SI', devolved:'England' },
   // Statutory designations
-  nationalParks: { level:'Statutory designations', lawType:'secondary',
+  nationalParks: { lbKey:'national_parks.EW', level:'Statutory designations', lawType:'secondary',
     body:'designation order', devolved:'varies' },
-  aonb:          { level:'Statutory designations', lawType:'secondary',
+  aonb:          { lbKey:'aonb.EW', level:'Statutory designations', lawType:'secondary',
     body:'designation order', devolved:'varies' },
-  mpa:           { level:'Statutory designations', lawType:'secondary',
+  mpa:           { lbKey:'mpa.E', level:'Statutory designations', lawType:'secondary',
     body:'designation order', devolved:'varies' },
-  sssi:          { level:'Statutory designations', lawType:'notification',
+  sssi:          { lbKey:'sssi', level:'Statutory designations', lawType:'notification',
     body:'Natural England', devolved:'varies' },
-  sac:           { level:'Statutory designations', lawType:'secondary',
+  sac:           { lbKey:'sac', level:'Statutory designations', lawType:'secondary',
     body:'Habitats Regs 2017 (SI)', devolved:'varies' },
-  spa:           { level:'Statutory designations', lawType:'secondary',
+  spa:           { lbKey:'spa', level:'Statutory designations', lawType:'secondary',
     body:'Habitats Regs 2017 (SI)', devolved:'varies' },
-  ramsar:        { level:'Statutory designations', lawType:'international',
+  ramsar:        { lbKey:'ramsar', level:'Statutory designations', lawType:'international',
     body:'Ramsar Convention (no UK instrument)', devolved:'varies' },
-  nnr:           { level:'Statutory designations', lawType:'notification',
+  nnr:           { lbKey:'nnr', level:'Statutory designations', lawType:'notification',
     body:'Natural England (NPACA 1949)', devolved:'varies' },
-  lnr:           { level:'Statutory designations', lawType:'notification',
+  lnr:           { lbKey:'lnr', level:'Statutory designations', lawType:'notification',
     body:'local authority declaration (NPACA 1949)', devolved:'varies' },
   // Public health
-  covidTiers:    { level:'Public health', lawType:'secondary',
+  covidTiers:    { lbKey:'covid.E', level:'Public health', lawType:'secondary',
     body:'coronavirus restrictions regulations', devolved:'varies' },
 };
+// Assert (once the register has loaded) that every LAYER_META law-type + level
+// matches its representative register entry; warn on drift. The register wins —
+// the badge/group below re-read from LB after this so a corrected register
+// propagates even if this table lags.
+function assertLayerMetaMatchesRegister(){
+  let drift = 0;
+  Object.entries(LAYER_META).forEach(([id, m]) => {
+    const g = (LB.geographies || {})[m.lbKey];
+    if (!g) { console.warn('[layer-meta drift]', id, '→ unknown register key', m.lbKey); drift++; return; }
+    if (g.lawType !== m.lawType) { console.warn('[layer-meta drift]', id, 'lawType', m.lawType, '≠ register', g.lawType, '— using register'); m.lawType = g.lawType; drift++; }
+    if (g.level !== m.level) { console.warn('[layer-meta drift]', id, 'level', m.level, '≠ register', g.level, '— using register'); m.level = g.level; drift++; }
+  });
+  if (!drift) console.info('[layer-meta] in sync with legal-basis register (no drift)');
+  return drift;
+}
 // Short legible badge labels per law-type (≥11px), for the "governance-level lens".
 const LAW_TYPE_BADGE = {
   primary:       { cls:'lt-primary',       label:'primary',  title:'Primary legislation (an Act)' },
@@ -1213,7 +1203,7 @@ function setEntryEnabled(entry, on, ui){
 // ===========================================================================
 // BUILD THE WIDGET DOM.
 // ===========================================================================
-(function buildWidget(){
+function buildWidget(){
   const widget   = document.getElementById('layers-widget');
   const baseWrap = document.getElementById('lw-base');
   const groupsEl = document.getElementById('lw-groups');
@@ -1304,7 +1294,37 @@ function setEntryEnabled(entry, on, ui){
   // Keep Leaflet from stealing scroll/drag/double-tap inside the widget.
   L.DomEvent.disableClickPropagation(widget);
   L.DomEvent.disableScrollPropagation(widget);
-})();
+}
+// Populate the Sources-tab instrument lines from the register so they cannot
+// drift from data/legal-basis.json. Each <span class="src-lb" data-lb-keys="…">
+// lists register keys; we render every key's resolved instrument links (named SI
+// + enabling Act(s) + example). data-lb-labels prefixes each key with its label.
+function populateSourceCards(){
+  document.querySelectorAll('.src-lb').forEach(span => {
+    const keys = (span.getAttribute('data-lb-keys') || '').split(',').map(s => s.trim()).filter(Boolean);
+    const withLabels = span.getAttribute('data-lb-labels') === '1';
+    const parts = [];
+    keys.forEach(key => {
+      const g = (LB.geographies || {})[key];
+      if (!g) { parts.push(`<span class="muted">⚠ ${esc(key)} not in register</span>`); return; }
+      const ids = [];
+      if (g.namedInstrument) ids.push(g.namedInstrument);
+      (g.madeUnder || []).forEach(id => { if (ids.indexOf(id) < 0) ids.push(id); });
+      if (g.exampleInstrument && ids.indexOf(g.exampleInstrument) < 0) ids.push(g.exampleInstrument);
+      const links = ids.length ? ids.map(lbInstrumentLink).join(' + ')
+                               : `<span class="muted">${esc(g.lawType)} — no SI</span>`;
+      parts.push(withLabels ? `<b>${esc(g.label)}</b> ${links}` : links);
+    });
+    span.innerHTML = parts.join(withLabels ? ' · ' : ' · ');
+  });
+}
+
+// Build the widget + Sources cards AFTER the register has loaded so the law-type
+// badges, group derivation and instrument links reflect any register-driven
+// correction; on register failure, still build (badges fall back to the static
+// LAYER_META table) so the map is usable.
+_lbReady.then(() => { assertLayerMetaMatchesRegister(); buildWidget(); populateSourceCards(); })
+        .catch(() => { console.warn('[legal-basis] building widget without register'); buildWidget(); });
 
 // ===========================================================================
 // "WHAT GOVERNS HERE?" — point inspector.
@@ -1319,70 +1339,33 @@ function setEntryEnabled(entry, on, ui){
 // source (a window.* global for eager layers, or data/<file>.geojson for lazy),
 // and a builder for the legal tag line (reusing the per-layer wording already
 // used in the popups). Order here is irrelevant; grouping is by LAYER_META.level.
+// Per-layer accessors only carry SOURCED selectors now (where to read the name /
+// code, and the raw GeoJSON source). The INTERPRETED legal basis is no longer
+// restated here — hitHtml() resolves the register key via lbKeyFor() and renders
+// lbCite(), the same single renderer the popups use.
 const INSPECT = {
   // UK Parliament (reserved)
-  constituencies:{ src:()=>window.CONSTITUENCIES, name:f=>f.PCON24NM, code:f=>f.PCON24CD,
-    cite:p=>({ link:`${leg}/uksi/2023/1230`, linkText:'SI 2023/1230',
-      note:'Parliamentary Constituencies Order 2023 under the Parliamentary Constituencies Act 1986 (c.56).' }) },
+  constituencies:{ src:()=>window.CONSTITUENCIES, name:f=>f.PCON24NM, code:f=>f.PCON24CD, srcLabel:'ONS Open Geography' },
   // Devolved legislatures
-  senedd_const:{ file:'senedd_const', name:f=>f.SENC26NM, code:f=>f.SENC26CD,
-    cite:p=>({ link:`${leg}/ukpga/2006/32`, linkText:'Government of Wales Act 2006',
-      note:'Senedd constituency — Order under GoWA 2006 + Senedd Cymru (Members and Elections) Act 2024.' }) },
-  spc:{ file:'spc', name:f=>f.SPC26NM, code:f=>f.SPC26CD,
-    cite:p=>({ link:`${leg}/ukpga/1998/46`, linkText:'Scotland Act 1998',
-      note:'Holyrood constituency — Order on a Boundaries Scotland review under the Scotland Act 1998.' }) },
-  spr:{ file:'spr', name:f=>f.SPR26NM, code:f=>f.SPR26CD,
-    cite:p=>({ link:`${leg}/ukpga/1998/46`, linkText:'Scotland Act 1998',
-      note:'Holyrood additional-member region — Order under the Scotland Act 1998.' }) },
-  gla:{ file:'gla', name:f=>f.lac17nm, code:f=>f.lac17cd,
-    cite:p=>({ link:`${leg}/ukpga/1999/29`, linkText:'Greater London Authority Act 1999',
-      note:'London Assembly constituency — under the Greater London Authority Act 1999.' }) },
+  senedd_const:{ file:'senedd_const', name:f=>f.SENC26NM, code:f=>f.SENC26CD, srcLabel:'ONS Open Geography' },
+  spc:{ file:'spc', name:f=>f.SPC26NM, code:f=>f.SPC26CD, srcLabel:'ONS Open Geography' },
+  spr:{ file:'spr', name:f=>f.SPR26NM, code:f=>f.SPR26CD, srcLabel:'ONS Open Geography' },
+  gla:{ file:'gla', name:f=>f.lac17nm, code:f=>f.lac17cd, srcLabel:'ONS Open Geography' },
   // Local government
-  localGov:{ src:()=>window.LADS, name:f=>f.LAD24NM, code:f=>f.LAD24CD,
-    cite:p=>{ const pr=lgPrimary(p.LAD24CD, p.london); return { link:pr.link, linkText:pr.linkText.replace(/\s*→\s*$/,''),
-      note:'Council area — exists under '+pr.nation+'’s primary Act; the specific boundary/name was set by Order under it (electoral wards are reviewed separately).' }; } },
-  wards:{ file:'wards', name:f=>f.WD24NM, code:f=>f.WD24CD, needsRel:true,
-    cite:p=>{ const w={
-        E:['ukpga/2009/20','LDEDCA 2009','the Local Government Boundary Commission for England'],
-        S:['ukpga/1973/65','LG (Scotland) Act 1973','Boundaries Scotland'],
-        W:['anaw/2013/4','LG (Democracy) (Wales) Act 2013','the Local Democracy &amp; Boundary Commission for Wales'],
-        N:['nia/2014/8','LGA (NI) 2014','the Local Government Boundaries Commissioner for Northern Ireland'],
-      }[(p.WD24CD||'E')[0]] || ['ukpga/2009/20','LDEDCA 2009','the boundary commission'];
-      return { link:`${leg}/${w[0]}`, linkText:w[1], note:`Electoral ward — boundary Order on a review by ${w[2]}.` }; } },
-  parishes:{ file:'parishes', name:f=>f.PAR24NM, code:f=>f.PAR24CD, needsRel:true,
-    cite:p=>{ const welsh=(p.PAR24CD||'E')[0]==='W'; return welsh
-      ? { link:`${leg}/ukpga/1972/70`, linkText:'Local Government Act 1972', note:'Community (Welsh equivalent of a parish) — Order under the LGA 1972.' }
-      : { link:`${leg}/ukpga/2007/28`, linkText:'LGPIHA 2007', note:'Civil parish — Order after a community governance review (LGPIHA 2007, Part 4).' }; } },
-  combined_auth:{ file:'combined_auth', name:f=>f.CAUTH25NM, code:f=>f.CAUTH25CD,
-    cite:p=>({ link:`${leg}/ukpga/2016/1`, linkText:'Cities and Local Government Devolution Act 2016',
-      note:'(Mayoral) combined authority — bespoke Order under LDEDCA 2009 + the 2016 Act.' }) },
+  localGov:{ src:()=>window.LADS, name:f=>f.LAD24NM, code:f=>f.LAD24CD, srcLabel:'ONS Open Geography' },
+  wards:{ file:'wards', name:f=>f.WD24NM, code:f=>f.WD24CD, needsRel:true, srcLabel:'ONS Open Geography' },
+  parishes:{ file:'parishes', name:f=>f.PAR24NM, code:f=>f.PAR24CD, needsRel:true, srcLabel:'ONS Open Geography' },
+  combined_auth:{ file:'combined_auth', name:f=>f.CAUTH25NM, code:f=>f.CAUTH25CD, srcLabel:'ONS Open Geography' },
   // Statutory designations
-  nationalParks:{ src:()=>window.NATIONAL_PARKS, name:f=>(f.name+' National Park'), code:f=>null,
-    cite:p=>({ link: p.nation==='Scotland'?`${leg}/asp/2000/10/contents`:`${leg}/ukpga/1949/97`,
-      linkText: p.nation==='Scotland'?'Nat. Parks (Scotland) Act 2000':'NPACA 1949',
-      note:'National Park — designation order under the relevant Act.' }) },
-  aonb:{ src:()=>window.AONB, name:f=>f.name, code:f=>null,
-    cite:p=>{ const c=aonbCite(p); return { link:c.link, linkText:c.linkText.replace(/\s*→\s*$/,''), note:c.kind+' — designation under '+(p.nation==='Scotland'?'Planning etc. (Scotland) Act 2006':p.nation==='Northern Ireland'?'NCALO (NI) 1985':'CROW 2000')+'.' }; } },
-  mpa:{ src:()=>window.MPA, name:f=>(f.name+(f.nation==='Scotland'?' Nature Conservation MPA':' MCZ')), code:f=>f.code,
-    cite:p=>{ const c=mpaCite(p); return { link:c.link, linkText:c.linkText.replace(/\s*→\s*$/,''), note:'Marine protected area — designation order under the nation’s marine Act.' }; } },
-  sssi:{ file:'sssi', name:f=>f.NAME, code:f=>f.REF_CODE,
-    cite:p=>({ link:`${leg}/ukpga/1981/69`, linkText:'Wildlife and Countryside Act 1981',
-      note:'SSSI — statutory NOTIFICATION by Natural England under W&CA 1981 s.28 (not an SI).' }) },
-  sac:{ file:'sac', name:f=>f.SAC_NAME, code:f=>f.SAC_CODE,
-    cite:p=>({ link:`${leg}/uksi/2017/1012`, linkText:'SI 2017/1012',
-      note:'Special Area of Conservation — Habitats Regs 2017 (secondary legislation).' }) },
-  spa:{ file:'spa', name:f=>f.SPA_NAME, code:f=>f.SPA_CODE,
-    cite:p=>({ link:`${leg}/uksi/2017/1012`, linkText:'SI 2017/1012',
-      note:'Special Protection Area — Habitats Regs 2017 (secondary legislation).' }) },
-  ramsar:{ file:'ramsar', name:f=>f.NAME, code:f=>f.CODE,
-    cite:p=>({ link:'https://www.ramsar.org', linkText:'Ramsar Convention',
-      note:'Ramsar site — an INTERNATIONAL listing (no UK statutory instrument for the listing itself).' }) },
-  nnr:{ file:'nnr', name:f=>f.NAME, code:f=>f.REF_CODE,
-    cite:p=>({ link:`${leg}/ukpga/1949/97`, linkText:'NPACA 1949',
-      note:'National Nature Reserve — declared by Natural England under NPACA 1949 / W&CA 1981 (primary).' }) },
-  lnr:{ file:'lnr', name:f=>f.NAME, code:f=>f.REF_CODE,
-    cite:p=>({ link:`${leg}/ukpga/1949/97`, linkText:'NPACA 1949',
-      note:'Local Nature Reserve — declared by the local authority under NPACA 1949 s.21 (primary).' }) },
+  nationalParks:{ src:()=>window.NATIONAL_PARKS, name:f=>(f.name+' National Park'), code:f=>null, srcLabel:'Natural England / NatureScot / NRW' },
+  aonb:{ src:()=>window.AONB, name:f=>f.name, code:f=>null, srcLabel:'Natural England / NatureScot / DAERA / NRW' },
+  mpa:{ src:()=>window.MPA, name:f=>mpaTitle(f), code:f=>f.code, srcLabel:'Natural England / NatureScot / NRW / DAERA' },
+  sssi:{ file:'sssi', name:f=>f.NAME, code:f=>f.REF_CODE, srcLabel:'Natural England / JNCC' },
+  sac:{ file:'sac', name:f=>f.SAC_NAME, code:f=>f.SAC_CODE, srcLabel:'Natural England / JNCC' },
+  spa:{ file:'spa', name:f=>f.SPA_NAME, code:f=>f.SPA_CODE, srcLabel:'Natural England / JNCC' },
+  ramsar:{ file:'ramsar', name:f=>f.NAME, code:f=>f.CODE, srcLabel:'Natural England / JNCC' },
+  nnr:{ file:'nnr', name:f=>f.NAME, code:f=>f.REF_CODE, srcLabel:'Natural England / JNCC' },
+  lnr:{ file:'lnr', name:f=>f.NAME, code:f=>f.REF_CODE, srcLabel:'Natural England / JNCC' },
 };
 
 // Inspector groups by level, in the prescribed order. (COVID is historical, so
@@ -1473,24 +1456,22 @@ L.DomEvent.disableClickPropagation(inspectPanel);
 L.DomEvent.disableScrollPropagation(inspectPanel);
 L.DomEvent.disableClickPropagation(inspectToggle);
 
-// Build one hit's HTML (label, feature name, law-type badge + body + link).
+// Build one hit's HTML. SOURCED header (layer label, feature name, code, an ONS /
+// Natural England provenance tag) then the ONE register-driven INTERPRETED legal
+// basis (lbCite) — visibly separated, exactly as the popups do it.
 function hitHtml(id, feature){
   const cfg = INSPECT[id], meta = LAYER_META[id] || {};
   const entry = REGISTRY.find(e => e.id === id) || {};
-  const name = esc(cfg.name(feature.properties) || '(unnamed)');
-  const codeV = cfg.code(feature.properties);
+  const p = feature.properties;
+  const name = esc(cfg.name(p) || '(unnamed)');
+  const codeV = cfg.code(p);
   const bd = LAW_TYPE_BADGE[meta.lawType];
   const badge = bd ? `<span class="lw-badge ${bd.cls}" title="${esc(bd.title)}">${esc(bd.label)}</span>` : '';
-  const c = cfg.cite(feature.properties);
-  const dev = meta.devolved === 'reserved' ? 'reserved'
-            : meta.devolved && meta.devolved !== 'varies' ? 'devolved · ' + esc(meta.devolved) : 'devolved';
   return `<div class="ip-hit">
-    <div class="muted" style="font-size:11px">${esc(entry.label || id)}</div>
+    <div class="muted" style="font-size:11px">${esc(entry.label || id)} ${badge}</div>
     <b>${name}</b>${codeV?` <span class="tag">${esc(codeV)}</span>`:''}
-    <div class="ip-tagline">${badge}<span>${esc(meta.body||'')}</span>
-      <span class="tag">${dev}</span>
-      <a class="btn" href="${c.link}" target="_blank" rel="noopener">${esc(c.linkText)} →</a></div>
-    <div class="muted" style="font-size:11px;margin-top:3px">${esc(c.note)}</div>
+    ${lbSourced(cfg.srcLabel || 'official dataset')}
+    ${lbCite(lbKeyFor(id, p))}
   </div>`;
 }
 
