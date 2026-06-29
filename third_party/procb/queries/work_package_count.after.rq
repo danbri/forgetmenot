@@ -1,0 +1,15 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+SELECT DISTINCT  (COUNT(DISTINCT ?workPackage) AS ?count) WHERE {
+
+  ?paper a :WorkPackagedThing .
+  ?paper :name ?papername ;
+  :workPackagedThingHasWorkPackage ?workPackage.
+  OPTIONAL {?paper :laidThingHasLaying ?laying.
+    ?laying :layingDate ?laidDate}
+  ?workPackage :workPackageHasProcedure ?procedure.
+  ?procedure :name ?procedureName.
+  OPTIONAL { ?workPackage :workPackageHasCalculationStyle ?calculationStyle.
+    ?calculationStyle :name ?calculationStyleName. }
+}

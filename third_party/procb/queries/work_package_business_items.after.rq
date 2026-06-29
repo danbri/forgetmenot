@@ -1,0 +1,24 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+SELECT * WHERE {
+
+  ?paper a :WorkPackagedThing .
+  ?paper :name ?papername ;
+  :workPackagedThingHasWorkPackage ?workPackage.
+  FILTER (?workPackage IN (id:#{work_package_id}))
+  ?workPackage :workPackageHasBusinessItem ?businessItem.
+  ?workPackage :workPackageHasProcedure ?procedure.
+  OPTIONAL {?businessItem :businessItemDate ?businessItemDate}
+  OPTIONAL {?businessItem :businessItemHasBusinessItemWebLink ?businessItemLink}
+  ?businessItem :businessItemHasProcedureStep ?businessItemProcedureStep.
+  ?businessItemProcedureStep :name ?businessItemProcedureStepName.
+  OPTIONAL {  ?businessItemProcedureStep :procedureStepHasStepDisplayDepthInProcedure ?stepDepth.
+    ?procedure :procedureHasStepDisplayDepthInProcedure ?stepDepth.
+    ?stepDepth :stepDisplayDepthInProcedureHasDepth ?depthValue.}
+  OPTIONAL {?businessItemProcedureStep :procedureStepInLegislature ?legislature.
+    ?legislature :name ?legislatureName.}
+  OPTIONAL {?businessItemProcedureStep :procedureStepHasHouse ?commonsId.
+    FILTER (?commonsId IN (id:1AFu55Hs))}
+  OPTIONAL {?businessItemProcedureStep :procedureStepHasHouse ?lordsId.
+    FILTER (?lordsId IN (id:WkUWUBMx))} }  ORDER BY ?businessItemDate ?depthValue ?businessItem

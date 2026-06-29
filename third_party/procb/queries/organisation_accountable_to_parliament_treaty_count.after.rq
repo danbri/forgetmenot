@@ -1,0 +1,32 @@
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX id: <https://id.parliament.uk/>
+SELECT DISTINCT (COUNT(DISTINCT ?treaty) AS ?count)  WHERE {
+  { ?organisations a :GovernmentOrganisation.}
+  UNION {
+    ?organisations a :ArmsLengthBody.
+  }
+  ?organisations :name ?name;
+  :leadGovernmentOrganisationHasTreaty ?treaty.
+  ?treaty :name ?treatyName;
+  :workPackagedThingHasWorkPackage ?workPackage.
+  OPTIONAL
+  {
+    ?treaty :treatyHasCountrySeriesMembership ?treatyHasCountrySeriesMembership .
+    ?treatyHasCountrySeriesMembership :seriesItemCitation ?countrySeriesItemCitation .
+  }
+  OPTIONAL
+  {
+    ?treaty :treatyHasEuropeanUnionSeriesMembership ?treatyHasEuropeanUnionSeriesMembership .
+    ?treatyHasEuropeanUnionSeriesMembership :seriesItemCitation ?europeanSeriesItemCitation .
+  }
+  OPTIONAL
+  {
+    ?treaty :treatyHasMiscellaneousSeriesMembership ?treatyHasMiscellaneousSeriesMembership .
+    ?treatyHasMiscellaneousSeriesMembership :seriesItemCitation ?miscSeriesItemCitation .
+  }
+
+  FILTER (?organisations IN (id:#{organisation_accountable_to_parliament_id}))
+
+}

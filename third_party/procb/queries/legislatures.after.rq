@@ -1,0 +1,14 @@
+# We declare the Parliament namespace.
+PREFIX : <https://id.parliament.uk/schema/>
+
+# We select all properties returned.
+SELECT *
+
+# We find all the legislatures and get their name.
+WHERE {
+  ?legislature a :Legislature ;
+  :name ?legislatureName.
+}
+
+# We order by the name of the legislature.
+ORDER BY ?legislatureName

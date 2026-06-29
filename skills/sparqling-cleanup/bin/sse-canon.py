@@ -76,7 +76,21 @@ def serialize(node):
         return '(' + ' '.join(serialize(x) for x in node) + ')'
     return node
 
+def alpha_normalize(node, mapping, counter):
+    """Rename variables to canonical ?v1,?v2,... by first occurrence, so two
+    queries equal up to a consistent variable renaming compare identical
+    (alpha-equivalence). Leaves everything else untouched."""
+    if isinstance(node, list):
+        return [alpha_normalize(x, mapping, counter) for x in node]
+    if isinstance(node, str) and node[:1] in '?$':
+        if node not in mapping:
+            counter[0] += 1
+            mapping[node] = '?v%d' % counter[0]
+        return mapping[node]
+    return node
+
 def main():
+    alpha = '--alpha' in sys.argv[1:]
     text = sys.stdin.read().strip()
     if not text:
         print(''); return
@@ -91,7 +105,10 @@ def main():
                 iri = entry[1][1:-1] if entry[1].startswith('<') else entry[1]
                 pm[label] = iri
         body = tree[2]
-    print(serialize(walk(body, pm)))
+    out = walk(body, pm)
+    if alpha:
+        out = alpha_normalize(out, {}, [0])
+    print(serialize(out))
 
 if __name__ == '__main__':
     main()

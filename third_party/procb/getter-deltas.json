@@ -1,0 +1,2824 @@
+{
+ "business_item_steps": {
+  "getter_file": "lib/sparql/get/business_item_steps.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   },
+   {
+    "from": "row['Date']",
+    "to": "row['date']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?Date": "?date",
+   "?LordsId": "?lordsId"
+  }
+ },
+ "calculation_style": {
+  "getter_file": "lib/sparql/get/calculation_style.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CalculationStyle']",
+    "to": "row['calculationStyle']"
+   },
+   {
+    "from": "row['CalculationStyleName']",
+    "to": "row['calculationStyleName']"
+   }
+  ],
+  "var_renames": {
+   "?CalculationStyle": "?calculationStyle",
+   "?CalculationStyleName": "?calculationStyleName"
+  }
+ },
+ "calculation_style_procedures": {
+  "getter_file": "lib/sparql/get/calculation_style_procedures.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?CalculationStyle": "?calculationStyle",
+   "?CalculationStyleName": "?calculationStyleName"
+  }
+ },
+ "calculation_style_work_package_count": {
+  "getter_file": "lib/sparql/get/calculation_style_work_package_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?CalculationStyle": "?calculationStyle",
+   "?CalculationStyleName": "?calculationStyleName",
+   "?MadeAvailableDate": "?madeAvailableDate"
+  }
+ },
+ "calculation_style_work_package_count_current": {
+  "getter_file": "lib/sparql/get/calculation_style_work_package_count_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?CalculationStyle": "?calculationStyle",
+   "?CalculationStyleName": "?calculationStyleName",
+   "?MadeAvailableDate": "?madeAvailableDate"
+  }
+ },
+ "calculation_style_work_packages": {
+  "getter_file": "lib/sparql/get/calculation_style_work_packages.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CalculationStyleName']",
+    "to": "row['calculationStyleName']"
+   }
+  ],
+  "var_renames": {
+   "?CalculationStyle": "?calculationStyle",
+   "?CalculationStyleName": "?calculationStyleName"
+  }
+ },
+ "calculation_style_work_packages_all": {
+  "getter_file": "lib/sparql/get/calculation_style_work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CalculationStyleName']",
+    "to": "row['calculationStyleName']"
+   }
+  ],
+  "var_renames": {
+   "?CalculationStyle": "?calculationStyle",
+   "?CalculationStyleName": "?calculationStyleName"
+  }
+ },
+ "calculation_style_work_packages_current": {
+  "getter_file": "lib/sparql/get/calculation_style_work_packages_current.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CalculationStyleName']",
+    "to": "row['calculationStyleName']"
+   }
+  ],
+  "var_renames": {
+   "?CalculationStyle": "?calculationStyle",
+   "?CalculationStyleName": "?calculationStyleName"
+  }
+ },
+ "calculation_style_work_packages_current_all": {
+  "getter_file": "lib/sparql/get/calculation_style_work_packages_current_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CalculationStyleName']",
+    "to": "row['calculationStyleName']"
+   }
+  ],
+  "var_renames": {
+   "?CalculationStyle": "?calculationStyle",
+   "?CalculationStyleName": "?calculationStyleName"
+  }
+ },
+ "calculation_styles": {
+  "getter_file": "lib/sparql/get/calculation_styles.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CalculationStyle']",
+    "to": "row['calculationStyle']"
+   },
+   {
+    "from": "row['CalculationStyleName']",
+    "to": "row['calculationStyleName']"
+   }
+  ],
+  "var_renames": {
+   "?CalculationStyle": "?calculationStyle",
+   "?CalculationStyleName": "?calculationStyleName"
+  }
+ },
+ "clock": {
+  "getter_file": "lib/sparql/get/clock.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Clock']",
+    "to": "row['clock']"
+   },
+   {
+    "from": "row['ClockName']",
+    "to": "row['clockName']"
+   },
+   {
+    "from": "row['DayCount']",
+    "to": "row['dayCount']"
+   },
+   {
+    "from": "row['StartStep']",
+    "to": "row['startStep']"
+   },
+   {
+    "from": "row['StartStepName']",
+    "to": "row['startStepName']"
+   },
+   {
+    "from": "row['StartStepType']",
+    "to": "row['startStepType']"
+   },
+   {
+    "from": "row['StartStepTypeName']",
+    "to": "row['startStepTypeName']"
+   },
+   {
+    "from": "row['StartSteplegislature']",
+    "to": "row['startSteplegislature']"
+   },
+   {
+    "from": "row['StartSteplegislatureName']",
+    "to": "row['startSteplegislatureName']"
+   },
+   {
+    "from": "row['StartStepCommonsId']",
+    "to": "row['startStepCommonsId']"
+   },
+   {
+    "from": "row['StartStepLordsId']",
+    "to": "row['startStepLordsId']"
+   },
+   {
+    "from": "row['EndStep']",
+    "to": "row['endStep']"
+   },
+   {
+    "from": "row['EndStepName']",
+    "to": "row['endStepName']"
+   },
+   {
+    "from": "row['EndStepType']",
+    "to": "row['endStepType']"
+   },
+   {
+    "from": "row['EndStepTypeName']",
+    "to": "row['endStepTypeName']"
+   },
+   {
+    "from": "row['EndSteplegislature']",
+    "to": "row['endSteplegislature']"
+   },
+   {
+    "from": "row['EndSteplegislatureName']",
+    "to": "row['endSteplegislatureName']"
+   },
+   {
+    "from": "row['EndStepCommonsId']",
+    "to": "row['endStepCommonsId']"
+   },
+   {
+    "from": "row['EndStepLordsId']",
+    "to": "row['endStepLordsId']"
+   }
+  ],
+  "var_renames": {
+   "?Clock": "?clock",
+   "?ClockName": "?clockName",
+   "?DayCount": "?dayCount",
+   "?EndStep": "?endStep",
+   "?EndStepCommonsId": "?endStepCommonsId",
+   "?EndStepLordsId": "?endStepLordsId",
+   "?EndStepName": "?endStepName",
+   "?EndStepType": "?endStepType",
+   "?EndStepTypeName": "?endStepTypeName",
+   "?EndSteplegislature": "?endSteplegislature",
+   "?EndSteplegislatureName": "?endSteplegislatureName",
+   "?StartStep": "?startStep",
+   "?StartStepCommonsId": "?startStepCommonsId",
+   "?StartStepLordsId": "?startStepLordsId",
+   "?StartStepName": "?startStepName",
+   "?StartStepType": "?startStepType",
+   "?StartStepTypeName": "?startStepTypeName",
+   "?StartSteplegislature": "?startSteplegislature",
+   "?StartSteplegislatureName": "?startSteplegislatureName"
+  }
+ },
+ "clocks": {
+  "getter_file": "lib/sparql/get/clocks.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Clock']",
+    "to": "row['clock']"
+   },
+   {
+    "from": "row['ClockName']",
+    "to": "row['clockName']"
+   },
+   {
+    "from": "row['DayCount']",
+    "to": "row['dayCount']"
+   },
+   {
+    "from": "row['StartStep']",
+    "to": "row['startStep']"
+   },
+   {
+    "from": "row['StartStepName']",
+    "to": "row['startStepName']"
+   },
+   {
+    "from": "row['StartStepType']",
+    "to": "row['startStepType']"
+   },
+   {
+    "from": "row['StartStepTypeName']",
+    "to": "row['startStepTypeName']"
+   },
+   {
+    "from": "row['StartSteplegislature']",
+    "to": "row['startSteplegislature']"
+   },
+   {
+    "from": "row['StartSteplegislatureName']",
+    "to": "row['startSteplegislatureName']"
+   },
+   {
+    "from": "row['StartStepCommonsId']",
+    "to": "row['startStepCommonsId']"
+   },
+   {
+    "from": "row['StartStepLordsId']",
+    "to": "row['startStepLordsId']"
+   },
+   {
+    "from": "row['EndStep']",
+    "to": "row['endStep']"
+   },
+   {
+    "from": "row['EndStepName']",
+    "to": "row['endStepName']"
+   },
+   {
+    "from": "row['EndStepType']",
+    "to": "row['endStepType']"
+   },
+   {
+    "from": "row['EndStepTypeName']",
+    "to": "row['endStepTypeName']"
+   },
+   {
+    "from": "row['EndSteplegislature']",
+    "to": "row['endSteplegislature']"
+   },
+   {
+    "from": "row['EndSteplegislatureName']",
+    "to": "row['endSteplegislatureName']"
+   },
+   {
+    "from": "row['EndStepCommonsId']",
+    "to": "row['endStepCommonsId']"
+   },
+   {
+    "from": "row['EndStepLordsId']",
+    "to": "row['endStepLordsId']"
+   }
+  ],
+  "var_renames": {
+   "?Clock": "?clock",
+   "?ClockName": "?clockName",
+   "?DayCount": "?dayCount",
+   "?EndStep": "?endStep",
+   "?EndStepCommonsId": "?endStepCommonsId",
+   "?EndStepLordsId": "?endStepLordsId",
+   "?EndStepName": "?endStepName",
+   "?EndStepType": "?endStepType",
+   "?EndStepTypeName": "?endStepTypeName",
+   "?EndSteplegislature": "?endSteplegislature",
+   "?EndSteplegislatureName": "?endSteplegislatureName",
+   "?StartStep": "?startStep",
+   "?StartStepCommonsId": "?startStepCommonsId",
+   "?StartStepLordsId": "?startStepLordsId",
+   "?StartStepName": "?startStepName",
+   "?StartStepType": "?startStepType",
+   "?StartStepTypeName": "?startStepTypeName",
+   "?StartSteplegislature": "?startSteplegislature",
+   "?StartSteplegislatureName": "?startSteplegislatureName"
+  }
+ },
+ "enabling_legislation": {
+  "getter_file": "lib/sparql/get/enabling_legislation.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Act']",
+    "to": "row['act']"
+   },
+   {
+    "from": "row['Name']",
+    "to": "row['name']"
+   },
+   {
+    "from": "row['Date']",
+    "to": "row['date']"
+   },
+   {
+    "from": "row['Year']",
+    "to": "row['year']"
+   },
+   {
+    "from": "row['Number']",
+    "to": "row['number']"
+   },
+   {
+    "from": "row['URL']",
+    "to": "row['uRL']"
+   }
+  ],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_atoz": {
+  "getter_file": "lib/sparql/get/enabling_legislation_atoz.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['FirstLetter']",
+    "to": "row['firstLetter']"
+   }
+  ],
+  "var_renames": {
+   "?EnabledThing": "?enabledThing",
+   "?EnablingThing": "?enablingThing",
+   "?FirstLetter": "?firstLetter",
+   "?Name": "?name"
+  }
+ },
+ "enabling_legislation_atoz_letter": {
+  "getter_file": "lib/sparql/get/enabling_legislation_atoz_letter.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['EnablingThing']",
+    "to": "row['enablingThing']"
+   },
+   {
+    "from": "row['Name']",
+    "to": "row['name']"
+   },
+   {
+    "from": "row['Date']",
+    "to": "row['date']"
+   },
+   {
+    "from": "row['Year']",
+    "to": "row['year']"
+   },
+   {
+    "from": "row['Number']",
+    "to": "row['number']"
+   },
+   {
+    "from": "row['URL']",
+    "to": "row['uRL']"
+   }
+  ],
+  "var_renames": {
+   "?Date": "?date",
+   "?EnabledThing": "?enabledThing",
+   "?EnabledThingName": "?enabledThingName",
+   "?EnablingThing": "?enablingThing",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_by_uri": {
+  "getter_file": "lib/sparql/get/enabling_legislation_by_uri.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Act']",
+    "to": "row['act']"
+   },
+   {
+    "from": "row['Name']",
+    "to": "row['name']"
+   },
+   {
+    "from": "row['Date']",
+    "to": "row['date']"
+   },
+   {
+    "from": "row['Year']",
+    "to": "row['year']"
+   },
+   {
+    "from": "row['Number']",
+    "to": "row['number']"
+   },
+   {
+    "from": "row['URL']",
+    "to": "row['uRL']"
+   }
+  ],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_work_package_count": {
+  "getter_file": "lib/sparql/get/enabling_legislation_work_package_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_work_package_count_current": {
+  "getter_file": "lib/sparql/get/enabling_legislation_work_package_count_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_work_packageable_thing_count": {
+  "getter_file": "lib/sparql/get/enabling_legislation_work_packageable_thing_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_work_packageable_things": {
+  "getter_file": "lib/sparql/get/enabling_legislation_work_packageable_things.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_work_packages": {
+  "getter_file": "lib/sparql/get/enabling_legislation_work_packages.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_work_packages_all": {
+  "getter_file": "lib/sparql/get/enabling_legislation_work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_work_packages_current": {
+  "getter_file": "lib/sparql/get/enabling_legislation_work_packages_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislation_work_packages_current_all": {
+  "getter_file": "lib/sparql/get/enabling_legislation_work_packages_current_all.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Act": "?act",
+   "?Date": "?date",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislations": {
+  "getter_file": "lib/sparql/get/enabling_legislations.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['EnablingThing']",
+    "to": "row['enablingThing']"
+   },
+   {
+    "from": "row['Name']",
+    "to": "row['name']"
+   },
+   {
+    "from": "row['Date']",
+    "to": "row['date']"
+   },
+   {
+    "from": "row['Year']",
+    "to": "row['year']"
+   },
+   {
+    "from": "row['Number']",
+    "to": "row['number']"
+   },
+   {
+    "from": "row['URL']",
+    "to": "row['uRL']"
+   }
+  ],
+  "var_renames": {
+   "?Date": "?date",
+   "?EnabledThing": "?enabledThing",
+   "?EnabledThingName": "?enabledThingName",
+   "?EnablingThing": "?enablingThing",
+   "?Name": "?name",
+   "?Number": "?number",
+   "?URL": "?uRL",
+   "?Year": "?year"
+  }
+ },
+ "enabling_legislations_current": {
+  "getter_file": "lib/sparql/get/enabling_legislations_current.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['URL']",
+    "to": "row['uRL']"
+   }
+  ],
+  "var_renames": {
+   "?URL": "?uRL"
+  }
+ },
+ "house": {
+  "getter_file": "lib/sparql/get/house.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['House']",
+    "to": "row['house']"
+   },
+   {
+    "from": "row['HouseName']",
+    "to": "row['houseName']"
+   },
+   {
+    "from": "row['Legislature']",
+    "to": "row['legislature']"
+   },
+   {
+    "from": "row['LegislatureName']",
+    "to": "row['legislatureName']"
+   }
+  ],
+  "var_renames": {
+   "?House": "?house",
+   "?HouseName": "?houseName",
+   "?Legislature": "?legislature",
+   "?LegislatureName": "?legislatureName"
+  }
+ },
+ "house_step_collections": {
+  "getter_file": "lib/sparql/get/house_step_collections.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['StepCollection']",
+    "to": "row['stepCollection']"
+   },
+   {
+    "from": "row['StepCollectionName']",
+    "to": "row['stepCollectionName']"
+   }
+  ],
+  "var_renames": {
+   "?House": "?house",
+   "?HouseName": "?houseName",
+   "?StepCollection": "?stepCollection",
+   "?StepCollectionName": "?stepCollectionName"
+  }
+ },
+ "house_steps": {
+  "getter_file": "lib/sparql/get/house_steps.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Step']",
+    "to": "row['step']"
+   },
+   {
+    "from": "row['StepName']",
+    "to": "row['stepName']"
+   },
+   {
+    "from": "row['StepType']",
+    "to": "row['stepType']"
+   },
+   {
+    "from": "row['StepTypeName']",
+    "to": "row['stepTypeName']"
+   },
+   {
+    "from": "row['StepCommonsId']",
+    "to": "row['stepCommonsId']"
+   },
+   {
+    "from": "row['StepLordsId']",
+    "to": "row['stepLordsId']"
+   }
+  ],
+  "var_renames": {
+   "?House": "?house",
+   "?HouseName": "?houseName",
+   "?Step": "?step",
+   "?StepCommonsId": "?stepCommonsId",
+   "?StepLordsId": "?stepLordsId",
+   "?StepName": "?stepName",
+   "?StepType": "?stepType",
+   "?StepTypeName": "?stepTypeName"
+  }
+ },
+ "houses": {
+  "getter_file": "lib/sparql/get/houses.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['House']",
+    "to": "row['house']"
+   },
+   {
+    "from": "row['HouseName']",
+    "to": "row['houseName']"
+   }
+  ],
+  "var_renames": {
+   "?House": "?house",
+   "?HouseName": "?houseName"
+  }
+ },
+ "legislature_houses": {
+  "getter_file": "lib/sparql/get/legislature_houses.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['House']",
+    "to": "row['house']"
+   },
+   {
+    "from": "row['HouseName']",
+    "to": "row['houseName']"
+   }
+  ],
+  "var_renames": {
+   "?House": "?house",
+   "?HouseName": "?houseName",
+   "?Legislature": "?legislature",
+   "?LegislatureName": "?legislatureName"
+  }
+ },
+ "legislature_steps": {
+  "getter_file": "lib/sparql/get/legislature_steps.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Step']",
+    "to": "row['step']"
+   },
+   {
+    "from": "row['StepName']",
+    "to": "row['stepName']"
+   },
+   {
+    "from": "row['StepType']",
+    "to": "row['stepType']"
+   },
+   {
+    "from": "row['StepTypeName']",
+    "to": "row['stepTypeName']"
+   }
+  ],
+  "var_renames": {
+   "?Legislature": "?legislature",
+   "?LegislatureName": "?legislatureName",
+   "?Step": "?step",
+   "?StepName": "?stepName",
+   "?StepType": "?stepType",
+   "?StepTypeName": "?stepTypeName"
+  }
+ },
+ "organisation_accountable_to_parliament": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Organisations']",
+    "to": "row['organisations']"
+   },
+   {
+    "from": "row['Name']",
+    "to": "row['name']"
+   }
+  ],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  }
+ },
+ "organisation_accountable_to_parliament_treaties": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_treaties.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['TreatyName']",
+    "to": "row['treatyName']"
+   }
+  ],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?TreatyName": "?treatyName",
+   "?WorkPackage": "?workPackage"
+  }
+ },
+ "organisation_accountable_to_parliament_treaty_count": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_treaty_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?TreatyName": "?treatyName",
+   "?WorkPackage": "?workPackage"
+  }
+ },
+ "organisation_accountable_to_parliament_treaty_work_package_count": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_treaty_work_package_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?TreatyName": "?treatyName",
+   "?WorkPackage": "?workPackage"
+  }
+ },
+ "organisation_accountable_to_parliament_treaty_work_package_count_current": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_treaty_work_package_count_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?TreatyName": "?treatyName",
+   "?WorkPackage": "?workPackage"
+  }
+ },
+ "organisation_accountable_to_parliament_treaty_work_packages": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_treaty_work_packages.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['TreatyName']",
+    "to": "row['treatyName']"
+   }
+  ],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?TreatyName": "?treatyName"
+  }
+ },
+ "organisation_accountable_to_parliament_treaty_work_packages_all": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_treaty_work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['TreatyName']",
+    "to": "row['treatyName']"
+   }
+  ],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?TreatyName": "?treatyName"
+  }
+ },
+ "organisation_accountable_to_parliament_treaty_work_packages_current": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_treaty_work_packages_current.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['TreatyName']",
+    "to": "row['treatyName']"
+   }
+  ],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?TreatyName": "?treatyName"
+  }
+ },
+ "organisation_accountable_to_parliament_treaty_work_packages_current_all": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_treaty_work_packages_current_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['TreatyName']",
+    "to": "row['treatyName']"
+   }
+  ],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?TreatyName": "?treatyName"
+  }
+ },
+ "organisation_accountable_to_parliament_work_package_count": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_work_package_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?LaidDate": "?laidDate",
+   "?LaidThing": "?laidThing",
+   "?LaidThingName": "?laidThingName",
+   "?Laying": "?laying",
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?Step": "?step"
+  }
+ },
+ "organisation_accountable_to_parliament_work_package_count_current": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_work_package_count_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?LaidDate": "?laidDate",
+   "?LaidThing": "?laidThing",
+   "?LaidThingName": "?laidThingName",
+   "?Laying": "?laying",
+   "?Name": "?name",
+   "?Organisations": "?organisations",
+   "?Step": "?step"
+  }
+ },
+ "organisation_accountable_to_parliament_work_packages": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_work_packages.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['LaidThing']",
+    "to": "row['laidThing']"
+   },
+   {
+    "from": "row['LaidThingName']",
+    "to": "row['laidThingName']"
+   }
+  ],
+  "var_renames": {
+   "?LaidThing": "?laidThing",
+   "?LaidThingName": "?laidThingName",
+   "?Laying": "?laying",
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  },
+  "rename_collisions_left_unchanged": [
+   "?Step"
+  ]
+ },
+ "organisation_accountable_to_parliament_work_packages_all": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['LaidThing']",
+    "to": "row['laidThing']"
+   },
+   {
+    "from": "row['LaidThingName']",
+    "to": "row['laidThingName']"
+   }
+  ],
+  "var_renames": {
+   "?LaidThing": "?laidThing",
+   "?LaidThingName": "?laidThingName",
+   "?Laying": "?laying",
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  },
+  "rename_collisions_left_unchanged": [
+   "?Step"
+  ]
+ },
+ "organisation_accountable_to_parliament_work_packages_current": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_work_packages_current.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['LaidThing']",
+    "to": "row['laidThing']"
+   },
+   {
+    "from": "row['LaidThingName']",
+    "to": "row['laidThingName']"
+   }
+  ],
+  "var_renames": {
+   "?LaidThing": "?laidThing",
+   "?LaidThingName": "?laidThingName",
+   "?Laying": "?laying",
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  },
+  "rename_collisions_left_unchanged": [
+   "?Step"
+  ]
+ },
+ "organisation_accountable_to_parliament_work_packages_current_all": {
+  "getter_file": "lib/sparql/get/organisation_accountable_to_parliament_work_packages_current_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['LaidThing']",
+    "to": "row['laidThing']"
+   },
+   {
+    "from": "row['LaidThingName']",
+    "to": "row['laidThingName']"
+   }
+  ],
+  "var_renames": {
+   "?LaidThing": "?laidThing",
+   "?LaidThingName": "?laidThingName",
+   "?Laying": "?laying",
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  },
+  "rename_collisions_left_unchanged": [
+   "?Step"
+  ]
+ },
+ "organisations_accountable_to_parliament": {
+  "getter_file": "lib/sparql/get/organisations_accountable_to_parliament.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Organisations']",
+    "to": "row['organisations']"
+   },
+   {
+    "from": "row['Name']",
+    "to": "row['name']"
+   }
+  ],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  }
+ },
+ "organisations_accountable_to_parliament_all": {
+  "getter_file": "lib/sparql/get/organisations_accountable_to_parliament_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Organisations']",
+    "to": "row['organisations']"
+   },
+   {
+    "from": "row['Name']",
+    "to": "row['name']"
+   }
+  ],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  }
+ },
+ "organisations_accountable_to_parliament_count": {
+  "getter_file": "lib/sparql/get/organisations_accountable_to_parliament_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  }
+ },
+ "organisations_accountable_to_parliament_count_current": {
+  "getter_file": "lib/sparql/get/organisations_accountable_to_parliament_count_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  }
+ },
+ "organisations_accountable_to_parliament_current": {
+  "getter_file": "lib/sparql/get/organisations_accountable_to_parliament_current.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Organisations']",
+    "to": "row['organisations']"
+   },
+   {
+    "from": "row['Name']",
+    "to": "row['name']"
+   }
+  ],
+  "var_renames": {
+   "?Name": "?name",
+   "?Organisations": "?organisations"
+  }
+ },
+ "primary_legislation_work_packages": {
+  "getter_file": "lib/sparql/get/primary_legislation_work_packages.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "primary_legislation_work_packages_all": {
+  "getter_file": "lib/sparql/get/primary_legislation_work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "procedure": {
+  "getter_file": "lib/sparql/get/procedure.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   },
+   {
+    "from": "row['ProcedureDescription']",
+    "to": "row['procedureDescription']"
+   },
+   {
+    "from": "row['StartDate']",
+    "to": "row['startDate']"
+   },
+   {
+    "from": "row['EndDate']",
+    "to": "row['endDate']"
+   }
+  ],
+  "var_renames": {
+   "?EndDate": "?endDate",
+   "?Procedure": "?procedure",
+   "?ProcedureDescription": "?procedureDescription",
+   "?ProcedureName": "?procedureName",
+   "?StartDate": "?startDate"
+  }
+ },
+ "procedure_calculation_styles": {
+  "getter_file": "lib/sparql/get/procedure_calculation_styles.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedure_clocks": {
+  "getter_file": "lib/sparql/get/procedure_clocks.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Clock']",
+    "to": "row['clock']"
+   },
+   {
+    "from": "row['ClockLabel']",
+    "to": "row['clockLabel']"
+   },
+   {
+    "from": "row['ClockDayCount']",
+    "to": "row['clockDayCount']"
+   },
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   },
+   {
+    "from": "row['StartStep']",
+    "to": "row['startStep']"
+   },
+   {
+    "from": "row['StartStepName']",
+    "to": "row['startStepName']"
+   },
+   {
+    "from": "row['StartStepType']",
+    "to": "row['startStepType']"
+   },
+   {
+    "from": "row['StartStepTypeName']",
+    "to": "row['startStepTypeName']"
+   },
+   {
+    "from": "row['StartStepCommonsId']",
+    "to": "row['startStepCommonsId']"
+   },
+   {
+    "from": "row['StartStepLordsId']",
+    "to": "row['startStepLordsId']"
+   },
+   {
+    "from": "row['StartSteplegislature']",
+    "to": "row['startSteplegislature']"
+   },
+   {
+    "from": "row['StartSteplegislatureName']",
+    "to": "row['startSteplegislatureName']"
+   },
+   {
+    "from": "row['EndStep']",
+    "to": "row['endStep']"
+   },
+   {
+    "from": "row['EndStepName']",
+    "to": "row['endStepName']"
+   },
+   {
+    "from": "row['EndStepType']",
+    "to": "row['endStepType']"
+   },
+   {
+    "from": "row['EndStepTypeName']",
+    "to": "row['endStepTypeName']"
+   },
+   {
+    "from": "row['EndStepCommonsId']",
+    "to": "row['endStepCommonsId']"
+   },
+   {
+    "from": "row['EndStepLordsId']",
+    "to": "row['endStepLordsId']"
+   },
+   {
+    "from": "row['EndSteplegislature']",
+    "to": "row['endSteplegislature']"
+   },
+   {
+    "from": "row['EndSteplegislatureName']",
+    "to": "row['endSteplegislatureName']"
+   }
+  ],
+  "var_renames": {
+   "?Clock": "?clock",
+   "?ClockDayCount": "?clockDayCount",
+   "?ClockLabel": "?clockLabel",
+   "?EndStep": "?endStep",
+   "?EndStepCommonsId": "?endStepCommonsId",
+   "?EndStepLordsId": "?endStepLordsId",
+   "?EndStepName": "?endStepName",
+   "?EndStepType": "?endStepType",
+   "?EndStepTypeName": "?endStepTypeName",
+   "?EndSteplegislature": "?endSteplegislature",
+   "?EndSteplegislatureName": "?endSteplegislatureName",
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName",
+   "?StartStep": "?startStep",
+   "?StartStepCommonsId": "?startStepCommonsId",
+   "?StartStepLordsId": "?startStepLordsId",
+   "?StartStepName": "?startStepName",
+   "?StartStepType": "?startStepType",
+   "?StartStepTypeName": "?startStepTypeName",
+   "?StartSteplegislature": "?startSteplegislature",
+   "?StartSteplegislatureName": "?startSteplegislatureName"
+  }
+ },
+ "procedure_routes": {
+  "getter_file": "lib/sparql/get/procedure_routes.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Route']",
+    "to": "row['route']"
+   },
+   {
+    "from": "row['StartDate']",
+    "to": "row['startDate']"
+   },
+   {
+    "from": "row['EndDate']",
+    "to": "row['endDate']"
+   },
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   },
+   {
+    "from": "row['FromStep']",
+    "to": "row['fromStep']"
+   },
+   {
+    "from": "row['FromStepName']",
+    "to": "row['fromStepName']"
+   },
+   {
+    "from": "row['FromStepType']",
+    "to": "row['fromStepType']"
+   },
+   {
+    "from": "row['FromStepTypeName']",
+    "to": "row['fromStepTypeName']"
+   },
+   {
+    "from": "row['FromStepCommonsId']",
+    "to": "row['fromStepCommonsId']"
+   },
+   {
+    "from": "row['FromStepLordsId']",
+    "to": "row['fromStepLordsId']"
+   },
+   {
+    "from": "row['FromSteplegislature']",
+    "to": "row['fromSteplegislature']"
+   },
+   {
+    "from": "row['FromSteplegislatureName']",
+    "to": "row['fromSteplegislatureName']"
+   },
+   {
+    "from": "row['ToStep']",
+    "to": "row['toStep']"
+   },
+   {
+    "from": "row['ToStepName']",
+    "to": "row['toStepName']"
+   },
+   {
+    "from": "row['ToStepType']",
+    "to": "row['toStepType']"
+   },
+   {
+    "from": "row['ToStepTypeName']",
+    "to": "row['toStepTypeName']"
+   },
+   {
+    "from": "row['ToStepCommonsId']",
+    "to": "row['toStepCommonsId']"
+   },
+   {
+    "from": "row['ToStepLordsId']",
+    "to": "row['toStepLordsId']"
+   },
+   {
+    "from": "row['ToSteplegislature']",
+    "to": "row['toSteplegislature']"
+   },
+   {
+    "from": "row['ToSteplegislatureName']",
+    "to": "row['toSteplegislatureName']"
+   }
+  ],
+  "var_renames": {
+   "?EndDate": "?endDate",
+   "?FromStep": "?fromStep",
+   "?FromStepCommonsId": "?fromStepCommonsId",
+   "?FromStepLordsId": "?fromStepLordsId",
+   "?FromStepName": "?fromStepName",
+   "?FromStepType": "?fromStepType",
+   "?FromStepTypeName": "?fromStepTypeName",
+   "?FromSteplegislature": "?fromSteplegislature",
+   "?FromSteplegislatureName": "?fromSteplegislatureName",
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName",
+   "?Route": "?route",
+   "?StartDate": "?startDate",
+   "?ToStep": "?toStep",
+   "?ToStepCommonsId": "?toStepCommonsId",
+   "?ToStepLordsId": "?toStepLordsId",
+   "?ToStepName": "?toStepName",
+   "?ToStepType": "?toStepType",
+   "?ToStepTypeName": "?toStepTypeName",
+   "?ToSteplegislature": "?toSteplegislature",
+   "?ToSteplegislatureName": "?toSteplegislatureName"
+  }
+ },
+ "procedure_step": {
+  "getter_file": "lib/sparql/get/procedure_step.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName",
+   "?Route": "?route"
+  }
+ },
+ "procedure_step_business_items": {
+  "getter_file": "lib/sparql/get/procedure_step_business_items.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   },
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName",
+   "?Route": "?route"
+  }
+ },
+ "procedure_step_collections": {
+  "getter_file": "lib/sparql/get/procedure_step_collections.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedure_step_type": {
+  "getter_file": "lib/sparql/get/procedure_step_type.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName",
+   "?Route": "?route"
+  }
+ },
+ "procedure_step_type_steps": {
+  "getter_file": "lib/sparql/get/procedure_step_type_steps.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName",
+   "?Route": "?route"
+  }
+ },
+ "procedure_step_types": {
+  "getter_file": "lib/sparql/get/procedure_step_types.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName",
+   "?Route": "?route"
+  }
+ },
+ "procedure_steps": {
+  "getter_file": "lib/sparql/get/procedure_steps.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   },
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName",
+   "?Route": "?route"
+  }
+ },
+ "procedure_steps_with_depths": {
+  "getter_file": "lib/sparql/get/procedure_steps_with_depths.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   },
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedure_work_package_count": {
+  "getter_file": "lib/sparql/get/procedure_work_package_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedure_work_package_count_current": {
+  "getter_file": "lib/sparql/get/procedure_work_package_count_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedure_work_packages": {
+  "getter_file": "lib/sparql/get/procedure_work_packages.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   }
+  ],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedure_work_packages_all": {
+  "getter_file": "lib/sparql/get/procedure_work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   }
+  ],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedure_work_packages_current": {
+  "getter_file": "lib/sparql/get/procedure_work_packages_current.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   }
+  ],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedure_work_packages_current_all": {
+  "getter_file": "lib/sparql/get/procedure_work_packages_current_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   }
+  ],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedures": {
+  "getter_file": "lib/sparql/get/procedures.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   },
+   {
+    "from": "row['ProcedureDescription']",
+    "to": "row['procedureDescription']"
+   },
+   {
+    "from": "row['ProcedureDisplayOrder']",
+    "to": "row['procedureDisplayOrder']"
+   }
+  ],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureDescription": "?procedureDescription",
+   "?ProcedureDisplayOrder": "?procedureDisplayOrder",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "procedures_main": {
+  "getter_file": "lib/sparql/get/procedures_main.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Procedure']",
+    "to": "row['procedure']"
+   },
+   {
+    "from": "row['ProcedureName']",
+    "to": "row['procedureName']"
+   },
+   {
+    "from": "row['ProcedureDescription']",
+    "to": "row['procedureDescription']"
+   },
+   {
+    "from": "row['ProcedureDisplayOrder']",
+    "to": "row['procedureDisplayOrder']"
+   }
+  ],
+  "var_renames": {
+   "?Procedure": "?procedure",
+   "?ProcedureDescription": "?procedureDescription",
+   "?ProcedureDisplayOrder": "?procedureDisplayOrder",
+   "?ProcedureName": "?procedureName"
+  }
+ },
+ "route": {
+  "getter_file": "lib/sparql/get/route.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Route']",
+    "to": "row['route']"
+   },
+   {
+    "from": "row['StartDate']",
+    "to": "row['startDate']"
+   },
+   {
+    "from": "row['EndDate']",
+    "to": "row['endDate']"
+   },
+   {
+    "from": "row['FromStep']",
+    "to": "row['fromStep']"
+   },
+   {
+    "from": "row['FromStepName']",
+    "to": "row['fromStepName']"
+   },
+   {
+    "from": "row['FromStepType']",
+    "to": "row['fromStepType']"
+   },
+   {
+    "from": "row['FromStepTypeName']",
+    "to": "row['fromStepTypeName']"
+   },
+   {
+    "from": "row['FromSteplegislature']",
+    "to": "row['fromSteplegislature']"
+   },
+   {
+    "from": "row['FromSteplegislatureName']",
+    "to": "row['fromSteplegislatureName']"
+   },
+   {
+    "from": "row['FromStepCommonsId']",
+    "to": "row['fromStepCommonsId']"
+   },
+   {
+    "from": "row['FromStepLordsId']",
+    "to": "row['fromStepLordsId']"
+   },
+   {
+    "from": "row['ToStep']",
+    "to": "row['toStep']"
+   },
+   {
+    "from": "row['ToStepName']",
+    "to": "row['toStepName']"
+   },
+   {
+    "from": "row['ToStepType']",
+    "to": "row['toStepType']"
+   },
+   {
+    "from": "row['ToStepTypeName']",
+    "to": "row['toStepTypeName']"
+   },
+   {
+    "from": "row['ToSteplegislature']",
+    "to": "row['toSteplegislature']"
+   },
+   {
+    "from": "row['ToSteplegislatureName']",
+    "to": "row['toSteplegislatureName']"
+   },
+   {
+    "from": "row['ToStepCommonsId']",
+    "to": "row['toStepCommonsId']"
+   },
+   {
+    "from": "row['ToStepLordsId']",
+    "to": "row['toStepLordsId']"
+   }
+  ],
+  "var_renames": {
+   "?EndDate": "?endDate",
+   "?FromStep": "?fromStep",
+   "?FromStepCommonsId": "?fromStepCommonsId",
+   "?FromStepLordsId": "?fromStepLordsId",
+   "?FromStepName": "?fromStepName",
+   "?FromStepType": "?fromStepType",
+   "?FromStepTypeName": "?fromStepTypeName",
+   "?FromSteplegislature": "?fromSteplegislature",
+   "?FromSteplegislatureName": "?fromSteplegislatureName",
+   "?Route": "?route",
+   "?StartDate": "?startDate",
+   "?ToStep": "?toStep",
+   "?ToStepCommonsId": "?toStepCommonsId",
+   "?ToStepLordsId": "?toStepLordsId",
+   "?ToStepName": "?toStepName",
+   "?ToStepType": "?toStepType",
+   "?ToStepTypeName": "?toStepTypeName",
+   "?ToSteplegislature": "?toSteplegislature",
+   "?ToSteplegislatureName": "?toSteplegislatureName"
+  }
+ },
+ "route_procedures": {
+  "getter_file": "lib/sparql/get/route_procedures.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Route": "?route"
+  }
+ },
+ "routes": {
+  "getter_file": "lib/sparql/get/routes.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Route']",
+    "to": "row['route']"
+   },
+   {
+    "from": "row['StartDate']",
+    "to": "row['startDate']"
+   },
+   {
+    "from": "row['EndDate']",
+    "to": "row['endDate']"
+   },
+   {
+    "from": "row['FromStep']",
+    "to": "row['fromStep']"
+   },
+   {
+    "from": "row['FromStepName']",
+    "to": "row['fromStepName']"
+   },
+   {
+    "from": "row['FromStepType']",
+    "to": "row['fromStepType']"
+   },
+   {
+    "from": "row['FromStepTypeName']",
+    "to": "row['fromStepTypeName']"
+   },
+   {
+    "from": "row['FromSteplegislature']",
+    "to": "row['fromSteplegislature']"
+   },
+   {
+    "from": "row['FromSteplegislatureName']",
+    "to": "row['fromSteplegislatureName']"
+   },
+   {
+    "from": "row['FromStepCommonsId']",
+    "to": "row['fromStepCommonsId']"
+   },
+   {
+    "from": "row['FromStepLordsId']",
+    "to": "row['fromStepLordsId']"
+   },
+   {
+    "from": "row['ToStep']",
+    "to": "row['toStep']"
+   },
+   {
+    "from": "row['ToStepName']",
+    "to": "row['toStepName']"
+   },
+   {
+    "from": "row['ToStepType']",
+    "to": "row['toStepType']"
+   },
+   {
+    "from": "row['ToStepTypeName']",
+    "to": "row['toStepTypeName']"
+   },
+   {
+    "from": "row['ToSteplegislature']",
+    "to": "row['toSteplegislature']"
+   },
+   {
+    "from": "row['ToSteplegislatureName']",
+    "to": "row['toSteplegislatureName']"
+   },
+   {
+    "from": "row['ToStepCommonsId']",
+    "to": "row['toStepCommonsId']"
+   },
+   {
+    "from": "row['ToStepLordsId']",
+    "to": "row['toStepLordsId']"
+   }
+  ],
+  "var_renames": {
+   "?EndDate": "?endDate",
+   "?FromStep": "?fromStep",
+   "?FromStepCommonsId": "?fromStepCommonsId",
+   "?FromStepLordsId": "?fromStepLordsId",
+   "?FromStepName": "?fromStepName",
+   "?FromStepType": "?fromStepType",
+   "?FromStepTypeName": "?fromStepTypeName",
+   "?FromSteplegislature": "?fromSteplegislature",
+   "?FromSteplegislatureName": "?fromSteplegislatureName",
+   "?Route": "?route",
+   "?StartDate": "?startDate",
+   "?ToStep": "?toStep",
+   "?ToStepCommonsId": "?toStepCommonsId",
+   "?ToStepLordsId": "?toStepLordsId",
+   "?ToStepName": "?toStepName",
+   "?ToStepType": "?toStepType",
+   "?ToStepTypeName": "?toStepTypeName",
+   "?ToSteplegislature": "?toSteplegislature",
+   "?ToSteplegislatureName": "?toSteplegislatureName"
+  }
+ },
+ "secondary_legislation_work_packages": {
+  "getter_file": "lib/sparql/get/secondary_legislation_work_packages.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "secondary_legislation_work_packages_all": {
+  "getter_file": "lib/sparql/get/secondary_legislation_work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "step": {
+  "getter_file": "lib/sparql/get/step.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Step']",
+    "to": "row['step']"
+   },
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Step": "?step"
+  }
+ },
+ "step_business_item_count": {
+  "getter_file": "lib/sparql/get/step_business_item_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Step": "?step"
+  }
+ },
+ "step_business_items": {
+  "getter_file": "lib/sparql/get/step_business_items.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Step": "?step"
+  }
+ },
+ "step_business_items_all": {
+  "getter_file": "lib/sparql/get/step_business_items_all.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Step": "?step"
+  }
+ },
+ "step_clocks": {
+  "getter_file": "lib/sparql/get/step_clocks.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['StartStep']",
+    "to": "row['startStep']"
+   },
+   {
+    "from": "row['StartStepName']",
+    "to": "row['startStepName']"
+   },
+   {
+    "from": "row['StartStepType']",
+    "to": "row['startStepType']"
+   },
+   {
+    "from": "row['StartStepTypeName']",
+    "to": "row['startStepTypeName']"
+   },
+   {
+    "from": "row['StartStepCommonsId']",
+    "to": "row['startStepCommonsId']"
+   },
+   {
+    "from": "row['StartStepLordsId']",
+    "to": "row['startStepLordsId']"
+   },
+   {
+    "from": "row['StartSteplegislature']",
+    "to": "row['startSteplegislature']"
+   },
+   {
+    "from": "row['StartSteplegislatureName']",
+    "to": "row['startSteplegislatureName']"
+   },
+   {
+    "from": "row['EndStep']",
+    "to": "row['endStep']"
+   },
+   {
+    "from": "row['EndStepName']",
+    "to": "row['endStepName']"
+   },
+   {
+    "from": "row['EndStepType']",
+    "to": "row['endStepType']"
+   },
+   {
+    "from": "row['EndStepTypeName']",
+    "to": "row['endStepTypeName']"
+   },
+   {
+    "from": "row['EndStepCommonsId']",
+    "to": "row['endStepCommonsId']"
+   },
+   {
+    "from": "row['EndStepLordsId']",
+    "to": "row['endStepLordsId']"
+   },
+   {
+    "from": "row['EndSteplegislature']",
+    "to": "row['endSteplegislature']"
+   },
+   {
+    "from": "row['EndSteplegislatureName']",
+    "to": "row['endSteplegislatureName']"
+   }
+  ],
+  "var_renames": {
+   "?EndStep": "?endStep",
+   "?EndStepCommonsId": "?endStepCommonsId",
+   "?EndStepLordsId": "?endStepLordsId",
+   "?EndStepName": "?endStepName",
+   "?EndStepType": "?endStepType",
+   "?EndStepTypeName": "?endStepTypeName",
+   "?EndSteplegislature": "?endSteplegislature",
+   "?EndSteplegislatureName": "?endSteplegislatureName",
+   "?StartStep": "?startStep",
+   "?StartStepCommonsId": "?startStepCommonsId",
+   "?StartStepLordsId": "?startStepLordsId",
+   "?StartStepName": "?startStepName",
+   "?StartStepType": "?startStepType",
+   "?StartStepTypeName": "?startStepTypeName",
+   "?StartSteplegislature": "?startSteplegislature",
+   "?StartSteplegislatureName": "?startSteplegislatureName",
+   "?Step": "?step"
+  }
+ },
+ "step_collection": {
+  "getter_file": "lib/sparql/get/step_collection.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['StepCollection']",
+    "to": "row['stepCollection']"
+   },
+   {
+    "from": "row['House']",
+    "to": "row['house']"
+   },
+   {
+    "from": "row['HouseName']",
+    "to": "row['houseName']"
+   }
+  ],
+  "var_renames": {
+   "?House": "?house",
+   "?HouseName": "?houseName",
+   "?StepCollection": "?stepCollection"
+  }
+ },
+ "step_collection_steps": {
+  "getter_file": "lib/sparql/get/step_collection_steps.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?House": "?house",
+   "?HouseName": "?houseName",
+   "?StepCollection": "?stepCollection",
+   "?StepCollectionMembership": "?stepCollectionMembership"
+  }
+ },
+ "step_collection_work_package_count": {
+  "getter_file": "lib/sparql/get/step_collection_work_package_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?MadeAvailableDate": "?madeAvailableDate",
+   "?StepCollection": "?stepCollection",
+   "?StepCollectionMembership": "?stepCollectionMembership"
+  }
+ },
+ "step_collection_work_package_count_current": {
+  "getter_file": "lib/sparql/get/step_collection_work_package_count_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?MadeAvailableDate": "?madeAvailableDate",
+   "?StepCollection": "?stepCollection",
+   "?StepCollectionMembership": "?stepCollectionMembership"
+  }
+ },
+ "step_collection_work_packages": {
+  "getter_file": "lib/sparql/get/step_collection_work_packages.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?StepCollection": "?stepCollection",
+   "?StepCollectionMembership": "?stepCollectionMembership"
+  }
+ },
+ "step_collection_work_packages_all": {
+  "getter_file": "lib/sparql/get/step_collection_work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?StepCollection": "?stepCollection",
+   "?StepCollectionMembership": "?stepCollectionMembership"
+  }
+ },
+ "step_collection_work_packages_current": {
+  "getter_file": "lib/sparql/get/step_collection_work_packages_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?StepCollection": "?stepCollection",
+   "?StepCollectionMembership": "?stepCollectionMembership"
+  }
+ },
+ "step_collection_work_packages_current_all": {
+  "getter_file": "lib/sparql/get/step_collection_work_packages_current_all.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?StepCollection": "?stepCollection",
+   "?StepCollectionMembership": "?stepCollectionMembership"
+  }
+ },
+ "step_collections": {
+  "getter_file": "lib/sparql/get/step_collections.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['StepCollection']",
+    "to": "row['stepCollection']"
+   },
+   {
+    "from": "row['House']",
+    "to": "row['house']"
+   },
+   {
+    "from": "row['HouseName']",
+    "to": "row['houseName']"
+   }
+  ],
+  "var_renames": {
+   "?House": "?house",
+   "?HouseName": "?houseName",
+   "?StepCollection": "?stepCollection"
+  }
+ },
+ "step_procedures": {
+  "getter_file": "lib/sparql/get/step_procedures.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?ProcedureDisplayOrder": "?procedureDisplayOrder",
+   "?ProcedureName": "?procedureName",
+   "?Step": "?step"
+  }
+ },
+ "step_procedures_with_step_depth": {
+  "getter_file": "lib/sparql/get/step_procedures_with_step_depth.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Step": "?step"
+  }
+ },
+ "step_routes": {
+  "getter_file": "lib/sparql/get/step_routes.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Route']",
+    "to": "row['route']"
+   },
+   {
+    "from": "row['FromStep']",
+    "to": "row['fromStep']"
+   },
+   {
+    "from": "row['FromStepName']",
+    "to": "row['fromStepName']"
+   },
+   {
+    "from": "row['FromStepType']",
+    "to": "row['fromStepType']"
+   },
+   {
+    "from": "row['FromStepTypeName']",
+    "to": "row['fromStepTypeName']"
+   },
+   {
+    "from": "row['FromStepCommonsId']",
+    "to": "row['fromStepCommonsId']"
+   },
+   {
+    "from": "row['FromStepLordsId']",
+    "to": "row['fromStepLordsId']"
+   },
+   {
+    "from": "row['FromSteplegislature']",
+    "to": "row['fromSteplegislature']"
+   },
+   {
+    "from": "row['FromSteplegislatureName']",
+    "to": "row['fromSteplegislatureName']"
+   },
+   {
+    "from": "row['ToStep']",
+    "to": "row['toStep']"
+   },
+   {
+    "from": "row['ToStepName']",
+    "to": "row['toStepName']"
+   },
+   {
+    "from": "row['ToStepType']",
+    "to": "row['toStepType']"
+   },
+   {
+    "from": "row['ToStepTypeName']",
+    "to": "row['toStepTypeName']"
+   },
+   {
+    "from": "row['ToStepCommonsId']",
+    "to": "row['toStepCommonsId']"
+   },
+   {
+    "from": "row['ToStepLordsId']",
+    "to": "row['toStepLordsId']"
+   },
+   {
+    "from": "row['ToSteplegislature']",
+    "to": "row['toSteplegislature']"
+   },
+   {
+    "from": "row['ToSteplegislatureName']",
+    "to": "row['toSteplegislatureName']"
+   }
+  ],
+  "var_renames": {
+   "?FromStep": "?fromStep",
+   "?FromStepCommonsId": "?fromStepCommonsId",
+   "?FromStepLordsId": "?fromStepLordsId",
+   "?FromStepName": "?fromStepName",
+   "?FromStepType": "?fromStepType",
+   "?FromStepTypeName": "?fromStepTypeName",
+   "?FromSteplegislature": "?fromSteplegislature",
+   "?FromSteplegislatureName": "?fromSteplegislatureName",
+   "?Route": "?route",
+   "?Step": "?step",
+   "?ToStep": "?toStep",
+   "?ToStepCommonsId": "?toStepCommonsId",
+   "?ToStepLordsId": "?toStepLordsId",
+   "?ToStepName": "?toStepName",
+   "?ToStepType": "?toStepType",
+   "?ToStepTypeName": "?toStepTypeName",
+   "?ToSteplegislature": "?toSteplegislature",
+   "?ToSteplegislatureName": "?toSteplegislatureName"
+  }
+ },
+ "step_step_collections": {
+  "getter_file": "lib/sparql/get/step_step_collections.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['House']",
+    "to": "row['house']"
+   },
+   {
+    "from": "row['HouseName']",
+    "to": "row['houseName']"
+   }
+  ],
+  "var_renames": {
+   "?House": "?house",
+   "?HouseName": "?houseName",
+   "?Step": "?step"
+  }
+ },
+ "step_type": {
+  "getter_file": "lib/sparql/get/step_type.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['StepType']",
+    "to": "row['stepType']"
+   }
+  ],
+  "var_renames": {
+   "?StepType": "?stepType"
+  }
+ },
+ "step_type_steps": {
+  "getter_file": "lib/sparql/get/step_type_steps.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Step']",
+    "to": "row['step']"
+   },
+   {
+    "from": "row['StepName']",
+    "to": "row['stepName']"
+   },
+   {
+    "from": "row['StepType']",
+    "to": "row['stepType']"
+   },
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Step": "?step",
+   "?StepName": "?stepName",
+   "?StepType": "?stepType",
+   "?StepTypeDescription": "?stepTypeDescription"
+  }
+ },
+ "step_types": {
+  "getter_file": "lib/sparql/get/step_types.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['StepType']",
+    "to": "row['stepType']"
+   }
+  ],
+  "var_renames": {
+   "?StepType": "?stepType"
+  }
+ },
+ "steps": {
+  "getter_file": "lib/sparql/get/steps.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Step']",
+    "to": "row['step']"
+   },
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Step": "?step"
+  }
+ },
+ "treaty_work_packages": {
+  "getter_file": "lib/sparql/get/treaty_work_packages.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "treaty_work_packages_all": {
+  "getter_file": "lib/sparql/get/treaty_work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_package_business_items": {
+  "getter_file": "lib/sparql/get/work_package_business_items.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   },
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_package_count": {
+  "getter_file": "lib/sparql/get/work_package_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_package_count_current": {
+  "getter_file": "lib/sparql/get/work_package_count_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_package_future_business_items": {
+  "getter_file": "lib/sparql/get/work_package_future_business_items.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   },
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_package_past_business_items": {
+  "getter_file": "lib/sparql/get/work_package_past_business_items.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   },
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_package_undated_business_items": {
+  "getter_file": "lib/sparql/get/work_package_undated_business_items.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['CommonsId']",
+    "to": "row['commonsId']"
+   },
+   {
+    "from": "row['LordsId']",
+    "to": "row['lordsId']"
+   }
+  ],
+  "var_renames": {
+   "?CommonsId": "?commonsId",
+   "?LordsId": "?lordsId",
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_packageable_thing": {
+  "getter_file": "lib/sparql/get/work_packageable_thing.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['WorkPackagedThing']",
+    "to": "row['workPackagedThing']"
+   }
+  ],
+  "var_renames": {
+   "?CommandPaperNumber": "?commandPaperNumber",
+   "?CommandPrefix": "?commandPrefix",
+   "?MadeAvailableDate": "?madeAvailableDate",
+   "?SINumber": "?sINumber",
+   "?SIYear": "?sIYear",
+   "?SIprefix": "?sIprefix",
+   "?WorkPackagedThing": "?workPackagedThing"
+  }
+ },
+ "work_packageable_thing_by_uri": {
+  "getter_file": "lib/sparql/get/work_packageable_thing_by_uri.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['WorkPackagedThing']",
+    "to": "row['workPackagedThing']"
+   }
+  ],
+  "var_renames": {
+   "?WorkPackagedThing": "?workPackagedThing"
+  }
+ },
+ "work_packageable_thing_count": {
+  "getter_file": "lib/sparql/get/work_packageable_thing_count.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?WorkPackagedThing": "?workPackagedThing"
+  }
+ },
+ "work_packageable_thing_count_current": {
+  "getter_file": "lib/sparql/get/work_packageable_thing_count_current.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?WorkPackagedThing": "?workPackagedThing"
+  }
+ },
+ "work_packageable_thing_enabling_legislations": {
+  "getter_file": "lib/sparql/get/work_packageable_thing_enabling_legislations.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['EnablingThing']",
+    "to": "row['enablingThing']"
+   },
+   {
+    "from": "row['ActName']",
+    "to": "row['actName']"
+   },
+   {
+    "from": "row['RoyalAssentDate']",
+    "to": "row['royalAssentDate']"
+   },
+   {
+    "from": "row['Year']",
+    "to": "row['year']"
+   },
+   {
+    "from": "row['Number']",
+    "to": "row['number']"
+   }
+  ],
+  "var_renames": {
+   "?ActName": "?actName",
+   "?EnablingThing": "?enablingThing",
+   "?Number": "?number",
+   "?RoyalAssentDate": "?royalAssentDate",
+   "?URL": "?uRL",
+   "?WorkPackagedThing": "?workPackagedThing",
+   "?Year": "?year"
+  }
+ },
+ "work_packageable_thing_following": {
+  "getter_file": "lib/sparql/get/work_packageable_thing_following.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['FollowedWorkPackagedThing']",
+    "to": "row['followedWorkPackagedThing']"
+   },
+   {
+    "from": "row['FollowedWorkPackagedThingName']",
+    "to": "row['followedWorkPackagedThingName']"
+   }
+  ],
+  "var_renames": {
+   "?FollowedWorkPackagedThing": "?followedWorkPackagedThing",
+   "?FollowedWorkPackagedThingName": "?followedWorkPackagedThingName",
+   "?WorkPackagedThing": "?workPackagedThing"
+  }
+ },
+ "work_packageable_thing_preceding": {
+  "getter_file": "lib/sparql/get/work_packageable_thing_preceding.rb",
+  "getter_found": true,
+  "replacements": [],
+  "var_renames": {
+   "?WorkPackagedThing": "?workPackagedThing"
+  }
+ },
+ "work_packageable_thing_work_packages": {
+  "getter_file": "lib/sparql/get/work_packageable_thing_work_packages.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['WorkPackagedThing']",
+    "to": "row['workPackagedThing']"
+   }
+  ],
+  "var_renames": {
+   "?CommandPaperNumber": "?commandPaperNumber",
+   "?CommandPrefix": "?commandPrefix",
+   "?SINumber": "?sINumber",
+   "?SIYear": "?sIYear",
+   "?SIprefix": "?sIprefix",
+   "?WorkPackagedThing": "?workPackagedThing"
+  }
+ },
+ "work_packageable_things": {
+  "getter_file": "lib/sparql/get/work_packageable_things.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['WorkPackagedThing']",
+    "to": "row['workPackagedThing']"
+   }
+  ],
+  "var_renames": {
+   "?WorkPackagedThing": "?workPackagedThing"
+  }
+ },
+ "work_packageable_things_current": {
+  "getter_file": "lib/sparql/get/work_packageable_things_current.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['WorkPackagedThing']",
+    "to": "row['workPackagedThing']"
+   }
+  ],
+  "var_renames": {
+   "?WorkPackagedThing": "?workPackagedThing"
+  }
+ },
+ "work_packages": {
+  "getter_file": "lib/sparql/get/work_packages.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_packages_all": {
+  "getter_file": "lib/sparql/get/work_packages_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_packages_current": {
+  "getter_file": "lib/sparql/get/work_packages_current.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ },
+ "work_packages_current_all": {
+  "getter_file": "lib/sparql/get/work_packages_current_all.rb",
+  "getter_found": true,
+  "replacements": [
+   {
+    "from": "row['Paper']",
+    "to": "row['paper']"
+   },
+   {
+    "from": "row['Papername']",
+    "to": "row['papername']"
+   }
+  ],
+  "var_renames": {
+   "?Paper": "?paper",
+   "?Papername": "?papername"
+  }
+ }
+}

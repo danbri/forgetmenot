@@ -1,0 +1,8 @@
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX id: <https://id.parliament.uk/>
+SELECT * WHERE {
+
+  ?house a :House ;
+  :name ?houseName.
+} ORDER BY ?houseName

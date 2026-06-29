@@ -1,0 +1,28 @@
+PREFIX id: <https://id.parliament.uk/>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?stepCollection ?stepCollectionName ?procedure ?procedureName ?house ?houseName ?stepCollectionMembership ?procedureStep ?procedureStepName ?procedureStepType ?procedureStepTypeName ?procedureSteplegislature ?procedureSteplegislatureName ?procedureStepCommonsId ?procedureStepLordsId (COUNT(?bi) AS ?biCount)  WHERE {
+
+  ?stepCollection a :ProcedureStepCollection;
+  :name ?stepCollectionName.
+  OPTIONAL {?stepCollection :procedureStepCollectionHasProcedure ?procedure.
+    ?procedure :name ?procedureName.}
+  OPTIONAL {?stepCollection :procedureStepCollectionHasHouse ?house.
+    ?house :name ?houseName.}
+  FILTER (?stepCollection IN (id:#{step_collection_id}))
+  ?stepCollection :procedureStepCollectionHasProcedureStepCollectionMembership ?stepCollectionMembership.
+  ?stepCollectionMembership :procedureStepCollectionMembershipHasProcedureStep ?procedureStep.
+  OPTIONAL { ?procedureStep :procedureStepHasBusinessItem ?bi }
+  ?procedureStep :name ?procedureStepName;
+  :procedureStepHasProcedureStepType ?procedureStepType.
+  ?procedureStepType :name ?procedureStepTypeName.
+  OPTIONAL { ?procedureStep :procedureStepInLegislature ?procedureSteplegislature.
+    ?procedureSteplegislature :name ?procedureSteplegislatureName.}
+  OPTIONAL {   ?procedureStep :procedureStepHasHouse ?procedureStepCommonsId.
+    FILTER (?procedureStepCommonsId IN (id:1AFu55Hs))}
+  OPTIONAL{    ?procedureStep :procedureStepHasHouse ?procedureStepLordsId.
+    FILTER (?procedureStepLordsId IN (id:WkUWUBMx))}
+}
+GROUP BY ?stepCollection ?stepCollectionName ?procedure ?procedureName ?house ?houseName ?stepCollectionMembership ?procedureStep ?procedureStepName ?procedureStepType ?procedureStepTypeName ?procedureSteplegislature ?procedureSteplegislatureName ?procedureStepCommonsId ?procedureStepLordsId
+ORDER BY ?procedureStepName

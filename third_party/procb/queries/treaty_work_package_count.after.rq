@@ -1,0 +1,11 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+SELECT DISTINCT  (COUNT(DISTINCT ?workPackage) AS ?count) WHERE {
+
+  ?treaty a :Treaty .
+  ?treaty  :name ?treatyName ;
+  :workPackagedThingHasWorkPackage ?workPackage.
+  ?workPackage :workPackageHasProcedure ?procedure.
+  ?procedure :name ?procedureName.
+}

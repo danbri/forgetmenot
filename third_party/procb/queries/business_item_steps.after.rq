@@ -1,0 +1,31 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+SELECT ?businessItem ?workPackage ?workPackagedThing ?workPackagedThingLabel ?procedure ?procedureLabel ?calculationStyle ?calculationStyleLabel ?madeAvailableDate ?businessItemstep ?businessItemStepName ?stepDepth ?date ?url ?legislature ?legislatureName ?commonsId ?lordsId WHERE {
+  ?businessItem a :BusinessItem;
+  :businessItemHasWorkPackage ?workPackage;
+  :businessItemHasProcedureStep ?businessItemstep.
+  ?workPackage :workPackageHasProcedure ?procedure;
+  :workPackageHasWorkPackagedThing ?workPackagedThing.
+  ?procedure :name ?procedureLabel.
+  OPTIONAL {      ?businessItemstep :procedureStepHasStepDisplayDepthInProcedure ?businessItemStepDepth.
+    ?businessItemStepDepth :stepDisplayDepthInProcedureHasProcedure ?procedure.
+    ?businessItemStepDepth :stepDisplayDepthInProcedureHasDepth ?stepDepth. }
+  ?workPackagedThing :name ?workPackagedThingLabel.
+  OPTIONAL {?workPackage :workPackageHasCalculationStyle ?calculationStyle.
+    ?calculationStyle :name ?calculationStyleLabel. }
+  OPTIONAL {?businessItem :date ?date.}
+  OPTIONAL {?businessItem :businessItemHasBusinessItemWebLink ?url}
+  ?businessItemstep :name ?businessItemStepName.
+  OPTIONAL {?businessItemstep :procedureStepInLegislature ?legislature.
+    ?legislature :name ?legislatureName.}
+  OPTIONAL {?businessItemstep:procedureStepHasHouse ?commonsId.
+    FILTER (?commonsId IN (id:1AFu55Hs))}
+  OPTIONAL {?businessItemstep :procedureStepHasHouse ?lordsId.
+    FILTER (?lordsId IN (id:WkUWUBMx))}
+  FILTER (?businessItem IN (id:#{business_item_id}))
+  OPTIONAL {  ?workPackage :workPackageHasBusinessItem ?bi.
+    ?bi :businessItemHasProcedureStep ?procedureStep.
+    ?bi :date ?madeAvailableDate.
+    FILTER (?procedureStep IN (id:cspzmb6w, id:isWn7s3K, id:ITNO9JWr, id:otscOTzB))}
+} ORDER BY ?stepDepth

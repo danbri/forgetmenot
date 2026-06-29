@@ -1,0 +1,31 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+SELECT ?clock ?clockName ?dayCount ?procedure ?procedureName ?startStep ?startStepName ?startStepType ?startStepTypeName ?startSteplegislature ?startSteplegislatureName ?startStepCommonsId ?startStepLordsId ?endStep ?endStepName ?endStepType ?endStepTypeName ?endSteplegislature ?endSteplegislatureName ?endStepCommonsId ?endStepLordsId WHERE {
+  ?clock a :Clock;
+  :name ?clockName;
+  :clockFormsPartOfProcedure ?procedure;
+  :clockHasStartProcedureStep ?startStep;
+  :clockHasEndProcedureStep ?endStep.
+  OPTIONAL {?clock :clockDayCount ?dayCount.}
+  ?procedure :name ?procedureName.
+  ?startStep :name ?startStepName;
+  :procedureStepHasProcedureStepType ?startStepType.
+  ?startStepType :name ?startStepTypeName.
+  OPTIONAL {?startStep :procedureStepInLegislature ?startSteplegislature.
+    ?startSteplegislature :name ?startSteplegislatureName.}
+  OPTIONAL {?startStep:procedureStepHasHouse ?startStepCommonsId
+    FILTER (?startStepCommonsId IN (id:1AFu55Hs))}
+  OPTIONAL {?startStep :procedureStepHasHouse ?startStepLordsId.
+    FILTER (?startStepLordsId IN (id:WkUWUBMx))}
+  ?endStep :name ?endStepName;
+  :procedureStepHasProcedureStepType ?endStepType.
+  ?endStepType :name ?endStepTypeName.
+  OPTIONAL {?endStep :procedureStepInLegislature ?endSteplegislature.
+    ?endSteplegislature :name ?endSteplegislatureName.}
+  OPTIONAL {?endStep:procedureStepHasHouse ?endStepCommonsId
+    FILTER (?endStepCommonsId IN (id:1AFu55Hs))}
+  OPTIONAL {?endStep :procedureStepHasHouse ?endStepLordsId.
+    FILTER (?endStepLordsId IN (id:WkUWUBMx))}
+} ORDER BY ?clockName ?procedureName

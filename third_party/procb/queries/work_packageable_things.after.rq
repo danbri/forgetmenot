@@ -1,0 +1,15 @@
+PREFIX id: <https://id.parliament.uk/>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?workPackagedThing ?workPackagedThingName WHERE {
+  ?workPackagedThing a :WorkPackagedThing;
+  :name ?workPackagedThingName.
+  ?workPackagedThing :workPackagedThingHasWorkPackage ?workPackage.
+  OPTIONAL {?workPackage :workPackageHasBusinessItem ?businessItem .
+    ?businessItem :businessItemHasProcedureStep ?step;
+    :businessItemDate ?businessItemDate.
+    FILTER (?step IN (id:isWn7s3K, id:cspzmb6w, id:ITNO9JWr, id:otscOTzB))}
+
+} ORDER BY DESC (?businessItemDate)
+LIMIT #{limit} OFFSET #{offset}

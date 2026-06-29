@@ -1,0 +1,21 @@
+PREFIX id: <https://id.parliament.uk/>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?workPackage ?workPackagedThing ?workPackagedThingName ?madeAvailableDate ?procedure ?procedureName ?webLink ?sIprefix ?sINumber ?sIYear ?commandPrefix ?commandPaperNumber  WHERE {
+  ?workPackagedThing a :WorkPackagedThing;
+  :name ?workPackagedThingName;
+  :workPackagedThingHasWorkPackage ?workPackage.
+  ?workPackage :workPackageHasProcedure ?procedure.
+  ?procedure :name ?procedureName.
+  OPTIONAL {?workPackagedThing :workPackagedThingHasWorkPackagedThingWebLink ?webLink.}
+  OPTIONAL {?workPackagedThing :statutoryInstrumentPaperPrefix ?sIprefix}
+  OPTIONAL {?workPackagedThing :statutoryInstrumentPaperNumber ?sINumber}
+  OPTIONAL {?workPackagedThing :statutoryInstrumentPaperYear ?sIYear}
+  OPTIONAL {?workPackagedThing :treatyCommandPaperNumber ?commandPaperNumber}
+  OPTIONAL {?workPackagedThing :treatyCommandPaperPrefix ?commandPrefix}
+  OPTIONAL {?workPackage :workPackageHasBusinessItem ?businessItem .
+    ?businessItem :businessItemHasProcedureStep ?step;
+    :businessItemDate ?madeAvailableDate.
+    FILTER (?step IN (id:isWn7s3K, id:cspzmb6w, id:ITNO9JWr, id:otscOTzB))}
+  FILTER (?workPackagedThing IN (id:#{work_packageable_thing_id})) }

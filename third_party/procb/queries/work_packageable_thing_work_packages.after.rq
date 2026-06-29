@@ -1,0 +1,29 @@
+PREFIX id: <https://id.parliament.uk/>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?workPackage ?workPackagedThing ?workPackagedThingName ?combinedDate ?procedure ?procedureName ?webLink ?sIprefix ?sINumber ?sIYear ?commandPrefix ?commandPaperNumber ?calculationStyle ?calculationStyleName WHERE {
+  ?workPackagedThing a :WorkPackagedThing;
+  :name ?workPackagedThingName;
+  :workPackagedThingHasWorkPackage ?workPackage.
+  ?workPackage :workPackageHasProcedure ?procedure.
+  ?procedure :name ?procedureName.
+  OPTIONAL {?workPackagedThing :workPackagedThingHasWorkPackagedThingWebLink ?webLink.}
+  OPTIONAL {?workPackagedThing :statutoryInstrumentPaperPrefix ?sIprefix}
+  OPTIONAL {?workPackagedThing :statutoryInstrumentPaperNumber ?sINumber}
+  OPTIONAL {?workPackagedThing :statutoryInstrumentPaperYear ?sIYear}
+  OPTIONAL {?workPackagedThing :treatyCommandPaperNumber ?commandPaperNumber}
+  OPTIONAL {?workPackagedThing :treatyCommandPaperPrefix ?commandPrefix}
+  OPTIONAL {   ?workPackage :workPackageHasBusinessItem ?businessItem .
+    ?businessItem :businessItemHasProcedureStep ?step;
+    :businessItemDate ?businessItemDate.
+    FILTER (?step IN (id:isWn7s3K, id:cspzmb6w, id:ITNO9JWr, id:otscOTzB))}
+  OPTIONAL {    ?workPackage :workPackageHasBusinessItem ?businessItem2 .
+    ?businessItem2 :businessItemHasProcedureStep ?step2;
+    :businessItemDate ?businessItemDate2.
+    FILTER (?step2 IN (id:AmYrFxwO))}
+  FILTER (?workPackagedThing IN (id:#{work_packageable_thing_id}))
+  BIND(COALESCE(?businessItemDate, ?businessItemDate2) AS ?combinedDate)
+  OPTIONAL { ?workPackage :workPackageHasCalculationStyle ?calculationStyle.
+    ?calculationStyle :name ?calculationStyleName. }
+} ORDER BY DESC(?combinedDate) ?workPackagedThingName

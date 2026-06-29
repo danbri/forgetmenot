@@ -1,0 +1,24 @@
+PREFIX id: <https://id.parliament.uk/>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT  (COUNT(DISTINCT ?workPackage) AS ?count) WHERE  {
+
+  ?stepCollection a :ProcedureStepCollection;
+  :name ?stepCollectionName.
+  FILTER (?stepCollection IN (id:#{step_collection_id}))
+  ?stepCollection :procedureStepCollectionHasProcedureStepCollectionMembership ?stepCollectionMembership.
+  ?stepCollectionMembership :procedureStepCollectionMembershipHasProcedureStep ?procedureStep.
+
+  ?procedureStep :procedureStepHasBusinessItem ?businessItem.
+  ?businessItem :businessItemHasWorkPackage ?workPackage.
+  ?workPackage :workPackageHasWorkPackagedThing ?workPackagedThing;
+  :workPackageHasProcedure ?procedure.
+  ?workPackagedThing :name ?workPackagedThingName.
+  ?procedure :name ?procedureName.
+  OPTIONAL {?workPackage :workPackageHasBusinessItem ?businessItem2 .
+    ?businessItem2 :businessItemHasProcedureStep ?step2;
+    :businessItemDate ?madeAvailableDate.
+    FILTER (?step2 IN (id:isWn7s3K, id:cspzmb6w, id:ITNO9JWr, id:otscOTzB))}
+
+}

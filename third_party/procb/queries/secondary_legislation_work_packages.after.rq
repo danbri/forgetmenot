@@ -1,0 +1,23 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+SELECT DISTINCT ?paper ?papername ?workPackage ?businessItem ?combinedDate ?procedure ?procedure ?procedureName ?calculationStyle ?calculationStyleName   WHERE {
+
+  ?paper a :EnabledThing .
+  ?paper :name ?papername ;
+  :workPackagedThingHasWorkPackage ?workPackage.
+  OPTIONAL {   ?workPackage :workPackageHasBusinessItem ?businessItem .
+    ?businessItem :businessItemHasProcedureStep ?step;
+    :businessItemDate ?businessItemDate.
+    FILTER (?step IN (id:isWn7s3K, id:cspzmb6w, id:ITNO9JWr, id:otscOTzB))}
+  OPTIONAL {    ?workPackage :workPackageHasBusinessItem ?businessItem2 .
+    ?businessItem2 :businessItemHasProcedureStep ?step2;
+    :businessItemDate ?businessItemDate2.
+    FILTER (?step2 IN (id:AmYrFxwO))}
+  ?workPackage :workPackageHasProcedure ?procedure.
+  ?procedure :name ?procedureName.
+  OPTIONAL { ?workPackage :workPackageHasCalculationStyle ?calculationStyle.
+    ?calculationStyle :name ?calculationStyleName. }
+  BIND(COALESCE(?businessItemDate, ?businessItemDate2) AS ?combinedDate)
+} ORDER BY DESC(?combinedDate) ?papername
+LIMIT #{limit} OFFSET #{offset}

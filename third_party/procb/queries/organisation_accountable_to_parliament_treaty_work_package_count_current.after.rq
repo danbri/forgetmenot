@@ -1,0 +1,42 @@
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX id: <https://id.parliament.uk/>
+SELECT DISTINCT (COUNT(DISTINCT ?workPackage) AS ?count) WHERE {
+  { ?organisations a :GovernmentOrganisation.}
+  UNION {
+    ?organisations a :ArmsLengthBody.
+  }
+  ?organisations :name ?name;
+  :leadGovernmentOrganisationHasTreaty ?treaty.
+  ?treaty :name ?treatyName;
+  :workPackagedThingHasWorkPackage ?workPackage.
+  OPTIONAL
+  {
+    ?treaty :treatyHasCountrySeriesMembership ?treatyHasCountrySeriesMembership .
+    ?treatyHasCountrySeriesMembership :seriesItemCitation ?countrySeriesItemCitation .
+  }
+  OPTIONAL
+  {
+    ?treaty :treatyHasEuropeanUnionSeriesMembership ?treatyHasEuropeanUnionSeriesMembership .
+    ?treatyHasEuropeanUnionSeriesMembership :seriesItemCitation ?europeanSeriesItemCitation .
+  }
+  OPTIONAL
+  {
+    ?treaty :treatyHasMiscellaneousSeriesMembership ?treatyHasMiscellaneousSeriesMembership .
+    ?treatyHasMiscellaneousSeriesMembership :seriesItemCitation ?miscSeriesItemCitation .
+  }
+
+  FILTER (?organisations IN (id:#{organisation_accountable_to_parliament_id}))
+  OPTIONAL {?workPackage :workPackageHasBusinessItem ?businessItem .
+    ?businessItem :businessItemHasProcedureStep ?step;
+    :businessItemDate ?businessItemDate.
+    FILTER (?step IN (id:isWn7s3K, id:cspzmb6w, id:ITNO9JWr, id:otscOTzB))}
+  ?workPackage :workPackageHasProcedure ?procedure.
+  ?procedure :name ?procedureName.
+  OPTIONAL { ?workPackage :workPackageHasCalculationStyle ?calculationStyle.
+    ?calculationStyle :name ?calculationStyleName. }
+  MINUS {  ?workPackage   :workPackageHasBusinessItem ?bi2.
+    ?bi2 :businessItemHasProcedureStep ?stepId2.
+    ?stepId2 :procedureStepHasProcedureStepCollectionMembership/:procedureStepCollectionMembershipHasProcedureStepCollection id:TRohjSuI}
+}

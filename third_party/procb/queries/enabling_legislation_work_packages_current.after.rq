@@ -1,0 +1,48 @@
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX id: <https://id.parliament.uk/>
+SELECT DISTINCT ?workPackage ?workPackagedThing ?workPackagedThingName ?combinedDate ?procedure ?procedureName ?calculationStyle ?calculationStyleName (BOUND(?stepId3) AS ?hasCommitteeConcernsFlag)
+(BOUND(?stepId4) AS ?hasMotionTabledFlag)  WHERE {
+  ?act a :ActOfParliament.
+  ?act :actOfParliamentName ?name.
+  OPTIONAL {?act :actOfParliamentNumber ?number}
+  OPTIONAL {?act :actOfParliamentYear ?year}
+  OPTIONAL{  ?act :actOfParliamentRoyalAssentDate ?date}
+  OPTIONAL {?act :actOfParliamentUrl ?uRL}
+  FILTER (?act IN (id:#{enabling_thing_id}))
+  ?act :enabling ?workPackagedThing.
+  ?workPackagedThing :name ?workPackagedThingName;
+  :workPackagedThingHasWorkPackage ?workPackage.
+  OPTIONAL {   ?workPackage :workPackageHasBusinessItem ?businessItem .
+    ?businessItem :businessItemHasProcedureStep ?step;
+    :businessItemDate ?businessItemDate.
+    FILTER (?step IN (id:isWn7s3K, id:cspzmb6w, id:ITNO9JWr, id:otscOTzB))}
+  OPTIONAL {    ?workPackage :workPackageHasBusinessItem ?businessItem2 .
+    ?businessItem2 :businessItemHasProcedureStep ?step2;
+    :businessItemDate ?businessItemDate2.
+    FILTER (?step2 IN (id:AmYrFxwO))}
+  ?workPackage :workPackageHasProcedure ?procedure.
+  ?procedure :name ?procedureName.
+  OPTIONAL { ?workPackage :workPackageHasCalculationStyle ?calculationStyle.
+    ?calculationStyle :name ?calculationStyleName. }
+  MINUS {  ?workPackage   :workPackageHasBusinessItem ?bi2.
+    ?bi2 :businessItemHasProcedureStep ?stepId2.
+    ?stepId2 :procedureStepHasProcedureStepCollectionMembership/:procedureStepCollectionMembershipHasProcedureStepCollection id:TRohjSuI}
+  OPTIONAL {
+    ?workPackage :workPackageHasBusinessItem ?bi3 .
+    ?bi3 :businessItemHasProcedureStep ?stepId3 .
+    ?stepId3 :procedureStepHasProcedureStepCollectionMembership/
+    :procedureStepCollectionMembershipHasProcedureStepCollection id:7CBVQcZF
+  }
+
+  OPTIONAL {
+    ?workPackage :workPackageHasBusinessItem ?bi4 .
+    ?bi4 :businessItemHasProcedureStep ?stepId4 .
+    ?stepId4 :procedureStepHasProcedureStepCollectionMembership/
+    :procedureStepCollectionMembershipHasProcedureStepCollection id:l3g2umNB
+  }
+  BIND(COALESCE(?businessItemDate, ?businessItemDate2) AS ?combinedDate)
+} ORDER BY DESC(?combinedDate)
+
+LIMIT #{limit} OFFSET #{offset}

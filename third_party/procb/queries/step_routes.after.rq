@@ -1,0 +1,33 @@
+PREFIX id: <https://id.parliament.uk/>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?route ?startDate ?endDate ?fromStep ?fromStepName ?fromStepType ?fromStepTypeName ?fromStepCommonsId ?fromStepLordsId ?fromSteplegislature ?fromSteplegislatureName ?toStep ?toStepName ?toStepType ?toStepTypeName ?toStepCommonsId ?toStepLordsId ?toSteplegislature ?toSteplegislatureName WHERE {
+
+  ?step a :ProcedureStep;
+  :name ?stepName.
+  ?step :procedureStepIsFromProcedureRoute | :procedureStepIsToProcedureRoute ?route.
+  OPTIONAL {?route:procedureRouteStartDate ?startDate}
+  OPTIONAL {?route :procedureRouteEndDate ?endDate}
+  ?route :procedureRouteIsFromProcedureStep ?fromStep.
+  ?route :procedureRouteIsToProcedureStep ?toStep.
+  ?fromStep :name ?fromStepName;
+  :procedureStepHasProcedureStepType ?fromStepType.
+  ?fromStepType :name ?fromStepTypeName.
+  ?toStep :name ?toStepName;
+  :procedureStepHasProcedureStepType ?toStepType.
+  ?toStepType :name ?toStepTypeName.
+  OPTIONAL {?fromStep :procedureStepHasHouse ?fromStepCommonsId.
+    FILTER (?fromStepCommonsId IN (id:1AFu55Hs))}
+  OPTIONAL {?fromStep :procedureStepHasHouse ?fromStepLordsId.
+    FILTER (?fromStepLordsId IN (id:WkUWUBMx))}
+  OPTIONAL {?fromStep :procedureStepInLegislature ?fromSteplegislature.
+    ?fromSteplegislature :name ?fromSteplegislatureName.}
+  OPTIONAL {?toStep :procedureStepHasHouse ?toStepCommonsId.
+    FILTER (?toStepCommonsId IN (id:1AFu55Hs))}
+  OPTIONAL {?toStep :procedureStepHasHouse ?toStepLordsId.
+    FILTER (?toStepLordsId IN (id:WkUWUBMx))}
+  OPTIONAL {?toStep :procedureStepInLegislature ?toSteplegislature.
+    ?toSteplegislature :name ?toSteplegislatureName.}
+  FILTER (?step IN (id:#{step_id}))
+} ORDER BY ?fromStepName

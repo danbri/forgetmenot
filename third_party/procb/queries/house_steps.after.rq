@@ -1,0 +1,25 @@
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX id: <https://id.parliament.uk/>
+SELECT ?house ?houseName ?step ?stepName ?stepType ?stepTypeName ?stepCommonsId ?stepLordsId (COUNT(?bi) AS ?biCount)   WHERE {
+
+  ?house a :House ;
+  :name ?houseName;
+  :houseHasProcedureStep ?step.
+  OPTIONAL { ?step :procedureStepHasBusinessItem ?bi }
+  FILTER (?house IN (id:#{house_id}))
+  ?step :name ?stepName;
+  :procedureStepHasProcedureStepType ?stepType.
+  ?stepType :name ?stepTypeName.
+  OPTIONAL {?step:procedureStepHasHouse ?stepCommonsId
+    FILTER (?stepCommonsId IN (id:1AFu55Hs))}
+  OPTIONAL {?step :procedureStepHasHouse ?stepLordsId.
+    FILTER (?stepLordsId IN (id:WkUWUBMx))}
+}
+
+GROUP BY
+?house ?houseName
+?step ?stepName
+?stepType ?stepTypeName
+?stepCommonsId ?stepLordsId
+ORDER BY ?stepName

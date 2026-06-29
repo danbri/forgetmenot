@@ -1,0 +1,19 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+SELECT (COUNT(DISTINCT ?workPackage) AS ?count) WHERE {
+  ?calculationStyle a :CalculationStyle;
+  :name ?calculationStyleName;
+  :calculationStyleHasWorkPackage ?workPackage.
+  FILTER (?calculationStyle IN (id:#{calculation_style_id}))
+  OPTIONAL {?workPackage :workPackageHasBusinessItem ?businessItem .
+    ?businessItem :businessItemHasProcedureStep ?step;
+    :businessItemDate ?madeAvailableDate.
+    FILTER (?step IN (id:isWn7s3K, id:cspzmb6w, id:ITNO9JWr, id:otscOTzB))}
+  ?workPackage :workPackageHasWorkPackagedThing ?workPackagedThing.
+  ?workPackagedThing :name ?workPackagedThingName.
+  ?workPackage :workPackageHasProcedure ?procedure.
+  ?procedure :name ?procedureName.
+
+}

@@ -1,0 +1,24 @@
+PREFIX id: <https://id.parliament.uk/>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?step ?stepName  ?description ?scopeNote ?linkNote ?dateNote ?publicationName ?publicationUrl ?stepType ?stepTypeLabel ?commonsId ?lordsId ?legislature ?legislatureName WHERE {
+
+  ?step a :ProcedureStep;
+  :name ?stepName;
+  :procedureStepHasProcedureStepType ?stepType.
+  ?stepType :name ?stepTypeLabel.
+  OPTIONAL { ?step :procedureStepDescription ?description}
+  OPTIONAL {?step  :procedureStepHasProcedureStepPublication ?publication.
+    ?publication :procedureStepPublicationName ?publicationName;
+    :procedureStepPublicationUrl ?publicationUrl.}
+  OPTIONAL {?step  :procedureStepScopeNote ?scopeNote}
+  OPTIONAL {?step  :procedureStepLinkNote ?linkNote}
+  OPTIONAL {?step  :procedureStepDateNote ?dateNote}
+  OPTIONAL {?step :procedureStepInLegislature ?legislature.
+    ?legislature :name ?legislatureName.}
+  OPTIONAL {?step :procedureStepHasHouse ?commonsId.
+    FILTER (?commonsId IN (id:1AFu55Hs))}
+  OPTIONAL {?step :procedureStepHasHouse ?lordsId.
+    FILTER (?lordsId IN (id:WkUWUBMx))}
+  FILTER (?step IN (id:#{step_id}))}

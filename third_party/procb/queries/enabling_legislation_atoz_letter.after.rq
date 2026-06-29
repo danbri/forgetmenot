@@ -1,0 +1,18 @@
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX id: <https://id.parliament.uk/>
+
+SELECT DISTINCT ?enablingThing ?name ?number ?year ?date ?uRL WHERE {
+  ?enablingThing a :EnablingThing;
+  :enabling ?enabledThing.
+  OPTIONAL { ?enablingThing :actOfParliamentName ?name. }
+  OPTIONAL { ?enablingThing :actOfParliamentNumber ?number. }
+  OPTIONAL { ?enablingThing :actOfParliamentYear ?year. }
+  OPTIONAL { ?enablingThing :actOfParliamentRoyalAssentDate ?date. }
+  OPTIONAL { ?enablingThing :actOfParliamentUrl ?uRL. }
+  ?enabledThing :name ?enabledThingName.
+
+  FILTER REGEX(STR(?name), '^#{letter}', 'i')
+}
+ORDER BY ?name

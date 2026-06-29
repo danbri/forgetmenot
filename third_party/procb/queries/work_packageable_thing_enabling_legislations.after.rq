@@ -1,0 +1,15 @@
+PREFIX id: <https://id.parliament.uk/>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?workPackagedThing ?workPackagedThingName ?enablingThing ?actName ?royalAssentDate ?year ?number WHERE {
+  ?workPackagedThing a :WorkPackagedThing;
+  :name ?workPackagedThingName.
+  ?workPackagedThing :enabledBy ?enablingThing.
+  OPTIONAL { ?enablingThing :actOfParliamentName ?actName.}
+  OPTIONAL {?enablingThing :actOfParliamentNumber ?number}
+  OPTIONAL {?enablingThing :actOfParliamentYear ?year}
+  OPTIONAL{  ?enablingThing :actOfParliamentRoyalAssentDate ?royalAssentDate}
+  OPTIONAL {?enablingThing :actOfParliamentUrl ?uRL}
+  FILTER (?workPackagedThing IN (id:#{work_packageable_thing_id}))
+}ORDER BY DESC (?royalAssentDate)

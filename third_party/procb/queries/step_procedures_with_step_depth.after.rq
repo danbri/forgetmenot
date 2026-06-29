@@ -1,0 +1,15 @@
+PREFIX id: <https://id.parliament.uk/>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT ?step ?stepName ?procedure ?procedureLabel ?procedureDescription ?stepDepth ?depthValue WHERE {
+
+  ?step a :ProcedureStep;
+  :name ?stepName;
+  :procedureStepHasStepDisplayDepthInProcedure ?stepDepth.
+  FILTER (?step IN (id:#{step_id}))
+  ?stepDepth :stepDisplayDepthInProcedureHasDepth ?depthValue;
+  :stepDisplayDepthInProcedureHasProcedure ?procedure.
+  ?procedure :name ?procedureLabel.
+  OPTIONAL {?procedure :procedureDescription ?procedureDescription.}
+} ORDER BY ?stepName ?procedureLabel ?depthValue

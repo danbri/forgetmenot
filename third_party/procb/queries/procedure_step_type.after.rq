@@ -1,0 +1,14 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX : <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+SELECT DISTINCT ?procedure ?procedureName ?stepType ?stepTypeLabel WHERE {
+  ?procedure a :Procedure;
+  :name ?procedureName.
+  FILTER (?procedure IN (id:#{procedure_id}))
+  OPTIONAL {  ?procedure :procedureHasProcedureRoute ?route.
+    ?route :procedureRouteIsFromProcedureStep|:procedureRouteIsToProcedureStep ?step.
+    ?step :procedureStepHasProcedureStepType ?stepType.
+    ?stepType :name ?stepTypeLabel.}
+  FILTER (?stepType IN (id:#{step_type_id}))
+}
