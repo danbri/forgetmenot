@@ -32,10 +32,16 @@
   .seg button[aria-pressed="true"]{color:var(--accent-ink)}
   .seg button.before[aria-pressed="true"]{background:var(--before)}
   .seg button.after[aria-pressed="true"]{background:var(--after)}
-  /* highlighted query */
-  pre.q{margin:10px 0 0;background:var(--code-bg);color:#e6e6e6;border-radius:8px;padding:12px 14px;
-        overflow-x:auto;font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-        white-space:pre;tab-size:2}
+  /* editable, highlighted query: a transparent <textarea> over a highlight layer */
+  .editor{position:relative;margin:10px 0 0;border-radius:8px;background:var(--code-bg);overflow:hidden}
+  .q{margin:0;padding:12px 14px;border:0;box-sizing:border-box;width:100%;
+     font:13.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+     white-space:pre;tab-size:2;overflow:auto;letter-spacing:0}
+  #hl{position:absolute;inset:0;color:#e6e6e6;pointer-events:none}
+  #qin{position:relative;display:block;background:transparent;color:transparent;caret-color:#fff;
+       resize:none;min-height:120px;-webkit-text-fill-color:transparent}
+  #qin::selection{background:#3a5f8a}
+  .edit-hint{font-size:12px;color:var(--ink-soft);margin:6px 2px 0}
   .t-com{color:#7c9c7c;font-style:italic}
   .t-kw{color:#c792ea;font-weight:600}
   .t-iri{color:#82aaff}
@@ -80,7 +86,12 @@ render through the repo's own framework-free engine (<code>sparql-core.js</code>
   <button class="after"  id="v-after"  aria-pressed="true">after (cleaned)</button>
 </div>
 
-<pre class="q" id="q" tabindex="0" aria-label="SPARQL query"></pre>
+<div class="editor">
+  <pre class="q" id="hl" aria-hidden="true"></pre>
+  <textarea class="q" id="qin" spellcheck="false" autocapitalize="off" autocomplete="off"
+            autocorrect="off" wrap="off" aria-label="SPARQL query (editable)"></textarea>
+</div>
+<p class="edit-hint">Editable — tweak the query and Run. Switching version or query resets it.</p>
 
 <div class="bar">
   <button class="run" id="run">Run query &#9656;</button>
@@ -138,19 +149,25 @@ function highlight(src){
 // ---- gallery + version state ----------------------------------------------
 let current=0, version="after";
 const $pick=document.getElementById("pick"), $blurb=document.getElementById("blurb"),
-      $q=document.getElementById("q"), $status=document.getElementById("status"),
-      $out=document.getElementById("out"),
+      $hl=document.getElementById("hl"), $qin=document.getElementById("qin"),
+      $status=document.getElementById("status"), $out=document.getElementById("out"),
       $vb=document.getElementById("v-before"), $va=document.getElementById("v-after");
 
 GALLERY.forEach((q,i)=>{const o=document.createElement("option");o.value=i;o.textContent=q.title;$pick.appendChild(o);});
+
+// keep the highlight layer + height in sync with the editable textarea
+function syncHL(){ $hl.innerHTML=highlight($qin.value)+"\n"; $qin.style.height="auto"; $qin.style.height=$qin.scrollHeight+"px"; }
+$qin.addEventListener("input", syncHL);
+$qin.addEventListener("scroll", ()=>{ $hl.scrollTop=$qin.scrollTop; $hl.scrollLeft=$qin.scrollLeft; });
+
 function load(){
   const q=GALLERY[current];
   $blurb.textContent=q.blurb;
   $vb.setAttribute("aria-pressed",String(version==="before"));
   $va.setAttribute("aria-pressed",String(version==="after"));
-  $q.innerHTML=highlight(q[version]);
+  $qin.value=q[version]; syncHL();
 }
-function queryText(){return GALLERY[current][version];}
+function queryText(){return $qin.value;}
 $pick.addEventListener("change",()=>{current=+$pick.value;load();});
 $vb.addEventListener("click",()=>{version="before";load();});
 $va.addEventListener("click",()=>{version="after";load();});
