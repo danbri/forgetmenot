@@ -1,0 +1,7 @@
+PREFIX : <https://id.parliament.uk/schema/>
+SELECT ?WorkPackagedThing
+WHERE {
+  ?WorkPackagedThing a :WorkPackagedThing ;
+  :workPackagedThingHasWorkPackagedThingWebLink
+   <#{enabling_legislation_uri}> .
+}

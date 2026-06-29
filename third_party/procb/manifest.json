@@ -1,0 +1,2603 @@
+[
+ {
+  "name": "business_item_steps",
+  "title": "business_item_steps",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/business_item_steps.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "Date",
+    "LordsId"
+   ]
+  }
+ },
+ {
+  "name": "calculation_style",
+  "title": "calculation_style",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/calculation_style.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CalculationStyle",
+    "CalculationStyleName"
+   ]
+  }
+ },
+ {
+  "name": "calculation_style_procedures",
+  "title": "calculation_style_procedures",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/calculation_style_procedures.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CalculationStyle",
+    "CalculationStyleName"
+   ]
+  }
+ },
+ {
+  "name": "calculation_style_work_package_count",
+  "title": "calculation_style_work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/calculation_style_work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CalculationStyle",
+    "CalculationStyleName",
+    "MadeAvailableDate"
+   ]
+  }
+ },
+ {
+  "name": "calculation_style_work_package_count_current",
+  "title": "calculation_style_work_package_count_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/calculation_style_work_package_count_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CalculationStyle",
+    "CalculationStyleName",
+    "MadeAvailableDate"
+   ]
+  }
+ },
+ {
+  "name": "calculation_style_work_packages",
+  "title": "calculation_style_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/calculation_style_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CalculationStyle",
+    "CalculationStyleName"
+   ]
+  }
+ },
+ {
+  "name": "calculation_style_work_packages_all",
+  "title": "calculation_style_work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/calculation_style_work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CalculationStyle",
+    "CalculationStyleName"
+   ]
+  }
+ },
+ {
+  "name": "calculation_style_work_packages_current",
+  "title": "calculation_style_work_packages_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/calculation_style_work_packages_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CalculationStyle",
+    "CalculationStyleName"
+   ]
+  }
+ },
+ {
+  "name": "calculation_style_work_packages_current_all",
+  "title": "calculation_style_work_packages_current_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/calculation_style_work_packages_current_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CalculationStyle",
+    "CalculationStyleName"
+   ]
+  }
+ },
+ {
+  "name": "calculation_styles",
+  "title": "calculation_styles",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/calculation_styles.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CalculationStyle",
+    "CalculationStyleName"
+   ]
+  }
+ },
+ {
+  "name": "clock",
+  "title": "clock",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/clock.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Clock",
+    "ClockName",
+    "DayCount",
+    "EndStep",
+    "EndStepCommonsId",
+    "EndStepLordsId",
+    "EndStepName",
+    "EndStepType",
+    "EndStepTypeName",
+    "EndSteplegislature",
+    "EndSteplegislatureName",
+    "StartStep",
+    "StartStepCommonsId",
+    "StartStepLordsId",
+    "StartStepName",
+    "StartStepType",
+    "StartStepTypeName",
+    "StartSteplegislature",
+    "StartSteplegislatureName"
+   ]
+  }
+ },
+ {
+  "name": "clocks",
+  "title": "clocks",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/clocks.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Clock",
+    "ClockName",
+    "DayCount",
+    "EndStep",
+    "EndStepCommonsId",
+    "EndStepLordsId",
+    "EndStepName",
+    "EndStepType",
+    "EndStepTypeName",
+    "EndSteplegislature",
+    "EndSteplegislatureName",
+    "StartStep",
+    "StartStepCommonsId",
+    "StartStepLordsId",
+    "StartStepName",
+    "StartStepType",
+    "StartStepTypeName",
+    "StartSteplegislature",
+    "StartSteplegislatureName"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation",
+  "title": "enabling_legislation",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_atoz",
+  "title": "enabling_legislation_atoz",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_atoz.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "EnabledThing",
+    "EnablingThing",
+    "FirstLetter",
+    "Name"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_atoz_letter",
+  "title": "^#{letter}",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_atoz_letter.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Date",
+    "EnabledThing",
+    "EnabledThingName",
+    "EnablingThing",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_by_uri",
+  "title": "#{enabling_legislation_uri}",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_by_uri.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_work_package_count",
+  "title": "enabling_legislation_work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_work_package_count_current",
+  "title": "enabling_legislation_work_package_count_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_work_package_count_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_work_packageable_thing_count",
+  "title": "enabling_legislation_work_packageable_thing_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_work_packageable_thing_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_work_packageable_things",
+  "title": "enabling_legislation_work_packageable_things",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_work_packageable_things.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_work_packages",
+  "title": "enabling_legislation_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_work_packages_all",
+  "title": "enabling_legislation_work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_work_packages_current",
+  "title": "enabling_legislation_work_packages_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_work_packages_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislation_work_packages_current_all",
+  "title": "enabling_legislation_work_packages_current_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislation_work_packages_current_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Act",
+    "Date",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislations",
+  "title": "enabling_legislations",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislations.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Date",
+    "EnabledThing",
+    "EnabledThingName",
+    "EnablingThing",
+    "Name",
+    "Number",
+    "URL",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "enabling_legislations_current",
+  "title": "A list of legislation enabling instruments currently before Parliament",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/enabling_legislations_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "camel_vars_need_rename": [
+    "URL"
+   ]
+  }
+ },
+ {
+  "name": "house",
+  "title": "house",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/house.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "House",
+    "HouseName",
+    "Legislature",
+    "LegislatureName"
+   ]
+  }
+ },
+ {
+  "name": "house_step_collections",
+  "title": "house_step_collections",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/house_step_collections.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "House",
+    "HouseName",
+    "StepCollection",
+    "StepCollectionName"
+   ]
+  }
+ },
+ {
+  "name": "house_steps",
+  "title": "house_steps",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/house_steps.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "House",
+    "HouseName",
+    "Step",
+    "StepCommonsId",
+    "StepLordsId",
+    "StepName",
+    "StepType",
+    "StepTypeName"
+   ]
+  }
+ },
+ {
+  "name": "houses",
+  "title": "houses",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/houses.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "id",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "House",
+    "HouseName"
+   ]
+  }
+ },
+ {
+  "name": "legislature",
+  "title": "A legislature",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/legislature.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "id"
+   ]
+  }
+ },
+ {
+  "name": "legislature_houses",
+  "title": "legislature_houses",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/legislature_houses.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "House",
+    "HouseName",
+    "Legislature",
+    "LegislatureName"
+   ]
+  }
+ },
+ {
+  "name": "legislature_steps",
+  "title": "legislature_steps",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/legislature_steps.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Legislature",
+    "LegislatureName",
+    "Step",
+    "StepName",
+    "StepType",
+    "StepTypeName"
+   ]
+  }
+ },
+ {
+  "name": "legislatures",
+  "title": "A list of legislatures",
+  "link": "https://api.parliament.uk/s/454fe00f",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/legislatures.rb",
+  "classification": "clean",
+  "why": {}
+ },
+ {
+  "name": "organisation_accountable_to_parliament",
+  "title": "organisation_accountable_to_parliament",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_treaties",
+  "title": "organisation_accountable_to_parliament_treaties",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_treaties.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations",
+    "TreatyName",
+    "WorkPackage"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_treaty_count",
+  "title": "organisation_accountable_to_parliament_treaty_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_treaty_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations",
+    "TreatyName",
+    "WorkPackage"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_treaty_work_package_count",
+  "title": "organisation_accountable_to_parliament_treaty_work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_treaty_work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations",
+    "TreatyName",
+    "WorkPackage"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_treaty_work_package_count_current",
+  "title": "organisation_accountable_to_parliament_treaty_work_package_count_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_treaty_work_package_count_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations",
+    "TreatyName",
+    "WorkPackage"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_treaty_work_packages",
+  "title": "organisation_accountable_to_parliament_treaty_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_treaty_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations",
+    "TreatyName"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_treaty_work_packages_all",
+  "title": "organisation_accountable_to_parliament_treaty_work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_treaty_work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations",
+    "TreatyName"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_treaty_work_packages_current",
+  "title": "organisation_accountable_to_parliament_treaty_work_packages_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_treaty_work_packages_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations",
+    "TreatyName"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_treaty_work_packages_current_all",
+  "title": "organisation_accountable_to_parliament_treaty_work_packages_current_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_treaty_work_packages_current_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations",
+    "TreatyName"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_work_package_count",
+  "title": "organisation_accountable_to_parliament_work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "LaidDate",
+    "LaidThing",
+    "LaidThingName",
+    "Laying",
+    "Name",
+    "Organisations",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_work_package_count_current",
+  "title": "organisation_accountable_to_parliament_work_package_count_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_work_package_count_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "LaidDate",
+    "LaidThing",
+    "LaidThingName",
+    "Laying",
+    "Name",
+    "Organisations",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_work_packages",
+  "title": "organisation_accountable_to_parliament_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "LaidThing",
+    "LaidThingName",
+    "Laying",
+    "Name",
+    "Organisations",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_work_packages_all",
+  "title": "organisation_accountable_to_parliament_work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "LaidThing",
+    "LaidThingName",
+    "Laying",
+    "Name",
+    "Organisations",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_work_packages_current",
+  "title": "organisation_accountable_to_parliament_work_packages_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_work_packages_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "LaidThing",
+    "LaidThingName",
+    "Laying",
+    "Name",
+    "Organisations",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "organisation_accountable_to_parliament_work_packages_current_all",
+  "title": "organisation_accountable_to_parliament_work_packages_current_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisation_accountable_to_parliament_work_packages_current_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "LaidThing",
+    "LaidThingName",
+    "Laying",
+    "Name",
+    "Organisations",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "organisations_accountable_to_parliament",
+  "title": "organisations_accountable_to_parliament",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisations_accountable_to_parliament.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations"
+   ]
+  }
+ },
+ {
+  "name": "organisations_accountable_to_parliament_all",
+  "title": "organisations_accountable_to_parliament_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisations_accountable_to_parliament_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations"
+   ]
+  }
+ },
+ {
+  "name": "organisations_accountable_to_parliament_count",
+  "title": "organisations_accountable_to_parliament_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisations_accountable_to_parliament_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations"
+   ]
+  }
+ },
+ {
+  "name": "organisations_accountable_to_parliament_count_current",
+  "title": "organisations_accountable_to_parliament_count_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisations_accountable_to_parliament_count_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations"
+   ]
+  }
+ },
+ {
+  "name": "organisations_accountable_to_parliament_current",
+  "title": "organisations_accountable_to_parliament_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/organisations_accountable_to_parliament_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Name",
+    "Organisations"
+   ]
+  }
+ },
+ {
+  "name": "primary_legislation_work_package_count",
+  "title": "primary_legislation_work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/primary_legislation_work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "id",
+    "rdfs"
+   ]
+  }
+ },
+ {
+  "name": "primary_legislation_work_packages",
+  "title": "primary_legislation_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/primary_legislation_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "primary_legislation_work_packages_all",
+  "title": "primary_legislation_work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/primary_legislation_work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "procedure",
+  "title": "procedure",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "EndDate",
+    "Procedure",
+    "ProcedureDescription",
+    "ProcedureName",
+    "StartDate"
+   ]
+  }
+ },
+ {
+  "name": "procedure_calculation_styles",
+  "title": "procedure_calculation_styles",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_calculation_styles.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_clocks",
+  "title": "procedure_clocks",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_clocks.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Clock",
+    "ClockDayCount",
+    "ClockLabel",
+    "EndStep",
+    "EndStepCommonsId",
+    "EndStepLordsId",
+    "EndStepName",
+    "EndStepType",
+    "EndStepTypeName",
+    "EndSteplegislature",
+    "EndSteplegislatureName",
+    "Procedure",
+    "ProcedureName",
+    "StartStep",
+    "StartStepCommonsId",
+    "StartStepLordsId",
+    "StartStepName",
+    "StartStepType",
+    "StartStepTypeName",
+    "StartSteplegislature",
+    "StartSteplegislatureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_routes",
+  "title": "procedure_routes",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_routes.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "EndDate",
+    "FromStep",
+    "FromStepCommonsId",
+    "FromStepLordsId",
+    "FromStepName",
+    "FromStepType",
+    "FromStepTypeName",
+    "FromSteplegislature",
+    "FromSteplegislatureName",
+    "Procedure",
+    "ProcedureName",
+    "Route",
+    "StartDate",
+    "ToStep",
+    "ToStepCommonsId",
+    "ToStepLordsId",
+    "ToStepName",
+    "ToStepType",
+    "ToStepTypeName",
+    "ToSteplegislature",
+    "ToSteplegislatureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_step",
+  "title": "procedure_step",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_step.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Procedure",
+    "ProcedureName",
+    "Route"
+   ]
+  }
+ },
+ {
+  "name": "procedure_step_business_items",
+  "title": "procedure_step_business_items",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_step_business_items.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Procedure",
+    "ProcedureName",
+    "Route"
+   ]
+  }
+ },
+ {
+  "name": "procedure_step_collections",
+  "title": "procedure_step_collections",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_step_collections.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_step_type",
+  "title": "procedure_step_type",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_step_type.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName",
+    "Route"
+   ]
+  }
+ },
+ {
+  "name": "procedure_step_type_steps",
+  "title": "procedure_step_type_steps",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_step_type_steps.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Procedure",
+    "ProcedureName",
+    "Route"
+   ]
+  }
+ },
+ {
+  "name": "procedure_step_types",
+  "title": "procedure_step_types",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_step_types.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName",
+    "Route"
+   ]
+  }
+ },
+ {
+  "name": "procedure_steps",
+  "title": "procedure_steps",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_steps.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Procedure",
+    "ProcedureName",
+    "Route"
+   ]
+  }
+ },
+ {
+  "name": "procedure_steps_with_depths",
+  "title": "procedure_steps_with_depths",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_steps_with_depths.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Procedure",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_work_package_count",
+  "title": "procedure_work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_work_package_count_current",
+  "title": "procedure_work_package_count_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_work_package_count_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_work_packages",
+  "title": "procedure_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_work_packages_all",
+  "title": "procedure_work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_work_packages_current",
+  "title": "procedure_work_packages_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_work_packages_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedure_work_packages_current_all",
+  "title": "procedure_work_packages_current_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedure_work_packages_current_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedures",
+  "title": "procedures",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedures.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureDescription",
+    "ProcedureDisplayOrder",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "procedures_main",
+  "title": "procedures_main",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/procedures_main.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Procedure",
+    "ProcedureDescription",
+    "ProcedureDisplayOrder",
+    "ProcedureName"
+   ]
+  }
+ },
+ {
+  "name": "route",
+  "title": "route",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/route.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "EndDate",
+    "FromStep",
+    "FromStepCommonsId",
+    "FromStepLordsId",
+    "FromStepName",
+    "FromStepType",
+    "FromStepTypeName",
+    "FromSteplegislature",
+    "FromSteplegislatureName",
+    "Route",
+    "StartDate",
+    "ToStep",
+    "ToStepCommonsId",
+    "ToStepLordsId",
+    "ToStepName",
+    "ToStepType",
+    "ToStepTypeName",
+    "ToSteplegislature",
+    "ToSteplegislatureName"
+   ]
+  }
+ },
+ {
+  "name": "route_procedures",
+  "title": "route_procedures",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/route_procedures.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Route"
+   ]
+  }
+ },
+ {
+  "name": "routes",
+  "title": "routes",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/routes.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "EndDate",
+    "FromStep",
+    "FromStepCommonsId",
+    "FromStepLordsId",
+    "FromStepName",
+    "FromStepType",
+    "FromStepTypeName",
+    "FromSteplegislature",
+    "FromSteplegislatureName",
+    "Route",
+    "StartDate",
+    "ToStep",
+    "ToStepCommonsId",
+    "ToStepLordsId",
+    "ToStepName",
+    "ToStepType",
+    "ToStepTypeName",
+    "ToSteplegislature",
+    "ToSteplegislatureName"
+   ]
+  }
+ },
+ {
+  "name": "secondary_legislation_work_package_count",
+  "title": "secondary_legislation_work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/secondary_legislation_work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "id",
+    "rdfs"
+   ]
+  }
+ },
+ {
+  "name": "secondary_legislation_work_packages",
+  "title": "secondary_legislation_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/secondary_legislation_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "secondary_legislation_work_packages_all",
+  "title": "secondary_legislation_work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/secondary_legislation_work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "step",
+  "title": "step",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "step_business_item_count",
+  "title": "step_business_item_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_business_item_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "step_business_items",
+  "title": "step_business_items",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_business_items.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "step_business_items_all",
+  "title": "step_business_items_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_business_items_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "step_clocks",
+  "title": "step_clocks",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_clocks.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf"
+   ],
+   "camel_vars_need_rename": [
+    "EndStep",
+    "EndStepCommonsId",
+    "EndStepLordsId",
+    "EndStepName",
+    "EndStepType",
+    "EndStepTypeName",
+    "EndSteplegislature",
+    "EndSteplegislatureName",
+    "StartStep",
+    "StartStepCommonsId",
+    "StartStepLordsId",
+    "StartStepName",
+    "StartStepType",
+    "StartStepTypeName",
+    "StartSteplegislature",
+    "StartSteplegislatureName",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "step_collection",
+  "title": "step_collection",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_collection.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "House",
+    "HouseName",
+    "StepCollection"
+   ]
+  }
+ },
+ {
+  "name": "step_collection_steps",
+  "title": "step_collection_steps",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_collection_steps.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "House",
+    "HouseName",
+    "StepCollection",
+    "StepCollectionMembership"
+   ]
+  }
+ },
+ {
+  "name": "step_collection_work_package_count",
+  "title": "step_collection_work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_collection_work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "MadeAvailableDate",
+    "StepCollection",
+    "StepCollectionMembership"
+   ]
+  }
+ },
+ {
+  "name": "step_collection_work_package_count_current",
+  "title": "step_collection_work_package_count_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_collection_work_package_count_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "MadeAvailableDate",
+    "StepCollection",
+    "StepCollectionMembership"
+   ]
+  }
+ },
+ {
+  "name": "step_collection_work_packages",
+  "title": "step_collection_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_collection_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "StepCollection",
+    "StepCollectionMembership"
+   ]
+  }
+ },
+ {
+  "name": "step_collection_work_packages_all",
+  "title": "step_collection_work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_collection_work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "StepCollection",
+    "StepCollectionMembership"
+   ]
+  }
+ },
+ {
+  "name": "step_collection_work_packages_current",
+  "title": "step_collection_work_packages_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_collection_work_packages_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "StepCollection",
+    "StepCollectionMembership"
+   ]
+  }
+ },
+ {
+  "name": "step_collection_work_packages_current_all",
+  "title": "step_collection_work_packages_current_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_collection_work_packages_current_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "StepCollection",
+    "StepCollectionMembership"
+   ]
+  }
+ },
+ {
+  "name": "step_collections",
+  "title": "step_collections",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_collections.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "House",
+    "HouseName",
+    "StepCollection"
+   ]
+  }
+ },
+ {
+  "name": "step_procedures",
+  "title": "step_procedures",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_procedures.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "ProcedureDisplayOrder",
+    "ProcedureName",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "step_procedures_with_step_depth",
+  "title": "step_procedures_with_step_depth",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_procedures_with_step_depth.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "step_routes",
+  "title": "step_routes",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_routes.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "FromStep",
+    "FromStepCommonsId",
+    "FromStepLordsId",
+    "FromStepName",
+    "FromStepType",
+    "FromStepTypeName",
+    "FromSteplegislature",
+    "FromSteplegislatureName",
+    "Route",
+    "Step",
+    "ToStep",
+    "ToStepCommonsId",
+    "ToStepLordsId",
+    "ToStepName",
+    "ToStepType",
+    "ToStepTypeName",
+    "ToSteplegislature",
+    "ToSteplegislatureName"
+   ]
+  }
+ },
+ {
+  "name": "step_step_collections",
+  "title": "step_step_collections",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_step_collections.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "House",
+    "HouseName",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "step_type",
+  "title": "step_type",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_type.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "StepType"
+   ]
+  }
+ },
+ {
+  "name": "step_type_steps",
+  "title": "step_type_steps",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_type_steps.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Step",
+    "StepName",
+    "StepType",
+    "StepTypeDescription"
+   ]
+  }
+ },
+ {
+  "name": "step_types",
+  "title": "step_types",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/step_types.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "StepType"
+   ]
+  }
+ },
+ {
+  "name": "steps",
+  "title": "steps",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/steps.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Step"
+   ]
+  }
+ },
+ {
+  "name": "treaty_work_package_count",
+  "title": "treaty_work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/treaty_work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "id",
+    "rdfs"
+   ]
+  }
+ },
+ {
+  "name": "treaty_work_packages",
+  "title": "treaty_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/treaty_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "treaty_work_packages_all",
+  "title": "treaty_work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/treaty_work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_package",
+  "title": "A work package",
+  "link": "https://api.parliament.uk/s/dac058f9",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_package.rb",
+  "classification": "clean",
+  "why": {}
+ },
+ {
+  "name": "work_package_business_items",
+  "title": "work_package_business_items",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_package_business_items.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_package_business_items_reading_list",
+  "title": "A list of business items in a work package with a link, actualising steps in the reading list collection",
+  "link": "https://api.parliament.uk/s/522d9a8a",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_package_business_items_reading_list.rb",
+  "classification": "clean",
+  "why": {}
+ },
+ {
+  "name": "work_package_count",
+  "title": "work_package_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_package_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "id",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_package_count_current",
+  "title": "work_package_count_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_package_count_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_package_future_business_items",
+  "title": "work_package_future_business_items",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_package_future_business_items.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_package_past_business_items",
+  "title": "work_package_past_business_items",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_package_past_business_items.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_package_undated_business_items",
+  "title": "work_package_undated_business_items",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_package_undated_business_items.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs",
+    "xsd"
+   ],
+   "camel_vars_need_rename": [
+    "CommonsId",
+    "LordsId",
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_thing",
+  "title": "work_packageable_thing",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_thing.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommandPaperNumber",
+    "CommandPrefix",
+    "MadeAvailableDate",
+    "SINumber",
+    "SIYear",
+    "SIprefix",
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_thing_by_uri",
+  "title": "work_packageable_thing_by_uri",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_thing_by_uri.rb",
+  "classification": "needs-work",
+  "why": {
+   "no_comments": true,
+   "camel_vars_need_rename": [
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_thing_count",
+  "title": "work_packageable_thing_count",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_thing_count.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_thing_count_current",
+  "title": "work_packageable_thing_count_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_thing_count_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_thing_enabling_legislations",
+  "title": "work_packageable_thing_enabling_legislations",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_thing_enabling_legislations.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "ActName",
+    "EnablingThing",
+    "Number",
+    "RoyalAssentDate",
+    "URL",
+    "WorkPackagedThing",
+    "Year"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_thing_following",
+  "title": "work_packageable_thing_following",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_thing_following.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "FollowedWorkPackagedThing",
+    "FollowedWorkPackagedThingName",
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_thing_preceding",
+  "title": "work_packageable_thing_preceding",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_thing_preceding.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "id",
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_thing_work_packages",
+  "title": "work_packageable_thing_work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_thing_work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "CommandPaperNumber",
+    "CommandPrefix",
+    "SINumber",
+    "SIYear",
+    "SIprefix",
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_things",
+  "title": "work_packageable_things",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_things.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ {
+  "name": "work_packageable_things_current",
+  "title": "work_packageable_things_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packageable_things_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdf",
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ {
+  "name": "work_packages",
+  "title": "work_packages",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packages.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_packages_all",
+  "title": "work_packages_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packages_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "lower_keywords": true,
+   "no_comments": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_packages_current",
+  "title": "work_packages_current",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packages_current.rb",
+  "classification": "needs-work",
+  "why": {
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ },
+ {
+  "name": "work_packages_current_all",
+  "title": "work_packages_current_all",
+  "link": "",
+  "source": "https://github.com/ukparliament/procedure-browser/blob/main/lib/sparql/queries/work_packages_current_all.rb",
+  "classification": "needs-work",
+  "why": {
+   "no_comments": true,
+   "unused_prefixes": [
+    "rdfs"
+   ],
+   "camel_vars_need_rename": [
+    "Paper",
+    "Papername"
+   ]
+  }
+ }
+]
