@@ -82,6 +82,26 @@
   .legal-basis li { margin:3px 0; }
   .keypoint { background:#fff4e5; border-left:3px solid #e8590c; padding:5px 8px; margin-top:6px; border-radius:0 4px 4px 0; font-size:12px; }
   .swatch { display:inline-block; width:14px; height:14px; border-radius:3px; vertical-align:-2px; margin-right:5px; }
+  /* Jump-to shortcuts */
+  .jump-all { width:100%; text-align:left; background:#faf0f7; border:1px solid #e9c9e0;
+    border-radius:7px; padding:8px 11px; font:inherit; font-size:13.5px; font-weight:600;
+    color:var(--accent); cursor:pointer; margin:2px 0 8px; }
+  .jump-all:hover { background:#f3e0ee; }
+  .jump-item { display:flex; align-items:center; gap:9px; width:100%; text-align:left;
+    background:#fff; border:1px solid #e5e5ea; border-radius:7px; padding:8px 10px;
+    font:inherit; cursor:pointer; margin:5px 0; color:var(--ink); }
+  .jump-item:hover { border-color:var(--pspo); background:#fdf1f5; }
+  .jump-item:focus-visible { outline:2px solid var(--accent); outline-offset:1px; }
+  .jump-item .jdot { flex:0 0 auto; width:13px; height:13px; border-radius:3px;
+    background:#d6336c66; border:1.5px solid var(--pspo); }
+  .jump-item.is-pin .jdot { border-radius:50%; background:var(--pin); border-color:var(--pin); }
+  .jump-item .jtext { flex:1 1 auto; min-width:0; display:flex; flex-direction:column; line-height:1.3; }
+  .jump-item .jname { font-weight:600; font-size:13.5px; }
+  .jump-item .jmeta { color:#777; font-size:11.5px; }
+  @media (max-width:600px) {
+    .jump-item { padding:11px 12px; } .jump-item .jname { font-size:15px; }
+    .jump-all { padding:11px 13px; font-size:15px; }
+  }
   @media (max-width:600px) {
     #intro { top:8px; left:8px; right:8px; width:auto; max-width:none; max-height:calc(100vh - 16px); }
     #intro-toggle { width:44px; height:44px; }
@@ -101,6 +121,7 @@
   <div id="intro-body">
   <div class="tabs">
     <button class="tab-btn active" data-tab="about">The sign explained</button>
+    <button class="tab-btn" data-tab="jump">Jump to</button>
     <button class="tab-btn" data-tab="sources">Sources</button>
   </div>
 
@@ -184,6 +205,13 @@
     not the orders themselves.</p>
   </details>
   </div><!-- /tab-about -->
+
+  <div class="tab-panel" id="tab-jump" hidden>
+    <p style="font-size:13px;margin-top:2px">The sites are small and scattered.
+    Tap a shortcut to fly there and open its details.</p>
+    <button class="jump-all" id="jump-all" type="button">⤢ Show all sites</button>
+    <div id="jump-list"></div>
+  </div><!-- /tab-jump -->
 
   <div class="tab-panel" id="tab-sources" hidden>
     <p style="font-size:13px;margin-top:2px"><b>Every polygon is sourced.</b> Each
@@ -294,6 +322,51 @@ try {
   const grp = L.featureGroup([pspoLayer, signMarker]);
   map.fitBounds(grp.getBounds().pad(0.12));
 } catch(e) { /* keep default view */ }
+
+const onPhone = () => window.matchMedia('(max-width: 600px)').matches;
+const collapseOnPhone = () => { if (onPhone() && typeof setIntroCollapsed === 'function') setIntroCollapsed(true); };
+
+// "Jump to" shortcuts — the sites are tiny and scattered, so give one
+// shortcut per council that flies to its combined bounds (and opens the
+// popup when that council has a single site). North Somerset (the page's
+// subject) leads, as a pin.
+(function(){
+  const list = document.getElementById('jump-list');
+  if (!list) return;
+
+  const pin = document.createElement('button');
+  pin.type = 'button'; pin.className = 'jump-item is-pin';
+  pin.innerHTML = `<span class="jdot"></span><span class="jtext">
+    <span class="jname">North Somerset — the sign</span>
+    <span class="jmeta">South West · pin only, no polygon</span></span>`;
+  pin.addEventListener('click', () => { map.flyTo([51.34, -2.98], 13); signMarker.openPopup(); collapseOnPhone(); });
+  list.appendChild(pin);
+
+  // group polygons by council
+  const groups = new Map();
+  pspoLayer.eachLayer(l => {
+    const p = l.feature.properties, key = p.council;
+    let g = groups.get(key);
+    if (!g) { g = { council:key, region:p.region||'', count:0, bounds:L.latLngBounds([]), one:null }; groups.set(key, g); }
+    g.count++; g.bounds.extend(l.getBounds());
+    g.one = (g.count === 1) ? l : null;   // single-site councils keep a popup target
+  });
+
+  for (const g of groups.values()) {
+    const btn = document.createElement('button');
+    btn.type = 'button'; btn.className = 'jump-item';
+    btn.innerHTML = `<span class="jdot"></span><span class="jtext">
+      <span class="jname">${esc(g.council)}</span>
+      <span class="jmeta">${esc(g.region)} · ${g.count} site${g.count===1?'':'s'}</span></span>`;
+    btn.addEventListener('click', () => { map.fitBounds(g.bounds.pad(0.15)); if (g.one) g.one.openPopup(); collapseOnPhone(); });
+    list.appendChild(btn);
+  }
+
+  document.getElementById('jump-all').addEventListener('click', () => {
+    try { map.fitBounds(L.featureGroup([pspoLayer, signMarker]).getBounds().pad(0.12)); } catch(e){}
+    collapseOnPhone();
+  });
+})();
 
 // Populate the Sources tab from the manifest.
 (function(){
