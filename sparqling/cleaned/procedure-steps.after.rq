@@ -1,0 +1,25 @@
+# Procedure steps of a legislature (here: Northern Ireland Assembly,
+# id:SO65GBkm), each with a count of its business items, ordered by step name.
+#
+# To adapt: swap the id in the FILTER. To cover every legislature, delete the
+# FILTER line.
+PREFIX :   <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+
+SELECT ?Legislature ?LegislatureName ?Step ?StepName ?StepType ?StepTypeName (COUNT(?bi) AS ?biCount)
+WHERE {
+  ?Legislature a :Legislature ;
+               :name ?LegislatureName ;
+               :legislatureHasProcedureStep ?Step .
+
+  # Business items are optional, so a step with none still counts as 0.
+  OPTIONAL { ?Step :procedureStepHasBusinessItem ?bi }
+
+  ?Step :name ?StepName ;
+        :procedureStepHasProcedureStepType ?StepType .
+  ?StepType :name ?StepTypeName .
+
+  FILTER ( ?Legislature IN ( id:SO65GBkm ) )
+}
+GROUP BY ?Legislature ?LegislatureName ?Step ?StepName ?StepType ?StepTypeName
+ORDER BY ?StepName

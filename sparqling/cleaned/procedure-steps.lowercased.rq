@@ -1,0 +1,22 @@
+# Same cleanup, but ALSO lower-casing the returned variables (style rule 6).
+# This is an INTERFACE change: it renames output columns. The getter must be
+# updated to match. The checker should flag it.
+PREFIX :   <https://id.parliament.uk/schema/>
+PREFIX id: <https://id.parliament.uk/>
+
+SELECT ?legislature ?legislatureName ?step ?stepName ?stepType ?stepTypeName (COUNT(?bi) AS ?biCount)
+WHERE {
+  ?legislature a :Legislature ;
+               :name ?legislatureName ;
+               :legislatureHasProcedureStep ?step .
+
+  OPTIONAL { ?step :procedureStepHasBusinessItem ?bi }
+
+  ?step :name ?stepName ;
+        :procedureStepHasProcedureStepType ?stepType .
+  ?stepType :name ?stepTypeName .
+
+  FILTER ( ?legislature IN ( id:SO65GBkm ) )
+}
+GROUP BY ?legislature ?legislatureName ?step ?stepName ?stepType ?stepTypeName
+ORDER BY ?stepName

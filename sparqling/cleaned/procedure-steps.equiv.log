@@ -1,0 +1,13 @@
+== syntax ==
+  ok   /tmp/trello-clean/procedure-steps.before.rq
+  ok   /tmp/trello-clean/procedure-steps.after.rq
+== algebra (Jena ARQ SSE) ==
+  ✓ IDENTICAL ALGEBRA — the queries are provably equivalent.
+== results @ https://api.parliament.uk/sparql ==
+  A: {"vars": ["Legislature", "LegislatureName", "Step", "StepName", "StepType", "StepTypeName", "biCount"], "n": 57}
+  B: {"vars": ["Legislature", "LegislatureName", "Step", "StepName", "StepType", "StepTypeName", "biCount"], "n": 57}
+  ✓ IDENTICAL RESULTS (same columns + same row multiset).
+== verdict ==
+  algebra: identical
+  results: identical
+  ⇒ EQUIVALENT (algebra identical = proof; results identical = strong evidence).
