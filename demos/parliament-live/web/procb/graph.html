@@ -53,6 +53,10 @@
  .hllist{overflow:auto;flex:1;min-height:60px;border:1px solid var(--rule);border-radius:7px;padding:3px 5px;background:#fffdf8}
  .hllist label{display:flex;align-items:center;gap:6px;font-size:11.5px;padding:2px 1px;cursor:pointer;font-family:ui-monospace,Menlo,monospace}
  .hllist label.sel{color:var(--accent);font-weight:700}
+ .hllist label .hasx{margin-left:auto;color:#b34a00;font-size:11px;flex:none}
+ #detail pre.q{white-space:pre-wrap;word-break:break-word;background:#fbf7ee;border:1px solid var(--rule);border-radius:6px;padding:6px 7px;font-size:10.5px;line-height:1.4;margin:3px 0;color:#444;font-family:ui-monospace,Menlo,monospace}
+ #detail th{font-size:10px;text-align:left;color:var(--soft);border-bottom:1px solid var(--rule);padding:2px 5px;text-transform:uppercase;letter-spacing:.02em}
+ #detail .exdesc{font-size:12.5px;line-height:1.5;color:var(--ink);margin:4px 0 2px}
  .hlrow{display:flex;gap:6px;align-items:center;margin-top:6px}
  .hlrow button{margin:0;font-size:11.5px;padding:4px 9px}
  /* highlight mechanisms — gate on .hl-on so an empty selection changes nothing */
@@ -267,7 +271,8 @@ function select(id){
    e._t.style.opacity=(!!id&&!on&&alwaysLabels)?0.25:"";});   // fade non-incident labels, don't hide them
  sclinks.forEach(e=>{const on=id&&(e.child===id||e.parent===id);
    e._l.classList.toggle("hot",!!on);e._l.classList.toggle("dim",!!id&&!on);});
- if(!id){det.innerHTML='<p class="sub">Click a class node. Hover/click shows its edge labels.</p>';return;}
+ if(!id){if(detailMode!=="explain"){det.innerHTML='<p class="sub">Click a class node. Hover/click shows its edge labels.</p>';detailMode="none";}return;}
+ detailMode="node";
  const out=links.filter(e=>e.source===id),inc=links.filter(e=>e.target===id),dp=dataProps[id]||[],ex=examples[id];
  const parents=sclinks.filter(e=>e.child===id).map(e=>e.parent),kids=sclinks.filter(e=>e.parent===id).map(e=>e.child);
  det.innerHTML=`<h2 style="color:${color(id)}">:${id}</h2>`+
@@ -348,6 +353,7 @@ $("keepin").addEventListener("change",e=>{keepIn=e.target.checked;alpha=Math.max
 // and classes; light up exactly the nodes + object-property edges they exercise.
 // highlights.json: {queries:{name:{preds,classes}}, shapes:{class:{preds}}}.
 let HL=null, hlMode="queries", hlSel=new Set();
+let EX=null, lastExplained=null, detailMode="none";
 const hlData=()=>HL?(hlMode==="queries"?HL.queries:HL.shapes):{};
 const hlKey=name=>(hlMode==="queries"?"q:":"s:")+name;
 function computeHighlight(){
@@ -374,12 +380,37 @@ function buildHlList(){
  if(!names.length){list.innerHTML='<div class="sub" style="padding:5px">no matches</div>';return;}
  for(const name of names){
   const lab=document.createElement("label"),key=hlKey(name),on=hlSel.has(key);
+  const explained=hlMode==="queries"&&EX&&EX[name];
   lab.className=on?"sel":"";
   const cb=document.createElement("input");cb.type="checkbox";cb.checked=on;
-  cb.addEventListener("change",()=>{cb.checked?hlSel.add(key):hlSel.delete(key);lab.classList.toggle("sel",cb.checked);computeHighlight();});
-  const sp=document.createElement("span");sp.textContent=name;
-  lab.append(cb,sp);list.appendChild(lab);
+  cb.addEventListener("change",()=>{cb.checked?hlSel.add(key):hlSel.delete(key);lab.classList.toggle("sel",cb.checked);
+   if(cb.checked&&explained)lastExplained=name;computeHighlight();updateExplain();});
+  const sp=document.createElement("span");sp.textContent=name;lab.append(cb,sp);
+  if(explained){const x=document.createElement("span");x.className="hasx";x.textContent="✱ example";x.title="has an indicative live example + description";lab.appendChild(x);}
+  list.appendChild(lab);
  }
+}
+const exEsc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const exShort=v=>{v=String(v==null?"":v);if(/^https?:\/\//.test(v))v=v.replace(/^https?:\/\/(www\.)?/,"").replace(/[+]\d\d:\d\d$/,"");return v.length>46?v.slice(0,44)+"…":v;};
+function renderExplain(){
+ if(!(EX&&lastExplained&&hlSel.has("q:"+lastExplained)&&EX[lastExplained]))return false;
+ const e=EX[lastExplained],det=$("detail"),cols=e.vars.slice(0,6);
+ const body=e.rows.map(r=>"<tr>"+cols.map(c=>`<td>${exEsc(exShort(r[c]))}</td>`).join("")+"</tr>").join("");
+ det.innerHTML=`<div class="badge">indicative example</div>`+
+  `<h2 style="margin-top:6px">${exEsc(e.title)}</h2>`+
+  `<p class="exdesc">${exEsc(e.description)}</p>`+
+  `<div class="k">${e.n} real rows &middot; LIMIT 5 &middot; <code>${exEsc(lastExplained)}</code></div>`+
+  `<table><thead><tr>${cols.map(c=>`<th>${exEsc(c)}</th>`).join("")}</tr></thead><tbody>${body}</tbody></table>`+
+  `<div class="k">indicative query</div><pre class="q">${exEsc(e.query)}</pre>`+
+  `<p class="sub">live from <a href="${exEsc(e.endpoint)}" target="_blank" rel="noopener">api.parliament.uk/sparql</a></p>`;
+ detailMode="explain";setPanel("panel",true);return true;
+}
+function updateExplain(){
+ if(EX&&lastExplained&&hlSel.has("q:"+lastExplained)){if(renderExplain())return;}
+ // otherwise pick any still-selected explained query
+ for(const k of hlSel){if(k[0]==="q"){const n=k.slice(2);if(EX&&EX[n]){lastExplained=n;if(renderExplain())return;}}}
+ // none selected: if the panel was showing an explanation, restore the default prompt
+ if(detailMode==="explain"){$("detail").innerHTML='<p class="sub">Click a class node. Hover/click shows its edge labels.</p>';detailMode="none";}
 }
 function setHlMode(m){hlMode=m;$("hlmodeq").classList.toggle("on",m==="queries");$("hlmodes").classList.toggle("on",m==="shapes");buildHlList();}
 $("hlmodeq").addEventListener("click",()=>setHlMode("queries"));
@@ -387,12 +418,13 @@ $("hlmodes").addEventListener("click",()=>setHlMode("shapes"));
 $("hlsearch").addEventListener("input",buildHlList);
 $("hlall").addEventListener("click",()=>{const q=($("hlsearch").value||"").trim().toLowerCase();
  Object.keys(hlData()).filter(n=>n.toLowerCase().includes(q)).forEach(n=>hlSel.add(hlKey(n)));buildHlList();computeHighlight();});
-$("hlclear").addEventListener("click",()=>{hlSel.clear();buildHlList();computeHighlight();});
+$("hlclear").addEventListener("click",()=>{hlSel.clear();buildHlList();computeHighlight();updateExplain();});
 [["m_dim","m-dim"],["m_colour","m-colour"],["m_glow","m-glow"],["m_shimmer","m-shimmer"],["m_pulse","m-pulse"]]
  .forEach(([id,cls])=>{const cb=$(id);svg.classList.toggle(cls,cb.checked);
   cb.addEventListener("change",()=>svg.classList.toggle(cls,cb.checked));});
 fetch("highlights.json").then(r=>r.json()).then(d=>{HL=d;buildHlList();computeHighlight();})
  .catch(()=>{$("hllist").innerHTML='<div class="sub" style="padding:5px">highlights.json failed to load</div>';});
+fetch("explanations.json").then(r=>r.json()).then(d=>{EX=d;buildHlList();}).catch(()=>{EX=null;});
 
 async function describe(localId){
  const uri="https://id.parliament.uk/"+localId;$("dstat").textContent="…";$("dout").innerHTML="";

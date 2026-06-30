@@ -1,0 +1,1242 @@
+{
+ "procedure": {
+  "kind": "query",
+  "title": "Procedure — the named processes",
+  "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX id: <https://id.parliament.uk/>\nSELECT * WHERE {\n  ?procedure a :Procedure;\n  :name ?procedureName.\n  OPTIONAL {?procedure :procedureDescription ?procedureDescription.}\n  OPTIONAL {?procedure :startDate ?startDate.}\n  OPTIONAL {?procedure :endDate ?endDate.}\n}\nLIMIT 5",
+  "vars": [
+   "procedure",
+   "procedureName",
+   "procedureDescription",
+   "startDate",
+   "endDate"
+  ],
+  "rows": [
+   {
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "procedureDescription": "Instruments subject to the made negative procedure do not require approval in Parliament before becoming law. These instruments may come into force on any date after being laid. Instruments concerning taxation are not laid in the Lords. Either House may pass a motion within the objection period which annuls the instrument and stops it having effect.",
+    "startDate": "1948-01-01+00:00"
+   },
+   {
+    "procedure": "https://id.parliament.uk/H5YJQsK2",
+    "procedureName": "Draft affirmative",
+    "procedureDescription": "Instruments subject to the draft affirmative procedure are laid in draft and require approval in Parliament before being signed into law. Instruments concerning taxation are not laid in the Lords and only require the approval of the Commons. The Commons debates the instrument in a Delegated Legislation Committee or in the Commons Chamber, where a decision on approval is made. The Lords debates the instrument in Grand Committee or in the Lords Chamber, where a decision on approval is made.",
+    "startDate": "1948-01-01+00:00"
+   },
+   {
+    "procedure": "https://id.parliament.uk/gTgidljI",
+    "procedureName": "Draft negative",
+    "procedureDescription": "Instruments subject to the draft negative procedure are laid in draft and do not require approval in Parliament before being signed in law. Instruments concerning taxation are not laid in the Lords. Either House may pass a motion within the objection period which prevents the instrument being signed into law. The instrument cannot be signed into law by a Minister until the end of the objection period.",
+    "startDate": "1948-01-01+00:00"
+   },
+   {
+    "procedure": "https://id.parliament.uk/iCdMN1MW",
+    "procedureName": "Proposed negative statutory instrument",
+    "procedureDescription": "A Minister may exercise powers under the EU (Withdrawal) Act 2018 or the Retained EU Law (Revocation and Reform) Act 2023 to propose that instruments be subject to the proposed negative procedure. After a proposed negative instrument has been laid, each House has ten sitting days in which it may consider the instrument and agree with the proposal of the Minister, or instead recommend the instrument be subject to the draft affirmative procedure. In the Commons, the instrument is considered by the European Statutory Instruments Committee. In the Lords, the instrument is considered by the Secondary Legislation Scrutiny Committee. Any result of consideration does not bind a Minister, who must nevertheless make a written statement if disagreeing with a recommendation of a committee.",
+    "startDate": "2018-06-26+01:00"
+   },
+   {
+    "procedure": "https://id.parliament.uk/iWugpxMn",
+    "procedureName": "Made affirmative",
+    "procedureDescription": "Instruments subject to the made affirmative procedure are signed into law before being laid in Parliament but require approval from Parliament within a specified period. There are different types of made affirmative SIs: the most common type of made affirmative SI comes into force before it is approved (and can come into force before it is laid) but cannot remain in force unless it is approved by Parliament within a specified period.  Another rarer type of made affirmative SI is laid after being made but cannot come into force unless the instrument is approved by Parliament. The relevant procedure and the length of the approval period is defined in the parent Act.",
+    "startDate": "1948-01-01+00:00"
+   }
+  ],
+  "n": 5,
+  "description": "Each :Procedure is a named parliamentary process with a human description. The live rows are the statutory-instrument procedures — Made negative, Draft affirmative, Draft negative, Made affirmative and Proposed negative statutory instrument — each described by the scrutiny rule it encodes (e.g. Made negative covers “instruments subject to the made negative procedure”). A Procedure sits at the top of the model: it owns the steps, routes, step-collections and clocks that the other shapes elaborate.",
+  "touches": {
+   "classes": [
+    "Procedure"
+   ],
+   "preds": [
+    "endDate",
+    "name",
+    "procedureDescription",
+    "startDate"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "procedures": {
+  "kind": "query",
+  "title": "Procedures — the full catalogue (SIs + treaties)",
+  "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX id: <https://id.parliament.uk/>\nSELECT * WHERE {\n  ?procedure a :Procedure;\n  :name ?procedureName;\n  :procedureDisplayOrder ?procedureDisplayOrder.\n  OPTIONAL {?procedure :procedureDescription ?procedureDescription.}\n} ORDER BY ?procedureDisplayOrder ?procedureName\nLIMIT 5",
+  "vars": [
+   "procedure",
+   "procedureName",
+   "procedureDisplayOrder",
+   "procedureDescription"
+  ],
+  "rows": [
+   {
+    "procedure": "https://id.parliament.uk/D00dsjR2",
+    "procedureName": "Treaties subject to the Constitutional Reform and Governance Act 2010",
+    "procedureDisplayOrder": "1",
+    "procedureDescription": "A treaty may be ratified if the Commons does not resolve against ratification within 21 sitting days. A Minister may extend this period. If the Commons resolves against ratification, a Minister may make a statement in disagreement, following which the Commons may consider for a further 21 sitting days. Even if the Lords resolves against ratification, a Minister may make a statement that the treaty be ratified. A Minister may determine a treaty be ratified without it being laid before Parliament."
+   },
+   {
+    "procedure": "https://id.parliament.uk/H5YJQsK2",
+    "procedureName": "Draft affirmative",
+    "procedureDisplayOrder": "2",
+    "procedureDescription": "Instruments subject to the draft affirmative procedure are laid in draft and require approval in Parliament before being signed into law. Instruments concerning taxation are not laid in the Lords and only require the approval of the Commons. The Commons debates the instrument in a Delegated Legislation Committee or in the Commons Chamber, where a decision on approval is made. The Lords debates the instrument in Grand Committee or in the Lords Chamber, where a decision on approval is made."
+   },
+   {
+    "procedure": "https://id.parliament.uk/iWugpxMn",
+    "procedureName": "Made affirmative",
+    "procedureDisplayOrder": "3",
+    "procedureDescription": "Instruments subject to the made affirmative procedure are signed into law before being laid in Parliament but require approval from Parliament within a specified period. There are different types of made affirmative SIs: the most common type of made affirmative SI comes into force before it is approved (and can come into force before it is laid) but cannot remain in force unless it is approved by Parliament within a specified period.  Another rarer type of made affirmative SI is laid after being made but cannot come into force unless the instrument is approved by Parliament. The relevant procedure and the length of the approval period is defined in the parent Act."
+   },
+   {
+    "procedure": "https://id.parliament.uk/gTgidljI",
+    "procedureName": "Draft negative",
+    "procedureDisplayOrder": "4",
+    "procedureDescription": "Instruments subject to the draft negative procedure are laid in draft and do not require approval in Parliament before being signed in law. Instruments concerning taxation are not laid in the Lords. Either House may pass a motion within the objection period which prevents the instrument being signed into law. The instrument cannot be signed into law by a Minister until the end of the objection period."
+   },
+   {
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "procedureDisplayOrder": "5",
+    "procedureDescription": "Instruments subject to the made negative procedure do not require approval in Parliament before becoming law. These instruments may come into force on any date after being laid. Instruments concerning taxation are not laid in the Lords. Either House may pass a motion within the objection period which annuls the instrument and stops it having effect."
+   }
+  ],
+  "n": 5,
+  "description": "The same :Procedure class across its full range — not only SI procedures (Draft/Made affirmative, Draft/Made negative) but treaty scrutiny too: “Treaties subject to the Constitutional Reform and Governance Act”, whose description begins “A treaty may be ratified if the Commons do not resolve against it…”. So one shape spans both secondary-legislation and treaty-ratification processes; procedureDisplayOrder gives the catalogue ordering.",
+  "touches": {
+   "classes": [
+    "Procedure"
+   ],
+   "preds": [
+    "name",
+    "procedureDescription",
+    "procedureDisplayOrder"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "procedure_routes": {
+  "kind": "query",
+  "title": "Procedure routes — the state-machine transitions",
+  "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX id: <https://id.parliament.uk/>\nSELECT * WHERE {\n  ?procedure a :Procedure;\n  :name ?procedureName.\n  ?procedure :procedureHasProcedureRoute ?route.\n  OPTIONAL {  ?route :startDate ?startDate. }\n  OPTIONAL {?route :endDate ?endDate.}\n  ?route :procedureRouteIsFromProcedureStep ?fromStep.\n  ?fromStep :name ?fromStepName;\n  :procedureStepHasProcedureStepType ?fromStepType.\n  ?fromStepType :name ?fromStepTypeName.\n  OPTIONAL {?fromStep :procedureStepInLegislature ?fromSteplegislature.\n    ?fromSteplegislature :name ?fromSteplegislatureName.}\n  OPTIONAL {?fromStep:procedureStepHasHouse ?fromStepCommonsId\n    FILTER (?fromStepCommonsId IN (id:1AFu55Hs))}\n  OPTIONAL {?fromStep :procedureStepHasHouse ?fromStepLordsId.\n    FILTER (?fromStepLordsId IN (id:WkUWUBMx))}\n  ?route :procedureRouteIsToProcedureStep ?toStep.\n  ?toStep :name ?toStepName;\n  :procedureStepHasProcedureStepType ?toStepType.\n  ?toStepType :name ?toStepTypeName.\n  OPTIONAL {?toStep :procedureStepInLegislature ?toSteplegislature.\n    ?toSteplegislature :name ?toSteplegislatureName.}\n  OPTIONAL {?toStep:procedureStepHasHouse ?toStepCommonsId\n    FILTER (?toStepCommonsId IN (id:1AFu55Hs))}\n  OPTIONAL {?toStep :procedureStepHasHouse ?toStepLordsId.\n    FILTER (?toStepLordsId IN (id:WkUWUBMx))}\n\n} ORDER BY ?fromStepName ?fromStepTypeName ?toStepName ?toStepTypeName\nLIMIT 5",
+  "vars": [
+   "procedure",
+   "procedureName",
+   "route",
+   "startDate",
+   "endDate",
+   "fromStep",
+   "fromStepName",
+   "fromStepType",
+   "fromStepTypeName",
+   "fromSteplegislature",
+   "fromSteplegislatureName",
+   "fromStepCommonsId",
+   "fromStepLordsId",
+   "toStep",
+   "toStepName",
+   "toStepType",
+   "toStepTypeName",
+   "toSteplegislature",
+   "toSteplegislatureName",
+   "toStepCommonsId",
+   "toStepLordsId"
+  ],
+  "rows": [
+   {
+    "procedure": "https://id.parliament.uk/9f4uTpRT",
+    "procedureName": "Legislative Consent Motion - Northern Ireland Assembly",
+    "route": "https://id.parliament.uk/kOODKHQM",
+    "fromStep": "https://id.parliament.uk/HbxmBd7m",
+    "fromStepName": "10 working days expired",
+    "fromStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "fromStepTypeName": "Business step",
+    "fromSteplegislature": "https://id.parliament.uk/SO65GBkm",
+    "fromSteplegislatureName": "Northern Ireland Assembly",
+    "toStep": "https://id.parliament.uk/kwJNjZN3",
+    "toStepName": "NIA AA",
+    "toStepType": "https://id.parliament.uk/NouCqeQQ",
+    "toStepTypeName": "OR"
+   },
+   {
+    "procedure": "https://id.parliament.uk/pWKSg0gl",
+    "procedureName": "UK Public Bills",
+    "route": "https://id.parliament.uk/kOODKHQM",
+    "fromStep": "https://id.parliament.uk/HbxmBd7m",
+    "fromStepName": "10 working days expired",
+    "fromStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "fromStepTypeName": "Business step",
+    "fromSteplegislature": "https://id.parliament.uk/SO65GBkm",
+    "fromSteplegislatureName": "Northern Ireland Assembly",
+    "toStep": "https://id.parliament.uk/kwJNjZN3",
+    "toStepName": "NIA AA",
+    "toStepType": "https://id.parliament.uk/NouCqeQQ",
+    "toStepTypeName": "OR"
+   },
+   {
+    "procedure": "https://id.parliament.uk/9f4uTpRT",
+    "procedureName": "Legislative Consent Motion - Northern Ireland Assembly",
+    "route": "https://id.parliament.uk/YwMmQ21e",
+    "fromStep": "https://id.parliament.uk/aHBWm2rk",
+    "fromStepName": "5 working days clock ends",
+    "fromStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "fromStepTypeName": "Business step",
+    "fromSteplegislature": "https://id.parliament.uk/SO65GBkm",
+    "fromSteplegislatureName": "Northern Ireland Assembly",
+    "toStep": "https://id.parliament.uk/C6RpVdyC",
+    "toStepName": "NIA AF",
+    "toStepType": "https://id.parliament.uk/hPJvtbRW",
+    "toStepTypeName": "NOT"
+   },
+   {
+    "procedure": "https://id.parliament.uk/pWKSg0gl",
+    "procedureName": "UK Public Bills",
+    "route": "https://id.parliament.uk/YwMmQ21e",
+    "fromStep": "https://id.parliament.uk/aHBWm2rk",
+    "fromStepName": "5 working days clock ends",
+    "fromStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "fromStepTypeName": "Business step",
+    "fromSteplegislature": "https://id.parliament.uk/SO65GBkm",
+    "fromSteplegislatureName": "Northern Ireland Assembly",
+    "toStep": "https://id.parliament.uk/C6RpVdyC",
+    "toStepName": "NIA AF",
+    "toStepType": "https://id.parliament.uk/hPJvtbRW",
+    "toStepTypeName": "NOT"
+   },
+   {
+    "procedure": "https://id.parliament.uk/9f4uTpRT",
+    "procedureName": "Legislative Consent Motion - Northern Ireland Assembly",
+    "route": "https://id.parliament.uk/kENKRmDG",
+    "fromStep": "https://id.parliament.uk/aHBWm2rk",
+    "fromStepName": "5 working days clock ends",
+    "fromStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "fromStepTypeName": "Business step",
+    "fromSteplegislature": "https://id.parliament.uk/SO65GBkm",
+    "fromSteplegislatureName": "Northern Ireland Assembly",
+    "toStep": "https://id.parliament.uk/PVR1vcXD",
+    "toStepName": "NIA AH",
+    "toStepType": "https://id.parliament.uk/GBJqbKkE",
+    "toStepTypeName": "Summation"
+   }
+  ],
+  "n": 5,
+  "description": "A :ProcedureRoute is a directed edge between two steps of a procedure (procedureRouteIsFromProcedureStep → procedureRouteIsToProcedureStep). The rows show the “Legislative Consent Motion – Northern Ireland” and “UK Public Bills” procedures wiring real milestones (“10 working days expired”, “5 working days clock ends” — all Business steps) into gateway steps typed OR, NOT and Summation. The route set is the procedure’s flowchart: business steps are the events, the gateway-typed target steps are the boolean logic deciding what becomes reachable next.",
+  "touches": {
+   "classes": [
+    "Procedure"
+   ],
+   "preds": [
+    "endDate",
+    "name",
+    "procedureHasProcedureRoute",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature",
+    "startDate"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "procedure_step_type": {
+  "kind": "query",
+  "title": "Step types used within one procedure",
+  "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX id: <https://id.parliament.uk/>\nSELECT DISTINCT ?procedure ?procedureName ?stepType ?stepTypeLabel WHERE {\n  ?procedure a :Procedure;\n  :name ?procedureName.\n  OPTIONAL {  ?procedure :procedureHasProcedureRoute ?route.\n    ?route :procedureRouteIsFromProcedureStep|:procedureRouteIsToProcedureStep ?step.\n    ?step :procedureStepHasProcedureStepType ?stepType.\n    ?stepType :name ?stepTypeLabel.}\n}\nLIMIT 5",
+  "vars": [
+   "procedure",
+   "procedureName",
+   "stepType",
+   "stepTypeLabel"
+  ],
+  "rows": [
+   {
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "stepType": "https://id.parliament.uk/hPJvtbRW",
+    "stepTypeLabel": "NOT"
+   },
+   {
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeLabel": "Business step"
+   },
+   {
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "stepType": "https://id.parliament.uk/NouCqeQQ",
+    "stepTypeLabel": "OR"
+   },
+   {
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "stepType": "https://id.parliament.uk/NgLRLaVh",
+    "stepTypeLabel": "Decision"
+   },
+   {
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "stepType": "https://id.parliament.uk/t39lJiko",
+    "stepTypeLabel": "AND"
+   }
+  ],
+  "n": 5,
+  "description": "For a single procedure (Made negative), the distinct :ProcedureStepTypes its steps use: Business step (a real milestone) plus the logic/gateway types AND, OR, NOT and Decision. This is the key to reading the graph — most nodes in a procedure are not events but boolean gates that compose the events into a scrutiny flow.",
+  "touches": {
+   "classes": [
+    "Procedure"
+   ],
+   "preds": [
+    "name",
+    "procedureHasProcedureRoute",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasProcedureStepType"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "procedure_step_collections": {
+  "kind": "query",
+  "title": "Step collections (procedure stages)",
+  "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX id: <https://id.parliament.uk/>\nSELECT * WHERE {\n  ?procedure a :Procedure;\n  :name ?procedureName.\n  ?procedure :procedureHasProcedureStepCollection ?stepCollection.\n  ?stepCollection :name ?stepCollectionLabel.\n}\nLIMIT 5",
+  "vars": [
+   "procedure",
+   "procedureName",
+   "stepCollection",
+   "stepCollectionLabel"
+  ],
+  "rows": [
+   {
+    "procedure": "https://id.parliament.uk/iCdMN1MW",
+    "procedureName": "Proposed negative statutory instrument",
+    "stepCollection": "https://id.parliament.uk/m7fzgEd2",
+    "stepCollectionLabel": "Proposed negative statutory instruments upgraded to affirmative"
+   },
+   {
+    "procedure": "https://id.parliament.uk/pWKSg0gl",
+    "procedureName": "UK Public Bills",
+    "stepCollection": "https://id.parliament.uk/9wFzYhU3",
+    "stepCollectionLabel": "Commons first reading"
+   }
+  ],
+  "n": 2,
+  "description": "A :ProcedureStepCollection is a named bundle of steps inside a procedure — here “Proposed negative statutory instruments…” under the procedure of the same name, and “Commons first reading” under UK Public Bills. Collections group the steps of one stage so a procedure can be presented stage-by-stage.",
+  "touches": {
+   "classes": [
+    "Procedure"
+   ],
+   "preds": [
+    "name",
+    "procedureHasProcedureStepCollection"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "step_types": {
+  "kind": "query",
+  "title": "The step-type vocabulary",
+  "query": "PREFIX id: <https://id.parliament.uk/>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?stepType ?stepTypeName  WHERE {\n\n  ?stepType a :ProcedureStepType;\n  :name ?stepTypeName.\n\n} ORDER BY ASC(UCASE(STR(?stepTypeName)))\nLIMIT 5",
+  "vars": [
+   "stepType",
+   "stepTypeName"
+  ],
+  "rows": [
+   {
+    "stepType": "https://id.parliament.uk/t39lJiko",
+    "stepTypeName": "AND"
+   },
+   {
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step"
+   },
+   {
+    "stepType": "https://id.parliament.uk/NgLRLaVh",
+    "stepTypeName": "Decision"
+   },
+   {
+    "stepType": "https://id.parliament.uk/usOpqSEW",
+    "stepTypeName": "EQUALS"
+   },
+   {
+    "stepType": "https://id.parliament.uk/rLo1ejlV",
+    "stepTypeName": "INCREMENT"
+   }
+  ],
+  "n": 5,
+  "description": "The global vocabulary of :ProcedureStepTypes across all procedures. Beyond Business step and Decision, the rows reveal arithmetic/logic gate types — AND, EQUALS, INCREMENT — confirming the procedure model is a little computational graph: gates combine and count conditions (INCREMENT a counter, test EQUALS) to drive the flow, not merely record events.",
+  "touches": {
+   "classes": [
+    "ProcedureStepType"
+   ],
+   "preds": [
+    "name"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "calculation_styles": {
+  "kind": "query",
+  "title": "Clock calculation styles",
+  "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX id: <https://id.parliament.uk/>\nSELECT * WHERE {\n  ?calculationStyle a :CalculationStyle;\n  :name ?calculationStyleName.\n\n} ORDER BY ?calculationStyleName\nLIMIT 5",
+  "vars": [
+   "calculationStyle",
+   "calculationStyleName"
+  ],
+  "rows": [
+   {
+    "calculationStyle": "https://id.parliament.uk/FPPYJ9iv",
+    "calculationStyleName": "Bicameral instruments (clock stops if both Houses rise)"
+   },
+   {
+    "calculationStyle": "https://id.parliament.uk/67qMXsUE",
+    "calculationStyleName": "Bicameral instruments (clock stops if either House rises)"
+   },
+   {
+    "calculationStyle": "https://id.parliament.uk/G72jVmgv",
+    "calculationStyleName": "Commons only instruments"
+   },
+   {
+    "calculationStyle": "https://id.parliament.uk/AaFoIOKC",
+    "calculationStyleName": "Commons only sitting days"
+   },
+   {
+    "calculationStyle": "https://id.parliament.uk/8PtdopLn",
+    "calculationStyleName": "Proposed negative statutory instruments"
+   }
+  ],
+  "n": 5,
+  "description": "A :CalculationStyle says how a scrutiny clock counts. The rows distinguish “Bicameral instruments (clock stops if both / either House…)”, “Commons only instruments”, “Commons only sitting days” and “Proposed negative statutory instruments” — i.e. whether the objection-period countdown pauses on one or both Houses and whether it counts calendar or sitting days. It is the rulebook attached to the clocks.",
+  "touches": {
+   "classes": [
+    "CalculationStyle"
+   ],
+   "preds": [
+    "name"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "clocks": {
+  "kind": "query",
+  "title": "Scrutiny clocks (objection periods)",
+  "query": "PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX id: <https://id.parliament.uk/>\nSELECT ?clock ?clockName ?dayCount ?procedure ?procedureName ?startStep ?startStepName ?startStepType ?startStepTypeName ?startSteplegislature ?startSteplegislatureName ?startStepCommonsId ?startStepLordsId ?endStep ?endStepName ?endStepType ?endStepTypeName ?endSteplegislature ?endSteplegislatureName ?endStepCommonsId ?endStepLordsId WHERE {\n  ?clock a :Clock;\n  :name ?clockName;\n  :clockFormsPartOfProcedure ?procedure;\n  :clockHasStartProcedureStep ?startStep;\n  :clockHasEndProcedureStep ?endStep.\n  OPTIONAL {?clock :clockDayCount ?dayCount.}\n  ?procedure :name ?procedureName.\n  ?startStep :name ?startStepName;\n  :procedureStepHasProcedureStepType ?startStepType.\n  ?startStepType :name ?startStepTypeName.\n  OPTIONAL {?startStep :procedureStepInLegislature ?startSteplegislature.\n    ?startSteplegislature :name ?startSteplegislatureName.}\n  OPTIONAL {?startStep:procedureStepHasHouse ?startStepCommonsId\n    FILTER (?startStepCommonsId IN (id:1AFu55Hs))}\n  OPTIONAL {?startStep :procedureStepHasHouse ?startStepLordsId.\n    FILTER (?startStepLordsId IN (id:WkUWUBMx))}\n  ?endStep :name ?endStepName;\n  :procedureStepHasProcedureStepType ?endStepType.\n  ?endStepType :name ?endStepTypeName.\n  OPTIONAL {?endStep :procedureStepInLegislature ?endSteplegislature.\n    ?endSteplegislature :name ?endSteplegislatureName.}\n  OPTIONAL {?endStep:procedureStepHasHouse ?endStepCommonsId\n    FILTER (?endStepCommonsId IN (id:1AFu55Hs))}\n  OPTIONAL {?endStep :procedureStepHasHouse ?endStepLordsId.\n    FILTER (?endStepLordsId IN (id:WkUWUBMx))}\n} ORDER BY ?clockName ?procedureName\nLIMIT 5",
+  "vars": [
+   "clock",
+   "clockName",
+   "dayCount",
+   "procedure",
+   "procedureName",
+   "startStep",
+   "startStepName",
+   "startStepType",
+   "startStepTypeName",
+   "startSteplegislature",
+   "startSteplegislatureName",
+   "startStepCommonsId",
+   "startStepLordsId",
+   "endStep",
+   "endStepName",
+   "endStepType",
+   "endStepTypeName",
+   "endSteplegislature",
+   "endSteplegislatureName",
+   "endStepCommonsId",
+   "endStepLordsId"
+  ],
+  "rows": [
+   {
+    "clock": "https://id.parliament.uk/QpfNDkX1",
+    "clockName": "Draft negative objection period",
+    "dayCount": "40",
+    "procedure": "https://id.parliament.uk/gTgidljI",
+    "procedureName": "Draft negative",
+    "startStep": "https://id.parliament.uk/cspzmb6w",
+    "startStepName": "Laid before the House of Commons",
+    "startStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "startStepTypeName": "Business step",
+    "startStepCommonsId": "https://id.parliament.uk/1AFu55Hs",
+    "endStep": "https://id.parliament.uk/g8B3R2Ou",
+    "endStepName": "Objection period ends",
+    "endStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "endStepTypeName": "Business step"
+   },
+   {
+    "clock": "https://id.parliament.uk/ynvjeRmw",
+    "clockName": "Enhanced affirmative under IPA16 - Extended pre-approval period",
+    "dayCount": "60",
+    "procedure": "https://id.parliament.uk/dWV8Yjj6",
+    "procedureName": "Enhanced affirmative: Investigatory Powers Act 2016",
+    "startStep": "https://id.parliament.uk/cspzmb6w",
+    "startStepName": "Laid before the House of Commons",
+    "startStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "startStepTypeName": "Business step",
+    "startStepCommonsId": "https://id.parliament.uk/1AFu55Hs",
+    "endStep": "https://id.parliament.uk/ZGmiBkzO",
+    "endStepName": "Extended pre-approval period ends",
+    "endStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "endStepTypeName": "Business step"
+   },
+   {
+    "clock": "https://id.parliament.uk/lOiXybvo",
+    "clockName": "Enhanced affirmative under IPA16 - Pre-approval period",
+    "dayCount": "40",
+    "procedure": "https://id.parliament.uk/dWV8Yjj6",
+    "procedureName": "Enhanced affirmative: Investigatory Powers Act 2016",
+    "startStep": "https://id.parliament.uk/cspzmb6w",
+    "startStepName": "Laid before the House of Commons",
+    "startStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "startStepTypeName": "Business step",
+    "startStepCommonsId": "https://id.parliament.uk/1AFu55Hs",
+    "endStep": "https://id.parliament.uk/sVATFKGp",
+    "endStepName": "Pre-approval period ends",
+    "endStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "endStepTypeName": "Business step"
+   },
+   {
+    "clock": "https://id.parliament.uk/r6GcEmQR",
+    "clockName": "Enhanced affirmative under IPA16 - Recommendation period",
+    "dayCount": "30",
+    "procedure": "https://id.parliament.uk/dWV8Yjj6",
+    "procedureName": "Enhanced affirmative: Investigatory Powers Act 2016",
+    "startStep": "https://id.parliament.uk/cspzmb6w",
+    "startStepName": "Laid before the House of Commons",
+    "startStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "startStepTypeName": "Business step",
+    "startStepCommonsId": "https://id.parliament.uk/1AFu55Hs",
+    "endStep": "https://id.parliament.uk/b8NkQR25",
+    "endStepName": "Recommendation period ends",
+    "endStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "endStepTypeName": "Business step"
+   },
+   {
+    "clock": "https://id.parliament.uk/CZKz7Sa3",
+    "clockName": "LRO - Affirmative preapproval period ends",
+    "dayCount": "40",
+    "procedure": "https://id.parliament.uk/kgFvgMIf",
+    "procedureName": "Legislative Reform Order",
+    "startStep": "https://id.parliament.uk/cspzmb6w",
+    "startStepName": "Laid before the House of Commons",
+    "startStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "startStepTypeName": "Business step",
+    "startStepCommonsId": "https://id.parliament.uk/1AFu55Hs",
+    "endStep": "https://id.parliament.uk/wSAhL3Z2",
+    "endStepName": "Affirmative pre-approval period ends",
+    "endStepType": "https://id.parliament.uk/Jwc6nqJi",
+    "endStepTypeName": "Business step"
+   }
+  ],
+  "n": 5,
+  "description": "A :Clock is the statutory countdown attached to a procedure. Real rows: the Draft negative objection period of 40 days; the Enhanced affirmative under IPA16 clocks of 60 / 40 / 30 days for the Investigatory Powers Act procedure; and the Legislative Reform Order 40-day pre-approval period. dayCount is the length; the calculation style decides how those days are counted.",
+  "touches": {
+   "classes": [
+    "Clock"
+   ],
+   "preds": [
+    "clockDayCount",
+    "clockFormsPartOfProcedure",
+    "clockHasEndProcedureStep",
+    "clockHasStartProcedureStep",
+    "name",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "enabling_legislations": {
+  "kind": "query",
+  "title": "Enabling legislation (the parent Acts)",
+  "query": "PREFIX : <https://id.parliament.uk/schema/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX id: <https://id.parliament.uk/>\nSELECT DISTINCT ?enablingThing ?name ?number ?year ?date ?uRL WHERE {\n  ?enablingThing a :EnablingThing;\n  :enabling ?enabledThing.\n  OPTIONAL { ?enablingThing  :actOfParliamentName ?name;}\n  OPTIONAL {?enablingThing :actOfParliamentNumber ?number}\n  OPTIONAL {?enablingThing:actOfParliamentYear ?year}\n  OPTIONAL{  ?enablingThing :actOfParliamentRoyalAssentDate ?date}\n  OPTIONAL {?enablingThing :actOfParliamentUrl ?uRL}\n  ?enabledThing :name ?enabledThingName.\n\n} ORDER BY ?name\nLIMIT 5",
+  "vars": [
+   "enablingThing",
+   "name",
+   "number",
+   "year",
+   "date",
+   "uRL"
+  ],
+  "rows": [
+   {
+    "enablingThing": "https://id.parliament.uk/yykH5cxy",
+    "name": "Academies Act 2010",
+    "number": "32",
+    "year": "2010",
+    "date": "2010-07-27+01:00",
+    "uRL": "https://www.legislation.gov.uk/id/ukpga/2010/32"
+   },
+   {
+    "enablingThing": "https://id.parliament.uk/NifqR0Jv",
+    "name": "Acquisition of Land Act 1981",
+    "number": "67",
+    "year": "1981",
+    "date": "1981-10-30+00:00",
+    "uRL": "https://www.legislation.gov.uk/id/ukpga/1981/67"
+   },
+   {
+    "enablingThing": "https://id.parliament.uk/GB04lXMH",
+    "name": "Administration of Estates Act 1925",
+    "number": "23",
+    "year": "1925",
+    "date": "1925-04-09+01:00",
+    "uRL": "https://www.legislation.gov.uk/id/ukpga/Geo5/15-16/23"
+   },
+   {
+    "enablingThing": "https://id.parliament.uk/W228ujeo",
+    "name": "Administration of Justice Act 1982",
+    "number": "53",
+    "year": "1982",
+    "date": "1982-10-28+01:00",
+    "uRL": "https://www.legislation.gov.uk/id/ukpga/1982/53"
+   },
+   {
+    "enablingThing": "https://id.parliament.uk/3ml6Rrbh",
+    "name": "Administration of Justice Act 1985",
+    "number": "61",
+    "year": "1985",
+    "date": "1985-10-30+00:00",
+    "uRL": "https://www.legislation.gov.uk/id/ukpga/1985/61"
+   }
+  ],
+  "n": 5,
+  "description": "An :EnablingThing is the primary Act of Parliament granting the power a statutory instrument is made under. The rows are real Acts — Academies Act 2010 (c.32), Acquisition of Land Act 1981 (c.67), Administration of Estates Act 1925 — each with its chapter number, year and royal-assent date. This is the link from secondary legislation back up to its enabling statute.",
+  "touches": {
+   "classes": [
+    "EnablingThing"
+   ],
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "enabling",
+    "name"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "houses": {
+  "kind": "query",
+  "title": "Houses",
+  "query": "PREFIX : <https://id.parliament.uk/schema/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX id: <https://id.parliament.uk/>\nSELECT * WHERE {\n\n  ?house a :House ;\n  :name ?houseName.\n} ORDER BY ?houseName\nLIMIT 5",
+  "vars": [
+   "house",
+   "houseName"
+  ],
+  "rows": [
+   {
+    "house": "https://id.parliament.uk/1AFu55Hs",
+    "houseName": "House of Commons"
+   },
+   {
+    "house": "https://id.parliament.uk/WkUWUBMx",
+    "houseName": "House of Lords"
+   }
+  ],
+  "n": 2,
+  "description": "Closed-class: :House has exactly two instances, House of Commons and House of Lords. Steps and clocks reference a House to say which chamber a milestone or countdown belongs to.",
+  "touches": {
+   "classes": [
+    "House"
+   ],
+   "preds": [
+    "name"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "house_steps": {
+  "kind": "query",
+  "title": "Steps belonging to a House",
+  "query": "PREFIX : <https://id.parliament.uk/schema/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX id: <https://id.parliament.uk/>\nSELECT ?house ?houseName ?step ?stepName ?stepType ?stepTypeName ?stepCommonsId ?stepLordsId (COUNT(?bi) AS ?biCount)   WHERE {\n\n  ?house a :House ;\n  :name ?houseName;\n  :houseHasProcedureStep ?step.\n  OPTIONAL { ?step :procedureStepHasBusinessItem ?bi }\n  ?step :name ?stepName;\n  :procedureStepHasProcedureStepType ?stepType.\n  ?stepType :name ?stepTypeName.\n  OPTIONAL {?step:procedureStepHasHouse ?stepCommonsId\n    FILTER (?stepCommonsId IN (id:1AFu55Hs))}\n  OPTIONAL {?step :procedureStepHasHouse ?stepLordsId.\n    FILTER (?stepLordsId IN (id:WkUWUBMx))}\n}\n\nGROUP BY\n?house ?houseName\n?step ?stepName\n?stepType ?stepTypeName\n?stepCommonsId ?stepLordsId\nORDER BY ?stepName\nLIMIT 5",
+  "vars": [
+   "house",
+   "houseName",
+   "step",
+   "stepName",
+   "stepType",
+   "stepTypeName",
+   "stepCommonsId",
+   "stepLordsId",
+   "biCount"
+  ],
+  "rows": [
+   {
+    "house": "https://id.parliament.uk/WkUWUBMx",
+    "houseName": "House of Lords",
+    "step": "https://id.parliament.uk/k4y0HeEH",
+    "stepName": "Allocated to the EU Energy and Environment Sub-Committee",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "stepLordsId": "https://id.parliament.uk/WkUWUBMx",
+    "biCount": "18"
+   },
+   {
+    "house": "https://id.parliament.uk/WkUWUBMx",
+    "houseName": "House of Lords",
+    "step": "https://id.parliament.uk/klUK1Jbu",
+    "stepName": "Allocated to the EU External Affairs Sub-Committee",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "stepLordsId": "https://id.parliament.uk/WkUWUBMx",
+    "biCount": "18"
+   },
+   {
+    "house": "https://id.parliament.uk/WkUWUBMx",
+    "houseName": "House of Lords",
+    "step": "https://id.parliament.uk/9jcgOmx6",
+    "stepName": "Allocated to the EU Financial Affairs Sub-Committee",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "stepLordsId": "https://id.parliament.uk/WkUWUBMx",
+    "biCount": "3"
+   },
+   {
+    "house": "https://id.parliament.uk/WkUWUBMx",
+    "houseName": "House of Lords",
+    "step": "https://id.parliament.uk/VjfSURrA",
+    "stepName": "Allocated to the EU Home Affairs Sub-Committee",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "stepLordsId": "https://id.parliament.uk/WkUWUBMx",
+    "biCount": "1"
+   },
+   {
+    "house": "https://id.parliament.uk/WkUWUBMx",
+    "houseName": "House of Lords",
+    "step": "https://id.parliament.uk/dsfJmPVy",
+    "stepName": "Allocated to the EU Internal Market Sub-Committee",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "stepLordsId": "https://id.parliament.uk/WkUWUBMx",
+    "biCount": "16"
+   }
+  ],
+  "n": 5,
+  "description": "The steps pinned to a given :House. For the House of Lords the rows are committee-allocation steps — “Allocated to the EU Energy and Environment Sub-Committee”, “…EU External Affairs Sub-Committee”, etc. So procedureStepHasHouse lets the same procedural machinery carry chamber-specific committee routing.",
+  "touches": {
+   "classes": [
+    "House"
+   ],
+   "preds": [
+    "houseHasProcedureStep",
+    "name",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "legislatures": {
+  "kind": "query",
+  "title": "Legislatures (incl. devolved)",
+  "query": "PREFIX : <https://id.parliament.uk/schema/>\n\nSELECT *\n\nWHERE {\n  ?legislature a :Legislature ;\n  :name ?legislatureName.\n}\n\nORDER BY ?legislatureName\nLIMIT 5",
+  "vars": [
+   "legislature",
+   "legislatureName"
+  ],
+  "rows": [
+   {
+    "legislature": "https://id.parliament.uk/SO65GBkm",
+    "legislatureName": "Northern Ireland Assembly"
+   },
+   {
+    "legislature": "https://id.parliament.uk/FDzhB2sJ",
+    "legislatureName": "Scottish Parliament"
+   },
+   {
+    "legislature": "https://id.parliament.uk/fhKhTkgi",
+    "legislatureName": "Senedd Cymru"
+   },
+   {
+    "legislature": "https://id.parliament.uk/4Mapsyb9",
+    "legislatureName": "UK Parliament"
+   }
+  ],
+  "n": 4,
+  "description": ":Legislature spans more than Westminster: the rows are the Northern Ireland Assembly, Scottish Parliament, Senedd Cymru and UK Parliament. Steps reference a legislature so devolved-consent procedures can be modelled alongside UK ones.",
+  "touches": {
+   "classes": [
+    "Legislature"
+   ],
+   "preds": [
+    "name"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "legislature_steps": {
+  "kind": "query",
+  "title": "Steps within a legislature",
+  "query": "PREFIX : <https://id.parliament.uk/schema/>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX id: <https://id.parliament.uk/>\nSELECT ?legislature ?legislatureName ?step ?stepName ?stepType ?stepTypeName (COUNT(?bi) AS ?biCount)   WHERE {\n\n  ?legislature a :Legislature ;\n  :name ?legislatureName;\n  :legislatureHasProcedureStep ?step.\n  OPTIONAL { ?step :procedureStepHasBusinessItem ?bi }\n  ?step :name ?stepName;\n  :procedureStepHasProcedureStepType ?stepType.\n  ?stepType :name ?stepTypeName.\n}\nGROUP BY ?legislature ?legislatureName ?step ?stepName ?stepType ?stepTypeName\nORDER BY ?stepName\nLIMIT 5",
+  "vars": [
+   "legislature",
+   "legislatureName",
+   "step",
+   "stepName",
+   "stepType",
+   "stepTypeName",
+   "biCount"
+  ],
+  "rows": [
+   {
+    "legislature": "https://id.parliament.uk/SO65GBkm",
+    "legislatureName": "Northern Ireland Assembly",
+    "step": "https://id.parliament.uk/HbxmBd7m",
+    "stepName": "10 working days expired",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "biCount": "2"
+   },
+   {
+    "legislature": "https://id.parliament.uk/SO65GBkm",
+    "legislatureName": "Northern Ireland Assembly",
+    "step": "https://id.parliament.uk/aHBWm2rk",
+    "stepName": "5 working days clock ends",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "biCount": "0"
+   },
+   {
+    "legislature": "https://id.parliament.uk/FDzhB2sJ",
+    "legislatureName": "Scottish Parliament",
+    "step": "https://id.parliament.uk/UoOY0Oie",
+    "stepName": "Bill provides relevant delegated powers",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "biCount": "3"
+   },
+   {
+    "legislature": "https://id.parliament.uk/fhKhTkgi",
+    "legislatureName": "Senedd Cymru",
+    "step": "https://id.parliament.uk/ktSXqBA2",
+    "stepName": "Business Committee agrees to change deadline",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "biCount": "8"
+   },
+   {
+    "legislature": "https://id.parliament.uk/fhKhTkgi",
+    "legislatureName": "Senedd Cymru",
+    "step": "https://id.parliament.uk/G4U2CkMz",
+    "stepName": "Business Committee does not agree to change deadline",
+    "stepType": "https://id.parliament.uk/Jwc6nqJi",
+    "stepTypeName": "Business step",
+    "biCount": "0"
+   }
+  ],
+  "n": 5,
+  "description": "Steps attached to each devolved :Legislature: the Northern Ireland Assembly’s “10 working days expired” / “5 working days clock ends”, the Scottish Parliament’s “Bill provides relevant delegated powers”, and the Senedd’s Business-Committee deadline steps. These are the building blocks of legislative-consent procedures.",
+  "touches": {
+   "classes": [
+    "Legislature"
+   ],
+   "preds": [
+    "legislatureHasProcedureStep",
+    "name",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasProcedureStepType"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "organisations_accountable_to_parliament": {
+  "kind": "query",
+  "title": "Organisations accountable to Parliament",
+  "query": "PREFIX : <https://id.parliament.uk/schema/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX id: <https://id.parliament.uk/>\nSELECT * WHERE {\n  { ?organisations a :GovernmentOrganisation.}\n  UNION {\n    ?organisations a :ArmsLengthBody.\n  }\n  ?organisations :name ?name.\n\n  OPTIONAL {?organisations :startDate ?startDate}\n  OPTIONAL {?organisations :endDate ?endDate}\n\n} ORDER BY ?name\n\nLIMIT 5 \n",
+  "vars": [
+   "organisations",
+   "name",
+   "startDate",
+   "endDate"
+  ],
+  "rows": [
+   {
+    "organisations": "https://id.parliament.uk/P8FS4eb5",
+    "name": "Attorney General's Office",
+    "startDate": "2008-12-03+00:00"
+   },
+   {
+    "organisations": "https://id.parliament.uk/7gnSwbLO",
+    "name": "Cabinet Office",
+    "startDate": "1916-12-11+00:00"
+   },
+   {
+    "organisations": "https://id.parliament.uk/iOu7GKad",
+    "name": "Department for Business and Trade",
+    "startDate": "2023-02-07+01:00"
+   },
+   {
+    "organisations": "https://id.parliament.uk/yiuTaSI4",
+    "name": "Department for Business, Energy and Industrial Strategy",
+    "startDate": "2016-07-14+01:00",
+    "endDate": "2023-02-07+00:00"
+   },
+   {
+    "organisations": "https://id.parliament.uk/X0hBeTxL",
+    "name": "Department for Business, Enterprise and Regulatory Reform",
+    "startDate": "2007-06-28+01:00",
+    "endDate": "2009-06-05+01:00"
+   }
+  ],
+  "n": 5,
+  "description": "A government organisation (laying body / department) with the date it became accountable. Rows: Attorney General’s Office (from 2008-12-03), Cabinet Office (1916-12-11), Department for Business and Trade (2023-02-07) and its predecessor departments — capturing machinery-of-government history. These are the bodies that lay instruments and treaties before the House.",
+  "touches": {
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ],
+   "preds": [
+    "endDate",
+    "name",
+    "startDate"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "step_business_items": {
+  "kind": "query",
+  "title": "Business items (real, dated occurrences)",
+  "query": "PREFIX id: <https://id.parliament.uk/>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?businessItem ?businessItemDate ?workPackage ?procedure ?procedureName ?workPackagedThing ?workpackagedThingName WHERE {\n\n  ?step a :ProcedureStep;\n  :name ?stepName;\n  :procedureStepHasBusinessItem ?businessItem.\n  OPTIONAL{ ?businessItem :businessItemDate ?businessItemDate.}\n  OPTIONAL {?businessItem :businessItemHasBusinessItemWebLink ?businessItemLink }\n  ?businessItem :businessItemHasWorkPackage ?workPackage.\n  ?workPackage :workPackageHasProcedure ?procedure;\n  :workPackageHasWorkPackagedThing ?workPackagedThing.\n  ?procedure :name ?procedureName.\n  ?workPackagedThing :name ?workpackagedThingName.\n} ORDER BY DESC(?businessItemDate)  ?workpackagedThingName\nLIMIT 5 \n",
+  "vars": [
+   "businessItem",
+   "businessItemDate",
+   "workPackage",
+   "procedure",
+   "procedureName",
+   "workPackagedThing",
+   "workpackagedThingName"
+  ],
+  "rows": [
+   {
+    "businessItem": "https://id.parliament.uk/5ULPNvlr",
+    "businessItemDate": "2027-05-19+01:00",
+    "workPackage": "https://id.parliament.uk/jokXoNvf",
+    "procedure": "https://id.parliament.uk/H5YJQsK2",
+    "procedureName": "Draft affirmative",
+    "workPackagedThing": "https://id.parliament.uk/KG0dZMZj",
+    "workpackagedThingName": "Environmental Protection (Wet Wipes Containing Plastic) (England) Regulations 2025"
+   },
+   {
+    "businessItem": "https://id.parliament.uk/KrmvmRNv",
+    "businessItemDate": "2027-04-06+01:00",
+    "workPackage": "https://id.parliament.uk/CY1aPxOZ",
+    "procedure": "https://id.parliament.uk/H5YJQsK2",
+    "procedureName": "Draft affirmative",
+    "workPackagedThing": "https://id.parliament.uk/TmMAQ8Ep",
+    "workpackagedThingName": "Package Travel and Linked Travel Arrangements (Amendment) Regulations 2026"
+   },
+   {
+    "businessItem": "https://id.parliament.uk/CylGRO8r",
+    "businessItemDate": "2027-04-06+01:00",
+    "workPackage": "https://id.parliament.uk/i960vYju",
+    "procedure": "https://id.parliament.uk/H5YJQsK2",
+    "procedureName": "Draft affirmative",
+    "workPackagedThing": "https://id.parliament.uk/OJq9aFfD",
+    "workpackagedThingName": "Provision of Information (Contractual Control) (Registered Land) Regulations 2026"
+   },
+   {
+    "businessItem": "https://id.parliament.uk/ndTePXjr",
+    "businessItemDate": "2027-03-31+01:00",
+    "workPackage": "https://id.parliament.uk/4vbeuTgw",
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "workPackagedThing": "https://id.parliament.uk/X9tvAYCz",
+    "workpackagedThingName": "European Communities (Immunities and Privileges of the North Atlantic Salmon Conservation Organization and North-East Atlantic Fisheries Commission) (Revocation) Regulations 2026"
+   },
+   {
+    "businessItem": "https://id.parliament.uk/AacUdm3B",
+    "businessItemDate": "2027-01-25+00:00",
+    "workPackage": "https://id.parliament.uk/YwbznJnH",
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "workPackagedThing": "https://id.parliament.uk/aYUyl9gc",
+    "workpackagedThingName": "Aviation Security (Amendment, Revocation and Consequential Provision) Regulations 2026"
+   }
+  ],
+  "n": 5,
+  "description": "A :BusinessItem is where the abstract procedure meets a real date — an actual occurrence of a step in a work package. The rows tie the Draft affirmative and Made negative procedures to concrete dated items (2027-05-19, 2027-03-31, …). Business items are how a template procedure becomes a specific instrument’s timeline.",
+  "touches": {
+   "classes": [
+    "ProcedureStep"
+   ],
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "treaty_work_packages": {
+  "kind": "query",
+  "title": "Treaty papers and their work packages",
+  "query": "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX id: <https://id.parliament.uk/>\nSELECT DISTINCT ?paper ?papername ?workPackage ?businessItem ?combinedDate ?procedure ?procedure ?procedureName ?calculationStyle ?calculationStyleName (BOUND(?stepId3) AS ?hasCommitteeConcernsFlag)\n(BOUND(?stepId4) AS ?hasMotionTabledFlag)  WHERE {\n\n  ?paper a :Treaty.\n  ?paper :name ?papername ;\n  :workPackagedThingHasWorkPackage ?workPackage.\n  OPTIONAL {   ?workPackage :workPackageHasBusinessItem ?businessItem .\n    ?businessItem :businessItemHasProcedureStep ?step;\n    :businessItemDate ?businessItemDate.\n    FILTER (?step IN (id:isWn7s3K, id:cspzmb6w, id:ITNO9JWr, id:otscOTzB))}\n  OPTIONAL {    ?workPackage :workPackageHasBusinessItem ?businessItem2 .\n    ?businessItem2 :businessItemHasProcedureStep ?step2;\n    :businessItemDate ?businessItemDate2.\n    FILTER (?step2 IN (id:AmYrFxwO))}\n  ?workPackage :workPackageHasProcedure ?procedure.\n  ?procedure :name ?procedureName.\n  OPTIONAL { ?workPackage :workPackageHasCalculationStyle ?calculationStyle.\n    ?calculationStyle :name ?calculationStyleName. }\n  OPTIONAL {\n    ?workPackage :workPackageHasBusinessItem ?bi3 .\n    ?bi3 :businessItemHasProcedureStep ?stepId3 .\n    ?stepId3 :procedureStepHasProcedureStepCollectionMembership/\n    :procedureStepCollectionMembershipHasProcedureStepCollection id:7CBVQcZF\n  }\n\n  OPTIONAL {\n    ?workPackage :workPackageHasBusinessItem ?bi4 .\n    ?bi4 :businessItemHasProcedureStep ?stepId4 .\n    ?stepId4 :procedureStepHasProcedureStepCollectionMembership/\n    :procedureStepCollectionMembershipHasProcedureStepCollection id:l3g2umNB\n  }\n  BIND(COALESCE(?businessItemDate, ?businessItemDate2) AS ?combinedDate)\n} ORDER BY DESC(?combinedDate) ?papername\nLIMIT 5 \n",
+  "vars": [
+   "paper",
+   "papername",
+   "workPackage",
+   "businessItem",
+   "combinedDate",
+   "procedure",
+   "procedureName",
+   "calculationStyle",
+   "calculationStyleName",
+   "hasCommitteeConcernsFlag",
+   "hasMotionTabledFlag"
+  ],
+  "rows": [
+   {
+    "paper": "https://id.parliament.uk/TqnOB3V8",
+    "papername": "Treaty, done at London on 26 May 2026, between the United Kingdom of Great Britain and Northern Ireland and the Republic of Poland on a Security and Defence Partnership",
+    "workPackage": "https://id.parliament.uk/07XPxGM6",
+    "businessItem": "https://id.parliament.uk/PYH8XXP0",
+    "combinedDate": "2026-06-23+01:00",
+    "procedure": "https://id.parliament.uk/D00dsjR2",
+    "procedureName": "Treaties subject to the Constitutional Reform and Governance Act 2010",
+    "calculationStyle": "https://id.parliament.uk/GKxRUUgK",
+    "calculationStyleName": "Treaty periods A and B",
+    "hasCommitteeConcernsFlag": "false",
+    "hasMotionTabledFlag": "false"
+   },
+   {
+    "paper": "https://id.parliament.uk/h7Fdnj6O",
+    "papername": "Negotiations for a potential agreement between the UK and Malaysia",
+    "workPackage": "https://id.parliament.uk/UUeIDLkr",
+    "combinedDate": "2026-06-22+01:00",
+    "procedure": "https://id.parliament.uk/D00dsjR2",
+    "procedureName": "Treaties subject to the Constitutional Reform and Governance Act 2010",
+    "hasCommitteeConcernsFlag": "false",
+    "hasMotionTabledFlag": "false"
+   },
+   {
+    "paper": "https://id.parliament.uk/TwxlhmXK",
+    "papername": "Agreement, done at Chișinău on 20 November 2024, between the Government of the United Kingdom of Great Britain and Northern Ireland and the Government of the Republic of Moldova on the Readmission of Persons Residing without Authorisation",
+    "workPackage": "https://id.parliament.uk/pAoaIdc1",
+    "businessItem": "https://id.parliament.uk/dlweUaYI",
+    "combinedDate": "2026-06-17+01:00",
+    "procedure": "https://id.parliament.uk/D00dsjR2",
+    "procedureName": "Treaties subject to the Constitutional Reform and Governance Act 2010",
+    "calculationStyle": "https://id.parliament.uk/GKxRUUgK",
+    "calculationStyleName": "Treaty periods A and B",
+    "hasCommitteeConcernsFlag": "false",
+    "hasMotionTabledFlag": "false"
+   },
+   {
+    "paper": "https://id.parliament.uk/2BO4LKYR",
+    "papername": "Council of Europe Convention, adopted at Magglingen/Macolin on 18 September 2014, on the Manipulation of Sports Competitions",
+    "workPackage": "https://id.parliament.uk/p4iRIDJr",
+    "businessItem": "https://id.parliament.uk/q4TXnbOx",
+    "combinedDate": "2026-06-04+01:00",
+    "procedure": "https://id.parliament.uk/D00dsjR2",
+    "procedureName": "Treaties subject to the Constitutional Reform and Governance Act 2010",
+    "calculationStyle": "https://id.parliament.uk/GKxRUUgK",
+    "calculationStyleName": "Treaty periods A and B",
+    "hasCommitteeConcernsFlag": "false",
+    "hasMotionTabledFlag": "false"
+   },
+   {
+    "paper": "https://id.parliament.uk/RvKRZF3r",
+    "papername": "Decision No. 1/2025 of the United Kingdom-EEA EFTA Joint Committee, adopted at Tromsø on 25 November 2025, amending Annex XX to the Agreement on the International Mobile Roaming Rates",
+    "workPackage": "https://id.parliament.uk/CJBIXjoZ",
+    "businessItem": "https://id.parliament.uk/Zp1RhREq",
+    "combinedDate": "2026-04-23+01:00",
+    "procedure": "https://id.parliament.uk/D00dsjR2",
+    "procedureName": "Treaties subject to the Constitutional Reform and Governance Act 2010",
+    "calculationStyle": "https://id.parliament.uk/GKxRUUgK",
+    "calculationStyleName": "Treaty periods A and B",
+    "hasCommitteeConcernsFlag": "true",
+    "hasMotionTabledFlag": "false"
+   }
+  ],
+  "n": 5,
+  "description": "For the treaty side of the model, a laid :Paper and its :WorkPackage. Rows are real treaties laid for scrutiny — “Treaty, done at London on 26 May 2026…”, “Agreement, done at Chișinău on 20 November…”, a Council of Europe Convention, a UK-EU partnership-council decision — each with the date it entered business. The same work-package machinery as SIs, applied to CRaG treaty scrutiny.",
+  "touches": {
+   "classes": [
+    "Treaty"
+   ],
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "work_package": {
+  "kind": "query",
+  "title": "Work package — an instrument's scrutiny bundle",
+  "query": "PREFIX : <https://id.parliament.uk/schema/>\nPREFIX id: <https://id.parliament.uk/>\n\nSELECT * WHERE {\n  ?paper a :WorkPackagedThing .\n  ?paper :name ?paperName ;\n  :workPackagedThingHasWorkPackage ?workPackage.\n\n  OPTIONAL {?paper :workPackagedThingHasWorkPackagedThingWebLink ?workPackagedThingWebLink.}\n\n  OPTIONAL {?paper :laidThingHasLaying ?laying.\n    ?laying :layingDate ?laidDate;\n    :businessItemHasProcedureStep ?step.\n\n    FILTER (?step IN (id:isWn7s3K, id:cspzmb6w))}\n\n  ?workPackage :workPackageHasProcedure ?procedure.\n  ?procedure :name ?procedureName.\n\n  OPTIONAL{ ?workPackage :workPackageHasCalculationStyle ?calculationStyle.\n    ?calculationStyle :name ?calculationStyleName. }\n\n}\nLIMIT 5",
+  "vars": [
+   "paper",
+   "paperName",
+   "workPackage",
+   "workPackagedThingWebLink",
+   "laying",
+   "laidDate",
+   "step",
+   "procedure",
+   "procedureName",
+   "calculationStyle",
+   "calculationStyleName"
+  ],
+  "rows": [
+   {
+    "paper": "https://id.parliament.uk/QmvfCS3N",
+    "paperName": "Client Money Protection Schemes for Property Agents (Approval and Designation of Schemes) Regulations 2018",
+    "workPackage": "https://id.parliament.uk/tVWVmTCL",
+    "workPackagedThingWebLink": "https://www.legislation.gov.uk/ukdsi/2018/9780111169162",
+    "laying": "https://id.parliament.uk/Mcvmer52",
+    "laidDate": "2018-05-03+01:00",
+    "step": "https://id.parliament.uk/cspzmb6w",
+    "procedure": "https://id.parliament.uk/H5YJQsK2",
+    "procedureName": "Draft affirmative"
+   },
+   {
+    "paper": "https://id.parliament.uk/HJ7BlYte",
+    "paperName": "Fire and Rescue Authorities (National Framework) (England) Order 2018",
+    "workPackage": "https://id.parliament.uk/E5XlAFS8",
+    "workPackagedThingWebLink": "https://www.legislation.gov.uk/uksi/2018/560/made",
+    "laying": "https://id.parliament.uk/p064wsz5",
+    "laidDate": "2018-05-08+01:00",
+    "step": "https://id.parliament.uk/cspzmb6w",
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "calculationStyle": "https://id.parliament.uk/FPPYJ9iv",
+    "calculationStyleName": "Bicameral instruments (clock stops if both Houses rise)"
+   },
+   {
+    "paper": "https://id.parliament.uk/keUmDe6y",
+    "paperName": "Special Restrictions on Adoptions from Abroad (Ethiopia) Order 2018",
+    "workPackage": "https://id.parliament.uk/e8079KjV",
+    "workPackagedThingWebLink": "https://www.legislation.gov.uk/uksi/2018/517/made",
+    "laying": "https://id.parliament.uk/qaT30ffk",
+    "laidDate": "2018-04-27+01:00",
+    "step": "https://id.parliament.uk/cspzmb6w",
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "calculationStyle": "https://id.parliament.uk/FPPYJ9iv",
+    "calculationStyleName": "Bicameral instruments (clock stops if both Houses rise)"
+   },
+   {
+    "paper": "https://id.parliament.uk/R63aWjPi",
+    "paperName": "Town and Country Planning (Pre-commencement Conditions) Regulations 2018",
+    "workPackage": "https://id.parliament.uk/lon9Uu05",
+    "workPackagedThingWebLink": "https://www.legislation.gov.uk/uksi/2018/566/made",
+    "laying": "https://id.parliament.uk/NPExPXay",
+    "laidDate": "2018-05-08+01:00",
+    "step": "https://id.parliament.uk/cspzmb6w",
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "calculationStyle": "https://id.parliament.uk/FPPYJ9iv",
+    "calculationStyleName": "Bicameral instruments (clock stops if both Houses rise)"
+   },
+   {
+    "paper": "https://id.parliament.uk/xic2yu5i",
+    "paperName": "Civil Enforcement of Traffic Contraventions (Consequential Amendments) (England) Regulations 2018",
+    "workPackage": "https://id.parliament.uk/EgDK23iB",
+    "workPackagedThingWebLink": "https://www.legislation.gov.uk/uksi/2018/488/made",
+    "laying": "https://id.parliament.uk/c240s9cD",
+    "laidDate": "2018-04-20+01:00",
+    "step": "https://id.parliament.uk/cspzmb6w",
+    "procedure": "https://id.parliament.uk/5S6p4YsP",
+    "procedureName": "Made negative",
+    "calculationStyle": "https://id.parliament.uk/FPPYJ9iv",
+    "calculationStyleName": "Bicameral instruments (clock stops if both Houses rise)"
+   }
+  ],
+  "n": 5,
+  "description": "A :WorkPackage bundles everything about one instrument’s passage: the laid :Paper, the :WorkPackagedThing it concerns (with a legislation.gov.uk web link), the :Laying event and its business items. Rows are real SIs — Client Money Protection Schemes…, Fire and Rescue Authorities (National Framework)…, Town and Country Planning (Pre-commencement…) — each linking out to its text on legislation.gov.uk.",
+  "touches": {
+   "classes": [
+    "WorkPackagedThing"
+   ],
+   "preds": [
+    "businessItemHasProcedureStep",
+    "laidThingHasLaying",
+    "layingDate",
+    "name",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage",
+    "workPackagedThingHasWorkPackagedThingWebLink"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ },
+ "step_procedures": {
+  "kind": "query",
+  "title": "Which procedures a step belongs to",
+  "query": "PREFIX id: <https://id.parliament.uk/>\nPREFIX : <https://id.parliament.uk/schema/>\nPREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\n\nSELECT DISTINCT ?step ?stepName ?procedure ?procedureLabel ?procedureDescription WHERE {\n  ?step a :ProcedureStep;\n  :name ?stepName.\n\n  {\n    ?step :procedureStepIsFromProcedureRoute ?procedureRoute.\n  } UNION {\n    ?step :procedureStepIsToProcedureRoute ?procedureRoute.\n  }\n\n  ?procedureRoute :procedureRouteHasProcedure ?procedure.\n  ?procedure :name ?procedureLabel.\n  OPTIONAL { ?procedure :procedureDescription ?procedureDescription. }\n}\nORDER BY ?procedureDisplayOrder ?procedureName\nLIMIT 5",
+  "vars": [
+   "step",
+   "stepName",
+   "procedure",
+   "procedureLabel",
+   "procedureDescription"
+  ],
+  "rows": [
+   {
+    "step": "https://id.parliament.uk/qC8ioE5h",
+    "stepName": "ALM AG",
+    "procedure": "https://id.parliament.uk/1HAWKzS2",
+    "procedureLabel": "Draft affirmative remedial order",
+    "procedureDescription": "A remedial order is an order made by a minister under the Human Rights Act 1998 to amend legislation which has been found incompatible with the European Convention on Human Rights. Remedial orders can be used to amend both primary and secondary legislation, and they may do anything necessary to fix the incompatibility with the Convention rights.  Draft remedial orders are considered by the Joint Committee on Human Rights and then need to be approved by both Houses to become law."
+   },
+   {
+    "step": "https://id.parliament.uk/sLFpr8De",
+    "stepName": "ALM AI",
+    "procedure": "https://id.parliament.uk/1HAWKzS2",
+    "procedureLabel": "Draft affirmative remedial order",
+    "procedureDescription": "A remedial order is an order made by a minister under the Human Rights Act 1998 to amend legislation which has been found incompatible with the European Convention on Human Rights. Remedial orders can be used to amend both primary and secondary legislation, and they may do anything necessary to fix the incompatibility with the Convention rights.  Draft remedial orders are considered by the Joint Committee on Human Rights and then need to be approved by both Houses to become law."
+   },
+   {
+    "step": "https://id.parliament.uk/6ItISviC",
+    "stepName": "EVEL CERT AD",
+    "procedure": "https://id.parliament.uk/1HAWKzS2",
+    "procedureLabel": "Draft affirmative remedial order",
+    "procedureDescription": "A remedial order is an order made by a minister under the Human Rights Act 1998 to amend legislation which has been found incompatible with the European Convention on Human Rights. Remedial orders can be used to amend both primary and secondary legislation, and they may do anything necessary to fix the incompatibility with the Convention rights.  Draft remedial orders are considered by the Joint Committee on Human Rights and then need to be approved by both Houses to become law."
+   },
+   {
+    "step": "https://id.parliament.uk/ikMtWvXF",
+    "stepName": "EVEL CERT AA",
+    "procedure": "https://id.parliament.uk/1HAWKzS2",
+    "procedureLabel": "Draft affirmative remedial order",
+    "procedureDescription": "A remedial order is an order made by a minister under the Human Rights Act 1998 to amend legislation which has been found incompatible with the European Convention on Human Rights. Remedial orders can be used to amend both primary and secondary legislation, and they may do anything necessary to fix the incompatibility with the Convention rights.  Draft remedial orders are considered by the Joint Committee on Human Rights and then need to be approved by both Houses to become law."
+   },
+   {
+    "step": "https://id.parliament.uk/L7rN85N7",
+    "stepName": "DARO AF",
+    "procedure": "https://id.parliament.uk/1HAWKzS2",
+    "procedureLabel": "Draft affirmative remedial order",
+    "procedureDescription": "A remedial order is an order made by a minister under the Human Rights Act 1998 to amend legislation which has been found incompatible with the European Convention on Human Rights. Remedial orders can be used to amend both primary and secondary legislation, and they may do anything necessary to fix the incompatibility with the Convention rights.  Draft remedial orders are considered by the Joint Committee on Human Rights and then need to be approved by both Houses to become law."
+   }
+  ],
+  "n": 5,
+  "description": "The inverse view: given a :ProcedureStep, which :Procedures use it. The rows show steps (ALM AG, EVEL CERT AD, DARO AF) all belonging to the Draft affirmative remedial order procedure (“A remedial order is an order made by a minister…”). Steps are reused across procedures, so this mapping is many-to-many.",
+  "touches": {
+   "classes": [
+    "ProcedureStep"
+   ],
+   "preds": [
+    "name",
+    "procedureDescription",
+    "procedureRouteHasProcedure",
+    "procedureStepIsFromProcedureRoute",
+    "procedureStepIsToProcedureRoute"
+   ]
+  },
+  "endpoint": "https://api.parliament.uk/sparql"
+ }
+}
