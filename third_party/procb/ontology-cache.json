@@ -1,0 +1,1224 @@
+{
+ "dr": [
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentName",
+   "d": "https://id.parliament.uk/schema/ActOfParliament",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentNumber",
+   "d": "https://id.parliament.uk/schema/ActOfParliament",
+   "r": "http://www.w3.org/2001/XMLSchema#integer"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentRoyalAssentDate",
+   "d": "https://id.parliament.uk/schema/ActOfParliament",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentUrl",
+   "d": "https://id.parliament.uk/schema/ActOfParliament",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentYear",
+   "d": "https://id.parliament.uk/schema/ActOfParliament",
+   "r": "http://www.w3.org/2001/XMLSchema#gYear"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemDate",
+   "d": "https://id.parliament.uk/schema/TemporalThing",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemDate",
+   "d": "https://id.parliament.uk/schema/BusinessItem",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemHasBusinessItemWebLink",
+   "d": "https://id.parliament.uk/schema/WebLinkedThing",
+   "r": "https://id.parliament.uk/schema/WebLink"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemHasBusinessItemWebLink",
+   "d": "https://id.parliament.uk/schema/WebLinkedThing",
+   "r": "https://id.parliament.uk/schema/BusinessItemWebLink"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemHasBusinessItemWebLink",
+   "d": "https://id.parliament.uk/schema/BusinessItem",
+   "r": "https://id.parliament.uk/schema/WebLink"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemHasBusinessItemWebLink",
+   "d": "https://id.parliament.uk/schema/BusinessItem",
+   "r": "https://id.parliament.uk/schema/BusinessItemWebLink"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemHasProcedureStep",
+   "d": "https://id.parliament.uk/schema/BusinessItem",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemHasWorkPackage",
+   "d": "https://id.parliament.uk/schema/BusinessItem",
+   "r": "https://id.parliament.uk/schema/WorkPackage"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/calculationStyleEggTimerId",
+   "d": "https://id.parliament.uk/schema/CalculationStyle",
+   "r": "http://www.w3.org/2001/XMLSchema#integer"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/calculationStyleHasProcedure",
+   "d": "https://id.parliament.uk/schema/CalculationStyle",
+   "r": "https://id.parliament.uk/schema/Procedure"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/calculationStyleHasWorkPackage",
+   "d": "https://id.parliament.uk/schema/CalculationStyle",
+   "r": "https://id.parliament.uk/schema/WorkPackage"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockDayCount",
+   "d": "https://id.parliament.uk/schema/Clock",
+   "r": "http://www.w3.org/2001/XMLSchema#integer"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockFormsPartOfProcedure",
+   "d": "https://id.parliament.uk/schema/Clock",
+   "r": "https://id.parliament.uk/schema/Procedure"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockHasEndProcedureStep",
+   "d": "https://id.parliament.uk/schema/Clock",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockHasStartProcedureStep",
+   "d": "https://id.parliament.uk/schema/Clock",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockLabel",
+   "d": "http://www.w3.org/2000/01/rdf-schema#Resource",
+   "r": "http://www.w3.org/2000/01/rdf-schema#Literal"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockLabel",
+   "d": "http://www.w3.org/2000/01/rdf-schema#Resource",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockLabel",
+   "d": "https://id.parliament.uk/schema/NamedThing",
+   "r": "http://www.w3.org/2000/01/rdf-schema#Literal"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockLabel",
+   "d": "https://id.parliament.uk/schema/NamedThing",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockLabel",
+   "d": "https://id.parliament.uk/schema/Clock",
+   "r": "http://www.w3.org/2000/01/rdf-schema#Literal"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockLabel",
+   "d": "https://id.parliament.uk/schema/Clock",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/date",
+   "d": "https://id.parliament.uk/schema/TemporalThing",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/enabledBy",
+   "d": "https://id.parliament.uk/schema/EnabledThing",
+   "r": "https://id.parliament.uk/schema/EnablingThing"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/enabling",
+   "d": "https://id.parliament.uk/schema/EnablingThing",
+   "r": "https://id.parliament.uk/schema/EnabledThing"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/endDate",
+   "d": "https://id.parliament.uk/schema/TemporalThing",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/endDate",
+   "d": "https://id.parliament.uk/schema/PastThing",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/endProcedureStepOfClock",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/Clock"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/followedBy",
+   "d": "https://id.parliament.uk/schema/EnabledThing",
+   "r": "https://id.parliament.uk/schema/EnabledThing"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/houseHasProcedureStep",
+   "d": "https://id.parliament.uk/schema/House",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/houseHasProcedureStepCollection",
+   "d": "https://id.parliament.uk/schema/House",
+   "r": "https://id.parliament.uk/schema/ProcedureStepCollection"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/houseInLegislature",
+   "d": "https://id.parliament.uk/schema/House",
+   "r": "https://id.parliament.uk/schema/Legislature"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/laidThingHasLaying",
+   "d": "https://id.parliament.uk/schema/LaidThing",
+   "r": "https://id.parliament.uk/schema/Laying"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/layingBodyHasLaying",
+   "d": "https://id.parliament.uk/schema/LayingBody",
+   "r": "https://id.parliament.uk/schema/Laying"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/layingDate",
+   "d": "https://id.parliament.uk/schema/TemporalThing",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/layingDate",
+   "d": "https://id.parliament.uk/schema/BusinessItem",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/layingDate",
+   "d": "https://id.parliament.uk/schema/Laying",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/layingHasLaidThing",
+   "d": "https://id.parliament.uk/schema/Laying",
+   "r": "https://id.parliament.uk/schema/LaidThing"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/leadGovernmentOrganisationHasTreaty",
+   "d": "https://id.parliament.uk/schema/GovernmentOrganisation",
+   "r": "https://id.parliament.uk/schema/Treaty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/legislatureHasHouse",
+   "d": "https://id.parliament.uk/schema/Legislature",
+   "r": "https://id.parliament.uk/schema/House"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/legislatureHasProcedureStep",
+   "d": "https://id.parliament.uk/schema/Legislature",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/name",
+   "d": "http://www.w3.org/2000/01/rdf-schema#Resource",
+   "r": "http://www.w3.org/2000/01/rdf-schema#Literal"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/name",
+   "d": "http://www.w3.org/2000/01/rdf-schema#Resource",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/name",
+   "d": "https://id.parliament.uk/schema/NamedThing",
+   "r": "http://www.w3.org/2000/01/rdf-schema#Literal"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/name",
+   "d": "https://id.parliament.uk/schema/NamedThing",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/precededBy",
+   "d": "https://id.parliament.uk/schema/EnabledThing",
+   "r": "https://id.parliament.uk/schema/EnabledThing"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureDescription",
+   "d": "https://id.parliament.uk/schema/Procedure",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureDisplayOrder",
+   "d": "https://id.parliament.uk/schema/Procedure",
+   "r": "http://www.w3.org/2001/XMLSchema#integer"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasCalculationStyle",
+   "d": "https://id.parliament.uk/schema/Procedure",
+   "r": "https://id.parliament.uk/schema/CalculationStyle"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasClock",
+   "d": "https://id.parliament.uk/schema/Procedure",
+   "r": "https://id.parliament.uk/schema/Clock"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasProcedureRoute",
+   "d": "https://id.parliament.uk/schema/Procedure",
+   "r": "https://id.parliament.uk/schema/ProcedureRoute"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasProcedureStepCollection",
+   "d": "https://id.parliament.uk/schema/Procedure",
+   "r": "https://id.parliament.uk/schema/ProcedureStepCollection"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasStepDisplayDepthInProcedure",
+   "d": "https://id.parliament.uk/schema/Procedure",
+   "r": "https://id.parliament.uk/schema/StepDisplayDepthInProcedure"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasWorkPackage",
+   "d": "https://id.parliament.uk/schema/Procedure",
+   "r": "https://id.parliament.uk/schema/WorkPackage"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteEndDate",
+   "d": "https://id.parliament.uk/schema/TemporalThing",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteEndDate",
+   "d": "https://id.parliament.uk/schema/PastThing",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteEndDate",
+   "d": "https://id.parliament.uk/schema/ProcedureRoute",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteHasProcedure",
+   "d": "https://id.parliament.uk/schema/ProcedureRoute",
+   "r": "https://id.parliament.uk/schema/Procedure"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteIsFromProcedureStep",
+   "d": "https://id.parliament.uk/schema/ProcedureRoute",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteIsToProcedureStep",
+   "d": "https://id.parliament.uk/schema/ProcedureRoute",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionHasHouse",
+   "d": "https://id.parliament.uk/schema/ProcedureStepCollection",
+   "r": "https://id.parliament.uk/schema/House"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionHasProcedure",
+   "d": "https://id.parliament.uk/schema/ProcedureStepCollection",
+   "r": "https://id.parliament.uk/schema/Procedure"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionHasProcedureStepCollectionMembership",
+   "d": "https://id.parliament.uk/schema/ProcedureStepCollection",
+   "r": "https://id.parliament.uk/schema/ProcedureStepCollectionMembership"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionMembershipHasProcedureStep",
+   "d": "https://id.parliament.uk/schema/ProcedureStepCollectionMembership",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionMembershipHasProcedureStepCollection",
+   "d": "https://id.parliament.uk/schema/ProcedureStepCollectionMembership",
+   "r": "https://id.parliament.uk/schema/ProcedureStepCollection"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepDateNote"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepDescription",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasBusinessItem",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/BusinessItem"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasHouse",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/House"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasProcedureStepCollectionMembership",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/ProcedureStepCollectionMembership"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasProcedureStepPublication"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasProcedureStepType",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/ProcedureStepType"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasStepDisplayDepthInProcedure",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/StepDisplayDepthInProcedure"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepInLegislature",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/Legislature"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepIsFromProcedureRoute",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/ProcedureRoute"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepIsToProcedureRoute",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/ProcedureRoute"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepLinkNote"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepPublicationName"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepPublicationUrl"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepScopeNote"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepTypeDescription",
+   "d": "https://id.parliament.uk/schema/ProcedureStepType",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepTypeHasProcedureStep",
+   "d": "https://id.parliament.uk/schema/ProcedureStepType",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/seriesItemCitation",
+   "d": "https://id.parliament.uk/schema/SeriesMembership",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/startDate",
+   "d": "https://id.parliament.uk/schema/TemporalThing",
+   "r": "http://www.w3.org/2001/XMLSchema#date"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/startProcedureStepOfClock",
+   "d": "https://id.parliament.uk/schema/ProcedureStep",
+   "r": "https://id.parliament.uk/schema/Clock"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/statutoryInstrumentPaperNumber",
+   "d": "https://id.parliament.uk/schema/StatutoryInstrumentPaper",
+   "r": "http://www.w3.org/2001/XMLSchema#integer"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/statutoryInstrumentPaperPrefix",
+   "d": "https://id.parliament.uk/schema/StatutoryInstrumentPaper",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/statutoryInstrumentPaperYear",
+   "d": "https://id.parliament.uk/schema/StatutoryInstrumentPaper",
+   "r": "http://www.w3.org/2001/XMLSchema#gYear"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/stepDisplayDepthInProcedureHasDepth",
+   "d": "https://id.parliament.uk/schema/StepDisplayDepthInProcedure",
+   "r": "http://www.w3.org/2001/XMLSchema#decimal"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/stepDisplayDepthInProcedureHasProcedure",
+   "d": "https://id.parliament.uk/schema/StepDisplayDepthInProcedure",
+   "r": "https://id.parliament.uk/schema/Procedure"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/stepDisplayDepthInProcedureHasProcedureStep",
+   "d": "https://id.parliament.uk/schema/StepDisplayDepthInProcedure",
+   "r": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyCommandPaperNumber",
+   "d": "https://id.parliament.uk/schema/Treaty",
+   "r": "http://www.w3.org/2001/XMLSchema#integer"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyCommandPaperPrefix",
+   "d": "https://id.parliament.uk/schema/Treaty",
+   "r": "http://www.w3.org/2001/XMLSchema#string"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyHasCountrySeriesMembership",
+   "d": "https://id.parliament.uk/schema/Treaty",
+   "r": "https://id.parliament.uk/schema/SeriesMembership"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyHasCountrySeriesMembership",
+   "d": "https://id.parliament.uk/schema/Treaty",
+   "r": "https://id.parliament.uk/schema/CountrySeriesMembership"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyHasEuropeanUnionSeriesMembership",
+   "d": "https://id.parliament.uk/schema/Treaty",
+   "r": "https://id.parliament.uk/schema/SeriesMembership"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyHasEuropeanUnionSeriesMembership",
+   "d": "https://id.parliament.uk/schema/Treaty",
+   "r": "https://id.parliament.uk/schema/EuropeanUnionSeriesMembership"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyHasMiscellaneousSeriesMembership",
+   "d": "https://id.parliament.uk/schema/Treaty",
+   "r": "https://id.parliament.uk/schema/SeriesMembership"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyHasMiscellaneousSeriesMembership",
+   "d": "https://id.parliament.uk/schema/Treaty",
+   "r": "https://id.parliament.uk/schema/MiscellaneousSeriesMembership"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackageHasBusinessItem",
+   "d": "https://id.parliament.uk/schema/WorkPackage",
+   "r": "https://id.parliament.uk/schema/BusinessItem"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackageHasCalculationStyle",
+   "d": "https://id.parliament.uk/schema/WorkPackage",
+   "r": "https://id.parliament.uk/schema/CalculationStyle"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackageHasProcedure",
+   "d": "https://id.parliament.uk/schema/WorkPackage",
+   "r": "https://id.parliament.uk/schema/Procedure"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackageHasWorkPackagedThing",
+   "d": "https://id.parliament.uk/schema/WorkPackage",
+   "r": "https://id.parliament.uk/schema/WorkPackagedThing"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackagedThingHasWorkPackage",
+   "d": "https://id.parliament.uk/schema/WorkPackagedThing",
+   "r": "https://id.parliament.uk/schema/WorkPackage"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackagedThingHasWorkPackagedThingWebLink",
+   "d": "https://id.parliament.uk/schema/WebLinkedThing",
+   "r": "https://id.parliament.uk/schema/WebLink"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackagedThingHasWorkPackagedThingWebLink",
+   "d": "https://id.parliament.uk/schema/WebLinkedThing",
+   "r": "https://id.parliament.uk/schema/WorkPackagedThingWebLink"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackagedThingHasWorkPackagedThingWebLink",
+   "d": "https://id.parliament.uk/schema/WorkPackagedThing",
+   "r": "https://id.parliament.uk/schema/WebLink"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackagedThingHasWorkPackagedThingWebLink",
+   "d": "https://id.parliament.uk/schema/WorkPackagedThing",
+   "r": "https://id.parliament.uk/schema/WorkPackagedThingWebLink"
+  }
+ ],
+ "types": [
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentName",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentNumber",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentRoyalAssentDate",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentUrl",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/actOfParliamentYear",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemDate",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemHasBusinessItemWebLink",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemHasProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/businessItemHasWorkPackage",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/calculationStyleEggTimerId",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/calculationStyleHasProcedure",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/calculationStyleHasWorkPackage",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockDayCount",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockFormsPartOfProcedure",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockHasEndProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockHasStartProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/clockLabel",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/date",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/enabledBy",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/enabling",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/endDate",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/endProcedureStepOfClock",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/followedBy",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/houseHasProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/houseHasProcedureStepCollection",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/houseInLegislature",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/laidThingHasLaying",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/layingBodyHasLaying",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/layingDate",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/layingHasLaidThing",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/leadGovernmentOrganisationHasTreaty",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/legislatureHasHouse",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/legislatureHasProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/name",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/precededBy",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureDescription",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureDisplayOrder",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasCalculationStyle",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasClock",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasProcedureRoute",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasProcedureStepCollection",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasStepDisplayDepthInProcedure",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureHasWorkPackage",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteEndDate",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteHasProcedure",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteIsFromProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureRouteIsToProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionHasHouse",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionHasProcedure",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionHasProcedureStepCollectionMembership",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionMembershipHasProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepCollectionMembershipHasProcedureStepCollection",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepDescription",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasBusinessItem",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasHouse",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasProcedureStepCollectionMembership",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasProcedureStepType",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepHasStepDisplayDepthInProcedure",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepInLegislature",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepIsFromProcedureRoute",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepIsToProcedureRoute",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepTypeDescription",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/procedureStepTypeHasProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/seriesItemCitation",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/startDate",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/startProcedureStepOfClock",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/statutoryInstrumentPaperNumber",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/statutoryInstrumentPaperPrefix",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/statutoryInstrumentPaperYear",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/stepDisplayDepthInProcedureHasDepth",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/stepDisplayDepthInProcedureHasProcedure",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/stepDisplayDepthInProcedureHasProcedureStep",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyCommandPaperNumber",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyCommandPaperPrefix",
+   "t": "http://www.w3.org/2002/07/owl#DatatypeProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyHasCountrySeriesMembership",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyHasEuropeanUnionSeriesMembership",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/treatyHasMiscellaneousSeriesMembership",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackageHasBusinessItem",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackageHasCalculationStyle",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackageHasProcedure",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackageHasWorkPackagedThing",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackagedThingHasWorkPackage",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  },
+  {
+   "p": "https://id.parliament.uk/schema/workPackagedThingHasWorkPackagedThingWebLink",
+   "t": "http://www.w3.org/2002/07/owl#ObjectProperty"
+  }
+ ],
+ "sub": [
+  {
+   "c": "https://id.parliament.uk/schema/ActOfParliament",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ActOfParliament",
+   "s": "https://id.parliament.uk/schema/ActOfParliament"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ActOfParliament",
+   "s": "https://id.parliament.uk/schema/EnablingThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/BusinessItem",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/BusinessItem",
+   "s": "https://id.parliament.uk/schema/BusinessItem"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/BusinessItemWebLink",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/BusinessItemWebLink",
+   "s": "https://id.parliament.uk/schema/WebLink"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/BusinessItemWebLink",
+   "s": "https://id.parliament.uk/schema/BusinessItemWebLink"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/CalculationStyle",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/CalculationStyle",
+   "s": "https://id.parliament.uk/schema/CalculationStyle"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Clock",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Clock",
+   "s": "https://id.parliament.uk/schema/Clock"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/CountrySeriesMembership",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/CountrySeriesMembership",
+   "s": "https://id.parliament.uk/schema/SeriesMembership"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/CountrySeriesMembership",
+   "s": "https://id.parliament.uk/schema/CountrySeriesMembership"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/EnabledThing",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/EnabledThing",
+   "s": "https://id.parliament.uk/schema/EnabledThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/EnablingThing",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/EnablingThing",
+   "s": "https://id.parliament.uk/schema/EnablingThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/EuropeanUnionSeriesMembership",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/EuropeanUnionSeriesMembership",
+   "s": "https://id.parliament.uk/schema/SeriesMembership"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/EuropeanUnionSeriesMembership",
+   "s": "https://id.parliament.uk/schema/EuropeanUnionSeriesMembership"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/GovernmentOrganisation",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/GovernmentOrganisation",
+   "s": "https://id.parliament.uk/schema/Group"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/GovernmentOrganisation",
+   "s": "https://id.parliament.uk/schema/GovernmentOrganisation"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/House",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/House",
+   "s": "https://id.parliament.uk/schema/House"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/LaidThing",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/LaidThing",
+   "s": "https://id.parliament.uk/schema/WorkPackagedThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/LaidThing",
+   "s": "https://id.parliament.uk/schema/LaidThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Laying",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Laying",
+   "s": "https://id.parliament.uk/schema/BusinessItem"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Laying",
+   "s": "https://id.parliament.uk/schema/Laying"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/LayingBody",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/LayingBody",
+   "s": "https://id.parliament.uk/schema/Group"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/LayingBody",
+   "s": "https://id.parliament.uk/schema/LayingBody"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Legislature",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Legislature",
+   "s": "https://id.parliament.uk/schema/Legislature"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/MiscellaneousSeriesMembership",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/MiscellaneousSeriesMembership",
+   "s": "https://id.parliament.uk/schema/SeriesMembership"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/MiscellaneousSeriesMembership",
+   "s": "https://id.parliament.uk/schema/MiscellaneousSeriesMembership"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/NamedThing",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/NamedThing",
+   "s": "https://id.parliament.uk/schema/NamedThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/PastThing",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/PastThing",
+   "s": "https://id.parliament.uk/schema/TemporalThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/PastThing",
+   "s": "https://id.parliament.uk/schema/PastThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Procedure",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Procedure",
+   "s": "https://id.parliament.uk/schema/Procedure"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureRoute",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureRoute",
+   "s": "https://id.parliament.uk/schema/ProcedureRoute"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureStep",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureStep",
+   "s": "https://id.parliament.uk/schema/ProcedureStep"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureStepCollection",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureStepCollection",
+   "s": "https://id.parliament.uk/schema/ProcedureStepCollection"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureStepCollectionMembership",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureStepCollectionMembership",
+   "s": "https://id.parliament.uk/schema/ProcedureStepCollectionMembership"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureStepType",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/ProcedureStepType",
+   "s": "https://id.parliament.uk/schema/ProcedureStepType"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/SeriesMembership",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/SeriesMembership",
+   "s": "https://id.parliament.uk/schema/SeriesMembership"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/StatutoryInstrumentPaper",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/StatutoryInstrumentPaper",
+   "s": "https://id.parliament.uk/schema/WorkPackagedThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/StatutoryInstrumentPaper",
+   "s": "https://id.parliament.uk/schema/LaidThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/StatutoryInstrumentPaper",
+   "s": "https://id.parliament.uk/schema/StatutoryInstrumentPaper"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/StatutoryInstrumentPaper",
+   "s": "https://id.parliament.uk/schema/EnabledThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/StepDisplayDepthInProcedure",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/StepDisplayDepthInProcedure",
+   "s": "https://id.parliament.uk/schema/StepDisplayDepthInProcedure"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/TemporalThing",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/TemporalThing",
+   "s": "https://id.parliament.uk/schema/TemporalThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Treaty",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Treaty",
+   "s": "https://id.parliament.uk/schema/WorkPackagedThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Treaty",
+   "s": "https://id.parliament.uk/schema/LaidThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/Treaty",
+   "s": "https://id.parliament.uk/schema/Treaty"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WebLink",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WebLink",
+   "s": "https://id.parliament.uk/schema/WebLink"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WebLinkedThing",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WebLinkedThing",
+   "s": "https://id.parliament.uk/schema/WebLinkedThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WorkPackage",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WorkPackage",
+   "s": "https://id.parliament.uk/schema/WorkPackage"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WorkPackagedThing",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WorkPackagedThing",
+   "s": "https://id.parliament.uk/schema/WorkPackagedThing"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WorkPackagedThingWebLink",
+   "s": "http://www.w3.org/2000/01/rdf-schema#Resource"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WorkPackagedThingWebLink",
+   "s": "https://id.parliament.uk/schema/WebLink"
+  },
+  {
+   "c": "https://id.parliament.uk/schema/WorkPackagedThingWebLink",
+   "s": "https://id.parliament.uk/schema/WorkPackagedThingWebLink"
+  }
+ ]
+}

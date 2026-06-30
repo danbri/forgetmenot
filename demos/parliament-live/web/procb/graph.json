@@ -33,7 +33,7 @@
   {
    "id": "Clock",
    "label": "Clock",
-   "weight": 9,
+   "weight": 14,
    "example": "108vm6eI"
   },
   {
@@ -43,27 +43,15 @@
    "example": ""
   },
   {
-   "id": "Depth",
-   "label": "Depth",
-   "weight": 6,
-   "example": ""
-  },
-  {
    "id": "EnabledThing",
    "label": "EnabledThing",
-   "weight": 1,
+   "weight": 17,
    "example": ""
   },
   {
    "id": "EnablingThing",
    "label": "EnablingThing",
-   "weight": 1,
-   "example": ""
-  },
-  {
-   "id": "EndProcedureStep",
-   "label": "EndProcedureStep",
-   "weight": 4,
+   "weight": 13,
    "example": ""
   },
   {
@@ -75,7 +63,7 @@
   {
    "id": "GovernmentOrganisation",
    "label": "GovernmentOrganisation",
-   "weight": 1,
+   "weight": 8,
    "example": "HYfypSOE"
   },
   {
@@ -93,7 +81,13 @@
   {
    "id": "Laying",
    "label": "Laying",
-   "weight": 9,
+   "weight": 15,
+   "example": ""
+  },
+  {
+   "id": "LayingBody",
+   "label": "LayingBody",
+   "weight": 6,
    "example": ""
   },
   {
@@ -109,9 +103,21 @@
    "example": ""
   },
   {
+   "id": "NamedThing",
+   "label": "NamedThing",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "PastThing",
+   "label": "PastThing",
+   "weight": 1,
+   "example": ""
+  },
+  {
    "id": "Procedure",
    "label": "Procedure",
-   "weight": 95,
+   "weight": 98,
    "example": "5S6p4YsP"
   },
   {
@@ -123,7 +129,7 @@
   {
    "id": "ProcedureStep",
    "label": "ProcedureStep",
-   "weight": 409,
+   "weight": 418,
    "example": "9ouoghbQ"
   },
   {
@@ -139,12 +145,6 @@
    "example": ""
   },
   {
-   "id": "ProcedureStepPublication",
-   "label": "ProcedureStepPublication",
-   "weight": 1,
-   "example": ""
-  },
-  {
    "id": "ProcedureStepType",
    "label": "ProcedureStepType",
    "weight": 30,
@@ -157,21 +157,39 @@
    "example": ""
   },
   {
-   "id": "StartProcedureStep",
-   "label": "StartProcedureStep",
-   "weight": 4,
+   "id": "SeriesMembership",
+   "label": "SeriesMembership",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "StatutoryInstrumentPaper",
+   "label": "StatutoryInstrumentPaper",
+   "weight": 1,
    "example": ""
   },
   {
    "id": "StepDisplayDepthInProcedure",
    "label": "StepDisplayDepthInProcedure",
-   "weight": 18,
+   "weight": 12,
+   "example": ""
+  },
+  {
+   "id": "TemporalThing",
+   "label": "TemporalThing",
+   "weight": 1,
    "example": ""
   },
   {
    "id": "Treaty",
    "label": "Treaty",
-   "weight": 24,
+   "weight": 32,
+   "example": ""
+  },
+  {
+   "id": "WebLinkedThing",
+   "label": "WebLinkedThing",
+   "weight": 4,
    "example": ""
   },
   {
@@ -183,7 +201,7 @@
   {
    "id": "WorkPackagedThing",
    "label": "WorkPackagedThing",
-   "weight": 79,
+   "weight": 75,
    "example": "QmvfCS3N"
   },
   {
@@ -226,15 +244,45 @@
   },
   {
    "source": "Clock",
-   "target": "EndProcedureStep",
+   "target": "Procedure",
+   "label": "clockFormsPartOfProcedure",
+   "count": 3
+  },
+  {
+   "source": "Clock",
+   "target": "ProcedureStep",
    "label": "clockHasEndProcedureStep",
    "count": 4
   },
   {
    "source": "Clock",
-   "target": "StartProcedureStep",
+   "target": "ProcedureStep",
    "label": "clockHasStartProcedureStep",
    "count": 4
+  },
+  {
+   "source": "EnabledThing",
+   "target": "EnablingThing",
+   "label": "enabledBy",
+   "count": 1
+  },
+  {
+   "source": "EnablingThing",
+   "target": "EnabledThing",
+   "label": "enabling",
+   "count": 12
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "Clock",
+   "label": "endProcedureStepOfClock",
+   "count": 1
+  },
+  {
+   "source": "EnabledThing",
+   "target": "EnabledThing",
+   "label": "followedBy",
+   "count": 1
   },
   {
    "source": "House",
@@ -261,10 +309,22 @@
    "count": 3
   },
   {
+   "source": "LayingBody",
+   "target": "Laying",
+   "label": "layingBodyHasLaying",
+   "count": 6
+  },
+  {
    "source": "Laying",
    "target": "LaidThing",
    "label": "layingHasLaidThing",
    "count": 6
+  },
+  {
+   "source": "GovernmentOrganisation",
+   "target": "Treaty",
+   "label": "leadGovernmentOrganisationHasTreaty",
+   "count": 8
   },
   {
    "source": "Legislature",
@@ -276,6 +336,12 @@
    "source": "Legislature",
    "target": "ProcedureStep",
    "label": "legislatureHasProcedureStep",
+   "count": 1
+  },
+  {
+   "source": "EnabledThing",
+   "target": "EnabledThing",
+   "label": "precededBy",
    "count": 1
   },
   {
@@ -382,12 +448,6 @@
   },
   {
    "source": "ProcedureStep",
-   "target": "ProcedureStepPublication",
-   "label": "procedureStepHasProcedureStepPublication",
-   "count": 1
-  },
-  {
-   "source": "ProcedureStep",
    "target": "ProcedureStepType",
    "label": "procedureStepHasProcedureStepType",
    "count": 29
@@ -423,10 +483,10 @@
    "count": 1
   },
   {
-   "source": "StepDisplayDepthInProcedure",
-   "target": "Depth",
-   "label": "stepDisplayDepthInProcedureHasDepth",
-   "count": 6
+   "source": "ProcedureStep",
+   "target": "Clock",
+   "label": "startProcedureStepOfClock",
+   "count": 1
   },
   {
    "source": "StepDisplayDepthInProcedure",
@@ -489,16 +549,13 @@
    "count": 50
   },
   {
-   "source": "WorkPackagedThing",
+   "source": "WebLinkedThing",
    "target": "WorkPackagedThingWebLink",
    "label": "workPackagedThingHasWorkPackagedThingWebLink",
    "count": 4
   }
  ],
  "dataProps": {
-  "BusinessItem": [
-   "businessItemDate"
-  ],
   "ActOfParliament": [
    "actOfParliamentName",
    "actOfParliamentNumber",
@@ -506,47 +563,54 @@
    "actOfParliamentUrl",
    "actOfParliamentYear"
   ],
+  "BusinessItem": [
+   "businessItemDate"
+  ],
+  "CalculationStyle": [
+   "calculationStyleEggTimerId"
+  ],
+  "Clock": [
+   "clockDayCount",
+   "clockLabel"
+  ],
+  "TemporalThing": [
+   "date",
+   "startDate"
+  ],
+  "PastThing": [
+   "endDate",
+   "procedureRouteEndDate"
+  ],
   "Laying": [
-   "layingBodyHasLaying",
    "layingDate"
+  ],
+  "NamedThing": [
+   "name"
   ],
   "Procedure": [
    "procedureDescription",
    "procedureDisplayOrder"
   ],
-  "StartProcedureStep": [
-   "startProcedureStepOfClock"
-  ],
-  "EndProcedureStep": [
-   "endProcedureStepOfClock"
-  ],
-  "Clock": [
-   "clockDayCount",
-   "clockFormsPartOfProcedure",
-   "clockLabel"
-  ],
-  "ProcedureRoute": [
-   "procedureRouteEndDate"
-  ],
-  "Treaty": [
-   "treatyCommandPaperNumber",
-   "treatyCommandPaperPrefix"
-  ],
   "ProcedureStep": [
-   "procedureStepDateNote",
-   "procedureStepDescription",
-   "procedureStepLinkNote",
-   "procedureStepScopeNote"
-  ],
-  "ProcedureStepPublication": [
-   "procedureStepPublicationName",
-   "procedureStepPublicationUrl"
+   "procedureStepDescription"
   ],
   "ProcedureStepType": [
    "procedureStepTypeDescription"
   ],
-  "CalculationStyle": [
-   "calculationStyleEggTimerId"
+  "SeriesMembership": [
+   "seriesItemCitation"
+  ],
+  "StatutoryInstrumentPaper": [
+   "statutoryInstrumentPaperNumber",
+   "statutoryInstrumentPaperPrefix",
+   "statutoryInstrumentPaperYear"
+  ],
+  "StepDisplayDepthInProcedure": [
+   "stepDisplayDepthInProcedureHasDepth"
+  ],
+  "Treaty": [
+   "treatyCommandPaperNumber",
+   "treatyCommandPaperPrefix"
   ]
  }
 }

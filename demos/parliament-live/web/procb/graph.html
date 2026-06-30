@@ -36,7 +36,14 @@
  .ctrl .btns{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
  .ctrl .chk{font-size:12px;display:flex;align-items:center;gap:5px;margin-top:6px;color:var(--ink);cursor:pointer}
  .legend{position:absolute;left:10px;bottom:10px;background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:6px 9px;font-size:11.5px;color:var(--soft);max-width:300px}
- @media (max-width:560px){ .ctrl{width:170px} .panel{max-height:38vh} }
+ .hidden{display:none!important}
+ .x{position:absolute;top:6px;right:8px;cursor:pointer;border:0;background:none;color:var(--soft);font-size:18px;line-height:1;margin:0;padding:2px 4px}
+ .x:hover{color:var(--ink)}
+ #toolbar{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:6px;z-index:6;
+   background:var(--panel);backdrop-filter:blur(6px);border:1px solid var(--rule);border-radius:999px;padding:5px 7px;box-shadow:0 2px 12px #0002}
+ #toolbar button{margin:0;background:#fff;color:var(--soft);border:1px solid var(--rule);border-radius:999px;padding:6px 12px;font-size:12.5px}
+ #toolbar button[aria-pressed=true]{background:var(--accent);color:#fff;border-color:var(--accent)}
+ @media (max-width:560px){ .ctrl{width:170px} .panel{max-height:38vh} .legend{display:none} }
 </style></head><body>
 <svg id="svg"><defs>
  <marker id="arrow" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9c3b5"/></marker>
@@ -44,6 +51,7 @@
 </defs></svg>
 
 <div class="panel" id="panel">
+ <button class="x" data-hide="panel" title="hide info">&times;</button>
  <nav><a href="/procb/runner.html">&larr; query runner</a> &middot; <a href="/kgx/">kgx</a></nav>
  <h1>procedure-browser ontology <span class="badge">mined &middot; unreviewed</span></h1>
  <p class="sub">The data model <b>recovered from the 130 SPARQL queries</b>. Classes = nodes,
@@ -52,7 +60,8 @@
  <div id="detail"><p class="sub">Click a class node. Hover/click shows its edge labels.</p></div>
 </div>
 
-<div class="ctrl">
+<div class="ctrl" id="ctrl">
+ <button class="x" data-hide="ctrl" title="hide controls">&times;</button>
  <h3>Layout</h3>
  <label>Repulsion <span id="rv"></span></label><input type="range" id="rep" min="200" max="6000" step="100">
  <label>Link length <span id="lv"></span></label><input type="range" id="ld" min="40" max="320" step="10">
@@ -60,7 +69,14 @@
  <label class="chk"><input type="checkbox" id="showall"> <span>show all classes (+<span id="nsat"></span> satellites)</span></label>
  <label class="chk"><input type="checkbox" id="alllabels"> <span>always show edge labels</span></label>
 </div>
-<div class="legend">Node size = corpus usage. Colour = class (stable hue). Default view = the connected core; the satellites are classes the queries never link by an object property.</div>
+<div class="legend" id="legend"><button class="x" data-hide="legend" title="hide legend">&times;</button>
+ Node size = corpus usage. Colour = class (stable hue). Default view = the connected core; the satellites are classes the queries never link by an object property.</div>
+
+<div id="toolbar">
+ <button data-panel="panel" aria-pressed="true">&#9432; info</button>
+ <button data-panel="ctrl" aria-pressed="true">&#9881; layout</button>
+ <button data-panel="legend" aria-pressed="true">&#9776; legend</button>
+</div>
 
 <script src="sparql-core.js"></script>
 <script>
@@ -211,5 +227,11 @@ async function describe(localId){
   $("dout").innerHTML="<table>"+rows.map(b=>`<tr><td>${sh(b.p.value)}</td><td>${b.o.type==="uri"?'<span class="a">'+sh(b.o.value)+'</span>':b.o.value}</td></tr>`).join("")+"</table>";
  }catch(e){$("dstat").textContent="failed: "+e.message;}
 }
+// ---- hideable panels --------------------------------------------------------
+function setPanel(id,show){const el=$(id);if(!el)return;el.classList.toggle("hidden",!show);
+ const tb=document.querySelector(`#toolbar [data-panel="${id}"]`);if(tb)tb.setAttribute("aria-pressed",String(show));}
+document.querySelectorAll("#toolbar button").forEach(b=>b.addEventListener("click",()=>{
+ const id=b.dataset.panel;setPanel(id,$(id).classList.contains("hidden"));}));
+document.querySelectorAll("[data-hide]").forEach(b=>b.addEventListener("click",ev=>{ev.stopPropagation();setPanel(b.dataset.hide,false);}));
 addEventListener("resize",()=>{vb.w=0;fit();});
 </script></body></html>
