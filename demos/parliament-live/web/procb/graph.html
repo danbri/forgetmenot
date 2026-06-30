@@ -209,25 +209,55 @@ function select(id){
 }
 svg.addEventListener("click",()=>select(null));
 
-// ---- drag nodes + pan + zoom -----------------------------------------------
-let vb={x:0,y:0,w:0,h:0},down=null,dragging=null,pan=null;
+// ---- drag nodes + pan + pinch-zoom -----------------------------------------
+// touch-action:none means the browser hands us raw pointers (no native pinch),
+// so we implement pan, two-finger pinch-zoom, and node-drag ourselves over the
+// shared viewBox. `userView` records that the user has taken manual control of
+// the camera, so an incidental browser-frame resize won't snap their view back.
+let vb={x:0,y:0,w:0,h:0},down=null,dragging=null,pan=null,userView=false;
+const pointers=new Map();   // every live pointer on the canvas: id -> {x,y}
+let pinch=null;             // {dist,cx,cy} while two fingers are down
 function fit(){const W=svg.clientWidth,H=svg.clientHeight;if(!vb.w){vb={x:0,y:0,w:W,h:H};}apply();}
 function apply(){svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);}
-function toSvg(ev){return{x:vb.x+vb.w*ev.offsetX/svg.clientWidth, y:vb.y+vb.h*ev.offsetY/svg.clientHeight};}
-function svgPt(ev){const r=svg.getBoundingClientRect();return{x:vb.x+vb.w*(ev.clientX-r.left)/r.width,y:vb.y+vb.h*(ev.clientY-r.top)/r.height};}
+function clientToSvg(cx,cy){const r=svg.getBoundingClientRect();
+ return{x:vb.x+vb.w*(cx-r.left)/r.width,y:vb.y+vb.h*(cy-r.top)/r.height};}
+function svgPt(ev){return clientToSvg(ev.clientX,ev.clientY);}
+function zoomAround(cx,cy,s){const m=clientToSvg(cx,cy);
+ vb.w*=s;vb.h*=s;vb.x=m.x-(m.x-vb.x)*s;vb.y=m.y-(m.y-vb.y)*s;userView=true;apply();}
+function beginPinch(){const p=[...pointers.values()];
+ pinch={dist:Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y),cx:(p[0].x+p[1].x)/2,cy:(p[0].y+p[1].y)/2};
+ if(down&&down.n)down.n.pin=false;down=null;dragging=null;pan=null;svg.classList.add("drag");}
 // node pointerdown: record; promote to a drag only past a small move threshold,
-// otherwise it's a tap -> select.
-function startDrag(ev,n){ev.stopPropagation();down={n,sx:ev.clientX,sy:ev.clientY,moved:false};svg.setPointerCapture(ev.pointerId);}
-svg.addEventListener("pointerdown",ev=>{if(down)return;pan={x:ev.clientX,y:ev.clientY};svg.classList.add("drag");});
+// otherwise it's a tap -> select. A 2nd finger anywhere converts to a pinch.
+function startDrag(ev,n){pointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+ if(pointers.size>=2){beginPinch();return;}
+ ev.stopPropagation();down={n,sx:ev.clientX,sy:ev.clientY,moved:false};
+ try{svg.setPointerCapture(ev.pointerId);}catch(_){}}
+svg.addEventListener("pointerdown",ev=>{
+ pointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+ if(pointers.size>=2){beginPinch();return;}
+ if(down)return;
+ pan={x:ev.clientX,y:ev.clientY};svg.classList.add("drag");});
 svg.addEventListener("pointermove",ev=>{
+ if(pointers.has(ev.pointerId))pointers.set(ev.pointerId,{x:ev.clientX,y:ev.clientY});
+ if(pinch&&pointers.size>=2){const p=[...pointers.values()];
+  const dist=Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y),cx=(p[0].x+p[1].x)/2,cy=(p[0].y+p[1].y)/2;
+  const r=svg.getBoundingClientRect();
+  if(dist>0&&pinch.dist>0)zoomAround(cx,cy,pinch.dist/dist);       // spread -> zoom in
+  vb.x-=(cx-pinch.cx)*vb.w/r.width;vb.y-=(cy-pinch.cy)*vb.h/r.height; // two-finger drag -> pan
+  userView=true;apply();pinch={dist,cx,cy};return;}
  if(down){if(!down.moved && Math.hypot(ev.clientX-down.sx,ev.clientY-down.sy)>4){down.moved=true;down.n.pin=true;dragging=down.n;}
   if(down.moved){const p=svgPt(ev);down.n.px=p.x;down.n.py=p.y;alpha=Math.max(alpha,.45);}return;}
- if(pan){const r=svg.getBoundingClientRect();vb.x-=(ev.clientX-pan.x)*vb.w/r.width;vb.y-=(ev.clientY-pan.y)*vb.h/r.height;pan={x:ev.clientX,y:ev.clientY};apply();}});
-addEventListener("pointerup",ev=>{
+ if(pan){const r=svg.getBoundingClientRect();vb.x-=(ev.clientX-pan.x)*vb.w/r.width;vb.y-=(ev.clientY-pan.y)*vb.h/r.height;pan={x:ev.clientX,y:ev.clientY};userView=true;apply();}});
+function endPointer(ev){
+ pointers.delete(ev.pointerId);
+ if(pointers.size<2)pinch=null;
+ if(pointers.size===1&&!down){const p=[...pointers.values()][0];pan={x:p.x,y:p.y};} // resume pan on the finger left behind
  if(down){if(!down.moved)select(down.n.id===selected?null:down.n.id);else down.n.pin=false;down=null;dragging=null;}
- pan=null;svg.classList.remove("drag");});
-svg.addEventListener("wheel",ev=>{ev.preventDefault();const s=ev.deltaY>0?1.1:0.9;const m=toSvg(ev);
- vb.w*=s;vb.h*=s;vb.x=m.x-(m.x-vb.x)*s;vb.y=m.y-(m.y-vb.y)*s;apply();},{passive:false});
+ if(pointers.size===0){pan=null;svg.classList.remove("drag");}}
+addEventListener("pointerup",endPointer);
+addEventListener("pointercancel",endPointer);
+svg.addEventListener("wheel",ev=>{ev.preventDefault();zoomAround(ev.clientX,ev.clientY,ev.deltaY>0?1.1:0.9);},{passive:false});
 
 // ---- controls ---------------------------------------------------------------
 $("rep").addEventListener("input",e=>{repulsion=+e.target.value;$("rv").textContent=repulsion;alpha=Math.max(alpha,.5);});
@@ -252,5 +282,20 @@ function setPanel(id,show){const el=$(id);if(!el)return;el.classList.toggle("hid
 document.querySelectorAll("#toolbar button").forEach(b=>b.addEventListener("click",()=>{
  const id=b.dataset.panel;setPanel(id,$(id).classList.contains("hidden"));}));
 document.querySelectorAll("[data-hide]").forEach(b=>b.addEventListener("click",ev=>{ev.stopPropagation();setPanel(b.dataset.hide,false);}));
-addEventListener("resize",()=>{vb.w=0;fit();});
+// ---- resize: catch every channel the drawable area can change through -------
+// window 'resize' alone misses iOS pinch-zoom and URL-bar show/hide (those are
+// visualViewport events) and any CSS/layout-driven size change (ResizeObserver).
+// Coalesce them all into one rAF-debounced refit that flows the graph into the
+// new space — unless the user has grabbed the camera (userView), then we leave
+// their view alone and just keep the viewBox attribute current.
+function onResize(){const W=svg.clientWidth,H=svg.clientHeight;if(!W||!H)return;
+ if(!userView)vb={x:0,y:0,w:W,h:H};
+ apply();alpha=Math.max(alpha,.5);}      // re-energise so the centering force uses the new area
+let rT=0;
+function scheduleResize(){cancelAnimationFrame(rT);rT=requestAnimationFrame(onResize);}
+addEventListener("resize",scheduleResize);
+addEventListener("orientationchange",scheduleResize);
+if(window.visualViewport){visualViewport.addEventListener("resize",scheduleResize);
+ visualViewport.addEventListener("scroll",scheduleResize);}
+if(window.ResizeObserver)new ResizeObserver(scheduleResize).observe(svg);
 </script></body></html>
