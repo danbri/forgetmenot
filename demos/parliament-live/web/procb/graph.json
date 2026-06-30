@@ -1,0 +1,555 @@
+{
+ "nodes": [
+  {
+   "id": "ActOfParliament",
+   "label": "ActOfParliament",
+   "weight": 1,
+   "example": "ucuEiEeE"
+  },
+  {
+   "id": "ArmsLengthBody",
+   "label": "ArmsLengthBody",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "BusinessItem",
+   "label": "BusinessItem",
+   "weight": 368,
+   "example": "Mcvmer52"
+  },
+  {
+   "id": "BusinessItemWebLink",
+   "label": "BusinessItemWebLink",
+   "weight": 10,
+   "example": ""
+  },
+  {
+   "id": "CalculationStyle",
+   "label": "CalculationStyle",
+   "weight": 47,
+   "example": "GKxRUUgK"
+  },
+  {
+   "id": "Clock",
+   "label": "Clock",
+   "weight": 9,
+   "example": "108vm6eI"
+  },
+  {
+   "id": "CountrySeriesMembership",
+   "label": "CountrySeriesMembership",
+   "weight": 8,
+   "example": ""
+  },
+  {
+   "id": "EnabledThing",
+   "label": "EnabledThing",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "EnablingThing",
+   "label": "EnablingThing",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "EndProcedureStep",
+   "label": "EndProcedureStep",
+   "weight": 4,
+   "example": ""
+  },
+  {
+   "id": "EuropeanUnionSeriesMembership",
+   "label": "EuropeanUnionSeriesMembership",
+   "weight": 8,
+   "example": ""
+  },
+  {
+   "id": "GovernmentOrganisation",
+   "label": "GovernmentOrganisation",
+   "weight": 1,
+   "example": "HYfypSOE"
+  },
+  {
+   "id": "House",
+   "label": "House",
+   "weight": 56,
+   "example": "1AFu55Hs"
+  },
+  {
+   "id": "LaidThing",
+   "label": "LaidThing",
+   "weight": 9,
+   "example": ""
+  },
+  {
+   "id": "Laying",
+   "label": "Laying",
+   "weight": 9,
+   "example": ""
+  },
+  {
+   "id": "Legislature",
+   "label": "Legislature",
+   "weight": 34,
+   "example": "4Mapsyb9"
+  },
+  {
+   "id": "MiscellaneousSeriesMembership",
+   "label": "MiscellaneousSeriesMembership",
+   "weight": 8,
+   "example": ""
+  },
+  {
+   "id": "Procedure",
+   "label": "Procedure",
+   "weight": 87,
+   "example": "5S6p4YsP"
+  },
+  {
+   "id": "ProcedureHasDepth",
+   "label": "ProcedureHasDepth",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "ProcedureHasProcedure",
+   "label": "ProcedureHasProcedure",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "ProcedureHasProcedureStep",
+   "label": "ProcedureHasProcedureStep",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "ProcedureRoute",
+   "label": "ProcedureRoute",
+   "weight": 26,
+   "example": "lz3c1tQ8"
+  },
+  {
+   "id": "ProcedureStep",
+   "label": "ProcedureStep",
+   "weight": 409,
+   "example": "9ouoghbQ"
+  },
+  {
+   "id": "ProcedureStepCollection",
+   "label": "ProcedureStepCollection",
+   "weight": 94,
+   "example": "m7fzgEd2"
+  },
+  {
+   "id": "ProcedureStepCollectionMembership",
+   "label": "ProcedureStepCollectionMembership",
+   "weight": 170,
+   "example": ""
+  },
+  {
+   "id": "ProcedureStepPublication",
+   "label": "ProcedureStepPublication",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "ProcedureStepType",
+   "label": "ProcedureStepType",
+   "weight": 30,
+   "example": "GBJqbKkE"
+  },
+  {
+   "id": "PublicBillWork",
+   "label": "PublicBillWork",
+   "weight": 1,
+   "example": ""
+  },
+  {
+   "id": "StartProcedureStep",
+   "label": "StartProcedureStep",
+   "weight": 4,
+   "example": ""
+  },
+  {
+   "id": "StepDisplayDepthInProcedure",
+   "label": "StepDisplayDepthInProcedure",
+   "weight": 12,
+   "example": ""
+  },
+  {
+   "id": "Treaty",
+   "label": "Treaty",
+   "weight": 24,
+   "example": ""
+  },
+  {
+   "id": "WorkPackage",
+   "label": "WorkPackage",
+   "weight": 368,
+   "example": "rlJaCEwJ"
+  },
+  {
+   "id": "WorkPackagedThing",
+   "label": "WorkPackagedThing",
+   "weight": 79,
+   "example": "QmvfCS3N"
+  },
+  {
+   "id": "WorkPackagedThingWebLink",
+   "label": "WorkPackagedThingWebLink",
+   "weight": 4,
+   "example": ""
+  }
+ ],
+ "links": [
+  {
+   "source": "BusinessItem",
+   "target": "BusinessItemWebLink",
+   "label": "businessItemHasBusinessItemWebLink",
+   "count": 10
+  },
+  {
+   "source": "BusinessItem",
+   "target": "ProcedureStep",
+   "label": "businessItemHasProcedureStep",
+   "count": 169
+  },
+  {
+   "source": "BusinessItem",
+   "target": "WorkPackage",
+   "label": "businessItemHasWorkPackage",
+   "count": 11
+  },
+  {
+   "source": "CalculationStyle",
+   "target": "Procedure",
+   "label": "calculationStyleHasProcedure",
+   "count": 1
+  },
+  {
+   "source": "CalculationStyle",
+   "target": "WorkPackage",
+   "label": "calculationStyleHasWorkPackage",
+   "count": 6
+  },
+  {
+   "source": "Clock",
+   "target": "EndProcedureStep",
+   "label": "clockHasEndProcedureStep",
+   "count": 4
+  },
+  {
+   "source": "Clock",
+   "target": "StartProcedureStep",
+   "label": "clockHasStartProcedureStep",
+   "count": 4
+  },
+  {
+   "source": "House",
+   "target": "ProcedureStep",
+   "label": "houseHasProcedureStep",
+   "count": 1
+  },
+  {
+   "source": "House",
+   "target": "ProcedureStepCollection",
+   "label": "houseHasProcedureStepCollection",
+   "count": 1
+  },
+  {
+   "source": "House",
+   "target": "Legislature",
+   "label": "houseInLegislature",
+   "count": 1
+  },
+  {
+   "source": "LaidThing",
+   "target": "Laying",
+   "label": "laidThingHasLaying",
+   "count": 3
+  },
+  {
+   "source": "Laying",
+   "target": "LaidThing",
+   "label": "layingHasLaidThing",
+   "count": 6
+  },
+  {
+   "source": "Legislature",
+   "target": "House",
+   "label": "legislatureHasHouse",
+   "count": 1
+  },
+  {
+   "source": "Legislature",
+   "target": "ProcedureStep",
+   "label": "legislatureHasProcedureStep",
+   "count": 1
+  },
+  {
+   "source": "Procedure",
+   "target": "CalculationStyle",
+   "label": "procedureHasCalculationStyle",
+   "count": 1
+  },
+  {
+   "source": "Procedure",
+   "target": "Clock",
+   "label": "procedureHasClock",
+   "count": 1
+  },
+  {
+   "source": "Procedure",
+   "target": "StepDisplayDepthInProcedure",
+   "label": "procedureHasStepDisplayDepthInProcedure",
+   "count": 4
+  },
+  {
+   "source": "Procedure",
+   "target": "WorkPackage",
+   "label": "procedureHasWorkPackage",
+   "count": 7
+  },
+  {
+   "source": "ProcedureRoute",
+   "target": "Procedure",
+   "label": "procedureRouteHasProcedure",
+   "count": 2
+  },
+  {
+   "source": "ProcedureRoute",
+   "target": "ProcedureStep",
+   "label": "procedureRouteIsFromProcedureStep",
+   "count": 10
+  },
+  {
+   "source": "ProcedureRoute",
+   "target": "ProcedureStep",
+   "label": "procedureRouteIsToProcedureStep",
+   "count": 10
+  },
+  {
+   "source": "ProcedureStepCollection",
+   "target": "House",
+   "label": "procedureStepCollectionHasHouse",
+   "count": 4
+  },
+  {
+   "source": "ProcedureStepCollection",
+   "target": "Procedure",
+   "label": "procedureStepCollectionHasProcedure",
+   "count": 4
+  },
+  {
+   "source": "ProcedureStepCollection",
+   "target": "ProcedureStepCollectionMembership",
+   "label": "procedureStepCollectionHasProcedureStepCollectionMembership",
+   "count": 7
+  },
+  {
+   "source": "ProcedureStepCollectionMembership",
+   "target": "ProcedureStep",
+   "label": "procedureStepCollectionMembershipHasProcedureStep",
+   "count": 7
+  },
+  {
+   "source": "ProcedureStepCollectionMembership",
+   "target": "ProcedureStepCollection",
+   "label": "procedureStepCollectionMembershipHasProcedureStepCollection",
+   "count": 78
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "BusinessItem",
+   "label": "procedureStepHasBusinessItem",
+   "count": 13
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "House",
+   "label": "procedureStepHasHouse",
+   "count": 48
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "ProcedureStepCollectionMembership",
+   "label": "procedureStepHasProcedureStepCollectionMembership",
+   "count": 78
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "ProcedureStepPublication",
+   "label": "procedureStepHasProcedureStepPublication",
+   "count": 1
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "ProcedureStepType",
+   "label": "procedureStepHasProcedureStepType",
+   "count": 29
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "StepDisplayDepthInProcedure",
+   "label": "procedureStepHasStepDisplayDepthInProcedure",
+   "count": 5
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "Legislature",
+   "label": "procedureStepInLegislature",
+   "count": 31
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "ProcedureRoute",
+   "label": "procedureStepIsFromProcedureRoute",
+   "count": 2
+  },
+  {
+   "source": "ProcedureStep",
+   "target": "ProcedureRoute",
+   "label": "procedureStepIsToProcedureRoute",
+   "count": 2
+  },
+  {
+   "source": "ProcedureStepType",
+   "target": "ProcedureStep",
+   "label": "procedureStepTypeHasProcedureStep",
+   "count": 1
+  },
+  {
+   "source": "StepDisplayDepthInProcedure",
+   "target": "Procedure",
+   "label": "stepDisplayDepthInProcedureHasProcedure",
+   "count": 2
+  },
+  {
+   "source": "StepDisplayDepthInProcedure",
+   "target": "ProcedureStep",
+   "label": "stepDisplayDepthInProcedureHasProcedureStep",
+   "count": 1
+  },
+  {
+   "source": "Treaty",
+   "target": "CountrySeriesMembership",
+   "label": "treatyHasCountrySeriesMembership",
+   "count": 8
+  },
+  {
+   "source": "Treaty",
+   "target": "EuropeanUnionSeriesMembership",
+   "label": "treatyHasEuropeanUnionSeriesMembership",
+   "count": 8
+  },
+  {
+   "source": "Treaty",
+   "target": "MiscellaneousSeriesMembership",
+   "label": "treatyHasMiscellaneousSeriesMembership",
+   "count": 8
+  },
+  {
+   "source": "WorkPackage",
+   "target": "BusinessItem",
+   "label": "workPackageHasBusinessItem",
+   "count": 165
+  },
+  {
+   "source": "WorkPackage",
+   "target": "CalculationStyle",
+   "label": "workPackageHasCalculationStyle",
+   "count": 39
+  },
+  {
+   "source": "WorkPackage",
+   "target": "Procedure",
+   "label": "workPackageHasProcedure",
+   "count": 65
+  },
+  {
+   "source": "WorkPackage",
+   "target": "WorkPackagedThing",
+   "label": "workPackageHasWorkPackagedThing",
+   "count": 25
+  },
+  {
+   "source": "WorkPackagedThing",
+   "target": "WorkPackage",
+   "label": "workPackagedThingHasWorkPackage",
+   "count": 50
+  },
+  {
+   "source": "WorkPackagedThing",
+   "target": "WorkPackagedThingWebLink",
+   "label": "workPackagedThingHasWorkPackagedThingWebLink",
+   "count": 4
+  }
+ ],
+ "dataProps": {
+  "BusinessItem": [
+   "businessItemDate"
+  ],
+  "ActOfParliament": [
+   "actOfParliamentName",
+   "actOfParliamentNumber",
+   "actOfParliamentRoyalAssentDate",
+   "actOfParliamentUrl",
+   "actOfParliamentYear"
+  ],
+  "StepDisplayDepthInProcedure": [
+   "stepDisplayDepthInProcedureHasDepth"
+  ],
+  "ProcedureHasProcedure": [
+   "procedureHasProcedureRoute"
+  ],
+  "Laying": [
+   "layingBodyHasLaying",
+   "layingDate"
+  ],
+  "Procedure": [
+   "procedureDescription",
+   "procedureDisplayOrder"
+  ],
+  "StartProcedureStep": [
+   "startProcedureStepOfClock"
+  ],
+  "EndProcedureStep": [
+   "endProcedureStepOfClock"
+  ],
+  "Clock": [
+   "clockDayCount",
+   "clockFormsPartOfProcedure",
+   "clockLabel"
+  ],
+  "ProcedureRoute": [
+   "procedureRouteEndDate"
+  ],
+  "Treaty": [
+   "treatyCommandPaperNumber",
+   "treatyCommandPaperPrefix"
+  ],
+  "ProcedureStep": [
+   "procedureStepDateNote",
+   "procedureStepDescription",
+   "procedureStepLinkNote",
+   "procedureStepScopeNote"
+  ],
+  "ProcedureStepPublication": [
+   "procedureStepPublicationName",
+   "procedureStepPublicationUrl"
+  ],
+  "ProcedureStepType": [
+   "procedureStepTypeDescription"
+  ],
+  "ProcedureHasProcedureStep": [
+   "procedureHasProcedureStepCollection"
+  ],
+  "CalculationStyle": [
+   "calculationStyleEggTimerId"
+  ]
+ }
+}

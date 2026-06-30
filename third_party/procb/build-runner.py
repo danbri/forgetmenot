@@ -138,7 +138,7 @@ HTML = r"""<!doctype html>
  #out tr:nth-child(even) td{background:var(--alt)}#out a{color:var(--accent);text-decoration:none}
  footer{margin-top:18px;border-top:1px solid var(--rule);padding-top:10px;color:var(--soft);font-size:12px}
 </style></head><body>
-<nav><a href="/kgx/">kgx</a> &middot; procb &middot; <a href="/sparqling/run1/runner.html">run1</a></nav>
+<nav><a href="/kgx/">kgx</a> &middot; procb &middot; <a href="/procb/graph.html">ontology graph</a> &middot; <a href="/sparqling/run1/runner.html">run1</a></nav>
 <h1>procedure-browser query cleanup <span class="badge">unreviewed prototype</span></h1>
 <p class="sub">All 130 SPARQL queries from
 <a href="https://github.com/ukparliament/procedure-browser/tree/main/lib/sparql/queries" target="_blank" rel="noopener">ukparliament/procedure-browser</a>,

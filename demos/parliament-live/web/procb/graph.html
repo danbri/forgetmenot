@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>procedure-browser ontology — mined from the queries</title>
+<style>
+ :root{--bg:#faf8f3;--ink:#1a1a1a;--soft:#4a4a4a;--accent:#2a4f76;--rule:#d8d4ca;--panel:#fffffff2}
+ *{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+   font:15px/1.45 -apple-system,BlinkMacSystemFont,system-ui,"Segoe UI",sans-serif;overflow:hidden}
+ #svg{position:absolute;inset:0;width:100%;height:100%;cursor:grab}
+ #svg.drag{cursor:grabbing}
+ .edge{stroke:#bcb6a8;stroke-width:1;marker-end:url(#arrow)}
+ .edge.hot{stroke:var(--accent);stroke-width:2.2}
+ .elabel{font-size:8.5px;fill:#9a948a;pointer-events:none}
+ .node{cursor:pointer}
+ .node circle{stroke:#fff;stroke-width:1.5}
+ .node text{font-size:11px;fill:var(--ink);pointer-events:none;paint-order:stroke;stroke:var(--bg);stroke-width:3px}
+ .node.dim{opacity:.18}.edge.dim{opacity:.07}.elabel.dim{opacity:0}
+ .panel{position:absolute;top:10px;left:10px;width:330px;max-width:calc(100vw - 20px);max-height:calc(100vh - 20px);
+   overflow:auto;background:var(--panel);backdrop-filter:blur(6px);border:1px solid var(--rule);border-radius:10px;
+   box-shadow:0 2px 16px #0002;padding:12px 14px}
+ .badge{display:inline-block;background:#fde68a;color:#7c4a03;border:1px solid #f59e0b;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700}
+ h1{font-size:16px;margin:2px 0 4px}.sub{font-size:12.5px;color:var(--soft);margin:0 0 8px}
+ nav{font-size:12px;color:var(--soft);margin-bottom:6px}a{color:var(--accent)}
+ h2{font-size:14px;margin:10px 0 4px}.k{font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--soft);margin-top:8px}
+ .row{font-size:12.5px;margin:2px 0;font-family:ui-monospace,Menlo,monospace;word-break:break-word}
+ .row .a{color:var(--accent)} .pill{color:#8a3a86}
+ button{font:inherit;background:var(--accent);color:#fff;border:0;border-radius:7px;padding:7px 12px;font-size:13px;cursor:pointer;margin-top:8px}
+ button.sec{background:#fff;color:var(--accent);border:1px solid var(--rule)}
+ .legend{position:absolute;right:10px;bottom:10px;background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--soft);max-width:230px}
+ .hint{font-size:12px;color:var(--soft)}
+ table{border-collapse:collapse;width:100%;font-size:12px;margin-top:4px}td{padding:3px 5px;border-bottom:1px solid var(--rule);vertical-align:top;word-break:break-word}
+</style></head><body>
+<svg id="svg"><defs>
+ <marker id="arrow" viewBox="0 0 10 10" refX="22" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+   <path d="M0 0 L10 5 L0 10 z" fill="#bcb6a8"/></marker>
+</defs></svg>
+
+<div class="panel" id="panel">
+ <nav><a href="/procb/runner.html">&larr; query runner</a> &middot; <a href="/kgx/">kgx</a></nav>
+ <h1>procedure-browser ontology <span class="badge">mined &middot; unreviewed</span></h1>
+ <p class="sub">The data model <b>recovered from the 130 SPARQL queries</b> (domain/range from
+ predicate naming). Classes = nodes, object properties = arrows. Click a class for its
+ properties and a real example pulled live.</p>
+ <div id="detail"><p class="hint">Click any class node. Drag to pan, scroll to zoom.</p></div>
+</div>
+<div class="legend">Node size = how heavily the class is used across the corpus. Colour = class (stable hue).
+ Arrows point domain&nbsp;&rarr;&nbsp;range.</div>
+
+<script src="sparql-core.js"></script>
+<script>
+const EP={id:"parliament-ddp",url:"https://api.parliament.uk/sparql"},SCHEMA="https://id.parliament.uk/schema/";
+const svg=document.getElementById("svg");const SVGNS="http://www.w3.org/2000/svg";
+let G,NODES={},rendered={},examples={};
+const hue=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))%360;return h;};
+const color=s=>`hsl(${hue(s)} 62% 55%)`;
+
+fetch("graph.json").then(r=>r.json()).then(g=>{G=g;init();});
+
+function init(){
+ const W=svg.clientWidth,H=svg.clientHeight;
+ const maxW=Math.max(...G.nodes.map(n=>n.weight));
+ G.nodes.forEach(n=>{n.x=W/2+(Math.random()-.5)*W*.7;n.y=H/2+(Math.random()-.5)*H*.7;n.vx=0;n.vy=0;
+   n.r=8+18*Math.sqrt(n.weight/maxW);NODES[n.id]=n;if(n.example)examples[n.id]=n.example;});
+ // force layout (Fruchterman-Reingold-ish), run as animation
+ const k=Math.sqrt(W*H/G.nodes.length)*0.62;let t=W/12;
+ function step(){
+   for(const a of G.nodes){a.fx=0;a.fy=0;}
+   for(let i=0;i<G.nodes.length;i++)for(let j=i+1;j<G.nodes.length;j++){
+     const a=G.nodes[i],b=G.nodes[j];let dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy)||.1;
+     const f=k*k/d;const ux=dx/d,uy=dy/d;a.fx+=ux*f;a.fy+=uy*f;b.fx-=ux*f;b.fy-=uy*f;}
+   for(const e of G.links){const a=NODES[e.source],b=NODES[e.target];if(!a||!b)continue;
+     let dx=a.x-b.x,dy=a.y-b.y,d=Math.hypot(dx,dy)||.1;const f=d*d/k;const ux=dx/d,uy=dy/d;
+     a.fx-=ux*f;a.fy-=uy*f;b.fx+=ux*f;b.fy+=uy*f;}
+   for(const a of G.nodes){let d=Math.hypot(a.fx,a.fy)||.1;a.x+=a.fx/d*Math.min(d,t);a.y+=a.fy/d*Math.min(d,t);
+     a.x=Math.max(a.r,Math.min(W-a.r,a.x));a.y=Math.max(a.r,Math.min(H-a.r,a.y));}
+   t*=0.96;draw();if(t>0.6)requestAnimationFrame(step);
+ }
+ buildDom();step();fit();
+}
+
+let gEdges,gLabels,gNodes;
+function buildDom(){
+ gEdges=document.createElementNS(SVGNS,"g");gLabels=document.createElementNS(SVGNS,"g");gNodes=document.createElementNS(SVGNS,"g");
+ svg.append(gEdges,gLabels,gNodes);
+ G.links.forEach((e,i)=>{const l=document.createElementNS(SVGNS,"line");l.setAttribute("class","edge");l.dataset.i=i;gEdges.appendChild(l);e._el=l;
+   const t=document.createElementNS(SVGNS,"text");t.setAttribute("class","elabel");t.textContent=e.label;e._lab=t;gLabels.appendChild(t);});
+ G.nodes.forEach(n=>{const g=document.createElementNS(SVGNS,"g");g.setAttribute("class","node");
+   const c=document.createElementNS(SVGNS,"circle");c.setAttribute("r",n.r);c.setAttribute("fill",color(n.id));
+   const t=document.createElementNS(SVGNS,"text");t.setAttribute("text-anchor","middle");t.setAttribute("dy",-n.r-4);t.textContent=n.label;
+   g.append(c,t);g.onclick=ev=>{ev.stopPropagation();select(n.id);};gNodes.appendChild(g);n._g=g;});
+ svg.addEventListener("click",()=>select(null));
+}
+function draw(){
+ for(const e of G.links){const a=NODES[e.source],b=NODES[e.target];if(!a||!b)continue;
+   e._el.setAttribute("x1",a.x);e._el.setAttribute("y1",a.y);e._el.setAttribute("x2",b.x);e._el.setAttribute("y2",b.y);
+   e._lab.setAttribute("x",(a.x+b.x)/2);e._lab.setAttribute("y",(a.y+b.y)/2);}
+ for(const n of G.nodes)n._g.setAttribute("transform",`translate(${n.x},${n.y})`);
+}
+
+// pan + zoom
+let vb={x:0,y:0,w:0,h:0};
+function fit(){const W=svg.clientWidth,H=svg.clientHeight;vb={x:0,y:0,w:W,h:H};apply();}
+function apply(){svg.setAttribute("viewBox",`${vb.x} ${vb.y} ${vb.w} ${vb.h}`);}
+svg.addEventListener("wheel",e=>{e.preventDefault();const s=e.deltaY>0?1.1:0.9;const mx=vb.x+vb.w*e.offsetX/svg.clientWidth,my=vb.y+vb.h*e.offsetY/svg.clientHeight;
+ vb.w*=s;vb.h*=s;vb.x=mx-(mx-vb.x)*s;vb.y=my-(my-vb.y)*s;apply();},{passive:false});
+let pan=null;svg.addEventListener("pointerdown",e=>{pan={x:e.clientX,y:e.clientY};svg.classList.add("drag");});
+svg.addEventListener("pointermove",e=>{if(!pan)return;const dx=(e.clientX-pan.x)*vb.w/svg.clientWidth,dy=(e.clientY-pan.y)*vb.h/svg.clientHeight;
+ vb.x-=dx;vb.y-=dy;pan={x:e.clientX,y:e.clientY};apply();});
+addEventListener("pointerup",()=>{pan=null;svg.classList.remove("drag");});
+
+function neighbours(id){const s=new Set([id]);for(const e of G.links){if(e.source===id)s.add(e.target);if(e.target===id)s.add(e.source);}return s;}
+function select(id){
+ const det=document.getElementById("detail");
+ if(!id){det.innerHTML='<p class="hint">Click any class node. Drag to pan, scroll to zoom.</p>';
+   G.nodes.forEach(n=>n._g.classList.remove("dim"));G.links.forEach(e=>{e._el.classList.remove("dim","hot");e._lab.classList.remove("dim");});return;}
+ const nb=neighbours(id);
+ G.nodes.forEach(n=>n._g.classList.toggle("dim",!nb.has(n.id)));
+ G.links.forEach(e=>{const on=e.source===id||e.target===id;e._el.classList.toggle("hot",on);e._el.classList.toggle("dim",!on);e._lab.classList.toggle("dim",!on);});
+ const out=G.links.filter(e=>e.source===id),inc=G.links.filter(e=>e.target===id);
+ const dp=(G.dataProps&&G.dataProps[id])||[];const ex=examples[id];
+ det.innerHTML=`<h2 style="color:${color(id)}">:${id}</h2>`+
+  (ex?`<div class="k">example</div><div class="row"><span class="a">id:${ex}</span></div>`:"")+
+  (out.length?`<div class="k">out (object properties)</div>`+out.map(e=>`<div class="row">:<span class="pill">${e.label}</span> &rarr; :${e.target}</div>`).join(""):"")+
+  (inc.length?`<div class="k">in</div>`+inc.map(e=>`<div class="row">:${e.source} &rarr; :<span class="pill">${e.label}</span></div>`).join(""):"")+
+  (dp.length?`<div class="k">datatype properties</div>`+dp.map(p=>`<div class="row">:${p}</div>`).join(""):"")+
+  (ex?`<button id="desc">Describe this example live &#9656;</button> <span id="dstat" class="hint"></span><div id="dout"></div>`:"");
+ if(ex)document.getElementById("desc").onclick=()=>describe(ex);
+}
+async function describe(localId){
+ const uri="https://id.parliament.uk/"+localId;
+ document.getElementById("dstat").textContent="…";document.getElementById("dout").innerHTML="";
+ const q=`SELECT ?p ?o WHERE { <${uri}> ?p ?o } LIMIT 60`;
+ try{const res=await SparqlCore.execute(EP,q);const rows=(res.json&&res.json.results&&res.json.results.bindings)||[];
+  document.getElementById("dstat").textContent=rows.length+" triples";
+  const sh=p=>p.replace(SCHEMA,":").replace("https://id.parliament.uk/","id:").replace("http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdf:");
+  document.getElementById("dout").innerHTML="<table>"+rows.map(b=>{const o=b.o.type==="uri"?'<span class="a">'+sh(b.o.value)+'</span>':b.o.value;
+    return `<tr><td>${sh(b.p.value)}</td><td>${o}</td></tr>`;}).join("")+"</table>";
+ }catch(e){document.getElementById("dstat").textContent="failed: "+e.message;}
+}
+</script></body></html>
