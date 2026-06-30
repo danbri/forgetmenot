@@ -1,0 +1,2093 @@
+{
+ "queries": {
+  "business_item_steps": {
+   "preds": [
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasProcedureStep",
+    "businessItemHasWorkPackage",
+    "date",
+    "name",
+    "procedureStepHasHouse",
+    "procedureStepHasStepDisplayDepthInProcedure",
+    "procedureStepInLegislature",
+    "stepDisplayDepthInProcedureHasDepth",
+    "stepDisplayDepthInProcedureHasProcedure",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "BusinessItem"
+   ]
+  },
+  "calculation_style": {
+   "preds": [
+    "calculationStyleEggTimerId",
+    "name"
+   ],
+   "classes": [
+    "CalculationStyle"
+   ]
+  },
+  "calculation_style_procedures": {
+   "preds": [
+    "calculationStyleHasProcedure",
+    "name",
+    "procedureDescription"
+   ],
+   "classes": [
+    "CalculationStyle"
+   ]
+  },
+  "calculation_style_work_package_count": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "calculationStyleHasWorkPackage",
+    "name",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "CalculationStyle"
+   ]
+  },
+  "calculation_style_work_package_count_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "calculationStyleHasWorkPackage",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "CalculationStyle"
+   ]
+  },
+  "calculation_style_work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "calculationStyleHasWorkPackage",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "CalculationStyle"
+   ]
+  },
+  "calculation_style_work_packages_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "calculationStyleHasWorkPackage",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "CalculationStyle"
+   ]
+  },
+  "calculation_style_work_packages_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "calculationStyleHasWorkPackage",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "CalculationStyle"
+   ]
+  },
+  "calculation_style_work_packages_current_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "calculationStyleHasWorkPackage",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "CalculationStyle"
+   ]
+  },
+  "calculation_styles": {
+   "preds": [
+    "name"
+   ],
+   "classes": [
+    "CalculationStyle"
+   ]
+  },
+  "clock": {
+   "preds": [
+    "clockDayCount",
+    "clockFormsPartOfProcedure",
+    "clockHasEndProcedureStep",
+    "clockHasStartProcedureStep",
+    "name",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature"
+   ],
+   "classes": [
+    "Clock"
+   ]
+  },
+  "clocks": {
+   "preds": [
+    "clockDayCount",
+    "clockFormsPartOfProcedure",
+    "clockHasEndProcedureStep",
+    "clockHasStartProcedureStep",
+    "name",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature"
+   ],
+   "classes": [
+    "Clock"
+   ]
+  },
+  "enabling_legislation": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislation_atoz": {
+   "preds": [
+    "actOfParliamentName",
+    "enabling"
+   ],
+   "classes": [
+    "EnablingThing"
+   ]
+  },
+  "enabling_legislation_atoz_letter": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "enabling",
+    "name"
+   ],
+   "classes": [
+    "EnablingThing"
+   ]
+  },
+  "enabling_legislation_by_uri": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislation_work_package_count": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "enabling",
+    "name",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislation_work_package_count_current": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "enabling",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislation_work_packageable_thing_count": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "enabling",
+    "name"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislation_work_packageable_things": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "enabling",
+    "name",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislation_work_packages": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "enabling",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislation_work_packages_all": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "enabling",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislation_work_packages_current": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "enabling",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislation_work_packages_current_all": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "enabling",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ActOfParliament"
+   ]
+  },
+  "enabling_legislations": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "enabling",
+    "name"
+   ],
+   "classes": [
+    "EnablingThing"
+   ]
+  },
+  "enabling_legislations_current": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "businessItemHasProcedureStep",
+    "enabling",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "EnablingThing"
+   ]
+  },
+  "house": {
+   "preds": [
+    "houseInLegislature",
+    "name"
+   ],
+   "classes": [
+    "House"
+   ]
+  },
+  "house_step_collections": {
+   "preds": [
+    "houseHasProcedureStepCollection",
+    "name"
+   ],
+   "classes": [
+    "House"
+   ]
+  },
+  "house_steps": {
+   "preds": [
+    "houseHasProcedureStep",
+    "name",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType"
+   ],
+   "classes": [
+    "House"
+   ]
+  },
+  "houses": {
+   "preds": [
+    "name"
+   ],
+   "classes": [
+    "House"
+   ]
+  },
+  "legislature": {
+   "preds": [
+    "name"
+   ],
+   "classes": [
+    "Legislature"
+   ]
+  },
+  "legislature_houses": {
+   "preds": [
+    "legislatureHasHouse",
+    "name"
+   ],
+   "classes": [
+    "Legislature"
+   ]
+  },
+  "legislature_steps": {
+   "preds": [
+    "legislatureHasProcedureStep",
+    "name",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasProcedureStepType"
+   ],
+   "classes": [
+    "Legislature"
+   ]
+  },
+  "legislatures": {
+   "preds": [
+    "name"
+   ],
+   "classes": [
+    "Legislature"
+   ]
+  },
+  "organisation_accountable_to_parliament": {
+   "preds": [
+    "endDate",
+    "name",
+    "startDate"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_treaties": {
+   "preds": [
+    "leadGovernmentOrganisationHasTreaty",
+    "name",
+    "seriesItemCitation",
+    "treatyHasCountrySeriesMembership",
+    "treatyHasEuropeanUnionSeriesMembership",
+    "treatyHasMiscellaneousSeriesMembership",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_treaty_count": {
+   "preds": [
+    "leadGovernmentOrganisationHasTreaty",
+    "name",
+    "seriesItemCitation",
+    "treatyHasCountrySeriesMembership",
+    "treatyHasEuropeanUnionSeriesMembership",
+    "treatyHasMiscellaneousSeriesMembership",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_treaty_work_package_count": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "leadGovernmentOrganisationHasTreaty",
+    "name",
+    "seriesItemCitation",
+    "treatyHasCountrySeriesMembership",
+    "treatyHasEuropeanUnionSeriesMembership",
+    "treatyHasMiscellaneousSeriesMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_treaty_work_package_count_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "leadGovernmentOrganisationHasTreaty",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "seriesItemCitation",
+    "treatyHasCountrySeriesMembership",
+    "treatyHasEuropeanUnionSeriesMembership",
+    "treatyHasMiscellaneousSeriesMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_treaty_work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "leadGovernmentOrganisationHasTreaty",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "seriesItemCitation",
+    "treatyHasCountrySeriesMembership",
+    "treatyHasEuropeanUnionSeriesMembership",
+    "treatyHasMiscellaneousSeriesMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_treaty_work_packages_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "leadGovernmentOrganisationHasTreaty",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "seriesItemCitation",
+    "treatyHasCountrySeriesMembership",
+    "treatyHasEuropeanUnionSeriesMembership",
+    "treatyHasMiscellaneousSeriesMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_treaty_work_packages_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "leadGovernmentOrganisationHasTreaty",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "seriesItemCitation",
+    "treatyHasCountrySeriesMembership",
+    "treatyHasEuropeanUnionSeriesMembership",
+    "treatyHasMiscellaneousSeriesMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_treaty_work_packages_current_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "leadGovernmentOrganisationHasTreaty",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "seriesItemCitation",
+    "treatyHasCountrySeriesMembership",
+    "treatyHasEuropeanUnionSeriesMembership",
+    "treatyHasMiscellaneousSeriesMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_work_package_count": {
+   "preds": [
+    "businessItemHasProcedureStep",
+    "layingBodyHasLaying",
+    "layingDate",
+    "layingHasLaidThing",
+    "name",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_work_package_count_current": {
+   "preds": [
+    "businessItemHasProcedureStep",
+    "layingBodyHasLaying",
+    "layingDate",
+    "layingHasLaidThing",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "layingBodyHasLaying",
+    "layingHasLaidThing",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_work_packages_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "layingBodyHasLaying",
+    "layingHasLaidThing",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_work_packages_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "layingBodyHasLaying",
+    "layingHasLaidThing",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisation_accountable_to_parliament_work_packages_current_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "layingBodyHasLaying",
+    "layingHasLaidThing",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisations_accountable_to_parliament": {
+   "preds": [
+    "endDate",
+    "name",
+    "startDate"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisations_accountable_to_parliament_all": {
+   "preds": [
+    "endDate",
+    "name",
+    "startDate"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisations_accountable_to_parliament_count": {
+   "preds": [
+    "name"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisations_accountable_to_parliament_count_current": {
+   "preds": [
+    "endDate",
+    "name",
+    "startDate"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "organisations_accountable_to_parliament_current": {
+   "preds": [
+    "endDate",
+    "name",
+    "startDate"
+   ],
+   "classes": [
+    "ArmsLengthBody",
+    "GovernmentOrganisation"
+   ]
+  },
+  "primary_legislation_work_package_count": {
+   "preds": [
+    "name",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "PublicBillWork"
+   ]
+  },
+  "primary_legislation_work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "PublicBillWork"
+   ]
+  },
+  "primary_legislation_work_packages_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "PublicBillWork"
+   ]
+  },
+  "procedure": {
+   "preds": [
+    "endDate",
+    "name",
+    "procedureDescription",
+    "startDate"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_calculation_styles": {
+   "preds": [
+    "name",
+    "procedureHasCalculationStyle"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_clocks": {
+   "preds": [
+    "clockDayCount",
+    "clockHasEndProcedureStep",
+    "clockHasStartProcedureStep",
+    "clockLabel",
+    "name",
+    "procedureHasClock",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_routes": {
+   "preds": [
+    "endDate",
+    "name",
+    "procedureHasProcedureRoute",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature",
+    "startDate"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_step": {
+   "preds": [
+    "name",
+    "procedureHasProcedureRoute",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepDescription",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_step_business_items": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasProcedureStep",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureHasProcedureRoute",
+    "procedureHasWorkPackage",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature",
+    "workPackageHasBusinessItem",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_step_collections": {
+   "preds": [
+    "name",
+    "procedureHasProcedureStepCollection"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_step_type": {
+   "preds": [
+    "name",
+    "procedureHasProcedureRoute",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasProcedureStepType"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_step_type_steps": {
+   "preds": [
+    "name",
+    "procedureHasProcedureRoute",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_step_types": {
+   "preds": [
+    "name",
+    "procedureHasProcedureRoute",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasProcedureStepType"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_steps": {
+   "preds": [
+    "name",
+    "procedureHasProcedureRoute",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_steps_with_depths": {
+   "preds": [
+    "name",
+    "procedureHasStepDisplayDepthInProcedure",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature",
+    "stepDisplayDepthInProcedureHasDepth",
+    "stepDisplayDepthInProcedureHasProcedureStep"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_work_package_count": {
+   "preds": [
+    "name",
+    "procedureHasWorkPackage"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_work_package_count_current": {
+   "preds": [
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureHasWorkPackage",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureHasWorkPackage",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_work_packages_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureHasWorkPackage",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_work_packages_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureHasWorkPackage",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedure_work_packages_current_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureHasWorkPackage",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedures": {
+   "preds": [
+    "name",
+    "procedureDescription",
+    "procedureDisplayOrder"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "procedures_main": {
+   "preds": [
+    "name",
+    "procedureDescription",
+    "procedureDisplayOrder"
+   ],
+   "classes": [
+    "Procedure"
+   ]
+  },
+  "route": {
+   "preds": [
+    "endDate",
+    "name",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature",
+    "startDate"
+   ],
+   "classes": [
+    "ProcedureRoute"
+   ]
+  },
+  "route_procedures": {
+   "preds": [
+    "name",
+    "procedureRouteHasProcedure"
+   ],
+   "classes": [
+    "ProcedureRoute"
+   ]
+  },
+  "routes": {
+   "preds": [
+    "endDate",
+    "name",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature",
+    "startDate"
+   ],
+   "classes": [
+    "ProcedureRoute"
+   ]
+  },
+  "secondary_legislation_work_package_count": {
+   "preds": [
+    "name",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "EnabledThing"
+   ]
+  },
+  "secondary_legislation_work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "EnabledThing"
+   ]
+  },
+  "secondary_legislation_work_packages_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "EnabledThing"
+   ]
+  },
+  "step": {
+   "preds": [
+    "name",
+    "procedureStepDateNote",
+    "procedureStepDescription",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepPublication",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature",
+    "procedureStepLinkNote",
+    "procedureStepPublicationName",
+    "procedureStepPublicationUrl",
+    "procedureStepScopeNote"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "step_business_item_count": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "step_business_items": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "step_business_items_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "step_clocks": {
+   "preds": [
+    "clockDayCount",
+    "clockFormsPartOfProcedure",
+    "clockHasEndProcedureStep",
+    "clockHasStartProcedureStep",
+    "endProcedureStepOfClock",
+    "name",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature",
+    "startProcedureStepOfClock"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "step_collection": {
+   "preds": [
+    "name",
+    "procedureStepCollectionHasHouse",
+    "procedureStepCollectionHasProcedure"
+   ],
+   "classes": [
+    "ProcedureStepCollection"
+   ]
+  },
+  "step_collection_steps": {
+   "preds": [
+    "name",
+    "procedureStepCollectionHasHouse",
+    "procedureStepCollectionHasProcedure",
+    "procedureStepCollectionHasProcedureStepCollectionMembership",
+    "procedureStepCollectionMembershipHasProcedureStep",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature"
+   ],
+   "classes": [
+    "ProcedureStepCollection"
+   ]
+  },
+  "step_collection_work_package_count": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepCollectionHasProcedureStepCollectionMembership",
+    "procedureStepCollectionMembershipHasProcedureStep",
+    "procedureStepHasBusinessItem",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "ProcedureStepCollection"
+   ]
+  },
+  "step_collection_work_package_count_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepCollectionHasProcedureStepCollectionMembership",
+    "procedureStepCollectionMembershipHasProcedureStep",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "ProcedureStepCollection"
+   ]
+  },
+  "step_collection_work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepCollectionHasProcedureStepCollectionMembership",
+    "procedureStepCollectionMembershipHasProcedureStep",
+    "procedureStepHasBusinessItem",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "ProcedureStepCollection"
+   ]
+  },
+  "step_collection_work_packages_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepCollectionHasProcedureStepCollectionMembership",
+    "procedureStepCollectionMembershipHasProcedureStep",
+    "procedureStepHasBusinessItem",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "ProcedureStepCollection"
+   ]
+  },
+  "step_collection_work_packages_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepCollectionHasProcedureStepCollectionMembership",
+    "procedureStepCollectionMembershipHasProcedureStep",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "ProcedureStepCollection"
+   ]
+  },
+  "step_collection_work_packages_current_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "businessItemHasWorkPackage",
+    "name",
+    "procedureStepCollectionHasProcedureStepCollectionMembership",
+    "procedureStepCollectionMembershipHasProcedureStep",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ],
+   "classes": [
+    "ProcedureStepCollection"
+   ]
+  },
+  "step_collections": {
+   "preds": [
+    "name",
+    "procedureStepCollectionHasHouse",
+    "procedureStepCollectionHasProcedure"
+   ],
+   "classes": [
+    "ProcedureStepCollection"
+   ]
+  },
+  "step_procedures": {
+   "preds": [
+    "name",
+    "procedureDescription",
+    "procedureRouteHasProcedure",
+    "procedureStepIsFromProcedureRoute",
+    "procedureStepIsToProcedureRoute"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "step_procedures_with_step_depth": {
+   "preds": [
+    "name",
+    "procedureDescription",
+    "procedureStepHasStepDisplayDepthInProcedure",
+    "stepDisplayDepthInProcedureHasDepth",
+    "stepDisplayDepthInProcedureHasProcedure"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "step_routes": {
+   "preds": [
+    "name",
+    "procedureRouteEndDate",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature",
+    "procedureStepIsFromProcedureRoute",
+    "procedureStepIsToProcedureRoute"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "step_step_collections": {
+   "preds": [
+    "name",
+    "procedureStepCollectionHasHouse",
+    "procedureStepCollectionHasProcedure",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "procedureStepHasProcedureStepType"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "step_type": {
+   "preds": [
+    "name",
+    "procedureStepTypeDescription"
+   ],
+   "classes": [
+    "ProcedureStepType"
+   ]
+  },
+  "step_type_steps": {
+   "preds": [
+    "name",
+    "procedureStepHasHouse",
+    "procedureStepInLegislature",
+    "procedureStepTypeDescription",
+    "procedureStepTypeHasProcedureStep"
+   ],
+   "classes": [
+    "ProcedureStepType"
+   ]
+  },
+  "step_types": {
+   "preds": [
+    "name"
+   ],
+   "classes": [
+    "ProcedureStepType"
+   ]
+  },
+  "steps": {
+   "preds": [
+    "name",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepType",
+    "procedureStepInLegislature"
+   ],
+   "classes": [
+    "ProcedureStep"
+   ]
+  },
+  "treaty_work_package_count": {
+   "preds": [
+    "name",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "Treaty"
+   ]
+  },
+  "treaty_work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "Treaty"
+   ]
+  },
+  "treaty_work_packages_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "Treaty"
+   ]
+  },
+  "work_package": {
+   "preds": [
+    "businessItemHasProcedureStep",
+    "laidThingHasLaying",
+    "layingDate",
+    "name",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage",
+    "workPackagedThingHasWorkPackagedThingWebLink"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_package_business_items": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureHasStepDisplayDepthInProcedure",
+    "procedureStepHasHouse",
+    "procedureStepHasStepDisplayDepthInProcedure",
+    "procedureStepInLegislature",
+    "stepDisplayDepthInProcedureHasDepth",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_package_business_items_reading_list": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "procedureStepInLegislature",
+    "workPackageHasBusinessItem",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_package_count": {
+   "preds": [
+    "laidThingHasLaying",
+    "layingDate",
+    "name",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_package_count_current": {
+   "preds": [
+    "businessItemHasProcedureStep",
+    "laidThingHasLaying",
+    "layingDate",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_package_future_business_items": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureHasStepDisplayDepthInProcedure",
+    "procedureStepHasHouse",
+    "procedureStepHasStepDisplayDepthInProcedure",
+    "procedureStepInLegislature",
+    "stepDisplayDepthInProcedureHasDepth",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_package_past_business_items": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureHasStepDisplayDepthInProcedure",
+    "procedureStepHasHouse",
+    "procedureStepHasStepDisplayDepthInProcedure",
+    "procedureStepInLegislature",
+    "stepDisplayDepthInProcedureHasDepth",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_package_undated_business_items": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepHasHouse",
+    "procedureStepInLegislature",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_thing": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "statutoryInstrumentPaperNumber",
+    "statutoryInstrumentPaperPrefix",
+    "statutoryInstrumentPaperYear",
+    "treatyCommandPaperNumber",
+    "treatyCommandPaperPrefix",
+    "workPackageHasBusinessItem",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage",
+    "workPackagedThingHasWorkPackagedThingWebLink"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_thing_by_uri": {
+   "preds": [
+    "workPackagedThingHasWorkPackagedThingWebLink"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_thing_count": {
+   "preds": [
+    "name"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_thing_count_current": {
+   "preds": [
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_thing_enabling_legislations": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear",
+    "enabledBy",
+    "name"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_thing_following": {
+   "preds": [
+    "followedBy",
+    "name",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_thing_preceding": {
+   "preds": [
+    "name",
+    "precededBy",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_thing_work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "statutoryInstrumentPaperNumber",
+    "statutoryInstrumentPaperPrefix",
+    "statutoryInstrumentPaperYear",
+    "treatyCommandPaperNumber",
+    "treatyCommandPaperPrefix",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage",
+    "workPackagedThingHasWorkPackagedThingWebLink"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_things": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "workPackageHasBusinessItem",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packageable_things_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packages": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packages_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packages_current": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  },
+  "work_packages_current_all": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasProcedureStep",
+    "name",
+    "procedureStepCollectionMembershipHasProcedureStepCollection",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackagedThingHasWorkPackage"
+   ],
+   "classes": [
+    "WorkPackagedThing"
+   ]
+  }
+ },
+ "shapes": {
+  "ActOfParliament": {
+   "preds": [
+    "actOfParliamentName",
+    "actOfParliamentNumber",
+    "actOfParliamentRoyalAssentDate",
+    "actOfParliamentUrl",
+    "actOfParliamentYear"
+   ]
+  },
+  "BusinessItem": {
+   "preds": [
+    "businessItemDate",
+    "businessItemHasBusinessItemWebLink",
+    "businessItemHasProcedureStep",
+    "businessItemHasWorkPackage"
+   ]
+  },
+  "CalculationStyle": {
+   "preds": [
+    "calculationStyleEggTimerId",
+    "calculationStyleHasProcedure",
+    "calculationStyleHasWorkPackage"
+   ]
+  },
+  "Clock": {
+   "preds": [
+    "clockDayCount",
+    "clockFormsPartOfProcedure",
+    "clockHasEndProcedureStep",
+    "clockHasStartProcedureStep",
+    "clockLabel"
+   ]
+  },
+  "EnabledThing": {
+   "preds": [
+    "enabledBy",
+    "followedBy",
+    "precededBy"
+   ]
+  },
+  "EnablingThing": {
+   "preds": [
+    "enabling"
+   ]
+  },
+  "GovernmentOrganisation": {
+   "preds": [
+    "leadGovernmentOrganisationHasTreaty"
+   ]
+  },
+  "House": {
+   "preds": [
+    "houseHasProcedureStep",
+    "houseHasProcedureStepCollection",
+    "houseInLegislature"
+   ]
+  },
+  "LaidThing": {
+   "preds": [
+    "laidThingHasLaying"
+   ]
+  },
+  "Laying": {
+   "preds": [
+    "layingDate",
+    "layingHasLaidThing"
+   ]
+  },
+  "LayingBody": {
+   "preds": [
+    "layingBodyHasLaying"
+   ]
+  },
+  "Legislature": {
+   "preds": [
+    "legislatureHasHouse",
+    "legislatureHasProcedureStep"
+   ]
+  },
+  "NamedThing": {
+   "preds": [
+    "name"
+   ]
+  },
+  "PastThing": {
+   "preds": [
+    "endDate",
+    "procedureRouteEndDate"
+   ]
+  },
+  "Procedure": {
+   "preds": [
+    "procedureDescription",
+    "procedureDisplayOrder",
+    "procedureHasCalculationStyle",
+    "procedureHasClock",
+    "procedureHasProcedureRoute",
+    "procedureHasProcedureStepCollection",
+    "procedureHasStepDisplayDepthInProcedure",
+    "procedureHasWorkPackage"
+   ]
+  },
+  "ProcedureRoute": {
+   "preds": [
+    "procedureRouteHasProcedure",
+    "procedureRouteIsFromProcedureStep",
+    "procedureRouteIsToProcedureStep"
+   ]
+  },
+  "ProcedureStep": {
+   "preds": [
+    "endProcedureStepOfClock",
+    "procedureStepDescription",
+    "procedureStepHasBusinessItem",
+    "procedureStepHasHouse",
+    "procedureStepHasProcedureStepCollectionMembership",
+    "procedureStepHasProcedureStepType",
+    "procedureStepHasStepDisplayDepthInProcedure",
+    "procedureStepInLegislature",
+    "procedureStepIsFromProcedureRoute",
+    "procedureStepIsToProcedureRoute",
+    "startProcedureStepOfClock"
+   ]
+  },
+  "ProcedureStepCollection": {
+   "preds": [
+    "procedureStepCollectionHasHouse",
+    "procedureStepCollectionHasProcedure",
+    "procedureStepCollectionHasProcedureStepCollectionMembership"
+   ]
+  },
+  "ProcedureStepCollectionMembership": {
+   "preds": [
+    "procedureStepCollectionMembershipHasProcedureStep",
+    "procedureStepCollectionMembershipHasProcedureStepCollection"
+   ]
+  },
+  "ProcedureStepType": {
+   "preds": [
+    "procedureStepTypeDescription",
+    "procedureStepTypeHasProcedureStep"
+   ]
+  },
+  "SeriesMembership": {
+   "preds": [
+    "seriesItemCitation"
+   ]
+  },
+  "StatutoryInstrumentPaper": {
+   "preds": [
+    "statutoryInstrumentPaperNumber",
+    "statutoryInstrumentPaperPrefix",
+    "statutoryInstrumentPaperYear"
+   ]
+  },
+  "StepDisplayDepthInProcedure": {
+   "preds": [
+    "stepDisplayDepthInProcedureHasDepth",
+    "stepDisplayDepthInProcedureHasProcedure",
+    "stepDisplayDepthInProcedureHasProcedureStep"
+   ]
+  },
+  "TemporalThing": {
+   "preds": [
+    "date",
+    "startDate"
+   ]
+  },
+  "Treaty": {
+   "preds": [
+    "treatyCommandPaperNumber",
+    "treatyCommandPaperPrefix",
+    "treatyHasCountrySeriesMembership",
+    "treatyHasEuropeanUnionSeriesMembership",
+    "treatyHasMiscellaneousSeriesMembership"
+   ]
+  },
+  "WebLinkedThing": {
+   "preds": [
+    "workPackagedThingHasWorkPackagedThingWebLink"
+   ]
+  },
+  "WorkPackage": {
+   "preds": [
+    "workPackageHasBusinessItem",
+    "workPackageHasCalculationStyle",
+    "workPackageHasProcedure",
+    "workPackageHasWorkPackagedThing"
+   ]
+  },
+  "WorkPackagedThing": {
+   "preds": [
+    "workPackagedThingHasWorkPackage"
+   ]
+  }
+ }
+}

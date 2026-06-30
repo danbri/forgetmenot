@@ -40,6 +40,36 @@
  .ctrl .chk{font-size:12px;display:flex;align-items:center;gap:5px;margin-top:6px;color:var(--ink);cursor:pointer}
  .legend{position:absolute;left:10px;bottom:10px;background:var(--panel);border:1px solid var(--rule);border-radius:8px;padding:6px 9px;font-size:11.5px;color:var(--soft);max-width:300px}
  .hidden{display:none!important}
+ /* highlighter panel */
+ .hlp{position:absolute;right:10px;bottom:56px;width:262px;max-width:calc(100vw - 20px);max-height:64vh;
+   display:flex;flex-direction:column;background:var(--panel);backdrop-filter:blur(6px);border:1px solid var(--rule);
+   border-radius:10px;box-shadow:0 2px 16px #0002;padding:10px 12px}
+ .hlp h3{margin:0 0 7px;font-size:13px}
+ .seg{display:flex;gap:0;margin-bottom:7px}
+ .seg button{margin:0;flex:1;background:#fff;color:var(--accent);border:1px solid var(--rule);border-radius:0;padding:5px 0;font-size:12px}
+ .seg button:first-child{border-radius:7px 0 0 7px}.seg button:last-child{border-radius:0 7px 7px 0;border-left:0}
+ .seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+ #hlsearch{width:100%;font:inherit;font-size:12.5px;padding:5px 8px;border:1px solid var(--rule);border-radius:7px;margin-bottom:6px}
+ .hllist{overflow:auto;flex:1;min-height:60px;border:1px solid var(--rule);border-radius:7px;padding:3px 5px;background:#fffdf8}
+ .hllist label{display:flex;align-items:center;gap:6px;font-size:11.5px;padding:2px 1px;cursor:pointer;font-family:ui-monospace,Menlo,monospace}
+ .hllist label.sel{color:var(--accent);font-weight:700}
+ .hlrow{display:flex;gap:6px;align-items:center;margin-top:6px}
+ .hlrow button{margin:0;font-size:11.5px;padding:4px 9px}
+ /* highlight mechanisms — gate on .hl-on so an empty selection changes nothing */
+ .m-dim.hl-on .node:not(.hl){opacity:.12}
+ .m-dim.hl-on .edge:not(.hl),.m-dim.hl-on .isa{opacity:.05}
+ .m-dim.hl-on .elabel:not(.hl){opacity:.06!important}
+ .m-colour .node.hl circle{stroke:#ff7a00;stroke-width:3.5px}
+ .m-colour .edge.hl{stroke:#ff7a00;stroke-width:2.6;marker-end:url(#arrowhl)}
+ .m-colour .elabel.hl{fill:#b34a00;font-weight:700}
+ .m-glow .node.hl circle{filter:url(#glow)}
+ .m-glow .edge.hl{filter:url(#glow)}
+ .m-shimmer .edge.hl{stroke-dasharray:7 5;animation:antmarch .55s linear infinite}
+ .m-shimmer .node.hl circle{stroke-dasharray:5 4;animation:antmarch .9s linear infinite}
+ .m-pulse .node.hl,.m-pulse .edge.hl,.m-pulse .elabel.hl{animation:hlpulse 1.4s ease-in-out infinite}
+ @keyframes antmarch{to{stroke-dashoffset:-24}}
+ @keyframes hlpulse{0%,100%{opacity:1}50%{opacity:.38}}
+ @media (prefers-reduced-motion:reduce){.m-shimmer .edge.hl,.m-shimmer .node.hl circle,.m-pulse .node.hl,.m-pulse .edge.hl,.m-pulse .elabel.hl{animation:none}}
  .x{position:absolute;top:6px;right:8px;cursor:pointer;border:0;background:none;color:var(--soft);font-size:18px;line-height:1;margin:0;padding:2px 4px}
  .x:hover{color:var(--ink)}
  #toolbar{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:6px;z-index:6;
@@ -52,6 +82,8 @@
  <marker id="arrow" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9c3b5"/></marker>
  <marker id="arrowhot" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2a4f76"/></marker>
  <marker id="isarrow" viewBox="0 0 12 12" refX="21" refY="6" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0 0 L11 6 L0 12 z" fill="#faf8f3" stroke="#9a8fd0"/></marker>
+ <marker id="arrowhl" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#ff7a00"/></marker>
+ <filter id="glow" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 </defs></svg>
 
 <div class="panel" id="panel">
@@ -78,9 +110,26 @@
 <div class="legend" id="legend"><button class="x" data-hide="legend" title="hide legend">&times;</button>
  Solid arrows = object properties (domain&nbsp;&rarr;&nbsp;range). Dashed&nbsp;&#9651; arrows = <b>subClassOf</b> (is-a), which connects the subtypes to the core. Hollow nodes = abstract/super classes. Node size = corpus usage.</div>
 
+<div class="hlp hidden" id="hlp">
+ <button class="x" data-hide="hlp" title="hide highlighter">&times;</button>
+ <h3>Highlight subgraph</h3>
+ <div class="seg"><button id="hlmodeq" class="on">queries</button><button id="hlmodes">shapes</button></div>
+ <input id="hlsearch" placeholder="filter by name…" autocomplete="off">
+ <div class="hllist" id="hllist"></div>
+ <div class="hlrow"><button id="hlall">select shown</button><button class="sec" id="hlclear">clear</button>
+  <span id="hlcount" class="sub" style="margin-left:auto"></span></div>
+ <div class="k">effects</div>
+ <label class="chk"><input type="checkbox" id="m_dim" checked> <span>dim the rest</span></label>
+ <label class="chk"><input type="checkbox" id="m_colour" checked> <span>colour wash</span></label>
+ <label class="chk"><input type="checkbox" id="m_glow" checked> <span>glow</span></label>
+ <label class="chk"><input type="checkbox" id="m_shimmer"> <span>shimmer (marching ants)</span></label>
+ <label class="chk"><input type="checkbox" id="m_pulse"> <span>pulse (fade in/out)</span></label>
+</div>
+
 <div id="toolbar">
  <button data-panel="panel" aria-pressed="true">&#9432; info</button>
  <button data-panel="ctrl" aria-pressed="true">&#9881; layout</button>
+ <button data-panel="hlp" aria-pressed="false">&#10022; highlight</button>
  <button data-panel="legend" aria-pressed="true">&#9776; legend</button>
 </div>
 
@@ -128,7 +177,7 @@ function layoutAndDraw(){
  byId={};nodes.forEach(n=>byId[n.id]=n);
  links=RAW.links.filter(e=>byId[e.source]&&byId[e.target]);
  sclinks=(RAW.subclass||[]).filter(e=>byId[e.child]&&byId[e.parent]);
- renderDom();alpha=1;
+ renderDom();applyHighlight();alpha=1;
 }
 
 let gE,gL,gN;
@@ -293,6 +342,57 @@ $("showall").addEventListener("change",e=>{showAll=e.target.checked;layoutAndDra
 $("showisa").addEventListener("change",e=>{showIsa=e.target.checked;sclinks.forEach(l=>l._l.style.display=showIsa?"":"none");alpha=Math.max(alpha,.4);});
 $("alllabels").addEventListener("change",e=>{alwaysLabels=e.target.checked;links.forEach(l=>l._t.classList.toggle("show",alwaysLabels));});
 $("keepin").addEventListener("change",e=>{keepIn=e.target.checked;alpha=Math.max(alpha,.6);});
+
+// ---- subgraph highlighter ---------------------------------------------------
+// A query (or query template) / SHACL shape touches a set of schema predicates
+// and classes; light up exactly the nodes + object-property edges they exercise.
+// highlights.json: {queries:{name:{preds,classes}}, shapes:{class:{preds}}}.
+let HL=null, hlMode="queries", hlSel=new Set();
+const hlData=()=>HL?(hlMode==="queries"?HL.queries:HL.shapes):{};
+const hlKey=name=>(hlMode==="queries"?"q:":"s:")+name;
+function computeHighlight(){
+ if(!HL){svg.classList.remove("hl-on");return;}
+ const edgeByLabel={};links.forEach(e=>edgeByLabel[e.label]=e);
+ const dpOwner={};for(const c in dataProps)for(const p of dataProps[c])dpOwner[p]=c;
+ const nodeSet=new Set(),edgeSet=new Set();
+ for(const key of hlSel){
+  const name=key.slice(2),src=key[0]==="q"?HL.queries:HL.shapes,t=src&&src[name];if(!t)continue;
+  (t.classes||[]).forEach(c=>{if(byId[c])nodeSet.add(c);});
+  (t.preds||[]).forEach(p=>{const e=edgeByLabel[p];if(e){edgeSet.add(p);nodeSet.add(e.source);nodeSet.add(e.target);}
+   const dc=dpOwner[p];if(dc&&byId[dc])nodeSet.add(dc);});
+ }
+ nodes.forEach(n=>n._g.classList.toggle("hl",nodeSet.has(n.id)));
+ links.forEach(e=>{const on=edgeSet.has(e.label);e._l.classList.toggle("hl",on);e._t.classList.toggle("hl",on);});
+ svg.classList.toggle("hl-on",nodeSet.size>0||edgeSet.size>0);
+ $("hlcount").textContent=hlSel.size?`${hlSel.size} sel · ${nodeSet.size} cls / ${edgeSet.size} prop`:"";
+}
+function applyHighlight(){computeHighlight();}
+function buildHlList(){
+ const list=$("hllist"),q=($("hlsearch").value||"").trim().toLowerCase();
+ const names=Object.keys(hlData()).sort().filter(n=>n.toLowerCase().includes(q));
+ list.innerHTML="";
+ if(!names.length){list.innerHTML='<div class="sub" style="padding:5px">no matches</div>';return;}
+ for(const name of names){
+  const lab=document.createElement("label"),key=hlKey(name),on=hlSel.has(key);
+  lab.className=on?"sel":"";
+  const cb=document.createElement("input");cb.type="checkbox";cb.checked=on;
+  cb.addEventListener("change",()=>{cb.checked?hlSel.add(key):hlSel.delete(key);lab.classList.toggle("sel",cb.checked);computeHighlight();});
+  const sp=document.createElement("span");sp.textContent=name;
+  lab.append(cb,sp);list.appendChild(lab);
+ }
+}
+function setHlMode(m){hlMode=m;$("hlmodeq").classList.toggle("on",m==="queries");$("hlmodes").classList.toggle("on",m==="shapes");buildHlList();}
+$("hlmodeq").addEventListener("click",()=>setHlMode("queries"));
+$("hlmodes").addEventListener("click",()=>setHlMode("shapes"));
+$("hlsearch").addEventListener("input",buildHlList);
+$("hlall").addEventListener("click",()=>{const q=($("hlsearch").value||"").trim().toLowerCase();
+ Object.keys(hlData()).filter(n=>n.toLowerCase().includes(q)).forEach(n=>hlSel.add(hlKey(n)));buildHlList();computeHighlight();});
+$("hlclear").addEventListener("click",()=>{hlSel.clear();buildHlList();computeHighlight();});
+[["m_dim","m-dim"],["m_colour","m-colour"],["m_glow","m-glow"],["m_shimmer","m-shimmer"],["m_pulse","m-pulse"]]
+ .forEach(([id,cls])=>{const cb=$(id);svg.classList.toggle(cls,cb.checked);
+  cb.addEventListener("change",()=>svg.classList.toggle(cls,cb.checked));});
+fetch("highlights.json").then(r=>r.json()).then(d=>{HL=d;buildHlList();computeHighlight();})
+ .catch(()=>{$("hllist").innerHTML='<div class="sub" style="padding:5px">highlights.json failed to load</div>';});
 
 async function describe(localId){
  const uri="https://id.parliament.uk/"+localId;$("dstat").textContent="…";$("dout").innerHTML="";
