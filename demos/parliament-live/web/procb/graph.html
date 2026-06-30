@@ -9,6 +9,8 @@
  #svg{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
  #svg.drag{cursor:grabbing}
  .edge{stroke:#c9c3b5;stroke-width:1;marker-end:url(#arrow)}
+ .isa{stroke:#9a8fd0;stroke-width:1.3;stroke-dasharray:5 4;marker-end:url(#isarrow)}
+ .isa.dim{opacity:.08}.isa.hot{stroke:#6a4fae;stroke-width:2}
  .edge.hot{stroke:var(--accent);stroke-width:2.2;marker-end:url(#arrowhot)}
  .elabel{font-size:9px;fill:#7a746a;pointer-events:none;opacity:0;paint-order:stroke;stroke:var(--bg);stroke-width:3px}
  .elabel.show{opacity:1}
@@ -48,6 +50,7 @@
 <svg id="svg"><defs>
  <marker id="arrow" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#c9c3b5"/></marker>
  <marker id="arrowhot" viewBox="0 0 10 10" refX="20" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#2a4f76"/></marker>
+ <marker id="isarrow" viewBox="0 0 12 12" refX="21" refY="6" markerWidth="11" markerHeight="11" orient="auto-start-reverse"><path d="M0 0 L11 6 L0 12 z" fill="#faf8f3" stroke="#9a8fd0"/></marker>
 </defs></svg>
 
 <div class="panel" id="panel">
@@ -67,10 +70,11 @@
  <label>Link length <span id="lv"></span></label><input type="range" id="ld" min="40" max="320" step="10">
  <div class="btns"><button id="reheat">Re-heat</button><button class="sec" id="freeze">Freeze</button></div>
  <label class="chk"><input type="checkbox" id="showall"> <span>show all classes (+<span id="nsat"></span> satellites)</span></label>
+ <label class="chk"><input type="checkbox" id="showisa" checked> <span>show subtype (is-a) links</span></label>
  <label class="chk"><input type="checkbox" id="alllabels"> <span>always show edge labels</span></label>
 </div>
 <div class="legend" id="legend"><button class="x" data-hide="legend" title="hide legend">&times;</button>
- Node size = corpus usage. Colour = class (stable hue). Default view = the connected core; the satellites are classes the queries never link by an object property.</div>
+ Solid arrows = object properties (domain&nbsp;&rarr;&nbsp;range). Dashed&nbsp;&#9651; arrows = <b>subClassOf</b> (is-a), which connects the subtypes to the core. Hollow nodes = abstract/super classes. Node size = corpus usage.</div>
 
 <div id="toolbar">
  <button data-panel="panel" aria-pressed="true">&#9432; info</button>
@@ -83,8 +87,8 @@
 const EP={id:"parliament-ddp",url:"https://api.parliament.uk/sparql"},SCHEMA="https://id.parliament.uk/schema/";
 const svg=document.getElementById("svg"),SVGNS="http://www.w3.org/2000/svg";
 const $=id=>document.getElementById(id);
-let RAW,nodes=[],links=[],byId={},dataProps={},examples={};
-let alpha=1, repulsion=2200, linkDist=120, selected=null, alwaysLabels=false, showAll=false;
+let RAW,nodes=[],links=[],sclinks=[],byId={},dataProps={},examples={};
+let alpha=1, repulsion=2200, linkDist=120, selected=null, alwaysLabels=false, showAll=false, showIsa=true;
 const hue=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))%360;return h;};
 const color=s=>`hsl(${hue(s)} 62% 55%)`;
 
@@ -97,6 +101,7 @@ fetch("graph.json").then(r=>r.json()).then(g=>{RAW=g;dataProps=g.dataProps||{};
 function components(g){
  const adj={};g.nodes.forEach(n=>adj[n.id]=[]);
  g.links.forEach(e=>{adj[e.source].push(e.target);adj[e.target].push(e.source);});
+ (g.subclass||[]).forEach(e=>{if(adj[e.child]&&adj[e.parent]){adj[e.child].push(e.parent);adj[e.parent].push(e.child);}});
  const seen=new Set(),comps=[];
  for(const n of g.nodes){if(seen.has(n.id))continue;const st=[n.id],c=[];
   while(st.length){const x=st.pop();if(seen.has(x))continue;seen.add(x);c.push(x);adj[x].forEach(y=>!seen.has(y)&&st.push(y));}
@@ -120,6 +125,7 @@ function layoutAndDraw(){
    r:9+17*Math.sqrt(n.weight/maxW)}));
  byId={};nodes.forEach(n=>byId[n.id]=n);
  links=RAW.links.filter(e=>byId[e.source]&&byId[e.target]);
+ sclinks=(RAW.subclass||[]).filter(e=>byId[e.child]&&byId[e.parent]);
  renderDom();alpha=1;
 }
 
@@ -127,10 +133,12 @@ let gE,gL,gN;
 function renderDom(){
  svg.querySelectorAll("g").forEach(g=>g.remove());
  gE=mk("g");gL=mk("g");gN=mk("g");svg.append(gE,gL,gN);
+ sclinks.forEach(e=>{e._l=mk("line",{class:"isa"});if(!showIsa)e._l.style.display="none";gE.appendChild(e._l);});
  links.forEach(e=>{e._l=mk("line",{class:"edge"});gE.appendChild(e._l);
    e._t=mk("text",{class:"elabel"});e._t.textContent=e.label;gL.appendChild(e._t);});
  nodes.forEach(n=>{const g=mk("g",{class:"node"});
-   n._c=mk("circle",{r:n.r,fill:color(n.id)});
+   n._c=mk("circle",{r:n.r,fill:n.abstract?"#fff":color(n.id),stroke:n.abstract?color(n.id):"#fff",
+     "stroke-dasharray":n.abstract?"3 2":"none","stroke-width":n.abstract?2:1.5});
    n._x=mk("text",{"text-anchor":"middle",dy:-n.r-4});n._x.textContent=n.label;
    g.append(n._c,n._x);n._g=g;gN.appendChild(g);
    g.addEventListener("pointerdown",ev=>startDrag(ev,n));
@@ -149,6 +157,8 @@ function tick(){
    const f=repulsion*repulsion/d2*0.0009;const ux=dx/d,uy=dy/d;a.fx2+=ux*f;a.fy2+=uy*f;b.fx2-=ux*f;b.fy2-=uy*f;}
   for(const e of links){const a=byId[e.source],b=byId[e.target];let dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1;
    const f=(d-linkDist)*0.03;const ux=dx/d,uy=dy/d;a.fx2+=ux*f;a.fy2+=uy*f;b.fx2-=ux*f;b.fy2-=uy*f;}
+  if(showIsa)for(const e of sclinks){const a=byId[e.child],b=byId[e.parent];let dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy)||1;
+   const f=(d-linkDist*1.15)*0.022;const ux=dx/d,uy=dy/d;a.fx2+=ux*f;a.fy2+=uy*f;b.fx2-=ux*f;b.fy2-=uy*f;}
   const W=svg.clientWidth,H=svg.clientHeight;
   for(const a of nodes){a.fx2+=(W/2-a.x)*0.012;a.fy2+=(H/2-a.y)*0.012;
    if(a.pin){a.x=a.px;a.y=a.py;a.vx=a.vy=0;continue;}
@@ -161,13 +171,16 @@ function draw(){
  for(const e of links){const a=byId[e.source],b=byId[e.target];
   e._l.setAttribute("x1",a.x);e._l.setAttribute("y1",a.y);e._l.setAttribute("x2",b.x);e._l.setAttribute("y2",b.y);
   e._t.setAttribute("x",(a.x+b.x)/2);e._t.setAttribute("y",(a.y+b.y)/2-1);}
+ for(const e of sclinks){const a=byId[e.child],b=byId[e.parent];
+  e._l.setAttribute("x1",a.x);e._l.setAttribute("y1",a.y);e._l.setAttribute("x2",b.x);e._l.setAttribute("y2",b.y);}
  for(const n of nodes)n._g.setAttribute("transform",`translate(${n.x},${n.y})`);
 }
 requestAnimationFrame(tick);
 
 // ---- hover / select highlighting -------------------------------------------
 function incident(id){return links.filter(e=>e.source===id||e.target===id);}
-function neigh(id){const s=new Set([id]);incident(id).forEach(e=>{s.add(e.source);s.add(e.target);});return s;}
+function neigh(id){const s=new Set([id]);incident(id).forEach(e=>{s.add(e.source);s.add(e.target);});
+ sclinks.forEach(e=>{if(e.child===id)s.add(e.parent);if(e.parent===id)s.add(e.child);});return s;}
 function hover(n){
  if(alwaysLabels)return;
  links.forEach(e=>e._t.classList.toggle("show", !!n && (e.source===n.id||e.target===n.id)));
@@ -179,10 +192,15 @@ function select(id){
  links.forEach(e=>{const on=id&&(e.source===id||e.target===id);
    e._l.classList.toggle("hot",!!on);e._l.classList.toggle("dim",!!id&&!on);
    e._t.classList.toggle("show",alwaysLabels|| !!on);});
+ sclinks.forEach(e=>{const on=id&&(e.child===id||e.parent===id);
+   e._l.classList.toggle("hot",!!on);e._l.classList.toggle("dim",!!id&&!on);});
  if(!id){det.innerHTML='<p class="sub">Click a class node. Hover/click shows its edge labels.</p>';return;}
  const out=links.filter(e=>e.source===id),inc=links.filter(e=>e.target===id),dp=dataProps[id]||[],ex=examples[id];
+ const parents=sclinks.filter(e=>e.child===id).map(e=>e.parent),kids=sclinks.filter(e=>e.parent===id).map(e=>e.child);
  det.innerHTML=`<h2 style="color:${color(id)}">:${id}</h2>`+
   (ex?`<div class="k">example</div><div class="row"><span class="a">id:${ex}</span></div>`:"")+
+  (parents.length?`<div class="k">subClassOf (is-a)</div>`+parents.map(p=>`<div class="row">&#9651; :${p}</div>`).join(""):"")+
+  (kids.length?`<div class="k">subtypes</div>`+kids.map(c=>`<div class="row">:${c} &#9651;</div>`).join(""):"")+
   (out.length?`<div class="k">out (object properties)</div>`+out.map(e=>`<div class="row">:<span class="pill">${e.label}</span> &rarr; :${e.target}</div>`).join(""):"")+
   (inc.length?`<div class="k">in</div>`+inc.map(e=>`<div class="row">:${e.source} &rarr; :<span class="pill">${e.label}</span></div>`).join(""):"")+
   (dp.length?`<div class="k">datatype properties</div>`+dp.map(p=>`<div class="row">:${p}</div>`).join(""):"")+
@@ -217,6 +235,7 @@ $("ld").addEventListener("input",e=>{linkDist=+e.target.value;$("lv").textConten
 $("reheat").addEventListener("click",()=>{nodes.forEach(n=>{n.pin=false;});alpha=1;});
 $("freeze").addEventListener("click",()=>{alpha=0;});
 $("showall").addEventListener("change",e=>{showAll=e.target.checked;layoutAndDraw();if(selected)select(selected);});
+$("showisa").addEventListener("change",e=>{showIsa=e.target.checked;sclinks.forEach(l=>l._l.style.display=showIsa?"":"none");alpha=Math.max(alpha,.4);});
 $("alllabels").addEventListener("change",e=>{alwaysLabels=e.target.checked;links.forEach(l=>l._t.classList.toggle("show",alwaysLabels));});
 
 async function describe(localId){

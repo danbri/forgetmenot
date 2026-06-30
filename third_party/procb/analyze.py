@@ -152,20 +152,52 @@ for c in sorted(shapes):
     sh_ttl.append("")
 (HERE / "procedure-shapes.shacl.ttl").write_text("\n".join(sh_ttl) + "\n")
 
+# ---- subClassOf (is-a) edges, authoritative, to connect the hierarchy -------
+# Fetch subClassOf for every class, drop reflexive/owl:Thing, and pull in any
+# bridging superclass that has >=2 in-scope subclasses (e.g. :Group) as a node.
+def fetch_subclassof(cls_set):
+    vals = " ".join(f"<{SCHEMA}{c}>" for c in sorted(cls_set))
+    rows = sparql(f"""PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+      SELECT ?c ?s WHERE {{ VALUES ?c {{ {vals} }} ?c rdfs:subClassOf ?s
+        FILTER(STRSTARTS(STR(?s),"{SCHEMA}")) }}""")
+    out = defaultdict(set)
+    for b in rows:
+        c, s = local(b["c"]["value"]), local(b["s"]["value"])
+        if c != s: out[c].add(s)
+    return out
+
+subof = fetch_subclassof(classes)
+# bridging superclasses (parents shared by >=2 in-scope classes) become nodes too
+parent_count = defaultdict(int)
+for c, ss in subof.items():
+    for s in ss:
+        if s not in classes: parent_count[s] += 1
+bridges = {s for s, n in parent_count.items() if n >= 2}
+allclasses = classes | bridges
+subof2 = fetch_subclassof(bridges) if bridges else {}
+subclass_links = []
+for c, ss in list(subof.items()) + list(subof2.items()):
+    for s in sorted(ss):
+        if c in allclasses and s in allclasses:
+            subclass_links.append({"child": c, "parent": s})
+
 examples = json.loads((HERE / "slot-examples.json").read_text()) if (HERE / "slot-examples.json").exists() else {}
 deg = defaultdict(int)
 for p,(d,r) in object_props.items():
     deg[d]+=pred_uses[p]["count"]; deg[r]+=pred_uses[p]["count"]
-nodes = [{"id":c,"label":c,"weight":max(1,deg.get(c,1)),"example":examples.get(c,"").split("/")[-1]}
-         for c in sorted(classes)]
+nodes = [{"id":c,"label":c,"weight":max(1,deg.get(c,1)),"example":examples.get(c,"").split("/")[-1],
+          "abstract": c in bridges or c not in classes}
+         for c in sorted(allclasses)]
 links = [{"source":d,"target":r,"label":p,"count":pred_uses[p]["count"]}
          for p,(d,r) in sorted(object_props.items()) if d and r]
 dprops = defaultdict(list)
 for p,d in data_props.items():
     if d: dprops[d].append(p)
 (HERE / "graph.json").write_text(json.dumps(
-    {"nodes":nodes,"links":links,"dataProps":{k:sorted(v) for k,v in dprops.items()}},
+    {"nodes":nodes,"links":links,"subclass":subclass_links,
+     "dataProps":{k:sorted(v) for k,v in dprops.items()}},
     ensure_ascii=False, indent=1))
+print(f"subclass(is-a) edges={len(subclass_links)}  bridging superclasses added={sorted(bridges)}")
 
 print(f"classes={len(classes)}  object_props={len(object_props)}  data_props={len(data_props)}")
 if no_schema: print(f"predicates with no ontology domain/range ({len(no_schema)}):", ", ".join(no_schema))
