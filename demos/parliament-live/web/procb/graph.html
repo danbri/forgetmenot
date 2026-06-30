@@ -73,6 +73,7 @@
  <label class="chk"><input type="checkbox" id="showall"> <span>show all classes (+<span id="nsat"></span> satellites)</span></label>
  <label class="chk"><input type="checkbox" id="showisa" checked> <span>show subtype (is-a) links</span></label>
  <label class="chk"><input type="checkbox" id="alllabels"> <span>always show edge labels</span></label>
+ <label class="chk"><input type="checkbox" id="keepin"> <span>keep all nodes in view</span></label>
 </div>
 <div class="legend" id="legend"><button class="x" data-hide="legend" title="hide legend">&times;</button>
  Solid arrows = object properties (domain&nbsp;&rarr;&nbsp;range). Dashed&nbsp;&#9651; arrows = <b>subClassOf</b> (is-a), which connects the subtypes to the core. Hollow nodes = abstract/super classes. Node size = corpus usage.</div>
@@ -89,7 +90,7 @@ const EP={id:"parliament-ddp",url:"https://api.parliament.uk/sparql"},SCHEMA="ht
 const svg=document.getElementById("svg"),SVGNS="http://www.w3.org/2000/svg";
 const $=id=>document.getElementById(id);
 let RAW,nodes=[],links=[],sclinks=[],byId={},dataProps={},examples={};
-let alpha=1, repulsion=2200, linkDist=120, selected=null, alwaysLabels=false, showAll=false, showIsa=true;
+let alpha=1, repulsion=2200, linkDist=120, selected=null, alwaysLabels=false, showAll=false, showIsa=true, keepIn=false;
 const hue=s=>{let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))%360;return h;};
 const color=s=>`hsl(${hue(s)} 62% 55%)`;
 
@@ -167,8 +168,16 @@ function tick(){
    const vb_=(linkDist*0.7+dy)*0.006;a.fy2+=vb_;b.fy2-=vb_;}           // superclass rides above its subtypes (is-a reads upward)
   const W=svg.clientWidth,H=svg.clientHeight;
   for(const a of nodes){a.fx2+=(W/2-a.x)*0.012;a.fy2+=(H/2-a.y)*0.012;
+   // keep-in-view: repel every node back inside the *currently visible* window
+   // (the viewBox), leaving room for its circle and the label above it.
+   if(keepIn){const mx=Math.max(a.r,a.lw)+6,mt=a.r+18,mb=a.r+6;
+    const x0=vb.x+mx,x1=vb.x+vb.w-mx,y0=vb.y+mt,y1=vb.y+vb.h-mb;
+    if(a.x<x0)a.fx2+=(x0-a.x)*0.09;else if(a.x>x1)a.fx2+=(x1-a.x)*0.09;
+    if(a.y<y0)a.fy2+=(y0-a.y)*0.09;else if(a.y>y1)a.fy2+=(y1-a.y)*0.09;}
    if(a.pin){a.x=a.px;a.y=a.py;a.vx=a.vy=0;continue;}
-   a.vx=(a.vx+a.fx2*alpha)*0.82;a.vy=(a.vy+a.fy2*alpha)*0.82;a.x+=a.vx;a.y+=a.vy;}
+   a.vx=(a.vx+a.fx2*alpha)*0.82;a.vy=(a.vy+a.fy2*alpha)*0.82;a.x+=a.vx;a.y+=a.vy;
+   if(keepIn){const mx=Math.max(a.r,a.lw)+6,mt=a.r+18,mb=a.r+6;   // hard backstop so nothing escapes
+    a.x=Math.max(vb.x+mx,Math.min(vb.x+vb.w-mx,a.x));a.y=Math.max(vb.y+mt,Math.min(vb.y+vb.h-mb,a.y));}}
   alpha*=0.985;
  }
  draw();requestAnimationFrame(tick);
@@ -229,7 +238,8 @@ function clientToSvg(cx,cy){const r=svg.getBoundingClientRect();
  return{x:vb.x+vb.w*(cx-r.left)/r.width,y:vb.y+vb.h*(cy-r.top)/r.height};}
 function svgPt(ev){return clientToSvg(ev.clientX,ev.clientY);}
 function zoomAround(cx,cy,s){const m=clientToSvg(cx,cy);
- vb.w*=s;vb.h*=s;vb.x=m.x-(m.x-vb.x)*s;vb.y=m.y-(m.y-vb.y)*s;userView=true;apply();}
+ vb.w*=s;vb.h*=s;vb.x=m.x-(m.x-vb.x)*s;vb.y=m.y-(m.y-vb.y)*s;userView=true;apply();
+ if(keepIn)alpha=Math.max(alpha,.3);}   // re-flow nodes into the resized window
 function beginPinch(){const p=[...pointers.values()];
  pinch={dist:Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y),cx:(p[0].x+p[1].x)/2,cy:(p[0].y+p[1].y)/2};
  if(down&&down.n)down.n.pin=false;down=null;dragging=null;pan=null;svg.classList.add("drag");}
@@ -254,7 +264,7 @@ svg.addEventListener("pointermove",ev=>{
   userView=true;apply();pinch={dist,cx,cy};return;}
  if(down){if(!down.moved && Math.hypot(ev.clientX-down.sx,ev.clientY-down.sy)>4){down.moved=true;down.n.pin=true;dragging=down.n;}
   if(down.moved){const p=svgPt(ev);down.n.px=p.x;down.n.py=p.y;alpha=Math.max(alpha,.45);}return;}
- if(pan){const r=svg.getBoundingClientRect();vb.x-=(ev.clientX-pan.x)*vb.w/r.width;vb.y-=(ev.clientY-pan.y)*vb.h/r.height;pan={x:ev.clientX,y:ev.clientY};userView=true;apply();}});
+ if(pan){const r=svg.getBoundingClientRect();vb.x-=(ev.clientX-pan.x)*vb.w/r.width;vb.y-=(ev.clientY-pan.y)*vb.h/r.height;pan={x:ev.clientX,y:ev.clientY};userView=true;apply();if(keepIn)alpha=Math.max(alpha,.3);}});
 function endPointer(ev){
  pointers.delete(ev.pointerId);
  if(pointers.size<2)pinch=null;
@@ -273,6 +283,7 @@ $("freeze").addEventListener("click",()=>{alpha=0;});
 $("showall").addEventListener("change",e=>{showAll=e.target.checked;layoutAndDraw();if(selected)select(selected);});
 $("showisa").addEventListener("change",e=>{showIsa=e.target.checked;sclinks.forEach(l=>l._l.style.display=showIsa?"":"none");alpha=Math.max(alpha,.4);});
 $("alllabels").addEventListener("change",e=>{alwaysLabels=e.target.checked;links.forEach(l=>l._t.classList.toggle("show",alwaysLabels));});
+$("keepin").addEventListener("change",e=>{keepIn=e.target.checked;alpha=Math.max(alpha,.6);});
 
 async function describe(localId){
  const uri="https://id.parliament.uk/"+localId;$("dstat").textContent="…";$("dout").innerHTML="";
