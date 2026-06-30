@@ -45,14 +45,20 @@ for f in glob.glob(str(HERE / "queries" / "*.after.rq")):
                 if opt_stack: opt_stack.pop()
 
 # ---- candidate classes: asserted + every Has/In/IsFrom/IsTo target ----------
-LINKWORDS = r"(?:Has|In|IsFrom|IsTo|For)"
+# Verbs that separate a domain class from a range class. "In"/"For" are NOT
+# included as separators because they occur INSIDE class names
+# (StepDisplayDepthInProcedure), which is what produced bogus classes like
+# "ProcedureHasDepth" from greedy matching.
+LINKWORDS = r"(?:Has|IsFrom|IsTo)"
+BOGUS = re.compile(r"(Has|IsFrom|IsTo)[A-Z]")   # a class name must not contain a verb
 classes = set(asserted_classes)
 for p in pred_uses:
-    for m in re.finditer(LINKWORDS + r"([A-Z]\w+)", p):
+    for m in re.finditer(LINKWORDS + r"([A-Z][a-z]\w*)$", p):  # range = tail after the verb
         classes.add(m.group(1))
 # also seed from resolved examples
 examples = json.loads((HERE / "slot-examples.json").read_text()) if (HERE / "slot-examples.json").exists() else {}
 classes |= set(examples)
+classes = {c for c in classes if not BOGUS.search(c)}          # drop any verb-containing pseudo-class
 low2cls = {c[0].lower() + c[1:]: c for c in sorted(classes, key=len, reverse=True)}
 
 def domain_of(pred):
@@ -62,11 +68,12 @@ def domain_of(pred):
 
 object_props = {}   # pred -> (domain, range)
 data_props = {}     # pred -> domain
+EDGE_VERB = re.compile(r"(?:Has|IsFrom|IsTo|In|For)([A-Z]\w+)$")  # In/For ok here: range is validated
 for p in pred_uses:
     dom, rest = domain_of(p)
-    m = re.match(LINKWORDS + r"([A-Z]\w+)$", rest)
+    m = EDGE_VERB.match(rest)
     if dom and m and m.group(1) in classes:
-        object_props[p] = (dom, m.group(1))
+        object_props[p] = (dom, m.group(1))   # accept only when range is a known class
     else:
         data_props[p] = dom   # may be None for the bare :name / :enabling etc.
 

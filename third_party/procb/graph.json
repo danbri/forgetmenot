@@ -43,6 +43,12 @@
    "example": ""
   },
   {
+   "id": "Depth",
+   "label": "Depth",
+   "weight": 6,
+   "example": ""
+  },
+  {
    "id": "EnabledThing",
    "label": "EnabledThing",
    "weight": 1,
@@ -105,31 +111,13 @@
   {
    "id": "Procedure",
    "label": "Procedure",
-   "weight": 87,
+   "weight": 95,
    "example": "5S6p4YsP"
-  },
-  {
-   "id": "ProcedureHasDepth",
-   "label": "ProcedureHasDepth",
-   "weight": 1,
-   "example": ""
-  },
-  {
-   "id": "ProcedureHasProcedure",
-   "label": "ProcedureHasProcedure",
-   "weight": 1,
-   "example": ""
-  },
-  {
-   "id": "ProcedureHasProcedureStep",
-   "label": "ProcedureHasProcedureStep",
-   "weight": 1,
-   "example": ""
   },
   {
    "id": "ProcedureRoute",
    "label": "ProcedureRoute",
-   "weight": 26,
+   "weight": 33,
    "example": "lz3c1tQ8"
   },
   {
@@ -141,7 +129,7 @@
   {
    "id": "ProcedureStepCollection",
    "label": "ProcedureStepCollection",
-   "weight": 94,
+   "weight": 95,
    "example": "m7fzgEd2"
   },
   {
@@ -177,7 +165,7 @@
   {
    "id": "StepDisplayDepthInProcedure",
    "label": "StepDisplayDepthInProcedure",
-   "weight": 12,
+   "weight": 18,
    "example": ""
   },
   {
@@ -304,6 +292,18 @@
   },
   {
    "source": "Procedure",
+   "target": "ProcedureRoute",
+   "label": "procedureHasProcedureRoute",
+   "count": 7
+  },
+  {
+   "source": "Procedure",
+   "target": "ProcedureStepCollection",
+   "label": "procedureHasProcedureStepCollection",
+   "count": 1
+  },
+  {
+   "source": "Procedure",
    "target": "StepDisplayDepthInProcedure",
    "label": "procedureHasStepDisplayDepthInProcedure",
    "count": 4
@@ -424,6 +424,12 @@
   },
   {
    "source": "StepDisplayDepthInProcedure",
+   "target": "Depth",
+   "label": "stepDisplayDepthInProcedureHasDepth",
+   "count": 6
+  },
+  {
+   "source": "StepDisplayDepthInProcedure",
    "target": "Procedure",
    "label": "stepDisplayDepthInProcedureHasProcedure",
    "count": 2
@@ -500,12 +506,6 @@
    "actOfParliamentUrl",
    "actOfParliamentYear"
   ],
-  "StepDisplayDepthInProcedure": [
-   "stepDisplayDepthInProcedureHasDepth"
-  ],
-  "ProcedureHasProcedure": [
-   "procedureHasProcedureRoute"
-  ],
   "Laying": [
    "layingBodyHasLaying",
    "layingDate"
@@ -544,9 +544,6 @@
   ],
   "ProcedureStepType": [
    "procedureStepTypeDescription"
-  ],
-  "ProcedureHasProcedureStep": [
-   "procedureHasProcedureStepCollection"
   ],
   "CalculationStyle": [
    "calculationStyleEggTimerId"
