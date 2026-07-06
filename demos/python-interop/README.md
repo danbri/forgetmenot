@@ -11,12 +11,18 @@ CLI, the SPARQL Anything project, command-line `roqet`, even
 LibreOffice's Calc with an RDF plugin — can read them. There is no
 "daisychain API" to negotiate. The manifest IS the API.
 
-## Daisychain 1.0 — converged Python + JS DAL
+## Daisychain 1.0 — converged Python + JS DSL toolchain
 
-As of Daisychain 1.0 the Python and JavaScript implementations share
-one data-access layer with five operations — **load / validate / plan /
-run / emit** — and byte-identical planners, enforced by
-`tests/test_kgx_conformance.sh` over every chain in `examples/`.
+Daisychain is a small **DSL** for set-based dataflow over knowledge
+graphs (the chain vocabulary is the language), and `plan` is its
+**compiler** — it lowers a chain plus the circumstances (which bead is
+in focus, the endpoint, the cumulative upstream context) to a concrete
+SPARQL query on demand. As of Daisychain 1.0 the Python and JavaScript
+implementations share one toolchain over that DSL, with five operations
+— **load** (parse) / **validate** (typecheck) / **plan** (compile) /
+**run** (execute) / **emit** (serialize) — and byte-identical planners,
+enforced by `tests/test_kgx_conformance.sh` over every chain in
+`examples/`.
 Contract: [`docs/kgx/daisychain-1.0.md`](../../docs/kgx/daisychain-1.0.md).
 
 ```sh

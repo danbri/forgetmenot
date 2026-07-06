@@ -44,13 +44,23 @@ navigable graph* — but no longer limited to it:
 ## 2. State of play (as of this commit)
 
 **Daisychain 1.0 shipped yesterday** (`4d4510d2`, contract in
-`docs/kgx/daisychain-1.0.md`). Python (`kgx_chain.py`) and JS
-(`kgx_core.mjs`) now converge on a five-verb DAL — load / validate /
-plan / run / emit — with **byte-identical planners**, enforced by
+`docs/kgx/daisychain-1.0.md`). The right framing (danbri's, corrected
+2026-07-06): Daisychain is a **DSL** — a small custom language for
+set-based dataflow over knowledge graphs, whose vocabulary IS the
+language — and `plan` is its **compiler**, lowering a chain plus the
+circumstances (bead in focus, endpoint, cumulative upstream context,
+active variant) to SPARQL on demand. (An earlier draft of these notes
+and the spec doc mislabelled it a "DAL / data-access layer" — that was
+my typo-inheritance of a slip; it's a DSL toolchain, not a storage
+abstraction.) Python (`kgx_chain.py`) and JS (`kgx_core.mjs`) now
+converge on a five-verb toolchain — load (parse) / validate
+(typecheck) / plan (compile) / run (execute) / emit (serialize) — with
+**byte-identical planners**, enforced by
 `tests/test_kgx_conformance.sh` over all 51 example chains (51/51
 green, plus live row-count parity). The spec JSON is the interchange
-boundary: Python/rdflib owns TriG→spec (same Python runs under Pyodide
-in the browser), both sides implement plan/run over the spec.
+boundary: Python/rdflib owns TriG→spec / parse (same Python runs under
+Pyodide in the browser), both sides implement compile/execute over the
+spec.
 
 Other live workstreams (some driven in sessions parallel to mine):
 
@@ -77,17 +87,27 @@ Other live workstreams (some driven in sessions parallel to mine):
 These are the load-bearing ideas. Some took real debugging pain to
 earn.
 
-### 3.1 The manifest is the API, and the spec JSON is the DAL boundary
+### 3.1 Daisychain is a DSL; the manifest is the program; plan is the compiler
 
-We resisted building a "daisychain service". Instead: TriG in a
-well-known vocabulary (`urn:kgx:vocab:`), readable by rdflib/Jena/
-Oxigraph/anything. The 1.0 convergence then picked ONE parser as
-reference (Python/rdflib — it runs in browsers via Pyodide, so this
-costs nothing) and made the *spec JSON* the boundary all other
-implementations build on. When you want a third implementation (Rust?
-inside an LLM tool-call loop?), implement plan/run over spec JSON and
-add yourself to the conformance suite. Do NOT write another TriG
-parser first.
+The most useful mental model (danbri's): the chain vocabulary is a
+small **domain-specific language** for set-based dataflow over graphs,
+a chain manifest is a *program* in it, and `plan` is a *compiler* that
+lowers that program — plus the runtime circumstances (which bead is in
+focus, its endpoint, the cumulative upstream context, the active
+variant) — to a concrete SPARQL query on demand. This is why we
+resisted building a "daisychain service": you don't need a service for
+a language, you need a compiler, and TriG in a well-known vocabulary
+(`urn:kgx:vocab:`) is readable by rdflib/Jena/Oxigraph/anything.
+
+The spec JSON is the **compiler's IR boundary**. The 1.0 convergence
+picked ONE front-end (Python/rdflib parses TriG→spec — it runs in
+browsers via Pyodide, so this costs nothing) and made the spec JSON the
+IR that every back-end compiles from. When you want a third
+implementation (Rust? inside an LLM tool-call loop?), implement
+compile/execute (plan/run) over the spec JSON and add yourself to the
+conformance suite. Do NOT write another TriG parser first. (Note: an
+earlier draft called this a "DAL / data-access layer." Wrong frame —
+it's a DSL toolchain. Corrected across the docs 2026-07-06.)
 
 ### 3.2 Closed-world negation is the trap in federated KG work
 
@@ -184,13 +204,13 @@ In rough priority order:
 1. **Merge the two kgx CLIs.** I created a split yesterday:
    `bin/kgx.mjs` (SPARQL client + engines + validate, serves the
    daisychain lib) and `demos/python-interop/kgx.mjs` (Daisychain 1.0
-   DAL verbs). One CLI should absorb the other — most likely
+   DSL toolchain verbs). One CLI should absorb the other — most likely
    `bin/kgx.mjs` grows `plan|run|spec|validate-chain` subcommands by
    importing `kgx_core.mjs`, and the python-interop one becomes a
    thin alias or is deleted. Keep the conformance suite pointing at
    whatever survives.
 
-2. **Daisychain UI adopts the 1.0 DAL.** The daisychain page's
+2. **Daisychain UI adopts the 1.0 compiler (plan).** The daisychain page's
    runner (`web/kgx/lib/runner.mjs`) predates the planner
    convergence. Its 20 LIBRARY chains and the 51 example chains
    should become ONE library, executed through `planBead`-compatible
@@ -204,7 +224,7 @@ In rough priority order:
    manifests and the Python spec output — the type registry has its
    hook waiting.
 
-4. **Agent-facing surface.** The DAL verbs are JSON-in/JSON-out with
+4. **Agent-facing surface.** The toolchain verbs are JSON-in/JSON-out with
    stable bead URIs precisely so an LLM agent can drive chains. The
    natural next step is a thin MCP server (or a skill) exposing
    load/validate/plan/run over the examples library and saved chains

@@ -1,4 +1,4 @@
-# Daisychain 1.0 — the converged DAL / API / CLI
+# Daisychain 1.0 — the converged DSL toolchain / API / CLI
 
 > **SHIPPED.** This is the contract both implementations satisfy today,
 > enforced by `tests/test_kgx_conformance.sh` over every chain in
@@ -6,9 +6,38 @@
 > plan output must land in both, in the same commit, with the
 > conformance suite green.
 
+## Daisychain is a DSL that compiles to SPARQL
+
+A kgx chain is a program in a small **domain-specific language** for
+set-based dataflow over knowledge graphs. The vocabulary is the
+language: `SourceBundle` / `FilterBundle` / `PivotBundle` /
+`AugmentBundle` for single-input ops, `UnionBundle` / `IntersectBundle`
+/ `DifferenceBundle` for the set ops, wired by `kgx:input` /
+`kgx:inputs`. A chain says *what* set of things you want and *how* it's
+derived — it does not hand-write SPARQL.
+
+The point of 1.0 is that the language now has a **compiler**, and two
+implementations of it agree byte-for-byte. `plan` is the compile step:
+it takes the chain program **plus the circumstances** — which bead is
+in focus, the endpoint that bead targets, the cumulative upstream
+context, the active variant — and lowers all of that to one concrete
+SPARQL query, on demand. The browser recompiles as you click a
+different bead; an agent compiles by naming a bead on the command line;
+both get the identical query.
+
+The five operations are a compiler toolchain over the DSL:
+
+| operation | compiler role |
+|---|---|
+| **load**     | parse — TriG source → spec (the AST) |
+| **validate** | typecheck — structural / static analysis of the spec |
+| **plan**     | compile — chain + focus + circumstances → SPARQL |
+| **run**      | execute — send the compiled query to its endpoint |
+| **emit**     | serialize — spec / graph back to TriG source |
+
 ## What converged
 
-Two implementations of the same data-access layer over kgx chain
+Two implementations of the same DSL toolchain over kgx chain
 manifests:
 
 | | Python | JavaScript |
@@ -33,9 +62,9 @@ plan/run/validate over the spec, and the planners are **byte-identical**
 answers; a browser user clicking ▶ Run gets the same query an agent
 gets from the command line.
 
-## The five operations
+## The five operations in detail
 
-### load — TriG → spec
+### load — TriG → spec (parse)
 
 ```sh
 python3 kgx_chain.py --json chain.trig     # canonical
@@ -59,7 +88,7 @@ Each step: `{kind, uri, kind_kgx, inputs: [{role, iri}], grounding:
 {endpoint, sparqlFragment | sparql, gloss, produces, …}, grounded:
 "grounded"|"partial"|"ungrounded"}`.
 
-### validate — spec → {ok, issues}
+### validate — spec → {ok, issues} (typecheck)
 
 ```sh
 python3 kgx_chain.py --validate chain.trig
@@ -69,7 +98,7 @@ node kgx.mjs validate chain.trig
 Errors (exit 1): unresolved `input` edges, empty chain. Warnings:
 ungrounded beads. Both implementations produce the same issue list.
 
-### plan — (spec, bead) → {endpoint, sparql, beads}
+### plan — (spec, bead, circumstances) → {endpoint, sparql, beads} (compile)
 
 ```sh
 python3 kgx_chain.py --plan last chain.trig     # or --plan bead:5, --plan <uri>
@@ -103,7 +132,7 @@ either implementation).
 sides *refuse* to plan the same unplannable beads with the same exit
 status.
 
-### run — plan → SPARQL results JSON
+### run — plan → SPARQL results JSON (execute)
 
 ```sh
 python3 kgx_chain.py --run last chain.trig
@@ -115,7 +144,7 @@ The browser page (`pythonchain.html`) uses the identical `planBead` →
 fetch path via `kgx_core.mjs` — the ▶ Run button and the CLIs cannot
 drift apart.
 
-### emit — graph → normalized TriG
+### emit — graph → normalized TriG (serialize)
 
 ```sh
 python3 kgx_chain.py --emit chain.trig
