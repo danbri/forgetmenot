@@ -11,15 +11,40 @@ CLI, the SPARQL Anything project, command-line `roqet`, even
 LibreOffice's Calc with an RDF plugin — can read them. There is no
 "daisychain API" to negotiate. The manifest IS the API.
 
-## Two ways to run it
+## Daisychain 1.0 — converged Python + JS DAL
 
-- **Command line**: see `kgx_chain.py` below. Needs `pip install rdflib`.
+As of Daisychain 1.0 the Python and JavaScript implementations share
+one data-access layer with five operations — **load / validate / plan /
+run / emit** — and byte-identical planners, enforced by
+`tests/test_kgx_conformance.sh` over every chain in `examples/`.
+Contract: [`docs/kgx/daisychain-1.0.md`](../../docs/kgx/daisychain-1.0.md).
+
+```sh
+# Python CLI
+python3 kgx_chain.py --json chain.trig          # load  → spec JSON
+python3 kgx_chain.py --validate chain.trig      # {ok, issues}
+python3 kgx_chain.py --plan last chain.trig     # {endpoint, sparql, beads}
+python3 kgx_chain.py --run  last chain.trig     # SPARQL results JSON
+python3 kgx_chain.py --emit chain.trig          # normalized TriG
+
+# JS CLI (same verbs, same outputs)
+node kgx.mjs spec     chain.trig
+node kgx.mjs validate chain.trig
+node kgx.mjs plan     chain.trig last
+node kgx.mjs run      chain.trig last
+```
+
+## Three ways to run it
+
+- **Python CLI**: `kgx_chain.py` (needs `pip install rdflib`).
+- **JS CLI**: `kgx.mjs` (Node; delegates TriG→spec to Python, then
+  plans/runs via `kgx_core.mjs` — the same module the browser uses).
 - **In your browser**: open
-  [`pythonchain.html`](pythonchain.html) — same Python script,
-  loaded into Pyodide (Python compiled to WebAssembly) so the parsing
-  runs entirely client-side. No FPKG server-side Python; no
-  JavaScript shortcut on the read side. The browser demo is reachable
-  on prod at <https://fpkg.fly.dev/python-interop/pythonchain>.
+  [`pythonchain.html`](pythonchain.html) — the same `kgx_chain.py`
+  loaded into Pyodide (Python compiled to WebAssembly) so parsing runs
+  entirely client-side, plus `kgx_core.mjs` for plan/run. The browser
+  demo is reachable on prod at
+  <https://fpkg.fly.dev/python-interop/pythonchain>.
 
 ## Setup
 

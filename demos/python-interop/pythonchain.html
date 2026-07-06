@@ -235,7 +235,12 @@
   window.kgxMermaid = mermaid;
 </script>
 
-<script>
+<script type="module">
+// The plan/run/validate DAL is shared with the Node CLI (kgx.mjs) and
+// kept byte-compatible with the Python implementation in kgx_chain.py —
+// see docs/kgx/daisychain-1.0.md and tests/test_kgx_conformance.sh.
+import { planBead, prependPrefixes } from './kgx_core.mjs';
+
 const STATUS = document.getElementById('status');
 const setStatus = (msg, cls='') => {
   STATUS.textContent = msg;
@@ -553,7 +558,11 @@ function _chainPrefix(spec) {
   return first.includes(':bead:') ? first.split(':bead:')[0] : null;
 }
 
+// The spec currently rendered — beadCard's planBead call needs it.
+let currentSpec = null;
+
 function renderInteractive(spec) {
+  currentSpec = spec;
   const out = document.getElementById('interactive-out');
   out.innerHTML = '';
   const prefix = _chainPrefix(spec);
@@ -592,46 +601,6 @@ function renderInteractive(spec) {
   if (!out.children.length) out.textContent = '(no beads)';
 }
 
-// Walk the input edges back from `bead`, collecting every transitively
-// upstream Filter/Source bead that targets the SAME endpoint. Stops at:
-//   - a bead with a different endpoint (fusion boundary — must be its
-//     own query, can't be inlined here);
-//   - a bead whose kind isn't a same-endpoint composable
-//     (Pivot / Augment are valid single-engine ops but their
-//     SPARQL is a full query with VALUES, not an inlinable fragment
-//     — exclude them from the fragment-fusion path);
-//   - any ungrounded predecessor (we can't honestly inline its
-//     contribution if it has no SPARQL).
-// Order returned is upstream-first.
-function cumulativeFragments(bead, byUri) {
-  const endpoint = bead.grounding?.endpoint;
-  if (!endpoint) return [bead];
-  // SourceBundle / FilterBundle / PivotBundle all carry inlinable
-  // sparqlFragments and compose naturally — a Source binds ?p, a
-  // Filter adds a positive constraint on ?p, a Pivot walks ?p to a
-  // fresh ?pN and rebinds. AugmentBundle is excluded because it
-  // carries a full kgx:sparql (with VALUES) that's its own query.
-  const ALLOWED = new Set(['SourceBundle', 'FilterBundle', 'PivotBundle']);
-  const visited = new Set();
-  const collected = [];
-
-  function walk(n) {
-    if (visited.has(n.uri)) return;
-    visited.add(n.uri);
-    if (!ALLOWED.has(n.kind_kgx)) return;
-    if (n.grounding?.endpoint !== endpoint) return;
-    if (!n.grounding?.sparqlFragment) return;
-    // Recurse on parents first so collected ends up in topo order
-    for (const e of (n.inputs || [])) {
-      const p = byUri.get(e.iri);
-      if (p) walk(p);
-    }
-    collected.push(n);
-  }
-  walk(bead);
-  return collected;
-}
-
 function beadCard(n, prefix, byUri) {
   const card = document.createElement('div');
   card.className = `card ${n.grounded || 'ungrounded'}`;
@@ -661,34 +630,28 @@ function beadCard(n, prefix, byUri) {
     const btnRow = document.createElement('div');
     btnRow.style.cssText = 'display:flex;gap:0.4em;flex-wrap:wrap;margin-top:0.4em';
 
-    // Primary button: "Run through here" — cumulative fusion of all
-    // same-endpoint Filter/Source predecessors plus this bead. Mirrors
-    // what an optimising interpreter would emit, so the count actually
-    // matches what the chain means at this point.
-    const cumulative = cumulativeFragments(n, byUri);
-    const showThroughBtn = g.sparqlFragment && cumulative.length >= 1;
+    // Primary button: "Run through here" — the Daisychain 1.0 plan
+    // through this bead, from the shared DAL (kgx_core.mjs). Same
+    // planner the Node CLI uses; byte-identical to the Python
+    // kgx_chain.py --plan output (tests/test_kgx_conformance.sh).
+    let plan = null;
+    try { plan = planBead(currentSpec, n.uri); } catch (_) { /* unplannable bead */ }
+    const showThroughBtn = plan && g.sparqlFragment;
     if (showThroughBtn) {
       const btn = document.createElement('button');
       btn.className = 'run';
-      btn.textContent = cumulative.length > 1
-        ? `▶ Run through here (fuses ${cumulative.length} beads)`
+      btn.textContent = plan.beads.length > 1
+        ? `▶ Run through here (fuses ${plan.beads.length} beads)`
         : '▶ Run this bead';
       btn.title =
-        `Fuses every upstream Filter/Source bead on the same endpoint into one query — ` +
+        `Fuses every upstream Filter/Source/Pivot bead on the same endpoint into one query — ` +
         `the answer to "what does the chain mean up to and including this bead?". ` +
         `Mirrors what an optimising interpreter would emit.`;
       btn.addEventListener('click', async () => {
         btn.disabled = true;
         const old = btn.textContent; btn.textContent = '⏳ querying…';
         try {
-          // SELECT DISTINCT to suppress the duplicate rows that come out
-          // of cumulative joins (an MP with 3 P39 statements * 2 P69
-          // statements = 6 rows of the same person).
-          const fused =
-            'SELECT DISTINCT * WHERE {\n' +
-            cumulative.map(b => '  ' + b.grounding.sparqlFragment).join('\n') +
-            '\n} LIMIT 50';
-          await runSparql(g.endpoint, fused, resultDiv);
+          await runSparql(plan.endpoint, plan.sparql, resultDiv);
         } finally {
           btn.disabled = false;
           btn.textContent = old;
@@ -781,48 +744,6 @@ function executionCard(e, prefix) {
     card.appendChild(resultDiv);
   }
   return card;
-}
-
-// Known prefix bindings for SPARQL fragments coming out of beads. The
-// page prepends declarations for any prefix the fragment uses but
-// hasn't already declared. This is how SPARQL fragments stay short and
-// readable in TriG manifests while still being executable standalone.
-const KNOWN_PREFIXES = {
-  wd:     'http://www.wikidata.org/entity/',
-  wdt:    'http://www.wikidata.org/prop/direct/',
-  p:      'http://www.wikidata.org/prop/',
-  ps:     'http://www.wikidata.org/prop/statement/',
-  pq:     'http://www.wikidata.org/prop/qualifier/',
-  pqv:    'http://www.wikidata.org/prop/qualifier/value/',
-  psv:    'http://www.wikidata.org/prop/statement/value/',
-  rdf:    'http://www.w3.org/1999/02/22-rdf-syntax-ns#',
-  rdfs:   'http://www.w3.org/2000/01/rdf-schema#',
-  owl:    'http://www.w3.org/2002/07/owl#',
-  xsd:    'http://www.w3.org/2001/XMLSchema#',
-  schema: 'https://id.parliament.uk/schema/',     // Parliament DDP
-  schemaorg: 'http://schema.org/',
-  geo:    'http://www.w3.org/2003/01/geo/wgs84_pos#',
-  dct:    'http://purl.org/dc/terms/',
-  foaf:   'http://xmlns.com/foaf/0.1/',
-};
-
-function prependPrefixes(sparql) {
-  // Which prefixes are already declared? (case-insensitive PREFIX)
-  const declared = new Set(
-    [...sparql.matchAll(/PREFIX\s+(\w+):/gi)].map(m => m[1].toLowerCase())
-  );
-  // Which prefixes does the body USE (via `prefix:local` tokens, excluding
-  // those inside <…> IRIs and "…" literals)?
-  // Crude but good-enough — strip <…> and "…" then scan for `\bpx:`.
-  const stripped = sparql.replace(/<[^>]*>/g, ' ').replace(/"[^"]*"/g, ' ');
-  const used = new Set();
-  for (const px of Object.keys(KNOWN_PREFIXES)) {
-    const re = new RegExp(`\\b${px}:`);
-    if (re.test(stripped)) used.add(px);
-  }
-  const toAdd = [...used].filter(p => !declared.has(p.toLowerCase()));
-  if (!toAdd.length) return sparql;
-  return toAdd.map(p => `PREFIX ${p}: <${KNOWN_PREFIXES[p]}>`).join('\n') + '\n' + sparql;
 }
 
 // Pick variable names for the conventional roles. Lowercase compare so

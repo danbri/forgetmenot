@@ -756,6 +756,176 @@ def print_summary(spec):
 
 
 # ---------------------------------------------------------------------------
+# Daisychain 1.0 DAL — plan / run / validate / emit
+#
+# These verbs mirror demos/python-interop/kgx_core.mjs exactly. The two
+# implementations MUST produce byte-identical plans for the same
+# (spec, bead) input — tests/test_kgx_conformance.sh enforces this over
+# every chain in demos/python-interop/examples/. If you change plan
+# output here, change kgx_core.mjs the same way (and vice versa).
+# Spec: docs/kgx/daisychain-1.0.md
+# ---------------------------------------------------------------------------
+
+# INSERTION ORDER MATTERS — kgx_core.mjs iterates the same order so
+# plans compare byte-identical.
+KNOWN_PREFIXES = {
+    "wd":     "http://www.wikidata.org/entity/",
+    "wdt":    "http://www.wikidata.org/prop/direct/",
+    "p":      "http://www.wikidata.org/prop/",
+    "ps":     "http://www.wikidata.org/prop/statement/",
+    "pq":     "http://www.wikidata.org/prop/qualifier/",
+    "pqv":    "http://www.wikidata.org/prop/qualifier/value/",
+    "psv":    "http://www.wikidata.org/prop/statement/value/",
+    "rdf":    "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs":   "http://www.w3.org/2000/01/rdf-schema#",
+    "owl":    "http://www.w3.org/2002/07/owl#",
+    "xsd":    "http://www.w3.org/2001/XMLSchema#",
+    "schema": "https://id.parliament.uk/schema/",     # Parliament DDP
+    "schemaorg": "http://schema.org/",
+    "geo":    "http://www.w3.org/2003/01/geo/wgs84_pos#",
+    "dct":    "http://purl.org/dc/terms/",
+    "foaf":   "http://xmlns.com/foaf/0.1/",
+}
+
+# Bead kinds whose kgx:sparqlFragment composes into one SPARQL body.
+FUSABLE_KINDS = ("SourceBundle", "FilterBundle", "PivotBundle")
+
+
+def prepend_prefixes(sparql):
+    """Prepend PREFIX declarations for known prefixes the body uses."""
+    import re as _re
+    declared = {m.lower() for m in _re.findall(r"PREFIX\s+(\w+):", sparql, _re.I)}
+    stripped = _re.sub(r"<[^>]*>", " ", sparql)
+    stripped = _re.sub(r'"[^"]*"', " ", stripped)
+    to_add = []
+    for px in KNOWN_PREFIXES:
+        if _re.search(rf"\b{px}:", stripped) and px.lower() not in declared:
+            to_add.append(px)
+    if not to_add:
+        return sparql
+    header = "\n".join(f"PREFIX {px}: <{KNOWN_PREFIXES[px]}>" for px in to_add)
+    return header + "\n" + sparql
+
+
+def all_nodes(spec):
+    if "dag" in spec:
+        return spec["dag"]
+    if "steps" in spec:
+        return spec["steps"]
+    if "branches" in spec:
+        return [s for b in spec["branches"] for s in b["steps"]]
+    return []
+
+
+def resolve_bead(spec, ref):
+    """Full URI, ':<suffix>' / '<suffix>' tail match, or 'last'."""
+    nodes = all_nodes(spec)
+    if not nodes:
+        return None
+    if ref in (None, "last"):
+        return nodes[-1]
+    for n in nodes:
+        if n.get("uri") == ref:
+            return n
+    tail = ref if ref.startswith(":") else ":" + ref
+    for n in nodes:
+        if (n.get("uri") or "").endswith(tail):
+            return n
+    return None
+
+
+def cumulative_beads(spec, bead):
+    """Transitively upstream fusable beads on the same endpoint,
+    upstream-first. Mirrors kgx_core.mjs cumulativeBeads."""
+    endpoint = (bead.get("grounding") or {}).get("endpoint")
+    if not endpoint:
+        return [bead]
+    by_uri = {n["uri"]: n for n in all_nodes(spec)}
+    visited, collected = set(), []
+
+    def walk(n):
+        if n["uri"] in visited:
+            return
+        visited.add(n["uri"])
+        if n.get("kind_kgx") not in FUSABLE_KINDS:
+            return
+        g = n.get("grounding") or {}
+        if g.get("endpoint") != endpoint or not g.get("sparqlFragment"):
+            return
+        for e in n.get("inputs") or []:
+            parent = by_uri.get(e["iri"])
+            if parent:
+                walk(parent)
+        collected.append(n)
+
+    walk(bead)
+    return collected
+
+
+def plan_bead(spec, bead_ref, limit=50):
+    """plan(spec, bead) → {endpoint, sparql, beads}. Mirrors
+    kgx_core.mjs planBead — keep byte-identical."""
+    bead = resolve_bead(spec, bead_ref)
+    if bead is None:
+        raise ValueError(f"bead not found: {bead_ref}")
+    g = bead.get("grounding") or {}
+    if not g.get("endpoint"):
+        raise ValueError(f"bead has no endpoint: {bead['uri']}")
+
+    # Augment beads carry a full kgx:sparql — the plan IS that query.
+    if g.get("sparql") and not g.get("sparqlFragment"):
+        return {
+            "endpoint": g["endpoint"],
+            "sparql": prepend_prefixes(g["sparql"]),
+            "beads": [bead["uri"]],
+        }
+    if not g.get("sparqlFragment"):
+        raise ValueError(f"bead has no sparqlFragment: {bead['uri']}")
+
+    chain = cumulative_beads(spec, bead)
+    fused = (
+        "SELECT DISTINCT * WHERE {\n"
+        + "\n".join("  " + b["grounding"]["sparqlFragment"] for b in chain)
+        + f"\n}} LIMIT {limit}"
+    )
+    return {
+        "endpoint": g["endpoint"],
+        "sparql": prepend_prefixes(fused),
+        "beads": [b["uri"] for b in chain],
+    }
+
+
+def run_plan(plan, timeout=60):
+    """Execute a plan against its endpoint; return SPARQL results JSON."""
+    import urllib.parse
+    import urllib.request
+    sep = "&" if "?" in plan["endpoint"] else "?"
+    url = plan["endpoint"] + sep + "query=" + urllib.parse.quote(plan["sparql"])
+    req = urllib.request.Request(
+        url, headers={"Accept": "application/sparql-results+json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.load(r)
+
+
+def validate_spec(spec):
+    """Structural checks. Mirrors kgx_core.mjs validateSpec."""
+    issues = []
+    nodes = all_nodes(spec)
+    if not nodes:
+        issues.append({"level": "error", "msg": "spec has no beads"})
+    uris = {n["uri"] for n in nodes}
+    for n in nodes:
+        for e in n.get("inputs") or []:
+            if e["iri"] not in uris:
+                issues.append({"level": "error",
+                               "msg": f"unresolved input {e['iri']} on {n['uri']}"})
+        if n.get("grounded") == "ungrounded":
+            issues.append({"level": "warn", "msg": f"ungrounded bead {n['uri']}"})
+    return {"ok": not any(i["level"] == "error" for i in issues),
+            "issues": issues}
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -764,13 +934,27 @@ def main(argv=None):
     p = argparse.ArgumentParser(
         description=__doc__.strip().split("\n")[0],
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="See docs/kgx/chain-algebra.md for the algebra (DISCUSSION ONLY).",
+        epilog="See docs/kgx/daisychain-1.0.md for the DAL contract.",
     )
     p.add_argument("file", help="path to a kgx daisychain TriG file ('-' for stdin)")
     g = p.add_mutually_exclusive_group()
     g.add_argument("--json", action="store_true", help="emit chain spec as JSON")
     g.add_argument("--query", metavar="SPARQL",
                    help="run an arbitrary SPARQL query against the manifest")
+    g.add_argument("--validate", action="store_true",
+                   help="structural checks; JSON {ok, issues} to stdout")
+    g.add_argument("--plan", metavar="BEAD",
+                   help="fused SPARQL plan through BEAD (URI, ':suffix', or 'last'); "
+                        "JSON {endpoint, sparql, beads}")
+    g.add_argument("--run", metavar="BEAD",
+                   help="plan then execute against the endpoint; "
+                        "SPARQL results JSON to stdout")
+    g.add_argument("--emit", action="store_true",
+                   help="re-serialize the manifest graph as normalized TriG")
+    p.add_argument("--limit", type=int, default=50,
+                   help="row limit for --plan / --run (default 50)")
+    p.add_argument("--sparql-only", action="store_true",
+                   help="with --plan: print just the SPARQL text, not JSON")
     args = p.parse_args(argv)
 
     ds = load_trig(args.file)
@@ -785,7 +969,33 @@ def main(argv=None):
         return
 
     chain_iri, graph = find_chain_graph(ds)
+
+    if args.emit:
+        # Round-trip: re-serialize the manifest graph as TriG. This is a
+        # graph-level normalization (rdflib ordering), not spec→TriG.
+        sys.stdout.write(graph.serialize(format="trig"))
+        return
+
     spec = chain_to_spec(chain_iri, graph)
+
+    if args.validate:
+        result = validate_spec(spec)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        sys.exit(0 if result["ok"] else 1)
+
+    if args.plan:
+        plan = plan_bead(spec, args.plan, limit=args.limit)
+        if args.sparql_only:
+            print(plan["sparql"])
+        else:
+            print(json.dumps(plan, indent=2, ensure_ascii=False))
+        return
+
+    if args.run:
+        plan = plan_bead(spec, args.run, limit=args.limit)
+        print(json.dumps(run_plan(plan), indent=2, ensure_ascii=False))
+        return
+
     if args.json:
         print(json.dumps(spec, indent=2, ensure_ascii=False))
     else:

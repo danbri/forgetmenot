@@ -1,0 +1,1 @@
+../../../python-interop/kgx_core.mjs
