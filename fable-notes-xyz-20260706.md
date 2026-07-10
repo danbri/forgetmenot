@@ -44,23 +44,19 @@ navigable graph* — but no longer limited to it:
 ## 2. State of play (as of this commit)
 
 **Daisychain 1.0 shipped yesterday** (`4d4510d2`, contract in
-`docs/kgx/daisychain-1.0.md`). The right framing (danbri's, corrected
-2026-07-06): Daisychain is a **DSL** — a small custom language for
-set-based dataflow over knowledge graphs, whose vocabulary IS the
-language — and `plan` is its **compiler**, lowering a chain plus the
-circumstances (bead in focus, endpoint, cumulative upstream context,
-active variant) to SPARQL on demand. (An earlier draft of these notes
-and the spec doc mislabelled it a "DAL / data-access layer" — that was
-my typo-inheritance of a slip; it's a DSL toolchain, not a storage
-abstraction.) Python (`kgx_chain.py`) and JS (`kgx_core.mjs`) now
-converge on a five-verb toolchain — load (parse) / validate
-(typecheck) / plan (compile) / run (execute) / emit (serialize) — with
-**byte-identical planners**, enforced by
-`tests/test_kgx_conformance.sh` over all 51 example chains (51/51
-green, plus live row-count parity). The spec JSON is the interchange
-boundary: Python/rdflib owns TriG→spec / parse (same Python runs under
-Pyodide in the browser), both sides implement compile/execute over the
-spec.
+`docs/kgx/daisychain-1.0.md`). The framing (danbri's): Daisychain is a
+**DSL** — a small custom language for set-based dataflow over knowledge
+graphs, whose vocabulary IS the language — and `plan` is its
+**compiler**, lowering a chain plus the circumstances (bead in focus,
+endpoint, cumulative upstream context, active variant) to SPARQL on
+demand. Python (`kgx_chain.py`) and JS (`kgx_core.mjs`) now converge on
+a five-verb toolchain — load (parse) / validate (typecheck) / plan
+(compile) / run (execute) / emit (serialize) — with **byte-identical
+planners**, enforced by `tests/test_kgx_conformance.sh` over all 51
+example chains (51/51 green, plus live row-count parity). The spec JSON
+is the interchange boundary: Python/rdflib owns TriG→spec / parse (same
+Python runs under Pyodide in the browser), both sides implement
+compile/execute over the spec.
 
 Other live workstreams (some driven in sessions parallel to mine):
 
@@ -105,9 +101,7 @@ browsers via Pyodide, so this costs nothing) and made the spec JSON the
 IR that every back-end compiles from. When you want a third
 implementation (Rust? inside an LLM tool-call loop?), implement
 compile/execute (plan/run) over the spec JSON and add yourself to the
-conformance suite. Do NOT write another TriG parser first. (Note: an
-earlier draft called this a "DAL / data-access layer." Wrong frame —
-it's a DSL toolchain. Corrected across the docs 2026-07-06.)
+conformance suite. Do NOT write another TriG parser first.
 
 ### 3.2 Closed-world negation is the trap in federated KG work
 
