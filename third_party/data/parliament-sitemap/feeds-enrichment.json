@@ -1,5 +1,5 @@
 {
- "generated": "2026-08-21T04:12:25.517Z",
+ "generated": "2026-08-24T04:16:45.978Z",
  "source": "skosdex.fly.dev (label search + embedding KNN)",
  "note": "Subject codes for Library TOPIC feeds. via=label is an exact/partial English-label match; via=embedding is an all-MiniLM-L6-v2 nearest-concept bridge (score = cosine). EuroVoc/GEMET/Parliament-thesaurus by label; ESCO/GEMET neighbours by embedding.",
  "schemes": [
@@ -44,6 +44,30 @@
      "matchedOn": "Africa",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/worldregion/r002",
+     "scheme": "iptc",
+     "label": "Africa",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8357
+    },
+    {
+     "concept": "http://metadata.un.org/thesaurus/170100",
+     "scheme": "unbis",
+     "label": "AFRICA",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.823
+    },
+    {
+     "concept": "http://metadata.un.org/thesaurus/1000099",
+     "scheme": "unbis",
+     "label": "AFRICA",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.823
     }
    ]
   },
@@ -59,6 +83,30 @@
      "matchedOn": "Americas",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept754",
+     "scheme": "unesco-thesaurus",
+     "label": "Americas",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8681
+    },
+    {
+     "concept": "http://id.agrisemantics.org/gacs/C14692",
+     "scheme": "gacs",
+     "label": "Americas",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8681
+    },
+    {
+     "concept": "http://udcdata.info/007160",
+     "scheme": "udc-summary",
+     "label": "America, North and South. The Americas",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8655
     }
    ]
   },
@@ -76,28 +124,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/9d572a68-dacf-4043-b38c-9629d3fb9373",
-     "scheme": "esco",
-     "label": "advise horse owners on farriery requirements",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept2380",
+     "scheme": "unesco-thesaurus",
+     "label": "Animals",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9439
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/bd55e8d7-8bdf-4179-a84b-ed43073f05a1",
-     "scheme": "esco",
-     "label": "harp maker",
+     "concept": "https://elsst.cessda.eu/id/6/46e144cd-a5d4-4da7-8361-0e893063ed6e",
+     "scheme": "cessda-elsst",
+     "label": "ANIMALS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9385
+     "score": 0.9709
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/S8.5.3",
-     "scheme": "esco",
-     "label": "operating machinery for the manufacture and treatment of textiles, fur and leather products",
+     "concept": "http://metadata.un.org/thesaurus/1000304",
+     "scheme": "unbis",
+     "label": "ANIMALS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9288
+     "score": 0.9709
     }
    ]
   },
@@ -131,6 +179,30 @@
      "matchedOn": "Armed forces",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000599",
+     "scheme": "iptc",
+     "label": "armed forces",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9461
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/11001004",
+     "scheme": "iptc",
+     "label": "armed Forces",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9403
+    },
+    {
+     "concept": "http://udcdata.info/023896",
+     "scheme": "udc-summary",
+     "label": "Armed forces generally. Armed services. Military life",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9071
     }
    ]
   },
@@ -164,6 +236,22 @@
      "matchedOn": "Asia",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/worldregion/r142",
+     "scheme": "iptc",
+     "label": "Asia",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8486
+    },
+    {
+     "concept": "http://data.parliament.uk/terms/95497",
+     "scheme": "uk-parliament-thesaurus",
+     "label": "Asia",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8223
     }
    ]
   },
@@ -181,28 +269,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C13691",
-     "scheme": "gacs",
-     "label": "muscular diseases",
+     "concept": "http://metadata.un.org/thesaurus/1006467",
+     "scheme": "unbis",
+     "label": "TERRITORIAL ASYLUM",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9099
+     "score": 0.9517
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/532bcdca-a889-4dea-8f7f-4e03d8cfd0d2",
-     "scheme": "esco",
-     "label": "aircraft mechanics",
+     "concept": "http://metadata.un.org/thesaurus/1005550",
+     "scheme": "unbis",
+     "label": "RIGHT OF ASYLUM",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9044
+     "score": 0.9413
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/2da5099a-48a8-406e-bff5-d703fde60724",
-     "scheme": "esco",
-     "label": "issue sport equipment",
+     "concept": "https://elsst.cessda.eu/id/6/5d476d8e-18d3-4b08-8508-4ef69bbfcc95",
+     "scheme": "cessda-elsst",
+     "label": "ASYLUM SEEKERS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9002
+     "score": 0.9355
     }
    ]
   },
@@ -229,28 +317,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/08a2ff87-09e7-4899-a47c-8ab81702d08d",
-     "scheme": "esco",
-     "label": "aid archive users with their enquiries",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept1960",
+     "scheme": "unesco-thesaurus",
+     "label": "Civil aviation",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9478
+     "score": 0.9712
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/c1e6e283-bc66-4e78-b4ec-501ff082d9f1",
-     "scheme": "esco",
-     "label": "food allergies",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept1959",
+     "scheme": "unesco-thesaurus",
+     "label": "Air transport",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9112
+     "score": 0.9646
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/3a5b7435-c262-4a9d-893d-ee6c19bd9d92",
-     "scheme": "esco",
-     "label": "develop educational resources",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept1577",
+     "scheme": "unesco-thesaurus",
+     "label": "Aircraft",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9098
+     "score": 0.9537
     }
    ]
   },
@@ -268,28 +356,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C17285",
-     "scheme": "gacs",
-     "label": "Francisellaceae",
+     "concept": "https://elsst.cessda.eu/id/6/33b80b3e-763b-494c-a462-7fa06cfc32ea",
+     "scheme": "cessda-elsst",
+     "label": "WELFARE POLICY",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9325
+     "score": 0.9437
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C20075",
-     "scheme": "gacs",
-     "label": "ovarian diseases",
+     "concept": "https://elsst.cessda.eu/id/6/2f7c7abd-f694-4f57-9d0f-f4292f28d53e",
+     "scheme": "cessda-elsst",
+     "label": "SOCIAL SECURITY BENEFITS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.932
+     "score": 0.9366
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/aa43f245-7201-4d05-bd52-57f6c262f3ed",
-     "scheme": "esco",
-     "label": "install irrigation systems",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept7887",
+     "scheme": "unesco-thesaurus",
+     "label": "Employment policy",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9216
+     "score": 0.9349
     }
    ]
   },
@@ -307,28 +395,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C10122",
-     "scheme": "gacs",
-     "label": "storms",
+     "concept": "https://elsst.cessda.eu/id/6/65a51e43-964a-41e2-aca1-1005f0be33e1",
+     "scheme": "cessda-elsst",
+     "label": "SURVIVORS' BENEFITS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8798
+     "score": 0.9239
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/f774131e-8f2d-43b6-8c20-7fe35fa0f0bd",
-     "scheme": "esco",
-     "label": "using digital tools for collaboration, content creation and problem solving",
+     "concept": "https://elsst.cessda.eu/id/6/1ad24397-e3bd-47fe-a58f-16e95f9a1453",
+     "scheme": "cessda-elsst",
+     "label": "GRIEF",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8758
+     "score": 0.9217
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/4b5a88ec-9e93-4a10-8ca1-7af4230ac0bc",
-     "scheme": "esco",
-     "label": "apply supports for spinal adjustment",
+     "concept": "https://elsst.cessda.eu/id/6/731ffc33-d3b3-4eae-a18a-0dda03212184",
+     "scheme": "cessda-elsst",
+     "label": "BEREAVEMENT",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8753
+     "score": 0.9212
     }
    ]
   },
@@ -353,6 +441,30 @@
      "matchedOn": "Business",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/4189",
+     "scheme": "eurovoc",
+     "label": "organisation",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8933
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/1307",
+     "scheme": "eurovoc",
+     "label": "business location",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8905
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000349",
+     "scheme": "iptc",
+     "label": "business enterprise",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8836
     }
    ]
   },
@@ -379,28 +491,20 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/fbceeac6-798b-4307-a825-626707a753ad",
-     "scheme": "esco",
-     "label": "calculation engineer",
+     "concept": "http://id.loc.gov/authorities/genreForms/gf2014026059",
+     "scheme": "lcgft",
+     "label": "Census data",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9403
+     "score": 0.9704
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C1736",
-     "scheme": "gacs",
-     "label": "intake",
+     "concept": "http://metadata.un.org/thesaurus/1000878",
+     "scheme": "unbis",
+     "label": "CENSUSES",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9392
-    },
-    {
-     "concept": "http://data.europa.eu/esco/skill/4dafe480-f2ae-46b5-bd5e-8d4e538f50c7",
-     "scheme": "esco",
-     "label": "identify training needs",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.9268
+     "score": 0.9697
     }
    ]
   },
@@ -436,28 +540,20 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/9f910a4f-6310-4337-a078-a1b4fe643afd",
-     "scheme": "esco",
-     "label": "create master models",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept17036",
+     "scheme": "unesco-thesaurus",
+     "label": "Child care",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9393
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/e7ef8a86-6acd-458d-bf48-634b8fd28950",
-     "scheme": "esco",
-     "label": "foam rubber mixer",
+     "concept": "http://metadata.un.org/thesaurus/1000929",
+     "scheme": "unbis",
+     "label": "CHILD CARE",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9391
-    },
-    {
-     "concept": "http://data.europa.eu/esco/skill/1de3942b-99d8-41e8-9ef0-fbc9e9f6307b",
-     "scheme": "esco",
-     "label": "Drupal",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.9341
+     "score": 0.9644
     }
    ]
   },
@@ -484,28 +580,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/b4dc6e4f-dc7d-445f-8ce2-d7b9d225e282",
-     "scheme": "esco",
-     "label": "AJAX",
+     "concept": "https://homosaurus.org/v4/homoit0000254",
+     "scheme": "homosaurus",
+     "label": "Child custody",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9092
+     "score": 0.9391
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/1fe4c04b-30b6-4d6e-8588-458a145145a3",
-     "scheme": "esco",
-     "label": "display medical problems",
+     "concept": "http://eurovoc.europa.eu/7981",
+     "scheme": "eurovoc",
+     "label": "parental allowance",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9075
+     "score": 0.9251
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/516e324b-03fc-4d3b-9986-e46e9834cd43",
-     "scheme": "esco",
-     "label": "implement fundamentals of nursing",
+     "concept": "http://metadata.un.org/thesaurus/1000930",
+     "scheme": "unbis",
+     "label": "CHILD CUSTODY",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9075
+     "score": 0.9248
     }
    ]
   },
@@ -523,28 +619,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/S2.0",
-     "scheme": "esco",
-     "label": "information skills",
+     "concept": "http://id.loc.gov/authorities/demographicTerms/dg2015060010",
+     "scheme": "lcdgt",
+     "label": "Children",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9412
+     "score": 0.9599
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/S1.5.6",
-     "scheme": "esco",
-     "label": "advising on design or use of technologies",
+     "concept": "https://homosaurus.org/v4/homoit0000255",
+     "scheme": "homosaurus",
+     "label": "Children",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9411
+     "score": 0.9599
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/S1.9",
-     "scheme": "esco",
-     "label": "solving problems",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept4285",
+     "scheme": "unesco-thesaurus",
+     "label": "Children",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9367
+     "score": 0.9599
     }
    ]
   },
@@ -593,6 +689,30 @@
      "matchedOn": "Civil law",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000122",
+     "scheme": "iptc",
+     "label": "civil law",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8883
+    },
+    {
+     "concept": "https://elsst.cessda.eu/id/6/a37b3bb7-6e0f-4201-a57a-574db3e59187",
+     "scheme": "cessda-elsst",
+     "label": "CUSTOMARY LAW",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8779
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/02007001",
+     "scheme": "iptc",
+     "label": "civil rights",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8549
     }
    ]
   },
@@ -626,6 +746,22 @@
      "matchedOn": "Climate change",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000418",
+     "scheme": "iptc",
+     "label": "climate change",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8598
+    },
+    {
+     "concept": "https://elsst.cessda.eu/id/6/0d088060-b858-4e45-a0d1-77f890b4aecd",
+     "scheme": "cessda-elsst",
+     "label": "WEATHER",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8521
     }
    ]
   },
@@ -643,28 +779,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/isced-f/0288",
-     "scheme": "esco",
-     "label": "inter-disciplinary programmes and qualifications involving arts and humanities",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept1499",
+     "scheme": "unesco-thesaurus",
+     "label": "Community centres",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9162
+     "score": 0.9445
     },
     {
-     "concept": "http://data.europa.eu/esco/isced-f/0239",
-     "scheme": "esco",
-     "label": "languages not elsewhere classified",
+     "concept": "http://id.agrisemantics.org/gacs/C21584",
+     "scheme": "gacs",
+     "label": "community health services",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9138
+     "score": 0.9433
     },
     {
-     "concept": "http://data.europa.eu/esco/isced-f/023",
-     "scheme": "esco",
-     "label": "languages",
+     "concept": "http://id.agrisemantics.org/gacs/C17063",
+     "scheme": "gacs",
+     "label": "community health",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9132
+     "score": 0.9356
     }
    ]
   },
@@ -682,28 +818,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/39e71107-3aa9-41a0-809c-edea477c968f",
-     "scheme": "esco",
-     "label": "conduct land surveys",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept6377",
+     "scheme": "unesco-thesaurus",
+     "label": "Consumers",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9417
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/3936cc7d-d045-4eb0-b951-b862a072c0a2",
-     "scheme": "esco",
-     "label": "design indicators for food waste reduction",
+     "concept": "https://elsst.cessda.eu/id/6/9d0dc1cc-172b-4961-ab06-032daea17285",
+     "scheme": "cessda-elsst",
+     "label": "CONSUMERS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9416
+     "score": 0.9786
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/5c221b93-667d-408b-a37b-bfeb2c94dd61",
-     "scheme": "esco",
-     "label": "use specialised tools in electric repairs",
+     "concept": "http://metadata.un.org/thesaurus/1001263",
+     "scheme": "unbis",
+     "label": "CONSUMERS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9396
+     "score": 0.9786
     }
    ]
   },
@@ -721,28 +857,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/bf022655-5048-4fa8-9264-3edf3ce54e43",
-     "scheme": "esco",
-     "label": "observe mixture characteristics",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept1413",
+     "scheme": "unesco-thesaurus",
+     "label": "Courts",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9399
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/8ed0f653-795d-422b-8856-a55ec250bb88",
-     "scheme": "esco",
-     "label": "research welding techniques",
+     "concept": "https://elsst.cessda.eu/id/6/3f63217e-b6d3-4537-aa68-3700adb458fe",
+     "scheme": "cessda-elsst",
+     "label": "COURTS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9181
+     "score": 0.9806
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/05e432cf-ac9d-4596-8b1b-2cea064e801e",
-     "scheme": "esco",
-     "label": "typology of meat parts",
+     "concept": "http://metadata.un.org/thesaurus/1001362",
+     "scheme": "unbis",
+     "label": "COURTS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.914
+     "score": 0.9806
     }
    ]
   },
@@ -767,6 +903,30 @@
      "matchedOn": "Crime",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/02001000",
+     "scheme": "iptc",
+     "label": "crime",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9169
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/02000000",
+     "scheme": "iptc",
+     "label": "crime, law and justice",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9051
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000082",
+     "scheme": "iptc",
+     "label": "crime",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9021
     }
    ]
   },
@@ -800,6 +960,22 @@
      "matchedOn": "Criminal law",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000125",
+     "scheme": "iptc",
+     "label": "criminal law",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8936
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/3348",
+     "scheme": "eurovoc",
+     "label": "crime",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8733
     }
    ]
   },
@@ -824,6 +1000,30 @@
      "matchedOn": "Defence",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/3974",
+     "scheme": "eurovoc",
+     "label": "rights of the defence",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8673
+    },
+    {
+     "concept": "http://metadata.un.org/thesaurus/1001544",
+     "scheme": "unbis",
+     "label": "DEFENCE (CRIMINAL PROCEDURE)",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8614
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/11001000",
+     "scheme": "iptc",
+     "label": "defence",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8537
     }
    ]
   },
@@ -859,28 +1059,20 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/c1a13ee0-b00d-4cfa-a22c-20d284e398b0",
-     "scheme": "esco",
-     "label": "management skills",
+     "concept": "http://eurovoc.europa.eu/2499",
+     "scheme": "eurovoc",
+     "label": "European defence policy",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9237
+     "score": 0.9565
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/aadf267e-08f0-4bf3-ae4a-f1670b8e9e5d",
+     "concept": "http://data.europa.eu/esco/skill/bb54f559-df6f-44ed-81df-f6bf3d43f07d",
      "scheme": "esco",
-     "label": "offshore renewable energy technologies",
+     "label": "develop defence policies",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9166
-    },
-    {
-     "concept": "http://data.europa.eu/esco/skill/bbbd263e-affb-4ec8-84fb-3e5d9e62306b",
-     "scheme": "esco",
-     "label": "model hardware",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.9138
+     "score": 0.9458
     }
    ]
   },
@@ -914,6 +1106,30 @@
      "matchedOn": "Demography",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/14003000",
+     "scheme": "iptc",
+     "label": "demographics",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8646
+    },
+    {
+     "concept": "https://elsst.cessda.eu/id/6/290327e7-0a69-44f7-8348-c9608aee1fad",
+     "scheme": "cessda-elsst",
+     "label": "DEMOGRAPHY",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.863
+    },
+    {
+     "concept": "http://metadata.un.org/thesaurus/1001569",
+     "scheme": "unbis",
+     "label": "DEMOGRAPHY",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.863
     }
    ]
   },
@@ -947,6 +1163,22 @@
      "matchedOn": "Devolution",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/6357",
+     "scheme": "eurovoc",
+     "label": "demotion",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9103
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/3038",
+     "scheme": "eurovoc",
+     "label": "delegation of power",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8724
     }
    ]
   },
@@ -964,28 +1196,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C18934",
-     "scheme": "gacs",
-     "label": "Sea of Japan",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept8083",
+     "scheme": "unesco-thesaurus",
+     "label": "Disabilities",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9021
+     "score": 0.9892
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/b9b572bf-5e50-4588-8aa0-a42a49332467",
-     "scheme": "esco",
-     "label": "psychological interventions",
+     "concept": "http://metadata.un.org/thesaurus/1001679",
+     "scheme": "unbis",
+     "label": "DISABILITY",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.898
+     "score": 0.9822
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C18528",
-     "scheme": "gacs",
-     "label": "acetylcholine",
+     "concept": "https://elsst.cessda.eu/id/6/ff0a0b7e-d682-48a3-9fed-253ed29c17b7",
+     "scheme": "cessda-elsst",
+     "label": "DISABILITY DISCRIMINATION",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8955
+     "score": 0.9544
     }
    ]
   },
@@ -1003,28 +1235,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/82fadde2-45cc-4734-bace-dadafdeaa41f",
-     "scheme": "esco",
-     "label": "calibrate laboratory equipment",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept8188",
+     "scheme": "unesco-thesaurus",
+     "label": "Diseases",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.897
+     "score": 1
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C17394",
-     "scheme": "gacs",
-     "label": "hepatotoxicity",
+     "concept": "https://elsst.cessda.eu/id/6/88353622-c99c-4c1f-b74e-9167ff5528a7",
+     "scheme": "cessda-elsst",
+     "label": "DISEASES",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8969
+     "score": 0.9721
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C19415",
-     "scheme": "gacs",
-     "label": "Petroselinum",
+     "concept": "http://metadata.un.org/thesaurus/1001705",
+     "scheme": "unbis",
+     "label": "DISEASES",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8964
+     "score": 0.9721
     }
    ]
   },
@@ -1058,6 +1290,30 @@
      "matchedOn": "Economic policy",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/04017001",
+     "scheme": "iptc",
+     "label": "economic policy",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9392
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000345",
+     "scheme": "iptc",
+     "label": "economic policy",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9364
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000621",
+     "scheme": "iptc",
+     "label": "government policy",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9081
     }
    ]
   },
@@ -1091,6 +1347,30 @@
      "matchedOn": "Economic situation",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/6786",
+     "scheme": "eurovoc",
+     "label": "economic value",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8729
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/3686",
+     "scheme": "eurovoc",
+     "label": "national income",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8661
+    },
+    {
+     "concept": "http://data.parliament.uk/terms/95561",
+     "scheme": "uk-parliament-thesaurus",
+     "label": "Economic situation",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8555
     }
    ]
   },
@@ -1154,6 +1434,30 @@
      "matchedOn": "Education",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://data.parliament.uk/terms/17279",
+     "scheme": "uk-parliament-thesaurus",
+     "label": "EDuce",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8865
+    },
+    {
+     "concept": "http://data.parliament.uk/terms/77208",
+     "scheme": "uk-parliament-thesaurus",
+     "label": "EDU",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8852
+    },
+    {
+     "concept": "https://elsst.cessda.eu/id/6/d2471d6b-e773-4fd6-a9fc-ff27072b95e9",
+     "scheme": "cessda-elsst",
+     "label": "EQUAL EDUCATION",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.884
     }
    ]
   },
@@ -1178,6 +1482,30 @@
      "matchedOn": "Energy",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://data.parliament.uk/terms/17584",
+     "scheme": "uk-parliament-thesaurus",
+     "label": "Energis",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8578
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000431",
+     "scheme": "iptc",
+     "label": "Energiresurser",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.857
+    },
+    {
+     "concept": "http://id.agrisemantics.org/gacs/C13266",
+     "scheme": "gacs",
+     "label": "activation energy",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8536
     }
    ]
   },
@@ -1202,6 +1530,30 @@
      "matchedOn": "Environment",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/06000000",
+     "scheme": "iptc",
+     "label": "environmental issue",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8847
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/06000000",
+     "scheme": "iptc",
+     "label": "environment",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8801
+    },
+    {
+     "concept": "https://elsst.cessda.eu/id/6/59ff6ebb-85f4-41fe-8302-ba1e446467e1",
+     "scheme": "cessda-elsst",
+     "label": "ENVIRONMENTAL AWARENESS",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8691
     }
    ]
   },
@@ -1219,28 +1571,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/88de5ff4-310a-4f4f-9b47-349eb5589902",
-     "scheme": "esco",
-     "label": "translate artistic concepts to technical designs",
+     "concept": "http://metadata.un.org/thesaurus/1002102",
+     "scheme": "unbis",
+     "label": "EQUALITY",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.905
+     "score": 0.9751
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/c5cb0cc1-c40b-4544-a21c-8472f0b5c14a",
-     "scheme": "esco",
-     "label": "Serbian",
+     "concept": "https://homosaurus.org/v4/homoit0002290",
+     "scheme": "homosaurus",
+     "label": "Gender equality",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.902
+     "score": 0.9719
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C18182",
-     "scheme": "gacs",
-     "label": "chloroplast genetics",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept17150",
+     "scheme": "unesco-thesaurus",
+     "label": "Gender equality",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9004
+     "score": 0.9719
     }
    ]
   },
@@ -1258,28 +1610,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/3892f2ff-714e-4201-823d-5d6fc5bab621",
-     "scheme": "esco",
-     "label": "check compatibility of materials",
+     "concept": "http://eurovoc.europa.eu/1451",
+     "scheme": "eurovoc",
+     "label": "EU institution",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9264
+     "score": 0.9713
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/387ee646-0aaa-4161-ab3b-cde87ec09fdf",
-     "scheme": "esco",
-     "label": "public finance",
+     "concept": "http://eurovoc.europa.eu/2164",
+     "scheme": "eurovoc",
+     "label": "EC institutional body",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.923
+     "score": 0.958
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/9531fe02-1e1f-4a36-95f7-a76a77cd4b8d",
-     "scheme": "esco",
-     "label": "consult with business clients",
+     "concept": "http://eurovoc.europa.eu/5425",
+     "scheme": "eurovoc",
+     "label": "European agency",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9182
+     "score": 0.9543
     }
    ]
   },
@@ -1297,28 +1649,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C18543",
-     "scheme": "gacs",
-     "label": "brassinosteroids",
+     "concept": "http://eurovoc.europa.eu/525",
+     "scheme": "eurovoc",
+     "label": "EU law",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9241
+     "score": 0.9776
     },
     {
-     "concept": "http://data.europa.eu/esco/isco/C3131",
+     "concept": "http://data.europa.eu/esco/skill/fbf53f87-9192-4a7f-b3c9-92a8c395c719",
      "scheme": "esco",
-     "label": "Power production plant operators",
+     "label": "EU law",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9209
+     "score": 0.9776
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C16925",
-     "scheme": "gacs",
-     "label": "palaeoclimatology",
+     "concept": "https://elsst.cessda.eu/id/6/9a463bca-b37a-4d2c-9614-6e34639b111a",
+     "scheme": "cessda-elsst",
+     "label": "EUROPEAN UNION LAW",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9151
+     "score": 0.962
     }
    ]
   },
@@ -1352,6 +1704,30 @@
      "matchedOn": "Europe",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/worldregion/r150",
+     "scheme": "iptc",
+     "label": "Europe",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8208
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/5781",
+     "scheme": "eurovoc",
+     "label": "Central and Eastern European countries",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8194
+    },
+    {
+     "concept": "http://data.parliament.uk/terms/1360",
+     "scheme": "uk-parliament-thesaurus",
+     "label": "Amkor Anam Europe",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8168
     }
    ]
   },
@@ -1426,28 +1802,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/b13e0689-636d-42d0-86c3-df9d6f85a882",
-     "scheme": "esco",
-     "label": "manage environmental management system",
+     "concept": "http://eurovoc.europa.eu/2604",
+     "scheme": "eurovoc",
+     "label": "family benefit",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9745
+     "score": 0.9751
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/b1359d89-c691-442f-ab75-792a67dcbcc9",
-     "scheme": "esco",
-     "label": "store film reels",
+     "concept": "https://elsst.cessda.eu/id/6/cdb09efd-36c5-4beb-96e4-ed18a5446fcd",
+     "scheme": "cessda-elsst",
+     "label": "FAMILY BENEFITS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9581
+     "score": 0.9748
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C11402",
-     "scheme": "gacs",
-     "label": "desiccation",
+     "concept": "http://metadata.un.org/thesaurus/1002257",
+     "scheme": "unbis",
+     "label": "FAMILY WELFARE",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.956
+     "score": 0.9593
     }
    ]
   },
@@ -1472,6 +1848,30 @@
      "matchedOn": "Family law",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "https://elsst.cessda.eu/id/6/36b5d842-d358-4fdf-9be9-523d44d5be48",
+     "scheme": "cessda-elsst",
+     "label": "FAMILY LAW",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8914
+    },
+    {
+     "concept": "http://metadata.un.org/thesaurus/1002240",
+     "scheme": "unbis",
+     "label": "FAMILY LAW",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8914
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000122",
+     "scheme": "iptc",
+     "label": "civil law",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8894
     }
    ]
   },
@@ -1489,28 +1889,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/9d56d8d6-f542-4f69-a817-3fb92794a44c",
-     "scheme": "esco",
-     "label": "provide advice to emergency callers",
+     "concept": "http://udcdata.info/020661",
+     "scheme": "udc-summary",
+     "label": "Finance",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9458
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/2164e860-7f20-48bc-b98c-5d9f8a561550",
-     "scheme": "esco",
-     "label": "design computer network",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept663",
+     "scheme": "unesco-thesaurus",
+     "label": "Finance",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.914
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/325e8546-a5bb-4bbe-be43-07df4cd2970e",
-     "scheme": "esco",
-     "label": "test visual acuity",
+     "concept": "https://elsst.cessda.eu/id/6/18df8314-c607-41c1-a1f7-c3749324d45b",
+     "scheme": "cessda-elsst",
+     "label": "FINANCE",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8974
+     "score": 0.9693
     }
    ]
   },
@@ -1546,28 +1946,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/73bdadf0-2175-4097-8f4d-b6dabeb0a030",
-     "scheme": "esco",
-     "label": "fruit and vegetables distribution manager",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept1485",
+     "scheme": "unesco-thesaurus",
+     "label": "Higher education",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9372
+     "score": 0.9643
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/S1.5.5",
-     "scheme": "esco",
-     "label": "advising on environmental issues",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept6774",
+     "scheme": "unesco-thesaurus",
+     "label": "Postgraduate courses",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8971
+     "score": 0.9573
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/d8ff83c0-be8b-47f9-93e3-b13e261e7da5",
-     "scheme": "esco",
-     "label": "mud logger",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept1473",
+     "scheme": "unesco-thesaurus",
+     "label": "Adult education",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8954
+     "score": 0.9504
     }
    ]
   },
@@ -1594,28 +1994,20 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/a17286c5-238d-4f0b-bc24-29e9121345de",
-     "scheme": "esco",
-     "label": "listen actively",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept564",
+     "scheme": "unesco-thesaurus",
+     "label": "Government",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9551
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/a784b063-89cf-441b-9624-deed9dbdeae6",
-     "scheme": "esco",
-     "label": "transport equipment painter",
+     "concept": "https://elsst.cessda.eu/id/6/02acd4d7-de7e-4656-ae67-6a0b0ab03e72",
+     "scheme": "cessda-elsst",
+     "label": "GOVERNMENT",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9383
-    },
-    {
-     "concept": "http://data.europa.eu/esco/isco/C8189",
-     "scheme": "esco",
-     "label": "Stationary plant and machine operators not elsewhere classified",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.9368
+     "score": 0.9647
     }
    ]
   },
@@ -1649,6 +2041,30 @@
      "matchedOn": "Health",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/07000000",
+     "scheme": "iptc",
+     "label": "health",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.925
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/07000000",
+     "scheme": "iptc",
+     "label": "health",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8962
+    },
+    {
+     "concept": "https://elsst.cessda.eu/id/6/cf5b81c0-c4ee-4ddf-a175-8ffb3ff6c24e",
+     "scheme": "cessda-elsst",
+     "label": "HEALTH STATUS",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8949
     }
    ]
   },
@@ -1666,11 +2082,11 @@
      "match": "partial"
     },
     {
-     "concept": "http://www.eionet.europa.eu/gemet/concept/7621",
+     "concept": "http://www.eionet.europa.eu/gemet/concept/3865",
      "scheme": "gemet",
      "schemeUri": "http://www.eionet.europa.eu/gemet/gemetThesaurus",
-     "label": "services",
-     "matchedOn": "services",
+     "label": "health",
+     "matchedOn": "health",
      "via": "label",
      "match": "partial"
     },
@@ -1684,28 +2100,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/a520fba4-2a29-43a0-bfd5-43892306501d",
-     "scheme": "esco",
-     "label": "building information modelling consultant",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept412",
+     "scheme": "unesco-thesaurus",
+     "label": "Health services",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9248
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/2c28fc20-8a60-4311-8899-5ef8729c05b3",
-     "scheme": "esco",
-     "label": "design process",
+     "concept": "http://metadata.un.org/thesaurus/1002841",
+     "scheme": "unbis",
+     "label": "HEALTH SERVICES",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9242
+     "score": 0.9721
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/b2826761-6fc4-4344-9d36-d8455cb6b185",
-     "scheme": "esco",
-     "label": "import export manager in fish, crustaceans and molluscs",
+     "concept": "http://eurovoc.europa.eu/4116",
+     "scheme": "eurovoc",
+     "label": "health service",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9228
+     "score": 0.9689
     }
    ]
   },
@@ -1739,6 +2155,30 @@
      "matchedOn": "Higher education",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/05002000",
+     "scheme": "iptc",
+     "label": "further education",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8847
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000402",
+     "scheme": "iptc",
+     "label": "further education",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8847
+    },
+    {
+     "concept": "https://elsst.cessda.eu/id/6/59a933e8-4949-4f67-bdcf-47309a217d83",
+     "scheme": "cessda-elsst",
+     "label": "GRADUATES",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8827
     }
    ]
   },
@@ -1765,28 +2205,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C18600",
-     "scheme": "gacs",
-     "label": "bone resorption",
+     "concept": "https://elsst.cessda.eu/id/6/d56ba80c-606b-461d-8a0e-87018f44cf85",
+     "scheme": "cessda-elsst",
+     "label": "HOME OWNERSHIP",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9067
+     "score": 0.9732
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/5120f979-6450-4132-874a-7f7679c7ca14",
-     "scheme": "esco",
-     "label": "tend CNC metal punch press",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept440",
+     "scheme": "unesco-thesaurus",
+     "label": "Housing",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9003
+     "score": 0.9427
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C15842",
-     "scheme": "gacs",
-     "label": "colitis",
+     "concept": "https://elsst.cessda.eu/id/6/7d9ac408-be18-4fba-8c18-e49269773cef",
+     "scheme": "cessda-elsst",
+     "label": "HOME BUYING",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8929
+     "score": 0.9402
     }
    ]
   },
@@ -1813,28 +2253,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/fecc4fba-8f4b-4fde-846e-045d9889aa76",
-     "scheme": "esco",
-     "label": "manage cash transportation",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept11573",
+     "scheme": "unesco-thesaurus",
+     "label": "Parliament",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8986
+     "score": 0.9604
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/edef3251-fd5f-4a5a-bab6-88c17e36a001",
-     "scheme": "esco",
-     "label": "ground segment",
+     "concept": "http://eurovoc.europa.eu/425",
+     "scheme": "eurovoc",
+     "label": "Upper House",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8913
+     "score": 0.9223
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/cf9c66e0-cb2f-43fd-b5c2-dda1893364a8",
-     "scheme": "esco",
-     "label": "apply modelling techniques in water engineering",
+     "concept": "https://elsst.cessda.eu/id/6/c069cf3f-eb4d-495c-8a50-9aa4d35a8eef",
+     "scheme": "cessda-elsst",
+     "label": "LOWER HOUSE",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8905
+     "score": 0.9162
     }
    ]
   },
@@ -1868,6 +2308,30 @@
      "matchedOn": "Housing",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/1864",
+     "scheme": "eurovoc",
+     "label": "household",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8991
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20001290",
+     "scheme": "iptc",
+     "label": "public housing",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8989
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/04014002",
+     "scheme": "iptc",
+     "label": "hotel and accommodation",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8912
     }
    ]
   },
@@ -1903,28 +2367,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C17124",
-     "scheme": "gacs",
-     "label": "noxious weeds",
+     "concept": "https://elsst.cessda.eu/id/6/02e963a4-6721-45e6-9f37-57e8ab81e498",
+     "scheme": "cessda-elsst",
+     "label": "HOUSING BENEFITS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9486
+     "score": 0.9761
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/b864c9a3-ef6e-46a0-a40c-66188f74dfa7",
-     "scheme": "esco",
-     "label": "colonel",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept440",
+     "scheme": "unesco-thesaurus",
+     "label": "Housing",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9347
+     "score": 0.9596
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/439c52ae-23ce-4d1e-bea1-bac135497977",
-     "scheme": "esco",
-     "label": "hydrographic surveyor",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept3618",
+     "scheme": "unesco-thesaurus",
+     "label": "Housing needs",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9337
+     "score": 0.9566
     }
    ]
   },
@@ -1951,28 +2415,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/0090dd54-057a-4f65-bbe8-f74c4999e8e8",
-     "scheme": "esco",
-     "label": "pasta operator",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept9604",
+     "scheme": "unesco-thesaurus",
+     "label": "Immigration",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9343
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/006cc1f9-2841-41c3-991a-dc3f2f3bd533",
-     "scheme": "esco",
-     "label": "physiotherapist",
+     "concept": "http://metadata.un.org/thesaurus/1003057",
+     "scheme": "unbis",
+     "label": "IMMIGRATION",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9267
+     "score": 0.9755
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/0085f271-5999-4d42-b879-75c3b4269883",
-     "scheme": "esco",
-     "label": "hydrogenation machine operator",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept427",
+     "scheme": "unesco-thesaurus",
+     "label": "Migration",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9221
+     "score": 0.9599
     }
    ]
   },
@@ -1997,6 +2461,30 @@
      "matchedOn": "Industry",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/666",
+     "scheme": "eurovoc",
+     "label": "agro-industry",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8831
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/topictype/ClassOfIndustry",
+     "scheme": "iptc",
+     "label": "ClassOfIndustry",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8751
+    },
+    {
+     "concept": "http://id.agrisemantics.org/gacs/C2557",
+     "scheme": "gacs",
+     "label": "industry",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8736
     }
    ]
   },
@@ -2014,28 +2502,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C20169",
-     "scheme": "gacs",
-     "label": "world wide web",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.9217
-    },
-    {
-     "concept": "http://id.agrisemantics.org/gacs/C1239",
-     "scheme": "gacs",
-     "label": "honey bees",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.9177
-    },
-    {
-     "concept": "http://data.europa.eu/esco/skill/c9971e8c-2d32-4a35-9688-aa66f691550c",
+     "concept": "http://data.europa.eu/esco/skill/88c7c736-8f5f-4f39-a0ad-83e0b91cebe1",
      "scheme": "esco",
-     "label": "calculate value of gems",
+     "label": "international development",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9146
+     "score": 0.9758
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/703",
+     "scheme": "eurovoc",
+     "label": "International Development Association",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9458
+    },
+    {
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept6582",
+     "scheme": "unesco-thesaurus",
+     "label": "International cooperation",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9454
     }
    ]
   },
@@ -2060,6 +2548,30 @@
      "matchedOn": "International law",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/4009",
+     "scheme": "eurovoc",
+     "label": "international law - national law",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8965
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/02011000",
+     "scheme": "iptc",
+     "label": "international law",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.884
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000126",
+     "scheme": "iptc",
+     "label": "Derecho internacional",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.883
     }
    ]
   },
@@ -2077,28 +2589,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/9f94d5f4-ac34-406d-940f-c723976dc8f4",
-     "scheme": "esco",
-     "label": "advise on vehicle characteristics",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept12836",
+     "scheme": "unesco-thesaurus",
+     "label": "International organizations",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9373
+     "score": 0.9893
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/3594efa8-cd69-411e-a345-d88ba756b758",
-     "scheme": "esco",
-     "label": "pulp grader",
+     "concept": "https://elsst.cessda.eu/id/6/a81eaf28-ba91-4bb7-a44f-41bb5e73cd8f",
+     "scheme": "cessda-elsst",
+     "label": "INTERNATIONAL ORGANIZATIONS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9283
+     "score": 0.973
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/9d572a68-dacf-4043-b38c-9629d3fb9373",
-     "scheme": "esco",
-     "label": "advise horse owners on farriery requirements",
+     "concept": "http://metadata.un.org/thesaurus/1003327",
+     "scheme": "unbis",
+     "label": "INTERNATIONAL ORGANIZATIONS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9259
+     "score": 0.973
     }
    ]
   },
@@ -2132,6 +2644,22 @@
      "matchedOn": "International trade",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000373",
+     "scheme": "iptc",
+     "label": "international trade",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.916
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/3224",
+     "scheme": "eurovoc",
+     "label": "inter-industrial relations",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.911
     }
    ]
   },
@@ -2156,6 +2684,22 @@
      "matchedOn": "JUSTICE",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000119",
+     "scheme": "iptc",
+     "label": "justice",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8876
+    },
+    {
+     "concept": "http://metadata.un.org/thesaurus/1003500",
+     "scheme": "unbis",
+     "label": "JUSTICE",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8864
     }
    ]
   },
@@ -2189,6 +2733,30 @@
      "matchedOn": "Local government",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://udcdata.info/023770",
+     "scheme": "udc-summary",
+     "label": "Lowest levels of administration. Local government. Municipal administration. Local authorities",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9034
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000578",
+     "scheme": "iptc",
+     "label": "local elections",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8971
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/11003006",
+     "scheme": "iptc",
+     "label": "local elections",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8966
     }
    ]
   },
@@ -2215,28 +2783,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/57b459d4-655c-4053-b189-3c249ce33faf",
-     "scheme": "esco",
-     "label": "ICT business development manager",
+     "concept": "http://udcdata.info/037318",
+     "scheme": "udc-summary",
+     "label": "Medical sciences",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9366
+     "score": 0.972
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C18120",
-     "scheme": "gacs",
-     "label": "dextran",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept241",
+     "scheme": "unesco-thesaurus",
+     "label": "Medical sciences",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9036
+     "score": 0.972
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/S1.14.3",
-     "scheme": "esco",
-     "label": "conducting gaming activities",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept5453",
+     "scheme": "unesco-thesaurus",
+     "label": "Clinical medicine",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9006
+     "score": 0.9537
     }
    ]
   },
@@ -2263,28 +2831,20 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/d0f2f8a7-d935-4a6d-8e54-dcc3e5e2cbeb",
-     "scheme": "esco",
-     "label": "present reports",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept850",
+     "scheme": "unesco-thesaurus",
+     "label": "Middle East",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8981
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/e4b6f863-fa9f-4fe7-a984-f948f8c90d24",
-     "scheme": "esco",
-     "label": "handle cash flow",
+     "concept": "http://metadata.un.org/thesaurus/1004104",
+     "scheme": "unbis",
+     "label": "MIDDLE EAST",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8895
-    },
-    {
-     "concept": "http://data.europa.eu/esco/skill/d0d3c335-5a7b-4856-a940-2057ea2c9e7b",
-     "scheme": "esco",
-     "label": "maintain treatment records",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.8876
+     "score": 0.9645
     }
    ]
   },
@@ -2302,28 +2862,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/ab239c75-dfcc-4f6c-9d11-75bb78049afc",
-     "scheme": "esco",
-     "label": "ensure safety in the production area",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept14251",
+     "scheme": "unesco-thesaurus",
+     "label": "Monarchy",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9836
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/a5e80807-ad90-4ccb-9702-ce9e7d27d861",
-     "scheme": "esco",
-     "label": "monitor well costs",
+     "concept": "https://elsst.cessda.eu/id/6/0626ac18-da21-415c-ba98-67a4c7122d46",
+     "scheme": "cessda-elsst",
+     "label": "MONARCHY",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9829
+     "score": 0.978
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/ab1f5998-7ee8-4123-a420-7e96fb8de143",
-     "scheme": "esco",
-     "label": "develop management plans to reduce risks in aquaculture",
+     "concept": "http://metadata.un.org/thesaurus/1004206",
+     "scheme": "unbis",
+     "label": "MONARCHY",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9519
+     "score": 0.978
     }
    ]
   },
@@ -2350,28 +2910,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/827aedbf-ab78-43f7-86e3-62d99a449a02",
-     "scheme": "esco",
-     "label": "types of guitars",
+     "concept": "http://eurovoc.europa.eu/3630",
+     "scheme": "eurovoc",
+     "label": "public insurance",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9271
+     "score": 0.9479
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C1103",
-     "scheme": "gacs",
-     "label": "rural areas",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept3214",
+     "scheme": "unesco-thesaurus",
+     "label": "Insurance",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9161
+     "score": 0.9321
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/424ce0f8-8911-4999-ab89-e3dd33ac1af5",
-     "scheme": "esco",
-     "label": "restore art using scientific methods",
+     "concept": "http://metadata.un.org/thesaurus/1004321",
+     "scheme": "unbis",
+     "label": "NATIONAL HEALTH INSURANCE",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9124
+     "score": 0.9296
     }
    ]
   },
@@ -2398,28 +2958,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/3fa31588-2e4d-49c3-b839-4b615cc62742",
-     "scheme": "esco",
-     "label": "humanitarian advisor",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept5294",
+     "scheme": "unesco-thesaurus",
+     "label": "Nationality",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9145
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/f5b55ae6-41be-4a62-af43-2aaa0fcc4dc4",
-     "scheme": "esco",
-     "label": "prayer",
+     "concept": "http://metadata.un.org/thesaurus/1004332",
+     "scheme": "unbis",
+     "label": "NATIONALITY",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9112
+     "score": 0.9451
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/91abe492-18be-4cce-93c7-0dca07072363",
-     "scheme": "esco",
-     "label": "meet deadlines",
+     "concept": "http://metadata.un.org/thesaurus/1002136",
+     "scheme": "unbis",
+     "label": "ETHNICITY",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8884
+     "score": 0.944
     }
    ]
   },
@@ -2437,28 +2997,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/6426ada1-4d8c-4612-99e3-91bc569805ee",
-     "scheme": "esco",
-     "label": "manufacturing manager",
+     "concept": "http://eurovoc.europa.eu/4451",
+     "scheme": "eurovoc",
+     "label": "overseas territory",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9107
+     "score": 0.9416
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/7d9bace0-63d0-4848-ac87-350a98082c12",
-     "scheme": "esco",
-     "label": "participate actively in civic life",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept936",
+     "scheme": "unesco-thesaurus",
+     "label": "Non-self governing territories",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.905
+     "score": 0.9386
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/c8bd9f9f-0ec6-447a-ab78-ad6eeeed9aa8",
-     "scheme": "esco",
-     "label": "electrical testing methods",
+     "concept": "http://eurovoc.europa.eu/2296",
+     "scheme": "eurovoc",
+     "label": "overseas countries and territories",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9022
+     "score": 0.9367
     }
    ]
   },
@@ -2492,6 +3052,22 @@
      "matchedOn": "Parliament",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000615",
+     "scheme": "iptc",
+     "label": "Parlament",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9323
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/11009000",
+     "scheme": "iptc",
+     "label": "parliament",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9256
     }
    ]
   },
@@ -2509,28 +3085,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/401d8d12-b56d-4c71-ac58-f791e8c085b4",
-     "scheme": "esco",
-     "label": "liaise with financiers",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept8104",
+     "scheme": "unesco-thesaurus",
+     "label": "Pensions",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9235
+     "score": 1
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C1409",
-     "scheme": "gacs",
-     "label": "distribution",
+     "concept": "https://elsst.cessda.eu/id/6/53617a23-ffaa-4da0-9efe-8819180522f1",
+     "scheme": "cessda-elsst",
+     "label": "PENSIONS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.921
+     "score": 0.9735
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/24530d21-e744-427d-98df-48164f2bfe1c",
-     "scheme": "esco",
-     "label": "perform packing of footwear and leather goods",
+     "concept": "http://metadata.un.org/thesaurus/1004796",
+     "scheme": "unbis",
+     "label": "PENSIONS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9206
+     "score": 0.9735
     }
    ]
   },
@@ -2564,6 +3140,22 @@
      "matchedOn": "Planning",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://data.parliament.uk/terms/95711",
+     "scheme": "uk-parliament-thesaurus",
+     "label": "Planning",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8886
+    },
+    {
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept13687",
+     "scheme": "unesco-thesaurus",
+     "label": "Planning",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8886
     }
    ]
   },
@@ -2597,6 +3189,22 @@
      "matchedOn": "Police",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000133",
+     "scheme": "iptc",
+     "label": "police",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9502
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000129",
+     "scheme": "iptc",
+     "label": "law enforcement",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8956
     }
    ]
   },
@@ -2623,28 +3231,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/20b70928-55dd-4a08-9e67-eeb401d1a56f",
-     "scheme": "esco",
-     "label": "biomechanics of sport performance",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept5081",
+     "scheme": "unesco-thesaurus",
+     "label": "Early childhood education",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9016
+     "score": 0.9797
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/d2603cef-ae8b-4818-bcf4-c542fe782d86",
-     "scheme": "esco",
-     "label": "operate switching locomotives",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept17031",
+     "scheme": "unesco-thesaurus",
+     "label": "Preschool curriculum",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8905
+     "score": 0.9742
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/8c0cc417-6b09-4082-8062-2f0f7123a573",
-     "scheme": "esco",
-     "label": "import export manager in office machinery and equipment",
+     "concept": "http://metadata.un.org/thesaurus/1005087",
+     "scheme": "unbis",
+     "label": "PRESCHOOL EDUCATION",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.8865
+     "score": 0.9726
     }
    ]
   },
@@ -2686,28 +3294,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C17836",
-     "scheme": "gacs",
-     "label": "ginkgo",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept15049",
+     "scheme": "unesco-thesaurus",
+     "label": "Prisons",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9668
+     "score": 1
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C17808",
-     "scheme": "gacs",
-     "label": "Anabaena",
+     "concept": "http://metadata.un.org/thesaurus/1005119",
+     "scheme": "unbis",
+     "label": "PRISONS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9668
+     "score": 0.9841
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C1782",
-     "scheme": "gacs",
-     "label": "food pathogens",
+     "concept": "https://elsst.cessda.eu/id/6/b5fe7e38-7639-4102-aa4f-a416e8f34119",
+     "scheme": "cessda-elsst",
+     "label": "PRISON SYSTEM",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9431
+     "score": 0.9537
     }
    ]
   },
@@ -2725,28 +3333,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/e929af6c-9e6d-4c61-bf9c-7c3d99e2a8ed",
-     "scheme": "esco",
-     "label": "maxillofacial surgery",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept7656",
+     "scheme": "unesco-thesaurus",
+     "label": "Public expenditure",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9347
+     "score": 0.9793
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C11004",
-     "scheme": "gacs",
-     "label": "husks",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept10863",
+     "scheme": "unesco-thesaurus",
+     "label": "Public finance",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.922
+     "score": 0.9636
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C13405",
-     "scheme": "gacs",
-     "label": "bagasse",
+     "concept": "http://eurovoc.europa.eu/403",
+     "scheme": "eurovoc",
+     "label": "public expenditure",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.921
+     "score": 0.9619
     }
    ]
   },
@@ -2782,28 +3390,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/80967a8e-0477-4c5e-8550-4af6e5157626",
-     "scheme": "esco",
-     "label": "work with shape and space",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept11987",
+     "scheme": "unesco-thesaurus",
+     "label": "Rented housing",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9179
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/01ffbbf3-0c62-45e0-92d9-01a86dc7c81d",
-     "scheme": "esco",
-     "label": "advise on clay products handling",
+     "concept": "http://metadata.un.org/thesaurus/1005481",
+     "scheme": "unbis",
+     "label": "RENTAL HOUSING",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.915
+     "score": 0.9675
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/b9b47087-6045-405d-b769-6a0c94e2eb84",
-     "scheme": "esco",
-     "label": "cultural visitor services manager",
+     "concept": "https://elsst.cessda.eu/id/6/252a7341-3600-41e3-90fd-7f2f10c1cde7",
+     "scheme": "cessda-elsst",
+     "label": "RENTED ACCOMMODATION",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9108
+     "score": 0.95
     }
    ]
   },
@@ -2821,28 +3429,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/1d1b0108-3d56-45e2-bf0a-dca06a8ee5e3",
-     "scheme": "esco",
-     "label": "bioethics",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept4696",
+     "scheme": "unesco-thesaurus",
+     "label": "Roads",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9167
+     "score": 1
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C17101",
+     "concept": "http://metadata.un.org/thesaurus/1005592",
+     "scheme": "unbis",
+     "label": "ROADS",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9709
+    },
+    {
+     "concept": "http://id.agrisemantics.org/gacs/C5662",
      "scheme": "gacs",
-     "label": "New South Wales",
+     "label": "roads",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9121
-    },
-    {
-     "concept": "http://data.europa.eu/esco/skill/96230f9d-0fd1-4224-a8da-a7bfb3019524",
-     "scheme": "esco",
-     "label": "coat printed circuit board",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.9025
+     "score": 0.9692
     }
    ]
   },
@@ -2860,28 +3468,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C20006",
-     "scheme": "gacs",
-     "label": "ornamental fishes",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept46",
+     "scheme": "unesco-thesaurus",
+     "label": "Schools",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9119
+     "score": 1
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C19993",
-     "scheme": "gacs",
-     "label": "Sphaerotheca",
+     "concept": "https://elsst.cessda.eu/id/6/d966e9e4-29f0-4329-b4fc-40eb71a25201",
+     "scheme": "cessda-elsst",
+     "label": "SCHOOLS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9066
+     "score": 0.984
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/68ba4030-d1ea-42c4-ac39-14cd19749169",
-     "scheme": "esco",
-     "label": "process arisings from treework operations",
+     "concept": "http://metadata.un.org/thesaurus/1005729",
+     "scheme": "unbis",
+     "label": "SCHOOLS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9005
+     "score": 0.984
     }
    ]
   },
@@ -2906,6 +3514,30 @@
      "matchedOn": "Science",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/subjectcode/13009000",
+     "scheme": "iptc",
+     "label": "science (general)",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8769
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000717",
+     "scheme": "iptc",
+     "label": "natural science",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8571
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/6716",
+     "scheme": "eurovoc",
+     "label": "cosmology",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8566
     }
    ]
   },
@@ -2923,28 +3555,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C18843",
-     "scheme": "gacs",
-     "label": "cardiomyopathy",
+     "concept": "http://metadata.un.org/thesaurus/1005787",
+     "scheme": "unbis",
+     "label": "SECURITY MANAGEMENT",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9209
+     "score": 0.9456
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C11418",
-     "scheme": "gacs",
-     "label": "salt marshes",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.9129
-    },
-    {
-     "concept": "http://data.europa.eu/esco/skill/e763b5c3-cfb3-48d2-9b83-fff97553ad95",
+     "concept": "http://data.europa.eu/esco/isced-f/103",
      "scheme": "esco",
-     "label": "microsensors",
+     "label": "security services",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9123
+     "score": 0.9423
+    },
+    {
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept209",
+     "scheme": "unesco-thesaurus",
+     "label": "Safety",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.941
     }
    ]
   },
@@ -2962,28 +3594,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/578470d7-1848-44cd-a769-96cdd64b2c37",
-     "scheme": "esco",
-     "label": "civil registrar",
+     "concept": "https://elsst.cessda.eu/id/6/c0c3877e-c81e-4a03-9b56-880036388c58",
+     "scheme": "cessda-elsst",
+     "label": "SICKNESS AND DISABILITY BENEFITS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9239
+     "score": 0.9532
     },
     {
-     "concept": "http://data.europa.eu/esco/occupation/5791a961-4717-4230-a245-a4082a675f04",
-     "scheme": "esco",
-     "label": "automation engineering technician",
+     "concept": "https://elsst.cessda.eu/id/6/5f1a13d5-bd1e-4b76-ab31-250e269f14f1",
+     "scheme": "cessda-elsst",
+     "label": "CARERS' BENEFITS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9191
+     "score": 0.9305
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/ab1ad155-db0b-4fa0-8bac-856853c47175",
-     "scheme": "esco",
-     "label": "maintain records of clients' prescriptions",
+     "concept": "http://metadata.un.org/thesaurus/1001680",
+     "scheme": "unbis",
+     "label": "DISABILITY BENEFITS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9179
+     "score": 0.9214
     }
    ]
   },
@@ -3017,6 +3649,30 @@
      "matchedOn": "Social policy",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000621",
+     "scheme": "iptc",
+     "label": "government policy",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9042
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/8466",
+     "scheme": "eurovoc",
+     "label": "public policy",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.9009
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000630",
+     "scheme": "iptc",
+     "label": "pension and welfare policy",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8938
     }
    ]
   },
@@ -3032,6 +3688,30 @@
      "matchedOn": "tax",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://id.agrisemantics.org/gacs/C20986",
+     "scheme": "gacs",
+     "label": "income tax",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.884
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/1326",
+     "scheme": "eurovoc",
+     "label": "tax on income",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8831
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20001195",
+     "scheme": "iptc",
+     "label": "tax evasion",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.882
     }
    ]
   },
@@ -3056,6 +3736,30 @@
      "matchedOn": "Technology",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/5235",
+     "scheme": "eurovoc",
+     "label": "technical standard",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8596
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/c_dea47e63",
+     "scheme": "eurovoc",
+     "label": "mechatronics",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8575
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/c_79e507c2",
+     "scheme": "eurovoc",
+     "label": "financial technology",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8531
     }
    ]
   },
@@ -3073,28 +3777,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/6195c5f7-a4fb-425d-a3dd-c4467c4471a3",
-     "scheme": "esco",
-     "label": "deploy cloud resource",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept660",
+     "scheme": "unesco-thesaurus",
+     "label": "Transport",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9453
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/b141628b-f95c-43b2-ab91-7dfaeabd36fa",
-     "scheme": "esco",
-     "label": "operate distilling equipment",
+     "concept": "https://elsst.cessda.eu/id/6/afcc48bb-f0b2-4d75-ab1c-a2b2818fb831",
+     "scheme": "cessda-elsst",
+     "label": "TRANSPORT",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9388
+     "score": 0.9712
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C20150",
-     "scheme": "gacs",
-     "label": "western blotting",
+     "concept": "http://metadata.un.org/thesaurus/1006646",
+     "scheme": "unbis",
+     "label": "TRANSPORT",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9286
+     "score": 0.9712
     }
    ]
   },
@@ -3121,28 +3825,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C12918",
-     "scheme": "gacs",
-     "label": "trehalose",
+     "concept": "https://elsst.cessda.eu/id/6/0926e84c-338b-4ee1-87e2-3f4b0ae3991c",
+     "scheme": "cessda-elsst",
+     "label": "VOTING",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9171
+     "score": 0.94
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/dbbbe31a-9b8c-4459-a830-84363648f52c",
-     "scheme": "esco",
-     "label": "driving light vehicles",
+     "concept": "http://metadata.un.org/thesaurus/1006909",
+     "scheme": "unbis",
+     "label": "VOTING",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9171
+     "score": 0.94
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/d461d450-14bb-495a-abf6-eb8c662f5e68",
-     "scheme": "esco",
-     "label": "maintain safe navigation watches",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept6315",
+     "scheme": "unesco-thesaurus",
+     "label": "Elections",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9131
+     "score": 0.9354
     }
    ]
   },
@@ -3160,28 +3864,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/ed392b45-1087-44a7-89a9-d514224639ff",
-     "scheme": "esco",
-     "label": "conduct mobile marketing",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept189",
+     "scheme": "unesco-thesaurus",
+     "label": "Water",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.953
+     "score": 1
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/daa52226-7795-48ff-aa3e-ad3189d9aa61",
-     "scheme": "esco",
-     "label": "tabulate survey results",
+     "concept": "http://metadata.un.org/thesaurus/1006939",
+     "scheme": "unbis",
+     "label": "WATER",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9403
+     "score": 0.9775
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/fd4ab97c-7424-4627-ac3f-6ceb488c0b40",
-     "scheme": "esco",
-     "label": "inform customers about body modifications",
+     "concept": "http://metadata.un.org/thesaurus/030500",
+     "scheme": "unbis",
+     "label": "WATER",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9205
+     "score": 0.9775
     }
    ]
   },
@@ -3214,28 +3918,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/99fce703-0335-40db-b7fc-e200e8c2f6e8",
-     "scheme": "esco",
-     "label": "pour molten metal into cores",
+     "concept": "https://elsst.cessda.eu/id/6/d4881e2f-3b28-4b9d-9ece-22b60995405e",
+     "scheme": "cessda-elsst",
+     "label": "OLD AGE BENEFITS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9589
+     "score": 0.9298
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/b13e0689-636d-42d0-86c3-df9d6f85a882",
-     "scheme": "esco",
-     "label": "manage environmental management system",
+     "concept": "http://metadata.un.org/thesaurus/1004610",
+     "scheme": "unbis",
+     "label": "OLD AGE BENEFITS",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9581
+     "score": 0.9298
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/35ccdf6c-6928-4ad1-967f-c984134b6bd9",
-     "scheme": "esco",
-     "label": "apply colour coats",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept8104",
+     "scheme": "unesco-thesaurus",
+     "label": "Pensions",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9451
+     "score": 0.9269
     }
    ]
   },
@@ -3292,28 +3996,20 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/f5b228a8-869c-4cfb-b5f6-daef86f395ef",
-     "scheme": "esco",
-     "label": "teach dentistry",
+     "concept": "http://id.loc.gov/authorities/genreForms/gf2011026167",
+     "scheme": "lcgft",
+     "label": "Constitutions",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9418
+     "score": 0.9663
     },
     {
-     "concept": "http://id.agrisemantics.org/gacs/C12618",
-     "scheme": "gacs",
-     "label": "muscle contraction",
+     "concept": "http://vocabularies.unesco.org/thesaurus/concept6389",
+     "scheme": "unesco-thesaurus",
+     "label": "Constitutions",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9221
-    },
-    {
-     "concept": "http://id.agrisemantics.org/gacs/C10207",
-     "scheme": "gacs",
-     "label": "gamma irradiation",
-     "via": "embedding",
-     "match": "semantic",
-     "score": 0.92
+     "score": 0.9663
     }
    ]
   },
@@ -3331,28 +4027,28 @@
      "match": "exact"
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/5edaf4c4-6747-4eb8-b898-72dd2351dca8",
-     "scheme": "esco",
-     "label": "control production flow remotely",
+     "concept": "https://elsst.cessda.eu/id/6/cada7016-ff7b-4b45-b9d5-420f04088b63",
+     "scheme": "cessda-elsst",
+     "label": "COVID-19",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9682
+     "score": 0.9703
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/5ed83764-c32f-402d-b5b3-168cddfbe4c5",
-     "scheme": "esco",
-     "label": "pyrotechnic articles legislation",
+     "concept": "http://metadata.un.org/thesaurus/2000002",
+     "scheme": "unbis",
+     "label": "COVID-19",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9566
+     "score": 0.9703
     },
     {
-     "concept": "http://data.europa.eu/esco/skill/5ef628ac-c5a1-4150-a115-f864343dcb24",
-     "scheme": "esco",
-     "label": "manage loan administration",
+     "concept": "http://id.agrisemantics.org/gacs/C14734",
+     "scheme": "gacs",
+     "label": "Coronaviridae",
      "via": "embedding",
      "match": "semantic",
-     "score": 0.9489
+     "score": 0.9469
     }
    ]
   },
@@ -3410,6 +4106,30 @@
      "matchedOn": "Economic situation",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/6786",
+     "scheme": "eurovoc",
+     "label": "economic value",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8729
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/3686",
+     "scheme": "eurovoc",
+     "label": "national income",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8661
+    },
+    {
+     "concept": "http://data.parliament.uk/terms/95561",
+     "scheme": "uk-parliament-thesaurus",
+     "label": "Economic situation",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.8555
     }
    ]
   },
@@ -3566,6 +4286,22 @@
      "matchedOn": "International trade",
      "via": "label",
      "match": "exact"
+    },
+    {
+     "concept": "http://cv.iptc.org/newscodes/mediatopic/20000373",
+     "scheme": "iptc",
+     "label": "international trade",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.916
+    },
+    {
+     "concept": "http://eurovoc.europa.eu/3224",
+     "scheme": "eurovoc",
+     "label": "inter-industrial relations",
+     "via": "embedding",
+     "match": "semantic",
+     "score": 0.911
     }
    ]
   },
