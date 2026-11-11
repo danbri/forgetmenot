@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-08T10:37:47.595Z",
+ "generated": "2026-11-11T11:11:50.262Z",
  "source": "skosdex.fly.dev (label search + embedding KNN)",
  "note": "Subject codes for Library TOPIC feeds. via=label is an exact/partial English-label match; via=embedding is an all-MiniLM-L6-v2 nearest-concept bridge (score = cosine). EuroVoc/GEMET/Parliament-thesaurus by label; ESCO/GEMET neighbours by embedding.",
  "schemes": [
@@ -886,15 +886,6 @@
    "url": "https://commonslibrary.parliament.uk/topic/home-affairs/crime/feed/",
    "title": "Crime",
    "subjects": [
-    {
-     "concept": "http://eurovoc.europa.eu/3348",
-     "scheme": "eurovoc",
-     "schemeUri": "http://eurovoc.europa.eu/100141",
-     "label": "crime",
-     "matchedOn": "crime",
-     "via": "label",
-     "match": "exact"
-    },
     {
      "concept": "http://www.eionet.europa.eu/gemet/concept/11540",
      "scheme": "gemet",
@@ -2091,11 +2082,11 @@
      "match": "partial"
     },
     {
-     "concept": "http://www.eionet.europa.eu/gemet/concept/7621",
+     "concept": "http://www.eionet.europa.eu/gemet/concept/3865",
      "scheme": "gemet",
      "schemeUri": "http://www.eionet.europa.eu/gemet/gemetThesaurus",
-     "label": "services",
-     "matchedOn": "services",
+     "label": "health",
+     "matchedOn": "health",
      "via": "label",
      "match": "partial"
     },
